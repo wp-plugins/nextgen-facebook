@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.0
+Version: 1.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -87,15 +87,10 @@ function ngfb_add_defaults() {
 	$tmp = get_option('ngfb_options');
     if(($tmp['ngfb_reset']=='1')||(!is_array($tmp))) {
 		delete_option('ngfb_options');
-		$og_img_width = get_option('thumbnail_size_w');
-		$og_img_height = get_option('thumbnail_size_h');
-		$og_img_crop = get_option('thumbnail_crop');
 		$arr = array(
 			"og_img_size" => "thumbnail",
-			"og_img_width" => $og_img_width,
-			"og_img_height" => $og_img_height,
-			"og_img_crop" => $og_img_crop,
 			"og_def_img" => "",
+			"og_def_home" => "",
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
@@ -144,6 +139,7 @@ function ngfb_render_form() {
 
 	<div class="metabox-holder">
 		<div class="postbox">
+			<h3>Facebook Open Graph Settings</h3>
 			<div class="inside">	
 	
 	<!-- Beginning of the Plugin Options Form -->
@@ -153,76 +149,70 @@ function ngfb_render_form() {
 
 		<table class="form-table">
 			<tr>
-				<th scope="row" colspan="2"><h3>Facebook Open Graph Settings</h3></th>
-			</tr>
-
-			<tr>
-				<th scope="row">Media Library Image Size Name</th>
-				<td><input type="text" size="40" name="ngfb_options[og_img_size]" 
-					value="<?php echo $options['og_img_size'] ? $options['og_img_size'] : "thumbnail"; ?>" /></td>
-			</tr>
-			<tr>
-				<th></th>
+				<th>Image Size Name</th>
 				<td>
-					<p>The WordPress Media Library size name for the image used
+					<select name='ngfb_options[og_img_size]'>
+					<?php
+						global $_wp_additional_image_sizes;
+						// Display the sizes in the array
+						foreach ( get_intermediate_image_sizes() as $s ) {
+							// Don't make or numeric sizes that appear
+							if( is_integer( $s ) ) continue;
+	
+							if ( isset( $_wp_additional_image_sizes[$s]['width'] ) ) // For theme-added sizes
+								$width = intval( $_wp_additional_image_sizes[$s]['width'] );
+							else                                                     // For default sizes set in options
+								$width = get_option( "{$s}_size_w" );
+			
+							if ( isset( $_wp_additional_image_sizes[$s]['height'] ) ) // For theme-added sizes
+								$height = intval( $_wp_additional_image_sizes[$s]['height'] );
+							else                                                      // For default sizes set in options
+								$height = get_option( "{$s}_size_h" );
+			
+							if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )   // For theme-added sizes
+								$crop = intval( $_wp_additional_image_sizes[$s]['crop'] );
+							else                                                      // For default sizes set in options
+								$crop = get_option( "{$s}_crop" );
+
+							echo "<option value='$s' ".(selected($options['og_img_size'], $s)).">$s (${width} x ${height}".($crop ? " cropped" : "").")</option>\n";
+						}
+					?>
+					</select>
+
+					<p>The WordPress Media Library Size Name for the image used
 					in the Open Graph meta tag. Generally this would be
-					"thumbnail" (currently <?php echo
-					get_option('thumbnail_size_w'); ?>x<?php echo
-					get_option('thumbnail_size_h'); ?>px, <?php echo
+					"thumbnail" (currently defined as <?php echo
+					get_option('thumbnail_size_w'); ?> x <?php echo
+					get_option('thumbnail_size_h'); ?>, <?php echo
 					get_option('thumbnail_crop') == "1" ? "" : "not"; ?>
-					cropped), or other sizes like "medium", "large",
-					"post-thumbnail", etc. Choose a size name that is at least
-					200px or more in width and height, and preferably cropped.
-					You can use the <b>Simple Image Size</b> plugin (and
-					probably others) to define additional sizes on the
-					Settings-&gt;Media page.</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">NextGEN Gallery Image Size</th>
-				<td>
-					Width: <input type="text" size="4" name="ngfb_options[og_img_width]" 
-						value="<?php echo $options['og_img_width'] ? $options['og_img_width'] : get_option('thumbnail_size_w'); ?>" />
-
-					Height: <input type="text" size="4" name="ngfb_options[og_img_height]" 
-						value="<?php echo $options['og_img_height'] ? $options['og_img_height'] : get_option('thumbnail_size_h'); ?>" />
-
-					Crop? <input name="ngfb_options[og_img_crop]" type="checkbox" 
-						value="1" <?php $value = is_numeric($options['og_img_crop']) ? $options['og_img_crop'] : get_option('thumbnail_crop');
-						if (isset($options['og_img_crop'])) { checked('1', $value) ; } ?> />
-				</td>
-			</tr>
-			<tr>
-				<th></th>
-				<td>
-					<p>The default values are the the WordPress Media Library
-					"thumbnail" width, height, and crop values (<?php echo
-					get_option('thumbnail_size_w'); ?>x<?php echo
-					get_option('thumbnail_size_h'); ?>px, <?php echo
-					get_option('thumbnail_crop') == "1" ? "" : "not"; ?>
-					cropped).</p>
+					cropped), or other Size Names like "medium", "large", etc.
+					Choose a Size Name that is at least 200px or more in width
+					and height, and preferably cropped. You can use the <a
+					href="http://wordpress.org/extend/plugins/simple-image-sizes/"
+					target="_blank">Simple Image Size</a> plugin (or others)
+					to define additional sizes on the Settings-&gt;Media page.
+					I would suggest creating a "facebook-thumbnail" Size Name
+					of 200 x 200 (or larger) cropped, to control the size of
+					Open Graph images independently from those of your theme.</p>
 				</td>
 			</tr>
 
 			<tr>
 				<th scope="row">Default Image URL</th>
-				<td><input type="text" size="80" name="ngfb_options[og_def_img]" 
-					value="<?php echo $options['og_def_img']; ?>" /></td>
-			</tr>
+				<td><input type="text" name="ngfb_options[og_def_img]" size="100"
+					value="<?php echo $options['og_def_img']; ?>" />
 
-			<tr>
-				<th></th>
-				<td>
 					<p>The URL (including the http:// prefix) to your default
 					image. It will be used on your homepage and post / pages
-					that do not have a featured image. It should be at least
-					200px or more in width and height.</p>
+					that do not have a featured image, [singlepic] shortcode,
+					or IMG HTML tag. It should be at least 200px or more in
+					width and height.</p>
 
 					<p>It would be best not to use an image from the NextGEN
 					gallery, in case the gallery/cache/ folder is cleaned.
 					Instead, upload a image to the WP Media Library. Once the
 					image has been uploaded, click on 'Edit' to see the
-					thumbnail and image details.  Right-click and choose 'View
+					thumbnail and image details. Right-click and choose 'View
 					Image' on the thumbnail. Use the image URL here. Note:
 					<i>This assumes you've defined a thumbnail size of at least
 					200x200 in your Settings-&gt;Media options</i>.</p>
@@ -241,15 +231,25 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 
-			<tr>
-				<th scope="row">Max Description Length</th>
-				<td><input type="text" size="4" name="ngfb_options[og_desc_len]" 
-					value="<?php echo $options['og_desc_len']; ?>" /></td>
+			<tr valign="top">
+				<th scope="row" nowrap>Use Default on Multi-Entry Pages</th>
+				<td><input name="ngfb_options[og_def_home]" type="checkbox" value="1" 
+					<?php if (isset($options['og_def_home'])) { checked('1', $options['og_def_home']); } ?> />
+
+					<p>Check this box if you would like to use the default
+					image on page types with more than one entry (homepage,
+					archives, categories, etc.). If you leave this un-checked,
+					the NextGEN Facebook plugin will attempt to use the first
+					featured image, [singlepic] shortcode, or IMG HTML tag
+					within the list of entries on the page.</p>
+				</td>
 			</tr>
 
 			<tr>
-				<th></th>
-				<td>
+				<th scope="row">Max Description Length</th>
+				<td><input type="text" size="4" name="ngfb_options[og_desc_len]" 
+					value="<?php echo $options['og_desc_len']; ?>" />
+
 					<p>The maximum description length, based on your post /
 					page excerpt or content, included in the Open Graph meta
 					tag. The description length must be 160 characters or more
@@ -259,13 +259,11 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Facebook Admin(s)</th>
-				<td><input type="text" size="80" name="ngfb_options[og_admins]" 
-					value="<?php echo $options['og_admins']; ?>" /></td>
-			<tr>
-				<th></th>
-				<td>
+				<td><input type="text" size="40" name="ngfb_options[og_admins]" 
+					value="<?php echo $options['og_admins']; ?>" />
+
 					<p>Enter one of more Facebook account names (generally your
-					own), seperated with commas. When you are viewing your own
+					own), seperated with a comma. When you are viewing your own
 					Facebook wall, your account name is located in the URL.
 					Example:
 					https://www.facebook.com/{<b>account_name</b>}.</p>
@@ -274,27 +272,24 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Facebook App ID</th>
-				<td><input type="text" size="80" name="ngfb_options[og_app_id]" 
-					value="<?php echo $options['og_app_id']; ?>" /></td>
-			<tr>
-				<th></th>
-				<td>
+				<td><input type="text" size="40" name="ngfb_options[og_app_id]" 
+					value="<?php echo $options['og_app_id']; ?>" />
+
 					<p>If you have a Facebook App ID, enter it here.</p>
 				</td>
 			</tr>
-
-
-			<tr>
-				<th scope="row" colspan="2"><h3>Facebook Button Settings</h3></th>
-			</tr>
-
+		</table>
+			</div>
+		</div>
+		<div class="postbox">
+			<h3>Facebook Button Settings</h3>
+			<div class="inside">	
+		<table class="form-table">
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
 				<td><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
-					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> /></td>
-			</tr>
-				<th></th>
-				<td>
+					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> />
+
 					<p>Add Facebook "Like" (and optionally "Send") button to
 					your posts and pages. The default is not to include the
 					Facebook button.</p>
@@ -317,9 +312,9 @@ function ngfb_render_form() {
 				<th scope="row">Button Layout Style</th>
 				<td>
 					<select name='ngfb_options[fb_layout]'>
-						<option value='standard' <?php selected('standard', $options['fb_layout']); ?>>Standard</option>
-						<option value='button_count' <?php selected('button_count', $options['fb_layout']); ?>>Button Count</option>
-						<option value='box_count' <?php selected('box_count', $options['fb_layout']); ?>>Box Count</option>
+						<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
+						<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
+						<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
 					</select>
 				</td>
 			</tr>
@@ -328,8 +323,8 @@ function ngfb_render_form() {
 				<th scope="row">Show Facebook Faces</th>
 				<td>
 					<select name='ngfb_options[fb_show_faces]'>
-						<option value='true' <?php selected('true', $options['fb_show_faces']); ?>>Show</option>
-						<option value='false' <?php selected('false', $options['fb_show_faces']); ?>>Hide</option>
+						<option value='true' <?php selected($options['fb_show_faces'], 'true'); ?>>Show</option>
+						<option value='false' <?php selected($options['fb_show_faces'], 'false'); ?>>Hide</option>
 					</select>
 				</td>
 			</tr>
@@ -367,21 +362,21 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>				
-			
+		</table>
+			</div>
+		</div>
+		<div class="postbox">
+			<h3>Plugin Settings</h3>
+			<div class="inside">	
+		<table class="form-table">
 			<tr>
-				<th scope="row" colspan="2"><h3>Plugin Settings</h3></th>
-			</tr>
-			<tr>
-				<th scope="row" nowrap>Return to Defaults on Activate</th>
+				<th scope="row" nowrap>Reset Settings on Activate</th>
 				<td><label><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
-					<?php if (isset($options['ngfb_reset'])) { checked('1', $options['ngfb_reset']); } ?> /></td>
-			</tr>
-			<tr>
-				<th></th>
-				<td>
-					<p>Check this option if you would like to reset the options
-					to their defaults settings when you deactivate, and then
-					reactivate the plugin.</p>
+					<?php if (isset($options['ngfb_reset'])) { checked('1', $options['ngfb_reset']); } ?> />
+
+					<p>Check this option to reset NextGEN Facebook settings to
+					their default values <u>when you deactivate, and then
+					reactivate the plugin</u>.</p>
 				</td>
 			</tr>
 		</table>
@@ -399,12 +394,6 @@ function ngfb_render_form() {
 // Sanitize and validate input
 function ngfb_validate_options($input) {
 
-	if (! $input['og_img_width'] || ! is_numeric($input['og_img_width'])) $input['og_img_width'] = get_option('thumbnail_size_w');
-	if (! $input['og_img_height'] || ! is_numeric($input['og_img_height'])) $input['og_img_height'] = get_option('thumbnail_size_h');
-
-	if (! isset( $input['og_img_crop'] ) ) $input['og_img_crop'] = null;
-	$input['og_img_crop'] = ( $input['og_img_crop'] == 1 ? 1 : 0 );
-	
 	$input['og_img_size'] = wp_filter_nohtml_kses($input['og_img_size']);
 	if (! $input['og_img_size']) $input['og_img_size'] = "thumbnail";
 
@@ -414,6 +403,9 @@ function ngfb_validate_options($input) {
 
 	if (! $input['og_desc_len'] || ! is_numeric($input['og_desc_len']) || ! $input['og_desc_len'] > 160) $input['og_desc_len'] = 160;
 
+	if ( ! isset( $input['og_def_home'] ) ) $input['og_def_home'] = null;
+	$input['og_def_home'] = ( $input['og_def_home'] == 1 ? 1 : 0 );
+	
 	if ( ! isset( $input['fb_enable'] ) ) $input['fb_enable'] = null;
 	$input['fb_enable'] = ( $input['fb_enable'] == 1 ? 1 : 0 );
 	
@@ -445,7 +437,7 @@ function ngfb_plugin_action_links( $links, $file ) {
 // OUR PLUGIN FUNCTIONS:
 // ------------------------------------------------------------------------------
 
-function ngfb_like_send_wp($content){
+function ngfb_facebook_buttons($content){
 
 	$options = get_option('ngfb_options');
 
@@ -484,7 +476,7 @@ function ngfb_like_send_wp($content){
 	return $content;
 }
 
-add_action('the_content', 'ngfb_like_send_wp');
+add_action('the_content', 'ngfb_facebook_buttons');
 
 // Adding the Open Graph in the Language Attributes
 function ngfb_add_og_doctype_wp( $output ) {
@@ -496,7 +488,7 @@ add_filter('language_attributes', 'ngfb_add_og_doctype_wp');
 add_action('wp_head', 'ngfb_add_facebook_og_wp');
 
 // thumbnailID must be 'ngg-#'
-function ngg_thumbnail_url( $thumbnailID ) {
+function ngfb_ngg_thumbnail_url( $thumbnailID ) {
 
     if (! method_exists( 'nggdb', 'find_image' ) ) return;
 
@@ -508,17 +500,32 @@ function ngg_thumbnail_url( $thumbnailID ) {
 		if ($image != null) {
 
 			$options = get_option('ngfb_options');
-			$thumb_w = $options['og_img_width'];
-			$thumb_h = $options['og_img_height'];
-			$thumb_c = $options['og_img_crop'];
-			$thumb_c = ( $thumb_c == 1 ? 'crop' : '' );
+			$size = $options['og_img_size'];
+			$width = 200; $height = 200; $crop = 1;
+
+			global $_wp_additional_image_sizes;
+			$tmp = get_intermediate_image_sizes();
+	
+			if ( isset( $_wp_additional_image_sizes[$size]['width'] ) )
+				$width = intval( $_wp_additional_image_sizes[$size]['width'] );
+			else $width = get_option( "{$size}_size_w" );
+
+			if ( isset( $_wp_additional_image_sizes[$size]['height'] ) )
+				$height = intval( $_wp_additional_image_sizes[$size]['height'] );
+			else $height = get_option( "{$size}_size_h" );
+
+			if ( isset( $_wp_additional_image_sizes[$size]['crop'] ) )
+				$crop = intval( $_wp_additional_image_sizes[$size]['crop'] );
+			else $crop = get_option( "{$size}_crop" );
+
+			$crop = ( $crop == 1 ? 'crop' : '' );
 
 			// Check to see if the image already exists
-			$imageURL = $image->cached_singlepic_file( $thumb_w, $thumb_h, $thumb_c );
+			$imageURL = $image->cached_singlepic_file( $width, $height, $crop );
 
 			// If not, then use the dynamic image url
 			if (empty($imageURL)) 
-				$imageURL = trailingslashit(home_url()).'index.php?callback=image&amp;pid='.$thumbnailID.'&amp;width='.$thumb_w.'&amp;height='.$thumb_h.'&amp;mode='.$thumb_c;
+				$imageURL = trailingslashit(home_url()).'index.php?callback=image&amp;pid='.$thumbnailID.'&amp;width='.$width.'&amp;height='.$height.'&amp;mode='.$crop;
 		}
     }
     return $imageURL;
@@ -529,31 +536,37 @@ function ngfb_add_facebook_og_wp() {
 	
 	$options = get_option('ngfb_options');
 
-	if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
-
-		$thumbnailID = get_post_thumbnail_id( $post->ID );
-
-		// If the post thumbnail id has the form ngg- then it is a NextGEN image.
-		if ( is_string($thumbnailID) && substr($thumbnailID, 0, 4) == 'ngg-') {
-
-			$imageURL = ngg_thumbnail_url( $thumbnailID );
-
-		} else {
-
-			$out = wp_get_attachment_image_src($thumbnailID, $options['og_img_size']);
-			$imageURL = $out[0];
-		}
+	if( !is_feed() && !is_home() ) {
+		$content .= $fb_buttons;
+	} else if ( isset($options['fb_on_home']) && ( $options['fb_on_home'] != "" ) ) { 
+		$content .= $fb_buttons;
 	}
 
-	// If there is no featured image or any image, search post for images and display first one.
-	if(! $imageURL) {
-		$out = preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match);
-		if ( $out > 0 ) {
-			$thumbnailID = $match[1][0];					
-			$imageURL = ngg_thumbnail_url( 'ngg-'.$thumbnailID );
-		} else {
-			$out = preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match);
-			if ( $out > 0 ) $imageURL = $match[1][0];					
+	if ( is_single() || is_page() || !$options['og_def_home'] ) {
+
+		if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+	
+			$thumbnailID = get_post_thumbnail_id( $post->ID );
+	
+			// If the post thumbnail id has the form ngg- then it is a NextGEN image.
+			if ( is_string($thumbnailID) && substr($thumbnailID, 0, 4) == 'ngg-') {
+				$imageURL = ngfb_ngg_thumbnail_url( $thumbnailID );
+			} else {
+				$out = wp_get_attachment_image_src($thumbnailID, $options['og_img_size']);
+				$imageURL = $out[0];
+			}
+		}
+	
+		// If there is no featured image or any image, search post for images and display first one.
+		if(! $imageURL) {
+			$out = preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match);
+			if ( $out > 0 ) {
+				$thumbnailID = $match[1][0];					
+				$imageURL = ngfb_ngg_thumbnail_url( 'ngg-'.$thumbnailID );
+			} else {
+				$out = preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match);
+				if ( $out > 0 ) $imageURL = $match[1][0];					
+			}
 		}
 	}
 
@@ -565,21 +578,38 @@ function ngfb_add_facebook_og_wp() {
 	} else {
 		$excerpt = esc_attr(str_replace("\r\n",' ',substr(strip_tags(strip_shortcodes($post->post_content)), 0, $options['og_desc_len'])));
 	}
+
 	$site_description = get_bloginfo( 'description', 'display' );
+	$site_title = get_bloginfo( 'name', 'display' );
 ?>
 
 <!-- NextGEN Facebook plugin open graph tags BEGIN -->
 <meta property="fb:admins" content="<?php echo $options['og_admins']; ?>" />
 <meta property="fb:app_id" content="<?php echo $options['og_app_id']; ?>" />
-<meta property="og:title" content="<?php 
-	if ( is_home() ) { bloginfo('name'); } 
-	elseif ( is_category() ) { echo single_cat_title(); } 
-	elseif ( is_tag() ) { echo single_tag_title(); } 
-	else { echo the_title(); } ?>" />
-<meta property="og:type" content="<?php if (is_single() || is_page()) { echo "article"; } else { echo "website";} ?>" />
+<meta property="og:site_name" content="<?php echo $site_title; ?>" />
+<meta property="og:title" content="<?php
+	global $page, $paged;
+	$page_title = trim( wp_title( '|', false, 'right' ), ' |');
+	if ($page_title) echo $page_title; else echo $site_title;
+	// Add a page number if necessary
+	if ( $paged >= 2 || $page >= 2 )
+		echo ' | ' . sprintf( 'Page %s', max( $paged, $page ) );
+?>" />
+<meta property="og:type" content="<?php 
+	if ( is_single() || is_page() ) echo "article";
+	else echo "website";
+?>" />
 <meta property="og:image" content="<?php echo $imageURL; ?>" />
-<meta property="og:site_name" content="<?php bloginfo('name'); ?>" />
-<meta property="og:description" content="<?php if (is_singular()) { echo $excerpt;} else {echo $site_description;} ?>" />
+<meta property="og:description" content="<?php 
+	if ( is_singular() ) echo $excerpt;
+	elseif ( is_author() ) {  the_post(); printf( 'Authored by %s', get_the_author() ); }
+	elseif ( is_tag() ) printf( 'Tagged with &quot;%s&quot;', single_tag_title('', false) );
+	elseif ( is_category() ) printf( '&quot;%s&quot; Category', single_cat_title('', false) );
+	elseif ( is_day() ) printf( 'Daily Archives for %s', get_the_date() );
+	elseif ( is_month() ) printf( 'Monthly Archives for %s', get_the_date('F Y') );
+	elseif ( is_year() ) printf( 'Yearly Archives for %s', get_the_date('Y') );
+	else echo $site_description;
+?>" />
 <meta property="og:url" content="http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>" />
 <!-- NextGEN Facebook plugin open graph tags END -->
 
