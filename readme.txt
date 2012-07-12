@@ -70,7 +70,7 @@ None
 * Improved the description and installation texts.
 * Used a single screenshot image of the settings page, instead of two.
 * Removed the "NextGEN Gallery Image Size" setting - it was a bit redundant. Instead, I've suggested using an existing Size Name from the Media Library, and if necessary, to create an additional Size Name specifically for NextGEN Facebook. Since NextGEN Gallery doesn't understand these Size Names, I've added some code to get the width, height, and crop from the Size Name, before calling the necessary NextGEN Gallery functions.
-* Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of a featured image from the first post, for example).
+* Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of the featured image from the first post, for example).
 * Added extra parsing for author pages, tag pages, category pages, etc., to refine the og:description text.
 * Also improved the og:title text for archive pages, category pages, etc. 
 * No bugs were reported or fixed from the previous version, which is good news I guess. ;-)

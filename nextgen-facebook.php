@@ -188,7 +188,7 @@ function ngfb_render_form() {
 					cropped), or other Size Names like "medium", "large", etc.
 					Choose a Size Name that is at least 200px or more in width
 					and height, and preferably cropped. You can use the <a
-					src="http://wordpress.org/extend/plugins/simple-image-sizes/"
+					href="http://wordpress.org/extend/plugins/simple-image-sizes/"
 					target="_blank">Simple Image Size</a> plugin (or others)
 					to define additional sizes on the Settings-&gt;Media page.
 					I would suggest creating a "facebook-thumbnail" Size Name
