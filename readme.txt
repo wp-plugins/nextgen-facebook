@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 
 Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
@@ -29,7 +29,25 @@ The image used in the Open Graph meta tag will be determined in this sequence; a
 
 == Installation ==
 
-Activate the plugin. You don't have to configure any settings for NextGEN Facebook to add the Open Graph meta tags. Some options are available under Settings->NextGEN Facebook to define a default image, include facebook buttons at the end of Posts and Pages, change the thumbnail image sizes, etc.
+*Using the WordPress Dashboard*
+
+1. Login to your weblog
+1. Go to Plugins
+1. Select Add New
+1. Search for *NextGEN Facebook*
+1. Select Install
+1. Select Install Now
+1. Select Activate Plugin
+
+*Manual*
+
+1. Download and unzip the plugin
+1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
+1. Activate the plugin through the Plugins menu in WordPress
+
+Once activated, you don't have to configure any settings for NextGEN Facebook to automatically start adding the Open Graph meta tags to your pages.
+
+Some plugin options are available under Settings->NextGEN Facebook to select a default image URL, include Facebook buttons at the end of Posts and Pages, change the default thumbnail image sizes, etc.
 
 == Upgrade Notice ==
 
@@ -37,8 +55,7 @@ None
 
 == Screenshots ==
 
-1. WP 3.4.1 - The first-half of the settings page
-2. WP 3.4.1 - The second-half of the settings page
+1. WP 3.4.1 - The NextGEN Facebook Settings Page
 
 == Frequently Asked Questions ==
 
@@ -47,6 +64,14 @@ None
 == Changelog ==
 
 = v1.0 =
-
 * Initial release.
+
+= v1.1 =
+* Improved the description and installation texts.
+* Used a single screenshot image of the settings page, instead of two.
+* Removed the "NextGEN Gallery Image Size" setting - it was a bit redundant. Instead, I've suggested using an existing Size Name from the Media Library, and if necessary, to create an additional Size Name specifically for NextGEN Facebook. Since NextGEN Gallery doesn't understand these Size Names, I've added some code to get the width, height, and crop from the Size Name, before calling the necessary NextGEN Gallery functions.
+* Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of a featured image from the first post, for example).
+* Added extra parsing for author pages, tag pages, category pages, etc., to refine the og:description text.
+* Also improved the og:title text for archive pages, category pages, etc. 
+* No bugs were reported or fixed from the previous version, which is good news I guess. ;-)
 
