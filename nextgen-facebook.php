@@ -3,18 +3,17 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.1
+Version: 1.2
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
 This plugin is based on the WP Facebook Like Send & Open Graph Meta v1.2.3
 plugin by Marvie Pons.
 
-The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags (admins,
-app_id, title, type, image, site_name, description, and url) to all webpage
-headers. Featured image thumbnails from a NextGEN Gallery or Media Library are
-included in the image meta tag. The plugin also includes an option to add Like
-and Send Facebook buttons to your Posts and Pages.
+The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags to all
+webpage headers. Featured image thumbnails from a NextGEN Gallery or Media
+Library are included in the image meta tag. The plugin also includes an option
+to add Like and Send Facebook buttons to your Posts and Pages.
 
 NextGEN Facebook was specifically written to support featured images located
 in a NextGEN Gallery, and works just as well with the WordPress Media Library.
@@ -90,13 +89,17 @@ function ngfb_delete_plugin_options() {
 
 // Define default option settings
 function ngfb_add_defaults() {
+
 	$tmp = get_option('ngfb_options');
-    if(($tmp['ngfb_reset']=='1')||(!is_array($tmp))) {
+
+    if( ( $tmp['ngfb_reset'] == '1' ) || ( !is_array($tmp) ) ) {
 		delete_option('ngfb_options');	// remove old options, if any
 		$arr = array(
 			"og_img_size" => "thumbnail",
-			"og_def_img" => "",
-			"og_def_home" => "",
+			"og_def_img_id_pre" => "",
+			"og_def_img_id" => "",
+			"og_def_img_url" => "",
+			"og_def_on_home" => "",
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
@@ -133,15 +136,15 @@ function ngfb_render_form() {
 	<p>Once enabled, the NextGEN Facebook plugin will add Facebook Open Graph
 	meta tags to your webpages. If your Post or Page has a featured image
 	defined, it will be included in the meta tags for Facebook's share and
-	like features.  All options bellow are optional. You can enable share /
+	like features. All options bellow are optional. You can enable share /
 	like buttons, add a default image when there's no featured image defined,
 	etc.</p>
 
 	<p>The image used in the Open Graph meta tag will be determined in this
 	sequence; a featured image from a NextGEN Gallery or WordPress Media
 	Library, the first NextGEN [singlepic] or IMG HTML tag in the content, the
-	default image URL defined bellow. If none of these conditions can be
-	satisfied, then the Open Graph image tag will be left empty.</p>
+	default image defined bellow. If none of these conditions can be satisfied,
+	then the Open Graph image tag will be left empty.</p>
 
 	<div class="metabox-holder">
 		<div class="postbox">
@@ -150,9 +153,21 @@ function ngfb_render_form() {
 	
 	<!-- Beginning of the Plugin Options Form -->
 	<form method="post" action="options.php">
-		<?php settings_fields('ngfb_plugin_options'); ?>
-		<?php $options = get_option('ngfb_options'); ?>
+		<?php 
+			settings_fields('ngfb_plugin_options');
+			$options = get_option('ngfb_options');
 
+			// update option field names
+			if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
+				$options['og_def_img_url'] = $options['og_def_img'];
+				delete_option($options['og_def_img']);
+			}
+			if ( ! $options['og_def_on_home'] && $options['og_def_home']) {
+				$options['og_def_on_home'] = $options['og_def_home'];
+				delete_option($options['og_def_home']);
+			}
+
+		?>
 		<table class="form-table">
 			<tr>
 				<th>Image Size Name</th>
@@ -185,82 +200,76 @@ function ngfb_render_form() {
 					?>
 					</select>
 
-					<p>The WordPress Media Library Size Name for the image used
+					<p>The WordPress Media Library size name for the image used
 					in the Open Graph meta tag. Generally this would be
 					"thumbnail" (currently defined as <?php echo
 					get_option('thumbnail_size_w'); ?> x <?php echo
 					get_option('thumbnail_size_h'); ?>, <?php echo
 					get_option('thumbnail_crop') == "1" ? "" : "not"; ?>
-					cropped), or other Size Names like "medium", "large", etc.
-					Choose a Size Name that is at least 200px or more in width
+					cropped), or other size names like "medium", "large", etc.
+					Choose a size name that is at least 200px or more in width
 					and height, and preferably cropped. You can use the <a
 					href="http://wordpress.org/extend/plugins/simple-image-sizes/"
 					target="_blank">Simple Image Size</a> plugin (or others) to
 					define your own custom size names on the <a
 					href="options-media.php">Settings-&gt;Media</a> page. I
-					would suggest creating a "facebook-thumbnail" Size Name of
+					would suggest creating a "facebook-thumbnail" size name of
 					200 x 200 (or larger) cropped, to manage the size of Open
 					Graph images independently from those of your theme.</p>
 				</td>
 			</tr>
 
 			<tr>
+				<th scope="row">Default Image ID</th>
+				<td><input type="text" name="ngfb_options[og_def_img_id]" size="6"
+					value="<?php echo $options['og_def_img_id']; ?>" />
+					in the
+					<select name='ngfb_options[og_def_img_id_pre]'>
+						<option value='' <?php selected($options['og_def_img_id_pre'], ''); ?>>Media Library</option>
+						<option value='ngg' <?php selected($options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
+					</select>
+
+					<p>The ID number and location of your default image (example: 123).</p>
+				</td>
+			</tr>
+
+			<tr>
 				<th scope="row">Default Image URL</th>
-				<td><input type="text" name="ngfb_options[og_def_img]" size="100"
-					value="<?php echo $options['og_def_img']; ?>" />
+				<td><input type="text" name="ngfb_options[og_def_img_url]" size="80"
+					value="<?php echo $options['og_def_img_url']; ?>" />
 
-					<p>The URL (including the http:// prefix) to your default
-					image. It will be used on your homepage and post / pages
-					that do not have a featured image, [singlepic] shortcode,
-					or IMG HTML tag. It should be at least 200px or more in
-					width and height.</p>
-
-					<p>It would be best not to use an image from the NextGEN
-					gallery, in case the gallery/cache/ folder is cleaned.
-					Instead, upload a image to the WP Media Library. Once the
-					image has been uploaded, click on 'Edit' to see the
-					thumbnail and image details. Right-click and choose 'View
-					Image' on the thumbnail. Use the image URL here. Note:
-					<i>This assumes you've defined a thumbnail size of at least
-					200x200 in your Settings-&gt;Media options</i>.</p>
-
-					<p>You can also use a cached NextGEN image by using
-					NextGEN's image callback URL. Example:
-					http://{<b>hostname</b>)/index.php?callback=image&amp;pid={<b>image_id_number</b>}&amp;width=200&amp;height=200&amp;mode=crop.
-					Once you've used this URL once, you can refer to the cached
-					image URL as your default image. Example:
-					http://{<b>hostname</b>}/wp-content/gallery/cache/{<b>image_id_number</b>}_crop_200x200_{<b>image_file_name</b>}.</p>
-
-					<p>If you have no other choice, you can use the callback
-					URL as your default image URL here. Note that this will
-					require a <i>little</i> more resource from your web server
-					than a static image does.<p>
+					<p>You can specify a Default Image URL (including the
+					http:// prefix) instead of a Default Image ID. This would
+					allow you to use an image outside of a managed collection
+					(Media Library or NextGEN Gallery). The image should be at
+					least 200px or more in width and height. If both are
+					specified, the Default Image ID takes precedence.</p>
 				</td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row" nowrap>Use Default on Multi-Entry Pages</th>
-				<td><input name="ngfb_options[og_def_home]" type="checkbox" value="1" 
-					<?php if (isset($options['og_def_home'])) { checked('1', $options['og_def_home']); } ?> />
+				<td><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
+					<?php if (isset($options['og_def_on_home'])) { checked('1', $options['og_def_on_home']); } ?> />
 
 					<p>Check this box if you would like to use the default
 					image on page types with more than one entry (homepage,
 					archives, categories, etc.). If you leave this un-checked,
-					the NextGEN Facebook plugin will attempt to use the first
-					featured image, [singlepic] shortcode, or IMG HTML tag
-					within the list of entries on the page.</p>
+					NextGEN Facebook will attempt to use the first featured
+					image, [singlepic] shortcode, or IMG HTML tag within the
+					list of entries on the page.</p>
 				</td>
 			</tr>
 
 			<tr>
 				<th scope="row">Max Description Length</th>
-				<td><input type="text" size="4" name="ngfb_options[og_desc_len]" 
+				<td><input type="text" size="6" name="ngfb_options[og_desc_len]" 
 					value="<?php echo $options['og_desc_len']; ?>" />
 
-					<p>The maximum description length, based on your post /
-					page excerpt or content, included in the Open Graph meta
-					tag. The description length must be 160 characters or more
-					(the default is 300).</p>
+					<p>The maximum length of text from your post / page excerpt
+					or content, used in the Open Graph description tag. The
+					length must be 160 characters or more (the default is
+					300).</p>
 				</td>
 			</tr>
 
@@ -272,8 +281,8 @@ function ngfb_render_form() {
 					<p>Enter one of more Facebook account names (generally your
 					own), seperated with a comma. When you are viewing your own
 					Facebook wall, your account name is located in the URL.
-					Example:
-					https://www.facebook.com/{<b>account_name</b>}.</p>
+					(example:
+					https://www.facebook.com/<b>account_name</b>).</p>
 				</td>
 			</tr>
 
@@ -404,17 +413,19 @@ function ngfb_validate_options($input) {
 	$input['og_img_size'] = wp_filter_nohtml_kses($input['og_img_size']);
 	if (! $input['og_img_size']) $input['og_img_size'] = "thumbnail";
 
-	$input['og_def_img'] = wp_filter_nohtml_kses($input['og_def_img']);
+	$input['og_def_img_url'] = wp_filter_nohtml_kses($input['og_def_img_url']);
 	$input['og_admins'] = wp_filter_nohtml_kses($input['og_admins']);
 	$input['og_app_id'] = wp_filter_nohtml_kses($input['og_app_id']);
 
-	if (! $input['og_desc_len'] 
-		|| ! is_numeric($input['og_desc_len']) 
-		|| ! $input['og_desc_len'] > 160)
+	if ( ! is_numeric( $input['og_def_img_id'] ) ) $input['og_def_img_id'] = null;
+
+	if ( ! $input['og_desc_len'] 
+		|| ! is_numeric( $input['og_desc_len'] ) 
+		|| ! $input['og_desc_len'] > 160 )
 			$input['og_desc_len'] = 160;
 
-	if ( ! isset( $input['og_def_home'] ) ) $input['og_def_home'] = null;
-	$input['og_def_home'] = ( $input['og_def_home'] == 1 ? 1 : 0 );
+	if ( ! isset( $input['og_def_on_home'] ) ) $input['og_def_on_home'] = null;
+	$input['og_def_on_home'] = ( $input['og_def_on_home'] == 1 ? 1 : 0 );
 	
 	if ( ! isset( $input['fb_enable'] ) ) $input['fb_enable'] = null;
 	$input['fb_enable'] = ( $input['fb_enable'] == 1 ? 1 : 0 );
@@ -547,7 +558,7 @@ function ngfb_add_meta() {
 		$content .= $fb_buttons;
 	}
 
-	if ( is_single() || is_page() || !$options['og_def_home'] ) {
+	if ( is_single() || is_page() || !$options['og_def_on_home'] ) {
 
 		if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
 	
@@ -557,7 +568,7 @@ function ngfb_add_meta() {
 			if ( is_string($thumbnailID) && substr($thumbnailID, 0, 4) == 'ngg-') {
 				$imageURL = ngfb_get_ngg_thumb_url( $thumbnailID );
 			} else {
-				$out = wp_get_attachment_image_src($thumbnailID, $options['og_img_size']);
+				$out = wp_get_attachment_image_src( $thumbnailID, $options['og_img_size'] );
 				$imageURL = $out[0];
 			}
 		}
@@ -575,8 +586,17 @@ function ngfb_add_meta() {
 		}
 	}
 
-	// If none exists, then show the default url.
-	if(! $imageURL) $imageURL = $options['og_def_img'];
+	if ($options['og_def_img_id'] != '') {
+		if ($options['og_def_img_id_pre'] == 'ngg') {
+			$imageURL = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+		} else {
+			$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
+			$imageURL = $out[0];
+		}
+	}
+
+	// if none exists, then show the default url.
+	if(! $imageURL) $imageURL = $options['og_def_img_url'];
 
 	if (has_excerpt($post->ID)) {
 		$excerpt = esc_attr(substr(strip_tags(get_the_excerpt($post->ID)), 0, $options['og_desc_len']));

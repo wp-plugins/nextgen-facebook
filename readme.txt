@@ -83,6 +83,9 @@ None
 
 == Changelog ==
 
+= v1.2 =
+* Added the Default Image ID option, in addition to the Default Image URL. Since this plugin can find images by ID number, might as well use it the default image as well. :)
+
 = v1.1 =
 * Improved the description and installation texts.
 * Used a single screenshot image of the settings page, instead of two.
