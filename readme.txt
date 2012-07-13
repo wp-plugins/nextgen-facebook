@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
