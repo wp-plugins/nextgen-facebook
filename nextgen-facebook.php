@@ -586,7 +586,7 @@ function ngfb_add_meta() {
 		}
 	}
 
-	if ($options['og_def_img_id'] != '') {
+	if ( ! $imageURL && $options['og_def_img_id'] != '') {
 		if ($options['og_def_img_id_pre'] == 'ngg') {
 			$imageURL = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
 		} else {
@@ -596,7 +596,7 @@ function ngfb_add_meta() {
 	}
 
 	// if none exists, then show the default url.
-	if(! $imageURL) $imageURL = $options['og_def_img_url'];
+	if( ! $imageURL ) $imageURL = $options['og_def_img_url'];
 
 	if (has_excerpt($post->ID)) {
 		$excerpt = esc_attr(substr(strip_tags(get_the_excerpt($post->ID)), 0, $options['og_desc_len']));
