@@ -11,16 +11,15 @@ Also includes optional Like and Send Facebook buttons.
 
 == Description ==
 
-The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags (admins,
-app_id, title, type, image, site_name, description, and url) to all webpage
-headers. Featured image thumbnails from a NextGEN Gallery or Media Library are
-included in the image meta tag. The plugin also includes an option to add Like
-and Send Facebook buttons to your Posts and Pages.
+The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags to all
+webpage headers. Featured image thumbnails from a NextGEN Gallery or Media
+Library are included in the image meta tag. The plugin also includes an option
+to add Like and Send Facebook buttons to your Posts and Pages.
 
 NextGEN Facebook was specifically written to support featured images located
 in a NextGEN Gallery, and works just as well with the WordPress Media Library.
-The NextGEN Gallery plugin is not required - all features work just as well
-without it.
+<em>The NextGEN Gallery plugin is not required - all features work just as
+well without it.</em>
 
 The image used in the Open Graph meta tag will be determined in this sequence;
 a featured image from a NextGEN Gallery or WordPress Media Library, the first
