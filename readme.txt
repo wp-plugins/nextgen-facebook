@@ -63,9 +63,6 @@ None
 
 == Changelog ==
 
-= v1.0 =
-* Initial release.
-
 = v1.1 =
 * Improved the description and installation texts.
 * Used a single screenshot image of the settings page, instead of two.
@@ -74,4 +71,7 @@ None
 * Added extra parsing for author pages, tag pages, category pages, etc., to refine the og:description text.
 * Also improved the og:title text for archive pages, category pages, etc. 
 * No bugs were reported or fixed from the previous version, which is good news I guess. ;-)
+
+= v1.0 =
+* Initial release.
 
