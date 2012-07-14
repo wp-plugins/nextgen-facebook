@@ -595,46 +595,42 @@ function ngfb_add_meta() {
 		}
 	}
 
-	// if none exists, then show the default url.
-	if( ! $imageURL ) $imageURL = $options['og_def_img_url'];
+	if( ! $imageURL ) $imageURL = $options['og_def_img_url'];	// if still empty, use the default url.
 
-	if (has_excerpt($post->ID)) {
-		$excerpt = esc_attr(substr(strip_tags(get_the_excerpt($post->ID)), 0, $options['og_desc_len']));
-	} else {
-		$excerpt = esc_attr(str_replace("\r\n",' ',substr(strip_tags(strip_shortcodes($post->post_content)), 0, $options['og_desc_len'])));
-	}
-
-	$site_description = get_bloginfo( 'description', 'display' );
 	$site_title = get_bloginfo( 'name', 'display' );
+	$site_description = get_bloginfo( 'description', 'display' );
+
+	if ( is_singular() && has_excerpt($post->ID) ) 
+		$excerpt = esc_attr(substr(strip_tags(get_the_excerpt($post->ID)), 0, $options['og_desc_len']));
+	elseif ( is_singular() ) 
+		$excerpt = esc_attr(str_replace("\r\n",' ',substr(strip_tags(strip_shortcodes($post->post_content)), 0, $options['og_desc_len'])));
+	elseif ( is_author() ) { the_post(); $excerpt = sprintf( 'Authored by %s', get_the_author() ); }
+	elseif ( is_tag() ) $excerpt = sprintf( 'Tagged with &quot;%s&quot;', single_tag_title('', false) );
+	elseif ( is_category() ) $excerpt = sprintf( '&quot;%s&quot; Category', single_cat_title('', false) );
+	elseif ( is_day() ) $excerpt = sprintf( 'Daily Archives for %s', get_the_date() );
+	elseif ( is_month() ) $excerpt = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
+	elseif ( is_year() ) $excerpt = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
+	else $excerpt = $site_description;
+
+	global $page, $paged;
+	$page_title = trim( wp_title( '|', false, 'right' ), ' |');
+	if ( ! $page_title ) $page_title = $site_title;
+	if ( $paged >= 2 || $page >= 2 )
+		$page_title .= ' | ' . sprintf( 'Page %s', max( $paged, $page ) );	// add a page number if necessary
+
+	if ( is_single() || is_page() ) $page_type = "article";
+	else $page_type = "website";
+
 ?>
 
 <!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN -->
 <meta property="fb:admins" content="<?php echo $options['og_admins']; ?>" />
 <meta property="fb:app_id" content="<?php echo $options['og_app_id']; ?>" />
 <meta property="og:site_name" content="<?php echo $site_title; ?>" />
-<meta property="og:title" content="<?php
-	global $page, $paged;
-	$page_title = trim( wp_title( '|', false, 'right' ), ' |');
-	if ($page_title) echo $page_title; else echo $site_title;
-	// Add a page number if necessary
-	if ( $paged >= 2 || $page >= 2 )
-		echo ' | ' . sprintf( 'Page %s', max( $paged, $page ) );
-?>" />
-<meta property="og:type" content="<?php 
-	if ( is_single() || is_page() ) echo "article";
-	else echo "website";
-?>" />
+<meta property="og:title" content="<?php echo $page_title; ?>" />
+<meta property="og:type" content="<?php echo $page_type ?>" />
 <meta property="og:image" content="<?php echo $imageURL; ?>" />
-<meta property="og:description" content="<?php 
-	if ( is_singular() ) echo $excerpt;
-	elseif ( is_author() ) {  the_post(); printf( 'Authored by %s', get_the_author() ); }
-	elseif ( is_tag() ) printf( 'Tagged with &quot;%s&quot;', single_tag_title('', false) );
-	elseif ( is_category() ) printf( '&quot;%s&quot; Category', single_cat_title('', false) );
-	elseif ( is_day() ) printf( 'Daily Archives for %s', get_the_date() );
-	elseif ( is_month() ) printf( 'Monthly Archives for %s', get_the_date('F Y') );
-	elseif ( is_year() ) printf( 'Yearly Archives for %s', get_the_date('Y') );
-	else echo $site_description;
-?>" />
+<meta property="og:description" content="<?php echo $excerpt; ?>" />
 <meta property="og:url" content="http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>" />
 <!-- NextGEN Facebook Plugin Open Graph Tags: END -->
 
