@@ -78,7 +78,16 @@ the default thumbnail image sizes, etc.
 
 == Frequently Asked Questions ==
 
-None
+= Q. Why doesn't Facebook's send / share show my featured image? =
+
+A. The first time Facebook accesses your webpage, it will cache the image and
+text it finds. Facebook will then prefer to use that cached information, until
+the information has expired from it's cache. So, before you hit the send /
+share button for the first time, make sure you've defined your featured image
+and (optionally) the excerpt text. If you change your mind, and your webpage
+has not been liked or shared yet, then try waiting a few hours before trying
+again. If your webpage has already been liked or shared on Facebook, then
+there's nothing you can do to change the image, text, or title that was used.
 
 == Changelog ==
 
