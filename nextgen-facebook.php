@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.3
+Version: 1.4
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -11,20 +11,26 @@ This plugin is based on the WP Facebook Like Send & Open Graph Meta v1.2.3
 plugin by Marvie Pons.
 
 The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags to all
-webpage headers. Featured image thumbnails from a NextGEN Gallery or Media
-Library are included in the image meta tag. The plugin also includes an option
-to add Like and Send Facebook buttons to your Posts and Pages.
+webpage headers, including the artical meta tags for posts and pages. Featured
+image thumbnails from a NextGEN Gallery or Media Library are also included in
+the image meta tag. You can also, optionally, add Facebook like and send
+buttons to your posts and pages.
 
 NextGEN Facebook was specifically written to support featured images located
-in a NextGEN Gallery, and works just as well with the WordPress Media Library.
-The NextGEN Gallery plugin is not required - all features work just as well
-without it.
+in a NextGEN Gallery, but works just as well with the WordPress Media Library.
+The NextGEN Gallery plugin is not required to use this plugin - all features
+work just as well without it.
 
 The image used in the Open Graph meta tag will be determined in this sequence;
 a featured image from a NextGEN Gallery or WordPress Media Library, the first
 NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in
 the plugin settings. If none of these conditions can be satisfied, then the
 Open Graph image tag will be left empty.
+
+This plugin goes beyond any other plugin I know in handling various
+archive-type webpages. It will create appropriate title and description meta
+tags for category, tag, date based archive (day, month, or year), and author
+webpages.
 
 This plugin is being actively developed and supported. Post your comments and
 suggestions to the NextGEN Facebook Support Page at
@@ -82,6 +88,7 @@ function ngfb_add_defaults() {
     if( ( $tmp['ngfb_reset'] == '1' ) || ( !is_array($tmp) ) ) {
 		delete_option('ngfb_options');	// remove old options, if any
 		$arr = array(
+			"og_art_section" => "",
 			"og_img_size" => "thumbnail",
 			"og_def_img_id_pre" => "",
 			"og_def_img_id" => "",
@@ -116,6 +123,7 @@ function ngfb_add_options_page() {
 // Render the Plugin options form
 function ngfb_render_form() {
 
+	// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 	$article_sections = array(
 		'Animation',
 		'Architecture',
@@ -165,14 +173,15 @@ function ngfb_render_form() {
 		'Science',
 		'Shock',
 		'Social Networking',
+		'Spiritual',
 		'Sport',
 		'Technology',
 		'Travel',
 		'Vegetarian',
-		'Museums',
 		'Webmail',
 		'Women\'s',
 	);
+	sort ( $article_sections );
 
 	?>
 	<div class="wrap">
@@ -215,6 +224,31 @@ function ngfb_render_form() {
 
 		?>
 		<table class="form-table">
+
+			<tr>
+				<th scope="row">Website Topic</th>
+				<td>
+					<select name='ngfb_options[og_art_section]'>
+						<?php
+							echo '<option value="" ', 
+								selected($options['og_art_section'], ''), 
+								'></option>', "\n";
+
+							foreach ( $article_sections as $s ) {
+								echo '<option value="', $s, '" ',
+									selected( $options['og_art_section'], $s),
+										'>', $s, '</option>', "\n";
+							}
+						?>
+					</select>
+					<p>The topic which best describes the posts and pages on
+					your website. This topic name will be used in the
+					"article:section" meta tag of all your posts and pages. You
+					can leave the topic name blank, if you would prefer not to
+					include an "article:section" meta tag.</p>
+				</td>
+			</tr>
+
 			<tr>
 				<th>Image Size Name</th>
 				<td>
@@ -683,8 +717,19 @@ function ngfb_add_meta() {
 		$page_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( $post->post_content ) ) ), 0, 
 			$options['og_desc_len'] ) ) );
-	elseif ( is_author() ) { the_post(); $page_desc = sprintf( 'Authored by %s', get_the_author() ); }
-	elseif ( is_tag() ) $page_desc = sprintf( 'Tagged with %s', single_tag_title('', false) );
+	elseif ( is_author() ) { 
+		the_post();
+		$page_desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
+		$author_desc = get_the_author_meta( 'description' );
+		if ($author_desc) $page_desc .= ': '.$author_desc;	// add the author's profile description, if there is one
+	}
+	elseif ( is_tag() ) {
+		$page_desc = sprintf( 'Tagged with %s', single_tag_title('', false) );
+		$tag_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
+			strip_tags( strip_shortcodes( tag_description() ) ) ), 0, 
+			$options['og_desc_len'] - strlen($page_desc) ) ) );
+		if ($tag_desc) $page_desc .= ': '.$tag_desc;	// add the tag description, if there is one
+	}
 	elseif ( is_category() ) { 
 		$page_desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 		$cat_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
@@ -706,8 +751,13 @@ function ngfb_add_meta() {
 ?>
 
 <!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN -->
-<meta property="fb:admins" content="<?php echo $options['og_admins']; ?>" />
-<meta property="fb:app_id" content="<?php echo $options['og_app_id']; ?>" />
+<?php
+	if ( $options['og_admins'] )
+		echo '<meta property="fb:admins" content="', $options['og_admins'], '" />', "\n";
+
+	if ( $options['og_app_id'] )
+		echo '<meta property="fb:app_id" content="', $options['og_app_id'], '" />', "\n";
+?>
 <meta property="og:site_name" content="<?php echo $site_title; ?>" />
 <meta property="og:title" content="<?php echo $page_title; ?>" />
 <meta property="og:type" content="<?php echo $page_type ?>" />
@@ -717,16 +767,25 @@ function ngfb_add_meta() {
 <?php
 	if ($page_type == "article") {
 
-			echo '<meta property="article:published_time" content="'.get_the_date('c').'" />'."\n";
-			echo '<meta property="article:modified_time" content="'.get_the_modified_date('c').'" />'."\n";
+			echo '<meta property="article:published_time" content="', 
+				get_the_date('c'), '" />', "\n";
 
-			$author_id = $post->post_author;
-			$author_name = get_the_author_meta( 'first_name', $author_id ).' '.get_the_author_meta( 'last_name', $author_id );
-			echo '<meta property="article:author" content="'.$author_name.'" />'."\n";
+			echo '<meta property="article:modified_time" content="',
+				get_the_modified_date('c'), '" />', "\n";
+
+			if ($options['og_art_section'])
+				echo '<meta property="article:section" content="', 
+					$options['og_art_section'], '" />', "\n";
+
+			echo '<meta property="article:author" content="',
+				get_the_author_meta( 'display_name', 
+				$post->post_author ), '" />', "\n";
 
 			$page_tags = wp_get_post_tags( $post->ID );
 			foreach( $page_tags as $tag) $tag_list .= $tag->name.", ";
-			echo '<meta property="article:tag" content="'.trim($tag_list, ', ').'" />'."\n";
+			if ( $tag_list )
+				echo '<meta property="article:tag" content="', 
+					trim($tag_list, ', '), '" />', "\n";
 	}
 ?>
 <!-- NextGEN Facebook Plugin Open Graph Tags: END -->
