@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
@@ -58,21 +58,22 @@ marked and should be easy to spot.
 
 <ul>
 
-<p><a href="http://trtms.com/">The Home Page</a>: The default image is included,
-the website name and tagline are used in the title and description tags, and
+<p><a href="http://trtms.com/">The Home Page</a>: The default image is used,
+the website name and tagline are listed in the title and description tags, and
 finally there are no article meta tags are present.</p>
 
-<p><a href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
-Post Webpage</a>: A featured image from NextGEN Gallery is included, and the
+<p><a
+href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
+Post Webpage</a>: A featured image from NextGEN Gallery is used, and the
 article meta tags have been added.</p>
 
 <p><a href="http://trtms.com/category/posting-from/basecamp/">A Category
-Webpage</a>: The default image is included, and notice the title contains the
+Webpage</a>: The default image is used, and notice the title contains the
 parent category name as well. The child and it's parents are listed, delimited
 by pipe "|" characters, in the title meta tag. Note that if the parent
-category name ends with three dots "...", the pipe character will not be
-added. The description meta tag also includes the wordpress category
-description.</p>
+category name ends with three dots "..." (like this one does), the pipe
+character will not be added. The description meta tag also includes the
+wordpress category description.</p>
 
 </ul>
 
