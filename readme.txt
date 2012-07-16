@@ -129,6 +129,19 @@ shared yet, then try waiting a few hours before trying again. If your webpage
 has already been liked or shared on Facebook, then there's nothing you can do
 to change the image, text, or title that was used.
 
+= Q. How can I see what Facebook sees? =
+
+**A.** Facebook has an Open Graph debugging tool at
+<a
+href="https://developers.facebook.com/tools/debug">https://developers.facebook.com/tools/debug</a>.
+You can enter a URL, and Facebook will show you a report of it's findings.
+
+If there are Open Graph Warnings, read them carefully -- usually they explain
+that the information they *already have* for this webpage is in conflict with
+the Open Graph information now being presented. This might be just the
+published and modified times, or (if the webpage was liked or shared
+previously) the title and image Facebook has saved previously.
+
 == Changelog ==
 
 = v1.4.1 =
