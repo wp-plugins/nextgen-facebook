@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.4
+Version: 1.4.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -574,12 +574,6 @@ function ngfb_facebook_buttons($content){
 }
 add_action('the_content', 'ngfb_facebook_buttons');
 
-// Adding the Open Graph in the Language Attributes
-function ngfb_add_og_doctype( $output ) {
-	return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
-}
-add_filter('language_attributes', 'ngfb_add_og_doctype');
-
 // thumb_id must be 'ngg-#'
 function ngfb_get_ngg_thumb_url( $thumb_id ) {
 
@@ -617,7 +611,7 @@ function ngfb_get_ngg_thumb_url( $thumb_id ) {
 
 			// If not, then use the dynamic image url
 			if (empty($image_url)) 
-				$image_url = trailingslashit(home_url()).'index.php?callback=image&amp;pid='.$thumb_id.'&amp;width='.$width.'&amp;height='.$height.'&amp;mode='.$crop;
+				$image_url = trailingslashit(site_url()).'index.php?callback=image&amp;pid='.$thumb_id.'&amp;width='.$width.'&amp;height='.$height.'&amp;mode='.$crop;
 		}
     }
     return $image_url;
@@ -746,7 +740,7 @@ function ngfb_add_meta() {
 	-------------------------------------------------------------- */
 
 	if ( is_single() || is_page() ) $page_type = "article";
-	else $page_type = "website";
+	else $page_type = "blog";	// 'website' could also be another choice
 
 ?>
 
@@ -778,19 +772,25 @@ function ngfb_add_meta() {
 					$options['og_art_section'], '" />', "\n";
 
 			echo '<meta property="article:author" content="',
-				get_the_author_meta( 'display_name', 
-				$post->post_author ), '" />', "\n";
+				trailingslashit(site_url()), 'author/', 
+				get_the_author_meta( 'user_login', 
+				$post->post_author ), '/" />', "\n";
 
 			$page_tags = wp_get_post_tags( $post->ID );
-			foreach( $page_tags as $tag) $tag_list .= $tag->name.", ";
-			if ( $tag_list )
-				echo '<meta property="article:tag" content="', 
-					trim($tag_list, ', '), '" />', "\n";
+			foreach( $page_tags as $tag )
+				echo '<meta property="article:tag" content="', $tag->name, '" />', "\n";
 	}
 ?>
 <!-- NextGEN Facebook Plugin Open Graph Tags: END -->
 
 <?php
-	}
-	add_action('wp_head', 'ngfb_add_meta');
+}
+add_action('wp_head', 'ngfb_add_meta');
+
+// It would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
+function ngfb_add_og_doctype( $output ) {
+	return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+}
+add_filter('language_attributes', 'ngfb_add_og_doctype');
+
 ?>

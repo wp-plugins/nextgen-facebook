@@ -1,6 +1,6 @@
 === NextGEN Facebook ===
 Contributors: jsmoriss
-Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag
+Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag, ogp
 Requires at least: 3.0
 Tested up to: 3.4.1
 Stable tag: 1.4
@@ -47,8 +47,11 @@ Here's an example of the Open Graph meta tags for a post:
 &lt;meta property="article:published_time" content="2012-07-14T08:54:10+00:00" /&gt;
 &lt;meta property="article:modified_time" content="2012-07-15T08:51:52+00:00" /&gt;
 &lt;meta property="article:section" content="Travel" /&gt;
-&lt;meta property="article:author" content="jsmoriss" /&gt;
-&lt;meta property="article:tag" content="Some Tags, Given, To Your, Article" /&gt;
+&lt;meta property="article:author" content="http://trtms.com/author/jsmoriss/" /&gt;
+&lt;meta property="article:tag" content="Some Tags" /&gt;
+&lt;meta property="article:tag" content="Given" /&gt;
+&lt;meta property="article:tag" content="To Your" /&gt;
+&lt;meta property="article:tag" content="Article" /&gt;
 &lt;!-- NextGEN Facebook Plugin Open Graph Tags: END --&gt;
 </code>
 
@@ -127,6 +130,11 @@ has already been liked or shared on Facebook, then there's nothing you can do
 to change the image, text, or title that was used.
 
 == Changelog ==
+
+= v1.4.1 =
+* Small fixes to the article:tag and article:author after finding additional information on these meta tags.
+* Changed article:tag by including it once for every WordPress tag, instead only once with an array of values.
+* Changed article:author to a URL instead of the author's name.
 
 = v1.4 =
 * Added a website topic setting to choose a value for the article:section meta tag. If defined, the article:section meta tag will be added to all posts and pages. You can leave it blank, if for example, your website covers a wide variety of subjects.
