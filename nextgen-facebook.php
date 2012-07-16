@@ -789,7 +789,10 @@ add_action('wp_head', 'ngfb_add_meta');
 
 // It would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
 function ngfb_add_og_doctype( $output ) {
-	return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+	return $output . '
+		xmlns:og="http://ogp.me/ns"
+		xmlns:fb="http://ogp.me/ns/fb"
+		xmlns:article="http://ogp.me/ns/article"';
 }
 add_filter('language_attributes', 'ngfb_add_og_doctype');
 
