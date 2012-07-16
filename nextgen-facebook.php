@@ -791,8 +791,7 @@ add_action('wp_head', 'ngfb_add_meta');
 function ngfb_add_og_doctype( $output ) {
 	return $output . '
 		xmlns:og="http://ogp.me/ns"
-		xmlns:fb="http://ogp.me/ns/fb"
-		xmlns:article="http://ogp.me/ns/article"';
+		xmlns:fb="http://ogp.me/ns/fb"';
 }
 add_filter('language_attributes', 'ngfb_add_og_doctype');
 
