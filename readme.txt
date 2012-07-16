@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.4
+Stable tag: 1.3
 License: GPLv2 or later
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
@@ -13,22 +13,22 @@ Also includes optional Like and Send Facebook buttons.
 
 The NextGEN Facebook plugin adds Facebook Open Graph HTML meta tags to all
 webpage headers, including the artical meta tags for posts and pages. Featured
-image thumbnails from a NextGEN Gallery or Media Library are also included in
-the image meta tag. You can also, optionally, add Facebook like and send
-buttons to your posts and pages.
+image thumbnails, from a NextGEN Gallery or Media Library, are listed in the
+image meta tag. You can also, optionally, add Facebook like and send buttons
+to your posts and pages.
 
 NextGEN Facebook was specifically written to support featured images located
 in a NextGEN Gallery, but works just as well with the WordPress Media Library.
-<em>The NextGEN Gallery plugin is not required to use this plugin - all
-features work just as well without it.</em>
+<em>The NextGEN Gallery plugin is not required to use this plugin</em> - all
+features work just as well without it.
 
-The image used in the Open Graph meta tag will be determined in this sequence;
-a featured image from a NextGEN Gallery or WordPress Media Library, the first
+The image used in the Open Graph meta tag is determined in this sequence; a
+featured image from a NextGEN Gallery or WordPress Media Library, the first
 NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in
 the plugin settings. If none of these conditions can be satisfied, then the
 Open Graph image tag will be left empty.
 
-This plugin goes beyond any other plugin I know in handling various
+This plugin goes well beyond any other plugins I know in handling various
 archive-type webpages. It will create appropriate title and description meta
 tags for category, tag, date based archive (day, month, or year), and author
 webpages.
@@ -36,20 +36,20 @@ webpages.
 Here's an example of the Open Graph meta tags for a post:
 
 <code>
-&lt;!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN --$gt;
-&lt;meta property="fb:app_id" content="345251245549378" /$gt;
-&lt;meta property="og:site_name" content="The Road to Myself" /$gt;
-&lt;meta property="og:title" content="Odds and Ends : An Article Title" /$gt;
-&lt;meta property="og:type" content="article" /$gt;
-&lt;meta property="og:image" content="http://trtms.com/wp-content/gallery/cache/167_crop_200x200_filename.jpg" /$gt;
-&lt;meta property="og:description" content="An excerpt from the post, up to a specified length..." /$gt;
-&lt;meta property="og:url" content="http://trtms.com/2012/07/14/odds-and-ends-an-article-title/" /$gt;
-&lt;meta property="article:published_time" content="2012-07-14T08:54:10+00:00" /$gt;
-&lt;meta property="article:modified_time" content="2012-07-15T08:51:52+00:00" /$gt;
-&lt;meta property="article:section" content="Travel" /$gt;
-&lt;meta property="article:author" content="jsmoriss" /$gt;
-&lt;meta property="article:tag" content="Some Tags, Given, To Your, Article" /$gt;
-&lt;!-- NextGEN Facebook Plugin Open Graph Tags: END --$gt;
+&lt;!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN --&gt;
+&lt;meta property="fb:app_id" content="345251245549378" /&gt;
+&lt;meta property="og:site_name" content="The Road to Myself" /&gt;
+&lt;meta property="og:title" content="Odds and Ends : An Article Title" /&gt;
+&lt;meta property="og:type" content="article" /&gt;
+&lt;meta property="og:image" content="http://trtms.com/wp-content/gallery/cache/167_crop_200x200_filename.jpg" /&gt;
+&lt;meta property="og:description" content="An excerpt from the post, up to a specified length..." /&gt;
+&lt;meta property="og:url" content="http://trtms.com/2012/07/14/odds-and-ends-an-article-title/" /&gt;
+&lt;meta property="article:published_time" content="2012-07-14T08:54:10+00:00" /&gt;
+&lt;meta property="article:modified_time" content="2012-07-15T08:51:52+00:00" /&gt;
+&lt;meta property="article:section" content="Travel" /&gt;
+&lt;meta property="article:author" content="jsmoriss" /&gt;
+&lt;meta property="article:tag" content="Some Tags, Given, To Your, Article" /&gt;
+&lt;!-- NextGEN Facebook Plugin Open Graph Tags: END --&gt;
 </code>
 
 You can view real-life examples by visiting the following URLs on my website
@@ -58,21 +58,21 @@ marked and should be easy to spot.
 
 <ul>
 
-<a href="http://trtms.com/">The Home Page</a>: The default image is included,
+<p><a href="http://trtms.com/">The Home Page</a>: The default image is included,
 the website name and tagline are used in the title and description tags, and
-finally there are no article meta tags are present.
+finally there are no article meta tags are present.</p>
 
-<a href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
+<p><a href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
 Post Webpage</a>: A featured image from NextGEN Gallery is included, and the
-article meta tags have been added.
+article meta tags have been added.</p>
 
-<a href="http://trtms.com/category/posting-from/basecamp/">A Category
+<p><a href="http://trtms.com/category/posting-from/basecamp/">A Category
 Webpage</a>: The default image is included, and notice the title contains the
 parent category name as well. The child and it's parents are listed, delimited
 by pipe "|" characters, in the title meta tag. Note that if the parent
 category name ends with three dots "...", the pipe character will not be
 added. The description meta tag also includes the wordpress category
-description.
+description.</p>
 
 </ul>
 
