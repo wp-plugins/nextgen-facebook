@@ -60,7 +60,7 @@ marked and should be easy to spot.
 
 <p><a href="http://trtms.com/">The Home Page</a>: The default image is used,
 the website name and tagline are listed in the title and description tags, and
-finally there are no article meta tags are present.</p>
+finally there are no article meta tags present.</p>
 
 <p><a
 href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
@@ -68,10 +68,10 @@ Post Webpage</a>: A featured image from NextGEN Gallery is used, and the
 article meta tags have been added.</p>
 
 <p><a href="http://trtms.com/category/posting-from/basecamp/">A Category
-Webpage</a>: The default image is used, and notice the title contains the
-parent category name as well. The child and it's parents are listed, delimited
-by pipe "|" characters, in the title meta tag. Note that if the parent
-category name ends with three dots "..." (like this one does), the pipe
+Webpage</a>: The default image is used, and notice the title contains a parent
+category name as well. The child and it's parents (if any) are listed,
+delimited by pipe "|" characters, in the title meta tag. Note that if the
+parent category name ends with three dots "..." (like this one does), the pipe
 character will not be added. The description meta tag also includes the
 wordpress category description.</p>
 
