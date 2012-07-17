@@ -19,8 +19,8 @@ to your posts and pages.
 
 NextGEN Facebook was specifically written to support featured images located
 in a NextGEN Gallery, but works just as well with the WordPress Media Library.
-<em>The NextGEN Gallery plugin is not required to use this plugin</em> - all
-features work just as well without it.
+<strong>The NextGEN Gallery plugin is not required to use this plugin</strong>
+- all features work just as well without it.
 
 The image used in the Open Graph meta tag is determined in this sequence; a
 featured image from a NextGEN Gallery or WordPress Media Library, the first
