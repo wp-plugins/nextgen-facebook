@@ -87,10 +87,10 @@ and suggestions to the <a
 href="http://wordpress.org/support/plugin/nextgen-facebook"
 target="_blank">NextGEN Facebook Support Page</a>.
 
-Afer you install the plugin, please <a
+<strong>Afer you install the plugin, please <a
 href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
 moment to rate NextGEN Facebook and confirm compatibility</strong></a> with
-your version of WordPress.
+your version of WordPress.</strong>
 
 == Installation ==
 
@@ -117,10 +117,10 @@ Some plugin options are available under Settings->NextGEN Facebook to select a
 default image, include Facebook buttons at the end of Posts and Pages, change
 the default thumbnail image sizes, etc.
 
-Afer you install the plugin, please <a
+<strong>Afer you install the plugin, please <a
 href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
 moment to rate NextGEN Facebook and confirm compatibility</strong></a> with
-your version of WordPress.
+your version of WordPress.</strong>
 
 == Screenshots ==
 
