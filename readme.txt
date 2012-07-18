@@ -117,6 +117,11 @@ Some plugin options are available under Settings->NextGEN Facebook to select a
 default image, include Facebook buttons at the end of Posts and Pages, change
 the default thumbnail image sizes, etc.
 
+<strong>Afer you install the plugin, please <a
+href="http://wordpress.org/extend/plugins/nextgen-facebook/">take a moment to
+rate NextGEN Facebook and confirm compatibility</a> with your version of
+WordPress.</strong>
+
 == Screenshots ==
 
 1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
