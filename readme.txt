@@ -87,6 +87,11 @@ and suggestions to the <a
 href="http://wordpress.org/support/plugin/nextgen-facebook"
 target="_blank">NextGEN Facebook Support Page</a>.
 
+<strong>Afer you install the plugin, please <a
+href="http://wordpress.org/extend/plugins/nextgen-facebook/">take a moment to
+rate NextGEN Facebook and confirm compatibility</a> with your version of
+WordPress.</strong>
+
 == Installation ==
 
 *Using the WordPress Dashboard*
