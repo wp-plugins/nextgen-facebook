@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag, ogp
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.5
+Stable tag: 1.4.1
 License: GPLv2 or later
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
@@ -109,13 +109,13 @@ target="_blank">NextGEN Facebook Support Page</a>.
 Once activated, you don't have to configure any settings for NextGEN Facebook
 to automatically start adding the Open Graph meta tags to your pages.
 
-Some plugin options are available under Settings->NextGEN Facebook to select a
-default image, include Facebook buttons at the end of Posts and Pages, change
-the default thumbnail image sizes, etc.
+Some plugin options are available under Settings -&gt; NextGEN Facebook to
+select a default image, include Facebook buttons at the end of Posts and
+Pages, change the default thumbnail image sizes, etc.
 
 == Screenshots ==
 
-1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
+1. WordPress v3.4.1 and NextGEN Facebook v1.4.1 - The Settings Page
 
 == Frequently Asked Questions ==
 
