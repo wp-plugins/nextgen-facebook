@@ -5,7 +5,6 @@ Requires at least: 3.0
 Tested up to: 3.4.1
 Stable tag: 1.5
 License: GPLv2 or later
-Author URI:http://trtms.com/
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
 Also includes optional Like and Send Facebook buttons.
