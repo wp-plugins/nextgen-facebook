@@ -150,7 +150,7 @@ shared) the title and image Facebook has saved previously.
 = v.1.5 =
 * Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
 * Added the "Content Begins at a Paragraph" option to ignore all text before the first &lt;p&gt; paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
-* Added the "Use WP-WikiBox for Description". This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can enable this option to use your page or post tags and title to retrieve content from Wikipedia.
+* Added the "Use WP-WikiBox for Description". This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can use your page or post tags (and title) to retrieve content from Wikipedia.
 
 = v1.4.1 =
 * Small fixes to the article:tag and article:author after finding additional information on these meta tags.
