@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag, ogp
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.4.1
+Stable tag: 1.5
 License: GPLv2 or later
 Author URI:http://trtms.com/
 
@@ -116,7 +116,7 @@ the default thumbnail image sizes, etc.
 
 == Screenshots ==
 
-1. WordPress v3.4.1 and NextGEN Facebook v1.4.1 - The Settings Page
+1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
 
 == Frequently Asked Questions ==
 
