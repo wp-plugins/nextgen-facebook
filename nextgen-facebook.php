@@ -370,7 +370,7 @@ function ngfb_render_form() {
 				</td><td>
 					<p><strong>Advanced setting:</strong> You must have the
 					WP-WikiBox plugin installed for this option to do anything.
-					NextGEN Facebook can ignore the content of your pages when
+					NextGEN Facebook can ignore the content of your pages, when
 					creating the "description" Open Graph meta tag, and
 					retrieve it from Wikipedia instead. This only aplies to
 					pages, not posts. Here's how it works; the plugin will
