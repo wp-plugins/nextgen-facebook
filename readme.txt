@@ -115,7 +115,7 @@ Pages, change the default thumbnail image sizes, etc.
 
 == Screenshots ==
 
-1. WordPress v3.4.1 and NextGEN Facebook v1.4.1 - The Settings Page
+1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
 
 == Frequently Asked Questions ==
 
