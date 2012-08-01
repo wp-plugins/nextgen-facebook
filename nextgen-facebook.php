@@ -748,7 +748,7 @@ function ngfb_add_meta() {
 	
 			$thumb_id = get_post_thumbnail_id( $post->ID );
 	
-			// If the post thumbnail id has the form ngg- then it is a NextGEN image.
+			// if the post thumbnail id has the form ngg- then it's a NextGEN image
 			if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
 				$image_url = ngfb_get_ngg_thumb_url( $thumb_id );
 			} else {
@@ -757,16 +757,14 @@ function ngfb_add_meta() {
 			}
 		}
 	
-		// If there is no featured image or any image, search post for images and display first one.
-		if(! $image_url) {
-			$post_content = apply_filters( 'the_content', $post->post_content );
-			$out = preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post_content, $match);
-			if ( $out > 0 ) {
+		// if there's no featured image, search post for images and display first one
+		if( ! $image_url ) {
+
+			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match) > 0 ) {
 				$thumb_id = $match[1][0];					
 				$image_url = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
-			} else {
-				$out = preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post_content, $match);
-				if ( $out > 0 ) $image_url = $match[1][0];					
+			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 ) {
+				$image_url = $match[1][0];					
 			}
 		}
 	}
@@ -833,8 +831,8 @@ function ngfb_add_meta() {
 		// fallback to regular content
 		if ( ! $page_text ) {
 
-			$page_text = do_shortcode( apply_filters( 'the_content', $post->post_content ) );
-
+			$page_text = $post->post_content;
+			
 			// ignore everything until the first paragraph tag
 			if (  $options['og_desc_strip'] )
 				$page_text = preg_replace( '/^.*<p>/s', '', $page_text );
