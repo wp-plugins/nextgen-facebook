@@ -370,15 +370,15 @@ function ngfb_render_form() {
 				</td><td>
 					<p><strong>Advanced setting:</strong> You must have the
 					WP-WikiBox plugin installed for this option to do anything.
-					NextGEN Facebook can ignore the content of your post or
-					page, and retrieve it from Wikipedia instead. Here's how it
-					works; if the page or post does NOT have an excerpt, the
-					plugin will check for (page or post) tags and use the their
-					names to retrieve content from Wikipedia. If no tags are
-					defined, then the post or page title will be used. This
-					option was created for photography based websites, which
-					may not have any original content, aside from their
-					photographs.</p>
+					NextGEN Facebook can ignore the content of your pages when
+					creating the "description" Open Graph meta tag, and
+					retrieve it from Wikipedia instead. This only aplies to
+					pages, not posts. Here's how it works; the plugin will
+					check for the page's tags and use their names to retrieve
+					content from Wikipedia. If no tags are defined, then the
+					page title will be used. If Wikipedia does not return a
+					summary for your tags or title, then the content of your
+					page will be used.</p>
 				</td>
 			</tr>
 
@@ -818,8 +818,8 @@ function ngfb_add_meta() {
 
 			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
 
-		// use WP-WikiBox for content, if allowed and activated
-		} elseif ( $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
+		// use WP-WikiBox for page content, if allowed and activated
+		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
 
 			$tags = wp_get_post_tags( $post->ID );
 	
