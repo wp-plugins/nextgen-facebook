@@ -364,7 +364,7 @@ function ngfb_render_form() {
 			</tr>
 
 			<tr>
-				<th scope="row" nowrap>Use WP-WikiBox for Description</th>
+				<th scope="row" nowrap>Use WP-WikiBox for Pages</th>
 				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
 					<?php if (isset($options['og_desc_wiki'])) { checked('1', $options['og_desc_wiki']); } ?> />
 				</td><td>
