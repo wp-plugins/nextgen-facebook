@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.4.1
+Version: 1.5
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -94,6 +94,9 @@ function ngfb_add_defaults() {
 			"og_def_img_id" => "",
 			"og_def_img_url" => "",
 			"og_def_on_home" => "",
+			"og_ngg_tags" => "",
+			"og_desc_strip" => "",
+			"og_desc_wiki" => "",
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
@@ -201,6 +204,12 @@ function ngfb_render_form() {
 	default image defined bellow. If none of these conditions can be satisfied,
 	then the Open Graph image tag will be left empty.</p>
 
+	<p><strong>I don't ask for donations, but if you like the NextGEN Facebook
+	plugin, please <a
+	href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
+	moment to rate it and confirm compatibility</strong></a> with your version
+	of WordPress.</strong></p>
+
 	<div class="metabox-holder">
 		<div class="postbox">
 			<h3>Facebook Open Graph Settings</h3>
@@ -227,8 +236,8 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Website Topic</th>
-				<td>
-					<select name='ngfb_options[og_art_section]'>
+				<td valign="top">
+					<select name='ngfb_options[og_art_section]' style="width:250px;">
 						<?php
 							echo '<option value="" ', 
 								selected($options['og_art_section'], ''), 
@@ -241,6 +250,7 @@ function ngfb_render_form() {
 							}
 						?>
 					</select>
+				</td><td>
 					<p>The topic which best describes the posts and pages on
 					your website. This topic name will be used in the
 					"article:section" meta tag of all your posts and pages. You
@@ -251,8 +261,8 @@ function ngfb_render_form() {
 
 			<tr>
 				<th>Image Size Name</th>
-				<td>
-					<select name='ngfb_options[og_img_size]'>
+				<td valign="top">
+					<select name='ngfb_options[og_img_size]' style="width:250px;">
 					<?php
 						global $_wp_additional_image_sizes;
 						// Display the sizes in the array
@@ -279,7 +289,7 @@ function ngfb_render_form() {
 						}
 					?>
 					</select>
-
+				</td><td>
 					<p>The WordPress Media Library size name for the image used
 					in the Open Graph meta tag. Generally this would be
 					"thumbnail" (currently defined as <?php echo
@@ -292,7 +302,7 @@ function ngfb_render_form() {
 					href="http://wordpress.org/extend/plugins/simple-image-sizes/"
 					target="_blank">Simple Image Size</a> plugin (or others) to
 					define your own custom size names on the <a
-					href="options-media.php">Settings-&gt;Media</a> page. I
+					href="options-media.php">Settings -&gt; Media</a> page. I
 					would suggest creating a "facebook-thumbnail" size name of
 					200 x 200 (or larger) cropped, to manage the size of Open
 					Graph images independently from those of your theme.</p>
@@ -301,22 +311,22 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Default Image ID</th>
-				<td><input type="text" name="ngfb_options[og_def_img_id]" size="6"
+				<td valign="top"><input type="text" name="ngfb_options[og_def_img_id]" size="6"
 					value="<?php echo $options['og_def_img_id']; ?>" />
 					in the
-					<select name='ngfb_options[og_def_img_id_pre]'>
+					<select name='ngfb_options[og_def_img_id_pre]' style="width:150px;">
 						<option value='' <?php selected($options['og_def_img_id_pre'], ''); ?>>Media Library</option>
 						<option value='ngg' <?php selected($options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
 					</select>
-
+				</td><td>
 					<p>The ID number and location of your default image (example: 123).</p>
 				</td>
 			</tr>
 
 			<tr>
 				<th scope="row">Default Image URL</th>
-				<td><input type="text" name="ngfb_options[og_def_img_url]" size="80"
-					value="<?php echo $options['og_def_img_url']; ?>" />
+				<td colspan="2"><input type="text" name="ngfb_options[og_def_img_url]" size="80"
+					value="<?php echo $options['og_def_img_url']; ?>" style="width:100%;"/>
 
 					<p>You can specify a Default Image URL (including the
 					http:// prefix) instead of a Default Image ID. This would
@@ -327,11 +337,11 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row" nowrap>Use Default on Multi-Entry Pages</th>
-				<td><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
+				<td valign="top"><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
 					<?php if (isset($options['og_def_on_home'])) { checked('1', $options['og_def_on_home']); } ?> />
-
+				</td><td>
 					<p>Check this box if you would like to use the default
 					image on page types with more than one entry (homepage,
 					archives, categories, etc.). If you leave this un-checked,
@@ -342,22 +352,64 @@ function ngfb_render_form() {
 			</tr>
 
 			<tr>
-				<th scope="row">Max Description Length</th>
-				<td><input type="text" size="6" name="ngfb_options[og_desc_len]" 
-					value="<?php echo $options['og_desc_len']; ?>" />
+				<th scope="row" nowrap>Content Begins at a Paragraph</th>
+				<td valign="top"><input name="ngfb_options[og_desc_strip]" type="checkbox" value="1" 
+					<?php if (isset($options['og_desc_strip'])) { checked('1', $options['og_desc_strip']); } ?> />
+				</td><td>
+					<p>For a page or post <i>without</i> an excerpt, the plugin
+					will ignore all text until the first &lt;p&gt; paragraph
+					HTML tag in <i>the content</i>. If an excerpt exists, then it's
+					complete text will be used instead.</p>
+				</td>
+			</tr>
 
-					<p>The maximum length of text from your post / page excerpt
-					or content, used in the Open Graph description tag. The
-					length must be 160 characters or more (the default is
+			<tr>
+				<th scope="row" nowrap>Use WP-WikiBox for Description</th>
+				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
+					<?php if (isset($options['og_desc_wiki'])) { checked('1', $options['og_desc_wiki']); } ?> />
+				</td><td>
+					<p><strong>Advanced setting:</strong> You must have the
+					WP-WikiBox plugin installed for this option to do anything.
+					NextGEN Facebook can ignore the content of your post or
+					page, and retrieve it from Wikipedia instead. Here's how it
+					works; if the page or post does NOT have an excerpt, the
+					plugin will check for (page or post) tags and use the their
+					names to retrieve content from Wikipedia. If no tags are
+					defined, then the post or page title will be used. This
+					option was created for photography based websites, which
+					may not have any original content, aside from their
+					photographs.</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th scope="row">Max Description Length</th>
+				<td valign="top"><input type="text" size="6" name="ngfb_options[og_desc_len]" 
+					value="<?php echo $options['og_desc_len']; ?>" />
+				</td><td>
+					<p>The maximum length of text, from your post / page
+					excerpt or content, used in the Open Graph description tag.
+					The length must be 160 characters or more (the default is
 					300).</p>
 				</td>
 			</tr>
 
 			<tr>
-				<th scope="row">Facebook Admin(s)</th>
-				<td><input type="text" size="40" name="ngfb_options[og_admins]" 
-					value="<?php echo $options['og_admins']; ?>" />
+				<th scope="row" nowrap>Add NextGEN Gallery Tags</th>
+				<td valign="top"><input name="ngfb_options[og_ngg_tags]" type="checkbox" value="1" 
+					<?php if (isset($options['og_ngg_tags'])) { checked('1', $options['og_ngg_tags']); } ?> />
+				</td><td>
+					<p>If the featured or default image is from a NextGEN
+					Gallery, then add that image's tags to the Open Graph tag
+					list.</p>
+				</td>
+			</tr>
 
+			<tr>
+				<th scope="row">Facebook Admin(s)</th>
+				<td valign="top"><input type="text" size="40" name="ngfb_options[og_admins]" 
+					value="<?php echo $options['og_admins']; ?>" style="width:250px;" />
+				</td><td>
 					<p>Enter one of more Facebook account names (generally your
 					own), seperated with a comma. When you are viewing your own
 					Facebook wall, your account name is located in the URL.
@@ -368,9 +420,9 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Facebook App ID</th>
-				<td><input type="text" size="40" name="ngfb_options[og_app_id]" 
-					value="<?php echo $options['og_app_id']; ?>" />
-
+				<td valign="top"><input type="text" size="40" name="ngfb_options[og_app_id]" 
+					value="<?php echo $options['og_app_id']; ?>" style="width:250px;" />
+				</td><td>
 					<p>If you have a Facebook App ID, enter it here.</p>
 				</td>
 			</tr>
@@ -383,9 +435,9 @@ function ngfb_render_form() {
 		<table class="form-table">
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
-				<td><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
+				<td valign="top"><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
 					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> />
-
+				</td><td>
 					<p>Add Facebook "Like" (and optionally "Send") button to
 					your posts and pages. The default is not to include the
 					Facebook button.</p>
@@ -394,20 +446,20 @@ function ngfb_render_form() {
 
 			<tr valign="top">
 				<th scope="row" nowrap>Include on Homepage</th>
-				<td><input name="ngfb_options[fb_on_home]" type="checkbox" value="1"
+				<td valign="top"><input name="ngfb_options[fb_on_home]" type="checkbox" value="1"
 					<?php if (isset($options['fb_on_home'])) { checked('1', $options['fb_on_home']); } ?> /></td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row" nowrap>Add Facebook Send Button</th>
-				<td><input name="ngfb_options[fb_send]" type="checkbox" value="true"
+				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="true"
 					<?php if (isset($options['fb_send'])) { checked('true', $options['fb_send']); } ?> /></td>
 			</tr>
 			
 			<tr>
 				<th scope="row">Button Layout Style</th>
-				<td>
-					<select name='ngfb_options[fb_layout]'>
+				<td valign="top">
+					<select name='ngfb_options[fb_layout]' style="width:250px;">
 						<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
 						<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
 						<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
@@ -417,8 +469,8 @@ function ngfb_render_form() {
 			
 			<tr>
 				<th scope="row">Show Facebook Faces</th>
-				<td>
-					<select name='ngfb_options[fb_show_faces]'>
+				<td valign="top">
+					<select name='ngfb_options[fb_show_faces]' style="width:250px;">
 						<option value='true' <?php selected($options['fb_show_faces'], 'true'); ?>>Show</option>
 						<option value='false' <?php selected($options['fb_show_faces'], 'false'); ?>>Hide</option>
 					</select>
@@ -427,8 +479,8 @@ function ngfb_render_form() {
 			
 			<tr>
 				<th scope="row">Button Font</th>
-				<td>
-					<select name='ngfb_options[fb_font]'>
+				<td valign="top">
+					<select name='ngfb_options[fb_font]' style="width:250px;">
 						<option value='arial' <?php selected('arial', $options['fb_font']); ?>>Arial</option>
 						<option value='lucida grande' <?php selected('lucida grande', $options['fb_font']); ?>>Lucida Grande</option>
 						<option value='segoe ui' <?php selected('segoe ui', $options['fb_font']); ?>>Segoe UI</option>
@@ -441,8 +493,8 @@ function ngfb_render_form() {
 
 			<tr>
 				<th scope="row">Button Color Scheme</th>
-				<td>
-					<select name='ngfb_options[fb_colorscheme]'>
+				<td valign="top">
+					<select name='ngfb_options[fb_colorscheme]' style="width:250px;">
 						<option value='light' <?php selected('light', $options['fb_colorscheme']); ?>>Light</option>
 						<option value='dark' <?php selected('dark', $options['fb_colorscheme']); ?>>Dark</option>
 					</select>
@@ -451,8 +503,8 @@ function ngfb_render_form() {
 			
 			<tr>
 				<th scope="row">Facebook Action Name</th>
-				<td>
-					<select name='ngfb_options[fb_action]'>
+				<td valign="top">
+					<select name='ngfb_options[fb_action]' style="width:250px;">
 						<option value='like' <?php selected('like', $options['fb_action']); ?>>Like</option>
 						<option value='recommend' <?php selected('recommend', $options['fb_action']); ?>>Recommend</option>
 					</select>
@@ -467,9 +519,9 @@ function ngfb_render_form() {
 		<table class="form-table">
 			<tr>
 				<th scope="row" nowrap>Reset Settings on Activate</th>
-				<td><label><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
+				<td valign="top"><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
 					<?php if (isset($options['ngfb_reset'])) { checked('1', $options['ngfb_reset']); } ?> />
-
+				</td><td>
 					<p>Check this option to reset NextGEN Facebook settings to
 					their default values <u>when you deactivate, and then
 					reactivate the plugin</u>.</p>
@@ -504,6 +556,15 @@ function ngfb_validate_options($input) {
 		|| ! $input['og_desc_len'] > 160 )
 			$input['og_desc_len'] = 160;
 
+	if ( ! isset( $input['og_desc_strip'] ) ) $input['og_desc_strip'] = null;
+	$input['og_desc_strip'] = ( $input['og_desc_strip'] == 1 ? 1 : 0 );
+	
+	if ( ! isset( $input['og_desc_wiki'] ) ) $input['og_desc_wiki'] = null;
+	$input['og_desc_wiki'] = ( $input['og_desc_wiki'] == 1 ? 1 : 0 );
+	
+	if ( ! isset( $input['og_ngg_tags'] ) ) $input['og_ngg_tags'] = null;
+	$input['og_ngg_tags'] = ( $input['og_ngg_tags'] == 1 ? 1 : 0 );
+	
 	if ( ! isset( $input['og_def_on_home'] ) ) $input['og_def_on_home'] = null;
 	$input['og_def_on_home'] = ( $input['og_def_on_home'] == 1 ? 1 : 0 );
 	
@@ -574,6 +635,18 @@ function ngfb_facebook_buttons($content){
 }
 add_action('the_content', 'ngfb_facebook_buttons');
 
+function ngfb_get_ngg_thumb_tags( $thumb_id ) {
+
+    if (! method_exists( 'nggdb', 'find_image' ) ) return;
+
+	if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
+
+		$thumb_id = substr($thumb_id, 4);
+		$img_tags = wp_get_object_terms($thumb_id, 'ngg_tag', 'fields=names');
+	}
+	return $img_tags;
+}
+
 // thumb_id must be 'ngg-#'
 function ngfb_get_ngg_thumb_url( $thumb_id ) {
 
@@ -638,14 +711,45 @@ function ngfb_add_meta() {
 		$content .= $fb_buttons;
 	}
 
-	if ( is_single() || is_page() || !$options['og_def_on_home'] ) {
+	/* define the list of tags
+	-------------------------------------------------------------- */
+
+	if ( is_single() || is_page() ) {
+			
+			$tag_names = array();
+			$page_tags = wp_get_post_tags( $post->ID );
+			foreach ( $page_tags as $tag ) $tag_names[] = $tag->name;
+			
+			if ( $options['og_ngg_tags'] ) {
+				if ( function_exists('has_post_thumbnail') && 
+					has_post_thumbnail( $post->ID ) ) {
+
+					$thumb_id = get_post_thumbnail_id( $post->ID );
+
+					if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
+						$image_tags = ngfb_get_ngg_thumb_tags( $thumb_id );
+					}
+
+				} elseif ( $options['og_def_img_id'] != '' && $options['og_def_img_id_pre'] == 'ngg') {
+
+						$image_tags = ngfb_get_ngg_thumb_tags( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+				}
+				if ( is_array( $image_tags ) ) $tag_names = array_merge( $tag_names, $image_tags );
+			}
+
+	}
+
+	/* define the image_url
+	-------------------------------------------------------------- */
+
+	if ( is_single() || is_page() || ! $options['og_def_on_home'] ) {
 
 		if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
 	
 			$thumb_id = get_post_thumbnail_id( $post->ID );
 	
 			// If the post thumbnail id has the form ngg- then it is a NextGEN image.
-			if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
+			if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
 				$image_url = ngfb_get_ngg_thumb_url( $thumb_id );
 			} else {
 				$out = wp_get_attachment_image_src( $thumb_id, $options['og_img_size'] );
@@ -655,12 +759,13 @@ function ngfb_add_meta() {
 	
 		// If there is no featured image or any image, search post for images and display first one.
 		if(! $image_url) {
-			$out = preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match);
+			$post_content = apply_filters( 'the_content', $post->post_content );
+			$out = preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post_content, $match);
 			if ( $out > 0 ) {
 				$thumb_id = $match[1][0];					
 				$image_url = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
 			} else {
-				$out = preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match);
+				$out = preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post_content, $match);
 				if ( $out > 0 ) $image_url = $match[1][0];					
 			}
 		}
@@ -688,11 +793,16 @@ function ngfb_add_meta() {
 	global $page, $paged;
 	$page_title = trim( wp_title( '|', false, 'right' ), ' |');
 
-	if ( is_category() ) { 
+	if ( is_singular() ) {
+
+		$parent_id  = $post->post_parent;
+		if ($parent_id) $parent_title = get_the_title($parent_id);
+		if ($parent_title) $page_title .= ' ('.$parent_title.')';
+
+	} elseif ( is_category() ) { 
 		// wordpress does not include parents - we want the parents too
 		$page_title = ngfb_str_decode( single_cat_title( '', false ) );
-		$page_title = trim( get_category_parents( get_cat_ID( $page_title ), 
-			false, ' | ', false ), ' |');
+		$page_title = trim( get_category_parents( get_cat_ID( $page_title ), false, ' | ', false ), ' |');
 		$page_title = preg_replace('/\.\.\. \| /', '... ', $page_title);	// my own little quirk ;-)
 	}
 
@@ -704,27 +814,55 @@ function ngfb_add_meta() {
 	/* define the page_desc
 	-------------------------------------------------------------- */
 
-	if ( is_singular() && has_excerpt($post->ID) ) 
-		$page_desc = esc_attr( trim( substr( strip_tags( get_the_excerpt( $post->ID ) ), 0, 
-			$options['og_desc_len'] ) ) );
-	elseif ( is_singular() ) 
-		$page_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
-			strip_tags( strip_shortcodes( $post->post_content ) ) ), 0, 
-			$options['og_desc_len'] ) ) );
-	elseif ( is_author() ) { 
+	if ( is_singular() ) {
+	
+		if ( has_excerpt($post->ID) ) {
+
+			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
+
+		// use WP-WikiBox for content, if allowed and activated
+		} elseif ( $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
+
+			$tags = wp_get_post_tags( $post->ID );
+	
+			if ( $tags ) foreach ( $tags as $tag ) $page_text .= wikibox_summary( $tag->name, '', false ); 
+			else $page_text .= wikibox_summary( the_title( '', '', false ), '', false );
+
+		} 
+	
+		// fallback to regular content
+		if ( ! $page_text ) {
+
+			$page_text = do_shortcode( apply_filters( 'the_content', $post->post_content ) );
+
+			// ignore everything until the first paragraph tag
+			if (  $options['og_desc_strip'] )
+				$page_text = preg_replace( '/^.*<p>/s', '', $page_text );
+
+		}
+
+		$page_text = preg_replace( '/[\r\n\t ]+/', ' ', strip_tags( $page_text ) );
+		$page_text = substr( $page_text, 0, $options['og_desc_len'] );
+		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );	// remove trailing bits of words
+		$page_desc = esc_attr( trim( $page_text ) );
+
+	} elseif ( is_author() ) { 
+
 		the_post();
 		$page_desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 		$author_desc = get_the_author_meta( 'description' );
 		if ($author_desc) $page_desc .= ': '.$author_desc;	// add the author's profile description, if there is one
-	}
-	elseif ( is_tag() ) {
+
+	} elseif ( is_tag() ) {
+
 		$page_desc = sprintf( 'Tagged with %s', single_tag_title('', false) );
 		$tag_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( tag_description() ) ) ), 0, 
 			$options['og_desc_len'] - strlen($page_desc) ) ) );
 		if ($tag_desc) $page_desc .= ': '.$tag_desc;	// add the tag description, if there is one
-	}
-	elseif ( is_category() ) { 
+
+	} elseif ( is_category() ) { 
+
 		$page_desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 		$cat_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( category_description() ) ) ), 0, 
@@ -776,9 +914,8 @@ function ngfb_add_meta() {
 				get_the_author_meta( 'user_login', 
 				$post->post_author ), '/" />', "\n";
 
-			$page_tags = wp_get_post_tags( $post->ID );
-			foreach( $page_tags as $tag )
-				echo '<meta property="article:tag" content="', $tag->name, '" />', "\n";
+			foreach( $tag_names as $tag )
+				echo '<meta property="article:tag" content="', $tag, '" />', "\n";
 	}
 ?>
 <!-- NextGEN Facebook Plugin Open Graph Tags: END -->

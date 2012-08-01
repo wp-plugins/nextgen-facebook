@@ -5,6 +5,7 @@ Requires at least: 3.0
 Tested up to: 3.4.1
 Stable tag: 1.4.1
 License: GPLv2 or later
+Author URI:http://trtms.com/
 
 Adds Facebook HTML meta tags to webpage headers, including featured images.
 Also includes optional Like and Send Facebook buttons.
@@ -63,12 +64,13 @@ marked and should be easy to spot.
 
 <p><a href="http://trtms.com/">The Home Page</a>: The default image is used,
 the website name and tagline are listed in the title and description tags, and
-finally there are no article meta tags present.</p>
+there are no article meta tags present (since this is not a "single" content
+webpage).</p>
 
 <p><a
 href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
 Post Webpage</a>: A featured image from NextGEN Gallery is used, and the
-article meta tags have been added.</p>
+article Open Graph meta tags have been added.</p>
 
 <p><a href="http://trtms.com/category/posting-from/basecamp/">A Category
 Webpage</a>: The default image is used, and notice the title contains a parent
@@ -86,11 +88,6 @@ NextGEN Facebook is being actively developed and supported. Post your comments
 and suggestions to the <a
 href="http://wordpress.org/support/plugin/nextgen-facebook"
 target="_blank">NextGEN Facebook Support Page</a>.
-
-<strong>Afer you install the plugin, please <a
-href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
-moment to rate NextGEN Facebook and confirm compatibility</strong></a> with
-your version of WordPress.</strong>
 
 == Installation ==
 
@@ -117,11 +114,6 @@ Some plugin options are available under Settings->NextGEN Facebook to select a
 default image, include Facebook buttons at the end of Posts and Pages, change
 the default thumbnail image sizes, etc.
 
-<strong>Afer you install the plugin, please <a
-href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
-moment to rate NextGEN Facebook and confirm compatibility</strong></a> with
-your version of WordPress.</strong>
-
 == Screenshots ==
 
 1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
@@ -135,9 +127,11 @@ and text it finds. Facebook will then prefer to use that cached information
 until it has expired. So, before you hit the send / share button for the first
 time, make sure you've defined your featured image and (optionally) the
 excerpt text. If you change your mind, and your webpage has not been liked or
-shared yet, then try waiting a few hours before trying again. If your webpage
-has already been liked or shared on Facebook, then there's nothing you can do
-to change the image, text, or title that was used.
+shared yet, then try using <a
+href="https://developers.facebook.com/tools/debug">Facebook's Open Graph
+debugging tool</a>. If your webpage has already been liked or shared on
+Facebook, then there's nothing you can do to change the image, text, or title
+that was used.
 
 = Q. How can I see what Facebook sees? =
 
@@ -149,10 +143,15 @@ You can enter a URL, and Facebook will show you a report of it's findings.
 If there are Open Graph Warnings, read them carefully -- usually they explain
 that the information they *already have* for this webpage is in conflict with
 the Open Graph information now being presented. This might be just the
-published and modified times, or (if the webpage was liked or shared
-previously) the title and image Facebook has saved previously.
+published and modified times, or (if the webpage has already been liked or
+shared) the title and image Facebook has saved previously.
 
 == Changelog ==
+
+= v.1.5
+* Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
+* Added the "Content Begins at a Paragraph" option to ignore all text before the first &lt;p&gt; paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
+* Added the "Use WP-WikiBox for Description". This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can enable this option to use your page or post tags and title to retrieve content from Wikipedia.
 
 = v1.4.1 =
 * Small fixes to the article:tag and article:author after finding additional information on these meta tags.
