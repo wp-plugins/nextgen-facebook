@@ -831,8 +831,9 @@ function ngfb_add_meta() {
 		// fallback to regular content
 		if ( ! $page_text ) {
 
-			$page_text = $post->post_content;
-			
+			// remove shortcodes not to screw-up NGG's album tag
+			$page_text = apply_filters('the_content', strip_shortcodes( $post->post_content ) );
+		
 			// ignore everything until the first paragraph tag
 			if (  $options['og_desc_strip'] )
 				$page_text = preg_replace( '/^.*<p>/s', '', $page_text );
