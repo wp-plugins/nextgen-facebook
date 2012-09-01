@@ -1,6 +1,6 @@
 === NextGEN Facebook ===
 Contributors: jsmoriss
-Tags: nextgen, facebook, featured, open graph, ogp, meta, buttons, like, send, share, article, wp-wikibox, wikipedia, google, google plus, linkedin
+Tags: nextgen, facebook, featured, open graph, ogp, meta, buttons, like, send, share, article, wp-wikibox, wikipedia, google plus, linkedin
 Requires at least: 3.0
 Tested up to: 3.4.1
 Stable tag: 1.5.1
