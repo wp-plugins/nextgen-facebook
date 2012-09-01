@@ -2,7 +2,7 @@
 /*
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
-Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
+Description: Adds Open Graph meta tags, including featured images, to webpage headers. Also supports optional Like &amp; Send Facebook buttons.
 Version: 1.5.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/

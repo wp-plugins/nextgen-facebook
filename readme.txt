@@ -6,8 +6,8 @@ Tested up to: 3.4.1
 Stable tag: 1.5.1
 License: GPLv2 or later
 
-Adds Facebook HTML meta tags to webpage headers, including featured images.
-Also includes optional Like and Send Facebook buttons.
+Adds Open Graph meta tags, including featured images, to webpage headers. Also
+supports optional Like &amp; Send Facebook buttons.
 
 == Description ==
 
