@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Facebook HTML meta tags to webpage headers, including featured images. Also includes optional Like and Send Facebook buttons.
-Version: 1.5
+Version: 1.5.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -94,9 +94,11 @@ function ngfb_add_defaults() {
 			"og_def_img_id" => "",
 			"og_def_img_url" => "",
 			"og_def_on_home" => "",
+			"og_def_on_search" => "true",
 			"og_ngg_tags" => "",
 			"og_desc_strip" => "",
 			"og_desc_wiki" => "",
+			"og_wiki_tag" => "Wiki-",
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
@@ -248,6 +250,7 @@ function ngfb_render_form() {
 									selected( $options['og_art_section'], $s),
 										'>', $s, '</option>', "\n";
 							}
+							unset ( $s );
 						?>
 					</select>
 				</td><td>
@@ -287,6 +290,7 @@ function ngfb_render_form() {
 
 							echo "<option value='$s' ".(selected($options['og_img_size'], $s)).">$s (${width} x ${height}".($crop ? " cropped" : "").")</option>\n";
 						}
+						unset ( $s );
 					?>
 					</select>
 				</td><td>
@@ -338,7 +342,7 @@ function ngfb_render_form() {
 			</tr>
 
 			<tr>
-				<th scope="row" nowrap>Use Default on Multi-Entry Pages</th>
+				<th scope="row" nowrap>Default Image on Multi-Entry Pages</th>
 				<td valign="top"><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
 					<?php if (isset($options['og_def_on_home'])) { checked('1', $options['og_def_on_home']); } ?> />
 				</td><td>
@@ -352,7 +356,17 @@ function ngfb_render_form() {
 			</tr>
 
 			<tr>
-				<th scope="row" nowrap>Content Begins at a Paragraph</th>
+				<th scope="row" nowrap>Default Image on Search Page</th>
+				<td valign="top"><input name="ngfb_options[og_def_on_search]" type="checkbox" value="1" 
+					<?php if (isset($options['og_def_on_search'])) { checked('1', $options['og_def_on_search']); } ?> />
+				</td><td>
+					<p>Check this box if you would like to use the default
+					image on search page results as well.</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th scope="row" nowrap>Content Begins at First Paragraph</th>
 				<td valign="top"><input name="ngfb_options[og_desc_strip]" type="checkbox" value="1" 
 					<?php if (isset($options['og_desc_strip'])) { checked('1', $options['og_desc_strip']); } ?> />
 				</td><td>
@@ -363,24 +377,39 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 
+			<?php 
+				// hide WP-WikiBox option if not installed and activated
+				if ( ! function_exists( 'wikibox_summary' ) ) echo "<!-- "; 
+			?>
 			<tr>
 				<th scope="row" nowrap>Use WP-WikiBox for Pages</th>
 				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
 					<?php if (isset($options['og_desc_wiki'])) { checked('1', $options['og_desc_wiki']); } ?> />
 				</td><td>
-					<p><strong>Advanced setting:</strong> You must have the
-					WP-WikiBox plugin installed for this option to do anything.
-					NextGEN Facebook can ignore the content of your pages when
-					creating the "description" Open Graph meta tag, and
+					<p>NextGEN Facebook can ignore the content of your pages
+					when creating the "description" Open Graph meta tag, and
 					retrieve it from Wikipedia instead. This only aplies to
 					pages, not posts. Here's how it works; the plugin will
 					check for the page's tags and use their names to retrieve
 					content from Wikipedia. If no tags are defined, then the
 					page title will be used. If Wikipedia does not return a
-					summary for your tags or title, then the content of your
+					summary for the tags or title, then the content of your
 					page will be used.</p>
 				</td>
 			</tr>
+
+			<tr>
+				<th scope="row">WP-WikiBox Tag Prefix</th>
+				<td valign="top"><input type="text" size="6" name="ngfb_options[og_wiki_tag]" 
+					value="<?php echo $options['og_wiki_tag']; ?>" />
+				</td><td>
+					<p>A prefix to identify the WordPress tag names used by the
+					WP-WikiBox option. Leave this option blank to use all tags
+					associated to a post, or choose a prefix (like "Wiki-") to
+					use only tag names starting with that prefix.</p>
+				</td>
+			</tr>
+			<?php if ( ! function_exists( 'wikibox_summary' ) ) echo "--> "; ?>
 
 			<tr>
 				<th scope="row">Max Description Length</th>
@@ -568,6 +597,9 @@ function ngfb_validate_options($input) {
 	if ( ! isset( $input['og_def_on_home'] ) ) $input['og_def_on_home'] = null;
 	$input['og_def_on_home'] = ( $input['og_def_on_home'] == 1 ? 1 : 0 );
 	
+	if ( ! isset( $input['og_def_on_search'] ) ) $input['og_def_on_search'] = null;
+	$input['og_def_on_search'] = ( $input['og_def_on_search'] == 1 ? 1 : 0 );
+	
 	if ( ! isset( $input['fb_enable'] ) ) $input['fb_enable'] = null;
 	$input['fb_enable'] = ( $input['fb_enable'] == 1 ? 1 : 0 );
 	
@@ -718,7 +750,14 @@ function ngfb_add_meta() {
 			
 			$tag_names = array();
 			$page_tags = wp_get_post_tags( $post->ID );
-			foreach ( $page_tags as $tag ) $tag_names[] = $tag->name;
+			$tag_prefix = $options['og_wiki_tag'];
+
+			foreach ( $page_tags as $tag ) {
+				$tag_name = $tag->name;
+				if ( $tag_prefix ) $tag_name = preg_replace( "/^$tag_prefix/", "", $tag_name );
+				$tag_names[] = $tag_name;
+			}
+			unset ( $tag );
 			
 			if ( $options['og_ngg_tags'] ) {
 				if ( function_exists('has_post_thumbnail') && 
@@ -763,22 +802,26 @@ function ngfb_add_meta() {
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match) > 0 ) {
 				$thumb_id = $match[1][0];					
 				$image_url = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
-			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 ) {
-				$image_url = $match[1][0];					
+			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 )
+					$image_url = $match[1][0];
+		}
+	}
+
+	if ( is_search() && ! $options['og_def_on_search'] ) {
+
+	} else {
+
+		if ( ! $image_url && $options['og_def_img_id'] != '' ) {
+			if ($options['og_def_img_id_pre'] == 'ngg') {
+				$image_url = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+			} else {
+				$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
+				$image_url = $out[0];
 			}
 		}
+	
+		if ( ! $image_url ) $image_url = $options['og_def_img_url'];	// if still empty, use the default url.
 	}
-
-	if ( ! $image_url && $options['og_def_img_id'] != '') {
-		if ($options['og_def_img_id_pre'] == 'ngg') {
-			$image_url = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
-		} else {
-			$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
-			$image_url = $out[0];
-		}
-	}
-
-	if( ! $image_url ) $image_url = $options['og_def_img_url'];	// if still empty, use the default url.
 
 	/* define the site_title
 	-------------------------------------------------------------- */
@@ -798,6 +841,7 @@ function ngfb_add_meta() {
 		if ($parent_title) $page_title .= ' ('.$parent_title.')';
 
 	} elseif ( is_category() ) { 
+
 		// wordpress does not include parents - we want the parents too
 		$page_title = ngfb_str_decode( single_cat_title( '', false ) );
 		$page_title = trim( get_category_parents( get_cat_ID( $page_title ), false, ' | ', false ), ' |');
@@ -812,26 +856,39 @@ function ngfb_add_meta() {
 	/* define the page_desc
 	-------------------------------------------------------------- */
 
-	if ( is_singular() ) {
+	if ( is_search() && ! $options['og_def_on_search'] ) {
+
+	} elseif ( is_singular() ) {
 	
 		if ( has_excerpt($post->ID) ) {
 
 			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
 
-		// use WP-WikiBox for page content, if allowed and activated
+		// use WP-WikiBox for page content, if option is true
 		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
-
 			$tags = wp_get_post_tags( $post->ID );
-	
-			if ( $tags ) foreach ( $tags as $tag ) $page_text .= wikibox_summary( $tag->name, '', false ); 
-			else $page_text .= wikibox_summary( the_title( '', '', false ), '', false );
-
+			if ( $tags ) {
+				$tag_prefix = $options['og_wiki_tag'];
+				foreach ( $tags as $tag ) {
+					$tag_name = $tag->name;
+					if ( $tag_prefix )
+						if ( preg_match( "/^$tag_prefix/", $tag_name ) > 0 )
+							$tag_name = preg_replace( "/^$tag_prefix/", "", $tag_name );
+						else continue;
+					$page_text .= wikibox_summary( $tag_name, '', false ); 
+				}
+				unset ( $tag );
+				unset ( $tag_name );
+				unset ( $tag_prefix );
+			} else {
+				$page_text .= wikibox_summary( the_title( '', '', false ), '', false );
+			}
 		} 
 	
 		// fallback to regular content
 		if ( ! $page_text ) {
 
-			// remove shortcodes not to screw-up NGG's album tag
+			// remove shortcodes not to screw-up NGG's album tag parsing
 			$page_text = apply_filters('the_content', strip_shortcodes( $post->post_content ) );
 		
 			// ignore everything until the first paragraph tag
@@ -892,10 +949,14 @@ function ngfb_add_meta() {
 <meta property="og:site_name" content="<?php echo $site_title; ?>" />
 <meta property="og:title" content="<?php echo $page_title; ?>" />
 <meta property="og:type" content="<?php echo $page_type ?>" />
-<meta property="og:image" content="<?php echo $image_url; ?>" />
-<meta property="og:description" content="<?php echo $page_desc; ?>" />
 <meta property="og:url" content="http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>" />
 <?php
+	if ( $page_desc )
+		echo '<meta property="og:description" content="', $page_desc, '" />', "\n";
+
+	if ( $image_url )
+		echo '<meta property="og:image" content="', $image_url, '" />', "\n";
+
 	if ($page_type == "article") {
 
 			echo '<meta property="article:published_time" content="', 
@@ -913,8 +974,9 @@ function ngfb_add_meta() {
 				get_the_author_meta( 'user_login', 
 				$post->post_author ), '/" />', "\n";
 
-			foreach( $tag_names as $tag )
+			foreach ( $tag_names as $tag )
 				echo '<meta property="article:tag" content="', $tag, '" />', "\n";
+			unset ( $tag );
 	}
 ?>
 <!-- NextGEN Facebook Plugin Open Graph Tags: END -->

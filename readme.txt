@@ -55,34 +55,6 @@ Here's an example of the Open Graph meta tags for a post:
 &lt;!-- NextGEN Facebook Plugin Open Graph Tags: END --&gt;
 </code>
 
-You can view real-life examples by visiting the following URLs on my website
-and right-clicking "View Page Source". The Open Graph meta tags are clearly
-marked and should be easy to spot.
-
-<ul>
-
-<p><a href="http://trtms.com/">The Home Page</a>: The default image is used,
-the website name and tagline are listed in the title and description tags, and
-there are no article meta tags present (since this is not a "single" content
-webpage).</p>
-
-<p><a
-href="http://trtms.com/2012/07/14/odds-and-ends-getting-the-truck-ready/">A
-Post Webpage</a>: A featured image from NextGEN Gallery is used, and the
-article Open Graph meta tags have been added.</p>
-
-<p><a href="http://trtms.com/category/posting-from/basecamp/">A Category
-Webpage</a>: The default image is used, and notice the title contains a parent
-category name as well. The child and it's parents (if any) are listed,
-delimited by pipe "|" characters, in the title meta tag. Note that if the
-parent category name ends with three dots "..." (like this one does), the pipe
-character will not be added. The description meta tag also includes the
-wordpress category description.</p>
-
-</ul>
-
-That should give you a pretty good idea of what this plugin is capable of. :)
-
 NextGEN Facebook is being actively developed and supported. Post your comments
 and suggestions to the <a
 href="http://wordpress.org/support/plugin/nextgen-facebook"
@@ -146,6 +118,11 @@ published and modified times, or (if the webpage has already been liked or
 shared) the title and image Facebook has saved previously.
 
 == Changelog ==
+
+= v.1.5.1 =
+* Added the "Default Image on Search Page" option.
+* Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used by the WP-WikiBox option.
+* The two WP-WikiBox options ("Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix") will not appear on the settings page unless the WP-WikiBox plugin is installed and activated.
 
 = v.1.5 =
 * Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
