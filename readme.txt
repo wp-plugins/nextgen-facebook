@@ -74,35 +74,19 @@ Pages, change the default thumbnail image sizes, etc.
 
 = Q. Why doesn't Facebook's send / share show my featured image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image
-and text it finds. Facebook will then prefer to use that cached information
-until it has expired. So, before you hit the send / share button for the first
-time, make sure you've defined your featured image and (optionally) the
-excerpt text. If you change your mind, and your webpage has not been liked or
-shared yet, then try using <a
-href="https://developers.facebook.com/tools/debug">Facebook's Open Graph
-debugging tool</a>. If your webpage has already been liked or shared on
-Facebook, then there's nothing you can do to change the image, text, or title
-that was used.
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook will then prefer to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've defined your featured image and (optionally) the excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using <a href="https://developers.facebook.com/tools/debug">Facebook's Open Graph debugging tool</a>. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an Open Graph debugging tool at
-<a
-href="https://developers.facebook.com/tools/debug">https://developers.facebook.com/tools/debug</a>.
-You can enter a URL, and Facebook will show you a report of it's findings.
+**A.** Facebook has an Open Graph debugging tool at <a href="https://developers.facebook.com/tools/debug">https://developers.facebook.com/tools/debug</a>. You can enter a URL, and Facebook will show you a report of it's findings.
 
-If there are Open Graph Warnings, read them carefully -- usually they explain
-that the information they *already have* for this webpage is in conflict with
-the Open Graph information now being presented. This might be just the
-published and modified times, or (if the webpage has already been liked or
-shared) the title and image Facebook has saved previously.
+If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 == Changelog ==
 
 = v.1.5.1 =
 * Added the "Default Image on Search Page" option.
-* Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used by the WP-WikiBox option.
+* Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used to retrieve Wikipedia content.
 * The two WP-WikiBox options ("Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix") will not appear on the settings page unless the WP-WikiBox plugin is installed and activated.
 
 = v.1.5 =

@@ -405,10 +405,11 @@ function ngfb_render_form() {
 				<td valign="top"><input type="text" size="6" name="ngfb_options[og_wiki_tag]" 
 					value="<?php echo $options['og_wiki_tag']; ?>" />
 				</td><td>
-					<p>A prefix to identify the WordPress tag names used by the
-					WP-WikiBox option. Leave this option blank to use all tags
-					associated to a post, or choose a prefix (like "Wiki-") to
-					use only tag names starting with that prefix.</p>
+					<p>A prefix to identify the WordPress tag names used to
+					retrieve Wikipedia content. Leave this option blank to use
+					all tags associated to a post, or choose a prefix (like
+					"Wiki-") to use only tag names starting with that
+					prefix.</p>
 				</td>
 			</tr>
 			<?php if ( ! function_exists( 'wikibox_summary' ) ) echo "--> "; ?>
