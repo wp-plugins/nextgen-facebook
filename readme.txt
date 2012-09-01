@@ -1,6 +1,6 @@
 === NextGEN Facebook ===
 Contributors: jsmoriss
-Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag, ogp
+Tags: nextgen, facebook, featured, open graph, meta, buttons, like, send, share, article, fb:admins, fb:app_id, og:site_name, og:title, og:type, og:image, og:description, og:url, article:published_time, article:modified_time, article:section, article:author, article:tag, ogp, wp-wikibox, wikipedia
 Requires at least: 3.0
 Tested up to: 3.4.1
 Stable tag: 1.5
