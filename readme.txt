@@ -11,12 +11,6 @@ Also includes optional Like and Send Facebook buttons.
 
 == Description ==
 
-The <a href="http://ogp.me/">Open Graph</a> protocol enables any web page to
-become a rich object in a social graph. For instance, this is used on Facebook
-to allow any web page to have the same functionality as any other object on
-Facebook. The Open Graph meta tags are read by almost all social websites,
-including Facebook, Google (Search and Google+), and LinkedIn.
-
 The NextGEN Facebook plugin adds Open Graph meta tags to all webpage headers,
 including the "artical" object type for posts and pages. The featured image
 thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed
@@ -26,16 +20,20 @@ and description meta tags for category, tag, date based archive (day, month,
 or year), and author webpages. You can also, optionally, add Facebook like and
 send buttons to your posts and pages.
 
+The <a href="http://ogp.me/">Open Graph</a> protocol enables any web page to
+become a rich object in a social graph. For instance, this is used on Facebook
+to allow any web page to have the same functionality as any other object on
+Facebook. The Open Graph meta tags are read by almost all social websites,
+including Facebook, Google (Search and Google+), and LinkedIn.
+
 NextGEN Facebook was specifically written to support featured images located
 in a NextGEN Gallery, but works just as well with the WordPress Media Library.
 <strong>The NextGEN Gallery plugin is not required to use this plugin</strong>
-- all features work just as well without it.
-
-The image used in the Open Graph meta tag is chosen in this sequence; a
-featured image from a NextGEN Gallery or WordPress Media Library, the first
-NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in
-the plugin settings. If none of these conditions can be satisfied, then the
-Open Graph image tag will be left empty.
+- all features work just as well without it. The image used in the Open Graph
+  meta tag is chosen in this sequence; a featured image from a NextGEN Gallery
+or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in
+the content, a default image defined in the plugin settings. If none of these
+conditions can be satisfied, then the Open Graph image tag will be left empty.
 
 Here's an example of Open Graph meta tags for a post:
 
