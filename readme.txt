@@ -124,16 +124,7 @@ shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags, along with other "structured
-data markup" on your webpage. You can see what Google picks up from your
-webpages by using it's <a
-href="http://www.google.com/webmasters/tools/richsnippets"
-target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your
-WordPress authors with their Google+ profiles by using one of the available
-WordPress plugins, like <a
-href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/"
-target="_blank">Google Plus Author Information in Search Result (GPAISR)</a>
-and others.
+**A.** Google reads the Open Graph meta tags, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
 
 == Changelog ==
 
