@@ -6,7 +6,7 @@ Tested up to: 3.4.1
 Stable tag: 1.5.1
 License: GPLv2 or later
 
-Add Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
+Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
 
 == Description ==
 

@@ -2,7 +2,7 @@
 /*
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
-Description: Add Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
+Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
 Version: 1.5.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
