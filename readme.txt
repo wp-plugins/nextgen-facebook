@@ -124,7 +124,23 @@ shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
+**A.** Google reads the Open Graph meta tags, along with other "structured
+data markup" on your webpage. You can see what Google picks up from your
+webpages by using it's <a
+href="http://www.google.com/webmasters/tools/richsnippets"
+target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your
+WordPress authors with their Google+ profiles by using one of the available
+plugins, like <a
+href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/"
+target="_blank">Google Plus Author Information in Search Result (GPAISR)</a>
+or others like it.
+
+= Q. Does LinkedIn use Open Graph tags?
+
+**A.** According to LinkedIn's <a
+href="https://developer.linkedin.com/documents/setting-display-tags-shares"
+target="_blank">Setting Display Tags for Shares</a> information page, they use
+three of the Open Graph tags (title, description, and url).
 
 == Changelog ==
 
@@ -132,6 +148,7 @@ shared) the title and image Facebook has saved previously.
 * Added the "Default Image on Search Page" option.
 * Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used to retrieve Wikipedia content.
 * The two WP-WikiBox options ("Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix") will not appear on the settings page unless the WP-WikiBox plugin is installed and activated.
+* Updated the readme's Description and FAQ sections with more information on Open Graph and it's use by Google and LinkedIn.
 
 = v.1.5 =
 * Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
