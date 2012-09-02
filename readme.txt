@@ -6,15 +6,15 @@ Tested up to: 3.4.1
 Stable tag: 1.5.1
 License: GPLv2 or later
 
-Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
+Add Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
 
 == Description ==
 
-The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), and author webpages. You can also, optionally, add Facebook like and send buttons to your posts and pages.
+The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook like and send buttons to your posts and pages.
 
 The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
 
-NextGEN Facebook was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin</strong> - all features work just as well without it. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings.  If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
+NextGEN Facebook was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin</strong> - all features work just as well without it. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
 Here's an example of Open Graph meta tags for a post:
 

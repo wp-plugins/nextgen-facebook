@@ -2,7 +2,7 @@
 /*
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
-Description: Adds Open Graph meta tags, including featured images, to webpage headers. Also supports optional Like &amp; Send Facebook buttons.
+Description: Add Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
 Version: 1.5.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
@@ -16,7 +16,7 @@ thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed
 in the "image" meta tag. This plugin goes well beyond any other plugins I know
 in handling various archive-type webpages. It will create appropriate title
 and description meta tags for category, tag, date based archive (day, month,
-or year), and author webpages. You can also, optionally, add Facebook like and
+or year), author webpages and search results. You can also, optionally, add Facebook like and
 send buttons to your posts and pages.
 
 The Open Graph protocol enables any web page to become a rich object in a
