@@ -95,7 +95,7 @@ Pages, change the default thumbnail image sizes, etc.
 
 == Frequently Asked Questions ==
 
-= Q. Why doesn't Facebook's send / share show my featured image? =
+= Q. Why doesn't Facebook show my featured image? =
 
 **A.** The first time Facebook accesses your webpage, it will cache the image
 and text it finds. Facebook then prefers to use that cached information until
@@ -126,9 +126,9 @@ shared) the title and image Facebook has saved previously.
 
 **A.** Google reads the Open Graph meta tags, along with other "structured
 data markup" on your webpage. You can see what Google picks up from your
-webpage by using Google's <a
+webpages by using it's <a
 href="http://www.google.com/webmasters/tools/richsnippets"
-target="_blank">Rich Snippets Testing Tool</a>. You may want to link your
+target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your
 WordPress authors with their Google+ profiles by using one of the available
 WordPress plugins, like <a
 href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/"
