@@ -38,7 +38,7 @@ Here's an example of Open Graph meta tags for a post:
 &lt;!-- NextGEN Facebook Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>.
+NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>. See the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook FAQ Page</a> for additional notes on using the plugin.
 
 == Installation ==
 
