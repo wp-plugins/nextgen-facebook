@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
-Version: 1.5.1
+Version: 1.5.2
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -104,6 +104,10 @@ function ngfb_add_defaults() {
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
+			"gp_enable" => "",
+			"gp_on_home" => "",
+			"gp_size" => "small",
+			"gp_annotation" => "bubble",
 			"fb_enable" => "",
 			"fb_on_home" => "",
 			"fb_send" => "true",
@@ -195,24 +199,11 @@ function ngfb_render_form() {
 	<div class="icon32" id="icon-options-general"><br></div>
 	<h2>NextGEN Facebook Plugin</h2>
 
-	<p>Once enabled, the NextGEN Facebook plugin will add Facebook Open Graph
-	meta tags to your webpages. If your Post or Page has a featured image
-	defined, it will be included in the meta tags for Facebook's share and
-	like features. All options bellow are optional. You can enable share /
-	like buttons, add a default image when there's no featured image defined,
-	etc.</p>
+	<p>Once enabled, the NextGEN Facebook plugin will add Open Graph meta tags to your webpages. If your Post or Page has a featured image defined, it will be included in the meta tags for Facebook's share and like features. All options bellow are optional. You can enable share / like buttons, add a default image when there's no featured image defined, etc.</p>
 
-	<p>The image used in the Open Graph meta tag will be determined in this
-	sequence; a featured image from a NextGEN Gallery or WordPress Media
-	Library, the first NextGEN [singlepic] or IMG HTML tag in the content, the
-	default image defined bellow. If none of these conditions can be satisfied,
-	then the Open Graph image tag will be left empty.</p>
+	<p>The image used in the Open Graph meta tag will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, the default image defined bellow. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.</p>
 
-	<p><strong>I don't ask for donations, but if you like the NextGEN Facebook
-	plugin, please <a
-	href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>take a
-	moment to rate it and confirm compatibility</strong></a> with your version
-	of WordPress.</strong></p>
+	<p><strong>If you like NextGEN Facebook, <a href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please take a moment to rate it</strong></a> on the WordPress plugin page.</strong></p>
 
 	<div class="metabox-holder">
 		<div class="postbox">
@@ -461,6 +452,7 @@ function ngfb_render_form() {
 		</table>
 			</div>
 		</div>
+
 		<div class="postbox">
 			<h3>Facebook Button Settings</h3>
 			<div class="inside">	
@@ -469,10 +461,6 @@ function ngfb_render_form() {
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
 				<td valign="top"><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
 					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> />
-				</td><td>
-					<p>Add Facebook "Like" (and optionally "Send") button to
-					your posts and pages. The default is not to include the
-					Facebook button.</p>
 				</td>
 			</tr>
 
@@ -545,6 +533,51 @@ function ngfb_render_form() {
 		</table>
 			</div>
 		</div>
+
+		<div class="postbox">
+			<h3>Google+ Button Settings</h3>
+			<div class="inside">	
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row" nowrap>Enable Google+ Button</th>
+				<td valign="top"><input name="ngfb_options[gp_enable]" type="checkbox" value="1" 
+					<?php if (isset($options['gp_enable'])) { checked('1', $options['gp_enable']); } ?> />
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row" nowrap>Include on Homepage</th>
+				<td valign="top"><input name="ngfb_options[gp_on_home]" type="checkbox" value="1"
+					<?php if (isset($options['gp_on_home'])) { checked('1', $options['gp_on_home']); } ?> /></td>
+			</tr>
+
+			<tr>
+				<th scope="row">Button Size</th>
+				<td valign="top">
+					<select name='ngfb_options[gp_size]' style="width:250px;">
+						<option value='small' <?php selected($options['gp_size'], 'small'); ?>>Small (15px)</option>
+						<option value='medium' <?php selected($options['gp_size'], 'medium'); ?>>Medium (20px)</option>
+						<option value='standard' <?php selected($options['gp_size'], 'standard'); ?>>Standard (24px)</option>
+						<option value='tall' <?php selected($options['gp_size'], 'tall'); ?>>Tall (60px)</option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<th scope="row">Annotation</th>
+				<td valign="top">
+					<select name='ngfb_options[gp_annotation]' style="width:250px;">
+						<option value='inline' <?php selected($options['gp_annotation'], 'inline'); ?>>Inline</option>
+						<option value='bubble' <?php selected($options['gp_annotation'], 'bubble'); ?>>Bubble</option>
+						<option value='none' <?php selected($options['gp_annotation'], 'none'); ?>>None</option>
+					</select>
+				</td>
+			</tr>
+			
+		</table>
+			</div>
+		</div>
+
 		<div class="postbox">
 			<h3>Plugin Settings</h3>
 			<div class="inside">	
@@ -612,6 +645,18 @@ function ngfb_validate_options($input) {
 	if ( ! isset( $input['fb_send'] ) ) $input['fb_send'] = null;
 	$input['fb_send'] = ( $input['fb_send'] == "true" ? "true" : "false" );
 
+	if ( ! isset( $input['gp_enable'] ) ) $input['gp_enable'] = null;
+	$input['gp_enable'] = ( $input['gp_enable'] == 1 ? 1 : 0 );
+	
+	if ( ! isset( $input['gp_on_home'] ) ) $input['gp_on_home'] = null;
+	$input['gp_on_home'] = ( $input['gp_on_home'] == 1 ? 1 : 0 );
+	
+	$input['gp_size'] = wp_filter_nohtml_kses($input['gp_size']);
+	if (! $input['gp_size']) $input['gp_size'] = "medium";
+
+	$input['gp_annotate'] = wp_filter_nohtml_kses($input['gp_annotate']);
+	if (! $input['gp_annotate']) $input['gp_annotate'] = "bubble";
+
 	if ( ! isset( $input['ngfb_reset'] ) ) $input['ngfb_reset'] = null;
 	$input['ngfb_reset'] = ( $input['ngfb_reset'] == 1 ? 1 : 0 );
 	
@@ -630,7 +675,7 @@ function ngfb_plugin_action_links( $links, $file ) {
 	return $links;
 }
 
-function ngfb_facebook_buttons($content){
+function ngfb_fb_button( $content ) {
 
 	$options = get_option('ngfb_options');
 
@@ -653,22 +698,52 @@ function ngfb_facebook_buttons($content){
 	
 	$fb_font = $options['fb_font'];
 	if($fb_font == '') { $fb_font = 'arial'; }
-	
-	$fb_buttons = '<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>';
-	$fb_buttons .= '<fb:like href="'.get_permalink($post->ID).'"
+
+	$fb_button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
+	$fb_button .= '<div class="fb-root"><fb:like href="'.get_permalink($post->ID).'"
 		send="'.$fb_send.'" layout="'.$fb_layout.'" width="400"
 		show_faces="'.$fb_show_faces.'" font="'.$fb_font.'" action="'.$fb_action.'"
-		colorscheme="'.$fb_colorscheme.'"></fb:like>';
+		colorscheme="'.$fb_colorscheme.'"></fb:like></div>'."\n";
+	$fb_button .= '<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>'."\n";
 
 	if( !is_feed() && !is_home() ) {
-		$content .= $fb_buttons;
+		$content .= $fb_button;
 	} elseif ( $options['fb_on_home'] ) { 
-		$content .= $fb_buttons;
+		$content .= $fb_button;
 	}
 
 	return $content;
 }
-add_action('the_content', 'ngfb_facebook_buttons');
+add_action('the_content', 'ngfb_fb_button');
+
+function ngfb_gp_button( $content ) {
+
+	$options = get_option('ngfb_options');
+
+	if (! $options['gp_enable']) return $content;
+
+	$gp_size = $options['gp_size'];
+	if($gp_size == '') { $gp_size = 'small'; }
+	
+	$gp_annotation = $options['gp_annotation'];
+	if($gp_annotation == '') { $gp_annotation = 'bubble'; }
+	
+	$gp_button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
+	$gp_button .= '<div class="g-plusone" id="g-plusone" data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></div>'."\n";
+	$gp_button .= '<script type="text/javascript">(function() {
+		var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+		po.src = "https://apis.google.com/js/plusone.js";
+		var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })();</script>'."\n";
+
+	if( !is_feed() && !is_home() ) {
+		$content .= $gp_button;
+	} elseif ( $options['gp_on_home'] ) { 
+		$content .= $gp_button;
+	}
+
+	return $content;
+}
+add_action('the_content', 'ngfb_gp_button');
 
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 
@@ -739,12 +814,6 @@ function ngfb_add_meta() {
 	global $post;
 	
 	$options = get_option('ngfb_options');
-
-	if( !is_feed() && !is_home() ) {
-		$content .= $fb_buttons;
-	} else if ( isset($options['fb_on_home']) && ( $options['fb_on_home'] != "" ) ) { 
-		$content .= $fb_buttons;
-	}
 
 	/* define the list of tags
 	-------------------------------------------------------------- */

@@ -38,7 +38,7 @@ Here's an example of Open Graph meta tags for a post:
 &lt;!-- NextGEN Facebook Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>. See the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook FAQ Page</a> for additional notes on using the plugin.
+NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>, and don't forget to review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook FAQ Page</a> for additional notes on using the plugin.
 
 == Installation ==
 
@@ -86,7 +86,24 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
+= Q. How can I control the Facebook and Google button layout?
+
+**A.** The Facebook button(s) use the 'fb-root' class name, and the Google+ button uses the 'g-plusone' class name. Here's an example CSS that I use on <a href="http://trtms.com/">trtms.com</a>:
+
+<code>
+.fb-root, .g-plusone {
+    display:inline-block;
+    text-align:left;
+    vertical-align:bottom;
+    line-height:20px;
+    margin-right:10px;
+}
+</code>
+
 == Changelog ==
+
+= v.1.5.2 =
+* Added the Google+ button options.
 
 = v.1.5.1 =
 * Added the "Default Image on Search Page" option.
