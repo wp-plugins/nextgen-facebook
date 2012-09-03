@@ -941,7 +941,7 @@ function ngfb_add_meta() {
 
 ?>
 
-<!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN -->
+<!-- NextGEN Facebook Meta Tags BEGIN -->
 <?php
 	if ( $options['og_admins'] )
 		echo '<meta property="fb:admins" content="', $options['og_admins'], '" />', "\n";
@@ -982,7 +982,7 @@ function ngfb_add_meta() {
 			unset ( $tag );
 	}
 ?>
-<!-- NextGEN Facebook Plugin Open Graph Tags: END -->
+<!-- NextGEN Facebook Meta Tags END -->
 
 <?php
 }
