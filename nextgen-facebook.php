@@ -104,10 +104,6 @@ function ngfb_add_defaults() {
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
-			"gp_enable" => "",
-			"gp_on_home" => "",
-			"gp_size" => "small",
-			"gp_annotation" => "bubble",
 			"fb_enable" => "",
 			"fb_on_home" => "",
 			"fb_send" => "true",
@@ -116,6 +112,15 @@ function ngfb_add_defaults() {
 			"fb_font" => "arial",
 			"fb_show_faces" => "false",
 			"fb_action" => "like",
+			"gp_enable" => "",
+			"gp_on_home" => "",
+			"gp_size" => "small",
+			"gp_annotation" => "bubble",
+			"twitter_enable" => "",
+			"twitter_on_home" => "",
+			"twitter_count" => "horizontal",
+			"twitter_size" => "medium",
+			"twitter_dnt" => "true",
 		);
 		update_option('ngfb_options', $arr);
 	}
@@ -463,19 +468,16 @@ function ngfb_render_form() {
 					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> />
 				</td>
 			</tr>
-
 			<tr valign="top">
 				<th scope="row" nowrap>Include on Homepage</th>
 				<td valign="top"><input name="ngfb_options[fb_on_home]" type="checkbox" value="1"
 					<?php if (isset($options['fb_on_home'])) { checked('1', $options['fb_on_home']); } ?> /></td>
 			</tr>
-
 			<tr valign="top">
 				<th scope="row" nowrap>Add Send Button</th>
 				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="true"
 					<?php if (isset($options['fb_send'])) { checked('true', $options['fb_send']); } ?> /></td>
 			</tr>
-			
 			<tr>
 				<th scope="row">Button Layout Style</th>
 				<td valign="top">
@@ -486,7 +488,6 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-			
 			<tr>
 				<th scope="row">Show Facebook Faces</th>
 				<td valign="top">
@@ -496,7 +497,6 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-			
 			<tr>
 				<th scope="row">Button Font</th>
 				<td valign="top">
@@ -510,7 +510,6 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-
 			<tr>
 				<th scope="row">Button Color Scheme</th>
 				<td valign="top">
@@ -520,7 +519,6 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-			
 			<tr>
 				<th scope="row">Facebook Action Name</th>
 				<td valign="top">
@@ -544,13 +542,11 @@ function ngfb_render_form() {
 					<?php if (isset($options['gp_enable'])) { checked('1', $options['gp_enable']); } ?> />
 				</td>
 			</tr>
-
 			<tr valign="top">
 				<th scope="row" nowrap>Include on Homepage</th>
 				<td valign="top"><input name="ngfb_options[gp_on_home]" type="checkbox" value="1"
 					<?php if (isset($options['gp_on_home'])) { checked('1', $options['gp_on_home']); } ?> /></td>
 			</tr>
-
 			<tr>
 				<th scope="row">Button Size</th>
 				<td valign="top">
@@ -562,7 +558,6 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-			
 			<tr>
 				<th scope="row">Annotation</th>
 				<td valign="top">
@@ -573,7 +568,55 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-			
+		</table>
+			</div>
+		</div>
+
+		<div class="postbox">
+			<h3>Twitter Button Settings</h3>
+			<div class="inside">	
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row" nowrap>Enable Twitter Button</th>
+				<td valign="top"><input name="ngfb_options[twitter_enable]" type="checkbox" value="1" 
+					<?php if (isset($options['twitter_enable'])) { checked('1', $options['twitter_enable']); } ?> />
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row" nowrap>Include on Homepage</th>
+				<td valign="top"><input name="ngfb_options[twitter_on_home]" type="checkbox" value="1"
+					<?php if (isset($options['twitter_on_home'])) { checked('1', $options['twitter_on_home']); } ?> /></td>
+			</tr>
+			<tr>
+				<th scope="row">Count Box Position</th>
+				<td valign="top">
+					<select name='ngfb_options[twitter_count]' style="width:250px;">
+						<option value='horizontal' <?php selected($options['twitter_count'], 'horizontal'); ?>>Horizontal</option>
+						<option value='vertical' <?php selected($options['twitter_count'], 'vertical'); ?>>Vertical</option>
+						<option value='none' <?php selected($options['twitter_count'], 'none'); ?>>None</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Button Size</th>
+				<td valign="top">
+					<select name='ngfb_options[twitter_size]' style="width:250px;">
+						<option value='medium' <?php selected($options['twitter_size'], 'medium'); ?>>Medium</option>
+						<option value='large' <?php selected($options['twitter_size'], 'large'); ?>>Large</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Do Not Track</th>
+				<td valign="top">
+					<select name='ngfb_options[twitter_dnt]' style="width:250px;">
+						<option value='true' <?php selected($options['twitter_dnt'], 'true'); ?>>True</option>
+						<option value='false' <?php selected($options['twitter_dnt'], 'false'); ?>>False</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+			</div>
 		</table>
 			</div>
 		</div>
@@ -657,6 +700,21 @@ function ngfb_validate_options($input) {
 	$input['gp_annotate'] = wp_filter_nohtml_kses($input['gp_annotate']);
 	if (! $input['gp_annotate']) $input['gp_annotate'] = "bubble";
 
+	if ( ! isset( $input['twitter_enable'] ) ) $input['twitter_enable'] = null;
+	$input['twitter_enable'] = ( $input['twitter_enable'] == 1 ? 1 : 0 );
+	
+	if ( ! isset( $input['twitter_on_home'] ) ) $input['twitter_on_home'] = null;
+	$input['twitter_on_home'] = ( $input['twitter_on_home'] == 1 ? 1 : 0 );
+	
+	$input['twitter_count'] = wp_filter_nohtml_kses($input['twitter_count']);
+	if (! $input['twitter_count']) $input['twitter_count'] = "horizontal";
+
+	$input['twitter_size'] = wp_filter_nohtml_kses($input['twitter_size']);
+	if (! $input['twitter_size']) $input['twitter_size'] = "medium";
+
+	$input['twitter_dnt'] = wp_filter_nohtml_kses($input['twitter_dnt']);
+	if (! $input['twitter_dnt']) $input['twitter_dnt'] = "true";
+
 	if ( ! isset( $input['ngfb_reset'] ) ) $input['ngfb_reset'] = null;
 	$input['ngfb_reset'] = ( $input['ngfb_reset'] == 1 ? 1 : 0 );
 	
@@ -675,11 +733,21 @@ function ngfb_plugin_action_links( $links, $file ) {
 	return $links;
 }
 
-function ngfb_fb_button( $content ) {
+function ngfb_add_buttons( $content ) {
 
 	$options = get_option('ngfb_options');
 
-	if (! $options['fb_enable']) return $content;
+	if ($options['fb_enable']) $buttons .= ngfb_fb_button( );
+	if ($options['gp_enable']) $buttons .= ngfb_gp_button( );
+	if ($options['twitter_enable']) $buttons .= ngfb_twitter_button( );
+
+	return $content.'<div class="ngfb-buttons">'.$buttons.'</div>';
+}
+add_action('the_content', 'ngfb_add_buttons');
+
+function ngfb_fb_button( $content ) {
+
+	$options = get_option('ngfb_options');
 
 	$fb_send = $options['fb_send'];
 	if($fb_send == '') { $fb_send = 'true'; }
@@ -699,28 +767,25 @@ function ngfb_fb_button( $content ) {
 	$fb_font = $options['fb_font'];
 	if($fb_font == '') { $fb_font = 'arial'; }
 
-	$fb_button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
-	$fb_button .= '<div class="fb-root"><fb:like href="'.get_permalink($post->ID).'"
+	$button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
+
+	$button .= '<div class="facebook-button"><span class="fb-root"><fb:like 
+		href="'.get_permalink($post->ID).'"
 		send="'.$fb_send.'" layout="'.$fb_layout.'" width="400"
 		show_faces="'.$fb_show_faces.'" font="'.$fb_font.'" action="'.$fb_action.'"
-		colorscheme="'.$fb_colorscheme.'"></fb:like></div>'."\n";
-	$fb_button .= '<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>'."\n";
+		colorscheme="'.$fb_colorscheme.'"></fb:like></span></div>'."\n";
 
-	if( !is_feed() && !is_home() ) {
-		$content .= $fb_button;
-	} elseif ( $options['fb_on_home'] ) { 
-		$content .= $fb_button;
-	}
+	$button .= '<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>'."\n";
+
+	if ( !is_feed() && !is_home() ) $content .= $button;
+	elseif ( $options['fb_on_home'] ) $content .= $button;
 
 	return $content;
 }
-add_action('the_content', 'ngfb_fb_button');
 
 function ngfb_gp_button( $content ) {
 
 	$options = get_option('ngfb_options');
-
-	if (! $options['gp_enable']) return $content;
 
 	$gp_size = $options['gp_size'];
 	if($gp_size == '') { $gp_size = 'small'; }
@@ -728,22 +793,49 @@ function ngfb_gp_button( $content ) {
 	$gp_annotation = $options['gp_annotation'];
 	if($gp_annotation == '') { $gp_annotation = 'bubble'; }
 	
-	$gp_button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
-	$gp_button .= '<div class="g-plusone" id="g-plusone" data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></div>'."\n";
-	$gp_button .= '<script type="text/javascript">(function() {
+	$button = "\n<!-- Google+ Button Added by NextGEN Facebook Plugin -->\n";
+
+	$button .= '<div class="g-plusone-button"><span class="g-plusone" 
+		data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></span></div>'."\n";
+
+	$button .= '<script type="text/javascript">(function() {
 		var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
 		po.src = "https://apis.google.com/js/plusone.js";
 		var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })();</script>'."\n";
 
-	if( !is_feed() && !is_home() ) {
-		$content .= $gp_button;
-	} elseif ( $options['gp_on_home'] ) { 
-		$content .= $gp_button;
-	}
+	if ( !is_feed() && !is_home() ) $content .= $button;
+	elseif ( $options['fb_on_home'] ) $content .= $button;
+	return $content;
+}
+
+function ngfb_twitter_button( $content ) {
+
+	$options = get_option('ngfb_options');
+
+	$twitter_count = $options['twitter_count'];
+	if($twitter_count == '') { $twitter_count = 'horizontal'; }
+	
+	$twitter_size = $options['twitter_size'];
+	if($twitter_size == '') { $twitter_size = 'medium'; }
+	
+	$twitter_dnt = $options['twitter_dnt'];
+	if($twitter_dnt == '') { $twitter_dnt = 'true'; }
+	
+	$button = "\n<!-- Twitter Button Added by NextGEN Facebook Plugin -->\n";
+
+	$button .= '<a href="https://twitter.com/share" class="twitter-share-button" 
+		data-url="'.get_permalink($post->ID).'" 
+		data-count="'.$twitter_count.'" 
+		data-size="'.$twitter_size.'" 
+		data-dnt="'.$twitter_dnt.'">Tweet</a>'."\n";
+
+	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'."\n";
+
+	if ( !is_feed() && !is_home() ) $content .= $button;
+	elseif ( $options['fb_on_home'] ) $content .= $button;
 
 	return $content;
 }
-add_action('the_content', 'ngfb_gp_button');
 
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 

@@ -86,24 +86,28 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
-= Q. How can I control the Facebook and Google button layout?
+= Q. How can I control the social button layouts? =
 
-**A.** The Facebook button(s) use the 'fb-root' class name, and the Google+ button uses the 'g-plusone' class name. Here's an example CSS that I use on <a href="http://trtms.com/">trtms.com</a>:
+**A.** NextGEN Facebook uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use for <a href="http://trtms.com/">trtms.com</a>:
 
 <code>
-.fb-root, .g-plusone {
+.ngfb-buttons { text-align:center; }
+.facebook-button, .g-plusone-button, .twitter-share-button {
     display:inline-block;
-    text-align:left;
     vertical-align:bottom;
-    line-height:20px;
-    margin-right:10px;
+    height:20px;
+    padding:0;
+    margin:0;
 }
+.facebook-button { margin-right:22px; }
+.g-plusone-button { margin-right:-10px; }
+.twitter-share-button { margin-right:-10px; }
 </code>
 
 == Changelog ==
 
 = v.1.5.2 =
-* Added the Google+ button options.
+* Added the Google+ and Twitter button options.
 
 = v.1.5.1 =
 * Added the "Default Image on Search Page" option.
