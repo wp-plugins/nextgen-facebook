@@ -86,20 +86,6 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
-= Q. How can I control the Facebook and Google button layout?
-
-**A.** The Facebook button(s) use the 'fb-root' class name, and the Google+ button uses the 'g-plusone' class name. Here's an example CSS that I use on <a href="http://trtms.com/">trtms.com</a>:
-
-<code>
-.fb-root, .g-plusone {
-    display:inline-block;
-    text-align:left;
-    vertical-align:bottom;
-    line-height:20px;
-    margin-right:10px;
-}
-</code>
-
 == Changelog ==
 
 = v.1.5.2 =
