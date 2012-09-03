@@ -471,7 +471,7 @@ function ngfb_render_form() {
 			</tr>
 
 			<tr valign="top">
-				<th scope="row" nowrap>Add Facebook Send Button</th>
+				<th scope="row" nowrap>Add Send Button</th>
 				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="true"
 					<?php if (isset($options['fb_send'])) { checked('true', $options['fb_send']); } ?> /></td>
 			</tr>
