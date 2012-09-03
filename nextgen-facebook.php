@@ -741,7 +741,12 @@ function ngfb_add_buttons( $content ) {
 	if ($options['gp_enable']) $buttons .= ngfb_gp_button( );
 	if ($options['twitter_enable']) $buttons .= ngfb_twitter_button( );
 
-	return $content.'<div class="ngfb-buttons">'.$buttons.'</div>';
+	if ($buttons) $buttons = "
+<!-- NextGEN Facebook Social Buttons BEGIN -->
+<div class=\"ngfb-buttons\">\n$buttons\n</div>
+<!-- NextGEN Facebook Social Buttons END -->\n\n";
+
+	return $content.$buttons;
 }
 add_action('the_content', 'ngfb_add_buttons');
 
@@ -767,8 +772,6 @@ function ngfb_fb_button( $content ) {
 	$fb_font = $options['fb_font'];
 	if($fb_font == '') { $fb_font = 'arial'; }
 
-	$button = "\n<!-- Facebook Button(s) Added by NextGEN Facebook Plugin -->\n";
-
 	$button .= '<div class="facebook-button"><span class="fb-root"><fb:like 
 		href="'.get_permalink($post->ID).'"
 		send="'.$fb_send.'" layout="'.$fb_layout.'" width="400"
@@ -793,8 +796,6 @@ function ngfb_gp_button( $content ) {
 	$gp_annotation = $options['gp_annotation'];
 	if($gp_annotation == '') { $gp_annotation = 'bubble'; }
 	
-	$button = "\n<!-- Google+ Button Added by NextGEN Facebook Plugin -->\n";
-
 	$button .= '<div class="g-plusone-button"><span class="g-plusone" 
 		data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></span></div>'."\n";
 
@@ -821,15 +822,13 @@ function ngfb_twitter_button( $content ) {
 	$twitter_dnt = $options['twitter_dnt'];
 	if($twitter_dnt == '') { $twitter_dnt = 'true'; }
 	
-	$button = "\n<!-- Twitter Button Added by NextGEN Facebook Plugin -->\n";
-
 	$button .= '<a href="https://twitter.com/share" class="twitter-share-button" 
 		data-url="'.get_permalink($post->ID).'" 
 		data-count="'.$twitter_count.'" 
 		data-size="'.$twitter_size.'" 
 		data-dnt="'.$twitter_dnt.'">Tweet</a>'."\n";
 
-	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'."\n";
+	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
 
 	if ( !is_feed() && !is_home() ) $content .= $button;
 	elseif ( $options['fb_on_home'] ) $content .= $button;
