@@ -19,7 +19,7 @@ NextGEN Facebook was specifically written to support featured images located in 
 Here's an example of Open Graph meta tags for a post:
 
 <code>
-&lt;!-- NextGEN Facebook Plugin Open Graph Tags: BEGIN --&gt;
+&lt;!-- NextGEN Facebook Meta Tags BEGIN --&gt;
 &lt;meta property="fb:app_id" content="345251245549378" /&gt;
 &lt;meta property="og:site_name" content="The Road to Myself" /&gt;
 &lt;meta property="og:title" content="Odds and Ends : An Article Title" /&gt;
@@ -35,7 +35,7 @@ Here's an example of Open Graph meta tags for a post:
 &lt;meta property="article:tag" content="Given" /&gt;
 &lt;meta property="article:tag" content="To Your" /&gt;
 &lt;meta property="article:tag" content="Article" /&gt;
-&lt;!-- NextGEN Facebook Plugin Open Graph Tags: END --&gt;
+&lt;!-- NextGEN Facebook Meta Tags END --&gt;
 </code>
 
 NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>.
