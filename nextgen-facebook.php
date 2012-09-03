@@ -2,7 +2,7 @@
 /*
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
-Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
+Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
 Version: 1.5.2
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
@@ -16,8 +16,8 @@ thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed
 in the "image" meta tag. This plugin goes well beyond any other plugins I know
 in handling various archive-type webpages. It will create appropriate title
 and description meta tags for category, tag, date based archive (day, month,
-or year), author webpages and search results. You can also, optionally, add Facebook like and
-send buttons to your posts and pages.
+or year), author webpages and search results. You can also, optionally, add
+Facebook, Google+ and Twitter sharing buttons to post and page content.
 
 The Open Graph protocol enables any web page to become a rich object in a
 social graph. For instance, this is used on Facebook to allow any web page to
@@ -104,8 +104,9 @@ function ngfb_add_defaults() {
 			"og_desc_len" => "300",
 			"og_admins" => "",
 			"og_app_id" => "",
+			"buttons_on_home" => "",
+			"buttons_location" => "bottom",
 			"fb_enable" => "",
-			"fb_on_home" => "",
 			"fb_send" => "true",
 			"fb_layout" => "button_count",
 			"fb_colorscheme" => "light",
@@ -113,11 +114,9 @@ function ngfb_add_defaults() {
 			"fb_show_faces" => "false",
 			"fb_action" => "like",
 			"gp_enable" => "",
-			"gp_on_home" => "",
 			"gp_size" => "small",
 			"gp_annotation" => "bubble",
 			"twitter_enable" => "",
-			"twitter_on_home" => "",
 			"twitter_count" => "horizontal",
 			"twitter_size" => "medium",
 			"twitter_dnt" => "true",
@@ -212,7 +211,7 @@ function ngfb_render_form() {
 
 	<div class="metabox-holder">
 		<div class="postbox">
-			<h3>Facebook Open Graph Settings</h3>
+			<h3>Open Graph Settings</h3>
 			<div class="inside">	
 	
 	<!-- Beginning of the Plugin Options Form -->
@@ -455,13 +454,38 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 		</table>
-			</div>
-		</div>
+		</div><!-- .inside -->
+		</div><!-- .postbox -->
 
 		<div class="postbox">
-			<h3>Facebook Button Settings</h3>
-			<div class="inside">	
+		<h3>Social Button Settings</h3>
+		<div class="inside">	
 		<table class="form-table">
+			<tr valign="top">
+				<th scope="row" nowrap>Include on Homepage</th>
+				<td valign="top"><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
+					<?php if (isset($options['buttons_on_home'])) { checked('1', $options['buttons_on_home']); } ?> /></td>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Location in Content</th>
+				<td valign="top">
+					<select name='ngfb_options[buttons_location]' style="width:250px;">
+						<option value='top' <?php selected($options['buttons_location'], 'top'); ?>>Top</option>
+						<option value='bottom' <?php selected($options['buttons_location'], 'bottom'); ?>>Bottom</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<div class="postbox">
+		<div class="inside">	
+		<table class="form-table">
+			<tr valign="top">
+				<th rowspan="8" nowrap><b>Facebook</b></th>
+			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
 				<td valign="top"><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
@@ -469,12 +493,7 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row" nowrap>Include on Homepage</th>
-				<td valign="top"><input name="ngfb_options[fb_on_home]" type="checkbox" value="1"
-					<?php if (isset($options['fb_on_home'])) { checked('1', $options['fb_on_home']); } ?> /></td>
-			</tr>
-			<tr valign="top">
-				<th scope="row" nowrap>Add Send Button</th>
+				<th scope="row" nowrap>Include Send Button</th>
 				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="true"
 					<?php if (isset($options['fb_send'])) { checked('true', $options['fb_send']); } ?> /></td>
 			</tr>
@@ -529,23 +548,20 @@ function ngfb_render_form() {
 				</td>
 			</tr>				
 		</table>
-			</div>
-		</div>
+		</div><!-- .inside -->
+		</div><!-- .postbox -->
 
 		<div class="postbox">
-			<h3>Google+ Button Settings</h3>
-			<div class="inside">	
+		<div class="inside">	
 		<table class="form-table">
+			<tr valign="top">
+				<th rowspan="4" nowrap><b>Google+</b></th>
+			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Google+ Button</th>
 				<td valign="top"><input name="ngfb_options[gp_enable]" type="checkbox" value="1" 
 					<?php if (isset($options['gp_enable'])) { checked('1', $options['gp_enable']); } ?> />
 				</td>
-			</tr>
-			<tr valign="top">
-				<th scope="row" nowrap>Include on Homepage</th>
-				<td valign="top"><input name="ngfb_options[gp_on_home]" type="checkbox" value="1"
-					<?php if (isset($options['gp_on_home'])) { checked('1', $options['gp_on_home']); } ?> /></td>
 			</tr>
 			<tr>
 				<th scope="row">Button Size</th>
@@ -569,23 +585,20 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 		</table>
-			</div>
-		</div>
+		</div><!-- .inside -->
+		</div><!-- .postbox -->
 
 		<div class="postbox">
-			<h3>Twitter Button Settings</h3>
-			<div class="inside">	
+		<div class="inside">	
 		<table class="form-table">
+			<tr valign="top">
+				<th rowspan="5" nowrap><b>Twitter</b></th>
+			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Twitter Button</th>
 				<td valign="top"><input name="ngfb_options[twitter_enable]" type="checkbox" value="1" 
 					<?php if (isset($options['twitter_enable'])) { checked('1', $options['twitter_enable']); } ?> />
 				</td>
-			</tr>
-			<tr valign="top">
-				<th scope="row" nowrap>Include on Homepage</th>
-				<td valign="top"><input name="ngfb_options[twitter_on_home]" type="checkbox" value="1"
-					<?php if (isset($options['twitter_on_home'])) { checked('1', $options['twitter_on_home']); } ?> /></td>
 			</tr>
 			<tr>
 				<th scope="row">Count Box Position</th>
@@ -615,15 +628,13 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-		</table>
-			</div>
-		</table>
-			</div>
-		</div>
+		</table></p>
+		</div><!-- .inside -->
+		</div><!-- .postbox -->
 
 		<div class="postbox">
-			<h3>Plugin Settings</h3>
-			<div class="inside">	
+		<h3>Plugin Settings</h3>
+		<div class="inside">	
 		<table class="form-table">
 			<tr>
 				<th scope="row" nowrap>Reset Settings on Activate</th>
@@ -636,7 +647,7 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 		</table>
-			</div><!-- .inside -->
+		</div><!-- .inside -->
 		</div><!-- .postbox -->
 	</div><!-- .metabox-holder -->
 
@@ -679,20 +690,20 @@ function ngfb_validate_options($input) {
 	if ( ! isset( $input['og_def_on_search'] ) ) $input['og_def_on_search'] = null;
 	$input['og_def_on_search'] = ( $input['og_def_on_search'] == 1 ? 1 : 0 );
 	
+	if ( ! isset( $input['buttons_on_home'] ) ) $input['buttons_on_home'] = null;
+	$input['buttons_on_home'] = ( $input['buttons_on_home'] == 1 ? 1 : 0 );
+	
+	$input['buttons_location'] = wp_filter_nohtml_kses($input['buttons_location']);
+	if (! $input['buttons_location']) $input['buttons_location'] = "bottom";
+
 	if ( ! isset( $input['fb_enable'] ) ) $input['fb_enable'] = null;
 	$input['fb_enable'] = ( $input['fb_enable'] == 1 ? 1 : 0 );
-	
-	if ( ! isset( $input['fb_on_home'] ) ) $input['fb_on_home'] = null;
-	$input['fb_on_home'] = ( $input['fb_on_home'] == 1 ? 1 : 0 );
 	
 	if ( ! isset( $input['fb_send'] ) ) $input['fb_send'] = null;
 	$input['fb_send'] = ( $input['fb_send'] == "true" ? "true" : "false" );
 
 	if ( ! isset( $input['gp_enable'] ) ) $input['gp_enable'] = null;
 	$input['gp_enable'] = ( $input['gp_enable'] == 1 ? 1 : 0 );
-	
-	if ( ! isset( $input['gp_on_home'] ) ) $input['gp_on_home'] = null;
-	$input['gp_on_home'] = ( $input['gp_on_home'] == 1 ? 1 : 0 );
 	
 	$input['gp_size'] = wp_filter_nohtml_kses($input['gp_size']);
 	if (! $input['gp_size']) $input['gp_size'] = "medium";
@@ -702,9 +713,6 @@ function ngfb_validate_options($input) {
 
 	if ( ! isset( $input['twitter_enable'] ) ) $input['twitter_enable'] = null;
 	$input['twitter_enable'] = ( $input['twitter_enable'] == 1 ? 1 : 0 );
-	
-	if ( ! isset( $input['twitter_on_home'] ) ) $input['twitter_on_home'] = null;
-	$input['twitter_on_home'] = ( $input['twitter_on_home'] == 1 ? 1 : 0 );
 	
 	$input['twitter_count'] = wp_filter_nohtml_kses($input['twitter_count']);
 	if (! $input['twitter_count']) $input['twitter_count'] = "horizontal";
@@ -746,11 +754,14 @@ function ngfb_add_buttons( $content ) {
 <div class=\"ngfb-buttons\">\n$buttons\n</div>
 <!-- NextGEN Facebook Social Buttons END -->\n\n";
 
-	return $content.$buttons;
+	if ( !is_feed() && !is_home() ) $content .= $buttons;
+	elseif ( $options['buttons_on_home'] ) $content .= $buttons;
+
+	return $content;
 }
 add_action('the_content', 'ngfb_add_buttons');
 
-function ngfb_fb_button( $content ) {
+function ngfb_fb_button( ) {
 
 	$options = get_option('ngfb_options');
 
@@ -780,13 +791,10 @@ function ngfb_fb_button( $content ) {
 
 	$button .= '<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>'."\n";
 
-	if ( !is_feed() && !is_home() ) $content .= $button;
-	elseif ( $options['fb_on_home'] ) $content .= $button;
-
-	return $content;
+	return $button;
 }
 
-function ngfb_gp_button( $content ) {
+function ngfb_gp_button( ) {
 
 	$options = get_option('ngfb_options');
 
@@ -804,12 +812,10 @@ function ngfb_gp_button( $content ) {
 		po.src = "https://apis.google.com/js/plusone.js";
 		var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })();</script>'."\n";
 
-	if ( !is_feed() && !is_home() ) $content .= $button;
-	elseif ( $options['fb_on_home'] ) $content .= $button;
-	return $content;
+	return $button;
 }
 
-function ngfb_twitter_button( $content ) {
+function ngfb_twitter_button( ) {
 
 	$options = get_option('ngfb_options');
 
@@ -830,10 +836,7 @@ function ngfb_twitter_button( $content ) {
 
 	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
 
-	if ( !is_feed() && !is_home() ) $content .= $button;
-	elseif ( $options['fb_on_home'] ) $content .= $button;
-
-	return $content;
+	return $button;
 }
 
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {

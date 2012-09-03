@@ -6,11 +6,11 @@ Tested up to: 3.4.1
 Stable tag: 1.5.1
 License: GPLv2 or later
 
-Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc. Also supports optional Like &amp; Send Facebook buttons.
+Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
 
 == Description ==
 
-The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook like and send buttons to your posts and pages.
+The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook, Google+ and Twitter sharing buttons to post and page content.
 
 The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
 
