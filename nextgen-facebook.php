@@ -126,7 +126,7 @@ function ngfb_add_defaults() {
 }
 
 // Init plugin options to white list our options
-function ngfb_init(){
+function ngfb_init() {
 	register_setting( 'ngfb_plugin_options', 'ngfb_options', 'ngfb_validate_options' );
 }
 
@@ -137,6 +137,8 @@ function ngfb_add_options_page() {
 
 // Render the Plugin options form
 function ngfb_render_form() {
+
+	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
 	// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 	$article_sections = array(
@@ -218,7 +220,6 @@ function ngfb_render_form() {
 	<form method="post" action="options.php">
 		<?php 
 			settings_fields('ngfb_plugin_options');
-			$options = get_option('ngfb_options');
 
 			// update option field names
 			if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
@@ -476,15 +477,8 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
-
-		<div class="postbox">
-		<div class="inside">	
-		<table class="form-table">
 			<tr valign="top">
-				<th rowspan="8" nowrap><b>Facebook</b></th>
+				<th nowrap><b>Facebook</b></th>
 			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
@@ -493,7 +487,7 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<th scope="row" nowrap>Include Send Button</th>
+				<th scope="row" nowrap>Add Send Button</th>
 				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="true"
 					<?php if (isset($options['fb_send'])) { checked('true', $options['fb_send']); } ?> /></td>
 			</tr>
@@ -547,15 +541,8 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>				
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
-
-		<div class="postbox">
-		<div class="inside">	
-		<table class="form-table">
 			<tr valign="top">
-				<th rowspan="4" nowrap><b>Google+</b></th>
+				<th nowrap><b>Google+</b></th>
 			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Google+ Button</th>
@@ -584,15 +571,8 @@ function ngfb_render_form() {
 					</select>
 				</td>
 			</tr>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
-
-		<div class="postbox">
-		<div class="inside">	
-		<table class="form-table">
 			<tr valign="top">
-				<th rowspan="5" nowrap><b>Twitter</b></th>
+				<th nowrap><b>Twitter</b></th>
 			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Twitter Button</th>
@@ -659,7 +639,7 @@ function ngfb_render_form() {
 }
 
 // Sanitize and validate input
-function ngfb_validate_options($input) {
+function ngfb_validate_options( $input ) {
 
 	$input['og_img_size'] = wp_filter_nohtml_kses($input['og_img_size']);
 	if (! $input['og_img_size']) $input['og_img_size'] = "thumbnail";
@@ -754,8 +734,13 @@ function ngfb_add_buttons( $content ) {
 <div class=\"ngfb-buttons\">\n$buttons\n</div>
 <!-- NextGEN Facebook Social Buttons END -->\n\n";
 
-	if ( !is_feed() && !is_home() ) $content .= $buttons;
-	elseif ( $options['buttons_on_home'] ) $content .= $buttons;
+	if ($options['buttons_location'] == "top") {
+		if ( !is_feed() && !is_home() ) $content = $buttons.$content;
+		elseif ( $options['buttons_on_home'] ) $content = $buttons.$content;
+	} else {
+		if ( !is_feed() && !is_home() ) $content .= $buttons;
+		elseif ( $options['buttons_on_home'] ) $content .= $buttons;
+	}
 
 	return $content;
 }
