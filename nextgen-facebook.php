@@ -220,11 +220,14 @@ function ngfb_render_form() {
 	<div class="icon32" id="icon-options-general"><br></div>
 	<h2>NextGEN Facebook Plugin</h2>
 
-	<p>The NextGEN Facebook plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image defined, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable share / like buttons, add a default image when there's no featured image defined, etc.</p>
+	<p>The NextGEN Facebook plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable social share buttons, define a default image, etc.</p>
 
-	<p>The image used in the Open Graph HTML meta tag will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, or the default image defined bellow. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.</p>
+	<p>The image used in the Open Graph HTML meta tag will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;img&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
-	<p><strong>If you like NextGEN Facebook, <a href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please take a moment to rate it</strong></a> on the WordPress plugin page.</strong></p>
+	<p><strong>If you like NextGEN Facebook, <a
+	href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please
+	take a moment to rate it</strong></a> on the WordPress plugin
+	page.</strong></p>
 
 	<div class="metabox-holder">
 		<div class="postbox">
@@ -267,7 +270,7 @@ function ngfb_render_form() {
 						?>
 					</select>
 				</td><td>
-					<p>The topic name that best describes the posts and pages on your website. This topic name will be used in the "article:section" Open Graph HTML meta tag of all your posts and pages. You can leave the topic name blank, if you would prefer not to include an "article:section" HTML meta tag.</p>
+					<p>The topic name that best describes the posts and pages on your website. This topic name will be used in the "article:section" Open Graph HTML meta tag for your posts and pages. You can leave the topic name blank, if you would prefer not to include an "article:section" HTML meta tag.</p>
 				</td>
 			</tr>
 
@@ -303,7 +306,7 @@ function ngfb_render_form() {
 					?>
 					</select>
 				</td><td>
-					<p>The WordPress Media Library size name for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'); ?> x <?php echo get_option('thumbnail_size_h'); ?>, <?php echo get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or other size names like "medium", "large", etc. Choose a size name that is at least 200px or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the <a href="options-media.php">Settings -&gt; Media</a> page. I would suggest creating a "facebook-thumbnail" size name of 200 x 200 (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p>
+					<p>The WordPress Media Library size name for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'); ?> x <?php echo get_option('thumbnail_size_h'); ?>, <?php echo get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or other size names like "medium", "large", etc.  Choose a size name that is at least 200px or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the <a href="options-media.php">Settings -&gt; Media</a> page. I would suggest creating a "facebook-thumbnail" size name of 200 x 200 (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p>
 				</td>
 			</tr>
 
@@ -325,7 +328,7 @@ function ngfb_render_form() {
 				<th scope="row">Default Image URL</th>
 				<td colspan="2"><input type="text" name="ngfb_options[og_def_img_url]" size="80"
 					value="<?php echo $options['og_def_img_url']; ?>" style="width:100%;"/>
-					<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This would allow you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least 200px or more in width and height. If both are specified, the Default Image ID takes precedence.</p>
+					<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least 200px or more in width and height. If both are specified, the Default Image ID takes precedence.</p>
 				</td>
 			</tr>
 
@@ -343,7 +346,7 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[og_def_on_search]" type="checkbox" value="1" 
 					<?php if (isset($options['og_def_on_search'])) { checked('1', $options['og_def_on_search']); } ?> />
 				</td><td>
-					<p>Check this box if you would like to use the default image on search page results as well.</p>
+					<p>Check this box if you would like to use the default image on search results page as well.</p>
 				</td>
 			</tr>
 
@@ -422,6 +425,11 @@ function ngfb_render_form() {
 		<h3>Open Graph HTML Meta Tags</h3>
 		<div class="inside">	
 		<table class="form-table">
+			<tr valign="top">
+				<td colspan="2">
+					<p>NextGEN Facebook will include all possible Open Graph HTML meta tags in your webpages. In some cases, you may need to exclude one or more of these HTML meta tags.</p>
+				</td>
+			</tr>
 			<?php 
 				foreach ( $open_graph_tags as $tag ) {
 					echo '<tr valign="top">';
