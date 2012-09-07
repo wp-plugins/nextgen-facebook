@@ -64,7 +64,7 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook to selec
 
 == Screenshots ==
 
-1. WordPress v3.4.1 and NextGEN Facebook - The Settings Page
+1. WordPress v3.4.2 and NextGEN Facebook v1.6 - The Settings Page
 
 == Frequently Asked Questions ==
 
