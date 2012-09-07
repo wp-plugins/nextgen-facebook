@@ -120,12 +120,19 @@ function ngfb_add_defaults() {
 			"twitter_count" => "horizontal",
 			"twitter_size" => "medium",
 			"twitter_dnt" => 1,
+			"inc_fb:admins" => 1,
+			"inc_fb:app_id" => 1,
 			"inc_og:site_name" => 1,
 			"inc_og:title" => 1,
 			"inc_og:type" => 1,
 			"inc_og:url" => 1,
 			"inc_og:description" => 1,
 			"inc_og:image" => 1,
+			"inc_article:author" => 1,
+			"inc_article:published_time" => 1,
+			"inc_article:modified_time" => 1,
+			"inc_article:section" => 1,
+			"inc_article:tag" => 1,
 		);
 		update_option('ngfb_options', $arr);
 	}
@@ -147,12 +154,19 @@ function ngfb_render_form() {
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
 	$open_graph_tags = array( 
+		'fb:admins', 
+		'fb:app_id', 
 		'og:site_name', 
 		'og:title', 
 		'og:type', 
 		'og:url', 
 		'og:description', 
-		'og:image'
+		'og:image',
+		'article:author',
+		'article:modified_time',
+		'article:published_time',
+		'article:section',
+		'article:tag',
 	);
 
 	// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
@@ -405,7 +419,7 @@ function ngfb_render_form() {
 				<td valign="top"><input type="text" size="40" name="ngfb_options[og_admins]" 
 					value="<?php echo $options['og_admins']; ?>" style="width:250px;" />
 				</td><td>
-					<p>Enter one of more Facebook account names (generally your own), seperated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>).</p>
+					<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). The Facebook Admin names are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/">Facebook Insight</a> data to those accounts.</p>
 				</td>
 			</tr>
 
@@ -414,7 +428,7 @@ function ngfb_render_form() {
 				<td valign="top"><input type="text" size="40" name="ngfb_options[og_app_id]" 
 					value="<?php echo $options['og_app_id']; ?>" style="width:250px;" />
 				</td><td>
-					<p>If you have a Facebook App ID, enter it here.</p>
+					<p>If you have a Facebook Application ID, enter it here. Facebook Application IDs are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/">Facebook Insight</a> data to the accounts associated with that Application ID.</p>
 				</td>
 			</tr>
 		</table>
@@ -426,8 +440,8 @@ function ngfb_render_form() {
 		<div class="inside">	
 		<table class="form-table">
 			<tr valign="top">
-				<td colspan="2">
-					<p>NextGEN Facebook will include all possible Open Graph HTML meta tags in your webpages. In some cases, you may need to exclude one or more of these HTML meta tags.</p>
+				<td colspan="3">
+					<p>NextGEN Facebook will include all possible Facebook and Open Graph HTML meta tags in your webpage headers. In some cases, you may need to exclude one or more of these HTML meta tags. You can uncheck the following meta tags to exclude them from your webpage headers.</p>
 				</td>
 			</tr>
 			<?php 
@@ -436,7 +450,8 @@ function ngfb_render_form() {
 					echo '<th scope="row" nowrap>Include '.$tag.'</th>';
 					echo '<td valign="top"><input name="ngfb_options[inc_'.$tag.']" type="checkbox" value="1"';
 					if ( isset( $options['inc_'.$tag] ) ) { checked( '1', $options['inc_'.$tag] ); }
-					echo '/></td></tr>';
+					echo '/></td><td><p>';
+					echo '</p></td></tr>';
 					unset( $tag );
 				}
 			?>
@@ -658,12 +673,19 @@ function ngfb_validate_options( $options ) {
 			'og_def_on_search',
 			'fb_send',
 			'twitter_dnt',
+			'inc_fb:admins', 
+			'inc_fb:app_id', 
+			'inc_og:description', 
+			'inc_og:image',
 			'inc_og:site_name', 
 			'inc_og:title', 
 			'inc_og:type', 
 			'inc_og:url', 
-			'inc_og:description', 
-			'inc_og:image'
+			'inc_article:author',
+			'inc_article:modified_time',
+			'inc_article:published_time',
+			'inc_article:section',
+			'inc_article:tag',
 		) as $opt ) {
 		if ( ! isset( $options[$opt] ) && $options[$opt] == '' ) $options[$opt] = 1;
 		$options[$opt] = ( $options[$opt] ? 1 : 0 );
@@ -1066,23 +1088,11 @@ function ngfb_add_meta() {
 
 <!-- NextGEN Facebook Meta Tags BEGIN -->
 <?php
-	if ( $options['og_admins'] )
+	if ( $options['inc_fb:admins'] && $options['og_admins'] )
 		echo '<meta property="fb:admins" content="', $options['og_admins'], '" />', "\n";
 
-	if ( $options['og_app_id'] )
+	if ( $options['inc_fb:app_id'] && $options['og_app_id'] )
 		echo '<meta property="fb:app_id" content="', $options['og_app_id'], '" />', "\n";
-
-	 if ( $options['inc_og:site_name'] )
-		echo '<meta property="og:site_name" content="', $site_title, '" />', "\n";
-
-	 if ( $options['inc_og:title'] )
-		echo '<meta property="og:title" content="', $page_title, '" />', "\n";
-
-	 if ( $options['inc_og:type'] )
-		echo '<meta property="og:type" content="', $page_type, '" />', "\n";
-
-	 if ( $options['inc_og:url'] )
-		echo '<meta property="og:url" content="http://', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'], '" />', "\n";
 
 	if ( $options['inc_og:description'] && $page_desc )
 		echo '<meta property="og:description" content="', $page_desc, '" />', "\n";
@@ -1090,26 +1100,43 @@ function ngfb_add_meta() {
 	if ( $options['inc_og:image'] && $image_url )
 		echo '<meta property="og:image" content="', $image_url, '" />', "\n";
 
+	if ( $options['inc_og:site_name'] )
+		echo '<meta property="og:site_name" content="', $site_title, '" />', "\n";
+
+	if ( $options['inc_og:title'] )
+		echo '<meta property="og:title" content="', $page_title, '" />', "\n";
+
+	if ( $options['inc_og:type'] )
+		echo '<meta property="og:type" content="', $page_type, '" />', "\n";
+
+	if ( $options['inc_og:url'] )
+		echo '<meta property="og:url" content="http://', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'], '" />', "\n";
+
 	if ($page_type == "article") {
 
-			echo '<meta property="article:published_time" content="', 
-				get_the_date('c'), '" />', "\n";
-
-			echo '<meta property="article:modified_time" content="',
-				get_the_modified_date('c'), '" />', "\n";
-
-			if ($options['og_art_section'])
-				echo '<meta property="article:section" content="', 
-					$options['og_art_section'], '" />', "\n";
-
+		if ( $options['inc_article:author'] )
 			echo '<meta property="article:author" content="',
 				trailingslashit(site_url()), 'author/', 
 				get_the_author_meta( 'user_login', 
 				$post->post_author ), '/" />', "\n";
 
+		if ( $options['inc_article:modified_time'] )
+			echo '<meta property="article:modified_time" content="',
+				get_the_modified_date('c'), '" />', "\n";
+
+		if ( $options['inc_article:published_time'] )
+			echo '<meta property="article:published_time" content="', 
+				get_the_date('c'), '" />', "\n";
+
+		if ( $options['inc_article:section'] && $options['og_art_section'] )
+			echo '<meta property="article:section" content="', 
+				$options['og_art_section'], '" />', "\n";
+
+		if ( $options['inc_article:tag'] ) {
 			foreach ( $tag_names as $tag )
 				echo '<meta property="article:tag" content="', $tag, '" />', "\n";
 			unset ( $tag );
+		}
 	}
 ?>
 <!-- NextGEN Facebook Meta Tags END -->

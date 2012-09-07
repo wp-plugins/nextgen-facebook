@@ -106,8 +106,9 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 == Changelog ==
 
-= v.1.5.2 =
+= v.1.6 =
 * Added the Google+ and Twitter button options.
+* Added the "Open Graph HTML Meta Tags" options to exclude one or more Facebook and Open Graph HTML meta tags from the webpage headers.
 
 = v.1.5.1 =
 * Added the "Default Image on Search Page" option.
