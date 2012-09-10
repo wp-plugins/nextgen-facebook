@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-register_activation_hook( __FILE__, 'ngfb_add_defaults' );
+register_activation_hook( __FILE__, 'ngfb_add_default_options' );
 register_uninstall_hook( __FILE__, 'ngfb_delete_plugin_options' );
 
 add_action( 'admin_init', 'ngfb_requires_wordpress_version' );
@@ -88,59 +88,63 @@ function ngfb_delete_plugin_options() {
 }
 
 // Define default option settings
-function ngfb_add_defaults() {
+function ngfb_add_default_options() {
 
-	$tmp = ngfb_validate_options( get_option( 'ngfb_options' ) );
+	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
-    if( ( $tmp['ngfb_reset'] == 1 ) || ( ! is_array($tmp) ) ) {
+    if( ( $options['ngfb_reset'] == 1 ) || ( ! is_array( $options ) ) ) {
 		delete_option('ngfb_options');	// remove old options, if any
-		$arr = array(
-			'og_art_section' => '',
-			'og_img_size' => 'thumbnail',
-			'og_def_img_id_pre' => '',
-			'og_def_img_id' => '',
-			'og_def_img_url' => '',
-			'og_def_on_home' => 1,
-			'og_def_on_search' => 1,
-			'og_ngg_tags' => '',
-			'og_desc_strip' => '',
-			'og_desc_wiki' => '',
-			'og_wiki_tag' => 'Wiki-',
-			'og_desc_len' => '300',
-			'og_admins' => '',
-			'og_app_id' => '',
-			'buttons_on_home' => '',
-			'buttons_location' => 'bottom',
-			'fb_enable' => '',
-			'fb_send' => 1,
-			'fb_layout' => 'button_count',
-			'fb_colorscheme' => 'light',
-			'fb_font' => 'arial',
-			'fb_show_faces' => 'false',
-			'fb_action' => 'like',
-			'gp_enable' => '',
-			'gp_size' => 'small',
-			'gp_annotation' => 'bubble',
-			'twitter_enable' => '',
-			'twitter_count' => 'horizontal',
-			'twitter_size' => 'medium',
-			'twitter_dnt' => 1,
-			'inc_fb:admins' => 1,
-			'inc_fb:app_id' => 1,
-			'inc_og:site_name' => 1,
-			'inc_og:title' => 1,
-			'inc_og:type' => 1,
-			'inc_og:url' => 1,
-			'inc_og:description' => 1,
-			'inc_og:image' => 1,
-			'inc_article:author' => 1,
-			'inc_article:published_time' => 1,
-			'inc_article:modified_time' => 1,
-			'inc_article:section' => 1,
-			'inc_article:tag' => 1,
-		);
-		update_option('ngfb_options', $arr);
+		$options = ngfb_get_default_options();
+		update_option('ngfb_options', $options);
 	}
+}
+
+function ngfb_get_default_options() {
+	return array (
+		'og_art_section' => '',
+		'og_img_size' => 'thumbnail',
+		'og_def_img_id_pre' => '',
+		'og_def_img_id' => '',
+		'og_def_img_url' => '',
+		'og_def_on_home' => 1,
+		'og_def_on_search' => 1,
+		'og_ngg_tags' => '',
+		'og_desc_strip' => '',
+		'og_desc_wiki' => '',
+		'og_wiki_tag' => 'Wiki-',
+		'og_desc_len' => '300',
+		'og_admins' => '',
+		'og_app_id' => '',
+		'buttons_on_home' => '',
+		'buttons_location' => 'bottom',
+		'fb_enable' => '',
+		'fb_send' => 1,
+		'fb_layout' => 'button_count',
+		'fb_colorscheme' => 'light',
+		'fb_font' => 'arial',
+		'fb_show_faces' => 'false',
+		'fb_action' => 'like',
+		'gp_enable' => '',
+		'gp_size' => 'medium',
+		'gp_annotation' => 'bubble',
+		'twitter_enable' => '',
+		'twitter_count' => 'horizontal',
+		'twitter_size' => 'medium',
+		'twitter_dnt' => 1,
+		'inc_fb:admins' => 1,
+		'inc_fb:app_id' => 1,
+		'inc_og:site_name' => 1,
+		'inc_og:title' => 1,
+		'inc_og:type' => 1,
+		'inc_og:url' => 1,
+		'inc_og:description' => 1,
+		'inc_og:image' => 1,
+		'inc_article:author' => 1,
+		'inc_article:published_time' => 1,
+		'inc_article:modified_time' => 1,
+		'inc_article:section' => 1,
+		'inc_article:tag' => 1,
+	);
 }
 
 // Init plugin options to white list our options
@@ -151,36 +155,44 @@ function ngfb_init() {
 // Sanitize and validate input
 function ngfb_validate_options( $options ) {
 
-	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
-	if ( ! $options['og_img_size']) $options['og_img_size'] = "thumbnail";
+	$def_opts = ngfb_get_default_options();
 
 	$options['og_def_img_url'] = wp_filter_nohtml_kses($options['og_def_img_url']);
 	$options['og_admins'] = wp_filter_nohtml_kses($options['og_admins']);
 	$options['og_app_id'] = wp_filter_nohtml_kses($options['og_app_id']);
 
-	if ( ! is_numeric( $options['og_def_img_id'] ) ) $options['og_def_img_id'] = null;
+	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
+		$options['og_def_img_id'] = null;
 
-	if ( ! $options['og_desc_len'] 
-		|| ! is_numeric( $options['og_desc_len'] ) )
-			$options['og_desc_len'] = 300;
+	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
+	if ( ! $options['og_img_size']) 
+		$options['og_img_size'] = $def_opts['og_img_size'];
 
-	if ( $options['og_desc_len'] < 160 )
-			$options['og_desc_len'] = 160;
+	if ( ! $options['og_desc_len'] || ! is_numeric( $options['og_desc_len'] ) )
+		$options['og_desc_len'] = $def_opts['og_desc_len'];
+
+	if ( $options['og_desc_len'] < 160 ) 
+		$options['og_desc_len'] = 160;
 
 	$options['buttons_location'] = wp_filter_nohtml_kses($options['buttons_location']);
-	if (! $options['buttons_location']) $options['buttons_location'] = "bottom";
+	if (! $options['buttons_location']) 
+		$options['buttons_location'] = $def_opts['button_location'];
 
 	$options['gp_size'] = wp_filter_nohtml_kses($options['gp_size']);
-	if (! $options['gp_size']) $options['gp_size'] = "medium";
+	if (! $options['gp_size']) 
+		$options['gp_size'] = $def_opts['gp_size'];
 
 	$options['gp_annotate'] = wp_filter_nohtml_kses($options['gp_annotate']);
-	if (! $options['gp_annotate']) $options['gp_annotate'] = "bubble";
+	if (! $options['gp_annotate']) 
+		$options['gp_annotate'] = $def_opts['gp_annotate'];
 
 	$options['twitter_count'] = wp_filter_nohtml_kses($options['twitter_count']);
-	if (! $options['twitter_count']) $options['twitter_count'] = "horizontal";
+	if (! $options['twitter_count']) 
+		$options['twitter_count'] = $def_opts['twitter_count'];
 
 	$options['twitter_size'] = wp_filter_nohtml_kses($options['twitter_size']);
-	if (! $options['twitter_size']) $options['twitter_size'] = "medium";
+	if (! $options['twitter_size']) 
+		$options['twitter_size'] = $def_opts['twitter_size'];
 
 	// true/false options
 	foreach ( 
@@ -315,26 +327,7 @@ function ngfb_render_form() {
 	}
 
 	// default values for new options
-	foreach ( 
-		array(
-			'og_def_on_home' => 1,
-			'og_def_on_search' => 1,
-			'fb_send' => 1,
-			'twitter_dnt' => 1,
-			'inc_fb:admins' => 1, 
-			'inc_fb:app_id' => 1, 
-			'inc_og:description' => 1, 
-			'inc_og:image' => 1,
-			'inc_og:site_name' => 1, 
-			'inc_og:title' => 1, 
-			'inc_og:type' => 1, 
-			'inc_og:url' => 1, 
-			'inc_article:author' => 1,
-			'inc_article:modified_time' => 1,
-			'inc_article:published_time' => 1,
-			'inc_article:section' => 1,
-			'inc_article:tag' => 1,
-		) as $opt => $def ) {
+	foreach ( ngfb_get_default_options() as $opt => $def ) {
 		if ( ! isset( $options[$opt] ) ) $options[$opt] = $def;
 	}
 	unset( $opt );
@@ -802,7 +795,7 @@ function ngfb_fb_button( $options ) {
 function ngfb_gp_button( $options ) {
 
 	$gp_size = $options['gp_size'];
-	if ( ! $gp_size ) $gp_size = 'small';
+	if ( ! $gp_size ) $gp_size = 'medium';
 	
 	$gp_annotation = $options['gp_annotation'];
 	if ( ! $gp_annotation ) $gp_annotation = 'bubble';
