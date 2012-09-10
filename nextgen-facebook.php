@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
-Version: 1.6
+Version: 1.6.1
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -55,6 +55,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+register_activation_hook( __FILE__, 'ngfb_add_defaults' );
+register_uninstall_hook( __FILE__, 'ngfb_delete_plugin_options' );
+
+add_action( 'admin_init', 'ngfb_requires_wordpress_version' );
+add_action( 'admin_init', 'ngfb_init' );
+add_action( 'admin_menu', 'ngfb_add_options_page' );
+add_action( 'the_content', 'ngfb_add_buttons' );
+add_action( 'wp_head', 'ngfb_add_meta_tags' );
+
+add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
+add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
+
 function ngfb_requires_wordpress_version() {
 	global $wp_version;
 	$plugin = plugin_basename( __FILE__ );
@@ -69,13 +81,6 @@ function ngfb_requires_wordpress_version() {
 		}
 	}
 }
-add_action( 'admin_init', 'ngfb_requires_wordpress_version' );
-
-register_activation_hook(__FILE__, 'ngfb_add_defaults');
-register_uninstall_hook(__FILE__, 'ngfb_delete_plugin_options');
-add_action('admin_init', 'ngfb_init' );
-add_action('admin_menu', 'ngfb_add_options_page');
-add_filter('plugin_action_links', 'ngfb_plugin_action_links', 10, 2);
 
 // Delete options table entries ONLY when plugin deactivated AND deleted
 function ngfb_delete_plugin_options() {
@@ -85,54 +90,54 @@ function ngfb_delete_plugin_options() {
 // Define default option settings
 function ngfb_add_defaults() {
 
-	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
+	$tmp = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
-    if( ( $tmp['ngfb_reset'] == '1' ) || ( !is_array($tmp) ) ) {
+    if( ( $tmp['ngfb_reset'] == 1 ) || ( ! is_array($tmp) ) ) {
 		delete_option('ngfb_options');	// remove old options, if any
 		$arr = array(
-			"og_art_section" => "",
-			"og_img_size" => "thumbnail",
-			"og_def_img_id_pre" => "",
-			"og_def_img_id" => "",
-			"og_def_img_url" => "",
-			"og_def_on_home" => 1,
-			"og_def_on_search" => 1,
-			"og_ngg_tags" => "",
-			"og_desc_strip" => "",
-			"og_desc_wiki" => "",
-			"og_wiki_tag" => "Wiki-",
-			"og_desc_len" => "300",
-			"og_admins" => "",
-			"og_app_id" => "",
-			"buttons_on_home" => "",
-			"buttons_location" => "bottom",
-			"fb_enable" => "",
-			"fb_send" => 1,
-			"fb_layout" => "button_count",
-			"fb_colorscheme" => "light",
-			"fb_font" => "arial",
-			"fb_show_faces" => "false",
-			"fb_action" => "like",
-			"gp_enable" => "",
-			"gp_size" => "small",
-			"gp_annotation" => "bubble",
-			"twitter_enable" => "",
-			"twitter_count" => "horizontal",
-			"twitter_size" => "medium",
-			"twitter_dnt" => 1,
-			"inc_fb:admins" => 1,
-			"inc_fb:app_id" => 1,
-			"inc_og:site_name" => 1,
-			"inc_og:title" => 1,
-			"inc_og:type" => 1,
-			"inc_og:url" => 1,
-			"inc_og:description" => 1,
-			"inc_og:image" => 1,
-			"inc_article:author" => 1,
-			"inc_article:published_time" => 1,
-			"inc_article:modified_time" => 1,
-			"inc_article:section" => 1,
-			"inc_article:tag" => 1,
+			'og_art_section' => '',
+			'og_img_size' => 'thumbnail',
+			'og_def_img_id_pre' => '',
+			'og_def_img_id' => '',
+			'og_def_img_url' => '',
+			'og_def_on_home' => 1,
+			'og_def_on_search' => 1,
+			'og_ngg_tags' => '',
+			'og_desc_strip' => '',
+			'og_desc_wiki' => '',
+			'og_wiki_tag' => 'Wiki-',
+			'og_desc_len' => '300',
+			'og_admins' => '',
+			'og_app_id' => '',
+			'buttons_on_home' => '',
+			'buttons_location' => 'bottom',
+			'fb_enable' => '',
+			'fb_send' => 1,
+			'fb_layout' => 'button_count',
+			'fb_colorscheme' => 'light',
+			'fb_font' => 'arial',
+			'fb_show_faces' => 'false',
+			'fb_action' => 'like',
+			'gp_enable' => '',
+			'gp_size' => 'small',
+			'gp_annotation' => 'bubble',
+			'twitter_enable' => '',
+			'twitter_count' => 'horizontal',
+			'twitter_size' => 'medium',
+			'twitter_dnt' => 1,
+			'inc_fb:admins' => 1,
+			'inc_fb:app_id' => 1,
+			'inc_og:site_name' => 1,
+			'inc_og:title' => 1,
+			'inc_og:type' => 1,
+			'inc_og:url' => 1,
+			'inc_og:description' => 1,
+			'inc_og:image' => 1,
+			'inc_article:author' => 1,
+			'inc_article:published_time' => 1,
+			'inc_article:modified_time' => 1,
+			'inc_article:section' => 1,
+			'inc_article:tag' => 1,
 		);
 		update_option('ngfb_options', $arr);
 	}
@@ -143,6 +148,74 @@ function ngfb_init() {
 	register_setting( 'ngfb_plugin_options', 'ngfb_options', 'ngfb_validate_options' );
 }
 
+// Sanitize and validate input
+function ngfb_validate_options( $options ) {
+
+	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
+	if ( ! $options['og_img_size']) $options['og_img_size'] = "thumbnail";
+
+	$options['og_def_img_url'] = wp_filter_nohtml_kses($options['og_def_img_url']);
+	$options['og_admins'] = wp_filter_nohtml_kses($options['og_admins']);
+	$options['og_app_id'] = wp_filter_nohtml_kses($options['og_app_id']);
+
+	if ( ! is_numeric( $options['og_def_img_id'] ) ) $options['og_def_img_id'] = null;
+
+	if ( ! $options['og_desc_len'] 
+		|| ! is_numeric( $options['og_desc_len'] ) 
+		|| ! $options['og_desc_len'] > 160 )
+			$options['og_desc_len'] = 160;
+
+	$options['buttons_location'] = wp_filter_nohtml_kses($options['buttons_location']);
+	if (! $options['buttons_location']) $options['buttons_location'] = "bottom";
+
+	$options['gp_size'] = wp_filter_nohtml_kses($options['gp_size']);
+	if (! $options['gp_size']) $options['gp_size'] = "medium";
+
+	$options['gp_annotate'] = wp_filter_nohtml_kses($options['gp_annotate']);
+	if (! $options['gp_annotate']) $options['gp_annotate'] = "bubble";
+
+	$options['twitter_count'] = wp_filter_nohtml_kses($options['twitter_count']);
+	if (! $options['twitter_count']) $options['twitter_count'] = "horizontal";
+
+	$options['twitter_size'] = wp_filter_nohtml_kses($options['twitter_size']);
+	if (! $options['twitter_size']) $options['twitter_size'] = "medium";
+
+	// true/false options
+	foreach ( 
+		array( 
+			'og_def_on_home',
+			'og_def_on_search',
+			'og_desc_strip',
+			'og_desc_wiki',
+			'og_ngg_tags',
+			'buttons_on_home',
+			'fb_enable',
+			'fb_send',
+			'gp_enable',
+			'twitter_enable',
+			'twitter_dnt',
+			'inc_fb:admins',
+			'inc_fb:app_id',
+			'inc_og:description',
+			'inc_og:image',
+			'inc_og:site_name',
+			'inc_og:title',
+			'inc_og:type',
+			'inc_og:url',
+			'inc_article:author',
+			'inc_article:modified_time',
+			'inc_article:published_time',
+			'inc_article:section',
+			'inc_article:tag',
+			'ngfb_reset',
+		) as $opt ) {
+		$options[$opt] = ( $options[$opt] ? 1 : 0 );
+	}
+	unset( $opt );
+
+	return $options;
+}
+
 // Add menu page
 function ngfb_add_options_page() {
 	add_options_page('NextGEN Facebook Options Page', 'NextGEN Facebook', 'manage_options', 'ngfb', 'ngfb_render_form');
@@ -151,9 +224,7 @@ function ngfb_add_options_page() {
 // Render the Plugin options form
 function ngfb_render_form() {
 
-	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
-
-	$open_graph_tags = array( 
+	$meta_tags = array( 
 		'fb:admins', 
 		'fb:app_id', 
 		'og:site_name', 
@@ -229,6 +300,46 @@ function ngfb_render_form() {
 	);
 	sort ( $article_sections );
 
+	$options = get_option( 'ngfb_options' );
+
+	// update option field names
+	if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
+		$options['og_def_img_url'] = $options['og_def_img'];
+		delete_option($options['og_def_img']);
+	}
+	if ( ! $options['og_def_on_home'] && $options['og_def_home']) {
+		$options['og_def_on_home'] = $options['og_def_home'];
+		delete_option($options['og_def_home']);
+	}
+
+	// default values for new options
+	foreach ( 
+		array(
+			'og_def_on_home' => 1,
+			'og_def_on_search' => 1,
+			'fb_send' => 1,
+			'twitter_dnt' => 1,
+			'inc_fb:admins' => 1, 
+			'inc_fb:app_id' => 1, 
+			'inc_og:description' => 1, 
+			'inc_og:image' => 1,
+			'inc_og:site_name' => 1, 
+			'inc_og:title' => 1, 
+			'inc_og:type' => 1, 
+			'inc_og:url' => 1, 
+			'inc_article:author' => 1,
+			'inc_article:modified_time' => 1,
+			'inc_article:published_time' => 1,
+			'inc_article:section' => 1,
+			'inc_article:tag' => 1,
+		) as $opt => $def ) {
+		if ( ! isset( $options[$opt] ) ) $options[$opt] = $def;
+	}
+	unset( $opt );
+	unset( $def );
+
+	$options = ngfb_validate_options( $options );
+
 	?>
 	<div class="wrap">
 	<div class="icon32" id="icon-options-general"><br></div>
@@ -250,22 +361,8 @@ function ngfb_render_form() {
 	
 	<!-- Beginning of the Plugin Options Form -->
 	<form method="post" action="options.php">
-		<?php 
-			settings_fields('ngfb_plugin_options');
-
-			// update option field names
-			if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
-				$options['og_def_img_url'] = $options['og_def_img'];
-				delete_option($options['og_def_img']);
-			}
-			if ( ! $options['og_def_on_home'] && $options['og_def_home']) {
-				$options['og_def_on_home'] = $options['og_def_home'];
-				delete_option($options['og_def_home']);
-			}
-
-		?>
+		<?php settings_fields('ngfb_plugin_options'); ?>
 		<table class="form-table">
-
 			<tr>
 				<th scope="row">Website Topic</th>
 				<td valign="top">
@@ -349,7 +446,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Default Image on Multi-Entry Pages</th>
 				<td valign="top"><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
-					<?php if (isset($options['og_def_on_home'])) { checked('1', $options['og_def_on_home']); } ?> />
+					<?php checked(1, $options['og_def_on_home']); ?> />
 				</td><td>
 					<p>Check this box if you would like to use the default image on page types with more than one entry (homepage, archives, categories, etc.). If you leave this un-checked, NextGEN Facebook will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the page.</p>
 				</td>
@@ -358,7 +455,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Default Image on Search Page</th>
 				<td valign="top"><input name="ngfb_options[og_def_on_search]" type="checkbox" value="1" 
-					<?php if (isset($options['og_def_on_search'])) { checked('1', $options['og_def_on_search']); } ?> />
+					<?php checked(1, $options['og_def_on_search']); ?> />
 				</td><td>
 					<p>Check this box if you would like to use the default image on search results page as well.</p>
 				</td>
@@ -367,7 +464,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Content Begins at First Paragraph</th>
 				<td valign="top"><input name="ngfb_options[og_desc_strip]" type="checkbox" value="1" 
-					<?php if (isset($options['og_desc_strip'])) { checked('1', $options['og_desc_strip']); } ?> />
+					<?php checked(1, $options['og_desc_strip']); ?> />
 				</td><td>
 					<p>For a page or post <i>without</i> an excerpt, the plugin will ignore all text until the first &lt;p&gt; paragraph HTML tag in <i>the content</i>. If an excerpt exists, then it's complete text will be used instead.</p>
 				</td>
@@ -380,7 +477,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Use WP-WikiBox for Pages</th>
 				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
-					<?php if (isset($options['og_desc_wiki'])) { checked('1', $options['og_desc_wiki']); } ?> />
+					<?php checked(1, $options['og_desc_wiki']); ?> />
 				</td><td>
 					<p>NextGEN Facebook can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
 				</td>
@@ -408,7 +505,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Add NextGEN Gallery Tags</th>
 				<td valign="top"><input name="ngfb_options[og_ngg_tags]" type="checkbox" value="1" 
-					<?php if (isset($options['og_ngg_tags'])) { checked('1', $options['og_ngg_tags']); } ?> />
+					<?php checked(1, $options['og_ngg_tags']); ?> />
 				</td><td>
 					<p>If the featured or default image is from a NextGEN Gallery, then add that image's tags to the Open Graph tag list.</p>
 				</td>
@@ -445,15 +542,15 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 			<?php 
-				foreach ( $open_graph_tags as $tag ) {
-					echo '<tr valign="top">';
-					echo '<th scope="row" nowrap>Include '.$tag.'</th>';
-					echo '<td valign="top"><input name="ngfb_options[inc_'.$tag.']" type="checkbox" value="1"';
-					if ( isset( $options['inc_'.$tag] ) ) { checked( '1', $options['inc_'.$tag] ); }
-					echo '/></td><td><p>';
-					echo '</p></td></tr>';
-					unset( $tag );
+				foreach ( $meta_tags as $tag_name ) {
+					echo '<tr valign="top">', "\n";
+					echo '<th scope="row" nowrap>Include '.$tag_name.' Meta Tag</th>', "\n";
+					echo '<td valign="top"><input name="ngfb_options[inc_'.$tag_name.']" type="checkbox" value="1" ';
+					checked(1, $options['inc_'.$tag_name]);
+					echo '/></td><td><p>', "\n";
+					echo '</p></td></tr>', "\n";
 				}
+				unset( $tag_name );
 			?>
 		</table>
 		</div><!-- .inside -->
@@ -466,7 +563,7 @@ function ngfb_render_form() {
 			<tr valign="top">
 				<th scope="row" nowrap>Include on Multi-Entry Pages</th>
 				<td valign="top"><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
-					<?php if (isset($options['buttons_on_home'])) { checked('1', $options['buttons_on_home']); } ?> />
+					<?php checked(1, $options['buttons_on_home']); ?> />
 				</td>
 			</tr>
 			<tr>
@@ -484,13 +581,13 @@ function ngfb_render_form() {
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Facebook Button(s)</th>
 				<td valign="top"><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
-					<?php if (isset($options['fb_enable'])) { checked('1', $options['fb_enable']); } ?> />
+					<?php checked(1, $options['fb_enable']); ?> />
 				</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row" nowrap>Add Send Button</th>
 				<td valign="top"><input name="ngfb_options[fb_send]" type="checkbox" value="1"
-					<?php if (isset($options['fb_send'])) { checked('1', $options['fb_send']); } ?> />
+					<?php checked(1, $options['fb_send']); ?> />
 				</td>
 			</tr>
 			<tr>
@@ -506,7 +603,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row">Show Facebook Faces</th>
 				<td valign="top"><input name="ngfb_options[fb_show_faces]" type="checkbox" value="1"
-					<?php if (isset($options['fb_show_faces'])) { checked('1', $options['fb_show_faces']); } ?> />
+					<?php checked(1, $options['fb_show_faces']); ?> />
 				</td>
 			</tr>
 			<tr>
@@ -546,7 +643,7 @@ function ngfb_render_form() {
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Google+ Button</th>
 				<td valign="top"><input name="ngfb_options[gp_enable]" type="checkbox" value="1" 
-					<?php if (isset($options['gp_enable'])) { checked('1', $options['gp_enable']); } ?> />
+					<?php checked(1, $options['gp_enable']); ?> />
 				</td>
 			</tr>
 			<tr>
@@ -576,7 +673,7 @@ function ngfb_render_form() {
 			<tr valign="top">
 				<th scope="row" nowrap>Enable Twitter Button</th>
 				<td valign="top"><input name="ngfb_options[twitter_enable]" type="checkbox" value="1" 
-					<?php if (isset($options['twitter_enable'])) { checked('1', $options['twitter_enable']); } ?> />
+					<?php checked(1, $options['twitter_enable']); ?> />
 				</td>
 			</tr>
 			<tr>
@@ -601,7 +698,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row">Do Not Track</th>
 				<td valign="top"><input name="ngfb_options[twitter_dnt]" type="checkbox" value="1" 
-					<?php if (isset($options['twitter_dnt'])) { checked('1', $options['twitter_dnt']); } ?> />
+					<?php checked(1, $options['twitter_dnt']); ?> />
 				</td>
 			</tr>
 		</table>
@@ -615,7 +712,7 @@ function ngfb_render_form() {
 			<tr>
 				<th scope="row" nowrap>Reset Settings on Activate</th>
 				<td valign="top"><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
-					<?php if (isset($options['ngfb_reset'])) { checked('1', $options['ngfb_reset']); } ?> />
+					<?php checked(1, $options['ngfb_reset']); ?> />
 				</td><td>
 					<p>Check this option to reset NextGEN Facebook settings to
 					their default values <u>when you deactivate, and then
@@ -632,84 +729,6 @@ function ngfb_render_form() {
 	</form>
 </div>
 	<?php	
-}
-
-// Sanitize and validate input
-function ngfb_validate_options( $options ) {
-
-	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
-	if (! $options['og_img_size']) $options['og_img_size'] = "thumbnail";
-
-	$options['og_def_img_url'] = wp_filter_nohtml_kses($options['og_def_img_url']);
-	$options['og_admins'] = wp_filter_nohtml_kses($options['og_admins']);
-	$options['og_app_id'] = wp_filter_nohtml_kses($options['og_app_id']);
-
-	if ( ! is_numeric( $options['og_def_img_id'] ) ) $options['og_def_img_id'] = null;
-
-	if ( ! $options['og_desc_len'] 
-		|| ! is_numeric( $options['og_desc_len'] ) 
-		|| ! $options['og_desc_len'] > 160 )
-			$options['og_desc_len'] = 160;
-
-	$options['buttons_location'] = wp_filter_nohtml_kses($options['buttons_location']);
-	if (! $options['buttons_location']) $options['buttons_location'] = "bottom";
-
-	$options['gp_size'] = wp_filter_nohtml_kses($options['gp_size']);
-	if (! $options['gp_size']) $options['gp_size'] = "medium";
-
-	$options['gp_annotate'] = wp_filter_nohtml_kses($options['gp_annotate']);
-	if (! $options['gp_annotate']) $options['gp_annotate'] = "bubble";
-
-	$options['twitter_count'] = wp_filter_nohtml_kses($options['twitter_count']);
-	if (! $options['twitter_count']) $options['twitter_count'] = "horizontal";
-
-	$options['twitter_size'] = wp_filter_nohtml_kses($options['twitter_size']);
-	if (! $options['twitter_size']) $options['twitter_size'] = "medium";
-
-	// enabled by default
-	foreach ( 
-		array( 
-			'og_def_on_home',
-			'og_def_on_search',
-			'fb_send',
-			'twitter_dnt',
-			'inc_fb:admins', 
-			'inc_fb:app_id', 
-			'inc_og:description', 
-			'inc_og:image',
-			'inc_og:site_name', 
-			'inc_og:title', 
-			'inc_og:type', 
-			'inc_og:url', 
-			'inc_article:author',
-			'inc_article:modified_time',
-			'inc_article:published_time',
-			'inc_article:section',
-			'inc_article:tag',
-		) as $opt ) {
-		if ( ! isset( $options[$opt] ) && $options[$opt] == '' ) $options[$opt] = 1;
-		$options[$opt] = ( $options[$opt] ? 1 : 0 );
-	}
-	unset( $opt );
-
-	// disabled by default
-	foreach ( 
-		array( 
-			'og_desc_strip',
-			'og_desc_wiki',
-			'og_ngg_tags',
-			'buttons_on_home',
-			'fb_enable',
-			'gp_enable',
-			'twitter_enable',
-			'ngfb_reset',
-		) as $opt ) {
-		if ( ! isset( $options[$opt] ) && $options[$opt] == '' ) $options[$opt] = 0;
-		$options[$opt] = ( $options[$opt] ? 1 : 0 );
-	}
-	unset( $opt );
-
-	return $options;
 }
 
 // Display a Settings link on the main Plugins page
@@ -744,7 +763,6 @@ function ngfb_add_buttons( $content ) {
 
 	return $content;
 }
-add_action('the_content', 'ngfb_add_buttons');
 
 function ngfb_fb_button( $options ) {
 
@@ -843,7 +861,7 @@ function ngfb_get_ngg_thumb_url( $thumb_id ) {
 		$thumb_id = substr($thumb_id, 4);
 		$image = nggdb::find_image($thumb_id);	// returns an nggImage object
 
-		if ($image != null) {
+		if ( $image != null ) {
 
 			$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 			$size = $options['og_img_size'];
@@ -886,7 +904,7 @@ function ngfb_utf8_entity_decode( $entity ) {
 	return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 }
 
-function ngfb_add_meta() {
+function ngfb_add_meta_tags() {
 	global $post;
 	
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
@@ -1143,7 +1161,6 @@ function ngfb_add_meta() {
 
 <?php
 }
-add_action('wp_head', 'ngfb_add_meta');
 
 // It would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
 function ngfb_add_og_doctype( $output ) {
@@ -1151,6 +1168,5 @@ function ngfb_add_og_doctype( $output ) {
 		xmlns:og="http://ogp.me/ns"
 		xmlns:fb="http://ogp.me/ns/fb"';
 }
-add_filter('language_attributes', 'ngfb_add_og_doctype');
 
 ?>
