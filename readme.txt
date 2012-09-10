@@ -108,6 +108,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = v.1.6.1 =
 * Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
+* Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.
 
 = v.1.6 =
 * Added the Google+ and Twitter button options.
