@@ -161,8 +161,10 @@ function ngfb_validate_options( $options ) {
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) $options['og_def_img_id'] = null;
 
 	if ( ! $options['og_desc_len'] 
-		|| ! is_numeric( $options['og_desc_len'] ) 
-		|| ! $options['og_desc_len'] > 160 )
+		|| ! is_numeric( $options['og_desc_len'] ) )
+			$options['og_desc_len'] = 300;
+
+	if ( $options['og_desc_len'] < 160 )
 			$options['og_desc_len'] = 160;
 
 	$options['buttons_location'] = wp_filter_nohtml_kses($options['buttons_location']);
@@ -1063,7 +1065,16 @@ function ngfb_add_meta_tags() {
 
 		}
 
-		$page_text = preg_replace( '/[\r\n\t ]+/', ' ', strip_tags( $page_text ) );
+		$page_text = preg_replace( '/[\r\n\t ]+/s', ' ', $page_text );
+
+		// remove the social buttons
+		$ngfb_msg = 'NextGEN Facebook Social Buttons';
+		$page_text = preg_replace( "/<!-- $ngfb_msg BEGIN -->.*<!-- $ngfb_msg END -->/", ' ', $page_text );
+
+		// remove javascript, which strip_tags doesn't do
+		$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
+
+		$page_text = strip_tags( $page_text );
 		$page_text = substr( $page_text, 0, $options['og_desc_len'] );
 		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );	// remove trailing bits of words
 		$page_desc = esc_attr( trim( $page_text ) );
