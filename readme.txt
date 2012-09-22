@@ -116,6 +116,9 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 == Changelog ==
 
+= v.1.6.2 =
+* Added a setting to include hidden debug info above the Open Graph tags.
+
 = v.1.6.1 =
 * Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
 * Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.

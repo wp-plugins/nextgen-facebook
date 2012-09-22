@@ -222,6 +222,7 @@ function ngfb_validate_options( $options ) {
 			'inc_article:section',
 			'inc_article:tag',
 			'ngfb_reset',
+			'ngfb_debug',
 		) as $opt ) {
 		$options[$opt] = ( $options[$opt] ? 1 : 0 );
 	}
@@ -709,11 +710,18 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
 					<?php checked(1, $options['ngfb_reset']); ?> />
 				</td><td>
-					<p>Check this option to reset NextGEN Facebook settings to
-					their default values <u>when you deactivate, and then
-					reactivate the plugin</u>.</p>
+					<p>Check this option to reset NextGEN Facebook settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p>
 				</td>
 			</tr>
+			<tr>
+				<th scope="row" nowrap>Add Hidden Debug Info</th>
+				<td valign="top"><input name="ngfb_options[ngfb_debug]" type="checkbox" value="1" 
+					<?php checked(1, $options['ngfb_debug']); ?> />
+				</td><td>
+					<p>Include hidden debug information with the Open Graph meta tags.</p>
+				</td>
+			</tr>
+		</table>
 		</table>
 		</div><!-- .inside -->
 		</div><!-- .postbox -->
@@ -942,6 +950,8 @@ function ngfb_add_meta_tags() {
 	/* define the image_url
 	-------------------------------------------------------------- */
 
+	$image_source = "";	// used for debug info
+
 	if ( is_single() || is_page() || ! $options['og_def_on_home'] ) {
 
 		if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
@@ -950,8 +960,13 @@ function ngfb_add_meta_tags() {
 	
 			// if the post thumbnail id has the form ngg- then it's a NextGEN image
 			if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
+
+				$image_source = "has_post_thumbnail / ngfb_get_ngg_thumb_url(".$thumb_id.")";
 				$image_url = ngfb_get_ngg_thumb_url( $thumb_id );
+
 			} else {
+
+				$image_source = "has_post_thumbnail / wp_get_attachment_image_src(".$thumb_id.",".$options['og_img_size'].")";
 				$out = wp_get_attachment_image_src( $thumb_id, $options['og_img_size'] );
 				$image_url = $out[0];
 			}
@@ -961,9 +976,14 @@ function ngfb_add_meta_tags() {
 		if( ! $image_url ) {
 
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match) > 0 ) {
-				$thumb_id = $match[1][0];					
+
+				$thumb_id = $match[1][0];
+				$image_source = "preg_match_all / singlepic / ".$thumb_id;
 				$image_url = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
+
 			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 )
+
+					$image_source = "preg_match_all / img src / ".$match[1][0];
 					$image_url = $match[1][0];
 		}
 	}
@@ -973,9 +993,15 @@ function ngfb_add_meta_tags() {
 	} else {
 
 		if ( ! $image_url && $options['og_def_img_id'] != '' ) {
+
 			if ($options['og_def_img_id_pre'] == 'ngg') {
+
+				$image_source = "default / ngfb_get_ngg_thumb_url(".$options['og_def_img_id_pre'].'-'.$options['og_def_img_id'].")";
 				$image_url = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+
 			} else {
+
+				$image_source = "default / wp_get_attachment_image_src(".$options['og_def_img_id'].",".$options['og_img_size'].")";
 				$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
 				$image_url = $out[0];
 			}
@@ -1110,6 +1136,20 @@ function ngfb_add_meta_tags() {
 
 <!-- NextGEN Facebook Meta Tags BEGIN -->
 <?php
+	if ( $options['ngfb_debug'] ) {
+		echo "<!--\n";
+		echo "Settings:\n";
+		foreach ( $options as $opt => $val ) { echo "\t", $opt, " = ", $val, "\n"; }
+		unset ( $opt ); unset ( $val );
+		echo "Image:\n";
+		echo "\tfunction_exists(has_post_thumbnail) = ", function_exists('has_post_thumbnail'), "\n";
+		echo "\thas_post_thumbnail(", $post->ID, ") = ", has_post_thumbnail( $post->ID ), "\n";
+		echo "\tget_post_thumbnail_id(", $post->ID, ") = ", get_post_thumbnail_id( $post->ID ), "\n";
+		echo "\timage_source = ", $image_source, "\n";
+		echo "\timage_url = ", $image_url, "\n";
+		echo "-->\n";
+	}
+	
 	if ( $options['inc_fb:admins'] && $options['og_admins'] )
 		echo '<meta property="fb:admins" content="', $options['og_admins'], '" />', "\n";
 
@@ -1166,7 +1206,7 @@ function ngfb_add_meta_tags() {
 <?php
 }
 
-// It would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
+// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
 function ngfb_add_og_doctype( $output ) {
 	return $output . '
 		xmlns:og="http://ogp.me/ns"
