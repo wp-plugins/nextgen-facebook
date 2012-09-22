@@ -106,7 +106,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. The <a hreh="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
 
-The Facebook / Open Graph &ltmeta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
+**A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
 
 If you want to get rid of the W3C validator error, you'll have to change the DOCTYPE of your documents to:
 
