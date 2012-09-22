@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
-Version: 1.6.1
+Version: 1.6.2
 Author: Jean-Sebastien Morisset
 Author URI: http://trtms.com/
 
@@ -162,7 +162,7 @@ function ngfb_validate_options( $options ) {
 	$options['og_app_id'] = wp_filter_nohtml_kses($options['og_app_id']);
 
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
-		$options['og_def_img_id'] = null;
+		$options['og_def_img_id'] = $def_opts['og_def_img_id'];
 
 	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
 	if ( ! $options['og_img_size']) 
@@ -849,14 +849,14 @@ function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 // thumb_id must be 'ngg-#'
 function ngfb_get_ngg_thumb_url( $thumb_id ) {
 
-    if (! method_exists( 'nggdb', 'find_image' ) ) return;
+    if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
 
 	if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
 
 		$thumb_id = substr($thumb_id, 4);
 		$image = nggdb::find_image($thumb_id);	// returns an nggImage object
 
-		if ( $image != null ) {
+		if ( ! empty( $image ) ) {
 
 			$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 			$size = $options['og_img_size'];
