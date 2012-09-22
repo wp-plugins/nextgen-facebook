@@ -114,7 +114,7 @@ If you want to get rid of the W3C validator error, you'll have to change the DOC
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
 </code>
 
-The DOCTYPE is usually defined in the header.php of your theme.
+The DOCTYPE is usually located in the header.php file of your theme.
 
 == Changelog ==
 
