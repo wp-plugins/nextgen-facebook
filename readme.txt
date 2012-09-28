@@ -92,7 +92,10 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 <code>
 .ngfb-buttons { text-align:center; }
-.facebook-button, .g-plusone-button, .twitter-share-button {
+.facebook-button,
+.g-plusone-button,
+.twitter-share-button, 
+.linkedin-button {
     display:inline-block;
     vertical-align:bottom;
     height:20px;
@@ -102,6 +105,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 .facebook-button { margin-right:22px; }
 .g-plusone-button { margin-right:-10px; }
 .twitter-share-button { margin-right:-10px; }
+.linkedin-button { margin-right:22px; }
 </code>
 
 = Q. The <a hreh="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
@@ -118,6 +122,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 = v.1.6.2 =
 * Added a setting to include hidden debug info above the Open Graph tags.
+* Added the LinkedIn button options.
 
 = v.1.6.1 =
 * Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.

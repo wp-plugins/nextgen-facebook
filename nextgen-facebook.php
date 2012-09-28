@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
 Version: 1.6.2
 Author: Jean-Sebastien Morisset
-Author URI: http://trtms.com/
+Author URI: http://surniaulula.com/
 
 This plugin is based on the WP Facebook Like Send & Open Graph Meta v1.2.3
 plugin by Marvie Pons.
@@ -131,6 +131,8 @@ function ngfb_get_default_options() {
 		'twitter_count' => 'horizontal',
 		'twitter_size' => 'medium',
 		'twitter_dnt' => 1,
+		'linkedin_enable' => '',
+		'linkedin_counter' => 'right',
 		'inc_fb:admins' => 1,
 		'inc_fb:app_id' => 1,
 		'inc_og:site_name' => 1,
@@ -194,6 +196,10 @@ function ngfb_validate_options( $options ) {
 	if (! $options['twitter_size']) 
 		$options['twitter_size'] = $def_opts['twitter_size'];
 
+	$options['linkedin_counter'] = wp_filter_nohtml_kses($options['linkedin_counter']);
+	if (! $options['linkedin_counter']) 
+		$options['linkedin_counter'] = $def_opts['linkedin_counter'];
+
 	// true/false options
 	foreach ( 
 		array( 
@@ -208,6 +214,7 @@ function ngfb_validate_options( $options ) {
 			'gp_enable',
 			'twitter_enable',
 			'twitter_dnt',
+			'linkedin_enable',
 			'inc_fb:admins',
 			'inc_fb:app_id',
 			'inc_og:description',
@@ -676,8 +683,8 @@ function ngfb_render_form() {
 				<th scope="row">Count Box Position</th>
 				<td valign="top">
 					<select name='ngfb_options[twitter_count]' style="width:250px;">
-						<option value='horizontal' <?php selected($options['twitter_count'], 'horizontal'); ?>>Horizontal</option>
 						<option value='vertical' <?php selected($options['twitter_count'], 'vertical'); ?>>Vertical</option>
+						<option value='horizontal' <?php selected($options['twitter_count'], 'horizontal'); ?>>Horizontal</option>
 						<option value='none' <?php selected($options['twitter_count'], 'none'); ?>>None</option>
 					</select>
 				</td>
@@ -695,6 +702,25 @@ function ngfb_render_form() {
 				<th scope="row">Do Not Track</th>
 				<td valign="top"><input name="ngfb_options[twitter_dnt]" type="checkbox" value="1" 
 					<?php checked(1, $options['twitter_dnt']); ?> />
+				</td>
+			</tr>
+			<tr valign="top">
+				<th nowrap><b>LinkedIn</b></th>
+			</tr>
+			<tr valign="top">
+				<th scope="row" nowrap>Enable LinkedIn Button</th>
+				<td valign="top"><input name="ngfb_options[linkedin_enable]" type="checkbox" value="1" 
+					<?php checked(1, $options['linkedin_enable']); ?> />
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Counter Mode</th>
+				<td valign="top">
+					<select name='ngfb_options[linkedin_counter]' style="width:250px;">
+						<option value='top' <?php selected($options['linkedin_counter'], 'top'); ?>>Vertical</option>
+						<option value='right' <?php selected($options['linkedin_counter'], 'right'); ?>>Horizontal</option>
+						<option value='' <?php selected($options['linkedin_counter'], ''); ?>>None</option>
+					</select>
 				</td>
 			</tr>
 		</table>
@@ -753,6 +779,7 @@ function ngfb_add_buttons( $content ) {
 	if ($options['fb_enable']) $buttons .= ngfb_fb_button( $options );
 	if ($options['gp_enable']) $buttons .= ngfb_gp_button( $options );
 	if ($options['twitter_enable']) $buttons .= ngfb_twitter_button( $options );
+	if ($options['linkedin_enable']) $buttons .= ngfb_linkedin_button( $options );
 
 	if ($buttons) $buttons = "
 <!-- NextGEN Facebook Social Buttons BEGIN -->
@@ -837,7 +864,21 @@ function ngfb_twitter_button( $options ) {
 		data-size="'.$twitter_size.'" 
 		data-dnt="'.$twitter_dnt.'">Tweet</a>'."\n";
 
-	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
+	$button .= '<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
+
+	return $button;
+}
+
+function ngfb_linkedin_button( $options ) {
+
+	$linkedin_counter = $options['linkedin_counter'];
+	if ( ! $linkedin_counter ) $linkedin_counter = 'right';
+
+	$button .= "\n".'<div class="linkedin-button">';	
+	$button .= '<script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
+		<script type="IN/Share" data-url="'.get_permalink($post->ID).'"';
+	if ($linkedin_counter) $button .= ' data-counter="'.$linkedin_counter.'"';
+	$button .= '></script></div>'."\n";
 
 	return $button;
 }
