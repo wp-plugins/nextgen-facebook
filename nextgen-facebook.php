@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
-Version: 1.6.2
+Version: 1.7
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -82,12 +82,17 @@ function ngfb_requires_wordpress_version() {
 	}
 }
 
-// Delete options table entries ONLY when plugin deactivated AND deleted
+// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
+function ngfb_add_og_doctype( $output ) {
+	return $output.' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
+}
+
+// delete options table entries ONLY when plugin deactivated AND deleted
 function ngfb_delete_plugin_options() {
 	delete_option('ngfb_options');
 }
 
-// Define default option settings
+// define default option settings
 function ngfb_add_default_options() {
 
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
@@ -142,6 +147,10 @@ function ngfb_get_default_options() {
 		'inc_og:url' => 1,
 		'inc_og:description' => 1,
 		'inc_og:image' => 1,
+		'inc_og:video' => 1,
+		'inc_og:video:width' => 1,
+		'inc_og:video:height' => 1,
+		'inc_og:video:type' => 1,
 		'inc_article:author' => 1,
 		'inc_article:published_time' => 1,
 		'inc_article:modified_time' => 1,
@@ -219,12 +228,16 @@ function ngfb_validate_options( $options ) {
 			'linkedin_enable',
 			'inc_fb:admins',
 			'inc_fb:app_id',
-			'inc_og:description',
-			'inc_og:image',
 			'inc_og:site_name',
 			'inc_og:title',
 			'inc_og:type',
 			'inc_og:url',
+			'inc_og:description',
+			'inc_og:image',
+			'inc_og:video',
+			'inc_og:video:width',
+			'inc_og:video:height',
+			'inc_og:video:type',
 			'inc_article:author',
 			'inc_article:modified_time',
 			'inc_article:published_time',
@@ -257,6 +270,10 @@ function ngfb_render_form() {
 		'og:url', 
 		'og:description', 
 		'og:image',
+		'og:video',
+		'og:video:width',
+		'og:video:height',
+		'og:video:type',
 		'article:author',
 		'article:modified_time',
 		'article:published_time',
@@ -322,7 +339,7 @@ function ngfb_render_form() {
 		'Webmail',
 		'Women\'s',
 	);
-	sort ( $article_sections );
+	asort ( $article_sections );
 
 	$options = get_option( 'ngfb_options' );
 
@@ -982,135 +999,123 @@ function ngfb_add_meta_tags() {
 	
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
-	/* define the list of tags
+	$og['fb:admins'] = $options['og_admins'];
+	$og['fb:app_id'] = $options['og_app_id'];
+	$og['og:url'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+	$debug = array();
+
+	/* og:image
 	-------------------------------------------------------------- */
-
-	if ( is_single() || is_page() ) {
-			
-			$tag_names = array();
-			$page_tags = wp_get_post_tags( $post->ID );
-			$tag_prefix = $options['og_wiki_tag'];
-
-			foreach ( $page_tags as $tag ) {
-				$tag_name = $tag->name;
-				if ( $tag_prefix ) $tag_name = preg_replace( "/^$tag_prefix/", "", $tag_name );
-				$tag_names[] = $tag_name;
-			}
-			unset ( $tag );
-			
-			if ( $options['og_ngg_tags'] ) {
-				if ( function_exists('has_post_thumbnail') && 
-					has_post_thumbnail( $post->ID ) ) {
-
-					$thumb_id = get_post_thumbnail_id( $post->ID );
-
-					if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
-						$image_tags = ngfb_get_ngg_thumb_tags( $thumb_id );
-					}
-
-				} elseif ( $options['og_def_img_id'] != '' && $options['og_def_img_id_pre'] == 'ngg') {
-
-						$image_tags = ngfb_get_ngg_thumb_tags( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
-				}
-				if ( is_array( $image_tags ) ) $tag_names = array_merge( $tag_names, $image_tags );
-			}
-
-	}
-
-	/* define the image_url
-	-------------------------------------------------------------- */
-
-	$image_source = "";	// used for debug info
 
 	if ( is_single() || is_page() || ! $options['og_def_on_home'] ) {
 
+		array_push( $debug, "function_exists(has_post_thumbnail) = ".function_exists('has_post_thumbnail') );
+
 		if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
-	
+
 			$thumb_id = get_post_thumbnail_id( $post->ID );
-	
+			array_push( $debug, "has_post_thumbnail(", $post->ID, ") = ".has_post_thumbnail( $post->ID ) );
+			array_push( $debug, "get_post_thumbnail_id(".$post->ID.") = ".$thumb_id );
+			$debug_pre = "image_source = has_post_thumbnail / ";
+
 			// if the post thumbnail id has the form ngg- then it's a NextGEN image
 			if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
-
-				$image_source = "has_post_thumbnail / ngfb_get_ngg_thumb_url(".$thumb_id.")";
-				$image_url = ngfb_get_ngg_thumb_url( $thumb_id );
-
+				$og['og:image'] = ngfb_get_ngg_thumb_url( $thumb_id );
+				array_push( $debug, $debug_pre."ngfb_get_ngg_thumb_url(".$thumb_id.")" );
 			} else {
-
-				$image_source = "has_post_thumbnail / wp_get_attachment_image_src(".$thumb_id.",".$options['og_img_size'].")";
 				$out = wp_get_attachment_image_src( $thumb_id, $options['og_img_size'] );
-				$image_url = $out[0];
+				$og['og:image'] = $out[0];
+				array_push( $debug, $debug_pre."wp_get_attachment_image_src(".$thumb_id.",".$options['og_img_size'].")" );
 			}
 		}
 	
 		// if there's no featured image, search post for images and display first one
-		if( ! $image_url ) {
+		if( ! $og['og:image'] ) {
 
-			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match) > 0 ) {
-
+			$debug_pre = "image_source = preg_match_all / ";
+			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match ) ) {
 				$thumb_id = $match[1][0];
-				$image_source = "preg_match_all / singlepic / ".$thumb_id;
-				$image_url = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
+				$og['og:image'] = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id );
+				array_push( $debug, $debug_pre."singlepic / ".$thumb_id );
 
-			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 )
-
-				$image_source = "preg_match_all / img src / ".$match[1][0];
-				$image_url = $match[1][0];
+			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match ) )
+				$og['og:image'] = $match[1][0];
+				array_push( $debug , $debug_pre."img src / ".$og['og:image'] );
 		}
 	}
 
 	if ( is_search() && ! $options['og_def_on_search'] ) {
 
 	} else {
-
-		if ( ! $image_url && $options['og_def_img_id'] != '' ) {
-
+		if ( ! $og['og:image'] && $options['og_def_img_id'] != '' ) {
+			$debug_pre = "image_source = default / ";
 			if ($options['og_def_img_id_pre'] == 'ngg') {
-
-				$image_source = "default / ngfb_get_ngg_thumb_url(".$options['og_def_img_id_pre'].'-'.$options['og_def_img_id'].")";
-				$image_url = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
-
+				$og['og:image'] = ngfb_get_ngg_thumb_url( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+				array_push( $debug, $debug_pre."ngfb_get_ngg_thumb_url(".$options['og_def_img_id_pre'].'-'.$options['og_def_img_id'].")" );
 			} else {
-
-				$image_source = "default / wp_get_attachment_image_src(".$options['og_def_img_id'].",".$options['og_img_size'].")";
 				$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
-				$image_url = $out[0];
+				$og['og:image'] = $out[0];
+				array_push( $debug, $debug_pre."wp_get_attachment_image_src(".$options['og_def_img_id'].",".$options['og_img_size'].")" );
 			}
 		}
-	
-		if ( ! $image_url ) $image_url = $options['og_def_img_url'];	// if still empty, use the default url.
+		if ( ! $og['og:image'] ) $og['og:image'] = $options['og_def_img_url'];	// if still empty, use the default url.
 	}
 
-	/* define the site_title
+	/* og:video
 	-------------------------------------------------------------- */
 
-	$site_title = get_bloginfo( 'name', 'display' );
+	if ( preg_match_all( '/<iframe[^>]+src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]+>/i', 
+		$post->post_content, $match ) ) {
 
-	/* define the page_title
+		$iframe_html = $match[0][0];
+		$og['og:video'] = $match[1][0];
+		$og['og:video:type'] = "application/x-shockwave-flash";
+
+		if ( preg_match_all( '/width=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:width'] = $match[1][0];
+		if ( preg_match_all( '/height=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:height'] = $match[1][0];
+
+		$debug_pre = "video_source = preg_match_all / iframe / ";
+		array_push( $debug, $debug_pre."embed|video / ".$og['og:video'] );
+		array_push( $debug, $debug_pre."width x height / ".$og['og:video:width']." x ".$og['og:video:height'] );
+
+		if ( preg_match_all( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og['og:video'], $match ) ) {
+			$og['og:image'] = "http://img.youtube.com/vi/".$match[1][0]."/0.jpg";
+			array_push( $debug, $debug_pre."video img / ".$og['og:image'] );
+		}
+	}
+
+	/* og:site_name
+	-------------------------------------------------------------- */
+
+	$og['og:site_name'] = get_bloginfo( 'name', 'display' );
+
+	/* og:title
 	-------------------------------------------------------------- */
 
 	global $page, $paged;
-	$page_title = trim( wp_title( '|', false, 'right' ), ' |');
+	$og['og:title'] = trim( wp_title( '|', false, 'right' ), ' |');
 
 	if ( is_singular() ) {
 
-		$parent_id  = $post->post_parent;
+		$parent_id = $post->post_parent;
 		if ($parent_id) $parent_title = get_the_title($parent_id);
-		if ($parent_title) $page_title .= ' ('.$parent_title.')';
+		if ($parent_title) $og['og:title'] .= ' ('.$parent_title.')';
 
 	} elseif ( is_category() ) { 
 
 		// wordpress does not include parents - we want the parents too
-		$page_title = ngfb_str_decode( single_cat_title( '', false ) );
-		$page_title = trim( get_category_parents( get_cat_ID( $page_title ), false, ' | ', false ), ' |');
-		$page_title = preg_replace('/\.\.\. \| /', '... ', $page_title);	// my own little quirk ;-)
+		$og['og:title'] = ngfb_str_decode( single_cat_title( '', false ) );
+		$og['og:title'] = trim( get_category_parents( get_cat_ID( $og['og:title'] ), false, ' | ', false ), ' |');
+		$og['og:title'] = preg_replace('/\.\.\. \| /', '... ', $og['og:title']);	// my own little quirk ;-)
 	}
 
-	if ( ! $page_title ) $page_title = $site_title;
+	if ( ! $og['og:title'] ) $og['og:title'] = $og['og:site_name'];
 
 	if ( $paged >= 2 || $page >= 2 ) 
-		$page_title .= ' | ' . sprintf( 'Page %s', max( $paged, $page ) );	// add a page number if necessary
+		$og['og:title'] .= ' | ' . sprintf( 'Page %s', max( $paged, $page ) );	// add a page number if necessary
 
-	/* define the page_desc
+	/* og:description
 	-------------------------------------------------------------- */
 
 	if ( is_search() && ! $options['og_def_on_search'] ) {
@@ -1151,7 +1156,6 @@ function ngfb_add_meta_tags() {
 			// ignore everything until the first paragraph tag
 			if (  $options['og_desc_strip'] )
 				$page_text = preg_replace( '/^.*<p>/s', '', $page_text );
-
 		}
 
 		$page_text = preg_replace( '/[\r\n\t ]+/s', ' ', $page_text );
@@ -1166,121 +1170,105 @@ function ngfb_add_meta_tags() {
 		$page_text = strip_tags( $page_text );
 		$page_text = substr( $page_text, 0, $options['og_desc_len'] );
 		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );	// remove trailing bits of words
-		$page_desc = esc_attr( trim( $page_text ) );
+
+		$og['og:description'] = esc_attr( trim( $page_text ) );
 
 	} elseif ( is_author() ) { 
 
 		the_post();
-		$page_desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
+		$og['og:description'] = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 		$author_desc = get_the_author_meta( 'description' );
-		if ($author_desc) $page_desc .= ': '.$author_desc;	// add the author's profile description, if there is one
+		if ($author_desc) $og['og:description'] .= ': '.$author_desc;	// add the author's profile description, if there is one
 
 	} elseif ( is_tag() ) {
 
-		$page_desc = sprintf( 'Tagged with %s', single_tag_title('', false) );
+		$og['og:description'] = sprintf( 'Tagged with %s', single_tag_title('', false) );
 		$tag_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( tag_description() ) ) ), 0, 
-			$options['og_desc_len'] - strlen($page_desc) ) ) );
-		if ( $tag_desc ) $page_desc .= ': '.$tag_desc;	// add the tag description, if there is one
+			$options['og_desc_len'] - strlen($og['og:description']) ) ) );
+		if ( $tag_desc ) $og['og:description'] .= ': '.$tag_desc;	// add the tag description, if there is one
 
 	} elseif ( is_category() ) { 
 
-		$page_desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
+		$og['og:description'] = sprintf( '%s Category', single_cat_title( '', false ) ); 
 		$cat_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( category_description() ) ) ), 0, 
-			$options['og_desc_len'] - strlen($page_desc) ) ) );
-		if ($cat_desc) $page_desc .= ': '.$cat_desc;	// add the category description, if there is one
+			$options['og_desc_len'] - strlen($og['og:description']) ) ) );
+		if ($cat_desc) $og['og:description'] .= ': '.$cat_desc;	// add the category description, if there is one
 	}
-	elseif ( is_day() ) $page_desc = sprintf( 'Daily Archives for %s', get_the_date() );
-	elseif ( is_month() ) $page_desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
-	elseif ( is_year() ) $page_desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
-	else $page_desc = get_bloginfo( 'description', 'display' );
+	elseif ( is_day() ) $og['og:description'] = sprintf( 'Daily Archives for %s', get_the_date() );
+	elseif ( is_month() ) $og['og:description'] = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
+	elseif ( is_year() ) $og['og:description'] = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
+	else $og['og:description'] = get_bloginfo( 'description', 'display' );
 
-	/* define the page_type
+	/* og:type and article:*
 	-------------------------------------------------------------- */
 
-	if ( is_single() || is_page() ) $page_type = "article";
-	else $page_type = "blog";	// 'website' could also be another choice
+	if ( is_single() || is_page() ) {
 
-?>
+		$og['og:type'] = "article";
+		$og['article:author'] = trailingslashit(site_url()).'author/'.get_the_author_meta( 'user_login', $post->post_author ).'/';
+		$og['article:modified_time'] = get_the_modified_date('c');
+		$og['article:published_time'] = get_the_date('c');
+		$og['article:section'] = $options['og_art_section'];
+		$og['article:tag'] = array();
 
-<!-- NextGEN Facebook Meta Tags BEGIN -->
-<?php
+		$page_tags = wp_get_post_tags( $post->ID );
+		$tag_prefix = $options['og_wiki_tag'];
+
+		foreach ( $page_tags as $tag ) {
+			$tag_name = $tag->name;
+			if ( $tag_prefix )
+				$tag_name = preg_replace( "/^$tag_prefix/", "", $tag_name );
+			array_push( $og['article:tag'], $tag_name );
+		}
+		unset ( $tag );
+			
+		if ( $options['og_ngg_tags'] ) {
+			if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+				$thumb_id = get_post_thumbnail_id( $post->ID );
+				if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' )
+					$image_tags = ngfb_get_ngg_thumb_tags( $thumb_id );
+
+			} elseif ( $options['og_def_img_id'] != '' && $options['og_def_img_id_pre'] == 'ngg')
+				$image_tags = ngfb_get_ngg_thumb_tags( $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'] );
+			
+			if ( is_array( $image_tags ) ) 
+				$og['article:tag'] = array_merge( $og['article:tag'], $image_tags );
+		}
+
+	} else $og['og:type'] = "blog";	// 'website' could also be another choice
+
+	/* Meta Tags
+	-------------------------------------------------------------- */
+
+	echo "\n<!-- NextGEN Facebook Meta Tags BEGIN -->\n";
+
 	if ( $options['ngfb_debug'] ) {
 		echo "<!--\n";
-		echo "Settings:\n";
-		foreach ( $options as $opt => $val ) { echo "\t", $opt, " = ", $val, "\n"; }
+		echo "Options Array:\n";
+		foreach ( $options as $opt => $val ) echo "\t$opt = $val\n";
 		unset ( $opt ); unset ( $val );
-		echo "Image:\n";
-		echo "\tfunction_exists(has_post_thumbnail) = ", function_exists('has_post_thumbnail'), "\n";
-		echo "\thas_post_thumbnail(", $post->ID, ") = ", has_post_thumbnail( $post->ID ), "\n";
-		echo "\tget_post_thumbnail_id(", $post->ID, ") = ", get_post_thumbnail_id( $post->ID ), "\n";
-		echo "\timage_source = ", $image_source, "\n";
-		echo "\timage_url = ", $image_url, "\n";
+		echo "Debug Array:\n";
+		foreach ( $debug as $val ) echo "\t$val\n";
+		unset ( $val );
 		echo "-->\n";
 	}
-	
-	if ( $options['inc_fb:admins'] && $options['og_admins'] )
-		echo '<meta property="fb:admins" content="', $options['og_admins'], '" />', "\n";
 
-	if ( $options['inc_fb:app_id'] && $options['og_app_id'] )
-		echo '<meta property="fb:app_id" content="', $options['og_app_id'], '" />', "\n";
-
-	if ( $options['inc_og:description'] && $page_desc )
-		echo '<meta property="og:description" content="', $page_desc, '" />', "\n";
-
-	if ( $options['inc_og:image'] && $image_url )
-		echo '<meta property="og:image" content="', $image_url, '" />', "\n";
-
-	if ( $options['inc_og:site_name'] )
-		echo '<meta property="og:site_name" content="', $site_title, '" />', "\n";
-
-	if ( $options['inc_og:title'] )
-		echo '<meta property="og:title" content="', $page_title, '" />', "\n";
-
-	if ( $options['inc_og:type'] )
-		echo '<meta property="og:type" content="', $page_type, '" />', "\n";
-
-	if ( $options['inc_og:url'] )
-		echo '<meta property="og:url" content="http://', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'], '" />', "\n";
-
-	if ($page_type == "article") {
-
-		if ( $options['inc_article:author'] )
-			echo '<meta property="article:author" content="',
-				trailingslashit(site_url()), 'author/', 
-				get_the_author_meta( 'user_login', 
-				$post->post_author ), '/" />', "\n";
-
-		if ( $options['inc_article:modified_time'] )
-			echo '<meta property="article:modified_time" content="',
-				get_the_modified_date('c'), '" />', "\n";
-
-		if ( $options['inc_article:published_time'] )
-			echo '<meta property="article:published_time" content="', 
-				get_the_date('c'), '" />', "\n";
-
-		if ( $options['inc_article:section'] && $options['og_art_section'] )
-			echo '<meta property="article:section" content="', 
-				$options['og_art_section'], '" />', "\n";
-
-		if ( $options['inc_article:tag'] ) {
-			foreach ( $tag_names as $tag )
-				echo '<meta property="article:tag" content="', $tag, '" />', "\n";
-			unset ( $tag );
+	ksort( $og );
+	foreach ( $og as $name => $val ) {
+		if ( $options['inc_'.$name] && $val ) {
+			if ( is_array ( $og[$name] ) ) {
+				foreach ( $og[$name] as $el )
+					echo '<meta property="'.$name.'" content="'.$el.'" />'."\n";
+				unset ( $el );
+			} else echo '<meta property="'.$name.'" content="'.$val.'" />'."\n";
 		}
 	}
-?>
-<!-- NextGEN Facebook Meta Tags END -->
+	unset ( $name );
+	unset ( $val );
 
-<?php
-}
-
-// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
-function ngfb_add_og_doctype( $output ) {
-	return $output . '
-		xmlns:og="http://ogp.me/ns"
-		xmlns:fb="http://ogp.me/ns/fb"';
+	echo "<!-- NextGEN Facebook Meta Tags END -->\n\n";
 }
 
 ?>
