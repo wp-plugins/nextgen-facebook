@@ -74,10 +74,7 @@ function ngfb_requires_wordpress_version() {
 	if ( version_compare($wp_version, "3.0", "<" ) ) {
 		if( is_plugin_active($plugin) ) {
 			deactivate_plugins( $plugin );
-			wp_die( "'".$plugin_data['Name']."' requires WordPress 3.0 or
-			higher and has been deactivated. Please upgrade WordPress and try
-			again.<br /><br />Back to <a href='".admin_url()."'>WordPress
-			admin</a>." );
+			wp_die( "'".$plugin_data['Name']."' requires WordPress 3.0 or higher and has been deactivated. Please upgrade WordPress and try again.<br /><br />Back to <a href='".admin_url()."'>WordPress admin</a>." );
 		}
 	}
 }
@@ -159,12 +156,12 @@ function ngfb_get_default_options() {
 	);
 }
 
-// Init plugin options to white list our options
+// init plugin options to white list our options
 function ngfb_init() {
 	register_setting( 'ngfb_plugin_options', 'ngfb_options', 'ngfb_validate_options' );
 }
 
-// Sanitize and validate input
+// sanitize and validate input
 function ngfb_validate_options( $options ) {
 
 	$def_opts = ngfb_get_default_options();
@@ -176,39 +173,25 @@ function ngfb_validate_options( $options ) {
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
 		$options['og_def_img_id'] = $def_opts['og_def_img_id'];
 
-	$options['og_img_size'] = wp_filter_nohtml_kses($options['og_img_size']);
-	if ( ! $options['og_img_size']) 
-		$options['og_img_size'] = $def_opts['og_img_size'];
-
 	if ( ! $options['og_desc_len'] || ! is_numeric( $options['og_desc_len'] ) )
 		$options['og_desc_len'] = $def_opts['og_desc_len'];
 
-	if ( $options['og_desc_len'] < 160 ) 
-		$options['og_desc_len'] = 160;
+	if ( $options['og_desc_len'] < 160 ) $options['og_desc_len'] = 160;
 
-	$options['buttons_location'] = wp_filter_nohtml_kses($options['buttons_location']);
-	if (! $options['buttons_location']) 
-		$options['buttons_location'] = $def_opts['button_location'];
-
-	$options['gp_size'] = wp_filter_nohtml_kses($options['gp_size']);
-	if (! $options['gp_size']) 
-		$options['gp_size'] = $def_opts['gp_size'];
-
-	$options['gp_annotate'] = wp_filter_nohtml_kses($options['gp_annotate']);
-	if (! $options['gp_annotate']) 
-		$options['gp_annotate'] = $def_opts['gp_annotate'];
-
-	$options['twitter_count'] = wp_filter_nohtml_kses($options['twitter_count']);
-	if (! $options['twitter_count']) 
-		$options['twitter_count'] = $def_opts['twitter_count'];
-
-	$options['twitter_size'] = wp_filter_nohtml_kses($options['twitter_size']);
-	if (! $options['twitter_size']) 
-		$options['twitter_size'] = $def_opts['twitter_size'];
-
-	$options['linkedin_counter'] = wp_filter_nohtml_kses($options['linkedin_counter']);
-	if (! $options['linkedin_counter']) 
-		$options['linkedin_counter'] = $def_opts['linkedin_counter'];
+	// options that cannot be blank
+	foreach ( array( 
+		'og_img_size', 
+		'buttons_location', 
+		'gp_size', 
+		'gp_annotate', 
+		'twitter_count', 
+		'twitter_size', 
+		'linkedin_counter'
+		) as $opt ) {
+		$options[$opt] = wp_filter_nohtml_kses($options[$opt]);
+		if (! $options[$opt] ) $options[$opt] = $def_opts[$opt];
+	}
+	unset( $opt );
 
 	// true/false options
 	foreach ( 
@@ -253,12 +236,12 @@ function ngfb_validate_options( $options ) {
 	return $options;
 }
 
-// Add menu page
+// add menu page
 function ngfb_add_options_page() {
 	add_options_page('NextGEN Facebook Options Page', 'NextGEN Facebook', 'manage_options', 'ngfb', 'ngfb_render_form');
 }
 
-// Render the Plugin options form
+// render the Plugin options form
 function ngfb_render_form() {
 
 	$meta_tags = array( 
