@@ -121,8 +121,9 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 == Changelog ==
 
 = v.1.6.2 =
+* Added LinkedIn social button options.
 * Added a setting to include hidden debug info above the Open Graph tags.
-* Added the LinkedIn button options.
+* If the Excluded Pages plugin is installed, a new option will be available on the settings page to turn on/off social buttons on excluded pages (by default, social buttons are not added to excluded pages).
 
 = v.1.6.1 =
 * Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.

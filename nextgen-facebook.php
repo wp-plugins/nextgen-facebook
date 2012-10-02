@@ -116,6 +116,7 @@ function ngfb_get_default_options() {
 		'og_admins' => '',
 		'og_app_id' => '',
 		'buttons_on_home' => '',
+		'buttons_on_ex_pages' => '',
 		'buttons_location' => 'bottom',
 		'fb_enable' => '',
 		'fb_send' => 1,
@@ -209,6 +210,7 @@ function ngfb_validate_options( $options ) {
 			'og_desc_wiki',
 			'og_ngg_tags',
 			'buttons_on_home',
+			'buttons_on_ex_pages',
 			'fb_enable',
 			'fb_send',
 			'gp_enable',
@@ -482,7 +484,7 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
 					<?php checked(1, $options['og_desc_wiki']); ?> />
 				</td><td>
-					<p>NextGEN Facebook can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
+					<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
 				</td>
 			</tr>
 
@@ -569,6 +571,22 @@ function ngfb_render_form() {
 					<?php checked(1, $options['buttons_on_home']); ?> />
 				</td>
 			</tr>
+
+			<?php 
+				// hide Add to Excluded Pages option if not installed and activated
+				if ( ! function_exists( 'ep_get_excluded_ids' ) ) echo "<!-- "; 
+			?>
+			<tr valign="top">
+				<th scope="row" nowrap>Add to Excluded Pages</th>
+				<td valign="top"><input name="ngfb_options[buttons_on_ex_pages]" type="checkbox" value="1"
+					<?php checked(1, $options['buttons_on_ex_pages']); ?> />
+				</td>
+				</td><td>
+					<p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded pages. You can add the social buttons to excluded page content by selecting this option.</p>
+				</td>
+			</tr>
+			<?php if ( ! function_exists( 'ep_get_excluded_ids' ) ) echo "--> "; ?>
+
 			<tr>
 				<th scope="row">Location in Content</th>
 				<td valign="top">
@@ -774,6 +792,8 @@ function ngfb_plugin_action_links( $links, $file ) {
 
 function ngfb_add_buttons( $content ) {
 
+	global $post;
+
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
 	if ($options['fb_enable']) $buttons .= ngfb_fb_button( $options );
@@ -785,6 +805,15 @@ function ngfb_add_buttons( $content ) {
 <!-- NextGEN Facebook Social Buttons BEGIN -->
 <div class=\"ngfb-buttons\">\n$buttons\n</div>
 <!-- NextGEN Facebook Social Buttons END -->\n\n";
+
+	# if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
+	if ( is_page() && function_exists( 'ep_get_excluded_ids' ) && ! $options['buttons_on_ex_pages'] ) {
+		$excluded_ids = ep_get_excluded_ids();
+		$delete_ids = array_unique( $excluded_ids );
+		if ( in_array( $post->ID, $delete_ids ) ) {
+			$buttons = '';
+		}
+	}
 
 	if ( is_single() || is_page() || $options['buttons_on_home'] ) {
 		if ($options['buttons_location'] == "top") $content = $buttons.$content;
@@ -1024,8 +1053,8 @@ function ngfb_add_meta_tags() {
 
 			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $post->post_content, $match) > 0 )
 
-					$image_source = "preg_match_all / img src / ".$match[1][0];
-					$image_url = $match[1][0];
+				$image_source = "preg_match_all / img src / ".$match[1][0];
+				$image_url = $match[1][0];
 		}
 	}
 
@@ -1088,7 +1117,7 @@ function ngfb_add_meta_tags() {
 
 	} elseif ( is_singular() ) {
 	
-		if ( has_excerpt($post->ID) ) {
+		if ( has_excerpt( $post->ID ) ) {
 
 			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
 
