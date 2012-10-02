@@ -244,26 +244,6 @@ function ngfb_add_options_page() {
 // render the Plugin options form
 function ngfb_render_form() {
 
-	$meta_tags = array( 
-		'fb:admins', 
-		'fb:app_id', 
-		'og:site_name', 
-		'og:title', 
-		'og:type', 
-		'og:url', 
-		'og:description', 
-		'og:image',
-		'og:video',
-		'og:video:width',
-		'og:video:height',
-		'og:video:type',
-		'article:author',
-		'article:modified_time',
-		'article:published_time',
-		'article:section',
-		'article:tag',
-	);
-
 	// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 	$article_sections = array(
 		'Animation',
@@ -325,6 +305,7 @@ function ngfb_render_form() {
 	asort ( $article_sections );
 
 	$options = get_option( 'ngfb_options' );
+	ksort( $options );
 
 	// update option field names
 	if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
@@ -340,8 +321,7 @@ function ngfb_render_form() {
 	foreach ( ngfb_get_default_options() as $opt => $def ) {
 		if ( ! isset( $options[$opt] ) ) $options[$opt] = $def;
 	}
-	unset( $opt );
-	unset( $def );
+	unset( $opt, $def );
 
 	$options = ngfb_validate_options( $options );
 
@@ -547,15 +527,17 @@ function ngfb_render_form() {
 				</td>
 			</tr>
 			<?php 
-				foreach ( $meta_tags as $tag_name ) {
-					echo '<tr valign="top">', "\n";
-					echo '<th scope="row" nowrap>Include '.$tag_name.' Meta Tag</th>', "\n";
-					echo '<td valign="top"><input name="ngfb_options[inc_'.$tag_name.']" type="checkbox" value="1" ';
-					checked(1, $options['inc_'.$tag_name]);
-					echo '/></td><td><p>', "\n";
-					echo '</p></td></tr>', "\n";
+				foreach ( $options as $opt => $val ) {
+					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
+						echo '<tr valign="top">', "\n";
+						echo '<th scope="row" nowrap>Include '.$match[1].' Meta Tag</th>', "\n";
+						echo '<td valign="top"><input name="ngfb_options['.$opt.']" type="checkbox" value="1" ';
+						checked(1, $options[$opt]);
+						echo '/></td><td><p>', "\n";
+						echo '</p></td></tr>', "\n";
+					}
 				}
-				unset( $tag_name );
+				unset( $opt, $val );
 			?>
 		</table>
 		</div><!-- .inside -->
@@ -1122,9 +1104,7 @@ function ngfb_add_meta_tags() {
 						else continue;
 					$page_text .= wikibox_summary( $tag_name, '', false ); 
 				}
-				unset ( $tag );
-				unset ( $tag_name );
-				unset ( $tag_prefix );
+				unset ( $tag, $tag_name, $tag_prefix );
 			} else {
 				$page_text .= wikibox_summary( the_title( '', '', false ), '', false );
 			}
@@ -1231,7 +1211,7 @@ function ngfb_add_meta_tags() {
 		echo "<!--\n";
 		echo "Options Array:\n";
 		foreach ( $options as $opt => $val ) echo "\t$opt = $val\n";
-		unset ( $opt ); unset ( $val );
+		unset ( $opt, $val );
 		echo "Debug Array:\n";
 		foreach ( $debug as $val ) echo "\t$val\n";
 		unset ( $val );
@@ -1248,8 +1228,7 @@ function ngfb_add_meta_tags() {
 			} else echo '<meta property="'.$name.'" content="'.$val.'" />'."\n";
 		}
 	}
-	unset ( $name );
-	unset ( $val );
+	unset ( $name, $val );
 
 	echo "<!-- NextGEN Facebook Meta Tags END -->\n\n";
 }
