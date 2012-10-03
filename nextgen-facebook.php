@@ -1035,7 +1035,7 @@ function ngfb_add_meta_tags() {
 		array_push( $debug, $debug_pre."width x height / ".$og['og:video:width']." x ".$og['og:video:height'] );
 
 		// make sure we have all fields before changing the og:image
-		if ( $og['og:video'] && $width > 0 && $height > 0 ) {
+		if ( $og['og:video'] && $og['og:video:width'] > 0 && $og['og:video:height'] > 0 ) {
 
 			// check for youtube url
 			if ( preg_match_all( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og['og:video'], $match ) ) {
