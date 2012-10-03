@@ -1034,9 +1034,14 @@ function ngfb_add_meta_tags() {
 		array_push( $debug, $debug_pre."embed|video / ".$og['og:video'] );
 		array_push( $debug, $debug_pre."width x height / ".$og['og:video:width']." x ".$og['og:video:height'] );
 
-		if ( preg_match_all( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og['og:video'], $match ) ) {
-			$og['og:image'] = "http://img.youtube.com/vi/".$match[1][0]."/0.jpg";
-			array_push( $debug, $debug_pre."video img / ".$og['og:image'] );
+		// make sure we have all fields before changing the og:image
+		if ( $og['og:video'] && $width > 0 && $height > 0 ) {
+
+			// check for youtube url
+			if ( preg_match_all( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og['og:video'], $match ) ) {
+				$og['og:image'] = "http://img.youtube.com/vi/".$match[1][0]."/0.jpg";
+				array_push( $debug, $debug_pre."video img / ".$og['og:image'] );
+			}
 		}
 	}
 
