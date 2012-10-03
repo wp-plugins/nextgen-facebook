@@ -760,7 +760,7 @@ function ngfb_render_form() {
 	<?php	
 }
 
-// Display a Settings link on the main Plugins page
+// display a settings link on the main plugins page
 function ngfb_plugin_action_links( $links, $file ) {
 
 	if ( $file == plugin_basename( __FILE__ ) ) {
@@ -947,16 +947,6 @@ function ngfb_get_ngg_thumb_url( $thumb_id ) {
 		}
     }
     return $image_url;
-}
-
-function ngfb_str_decode( $str ) {
-	$str = preg_replace('/&#8230;/', '...', $str );
-	return preg_replace('/&#\d{2,5};/ue', "ctx_aj_utf8_entity_decode('$0')", $str );
-}
-
-function ngfb_utf8_entity_decode( $entity ) {
-	$convmap = array( 0x0, 0x10000, 0, 0xfffff );
-	return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 }
 
 function ngfb_add_meta_tags() {
@@ -1231,6 +1221,16 @@ function ngfb_add_meta_tags() {
 	unset ( $name, $val );
 
 	echo "<!-- NextGEN Facebook Meta Tags END -->\n\n";
+}
+
+function ngfb_str_decode( $str ) {
+	$str = preg_replace('/&#8230;/', '...', $str );
+	return preg_replace('/&#\d{2,5};/ue', "ctx_aj_utf8_entity_decode('$0')", $str );
+}
+
+function ngfb_utf8_entity_decode( $entity ) {
+	$convmap = array( 0x0, 0x10000, 0, 0xfffff );
+	return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 }
 
 ?>
