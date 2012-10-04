@@ -1146,7 +1146,7 @@ function ngfb_add_meta_tags() {
 
 		the_post();
 		$og['og:description'] = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
-		$author_desc = get_the_author_meta( 'description' );
+		$author_desc = strip_tags( get_the_author_meta( 'description' ) );
 		if ($author_desc) $og['og:description'] .= ': '.$author_desc;	// add the author's profile description, if there is one
 
 	} elseif ( is_tag() ) {
