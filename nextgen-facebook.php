@@ -845,15 +845,26 @@ function ngfb_gp_button( $options ) {
 	
 	$gp_annotation = $options['gp_annotation'];
 	if ( ! $gp_annotation ) $gp_annotation = 'bubble';
-	
+
+	/* $button .= '<div class="g-plusone-button"><g:plusone size="'.$gp_size.'" 
+		href="'.get_permalink($post->ID).'"></g:plusone></div>'."\n"; */
+
+	// html-5 syntax
 	$button .= '<div class="g-plusone-button"><span class="g-plusone" 
 		data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></span></div>'."\n";
-
-	$button .= '<script type="text/javascript">(function() {
-		var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
-		po.src = "https://apis.google.com/js/plusone.js";
-		var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s); })();</script>'."\n";
-
+	
+	$button .= '
+		<script type="text/javascript"> ( 
+			function() {
+				var po = document.createElement("script");
+				po.type = "text/javascript"; 
+				po.async = true;
+				po.src = "https://apis.google.com/js/plusone.js";
+				var s = document.getElementsByTagName("script")[0]; 
+				s.parentNode.insertBefore(po, s);
+			}
+		)(); </script>
+	';
 	return $button;
 }
 
