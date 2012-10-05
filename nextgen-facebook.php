@@ -2,7 +2,7 @@
 /*
 Plugin Name: NextGEN Facebook
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
-Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
+Description: Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optional FB, G+, Twitter, LinkedIn sharing buttons.
 Version: 1.7
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
@@ -17,7 +17,8 @@ in the "image" meta tag. This plugin goes well beyond any other plugins I know
 in handling various archive-type webpages. It will create appropriate title
 and description meta tags for category, tag, date based archive (day, month,
 or year), author webpages and search results. You can also, optionally, add
-Facebook, Google+ and Twitter sharing buttons to post and page content.
+Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page
+content.
 
 The Open Graph protocol enables any web page to become a rich object in a
 social graph. For instance, this is used on Facebook to allow any web page to
