@@ -1,16 +1,16 @@
 === NextGEN Facebook ===
 Contributors: jsmoriss
-Tags: nextgen, facebook, featured, open graph, ogp, meta, buttons, like, send, share, image, article, wp-wikibox, wikipedia, google, google plus, g+, linkedin, social, seo, search engine optimization
+Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages
 Requires at least: 3.0
 Tested up to: 3.4.2
 Stable tag: 1.7
 License: GPLv2 or later
 
-Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
+Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optional FB, G+, Twitter, LinkedIn sharing buttons.
 
 == Description ==
 
-The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook, Google+ and Twitter sharing buttons to post and page content.
+The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page content.
 
 The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
 
@@ -123,7 +123,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 = v.1.7 =
 * Added LinkedIn social button options.
 * Added a setting to include hidden debug info above the Open Graph tags.
-* If the Excluded Pages plugin is installed, a new option will be available on the settings page to turn on/off social buttons on excluded pages (by default, social buttons are not added to excluded pages).
+* If the Exclude Pages plugin is installed, a new option will be available on the settings page to turn on/off social buttons on excluded pages (by default, social buttons are not added to excluded pages).
 * Added the og:video meta tags (including width, height, type, etc.) for youtube iframe embeded videos.
 * Cleaned-up some PHP code to consolidate the OG variables within a single array.
 
