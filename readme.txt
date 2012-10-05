@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, facebook, featured, open graph, ogp, meta, buttons, like, send, share, image, article, wp-wikibox, wikipedia, google, google plus, g+, linkedin, social, seo, search engine optimization
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.6.1
+Stable tag: 1.7
 License: GPLv2 or later
 
 Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc. Includes optional Facebook, G+ and Twitter sharing buttons.
@@ -64,7 +64,7 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook to selec
 
 == Screenshots ==
 
-1. WordPress v3.4.2 and NextGEN Facebook v1.6.1 - The Settings Page
+1. WordPress v3.4.2 and NextGEN Facebook v1.7 - The Settings Page
 
 == Frequently Asked Questions ==
 
