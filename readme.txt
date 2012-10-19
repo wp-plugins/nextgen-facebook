@@ -16,25 +16,27 @@ The Open Graph protocol enables any web page to become a rich object in a social
 
 NextGEN Facebook was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin</strong> - all features work just as well without it. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
-Here's an example of Open Graph meta tags for a post:
+Here's an example of Open Graph meta tags <a href="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/">for a post on my website</a>:
 
 <code>
 &lt;!-- NextGEN Facebook Meta Tags BEGIN --&gt;
-&lt;meta property="fb:app_id" content="345251245549378" /&gt;
-&lt;meta property="og:site_name" content="The Road to Myself" /&gt;
-&lt;meta property="og:title" content="Odds and Ends : An Article Title" /&gt;
+&lt;meta property="article:author" content="http://surniaulula.com/author/jsmoriss/" /&gt;
+&lt;meta property="article:modified_time" content="2012-10-16T12:20:00+00:00" /&gt;
+&lt;meta property="article:published_time" content="2012-10-02T22:30:15+00:00" /&gt;
+&lt;meta property="article:section" content="Technology" /&gt;
+&lt;meta property="article:tag" content="filepath" /&gt;
+&lt;meta property="article:tag" content="pcre" /&gt;
+&lt;meta property="article:tag" content="php" /&gt;
+&lt;meta property="article:tag" content="preg_replace" /&gt;
+&lt;meta property="article:tag" content="replace" /&gt;
+&lt;meta property="article:tag" content="span" /&gt;
+&lt;meta property="fb:admins" content="jsmoriss" /&gt;
+&lt;meta property="og:description" content="I wanted filepaths and filenames in WordPress post/page content to be displayed with a monospace font, so I wrote the following PHP plugin to wrap filepaths with a &lt;span&gt; HTML and CSS style tag. The code could be added to a theme&#039;s functions.php file, or used as a plugin (as shown" /&gt;
+&lt;meta property="og:image" content="http://surniaulula.com/wp-content/gallery/cache/5_crop_200x200_20120814-114043-sbellive-0078.jpg" /&gt;
+&lt;meta property="og:site_name" content="Surnia Ulula" /&gt;
+&lt;meta property="og:title" content="Span Filepaths in WordPress Content" /&gt;
 &lt;meta property="og:type" content="article" /&gt;
-&lt;meta property="og:image" content="http://trtms.com/wp-content/gallery/cache/167_crop_200x200_filename.jpg" /&gt;
-&lt;meta property="og:description" content="An excerpt from the post, up to a specified length..." /&gt;
-&lt;meta property="og:url" content="http://trtms.com/2012/07/14/odds-and-ends-an-article-title/" /&gt;
-&lt;meta property="article:published_time" content="2012-07-14T08:54:10+00:00" /&gt;
-&lt;meta property="article:modified_time" content="2012-07-15T08:51:52+00:00" /&gt;
-&lt;meta property="article:section" content="Travel" /&gt;
-&lt;meta property="article:author" content="http://trtms.com/author/jsmoriss/" /&gt;
-&lt;meta property="article:tag" content="Some Tags" /&gt;
-&lt;meta property="article:tag" content="Given" /&gt;
-&lt;meta property="article:tag" content="To Your" /&gt;
-&lt;meta property="article:tag" content="Article" /&gt;
+&lt;meta property="og:url" content="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/" /&gt;
 &lt;!-- NextGEN Facebook Meta Tags END --&gt;
 </code>
 

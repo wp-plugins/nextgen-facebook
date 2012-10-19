@@ -7,7 +7,7 @@ Version: 1.7
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
-This plugin is based on the WP Facebook Like Send & Open Graph Meta v1.2.3
+This plugin is based on the "WP Facebook Like Send & Open Graph Meta v1.2.3"
 plugin by Marvie Pons.
 
 The NextGEN Facebook plugin adds Open Graph meta tags to all webpage headers,
