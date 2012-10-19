@@ -502,7 +502,7 @@ function ngfb_render_form() {
 				<td valign="top"><input type="text" size="40" name="ngfb_options[og_admins]" 
 					value="<?php echo $options['og_admins']; ?>" style="width:250px;" />
 				</td><td>
-					<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). The Facebook Admin names are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/">Facebook Insight</a> data to those accounts.</p>
+					<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). The Facebook Admin names are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to those accounts.</p>
 				</td>
 			</tr>
 
@@ -511,7 +511,7 @@ function ngfb_render_form() {
 				<td valign="top"><input type="text" size="40" name="ngfb_options[og_app_id]" 
 					value="<?php echo $options['og_app_id']; ?>" style="width:250px;" />
 				</td><td>
-					<p>If you have a Facebook Application ID, enter it here. Facebook Application IDs are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/">Facebook Insight</a> data to the accounts associated with that Application ID.</p>
+					<p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID, enter it here. <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> IDs are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to the accounts associated with that Application ID.</p>
 				</td>
 			</tr>
 		</table>
