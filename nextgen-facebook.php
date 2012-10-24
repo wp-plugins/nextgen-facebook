@@ -1,23 +1,23 @@
 <?php
 /*
-Plugin Name: NextGEN Facebook
+Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optional FB, G+, Twitter and LinkedIn sharing buttons.
-Version: 1.7
+Version: 1.7.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
 This plugin is based on the "WP Facebook Like Send & Open Graph Meta v1.2.3"
 plugin by Marvie Pons.
 
-The NextGEN Facebook plugin adds Open Graph meta tags to all webpage headers,
-including the "artical" object type for posts and pages. The featured image
-thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed
-in the "image" meta tag. This plugin goes well beyond any other plugins I know
-in handling various archive-type webpages. It will create appropriate title
-and description meta tags for category, tag, date based archive (day, month,
-or year), author webpages and search results. You can also, optionally, add
-Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page
+The NextGEN Facebook OG plugin adds Open Graph meta tags to all webpage
+headers, including the "artical" object type for posts and pages. The featured
+image thumbnails, from a NextGEN Gallery or Media Library, are also correctly
+listed in the "image" meta tag. This plugin goes well beyond any other plugins
+I know in handling various archive-type webpages. It will create appropriate
+title and description meta tags for category, tag, date based archive (day,
+month, or year), author webpages and search results. You can also, optionally,
+add Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page
 content.
 
 The Open Graph protocol enables any web page to become a rich object in a
@@ -26,7 +26,7 @@ have the same functionality as any other object on Facebook. The Open Graph
 meta tags are read by almost all social websites, including Facebook, Google
 (Search and Google+), and LinkedIn.
 
-NextGEN Facebook was specifically written to support featured images located
+NextGEN Facebook OG was specifically written to support featured images located
 in a NextGEN Gallery, but also works just as well with the WordPress Media
 Library. The NextGEN Gallery plugin is not required to use this plugin - all
 features work just as well without it. The image used in the Open Graph meta
@@ -36,23 +36,20 @@ content, a default image defined in the plugin settings. If none of these
 conditions can be satisfied, then the Open Graph image tag will be left empty.
 
 This plugin is being actively developed and supported. Post your comments and
-suggestions to the NextGEN Facebook Support Page at
+suggestions to the NextGEN Facebook OG support page at
 http://wordpress.org/support/plugin/nextgen-facebook.
 
-Copyright 2012 Jean-Sebastien Morisset
+Copyright 2012 Jean-Sebastien Morisset (http://surniaulula.com/)
 
-This script is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or
-(at your option) any later version.
+This script is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
 
-This script is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This script is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details at
+http://www.gnu.org/licenses/.
 
 */
 
@@ -67,6 +64,11 @@ add_action( 'wp_head', 'ngfb_add_meta_tags' );
 
 add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
 add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
+
+// add menu page
+function ngfb_add_options_page() {
+	add_options_page('NextGEN Facebook OG Plugin', 'NextGEN Facebook', 'manage_options', 'ngfb', 'ngfb_render_form');
+}
 
 function ngfb_requires_wordpress_version() {
 	global $wp_version;
@@ -237,11 +239,6 @@ function ngfb_validate_options( $options ) {
 	return $options;
 }
 
-// add menu page
-function ngfb_add_options_page() {
-	add_options_page('NextGEN Facebook Options Page', 'NextGEN Facebook', 'manage_options', 'ngfb', 'ngfb_render_form');
-}
-
 // render the Plugin options form
 function ngfb_render_form() {
 
@@ -329,16 +326,13 @@ function ngfb_render_form() {
 	?>
 	<div class="wrap">
 	<div class="icon32" id="icon-options-general"><br></div>
-	<h2>NextGEN Facebook Plugin</h2>
+	<h2>NextGEN Facebook OG Plugin</h2>
 
-	<p>The NextGEN Facebook plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable social share buttons, define a default image, etc.</p>
+	<p>The NextGEN Facebook OG plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable social share buttons, define a default image, etc.</p>
 
 	<p>The image used in the Open Graph HTML meta tag will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;img&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
-	<p><strong>If you like NextGEN Facebook, <a
-	href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please
-	take a moment to rate it</strong></a> on the WordPress plugin
-	page.</strong></p>
+	<p><strong>If you like NextGEN Facebook OG, <a href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please take a moment to rate it</strong></a> on the WordPress plugin page.</strong></p>
 
 	<div class="metabox-holder">
 		<div class="postbox">
@@ -434,7 +428,7 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
 					<?php checked(1, $options['og_def_on_home']); ?> />
 				</td><td>
-					<p>Check this box if you would like to use the default image on page types with more than one entry (homepage, archives, categories, etc.). If you leave this un-checked, NextGEN Facebook will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the page.</p>
+					<p>Check this box if you would like to use the default image on page types with more than one entry (homepage, archives, categories, etc.). If you leave this un-checked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the page.</p>
 				</td>
 			</tr>
 
@@ -465,7 +459,7 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
 					<?php checked(1, $options['og_desc_wiki']); ?> />
 				</td><td>
-					<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
+					<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook OG can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
 				</td>
 			</tr>
 
@@ -524,7 +518,7 @@ function ngfb_render_form() {
 		<table class="form-table">
 			<tr valign="top">
 				<td colspan="3">
-					<p>NextGEN Facebook will include all possible Facebook and Open Graph HTML meta tags in your webpage headers. In some cases, you may need to exclude one or more of these HTML meta tags. You can uncheck the following meta tags to exclude them from your webpage headers.</p>
+					<p>NextGEN Facebook OG will include all possible Facebook and Open Graph HTML meta tags in your webpage headers. In some cases, you may need to exclude one or more of these HTML meta tags. You can uncheck the following meta tags to exclude them from your webpage headers.</p>
 				</td>
 			</tr>
 			<?php 
@@ -737,7 +731,7 @@ function ngfb_render_form() {
 				<td valign="top"><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
 					<?php checked(1, $options['ngfb_reset']); ?> />
 				</td><td>
-					<p>Check this option to reset NextGEN Facebook settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p>
+					<p>Check this option to reset NextGEN Facebook OG settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p>
 				</td>
 			</tr>
 			<tr>
@@ -785,9 +779,9 @@ function ngfb_add_buttons( $content ) {
 	if ($options['linkedin_enable']) $buttons .= ngfb_linkedin_button( $options );
 
 	if ($buttons) $buttons = "
-<!-- NextGEN Facebook Social Buttons BEGIN -->
+<!-- NextGEN Facebook OG Social Buttons BEGIN -->
 <div class=\"ngfb-buttons\">\n$buttons\n</div>
-<!-- NextGEN Facebook Social Buttons END -->\n\n";
+<!-- NextGEN Facebook OG Social Buttons END -->\n\n";
 
 	# if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 	if ( is_page() && function_exists( 'ep_get_excluded_ids' ) && ! $options['buttons_on_ex_pages'] ) {
@@ -1131,7 +1125,7 @@ function ngfb_add_meta_tags() {
 		$page_text = preg_replace( '/[\r\n\t ]+/s', ' ', $page_text );
 
 		// remove the social buttons
-		$ngfb_msg = 'NextGEN Facebook Social Buttons';
+		$ngfb_msg = 'NextGEN Facebook OG Social Buttons';
 		$page_text = preg_replace( "/<!-- $ngfb_msg BEGIN -->.*<!-- $ngfb_msg END -->/", ' ', $page_text );
 
 		// remove javascript, which strip_tags doesn't do
@@ -1212,7 +1206,7 @@ function ngfb_add_meta_tags() {
 	/* Meta Tags
 	-------------------------------------------------------------- */
 
-	echo "\n<!-- NextGEN Facebook Meta Tags BEGIN -->\n";
+	echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
 
 	if ( $options['ngfb_debug'] ) {
 		echo "<!--\n";
@@ -1237,7 +1231,7 @@ function ngfb_add_meta_tags() {
 	}
 	unset ( $name, $val );
 
-	echo "<!-- NextGEN Facebook Meta Tags END -->\n\n";
+	echo "<!-- NextGEN Facebook OG Meta Tags END -->\n\n";
 }
 
 function ngfb_str_decode( $str ) {

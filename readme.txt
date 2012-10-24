@@ -1,4 +1,4 @@
-=== NextGEN Facebook ===
+=== NextGEN Facebook OG ===
 Contributors: jsmoriss
 Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages
 Requires at least: 3.0
@@ -10,16 +10,16 @@ Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optiona
 
 == Description ==
 
-The NextGEN Facebook plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page content.
+The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a NextGEN Gallery or Media Library, are also correctly listed in the "image" meta tag.  This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also, optionally, add Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page content.
 
 The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
 
-NextGEN Facebook was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
+NextGEN Facebook OG was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
 Here's an example of Open Graph meta tags <a href="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/">for a post on my website</a>:
 
 <code>
-&lt;!-- NextGEN Facebook Meta Tags BEGIN --&gt;
+&lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
 &lt;meta property="article:author" content="http://surniaulula.com/author/jsmoriss/" /&gt;
 &lt;meta property="article:modified_time" content="2012-10-16T12:20:00+00:00" /&gt;
 &lt;meta property="article:published_time" content="2012-10-02T22:30:15+00:00" /&gt;
@@ -37,10 +37,10 @@ Here's an example of Open Graph meta tags <a href="http://surniaulula.com/2012/1
 &lt;meta property="og:title" content="Span Filepaths in WordPress Content" /&gt;
 &lt;meta property="og:type" content="article" /&gt;
 &lt;meta property="og:url" content="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/" /&gt;
-&lt;!-- NextGEN Facebook Meta Tags END --&gt;
+&lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook is being actively developed and supported. Post your comments and suggestions to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NextGEN Facebook Support Page</a>, and don't forget to review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook FAQ Page</a> for additional notes on using the plugin.
+NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NEXTGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>.
 
 == Installation ==
 
@@ -49,7 +49,7 @@ NextGEN Facebook is being actively developed and supported. Post your comments a
 1. Login to your weblog
 1. Go to Plugins
 1. Select Add New
-1. Search for *NextGEN Facebook*
+1. Search for *NextGEN Facebook OG*
 1. Select Install
 1. Select Install Now
 1. Select Activate Plugin
@@ -60,13 +60,13 @@ NextGEN Facebook is being actively developed and supported. Post your comments a
 1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
 1. Activate the plugin through the Plugins menu in WordPress
 
-Once activated, you don't have to configure any settings for NextGEN Facebook to automatically start adding the Open Graph meta tags to your pages.
+Once activated, you don't have to configure any settings for NextGEN Facebook OG to automatically start adding the Open Graph meta tags to your pages.
 
-Some plugin options are available under Settings -&gt; NextGEN Facebook to select a default image, include Facebook buttons at the end of Posts and Pages, change the default thumbnail image sizes, etc.
+Some plugin options are available under Settings -&gt; NextGEN Facebook OG to select a default image, include Facebook buttons at the end of Posts and Pages, change the default thumbnail image sizes, etc.
 
 == Screenshots ==
 
-1. WordPress v3.4.2 and NextGEN Facebook v1.7 - The Settings Page
+1. WordPress v3.4.2 and NextGEN Facebook OG v1.7 - The Settings Page
 
 == Frequently Asked Questions ==
 
@@ -76,7 +76,7 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook to selec
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug" target="_blank">Open Graph debugging tool</a> where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook presents your content.
+**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug" target="_blank">Open Graph debugging tool</a> where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content.
 
 If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
@@ -90,7 +90,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. How can I control the social button layouts? =
 
-**A.** NextGEN Facebook uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use for <a href="http://trtms.com/">trtms.com</a>:
+**A.** NextGEN Facebook OG uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use for <a href="http://trtms.com/">trtms.com</a>:
 
 <code>
 .ngfb-buttons { text-align:center; }
@@ -121,6 +121,9 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 </code>
 
 == Changelog ==
+
+= v.1.7.1 =
+* Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
 
 = v.1.7 =
 * Added LinkedIn social button options.
