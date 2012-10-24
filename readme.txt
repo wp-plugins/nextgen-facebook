@@ -66,7 +66,7 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook OG to se
 
 == Screenshots ==
 
-1. WordPress v3.4.2 and NextGEN Facebook OG v1.7 - The Settings Page
+1. WordPress v3.4.2 and NextGEN Facebook OG v1.7.1 - The Settings Page
 
 == Frequently Asked Questions ==
 
