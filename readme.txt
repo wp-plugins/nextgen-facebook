@@ -64,10 +64,6 @@ Once activated, you don't have to configure any settings for NextGEN Facebook OG
 
 Some plugin options are available under Settings -&gt; NextGEN Facebook OG to select a default image, include Facebook buttons at the end of Posts and Pages, change the default thumbnail image sizes, etc.
 
-== Screenshots ==
-
-1. NextGEN Facebook OG v1.7.1 - The Settings Page
-
 == Frequently Asked Questions ==
 
 = Q. Why doesn't Facebook show my featured image? =
@@ -119,6 +115,10 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 <code>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
 </code>
+
+== Screenshots ==
+
+1. NextGEN Facebook OG v1.7.1 - The Settings Page
 
 == Changelog ==
 
