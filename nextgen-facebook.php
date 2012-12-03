@@ -59,8 +59,8 @@ register_uninstall_hook( __FILE__, 'ngfb_delete_plugin_options' );
 add_action( 'admin_init', 'ngfb_requires_wordpress_version' );
 add_action( 'admin_init', 'ngfb_init' );
 add_action( 'admin_menu', 'ngfb_add_options_page' );
-add_action( 'wp_head', 'ngfb_add_meta_tags' );
 
+add_filter( 'wp_head', 'ngfb_add_meta_tags', 10 );
 add_filter( 'the_content', 'ngfb_add_buttons', 10 );
 add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
 add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
@@ -1133,9 +1133,17 @@ function ngfb_add_meta_tags() {
 		// remove javascript, which strip_tags doesn't do
 		$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
 
+		// replace end of paragraph with a space - just in case
+		$page_text = preg_replace( '/<\/p>/i', ' ', $page_text);
+
+		// remove html tags
 		$page_text = strip_tags( $page_text );
+
+		// truncate the text
 		$page_text = substr( $page_text, 0, $options['og_desc_len'] );
-		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );	// remove trailing bits of words
+
+		// remove trailing bits of words
+		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );
 
 		$og['og:description'] = esc_attr( trim( $page_text ) );
 
