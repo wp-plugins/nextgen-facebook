@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optional FB, G+, Twitter and LinkedIn sharing buttons.
-Version: 1.7.1
+Version: 1.7.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -59,9 +59,9 @@ register_uninstall_hook( __FILE__, 'ngfb_delete_plugin_options' );
 add_action( 'admin_init', 'ngfb_requires_wordpress_version' );
 add_action( 'admin_init', 'ngfb_init' );
 add_action( 'admin_menu', 'ngfb_add_options_page' );
-add_action( 'the_content', 'ngfb_add_buttons' );
 add_action( 'wp_head', 'ngfb_add_meta_tags' );
 
+add_filter( 'the_content', 'ngfb_add_buttons', 10 );
 add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
 add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
 
@@ -97,7 +97,7 @@ function ngfb_add_default_options() {
 
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
-    if( ( $options['ngfb_reset'] == 1 ) || ( ! is_array( $options ) ) ) {
+	if( ( $options['ngfb_reset'] == 1 ) || ( ! is_array( $options ) ) ) {
 		delete_option('ngfb_options');	// remove old options, if any
 		$options = ngfb_get_default_options();
 		update_option('ngfb_options', $options);
@@ -186,7 +186,7 @@ function ngfb_validate_options( $options ) {
 		'og_img_size', 
 		'buttons_location', 
 		'gp_size', 
-		'gp_annotate', 
+		'gp_annotation', 
 		'twitter_count', 
 		'twitter_size', 
 		'linkedin_counter'
@@ -772,6 +772,7 @@ function ngfb_add_buttons( $content ) {
 	global $post;
 
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
+	$buttons = '';
 
 	if ($options['fb_enable']) $buttons .= ngfb_fb_button( $options );
 	if ($options['gp_enable']) $buttons .= ngfb_gp_button( $options );
@@ -841,12 +842,10 @@ function ngfb_gp_button( $options ) {
 	$gp_annotation = $options['gp_annotation'];
 	if ( ! $gp_annotation ) $gp_annotation = 'bubble';
 
-	/* $button .= '<div class="g-plusone-button"><g:plusone size="'.$gp_size.'" 
-		href="'.get_permalink($post->ID).'"></g:plusone></div>'."\n"; */
-
 	// html-5 syntax
 	$button .= '<div class="g-plusone-button"><span class="g-plusone" 
-		data-size="'.$gp_size.'" data-href="'.get_permalink($post->ID).'"></span></div>'."\n";
+		data-size="'.$gp_size.'" data-annotation="'.$gp_annotation.'" 
+		data-href="'.get_permalink($post->ID).'"></span></div>'."\n";
 	
 	$button .= '
 		<script type="text/javascript"> ( 
@@ -1087,13 +1086,16 @@ function ngfb_add_meta_tags() {
 	if ( is_search() && ! $options['og_def_on_search'] ) {
 
 	} elseif ( is_singular() ) {
-	
+
+		$page_text = '';
+
 		if ( has_excerpt( $post->ID ) ) {
 
 			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
 
 		// use WP-WikiBox for page content, if option is true
 		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
+
 			$tags = wp_get_post_tags( $post->ID );
 			if ( $tags ) {
 				$tag_prefix = $options['og_wiki_tag'];
@@ -1178,7 +1180,7 @@ function ngfb_add_meta_tags() {
 		$og['article:tag'] = array();
 
 		$page_tags = wp_get_post_tags( $post->ID );
-		$tag_prefix = $options['og_wiki_tag'];
+		$tag_prefix = isset( $options['og_wiki_tag'] ) ? $options['og_wiki_tag'] : '';
 
 		foreach ( $page_tags as $tag ) {
 			$tag_name = $tag->name;

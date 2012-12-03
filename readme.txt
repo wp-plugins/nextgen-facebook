@@ -122,6 +122,9 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 == Changelog ==
 
+= v.1.7.2 =
+* Fixed the Google+ social button to add the missing "data-annotation" field.
+
 = v.1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
 
