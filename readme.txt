@@ -16,27 +16,38 @@ The Open Graph protocol enables any web page to become a rich object in a social
 
 NextGEN Facebook OG was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
-Here's an example of Open Graph meta tags <a href="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/">for a post on my website</a>:
+Here's an example of <a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Open Graph meta tags for a post on my website</a>:
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
 &lt;meta property="article:author" content="http://surniaulula.com/author/jsmoriss/" /&gt;
-&lt;meta property="article:modified_time" content="2012-10-16T12:20:00+00:00" /&gt;
-&lt;meta property="article:published_time" content="2012-10-02T22:30:15+00:00" /&gt;
+&lt;meta property="article:modified_time" content="2012-12-03T12:33:18+00:00" /&gt;
+&lt;meta property="article:published_time" content="2012-12-01T15:34:56+00:00" /&gt;
 &lt;meta property="article:section" content="Technology" /&gt;
-&lt;meta property="article:tag" content="filepath" /&gt;
-&lt;meta property="article:tag" content="pcre" /&gt;
+&lt;meta property="article:tag" content="apache" /&gt;
+&lt;meta property="article:tag" content="apc" /&gt;
+&lt;meta property="article:tag" content="bandwidth" /&gt;
+&lt;meta property="article:tag" content="cache" /&gt;
+&lt;meta property="article:tag" content="caching" /&gt;
+&lt;meta property="article:tag" content="cdn" /&gt;
+&lt;meta property="article:tag" content="content delivery network" /&gt;
+&lt;meta property="article:tag" content="httpd" /&gt;
+&lt;meta property="article:tag" content="linux" /&gt;
+&lt;meta property="article:tag" content="memcached" /&gt;
+&lt;meta property="article:tag" content="opcode" /&gt;
+&lt;meta property="article:tag" content="performance" /&gt;
 &lt;meta property="article:tag" content="php" /&gt;
-&lt;meta property="article:tag" content="preg_replace" /&gt;
-&lt;meta property="article:tag" content="replace" /&gt;
-&lt;meta property="article:tag" content="span" /&gt;
-&lt;meta property="fb:admins" content="jsmoriss" /&gt;
-&lt;meta property="og:description" content="I wanted filepaths and filenames in WordPress post/page content to be displayed with a monospace font, so I wrote the following PHP plugin to wrap filepaths with a &lt;span&gt; HTML and CSS style tag. The code could be added to a theme&#039;s functions.php file, or used as a plugin (as shown" /&gt;
-&lt;meta property="og:image" content="http://surniaulula.com/wp-content/gallery/cache/5_crop_200x200_20120814-114043-sbellive-0078.jpg" /&gt;
+&lt;meta property="article:tag" content="plugins" /&gt;
+&lt;meta property="article:tag" content="rewrite" /&gt;
+&lt;meta property="article:tag" content="static content" /&gt;
+&lt;meta property="article:tag" content="wordpress" /&gt;
+&lt;meta property="fb:app_id" content="525239184171769" /&gt;
+&lt;meta property="og:description" content="Over the past few weeks I&#039;ve been looking at different solutions to improve the speed of my Wordpress websites. The first step was to mirror and redirect the static content to another server (aka Content Delivery Network or CDN). In the case of PHP and Wordpress, there are several additional" /&gt;
+&lt;meta property="og:image" content="http://cdn1.static.surniaulula.com/wp-content/gallery/cache/5_crop_200x200_20120814-114043-sbellive-0078.jpg" /&gt;
 &lt;meta property="og:site_name" content="Surnia Ulula" /&gt;
-&lt;meta property="og:title" content="Span Filepaths in WordPress Content" /&gt;
+&lt;meta property="og:title" content="Wordpress Caching and Plugins for Performance" /&gt;
 &lt;meta property="og:type" content="article" /&gt;
-&lt;meta property="og:url" content="http://surniaulula.com/2012/10/02/span-filepaths-in-wordpress-content/" /&gt;
+&lt;meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" /&gt;
 &lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
