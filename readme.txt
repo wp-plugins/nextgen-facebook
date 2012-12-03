@@ -135,7 +135,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 = v.1.7.2 =
 * Fixed: Added the missing "data-annotation" field to the Google+ social button.
-* Fixed: Changed "</p>" to a space before stripping out all html tags from og:description.
+* Fixed: Changed "&lt;/p&gt;" to a space before stripping out all html tags from og:description.
 
 = v.1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
