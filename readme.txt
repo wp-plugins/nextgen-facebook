@@ -16,7 +16,7 @@ The Open Graph protocol enables any web page to become a rich object in a social
 
 NextGEN Facebook OG was specifically written to support featured images located in a NextGEN Gallery, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>. The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
-Here's an example of <a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Open Graph meta tags for a post on my website</a>:
+Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
