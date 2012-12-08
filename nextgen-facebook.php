@@ -543,6 +543,12 @@ function ngfb_render_form() {
 		<div class="inside">	
 		<table class="form-table">
 			<tr valign="top">
+				<td colspan="3">
+					<p></p>
+					<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> page for stylesheet examples -- including how to hide the buttons for specific posts, pages, categories, tags, etc.</p>
+				</td>
+			</tr>
+			<tr valign="top">
 				<th scope="row" nowrap>Include on Multi-Entry Pages</th>
 				<td valign="top"><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
 					<?php checked(1, $options['buttons_on_home']); ?> />

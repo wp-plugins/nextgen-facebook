@@ -77,27 +77,9 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook OG to se
 
 == Frequently Asked Questions ==
 
-= Q. Why doesn't Facebook show my featured image? =
+= Q. How can I control the social button layout? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using <a href="https://developers.facebook.com/tools/debug" target="_blank">Facebook's Open Graph debugging tool</a>. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
-
-= Q. How can I see what Facebook sees? =
-
-**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug" target="_blank">Open Graph debugging tool</a> where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content.
-
-If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
-
-= Q. What about Google Search and Google Plus? =
-
-**A.** Google reads the Open Graph meta tags, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
-
-= Q. Does LinkedIn read the Open Graph tags? =
-
-**A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
-
-= Q. How can I control the social button layouts? =
-
-**A.** NextGEN Facebook OG uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use on <a href="http://surniaulula.com/">Surnia Ulula</a>:
+**A.** NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the CSS I use on <a href="http://surniaulula.com/">Surnia Ulula</a>:
 
 <code>
 .ngfb-buttons { 
@@ -120,24 +102,52 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 .linkedin-button { margin-right:22px; }
 </code>
 
-= Q. How can I exclude the social buttons from a post or page? =
+= Q. How can I exclude social buttons from a post or page? =
 
-**A.** You can exclude the social buttons, or pretty much any object, from a Wordpress page or post by using "display:none" in your CSS stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on section to inspect), or use "View Source" to see the page's HTML, your page or post content should be wrapped in a &lt;div&gt; HTML tag similar to this one:
+**A.** You can exclude the social buttons, or pretty much any object, from a page or post by using "display:none" in your CSS stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect), or use "View Source" to see the page's HTML, your content text should be wrapped in a &lt;div&gt; HTML tag similar to this one:
 
 <code>
-&lt;div class="post-879 post type-post status-publish format-standard hentry category-php category-wordpress tag-css tag-html" id="post-879"&gt;
+&lt;div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123"&gt;
 	Content Text
 &lt;/div&gt;
 </code>
 
-You could use any of these class names to hide the NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #879, any page with the tag "php", and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page with in category "test", and posts using the Aside and Status formats:
 
 <code>
-.post-879 .ngfb-buttons,
-.tag-php .ngfb-buttons,
+.post-123 .ngfb-buttons,
+.category-test .ngfb-buttons,
 .format-aside .ngfb-buttons,
 .format-status .ngfb-buttons { display:none; }
 </code>
+
+= Q. Does NextGEN Facebook OG use functions from other plugins? =
+
+**A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
+
+<ul>
+<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
+
+<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
+</ul>
+
+= Q. Why doesn't Facebook show my featured image? =
+
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using <a href="https://developers.facebook.com/tools/debug" target="_blank">Facebook's Open Graph debugging tool</a>. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
+
+= Q. How can I see what Facebook sees? =
+
+**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug" target="_blank">Open Graph debugging tool</a> where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content.
+
+If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+
+= Q. What about Google Search and Google Plus? =
+
+**A.** Google reads the Open Graph meta tags, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
+
+= Q. Does LinkedIn read the Open Graph tags? =
+
+**A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
 = Q. The <a hreh="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
 
