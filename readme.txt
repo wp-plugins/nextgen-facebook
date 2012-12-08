@@ -97,24 +97,46 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. How can I control the social button layouts? =
 
-**A.** NextGEN Facebook OG uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use for <a href="http://trtms.com/">trtms.com</a>:
+**A.** NextGEN Facebook OG uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use on <a href="http://surniaulula.com/">Surnia Ulula</a>:
 
 <code>
-.ngfb-buttons { text-align:center; }
+.ngfb-buttons { 
+	text-align:center; 
+	margin:30px 0 20px 0;
+}
 .facebook-button,
 .g-plusone-button,
 .twitter-share-button, 
 .linkedin-button {
-    display:inline-block;
-    vertical-align:bottom;
-    height:20px;
-    padding:0;
-    margin:0;
+	display:inline-block;
+	vertical-align:bottom;
+	height:20px;
+	padding:0;
+	margin:0;
 }
 .facebook-button { margin-right:22px; }
 .g-plusone-button { margin-right:-10px; }
 .twitter-share-button { margin-right:-10px; }
 .linkedin-button { margin-right:22px; }
+</code>
+
+= Q. How can I exclude the social buttons from a post or page? =
+
+**A.** You can exclude the social buttons, or pretty much any object, from a Wordpress page or post by using "display:none" in your CSS stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on section to inspect), or use "View Source" to see the page's HTML, your page or post content should be wrapped in a &lt;div&gt; HTML tag similar to this one:
+
+<code>
+&lt;div class="post-879 post type-post status-publish format-standard hentry category-php category-wordpress tag-css tag-html" id="post-879"&gt;
+	Content Text
+&lt;/div&gt;
+</code>
+
+You could use any of these class names to hide the NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #879, any page with the tag "php", and posts using the Aside and Status formats:
+
+<code>
+.post-879 .ngfb-buttons,
+.tag-php .ngfb-buttons,
+.format-aside .ngfb-buttons,
+.format-status .ngfb-buttons { display:none; }
 </code>
 
 = Q. The <a hreh="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
