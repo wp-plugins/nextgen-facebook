@@ -112,7 +112,7 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook OG to se
 &lt;/div&gt;
 </code>
 
-You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page with in category "test", and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 <code>
 .post-123 .ngfb-buttons,
