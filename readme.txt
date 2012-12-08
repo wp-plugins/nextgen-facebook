@@ -77,6 +77,60 @@ Some plugin options are available under Settings -&gt; NextGEN Facebook OG to se
 
 == Frequently Asked Questions ==
 
+= Q. How can I control the social button layout? =
+
+**A.** NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the CSS I use on <a href="http://surniaulula.com/">Surnia Ulula</a>:
+
+<code>
+.ngfb-buttons { 
+	text-align:center; 
+	margin:30px 0 20px 0;
+}
+.facebook-button,
+.g-plusone-button,
+.twitter-share-button, 
+.linkedin-button {
+	display:inline-block;
+	vertical-align:bottom;
+	height:20px;
+	padding:0;
+	margin:0;
+}
+.facebook-button { margin-right:22px; }
+.g-plusone-button { margin-right:-10px; }
+.twitter-share-button { margin-right:-10px; }
+.linkedin-button { margin-right:22px; }
+</code>
+
+= Q. How can I exclude social buttons from a post or page? =
+
+**A.** You can exclude the social buttons, or pretty much any object, from a page or post by using "display:none" in your CSS stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect), or use "View Source" to see the page's HTML, your content text should be wrapped in a &lt;div&gt; HTML tag similar to this one:
+
+<code>
+&lt;div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123"&gt;
+	Content Text
+&lt;/div&gt;
+</code>
+
+You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page with in category "test", and posts using the Aside and Status formats:
+
+<code>
+.post-123 .ngfb-buttons,
+.category-test .ngfb-buttons,
+.format-aside .ngfb-buttons,
+.format-status .ngfb-buttons { display:none; }
+</code>
+
+= Q. Does NextGEN Facebook OG use functions from other plugins? =
+
+**A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
+
+<ul>
+<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
+
+<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
+</ul>
+
 = Q. Why doesn't Facebook show my featured image? =
 
 **A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using <a href="https://developers.facebook.com/tools/debug" target="_blank">Facebook's Open Graph debugging tool</a>. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
@@ -94,28 +148,6 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 = Q. Does LinkedIn read the Open Graph tags? =
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
-
-= Q. How can I control the social button layouts? =
-
-**A.** NextGEN Facebook OG uses the 'ngfb-buttons' class name to wrap all buttons, and each social button has it's own individual class name as well. Here's an example of the CSS I use for <a href="http://trtms.com/">trtms.com</a>:
-
-<code>
-.ngfb-buttons { text-align:center; }
-.facebook-button,
-.g-plusone-button,
-.twitter-share-button, 
-.linkedin-button {
-    display:inline-block;
-    vertical-align:bottom;
-    height:20px;
-    padding:0;
-    margin:0;
-}
-.facebook-button { margin-right:22px; }
-.g-plusone-button { margin-right:-10px; }
-.twitter-share-button { margin-right:-10px; }
-.linkedin-button { margin-right:22px; }
-</code>
 
 = Q. The <a hreh="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
 
