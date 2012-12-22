@@ -1,6 +1,6 @@
 === NextGEN Facebook OG ===
 Contributors: jsmoriss
-Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages
+Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, tumblr, widget
 Requires at least: 3.0
 Tested up to: 3.5
 Stable tag: 1.7.2
