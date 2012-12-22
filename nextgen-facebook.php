@@ -1070,7 +1070,7 @@ function ngfb_add_content_buttons( $content ) {
 		if ($options['tumblr_enable']) $buttons .= ngfb_tumblr_button( $options );
 		if ($buttons) $buttons = "
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
-<div class=\"ngfb-buttons\">\n$buttons\n</div>
+<div class=\"ngfb-content-buttons ngfb-buttons\">\n$buttons\n</div>
 <!-- NextGEN Facebook OG Social Buttons END -->\n\n";
 
 		if ($options['buttons_location'] == "top") $content = $buttons.$content;
