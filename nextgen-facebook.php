@@ -403,7 +403,7 @@ function ngfb_render_form() {
 
 	<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;img&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
-	<p><strong>We don't ask for donations, but if you like NextGEN Facebook OG, <a href="http://wordpress.org/extend/plugins/nextgen-facebook/"><strong>please take a moment to rate it</strong></a> on the WordPress plugin page. Thank you.</strong></p>
+	<div class="updated" style="margin:10px 0;"><p style="text-align:center">We don't ask for donations, but if you like the NextGEN Facebook OG plugin, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>please take a moment to rate it</strong></a> on the WordPress website. Thank you. :-)</p></div>
 
 	<div class="metabox-holder">
 		<div class="postbox">
