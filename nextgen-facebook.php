@@ -149,7 +149,7 @@ function ngfb_get_default_options() {
 		'linkedin_counter' => 'right',
 		'tumblr_enable' => '',
 		'tumblr_button_style' => 'share_1',
-		'tumblr_desc_len' => '300',
+		'tumblr_desc_len' => '400',
 		'tumblr_photo' => 1,
 		'tumblr_img_size' => 'large',
 		'tumblr_caption' => 'both',
