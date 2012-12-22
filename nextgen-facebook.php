@@ -1106,9 +1106,9 @@ function ngfb_tumblr_button( $options, $opts = array() ) {
 	if ( $opts['pid'] ) {
 		// if the post thumbnail id has the form ngg- then it's a NextGEN image
 		if ( is_string( $opts['pid'] ) && substr( $opts['pid'], 0, 4 ) == 'ngg-' ) {
-			$opts['source'] = ngfb_get_ngg_thumb_url( $opts['pid'], $size );
+			$opts['source'] = ngfb_get_ngg_thumb_url( $opts['pid'], $opts['size'] );
 		} else {
-			$out = wp_get_attachment_image_src( $opts['pid'], $size );
+			$out = wp_get_attachment_image_src( $opts['pid'], $opts['size'] );
 			$opts['source'] = $out[0];
 		}
 	}
