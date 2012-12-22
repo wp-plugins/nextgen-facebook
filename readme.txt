@@ -178,7 +178,7 @@ formats:
 .format-status .ngfb-buttons { display:none; }
 </code>
 
-= Q. Can I include the social buttons from my template file(s)?
+= Q. Can I include the social buttons from my template file(s)? =
 
 **A.** Yes, you can. Here's an example:
 
