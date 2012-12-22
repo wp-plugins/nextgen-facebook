@@ -271,8 +271,7 @@ href="https://developer.linkedin.com/documents/setting-display-tags-shares"
 target="_blank">Setting Display Tags for Shares</a> information page, they use
 three of the Open Graph tags (title, description, and url).
 
-= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a>
-complains that 'there is no attribute "property"'. =
+= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
 
 **A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not
 part of the HTML5 standard, so the W3C validator is correct in throwing up an
@@ -295,16 +294,18 @@ definition is usually located in the header.php file of your theme.
 == Changelog ==
 
 = v2.0 =
-* Re-designed the options page to make it more compact.
-* Added the tumblr social sharing button.
-* Added the ngfb_get_social_buttons() function to use in your theme templates. See the FAQ for additional information on it's use. 
-* Added an optional "NGFB Social Buttons" widget to include social buttons in any widget area.
+* The NextGEN Facebook OG options page has been re-worked to make it more compact.
+* Added the tumblr social sharing button, including support for posting featured images, embeded video, or links to posts and pages.
+* Added a ngfb_get_social_buttons() function to use in your theme templates. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">See the FAQ</a> for additional information on it's use.
+* Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
 You can enable social buttons in the content, use the social buttons widget,
 and call the ngfb_get_social_buttons() function from your template(s) -- all
 at the same time -- but all social buttons share the same settings from the
 admin options page (the layout of each can differ by using the available CSS
-class names - see the FAQ for additional information).
+class names - <a
+href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"
+target="_blank">see the FAQ</a> for additional information).
 
 = v.1.7.2 =
 * Fixed: Added the missing "data-annotation" field to the Google+ social button.
