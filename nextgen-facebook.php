@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optional FB, G+, Twitter and LinkedIn sharing buttons.
-Version: 2.0
+Version: 2.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -149,10 +149,16 @@ function ngfb_get_default_options() {
 		'linkedin_counter' => 'right',
 		'tumblr_enable' => '',
 		'tumblr_button_style' => 'share_1',
-		'tumblr_desc_len' => '400',
+		'tumblr_desc_len' => '300',
 		'tumblr_photo' => 1,
 		'tumblr_img_size' => 'large',
 		'tumblr_caption' => 'both',
+		'tumblr_cap_len' => '500',
+		'pin_enable' => '',
+		'pin_count_layout' => 'horizontal',
+		'pin_img_size' => 'large',
+		'pin_caption' => 'both',
+		'pin_cap_len' => '500',
 		'inc_fb:admins' => 1,
 		'inc_fb:app_id' => 1,
 		'inc_og:site_name' => 1,
@@ -190,12 +196,17 @@ function ngfb_validate_options( $options ) {
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
 		$options['og_def_img_id'] = $def_opts['og_def_img_id'];
 
-	foreach ( array( 'og_desc_len', 'tumblr_desc_len',) as $opt ) {
+	foreach ( array( 
+		'og_desc_len', 
+		'tumblr_desc_len', 
+		'tumblr_cap_len',
+		'pin_cap_len', 
+	) as $opt ) {
 		if ( ! $options[$opt] || ! is_numeric( $options[$opt] ) )
 			$options[$opt] = $def_opts[$opt];
-		if ( $options[$opt] < 160 ) $options[$opt] = 160;
 	}
 	unset( $opt );
+	if ( $options['og_desc_len'] < 160 ) $options['og_desc_len'] = 160;
 
 	// options that cannot be blank
 	foreach ( array( 
@@ -209,6 +220,9 @@ function ngfb_validate_options( $options ) {
 		'tumblr_button_style',
 		'tumblr_img_size',
 		'tumblr_caption',
+		'pin_count_layout',
+		'pin_img_size',
+		'pin_caption',
 	) as $opt ) {
 		$options[$opt] = wp_filter_nohtml_kses($options[$opt]);
 		if (! $options[$opt] ) $options[$opt] = $def_opts[$opt];
@@ -232,6 +246,7 @@ function ngfb_validate_options( $options ) {
 		'linkedin_enable',
 		'tumblr_enable',
 		'tumblr_photo',
+		'pin_enable',
 		'inc_fb:admins',
 		'inc_fb:app_id',
 		'inc_og:site_name',
@@ -343,7 +358,7 @@ function ngfb_render_form() {
 
 	$options = ngfb_validate_options( $options );
 
-	?>
+?>
 	<style type="text/css">
 		.form-table tr {
 			vertical-align:top;
@@ -355,14 +370,16 @@ function ngfb_render_form() {
 			text-align:right;
 			white-space:nowrap;
 			padding:2px 6px 2px 6px;
-			width:170px;
+			width:180px;
 		}
 		.form-table th#social {
 			font-weight:bold;
 			text-align:left;
 			background-color:#eee;
 			border:1px solid #ccc;
-			width:50%;
+		}
+		.form-table th#meta {
+			width:220px;
 		}
 		.form-table td select,
 		.form-table td input {
@@ -403,613 +420,569 @@ function ngfb_render_form() {
 
 	<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;img&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
-	<div class="updated" style="margin:10px 0;"><p style="text-align:center">We don't ask for donations, but if you like the NextGEN Facebook OG plugin, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>please take a moment to rate it</strong></a> on the WordPress website. Thank you. :-)</p></div>
+	<div class="updated" style="margin:10px 0;">
+	<p style="text-align:center">We don't ask for donations, but if you like the NextGEN Facebook OG plugin, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>please take a moment to rate it</strong></a> on the WordPress website. Thank you. :-)</p>
+	</div>
 
 	<div class="metabox-holder">
-		<div class="postbox">
-		<h3>Open Graph Settings</h3>
-		<div class="inside">	
+	<div class="postbox">
+	<h3>Open Graph Settings</h3>
+	<div class="inside">	
 	
 	<!-- Beginning of the Plugin Options Form -->
 	<form method="post" action="options.php">
-		<?php settings_fields('ngfb_plugin_options'); ?>
-		<table class="form-table">
-			<tr>
-				<th scope="row">Website Topic</th>
-				<td>
-					<select name='ngfb_options[og_art_section]'>
-						<?php
-							echo '<option value="" ', 
-								selected($options['og_art_section'], ''), 
-								'></option>', "\n";
-
-							foreach ( $article_sections as $s ) {
-								echo '<option value="', $s, '" ',
-									selected( $options['og_art_section'], $s, false),
-										'>', $s, '</option>', "\n";
-							}
-							unset ( $s );
-						?>
-					</select>
-				</td><td>
-					<p>The topic name that best describes the posts and pages on your website.  This topic name will be used in the "article:section" Open Graph HTML meta tag for your posts and pages. You can leave the topic name blank, if you would prefer not to include an "article:section" HTML meta tag.</p>
-				</td>
-			</tr>
-			<tr>
-				<th>Image Size Name</th>
-				<td>
-					<select name='ngfb_options[og_img_size]'>
-					<?php
-						global $_wp_additional_image_sizes;
-						// Display the sizes in the array
-						foreach ( get_intermediate_image_sizes() as $s ) {
-							// Don't make or numeric sizes that appear
-							if( is_integer( $s ) ) continue;
-	
-							if ( isset( $_wp_additional_image_sizes[$s]['width'] ) ) // For theme-added sizes
-								$width = intval( $_wp_additional_image_sizes[$s]['width'] );
-							else                                                     // For default sizes set in options
-								$width = get_option( "{$s}_size_w" );
-			
-							if ( isset( $_wp_additional_image_sizes[$s]['height'] ) ) // For theme-added sizes
-								$height = intval( $_wp_additional_image_sizes[$s]['height'] );
-							else                                                      // For default sizes set in options
-								$height = get_option( "{$s}_size_h" );
-			
-							if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )   // For theme-added sizes
-								$crop = intval( $_wp_additional_image_sizes[$s]['crop'] );
-							else                                                      // For default sizes set in options
-								$crop = get_option( "{$s}_crop" );
-
-							echo "<option value='$s' ".(selected($options['og_img_size'], $s)).">$s (${width} x ${height}".($crop ? " cropped" : "").")</option>\n";
-						}
-						unset ( $s );
-					?>
-					</select>
-				</td><td>
-					<p>The <a href="options-media.php">WordPress Media Library "size name"</a> for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'); ?> x <?php echo get_option('thumbnail_size_h'); ?>, <?php echo get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or another size name like "medium", "large", etc.  Choose a size name that is at least 200px or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the <a href="options-media.php">Media Settings</a> admin page. I would suggest creating a "facebook-thumbnail" size name of 200 x 200 (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">Default Image ID</th>
-				<td><input type="text" name="ngfb_options[og_def_img_id]" size="6"
-					value="<?php echo $options['og_def_img_id']; ?>" />
-					in the
-					<select name='ngfb_options[og_def_img_id_pre]' style="width:150px;">
-						<option value='' <?php selected($options['og_def_img_id_pre'], ''); ?>>Media Library</option>
-						<option value='ngg' <?php selected($options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
-					</select>
-				</td><td>
-					<p>The ID number and location of your default image (example: 123).</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Default Image URL</th>
-				<td colspan="2"><input type="text" name="ngfb_options[og_def_img_url]" size="80"
-					value="<?php echo $options['og_def_img_url']; ?>" style="width:100%;"/>
-					<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least 200px or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Default on Multi-Entry Webpages</th>
-				<td><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
-					<?php checked(1, $options['og_def_on_home']); ?> />
-				</td><td>
-					<p>Check this box if you would like to use the default image on webpages with more than one entry (homepage, archives, categories, etc.). If you leave this un-checked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the webpage.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Default Image on Search Page</th>
-				<td><input name="ngfb_options[og_def_on_search]" type="checkbox" value="1" 
-					<?php checked(1, $options['og_def_on_search']); ?> />
-				</td><td>
-					<p>Check this box if you would like to use the default image on search result webpages as well.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Content Begins at First Paragraph</th>
-				<td><input name="ngfb_options[og_desc_strip]" type="checkbox" value="1" 
-					<?php checked(1, $options['og_desc_strip']); ?> />
-				</td><td>
-					<p>For a page or post <i>without</i> an excerpt, the plugin will ignore all text until the first &lt;p&gt; paragraph HTML tag in <i>the content</i>. If an excerpt exists, then it's complete text will be used instead.</p>
-				</td>
-			</tr>
-
-			<?php 
-				// hide WP-WikiBox option if not installed and activated
-				if ( ! function_exists( 'wikibox_summary' ) ) echo "<!-- "; 
-			?>
-			<tr>
-				<th scope="row">Use WP-WikiBox for Pages</th>
-				<td><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
-					<?php checked(1, $options['og_desc_wiki']); ?> />
-				</td><td>
-					<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook OG can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">WP-WikiBox Tag Prefix</th>
-				<td><input type="text" size="6" name="ngfb_options[og_wiki_tag]" 
-					value="<?php echo $options['og_wiki_tag']; ?>" />
-				</td><td>
-					<p>A prefix to identify the WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p>
-				</td>
-			</tr>
-			<?php if ( ! function_exists( 'wikibox_summary' ) ) echo "--> "; ?>
-
-			<tr>
-				<th scope="row">Max Description Length</th>
-				<td><input type="text" size="6" name="ngfb_options[og_desc_len]" 
-					value="<?php echo $options['og_desc_len']; ?>" /> Characters
-				</td><td>
-					<p>The maximum length of text, from your post / page excerpt or content, used in the Open Graph description tag. The length must be 160 characters or more (the default is 300).</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Add NextGEN Gallery Tags</th>
-				<td><input name="ngfb_options[og_ngg_tags]" type="checkbox" value="1" 
-					<?php checked(1, $options['og_ngg_tags']); ?> />
-				</td><td>
-					<p>If the featured or default image is from a NextGEN Gallery, then add that image's tags to the Open Graph tag list.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Facebook Admin(s)</th>
-				<td><input type="text" size="40" name="ngfb_options[og_admins]" 
-					value="<?php echo $options['og_admins']; ?>" />
-				</td><td>
-					<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). The Facebook Admin names are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to those accounts.</p>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">Facebook App ID</th>
-				<td><input type="text" size="40" name="ngfb_options[og_app_id]" 
-					value="<?php echo $options['og_app_id']; ?>" />
-				</td><td>
-					<p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID, enter it here. Facebook Application IDs are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to one or more accounts associated with the Application ID.</p>
-				</td>
-			</tr>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
-
-		<div class="postbox">
-		<h3>Open Graph HTML Meta Tags</h3>
-		<div class="inside">	
-		<table class="form-table">
-			<tr>
-			<?php 
-			$og_cols = 3; 
-			echo '<td colspan="'.($og_cols * 2).'">';
-			?>
-				<p>NextGEN Facebook OG will include all possible Facebook and Open Graph HTML meta tags in your webpage headers. In some cases, you may need to exclude one or more of these HTML meta tags. You can uncheck the following meta tags to exclude them from your webpage headers.</p>
-			</td>
-			</tr>
+	<?php settings_fields('ngfb_plugin_options'); ?>
+	<table class="form-table">
+	<tr>
+		<th>Website Topic</th>
+		<td>
+			<select name='ngfb_options[og_art_section]'>
 			<?php
-			foreach ( $options as $opt => $val ) {
-				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
-					$og_cells[] = '<th scope="row" style="width:220px;">
-							Include '.$match[1].' Meta Tag</th>
-						<td><input name="ngfb_options['.$opt.']" type="checkbox" 
-							value="1" '.checked(1, $options[$opt], false).'/></td>';
+				echo '<option value="" ', 
+				selected($options['og_art_section'], ''), 
+					'></option>', "\n";
+
+				foreach ( $article_sections as $s ) {
+					echo '<option value="', $s, '" ',
+						selected( $options['og_art_section'], $s, false),
+							'>', $s, '</option>', "\n";
 				}
+				unset ( $s );
+			?>
+			</select>
+		</td><td>
+		<p>The topic name that best describes the posts and pages on your website.  This topic name will be used in the "article:section" Open Graph HTML meta tag for your posts and pages. You can leave the topic name blank, if you would prefer not to include an "article:section" HTML meta tag.</p>
+		</td>
+	</tr>
+	<tr>
+		<th>Image Size Name</th>
+		<td>
+			<?php ngfb_select_img_size( $options, 'og_img_size' ); ?>
+		</td><td>
+		<p>The <a href="options-media.php">WordPress Media Library "size name"</a> for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'), ' x ', get_option('thumbnail_size_h'), ', ', get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or another size name like "medium", "large", etc. Choose a size name that is at least 200px or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the <a href="options-media.php">Media Settings</a> admin page. I would suggest creating a "facebook-thumbnail" size name of 200 x 200 (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p>
+	</td>
+	</tr>
+	<tr>
+		<th>Default Image ID</th>
+		<td><input type="text" name="ngfb_options[og_def_img_id]" size="6"
+			value="<?php echo $options['og_def_img_id']; ?>" />
+			in the
+			<select name='ngfb_options[og_def_img_id_pre]' style="width:150px;">
+				<option value='' <?php selected($options['og_def_img_id_pre'], ''); ?>>Media Library</option>
+				<option value='ngg' <?php selected($options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
+			</select>
+		</td><td>
+		<p>The ID number and location of your default image (example: 123).</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Default Image URL</th>
+		<td colspan="2"><input type="text" name="ngfb_options[og_def_img_url]" size="80"
+			value="<?php echo $options['og_def_img_url']; ?>" style="width:100%;"/>
+		<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least 200px or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Default on Index Webpages</th>
+		<td><input name="ngfb_options[og_def_on_home]" type="checkbox" value="1" 
+			<?php checked(1, $options['og_def_on_home']); ?> />
+		</td><td>
+		<p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this un-checked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the webpage.</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Default Image on Search Page</th>
+		<td><input name="ngfb_options[og_def_on_search]" type="checkbox" value="1" 
+			<?php checked(1, $options['og_def_on_search']); ?> />
+		</td><td>
+		<p>Check this box if you would like to use the default image on search result webpages as well.</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Content Begins at First Paragraph</th>
+		<td><input name="ngfb_options[og_desc_strip]" type="checkbox" value="1" 
+			<?php checked(1, $options['og_desc_strip']); ?> />
+		</td><td>
+		<p>For a page or post <i>without</i> an excerpt, the plugin will ignore all text until the first &lt;p&gt; paragraph HTML tag in <i>the content</i>. If an excerpt exists, then it's complete text will be used instead.</p>
+		</td>
+	</tr>
+
+	<?php	// hide WP-WikiBox option if not installed and activated
+		if ( function_exists( 'wikibox_summary' ) ): ?>
+	<tr>
+		<th>Use WP-WikiBox for Pages</th>
+		<td><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
+			<?php checked(1, $options['og_desc_wiki']); ?> />
+		</td><td>
+		<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected.  NextGEN Facebook OG can ignore the content of your pages when creating the "description" Open Graph HTML meta tag, and retrieve it from Wikipedia instead. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the content of your page will be used.</p>
+		</td>
+	</tr>
+	<tr>
+		<th>WP-WikiBox Tag Prefix</th>
+		<td><input type="text" size="6" name="ngfb_options[og_wiki_tag]" 
+			value="<?php echo $options['og_wiki_tag']; ?>" />
+		</td><td>
+		<p>A prefix to identify the WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p>
+		</td>
+	</tr>
+	<?php	endif; ?>
+
+	<tr>
+		<th>Max Description Length</th>
+		<td><input type="text" size="6" name="ngfb_options[og_desc_len]" 
+			value="<?php echo $options['og_desc_len']; ?>" /> Characters
+		</td><td>
+		<p>The maximum length of text, from your post / page excerpt or content, used in the Open Graph description tag.  The length must be 160 characters or more (the default is 300).</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Add NextGEN Gallery Tags</th>
+		<td><input name="ngfb_options[og_ngg_tags]" type="checkbox" value="1" 
+			<?php checked(1, $options['og_ngg_tags']); ?> />
+		</td><td>
+		<p>If the featured or default image is from a NextGEN Gallery, then add that image's tags to the Open Graph tag list.</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Facebook Admin(s)</th>
+		<td><input type="text" size="40" name="ngfb_options[og_admins]" 
+			value="<?php echo $options['og_admins']; ?>" />
+		</td><td>
+		<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). The Facebook Admin names are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to those accounts.</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Facebook App ID</th>
+		<td><input type="text" size="40" name="ngfb_options[og_app_id]" 
+			value="<?php echo $options['og_app_id']; ?>" />
+		</td><td>
+		<p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID, enter it here.  Facebook Application IDs are used by Facebook to provide <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data to one or more accounts associated with the Application ID.</p>
+		</td>
+	</tr>
+	</table>
+	</div><!-- .inside -->
+	</div><!-- .postbox -->
+
+	<div class="postbox">
+	<h3>Open Graph HTML Meta Tags</h3>
+	<div class="inside">	
+	<table class="form-table">
+	<tr>
+		<?php $og_cols = 3; echo '<td colspan="'.($og_cols * 2).'">'; ?>
+		<p>NextGEN Facebook OG will include all possible Facebook and Open Graph HTML meta tags in your webpage headers. In some cases, you may need to exclude one or more of these HTML meta tags. You can uncheck the following meta tags to exclude them from your webpage headers.</p>
+		</td>
+	</tr>
+	<?php
+		foreach ( $options as $opt => $val ) {
+			if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
+				$og_cells[] = '<th id="meta">Include '.$match[1].' Meta Tag</th>
+					<td><input name="ngfb_options['.$opt.']" type="checkbox" 
+						value="1" '.checked(1, $options[$opt], false).'/></td>';
 			}
-			unset( $opt, $val );
-			$og_per_col = round(count($og_cells) / 3, 0);
-			foreach ( $og_cells as $num => $cell )
-				$og_rows[ $num % $og_per_col ] .= $cell;
-			unset( $num, $cell );
-			foreach ( $og_rows as $num => $row )
-				echo '<tr>', $row, '</tr>', "\n";
+		}
+		unset( $opt, $val );
+		$og_per_col = round(count($og_cells) / 3, 0);
+		foreach ( $og_cells as $num => $cell )
+			$og_rows[ $num % $og_per_col ] .= $cell;
+		unset( $num, $cell );
+		foreach ( $og_rows as $num => $row )
+			echo '<tr>', $row, '</tr>', "\n";
+	?>
+	</table>
+	</div><!-- .inside -->
+	</div><!-- .postbox -->
+
+	<div class="postbox">
+	<h3>Social Button Settings</h3>
+	<div class="inside">	
+	<table class="form-table">
+	<tr>
+		<td colspan="4">
+		<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> page for stylesheet examples -- including how to hide the buttons for specific posts, pages, categories, tags, etc. Each of the following social buttons can be added to an "NBFG Social Buttons" widget as well (see the <a href="widgets.php">widgets admin page</a> for the widget options).</p>
+		</td>
+	</tr>
+	<tr>
+		<th>Include on Index Webpages</th>
+		<td><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
+			<?php checked(1, $options['buttons_on_home']); ?> />
+		</td>
+		</td><td colspan="2">
+		<p>Add social buttons (that are enabled bellow) to each entry's content on index webpages (index, archives, author, etc.).</p>
+		</td>
+	</tr>
+
+	<?php	// hide Add to Excluded Pages option if not installed and activated
+		if ( function_exists( 'ep_get_excluded_ids' ) ): ?>
+	<tr>
+		<th>Add to Excluded Pages</th>
+		<td><input name="ngfb_options[buttons_on_ex_pages]" type="checkbox" value="1"
+			<?php checked(1, $options['buttons_on_ex_pages']); ?> />
+		</td><td colspan="2">
+		<p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded pages. You can over-ride the default, and add social buttons to excluded page content, by selecting this option.</p>
+		</td>
+	</tr>
+	<?php	endif; ?>
+
+	<tr>
+		<th>Location in Content</th>
+		<td>
+			<select name='ngfb_options[buttons_location]'>
+				<option value='top' <?php selected($options['buttons_location'], 'top'); ?>>Top</option>
+				<option value='bottom' <?php selected($options['buttons_location'], 'bottom'); ?>>Bottom</option>
+			</select>
+		</td>
+	</tr>
+	</table>
+	<table class="form-table">
+	<tr>
+		<!-- Facebook -->
+		<th colspan="2" id="social">Facebook</th>
+		<!-- Google+ -->
+		<th colspan="2" id="social">Google+</th>
+	</tr>
+	<tr><td style="height:5px;"></td></tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['fb_enable']); ?> />
+		</td>
+		<!-- Google+ -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[gp_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['gp_enable']); ?> />
+		</td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Include Send Button</th>
+		<td><input name="ngfb_options[fb_send]" type="checkbox" value="1"
+			<?php checked(1, $options['fb_send']); ?> />
+		</td>
+		<!-- Google+ -->
+		<th>Button Size</th>
+		<td>
+			<select name='ngfb_options[gp_size]'>
+				<option value='small' <?php selected($options['gp_size'], 'small'); ?>>Small (15px)</option>
+				<option value='medium' <?php selected($options['gp_size'], 'medium'); ?>>Medium (20px)</option>
+				<option value='standard' <?php selected($options['gp_size'], 'standard'); ?>>Standard (24px)</option>
+				<option value='tall' <?php selected($options['gp_size'], 'tall'); ?>>Tall (60px)</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Button Layout Style</th>
+		<td>
+			<select name='ngfb_options[fb_layout]'>
+				<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
+				<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
+				<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
+			</select>
+		</td>
+		<!-- Google+ -->
+		<th>Annotation</th>
+		<td>
+			<select name='ngfb_options[gp_annotation]'>
+				<option value='inline' <?php selected($options['gp_annotation'], 'inline'); ?>>Inline</option>
+				<option value='bubble' <?php selected($options['gp_annotation'], 'bubble'); ?>>Bubble</option>
+				<option value='none' <?php selected($options['gp_annotation'], 'none'); ?>>None</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Show Facebook Faces</th>
+		<td><input name="ngfb_options[fb_show_faces]" type="checkbox" value="1"
+			<?php checked(1, $options['fb_show_faces']); ?> />
+		</td>
+		<!-- Google+ -->
+		<td colspan="2"></td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Button Font</th>
+		<td>
+			<select name='ngfb_options[fb_font]'>
+				<option value='arial' <?php selected('arial', $options['fb_font']); ?>>Arial</option>
+				<option value='lucida grande' <?php selected('lucida grande', $options['fb_font']); ?>>Lucida Grande</option>
+				<option value='segoe ui' <?php selected('segoe ui', $options['fb_font']); ?>>Segoe UI</option>
+				<option value='tahoma' <?php selected('tahoma', $options['fb_font']); ?>>Tahoma</option>
+				<option value='trebuchet ms' <?php selected('trebuchet ms', $options['fb_font']); ?>>Trebuchet MS</option>
+				<option value='verdana' <?php selected('verdana', $options['fb_font']); ?>>Verdana</option>
+			</select>
+		</td>
+		<!-- Google+ -->
+		<td colspan="2"></td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Button Color Scheme</th>
+		<td>
+			<select name='ngfb_options[fb_colorscheme]'>
+				<option value='light' <?php selected('light', $options['fb_colorscheme']); ?>>Light</option>
+				<option value='dark' <?php selected('dark', $options['fb_colorscheme']); ?>>Dark</option>
+			</select>
+		</td>
+		<!-- Google+ -->
+		<td colspan="2"></td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Facebook Action Name</th>
+		<td>
+			<select name='ngfb_options[fb_action]'>
+				<option value='like' <?php selected('like', $options['fb_action']); ?>>Like</option>
+				<option value='recommend' <?php selected('recommend', $options['fb_action']); ?>>Recommend</option>
+			</select>
+		</td>
+		<!-- Google+ -->
+		<td colspan="2"></td>
+	</tr>				
+	<tr><td style="height:5px;"></td></tr>
+	<tr>
+		<!-- LinkedIn -->
+		<th colspan="2" id="social">LinkedIn</th>
+		<!-- Twitter -->
+		<th colspan="2" id="social">Twitter</th>
+	</tr>
+	<tr><td style="height:5px;"></td></tr>
+	<tr>
+		<!-- LinkedIn -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[linkedin_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['linkedin_enable']); ?> />
+		</td>
+		<!-- Twitter -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[twitter_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['twitter_enable']); ?> />
+		</td>
+	</tr>
+	<tr>
+		<!-- LinkedIn -->
+		<th>Counter Mode</th>
+		<td>
+			<select name='ngfb_options[linkedin_counter]'>
+				<option value='top' <?php selected($options['linkedin_counter'], 'top'); ?>>Vertical</option>
+				<option value='right' <?php selected($options['linkedin_counter'], 'right'); ?>>Horizontal</option>
+				<option value='' <?php selected($options['linkedin_counter'], ''); ?>>None</option>
+			</select>
+		</td>
+		<!-- Twitter -->
+		<th>Count Box Position</th>
+		<td>
+			<select name='ngfb_options[twitter_count]'>
+				<option value='horizontal' <?php selected($options['twitter_count'], 'horizontal'); ?>>Horizontal</option>
+				<option value='vertical' <?php selected($options['twitter_count'], 'vertical'); ?>>Vertical</option>
+				<option value='none' <?php selected($options['twitter_count'], 'none'); ?>>None</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- LinkedIn -->
+		<td colspan="2"></td>
+		<!-- Twitter -->
+		<th>Button Size</th>
+		<td>
+			<select name='ngfb_options[twitter_size]'>
+				<option value='medium' <?php selected($options['twitter_size'], 'medium'); ?>>Medium</option>
+				<option value='large' <?php selected($options['twitter_size'], 'large'); ?>>Large</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- LinkedIn -->
+		<td colspan="2"></td>
+		<!-- Twitter -->
+		<th>Do Not Track</th>
+		<td><input name="ngfb_options[twitter_dnt]" type="checkbox" value="1" 
+			<?php checked(1, $options['twitter_dnt']); ?> />
+		</td>
+	</tr>
+	<tr><td style="height:5px;"></td></tr>
+	<tr>
+		<!-- Pinterest -->
+		<th colspan="2" id="social">Pinterest</th>
+		<!-- tumblr -->
+		<th colspan="2" id="social">tumblr</th>
+	</tr>
+	<tr><td style="height:5px;"></td></tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2">
+			<p>The Pinterest "Pin It" button will only appear on posts and pages with a featured image.</p>
+		</td>
+		<!-- tumblr -->
+		<td colspan="2">
+			<p>The tumblr button shares featured images, embeded videos, quote post formats, and links to webpages.</p>
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[pin_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['pin_enable']); ?> />
+		</td>
+		<!-- tumblr -->
+		<th>Add Button to Content</th>
+		<td><input name="ngfb_options[tumblr_enable]" type="checkbox" value="1" 
+			<?php checked(1, $options['tumblr_enable']); ?> />
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<th>Pin Count Layout</th>
+		<td>
+			<select name='ngfb_options[pin_count_layout]'>
+				<option value='horizontal' <?php selected($options['pin_count_layout'], 'horizontal'); ?>>Horizontal</option>
+				<option value='vertical' <?php selected($options['pin_count_layout'], 'vertical'); ?>>Vertical</option>
+				<option value='none' <?php selected($options['pin_count_layout'], 'none'); ?>>None</option>
+			</select>
+		</td>
+		<!-- tumblr -->
+		<th rowspan="4">tumblr Button Style</th>
+		<td rowspan="4">
+	                <div class="btn_wizard_row clearfix" id="button_styles">
+			<?php
+				foreach ( range(1, 4) as $i ) {
+	                    		echo '
+						<div class="btn_wizard_column share_', $i, '">
+							<div class="btn_wizard_example clearfix">
+								<label for="share_', $i, '">
+									<input type="radio" id="share_', $i, '" name="ngfb_options[tumblr_button_style]" 
+										value="share_', $i, '" ', checked( 'share_'.$i, $options['tumblr_button_style'], false ), '/>
+									<img src="http://platform.tumblr.com/v1/share_', $i, '.png" height="20" class="share_button_image"/>
+								</label>
+							</div>
+							<div class="btn_wizard_example clearfix">
+								<label for="share_', $i, 'T">
+									<input type="radio" id="share_', $i, 'T" name="ngfb_options[tumblr_button_style]" 
+										value="share_', $i, 'T" ', checked( 'share_'.$i.'T', $options['tumblr_button_style'], false ), '/>
+									<img src="http://platform.tumblr.com/v1/share_', $i, 'T.png" height="20" class="share_button_image"/>
+								</label>
+							</div>
+						</div>
+					';
+				}
 			?>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
+			</div> 
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<th>Featured Image Size to Share</th>
+		<td>
+			<?php ngfb_select_img_size( $options, 'pin_img_size' ); ?>
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<th>Image Caption Text</th>
+		<td>
+			<select name='ngfb_options[pin_caption]'>
+				<option value='title' <?php selected($options['pin_caption'], 'title'); ?>>Title Only</option>
+				<option value='excerpt' <?php selected($options['pin_caption'], 'excerpt'); ?>>Excerpt Only</option>
+				<option value='both' <?php selected($options['pin_caption'], 'both'); ?>>Title and Excerpt</option>
+				<option value='none' <?php selected($options['pin_caption'], 'none'); ?>>None</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<th>Max Caption Length</th>
+			<td><input type="text" size="6" name="ngfb_options[pin_cap_len]" 
+			value="<?php echo $options['pin_cap_len']; ?>" /> Characters
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2"></td>
+		<!-- tumblr -->
+		<th>Max <u>Link</u> Description Length</th>
+		<td><input type="text" size="6" name="ngfb_options[tumblr_desc_len]" 
+			value="<?php echo $options['tumblr_desc_len']; ?>" /> Characters
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2"></td>
+		<!-- tumblr -->
+		<th>Share Featured Image</th>
+		<td><input name="ngfb_options[tumblr_photo]" type="checkbox" value="1" 
+			<?php checked(1, $options['tumblr_photo']); ?> />
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2"></td>
+		<!-- tumblr -->
+		<th>Featured Image Size to Share</th>
+		<td>
+			<?php ngfb_select_img_size( $options, 'tumblr_img_size' ); ?>
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2"></td>
+		<!-- tumblr -->
+		<th>Image and Video Caption Text</th>
+		<td>
+			<select name='ngfb_options[tumblr_caption]'>
+				<option value='title' <?php selected($options['tumblr_caption'], 'title'); ?>>Title Only</option>
+				<option value='excerpt' <?php selected($options['tumblr_caption'], 'excerpt'); ?>>Excerpt Only</option>
+				<option value='both' <?php selected($options['tumblr_caption'], 'both'); ?>>Title and Excerpt</option>
+				<option value='none' <?php selected($options['tumblr_caption'], 'none'); ?>>None</option>
+				</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- Pinterest -->
+		<td colspan="2"></td>
+		<!-- tumblr -->
+		<th>Max Caption Length</th>
+		<td><input type="text" size="6" name="ngfb_options[tumblr_cap_len]" 
+			value="<?php echo $options['tumblr_cap_len']; ?>" /> Characters
+		</td>
+	</tr>
+	</table>
+	</div><!-- .inside -->
+	</div><!-- .postbox -->
 
-		<div class="postbox">
-		<h3>Social Button Settings</h3>
-		<div class="inside">	
-		<table class="form-table">
-			<tr>
-				<td colspan="4">
-				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> page for stylesheet examples -- including how to hide the buttons for specific posts, pages, categories, tags, etc. Each of the following social buttons can be added to an "NBFG Social Buttons" widget as well (see the <a href="widgets.php">widgets admin page</a> for the widget options).</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">Include on Multi-Entry Webpages</th>
-				<td><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
-					<?php checked(1, $options['buttons_on_home']); ?> />
-				</td>
-				</td><td colspan="2">
-				<p>Add social buttons to each entry's content, on multi-entry webpages (index, archives, etc.).</p>
-				</td>
-			</tr>
-
-			<?php 
-				// hide Add to Excluded Pages option if not installed and activated
-				if ( ! function_exists( 'ep_get_excluded_ids' ) ) echo "<!-- "; 
-			?>
-			<tr>
-				<th scope="row">Add to Excluded Pages</th>
-				<td><input name="ngfb_options[buttons_on_ex_pages]" type="checkbox" value="1"
-					<?php checked(1, $options['buttons_on_ex_pages']); ?> />
-				</td><td colspan="2">
-				<p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded pages. You can over-ride the default, and add social buttons to excluded page content, by selecting this option.</p>
-				</td>
-			</tr>
-			<?php if ( ! function_exists( 'ep_get_excluded_ids' ) ) echo "--> "; ?>
-
-			<tr>
-				<th scope="row">Location in Content</th>
-				<td>
-					<select name='ngfb_options[buttons_location]'>
-						<option value='top' <?php selected($options['buttons_location'], 'top'); ?>>Top</option>
-						<option value='bottom' <?php selected($options['buttons_location'], 'bottom'); ?>>Bottom</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<table class="form-table">
-			<tr>
-				<!-- Facebook -->
-				<th colspan="2" id="social">Facebook</th>
-				<!-- Google+ -->
-				<th colspan="2" id="social">Google+</th>
-			</tr>
-			<tr><td></td></tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Add Button to Content</th>
-				<td><input name="ngfb_options[fb_enable]" type="checkbox" value="1" 
-					<?php checked(1, $options['fb_enable']); ?> />
-				</td>
-				<!-- Google+ -->
-				<th scope="row">Add Button to Content</th>
-				<td><input name="ngfb_options[gp_enable]" type="checkbox" value="1" 
-					<?php checked(1, $options['gp_enable']); ?> />
-				</td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Include Send Button</th>
-				<td><input name="ngfb_options[fb_send]" type="checkbox" value="1"
-					<?php checked(1, $options['fb_send']); ?> />
-				</td>
-				<!-- Google+ -->
-				<th scope="row">Button Size</th>
-				<td>
-					<select name='ngfb_options[gp_size]'>
-						<option value='small' <?php selected($options['gp_size'], 'small'); ?>>Small (15px)</option>
-						<option value='medium' <?php selected($options['gp_size'], 'medium'); ?>>Medium (20px)</option>
-						<option value='standard' <?php selected($options['gp_size'], 'standard'); ?>>Standard (24px)</option>
-						<option value='tall' <?php selected($options['gp_size'], 'tall'); ?>>Tall (60px)</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Button Layout Style</th>
-				<td>
-					<select name='ngfb_options[fb_layout]'>
-						<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
-						<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
-						<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
-					</select>
-				</td>
-				<!-- Google+ -->
-				<th scope="row">Annotation</th>
-				<td>
-					<select name='ngfb_options[gp_annotation]'>
-						<option value='inline' <?php selected($options['gp_annotation'], 'inline'); ?>>Inline</option>
-						<option value='bubble' <?php selected($options['gp_annotation'], 'bubble'); ?>>Bubble</option>
-						<option value='none' <?php selected($options['gp_annotation'], 'none'); ?>>None</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Show Facebook Faces</th>
-				<td><input name="ngfb_options[fb_show_faces]" type="checkbox" value="1"
-					<?php checked(1, $options['fb_show_faces']); ?> />
-				</td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Button Font</th>
-				<td>
-					<select name='ngfb_options[fb_font]'>
-						<option value='arial' <?php selected('arial', $options['fb_font']); ?>>Arial</option>
-						<option value='lucida grande' <?php selected('lucida grande', $options['fb_font']); ?>>Lucida Grande</option>
-						<option value='segoe ui' <?php selected('segoe ui', $options['fb_font']); ?>>Segoe UI</option>
-						<option value='tahoma' <?php selected('tahoma', $options['fb_font']); ?>>Tahoma</option>
-						<option value='trebuchet ms' <?php selected('trebuchet ms', $options['fb_font']); ?>>Trebuchet MS</option>
-						<option value='verdana' <?php selected('verdana', $options['fb_font']); ?>>Verdana</option>
-					</select>
-				</td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Button Color Scheme</th>
-				<td>
-					<select name='ngfb_options[fb_colorscheme]'>
-						<option value='light' <?php selected('light', $options['fb_colorscheme']); ?>>Light</option>
-						<option value='dark' <?php selected('dark', $options['fb_colorscheme']); ?>>Dark</option>
-					</select>
-				</td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th scope="row">Facebook Action Name</th>
-				<td>
-					<select name='ngfb_options[fb_action]'>
-						<option value='like' <?php selected('like', $options['fb_action']); ?>>Like</option>
-						<option value='recommend' <?php selected('recommend', $options['fb_action']); ?>>Recommend</option>
-					</select>
-				</td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>				
-		</table>
-		<table class="form-table">
-			<tr>
-				<!-- LinkedIn -->
-				<th colspan="2" id="social">LinkedIn</th>
-				<!-- Twitter -->
-				<th colspan="2" id="social">Twitter</th>
-			</tr>
-			<tr><td></td></tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th scope="row">Add Button to Content</th>
-				<td><input name="ngfb_options[linkedin_enable]" type="checkbox" value="1" 
-					<?php checked(1, $options['linkedin_enable']); ?> />
-				</td>
-				<!-- Twitter -->
-				<th scope="row">Add Button to Content</th>
-				<td><input name="ngfb_options[twitter_enable]" type="checkbox" value="1" 
-					<?php checked(1, $options['twitter_enable']); ?> />
-				</td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th scope="row">Counter Mode</th>
-				<td>
-					<select name='ngfb_options[linkedin_counter]'>
-						<option value='top' <?php selected($options['linkedin_counter'], 'top'); ?>>Vertical</option>
-						<option value='right' <?php selected($options['linkedin_counter'], 'right'); ?>>Horizontal</option>
-						<option value='' <?php selected($options['linkedin_counter'], ''); ?>>None</option>
-					</select>
-				</td>
-				<!-- Twitter -->
-				<th scope="row">Count Box Position</th>
-				<td>
-					<select name='ngfb_options[twitter_count]'>
-						<option value='vertical' <?php selected($options['twitter_count'], 'vertical'); ?>>Vertical</option>
-						<option value='horizontal' <?php selected($options['twitter_count'], 'horizontal'); ?>>Horizontal</option>
-						<option value='none' <?php selected($options['twitter_count'], 'none'); ?>>None</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th scope="row">Button Size</th>
-				<td>
-					<select name='ngfb_options[twitter_size]'>
-						<option value='medium' <?php selected($options['twitter_size'], 'medium'); ?>>Medium</option>
-						<option value='large' <?php selected($options['twitter_size'], 'large'); ?>>Large</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th scope="row">Do Not Track</th>
-				<td><input name="ngfb_options[twitter_dnt]" type="checkbox" value="1" 
-					<?php checked(1, $options['twitter_dnt']); ?> />
-				</td>
-			</tr>
-		</table>
-		<table class="form-table">
-			<tr>
-				<!-- tumblr -->
-				<th colspan="2" id="social">tumblr</th>
-				<th colspan="2"></th>
-			</tr>
-			<tr><td></td></tr>
-			<tr>
-				<!-- tumblr -->
-				<th scope="row">Add Button to Content</th>
-				<td><input name="ngfb_options[tumblr_enable]" type="checkbox" value="1" 
-					<?php checked(1, $options['tumblr_enable']); ?> />
-				</td>
-			</tr>
-			<tr>
-				<!-- tumblr -->
-				<th scope="row">tumblr Button Style</th>
-				<td>
-                <div class="btn_wizard_row clearfix" id="button_styles">
-
-                    <div class="btn_wizard_column share_1">
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_1">
-                                <input type="radio" id="share_1" name="ngfb_options[tumblr_button_style]" value="share_1" 
-					<?php checked('share_1', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_1.png" width="81" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_1T">
-                                <input type="radio" id="share_1T" name="ngfb_options[tumblr_button_style]" value="share_1T" 
-					<?php checked('share_1T', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_1T.png" width="81" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="btn_wizard_column share_2">
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_2">
-                                <input type="radio" id="share_2" name="ngfb_options[tumblr_button_style]" value="share_2" 
-					<?php checked('share_2', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_2.png" width="62" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_2T">
-                                <input type="radio" id="share_2T" name="ngfb_options[tumblr_button_style]" value="share_2T" 
-					<?php checked('share_2T', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_2T.png" width="62" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="btn_wizard_column share_3">
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_3">
-                                <input type="radio" id="share_3" name="ngfb_options[tumblr_button_style]" value="share_3" 
-					<?php checked('share_3', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_3.png" width="129" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_3T">
-                                <input type="radio" id="share_3T" name="ngfb_options[tumblr_button_style]" value="share_3T" 
-					<?php checked('share_3T', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_3T.png" width="129" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="btn_wizard_column share_4">
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_4">
-                                <input type="radio" id="share_4" name="ngfb_options[tumblr_button_style]" value="share_4" 
-					<?php checked('share_4', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_4.png" width="20" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                        <div class="btn_wizard_example clearfix">
-                            <label for="share_4T">
-                                <input type="radio" id="share_4T" name="ngfb_options[tumblr_button_style]" value="share_4T" 
-					<?php checked('share_4T', $options['tumblr_button_style']); ?>/>
-                                <img src="http://platform.tumblr.com/v1/share_4T.png" width="20" height="20" class="share_button_image"/>
-                            </label>
-                        </div>
-                    </div>
-
-                </div> 
-				</td>
-			</tr>
-			<tr>
-				<!-- tumblr -->
-				<th scope="row">Max Description Length</th>
-				<td><input type="text" size="6" name="ngfb_options[tumblr_desc_len]" 
-					value="<?php echo $options['tumblr_desc_len']; ?>" /> Characters
-				</td>
-			</tr>
-			<tr>
-				<!-- tumblr -->
-				<th scope="row">Share Featured Image</th>
-				<td><input name="ngfb_options[tumblr_photo]" type="checkbox" value="1" 
-					<?php checked(1, $options['tumblr_photo']); ?> />
-				</td>
-			</tr>
-			<tr>
-				<!-- tumblr -->
-				<th>Image Size to Share</th>
-				<td>
-					<select name='ngfb_options[tumblr_img_size]'>
-					<?php
-						global $_wp_additional_image_sizes;
-						// Display the sizes in the array
-						foreach ( get_intermediate_image_sizes() as $s ) {
-							// Don't make or numeric sizes that appear
-							if( is_integer( $s ) ) continue;
-	
-							if ( isset( $_wp_additional_image_sizes[$s]['width'] ) ) // For theme-added sizes
-								$width = intval( $_wp_additional_image_sizes[$s]['width'] );
-							else                                                     // For default sizes set in options
-								$width = get_option( "{$s}_size_w" );
-			
-							if ( isset( $_wp_additional_image_sizes[$s]['height'] ) ) // For theme-added sizes
-								$height = intval( $_wp_additional_image_sizes[$s]['height'] );
-							else                                                      // For default sizes set in options
-								$height = get_option( "{$s}_size_h" );
-			
-							if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )   // For theme-added sizes
-								$crop = intval( $_wp_additional_image_sizes[$s]['crop'] );
-							else                                                      // For default sizes set in options
-								$crop = get_option( "{$s}_crop" );
-
-							echo "<option value='$s' ".(selected($options['tumblr_img_size'], $s)).">$s (${width} x ${height}".($crop ? " cropped" : "").")</option>\n";
-						}
-						unset ( $s );
-					?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- tumblr -->
-				<th scope="row">Image and Video Caption</th>
-				<td>
-					<select name='ngfb_options[tumblr_caption]'>
-						<option value='title' <?php selected($options['tumblr_caption'], 'title'); ?>>Title Only</option>
-						<option value='excerpt' <?php selected($options['tumblr_caption'], 'excerpt'); ?>>Excerpt Only</option>
-						<option value='both' <?php selected($options['tumblr_caption'], 'both'); ?>>Title and Excerpt</option>
-						<option value='none' <?php selected($options['tumblr_caption'], 'none'); ?>>None</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
-
-		<div class="postbox">
-		<h3>Plugin Settings</h3>
-		<div class="inside">	
-		<table class="form-table">
-			<tr>
-				<th scope="row">Reset Settings on Activate</th>
-				<td><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
-					<?php checked(1, $options['ngfb_reset']); ?> />
-				</td><td>
-					<p>Check this option to reset NextGEN Facebook OG settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">Add Hidden Debug Info</th>
-				<td><input name="ngfb_options[ngfb_debug]" type="checkbox" value="1" 
-					<?php checked(1, $options['ngfb_debug']); ?> />
-				</td><td>
-					<p>Include hidden debug information with the Open Graph meta tags.</p>
-				</td>
-			</tr>
-		</table>
-		</div><!-- .inside -->
-		</div><!-- .postbox -->
+	<div class="postbox">
+	<h3>Plugin Settings</h3>
+	<div class="inside">	
+	<table class="form-table">
+	<tr>
+		<th>Reset Settings on Activate</th>
+		<td><input name="ngfb_options[ngfb_reset]" type="checkbox" value="1" 
+			<?php checked(1, $options['ngfb_reset']); ?> />
+		</td><td>
+		<p>Check this option to reset NextGEN Facebook OG settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p>
+		</td>
+	</tr>
+	<tr>
+		<th>Add Hidden Debug Info</th>
+		<td><input name="ngfb_options[ngfb_debug]" type="checkbox" value="1" 
+			<?php checked(1, $options['ngfb_debug']); ?> />
+		</td><td>
+		<p>Include hidden debug information with the Open Graph meta tags.</p>
+		</td>
+	</tr>
+	</table>
+	</div><!-- .inside -->
+	</div><!-- .postbox -->
 	</div><!-- .metabox-holder -->
-
-		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-
+	<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 	</form>
-</div><!-- .wrap -->
+	</div><!-- .wrap -->
 	<?php	
 }
 
@@ -1067,7 +1040,9 @@ function ngfb_add_content_buttons( $content ) {
 		if ($options['gp_enable']) $buttons .= ngfb_gplus_button( $options );
 		if ($options['twitter_enable']) $buttons .= ngfb_twitter_button( $options );
 		if ($options['linkedin_enable']) $buttons .= ngfb_linkedin_button( $options );
+		if ($options['pin_enable']) $buttons .= ngfb_pinterest_button( $options );
 		if ($options['tumblr_enable']) $buttons .= ngfb_tumblr_button( $options );
+
 		if ($buttons) $buttons = "
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
 <div class=\"ngfb-content-buttons ngfb-buttons\">\n$buttons\n</div>
@@ -1082,44 +1057,86 @@ function ngfb_add_content_buttons( $content ) {
 
 /* tumblr button */
 
+function ngfb_pinterest_button( $options, $opts = array() ) {
+
+	global $post;
+	$button = '';
+	if ( ! $opts['pin_count_layout'] ) $opts['pin_count_layout'] = $options['pin_count_layout'];
+	if ( ! $opts['url'] ) $opts['url'] = get_permalink( $post->ID );
+	if ( ! $opts['size'] ) $opts['size'] = $options['pin_img_size'];
+	if ( ! $opts['caption'] ) $opts['caption'] = ngfb_get_caption( $options['pin_caption'], $options['pin_cap_len'] );
+	if ( ! $opts['photo'] ) {
+		if ( ! $opts['pid'] ) {
+			// return if function doesn't exist, or there's no featured image
+			if ( ! function_exists('has_post_thumbnail') || ! has_post_thumbnail( $post->ID ) ) return;
+			$opts['pid'] = get_post_thumbnail_id( $post->ID );
+		}
+		if ( $opts['pid'] ) {
+			// if the post thumbnail id has the form ngg- then it's a NextGEN image
+			if ( is_string( $opts['pid'] ) && substr( $opts['pid'], 0, 4 ) == 'ngg-' ) {
+				$opts['photo'] = ngfb_get_ngg_thumb_url( $opts['pid'], $opts['size'] );
+			} else {
+				$out = wp_get_attachment_image_src( $opts['pid'], $opts['size'] );
+				$opts['photo'] = $out[0];
+			}
+		}
+	}
+	if ( $opts['photo'] ) {
+		$button .= '?url=' . urlencode( $opts['url'] );
+		$button .= '&media='.urlencode( $opts['photo'] );
+		$button .= '&description=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
+	}
+	if ( $button ) {
+		$button = '<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+			<div class="pinterest-button"><a href="http://pinterest.com/pin/create/button/' . $button . '" 
+				class="pin-it-button" count-layout="' . $opts['pin_count_layout'] . '" title="Share on Pinterest">
+			<img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a></div>';
+	}
+	return $button;	
+}
+
+/* tumblr button */
+
 function ngfb_tumblr_button( $options, $opts = array() ) {
 
 	global $post;
-
-	if ( ! $opts['url'] ) $opts['url'] = get_permalink($post->ID);
-	
-	// only use featured image if $options['tumblr_photo'] allows it
-	if ( ! $opts['pid'] && $options['tumblr_photo'] && function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
-		$opts['pid'] = get_post_thumbnail_id( $post->ID );
-	}
-
-	if ( ! $opts['caption'] ) $opts['caption'] = ngfb_get_caption( $options, $options['tumblr_caption'] );
-	if ( ! $opts['embed'] ) $opts['embed'] = ngfb_get_video_embed( $options );
-	if ( ! $opts['title'] ) $opts['title'] = ngfb_get_title( $options );
-	if ( ! $opts['description'] ) $opts['description'] = ngfb_get_description( $options, $options['tumblr_desc_len'], '...');
-	if ( ! $opts['size'] ) $opts['size'] = $options['tumblr_img_size'];
-
 	$button = '';
-	$button_style = $options['tumblr_button_style'];
-	if ( ! $button_style ) $button_style = 'share_1';
-	
-	if ( $opts['pid'] ) {
-		// if the post thumbnail id has the form ngg- then it's a NextGEN image
-		if ( is_string( $opts['pid'] ) && substr( $opts['pid'], 0, 4 ) == 'ngg-' ) {
-			$opts['source'] = ngfb_get_ngg_thumb_url( $opts['pid'], $opts['size'] );
-		} else {
-			$out = wp_get_attachment_image_src( $opts['pid'], $opts['size'] );
-			$opts['source'] = $out[0];
+	if ( ! $opts['tumblr_button_style'] ) $opts['tumblr_button_style'] = $options['tumblr_button_style'];
+	if ( ! $opts['url'] ) $opts['url'] = get_permalink( $post->ID );
+	if ( ! $opts['size'] ) $opts['size'] = $options['tumblr_img_size'];
+	if ( ! $opts['embed'] ) $opts['embed'] = ngfb_get_video_embed( );
+	if ( ! $opts['title'] ) $opts['title'] = ngfb_get_title( );
+	if ( ! $opts['caption'] ) $opts['caption'] = ngfb_get_caption( $options['tumblr_caption'], $options['tumblr_cap_len'] );
+	if ( ! $opts['description'] ) $opts['description'] = ngfb_get_description( $options['tumblr_desc_len'], '...');
+	if ( ! $opts['photo'] ) {
+		// only use featured image if $options['tumblr_photo'] allows it
+		if ( ! $opts['pid'] && $options['tumblr_photo'] && function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+			$opts['pid'] = get_post_thumbnail_id( $post->ID );
+		}
+		if ( $opts['pid'] ) {
+			// if the post thumbnail id has the form ngg- then it's a NextGEN image
+			if ( is_string( $opts['pid'] ) && substr( $opts['pid'], 0, 4 ) == 'ngg-' ) {
+				$opts['photo'] = ngfb_get_ngg_thumb_url( $opts['pid'], $opts['size'] );
+			} else {
+				$out = wp_get_attachment_image_src( $opts['pid'], $opts['size'] );
+				$opts['photo'] = $out[0];
+			}
 		}
 	}
+	if ( ! $opts['quote'] && get_post_format( $post->ID ) == 'quote' ) {
+		$opts['quote'] = ngfb_get_quote();
+	}
 
-	if ( $opts['source'] ) {
-		$button .= 'photo?source='.urlencode( $opts['source'] );
+	if ( $opts['photo'] ) {
+		$button .= 'photo?source='.urlencode( $opts['photo'] );
 		$button .= '&caption=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 		$button .= '&clickthru=' . urlencode( $opts['url'] );
 	} elseif ( $opts['embed'] ) {
 		$button .= 'video?embed=' . urlencode( $opts['embed'] );
 		$button .= '&caption=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
+	} elseif ( $opts['quote'] ) {
+		$button .= 'quote?quote=' . urlencode( $opts['quote'] );
+		$button .= '&source=' . urlencode( ngfb_str_decode( $opts['title'] ) );
 	} elseif ( $opts['url'] ) {
 		$button .= 'link?url=' . urlencode( $opts['url'] );
 		$button .= '&name=' . urlencode( ngfb_str_decode( $opts['title'] ) );
@@ -1129,7 +1146,7 @@ function ngfb_tumblr_button( $options, $opts = array() ) {
 	if ( $button ) {
 		$button = '<script src="http://platform.tumblr.com/v1/share.js"></script>
 			<div class="tumblr-button"><a href="http://www.tumblr.com/share/'. $button . '" 
-				title="Share on tumblr"><img src="http://platform.tumblr.com/v1/'.$button_style.'.png"></a></div>';
+				title="Share on tumblr"><img src="http://platform.tumblr.com/v1/' . $opts['tumblr_button_style'] . '.png"></a></div>';
 	}
 
 	return $button;
@@ -1293,10 +1310,10 @@ function ngfb_get_ngg_thumb_url( $thumb_id, $size ) {
 
 			$crop = ( $crop == 1 ? 'crop' : '' );
 
-			// Check to see if the image already exists
+			// check to see if the image already exists
 			$image_url = $image->cached_singlepic_file( $width, $height, $crop );
 
-			// If not, then use the dynamic image url
+			// if not, then use the dynamic image url
 			if (empty($image_url)) 
 				$image_url = trailingslashit(site_url()).'index.php?callback=image&amp;pid='.$thumb_id.'&amp;width='.$width.'&amp;height='.$height.'&amp;mode='.$crop;
 		}
@@ -1409,10 +1426,10 @@ function ngfb_add_meta_tags() {
 	$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 
 	/* ======== og:title ======== */
-	$og['og:title'] = ngfb_get_title( $options );
+	$og['og:title'] = ngfb_get_title( );
 
 	/* ======== og:description ======== */
-	$og['og:description'] = ngfb_get_description( $options, $options['og_desc_len'], '' );
+	$og['og:description'] = ngfb_get_description( $options['og_desc_len'], '' );
 
 	/* ======== og:type and article:* ======== */
 	if ( is_single() || is_page() ) {
@@ -1488,7 +1505,7 @@ function ngfb_utf8_entity_decode( $entity ) {
 	return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 }
 
-function ngfb_get_video_embed( $options ) {
+function ngfb_get_video_embed( ) {
 
 	global $post;
 
@@ -1499,68 +1516,82 @@ function ngfb_get_video_embed( $options ) {
 	return;
 }
 
-function ngfb_get_caption( $options, $type ) {
+function ngfb_get_quote( ) {
+
+	global $post;
+
+	$page_text = '';
+
+	if ( has_excerpt( $post->ID ) ) $page_text = get_the_excerpt( $post->ID );
+	else $page_text = $post->post_content;		// fallback to regular content
+
+	$page_text = strip_shortcodes( $page_text );	// remove any remaining shortcodes
+	$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
+
+	return $page_text;
+}
+
+function ngfb_get_caption( $type = 'title', $length = 300 ) {
 
 	$caption = '';
 
 	switch ( strtolower( $type ) ) {
 		case 'title':
-			$caption = ngfb_get_title( $options );
+			$caption = ngfb_get_title();
 			break;
 		case 'excerpt':
-			$caption = ngfb_get_description( $options, $options['tumblr_desc_len'], '...' );
+			$caption = ngfb_get_description( $length - 3, '...' );
 			break;
 		case 'both':
-			$caption = ngfb_get_title( $options ) . ': ' . ngfb_get_description( $options, $options['tumblr_desc_len'], '...' );
+			$title = ngfb_get_title();
+			$caption = $title . ' : ' . ngfb_get_description( $length - strlen( $title ) - 3, '...' );
 			break;
 	}
-
 	return $caption;
 }
 
-function ngfb_get_title( $options ) {
+function ngfb_get_title( ) {
 
 	global $post, $page, $paged;
 
-	$og_title = trim( wp_title( '|', false, 'right' ), ' |');
+	$title = trim( wp_title( '|', false, 'right' ), ' |');
 
 	if ( is_singular() ) {
 
 		$parent_id = $post->post_parent;
 		if ($parent_id) $parent_title = get_the_title($parent_id);
-		if ($parent_title) $og_title .= ' ('.$parent_title.')';
+		if ($parent_title) $title .= ' ('.$parent_title.')';
 
 	} elseif ( is_category() ) { 
 
 		// wordpress does not include parents - we want the parents too
-		$og_title = ngfb_str_decode( single_cat_title( '', false ) );
-		$og_title = trim( get_category_parents( get_cat_ID( $og_title ), false, ' | ', false ), ' |');
-		$og_title = preg_replace('/\.\.\. \| /', '... ', $og_title);	// my own little quirk ;-)
+		$title = ngfb_str_decode( single_cat_title( '', false ) );
+		$title = trim( get_category_parents( get_cat_ID( $title ), false, ' | ', false ), ' |');
+		$title = preg_replace('/\.\.\. \| /', '... ', $title);	// my own little quirk ;-)
 	}
 
-	if ( ! $og_title ) $og_title = get_bloginfo( 'name', 'display' );
+	if ( ! $title ) $title = get_bloginfo( 'name', 'display' );
 
-	if ( $paged >= 2 || $page >= 2 ) 
-		$og_title .= ' | ' . sprintf( 'Page %s', max( $paged, $page ) );	// add a page number if necessary
+	// add a page number if necessary
+	if ( $paged >= 2 || $page >= 2 ) $title .= ' | ' . sprintf( 'Page %s', max( $paged, $page ) );
 
-	return $og_title;
+	return $title;
 }
 
-function ngfb_get_description( $options, $desc_len = 300, $trailing = '') {
+function ngfb_get_description( $desc_len = 300, $trailing = '') {
 
 	global $post;
 
-	$og_description = '';
+	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
+	$desc = '';
 
 	if ( is_search() && ! $options['og_def_on_search'] ) {
 
 	} elseif ( is_singular() ) {
 
-		$page_text = '';
-
 		if ( has_excerpt( $post->ID ) ) {
 
-			$page_text = strip_tags( get_the_excerpt( $post->ID ) );
+			$desc = get_the_excerpt( $post->ID );
 
 		// use WP-WikiBox for page content, if option is true
 		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
@@ -1575,70 +1606,106 @@ function ngfb_get_description( $options, $desc_len = 300, $trailing = '') {
 						if ( preg_match( "/^$tag_prefix/", $tag_name ) > 0 )
 							$tag_name = preg_replace( "/^$tag_prefix/", "", $tag_name );
 						else continue;
-					$page_text .= wikibox_summary( $tag_name, '', false ); 
+					$desc .= wikibox_summary( $tag_name, '', false ); 
 				}
 				unset ( $tag, $tag_name, $tag_prefix );
-			} else $page_text .= wikibox_summary( the_title( '', '', false ), '', false );
+			} else $desc .= wikibox_summary( the_title( '', '', false ), '', false );
 		} 
 
-		if ( ! $page_text ) $page_text = $post->post_content;		// fallback to regular content
-		$page_text = strip_shortcodes( $page_text );			// remove any remaining shortcodes
-		$page_text = preg_replace( '/[\r\n\t ]+/s', ' ', $page_text );	// put everything on one line
+		if ( ! $desc ) $desc = $post->post_content;		// fallback to regular content
+
+		$desc = strip_shortcodes( $desc );			// remove any remaining shortcodes
+		$desc = preg_replace( '/[\r\n\t ]+/s', ' ', $desc );	// put everything on one line
 
 		// ignore everything until the first paragraph tag if $options['og_desc_strip'] is true
-		if ( $options['og_desc_strip'] ) $page_text = preg_replace( '/^.*<p>/', '', $page_text );
+		if ( $options['og_desc_strip'] ) $desc = preg_replace( '/^.*<p>/', '', $desc );
 
 		// remove javascript, which strip_tags doesn't do
-		$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
+		$desc = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $desc);
 
-		$page_text = preg_replace( '/<\/p>/i', ' ', $page_text);	// replace end of paragraph with a space
-		$page_text = strip_tags( $page_text );				// remove any remaining html tags
-		if ( strlen( $page_text ) < $desc_len ) $trailing = '';		// truncate trailing string if page text is shorter than limit
-		$page_text = substr( $page_text, 0, $desc_len );		// truncate the text
-		$page_text = preg_replace( '/[^ ]*$/', '', $page_text );	// remove trailing bits of words
-		$og_description = esc_attr( trim( $page_text ) ) . $trailing;	// trim and add trailing string (if provided)
+		$desc = preg_replace( '/<\/p>/i', ' ', $desc);		// replace end of paragraph with a space
+		$desc = strip_tags( $desc );				// remove any remaining html tags
+		if ( strlen( $desc ) < $desc_len ) $trailing = '';	// truncate trailing string if page text is shorter than limit
+		$desc = substr( $desc, 0, $desc_len );			// truncate the text
+		$desc = trim( preg_replace( '/[^ ]*$/', '', $desc ) );	// remove trailing bits of words
+		$desc = preg_replace( '/[,\.]*$/', '', $desc );		// remove trailing puntuation
+		$desc = esc_attr( $desc ) . $trailing;			// trim and add trailing string (if provided)
 
 	} elseif ( is_author() ) { 
 
 		the_post();
-		$og_description = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
+		$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 		$author_desc = strip_tags( get_the_author_meta( 'description' ) );
-		if ($author_desc) $og_description .= ': '.$author_desc;	// add the author's profile description, if there is one
+		if ($author_desc) $desc .= ' : '.$author_desc;	// add the author's profile description, if there is one
 
 	} elseif ( is_tag() ) {
 
-		$og_description = sprintf( 'Tagged with %s', single_tag_title('', false) );
+		$desc = sprintf( 'Tagged with %s', single_tag_title('', false) );
 		$tag_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( tag_description() ) ) ), 0, 
-			$desc_len - strlen($og_description) ) ) );
-		if ( $tag_desc ) $og_description .= ': '.$tag_desc;	// add the tag description, if there is one
+			$desc_len - strlen($desc) ) ) );
+		if ( $tag_desc ) $desc .= ' : '.$tag_desc;	// add the tag description, if there is one
 
 	} elseif ( is_category() ) { 
 
-		$og_description = sprintf( '%s Category', single_cat_title( '', false ) ); 
+		$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 		$cat_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
 			strip_tags( strip_shortcodes( category_description() ) ) ), 0, 
-			$desc_len - strlen($og_description) ) ) );
-		if ($cat_desc) $og_description .= ': '.$cat_desc;	// add the category description, if there is one
+			$desc_len - strlen($desc) ) ) );
+		if ($cat_desc) $desc .= ' : '.$cat_desc;	// add the category description, if there is one
 	}
-	elseif ( is_day() ) $og_description = sprintf( 'Daily Archives for %s', get_the_date() );
-	elseif ( is_month() ) $og_description = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
-	elseif ( is_year() ) $og_description = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
-	else $og_description = get_bloginfo( 'description', 'display' );
+	elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
+	elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
+	elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
+	else $desc = get_bloginfo( 'description', 'display' );
 
-	return $og_description;
+	return $desc;
+}
+
+function ngfb_select_img_size( $options, $option_name ) {
+
+	global $_wp_additional_image_sizes;
+
+	echo '<select name="ngfb_options[', $option_name, '">', "\n";
+	
+	foreach ( get_intermediate_image_sizes() as $size ) {
+
+		if( is_integer( $size ) ) continue;
+	
+		if ( isset( $_wp_additional_image_sizes[$size]['width'] ) )
+			$width = intval( $_wp_additional_image_sizes[$size]['width'] );
+		else $width = get_option( "{$size}_size_w" );
+			
+		if ( isset( $_wp_additional_image_sizes[$size]['height'] ) )
+			$height = intval( $_wp_additional_image_sizes[$size]['height'] );
+		else $height = get_option( "{$size}_size_h" );
+			
+		if ( isset( $_wp_additional_image_sizes[$size]['crop'] ) )
+			$crop = intval( $_wp_additional_image_sizes[$size]['crop'] );
+		else $crop = get_option( "{$size}_crop" );
+
+		echo '<option value="', $size, '" ', selected( $options[$option_name], $size ), '>', 
+			$size, ' (', $width, ' x ', $height, $crop ? " cropped" : "", ')</option>', "\n";
+	}
+	unset ( $size );
+
+	echo '</select>', "\n";
 }
 
 class ngfb_widget_buttons extends WP_Widget {
 
         function ngfb_widget_buttons() {
-                $widget_ops = array( 'classname' => 'ngfb-widget-buttons', 'description' => "NextGEN Favebook OG social sharing buttons. 
-			The widget is only visible on single posts, pages and attachments." );
+		$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
+			'description' => "The NextGEN Facebook OG social buttons widget
+				is only visible on single posts, pages and attachments." );
                 $this->WP_Widget( 'ngfb-widget-buttons', 'NGFB Social Buttons', $widget_ops );
         }
 
         function widget( $args, $instance ) {
-                if ( !is_singular() ) return;
+
+		// only show widget on single posts, pages, and attachments
+                if ( ! is_singular() ) return;
+
                 extract( $args );
 
                 $title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
@@ -1648,7 +1715,8 @@ class ngfb_widget_buttons extends WP_Widget {
 			'Google+' => 'gplus',
 			'Twitter' => 'twitter',
 			'LinkedIn' => 'linkedin',
-			'tumblr' => 'tumblr'
+			'Pinterest' => 'pinterest',
+			'tumblr' => 'tumblr',
 		) as $name => $id ) 
 			if ( (int) $instance[$id] ) $buttons[] = $id;
 		unset( $name, $id );
@@ -1667,7 +1735,8 @@ class ngfb_widget_buttons extends WP_Widget {
 			'Google+' => 'gplus',
 			'Twitter' => 'twitter',
 			'LinkedIn' => 'linkedin',
-			'tumblr' => 'tumblr'
+			'Pinterest' => 'pinterest',
+			'tumblr' => 'tumblr',
 		) as $name => $id ) 
 			$instance[$id] = (int) $new_instance[$id] ? 1 : 0;
 		unset( $name, $id );
@@ -1687,7 +1756,8 @@ class ngfb_widget_buttons extends WP_Widget {
 			'Google+' => 'gplus',
 			'Twitter' => 'twitter',
 			'LinkedIn' => 'linkedin',
-			'tumblr' => 'tumblr'
+			'Pinterest' => 'pinterest',
+			'tumblr' => 'tumblr',
 		) as $name => $id )
 			echo '<p><label for="', $this->get_field_id( $id ), '">', 
 				'<input id="', $this->get_field_id( $id ), 
