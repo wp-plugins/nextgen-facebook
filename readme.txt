@@ -243,7 +243,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 == Screenshots ==
 
-1. NextGEN Facebook OG v2.0 - The Settings Page
+1. NextGEN Facebook OG v2.1 - The Settings Page
 
 == Changelog ==
 
