@@ -17,8 +17,9 @@ listed in the "image" meta tag. This plugin goes well beyond any other plugins
 I know in handling various archive-type webpages. It will create appropriate
 title and description meta tags for category, tag, date based archive (day,
 month, or year), author webpages and search results. You can also, optionally,
-add Facebook, Google+, Twitter and LinkedIn sharing buttons to post and page
-content.
+add Facebook, Google+, Twitter, LinkedIn, Pinterest and tumblr sharing buttons
+to post and page content (above or bellow), as a widget, or even use a function
+from your templates.
 
 The Open Graph protocol enables any web page to become a rich object in a
 social graph. For instance, this is used on Facebook to allow any web page to
@@ -139,6 +140,7 @@ function ngfb_get_default_options() {
 		'fb_show_faces' => 'false',
 		'fb_action' => 'like',
 		'gp_enable' => '',
+		'gp_action' => 'plusone',
 		'gp_size' => 'medium',
 		'gp_annotation' => 'bubble',
 		'twitter_enable' => '',
@@ -196,6 +198,7 @@ function ngfb_validate_options( $options ) {
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
 		$options['og_def_img_id'] = $def_opts['og_def_img_id'];
 
+	// integer options that cannot be zero
 	foreach ( array( 
 		'og_desc_len', 
 		'tumblr_desc_len', 
@@ -212,6 +215,7 @@ function ngfb_validate_options( $options ) {
 	foreach ( array( 
 		'og_img_size', 
 		'buttons_location', 
+		'gp_action', 
 		'gp_size', 
 		'gp_annotation', 
 		'twitter_count', 
@@ -412,7 +416,7 @@ function ngfb_render_form() {
 			width:155px;
 		}
 	</style>
-	<div class="wrap">
+	<div class="wrap" id="ngfb">
 	<div class="icon32" id="icon-options-general"><br></div>
 	<h2>NextGEN Facebook OG Plugin</h2>
 
@@ -425,13 +429,12 @@ function ngfb_render_form() {
 	</div>
 
 	<div class="metabox-holder">
-	<div class="postbox">
-	<h3>Open Graph Settings</h3>
-	<div class="inside">	
-	
-	<!-- Beginning of the Plugin Options Form -->
 	<form method="post" action="options.php">
 	<?php settings_fields('ngfb_plugin_options'); ?>
+
+	<div id="ngfb-ogsettings" class="postbox">
+	<!--<div class="handlediv" title="Click to toggle"><br /></div>--><h3 class="hndle"><span>Open Graph Settings</span></h3>
+	<div class="inside">	
 	<table class="form-table">
 	<tr>
 		<th>Website Topic</th>
@@ -570,8 +573,8 @@ function ngfb_render_form() {
 	</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
-	<h3>Open Graph HTML Meta Tags</h3>
+	<div id="ngfb-ogtags" class="postbox">
+	<!--<div class="handlediv" title="Click to toggle"><br /></div>--><h3 class="hndle"><span>Open Graph Meta Tags</span></h3>
 	<div class="inside">	
 	<table class="form-table">
 	<tr>
@@ -599,8 +602,8 @@ function ngfb_render_form() {
 	</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
-	<h3>Social Button Settings</h3>
+	<div id="ngfb-socialbuttons" class="postbox">
+	<!--<div class="handlediv" title="Click to toggle"><br /></div>--><h3 class="hndle"><span>Social Button Settings</span></h3>
 	<div class="inside">	
 	<table class="form-table">
 	<tr>
@@ -667,6 +670,25 @@ function ngfb_render_form() {
 			<?php checked(1, $options['fb_send']); ?> />
 		</td>
 		<!-- Google+ -->
+		<th>Button Type</th>
+		<td>
+			<select name='ngfb_options[gp_action]'>
+				<option value='plusone' <?php selected($options['gp_action'], 'plusone'); ?>>G +1</option>
+				<option value='share' <?php selected($options['gp_action'], 'share'); ?>>G+ Share</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<!-- Facebook -->
+		<th>Button Layout</th>
+		<td>
+			<select name='ngfb_options[fb_layout]'>
+				<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
+				<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
+				<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
+			</select>
+		</td>
+		<!-- Google+ -->
 		<th>Button Size</th>
 		<td>
 			<select name='ngfb_options[gp_size]'>
@@ -679,13 +701,9 @@ function ngfb_render_form() {
 	</tr>
 	<tr>
 		<!-- Facebook -->
-		<th>Button Layout Style</th>
-		<td>
-			<select name='ngfb_options[fb_layout]'>
-				<option value='standard' <?php selected($options['fb_layout'], 'standard'); ?>>Standard</option>
-				<option value='button_count' <?php selected($options['fb_layout'], 'button_count'); ?>>Button Count</option>
-				<option value='box_count' <?php selected($options['fb_layout'], 'box_count'); ?>>Box Count</option>
-			</select>
+		<th>Show Facebook Faces</th>
+		<td><input name="ngfb_options[fb_show_faces]" type="checkbox" value="1"
+			<?php checked(1, $options['fb_show_faces']); ?> />
 		</td>
 		<!-- Google+ -->
 		<th>Annotation</th>
@@ -693,18 +711,10 @@ function ngfb_render_form() {
 			<select name='ngfb_options[gp_annotation]'>
 				<option value='inline' <?php selected($options['gp_annotation'], 'inline'); ?>>Inline</option>
 				<option value='bubble' <?php selected($options['gp_annotation'], 'bubble'); ?>>Bubble</option>
+				<option value='vertical-bubble' <?php selected($options['gp_annotation'], 'vertical-bubble'); ?>>Vertical Bubble</option>
 				<option value='none' <?php selected($options['gp_annotation'], 'none'); ?>>None</option>
 			</select>
 		</td>
-	</tr>
-	<tr>
-		<!-- Facebook -->
-		<th>Show Facebook Faces</th>
-		<td><input name="ngfb_options[fb_show_faces]" type="checkbox" value="1"
-			<?php checked(1, $options['fb_show_faces']); ?> />
-		</td>
-		<!-- Google+ -->
-		<td colspan="2"></td>
 	</tr>
 	<tr>
 		<!-- Facebook -->
@@ -956,8 +966,8 @@ function ngfb_render_form() {
 	</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
-	<h3>Plugin Settings</h3>
+	<div id="ngfb-pluginsettings" class="postbox">
+	<!--<div class="handlediv" title="Click to toggle"><br /></div>--><h3 class="hndle"><span>Plugin Settings</span></h3>
 	<div class="inside">	
 	<table class="form-table">
 	<tr>
@@ -979,9 +989,10 @@ function ngfb_render_form() {
 	</table>
 	</div><!-- .inside -->
 	</div><!-- .postbox -->
-	</div><!-- .metabox-holder -->
+
 	<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 	</form>
+	</div><!-- .metabox-holder -->
 	</div><!-- .wrap -->
 	<?php	
 }
@@ -1024,13 +1035,7 @@ function ngfb_add_content_buttons( $content ) {
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
 	// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-	if ( is_page() && function_exists( 'ep_get_excluded_ids' ) && ! $options['buttons_on_ex_pages'] ) {
-		$excluded_ids = ep_get_excluded_ids();
-		$delete_ids = array_unique( $excluded_ids );
-		if ( in_array( $post->ID, $delete_ids ) ) {
-			return $content;
-		}
-	}
+	//if ( ngfb_is_excluded() ) return $content;
 
 	if ( is_single() || is_page() || $options['buttons_on_home'] ) {
 
@@ -1043,13 +1048,15 @@ function ngfb_add_content_buttons( $content ) {
 		if ($options['pin_enable']) $buttons .= ngfb_pinterest_button( $options );
 		if ($options['tumblr_enable']) $buttons .= ngfb_tumblr_button( $options );
 
-		if ($buttons) $buttons = "
+		if ($buttons) {
+			$buttons = "
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
 <div class=\"ngfb-content-buttons ngfb-buttons\">\n$buttons\n</div>
 <!-- NextGEN Facebook OG Social Buttons END -->\n\n";
 
-		if ($options['buttons_location'] == "top") $content = $buttons.$content;
-		else $content = $content.$buttons;
+			if ($options['buttons_location'] == "top") $content = $buttons.$content;
+			else $content = $content.$buttons;
+		}
 	}
 
 	return $content;
@@ -1057,7 +1064,7 @@ function ngfb_add_content_buttons( $content ) {
 
 /* tumblr button */
 
-function ngfb_pinterest_button( $options, $opts = array() ) {
+function ngfb_pinterest_button( &$options, &$opts = array() ) {
 
 	global $post;
 	$button = '';
@@ -1083,21 +1090,24 @@ function ngfb_pinterest_button( $options, $opts = array() ) {
 	}
 	if ( $opts['photo'] ) {
 		$button .= '?url=' . urlencode( $opts['url'] );
-		$button .= '&media='.urlencode( $opts['photo'] );
+		$button .= '&media='.urlencode( cdn_linker( $opts['photo'] ) );
 		$button .= '&description=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 	}
 	if ( $button ) {
-		$button = '<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+		$button = '
 			<div class="pinterest-button"><a href="http://pinterest.com/pin/create/button/' . $button . '" 
-				class="pin-it-button" count-layout="' . $opts['pin_count_layout'] . '" title="Share on Pinterest">
-			<img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a></div>';
+				class="pin-it-button" count-layout="' . $opts['pin_count_layout'] . '" 
+				title="Share on Pinterest"><img border="0" 
+				src="http://assets.pinterest.com/images/PinExt.png" title="Pin It" /></a></div>
+			<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
+		';
 	}
 	return $button;	
 }
 
 /* tumblr button */
 
-function ngfb_tumblr_button( $options, $opts = array() ) {
+function ngfb_tumblr_button( &$options, &$opts = array() ) {
 
 	global $post;
 	$button = '';
@@ -1128,7 +1138,7 @@ function ngfb_tumblr_button( $options, $opts = array() ) {
 	}
 
 	if ( $opts['photo'] ) {
-		$button .= 'photo?source='.urlencode( $opts['photo'] );
+		$button .= 'photo?source='. urlencode( cdn_linker( $opts['photo'] ) );
 		$button .= '&caption=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 		$button .= '&clickthru=' . urlencode( $opts['url'] );
 	} elseif ( $opts['embed'] ) {
@@ -1144,9 +1154,12 @@ function ngfb_tumblr_button( $options, $opts = array() ) {
 	}
 
 	if ( $button ) {
-		$button = '<script src="http://platform.tumblr.com/v1/share.js"></script>
+		$button = '
 			<div class="tumblr-button"><a href="http://www.tumblr.com/share/'. $button . '" 
-				title="Share on tumblr"><img src="http://platform.tumblr.com/v1/' . $opts['tumblr_button_style'] . '.png"></a></div>';
+				title="Share on tumblr"><img border="0"
+				src="http://platform.tumblr.com/v1/' . $opts['tumblr_button_style'] . '.png"></a></div>
+			<script src="http://platform.tumblr.com/v1/share.js"></script>
+		';
 	}
 
 	return $button;
@@ -1154,7 +1167,7 @@ function ngfb_tumblr_button( $options, $opts = array() ) {
 
 /* Facebook button */
 
-function ngfb_facebook_button( $options, $opts = array() ) {
+function ngfb_facebook_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
 
@@ -1191,9 +1204,12 @@ function ngfb_facebook_button( $options, $opts = array() ) {
 
 /* Google+ button */
 
-function ngfb_gplus_button( $options, $opts = array() ) {
+function ngfb_gplus_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
+
+	$gp_action = $options['gp_action'];
+	if ( ! $gp_action ) $gp_action = 'plusone';
 
 	$gp_size = $options['gp_size'];
 	if ( ! $gp_size ) $gp_size = 'medium';
@@ -1202,8 +1218,15 @@ function ngfb_gplus_button( $options, $opts = array() ) {
 	if ( ! $gp_annotation ) $gp_annotation = 'bubble';
 
 	// html-5 syntax
-	$button .= '<div class="gplus-button g-plusone-button"><span class="g-plusone" 
-		data-size="'.$gp_size.'" data-annotation="'.$gp_annotation.'" 
+	$button .= '<div class="gplus-button g-plusone-button"><span ';
+
+	if ( $gp_action == 'share' )
+		$button .= 'class="g-plus" data-action="share"';
+	else
+		$button .= 'class="g-plusone"';
+
+	$button .= ' data-size="'.$gp_size.'" 
+		data-annotation="'.$gp_annotation.'" 
 		data-href="' . $opts['url'] . '"></span></div>'."\n";
 	
 	$button .= '
@@ -1223,7 +1246,7 @@ function ngfb_gplus_button( $options, $opts = array() ) {
 
 /* Twitter button */
 
-function ngfb_twitter_button( $options, $opts = array() ) {
+function ngfb_twitter_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
 
@@ -1251,7 +1274,7 @@ function ngfb_twitter_button( $options, $opts = array() ) {
 
 /* LinkedIn button */
 
-function ngfb_linkedin_button( $options, $opts = array() ) {
+function ngfb_linkedin_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
 
@@ -1269,7 +1292,7 @@ function ngfb_linkedin_button( $options, $opts = array() ) {
 
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 
-	if (! method_exists( 'nggdb', 'find_image' ) ) return;
+	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
 	if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
 		$thumb_id = substr($thumb_id, 4);
 		$img_tags = wp_get_object_terms($thumb_id, 'ngg_tag', 'fields=names');
@@ -1280,7 +1303,7 @@ function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 // thumb_id must be 'ngg-#'
 function ngfb_get_ngg_thumb_url( $thumb_id, $size ) {
 
-    if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
+	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
 
 	if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
 
@@ -1505,7 +1528,7 @@ function ngfb_utf8_entity_decode( $entity ) {
 	return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 }
 
-function ngfb_get_video_embed( ) {
+function ngfb_get_video_embed() {
 
 	global $post;
 
@@ -1516,7 +1539,7 @@ function ngfb_get_video_embed( ) {
 	return;
 }
 
-function ngfb_get_quote( ) {
+function ngfb_get_quote() {
 
 	global $post;
 
@@ -1540,7 +1563,7 @@ function ngfb_get_caption( $type = 'title', $length = 300 ) {
 			$caption = ngfb_get_title();
 			break;
 		case 'excerpt':
-			$caption = ngfb_get_description( $length - 3, '...' );
+			$caption = ngfb_get_description( $length, '...' );
 			break;
 		case 'both':
 			$title = ngfb_get_title();
@@ -1550,7 +1573,7 @@ function ngfb_get_caption( $type = 'title', $length = 300 ) {
 	return $caption;
 }
 
-function ngfb_get_title( ) {
+function ngfb_get_title() {
 
 	global $post, $page, $paged;
 
@@ -1591,7 +1614,7 @@ function ngfb_get_description( $desc_len = 300, $trailing = '') {
 
 		if ( has_excerpt( $post->ID ) ) {
 
-			$desc = get_the_excerpt( $post->ID );
+			$desc = $post->post_excerpt;
 
 		// use WP-WikiBox for page content, if option is true
 		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
@@ -1618,17 +1641,26 @@ function ngfb_get_description( $desc_len = 300, $trailing = '') {
 		$desc = preg_replace( '/[\r\n\t ]+/s', ' ', $desc );	// put everything on one line
 
 		// ignore everything until the first paragraph tag if $options['og_desc_strip'] is true
-		if ( $options['og_desc_strip'] ) $desc = preg_replace( '/^.*<p>/', '', $desc );
+		if ( $options['og_desc_strip'] )
+			$desc = preg_replace( '/^.*<p>/', '', $desc );
 
 		// remove javascript, which strip_tags doesn't do
 		$desc = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $desc);
 
 		$desc = preg_replace( '/<\/p>/i', ' ', $desc);		// replace end of paragraph with a space
+
 		$desc = strip_tags( $desc );				// remove any remaining html tags
-		if ( strlen( $desc ) < $desc_len ) $trailing = '';	// truncate trailing string if page text is shorter than limit
-		$desc = substr( $desc, 0, $desc_len );			// truncate the text
+
+		if ( strlen( $desc ) < $desc_len ) 
+			$trailing = '';					// truncate trailing string if text is shorter than limit
+
+		if ( $desc_len > 0 ) 
+			$desc = substr( $desc, 0, $desc_len - strlen( $trailing ) );
+
 		$desc = trim( preg_replace( '/[^ ]*$/', '', $desc ) );	// remove trailing bits of words
+
 		$desc = preg_replace( '/[,\.]*$/', '', $desc );		// remove trailing puntuation
+
 		$desc = esc_attr( $desc ) . $trailing;			// trim and add trailing string (if provided)
 
 	} elseif ( is_author() ) { 
@@ -1662,7 +1694,7 @@ function ngfb_get_description( $desc_len = 300, $trailing = '') {
 	return $desc;
 }
 
-function ngfb_select_img_size( $options, $option_name ) {
+function ngfb_select_img_size( &$options, $option_name ) {
 
 	global $_wp_additional_image_sizes;
 
@@ -1692,6 +1724,32 @@ function ngfb_select_img_size( $options, $option_name ) {
 	echo '</select>', "\n";
 }
 
+function ngfb_is_excluded() {
+
+	global $post;
+
+	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
+
+	if ( is_page() && $post->ID && function_exists( 'ep_get_excluded_ids' ) && ! $options['buttons_on_ex_pages'] ) {
+		$excluded_ids = ep_get_excluded_ids();
+		$delete_ids = array_unique( $excluded_ids );
+		if ( in_array( $post->ID, $delete_ids ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// if it's available, use CDN Linker to re-write URLs
+function cdn_linker( $url = '' ) {
+	if ( class_exists( CDNLinksRewriterWordpress ) ) {
+		$rewriter = new CDNLinksRewriterWordpress();
+		$url = '"'.$url.'"';
+		$url = trim( $rewriter->rewrite( $url ), "\"" );
+	}
+	return $url;
+}
+
 class ngfb_widget_buttons extends WP_Widget {
 
         function ngfb_widget_buttons() {
@@ -1705,6 +1763,9 @@ class ngfb_widget_buttons extends WP_Widget {
 
 		// only show widget on single posts, pages, and attachments
                 if ( ! is_singular() ) return;
+
+		// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
+		if ( ngfb_is_excluded() ) return;
 
                 extract( $args );
 

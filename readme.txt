@@ -10,13 +10,38 @@ Adds Open Graph HTML meta tags for Facebook, G+, LinkedIn, etc. Includes optiona
 
 == Description ==
 
-The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also correctly listed in the "image" meta tag. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. <em>You can also, optionally, add Facebook, Google+, Twitter, LinkedIn and tumblr sharing buttons to post and page content (above or bellow), as a widget, or even use a function from your templates.</em>
+The NextGEN Facebook OG plugin adds <a href="http://ogp.me/"
+target="_blank">Open Graph</a> meta tags to all webpage headers, including the
+"artical" object type for posts and pages. The featured image thumbnails, from
+a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/"
+target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also
+correctly listed in the "image" meta tag. This plugin goes well beyond any
+other plugins I know in handling various archive-type webpages. It will create
+appropriate title and description meta tags for category, tag, date based
+archive (day, month, or year), author webpages and search results. <em>You can
+also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and
+tumblr sharing buttons to post and page content (above or bellow), as a
+widget, or even use a function from your templates.</em>
 
-The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
+The Open Graph protocol enables any web page to become a rich object in a
+social graph. For instance, this is used on Facebook to allow any web page to
+have the same functionality as any other object on Facebook. The Open Graph
+meta tags are read by almost all social websites, including Facebook, Google
+(Search and Google+), and LinkedIn.
 
-NextGEN Facebook OG was specifically written to support featured images located in NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it.</strong> The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
+NextGEN Facebook OG was specifically written to support featured images
+located in NextGEN Galleries, but also works just as well with the WordPress
+Media Library. <strong>The NextGEN Gallery plugin is not required to use this
+plugin - all features work just as well without it.</strong> The image used in
+the Open Graph meta tag is chosen in this sequence; a featured image from a
+NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or
+IMG HTML tag in the content, a default image defined in the plugin settings.
+If none of these conditions can be satisfied, then the Open Graph image tag
+will be left empty.
 
-Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
+Here's an example of Open Graph meta tags for a post on my website titled "<a
+href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress
+Caching and Plugins for Performance</a>":
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
@@ -51,7 +76,13 @@ Here's an example of Open Graph meta tags for a post on my website titled "<a hr
 &lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.
+NextGEN Facebook OG is being actively developed and supported. You can review
+the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ
+Page</a> for additional setup notes, and if you have questions or suggestions,
+post them on the NextGEN Facebook OG <a
+href="http://wordpress.org/support/plugin/nextgen-facebook"
+target="_blank">Support Page</a>. Your comment or suggestion will be answered
+in a timely manner.
 
 == Installation ==
 
@@ -172,11 +203,14 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 = Q. Does NextGEN Facebook OG use functions from other plugins? =
 
 **A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
-
 <ul>
+
 	<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> -- If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
 
 	<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
+
+	<li><a href="https://github.com/wmark/CDN-Linker" target="_blank">CDN Linker</a> (download by clicking on the ZIP button) -- If the CDN Linker plugin is active, the featured image URLs for Pinterest and tumbler will be rewritten by CDN Linker.</li>
+
 </ul>
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
@@ -214,8 +248,11 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 == Changelog ==
 
 = v2.1 =
+* Added an option for Google+ to select either the "G +1" or "G+ Share" button.
 * Added sharing of WordPress "quote" format posts to tumblr. 
 * Added the Pinterest sharing button for posts and pages with featured images.
+* Added a check for the "Exclude Pages" plugin in the widget section.
+* Added a call to CDN Linker (if it's installed) for image URLs shared to tumblr and Pinterest.
 
 = v2.0 =
 * The NextGEN Facebook OG options page has been re-worked to make it more compact.
