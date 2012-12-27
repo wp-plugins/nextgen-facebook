@@ -118,14 +118,6 @@ Some plugin options are available under the "Settings -&gt; NextGEN Facebook" ad
 	text-align:center; 
 	margin:20px 0 20px 0;
 }
-.ngfb-buttons img { 
-	border:none;
-	opacity:0.9;
-}
-.ngfb-buttons img:hover { 
-	border:none;
-	opacity:1.0; 
-}
 .facebook-button, .gplus-button, .twitter-button, .linkedin-button, .pinterest-button, tumblr-button {
 	display:inline-block;
 	vertical-align:bottom;
@@ -137,7 +129,7 @@ Some plugin options are available under the "Settings -&gt; NextGEN Facebook" ad
 .gplus-button { margin-right:-20px; }
 .twitter-button { margin-right:-20px; }
 .linkedin-button { margin-right:10px; }
-.pinterest-button { margin-right:10px; }
+.pinterest-button { margin-right:20px; }
 .tumblr-button { margin-right:0; }	/* last button on the right */
 </code>
 
@@ -168,7 +160,7 @@ The "NGFB Social Buttons" widget adds an extra CSS class name you can use to cre
 You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 <code>
-.post-123 .ngfb-buttons,
+.postid-123 .ngfb-buttons,
 .category-test .ngfb-buttons,
 .format-aside .ngfb-buttons,
 .format-status .ngfb-buttons { 
