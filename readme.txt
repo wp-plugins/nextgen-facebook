@@ -192,6 +192,19 @@ if ( function_exists( 'ngfb_get_social_buttons' ) ) {
 
 This creates a Pinterest and tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and tumblr, only need the URL defined.
 
+= Q. Can I exclude the Open Graph meta tags from certain webpages? =
+
+**A.** Yes, you can. You must set the DISABLE_NGFB_OPEN_GRAPH constant to true in your theme's header.php before the wp_head() function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+
+<code>
+if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
+	global $nggSearch;
+	define( 'DISABLE_NGFB_OPEN_GRAPH', true );
+	echo $nggSearch->return_result( 'meta' );
+}
+wp_head();
+</code>
+
 = Q. Does NextGEN Facebook OG use functions from other plugins? =
 
 **A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
@@ -201,7 +214,7 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 
 	<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
 
-	<li><a href="https://github.com/wmark/CDN-Linker" target="_blank">CDN Linker</a> (download by clicking on the ZIP button) -- If the CDN Linker plugin is active, the featured image URLs for Pinterest and tumbler will be rewritten by CDN Linker.</li>
+	<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URLs for Pinterest and tumbler will be rewritten by CDN Linker.</li>
 
 </ul>
 
@@ -245,6 +258,8 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 * Added the Pinterest sharing button for posts and pages with featured images.
 * Added a check for the "Exclude Pages" plugin in the widget section.
 * Added a call to CDN Linker (if it's installed) for image URLs shared to tumblr and Pinterest.
+* Added a check for the DISABLE_NGFB_OPEN_GRAPH constant before adding Open Graph meta tags.
+* Added a 'Max Title Length' setting (default is 100 characters).
 
 = v2.0 =
 * The NextGEN Facebook OG options page has been re-worked to make it more compact.
