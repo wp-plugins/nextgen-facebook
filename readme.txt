@@ -155,7 +155,7 @@ href="https://developer.linkedin.com/documents/setting-display-tags-shares"
 target="_blank">Setting Display Tags for Shares</a> information page, they use
 three of the Open Graph tags (title, description, and url).
 
-= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> complains that 'there is no attribute "property"'. =
+= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> says 'there is no attribute "property"'. =
 
 **A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not
 part of the HTML5 standard, so the W3C validator is correct in throwing up an
