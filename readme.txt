@@ -160,7 +160,7 @@ The "NGFB Social Buttons" widget adds an extra CSS class name you can use to cre
 You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following CSS hides the social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 <code>
-.postid-123 .ngfb-buttons,
+.post-123 .ngfb-buttons,
 .category-test .ngfb-buttons,
 .format-aside .ngfb-buttons,
 .format-status .ngfb-buttons { 
