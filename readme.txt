@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, widget, cdn linker
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPLv2 or later
 
 Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons for FB, G+, Twitter, LinkedIn, Pinterest, tumblr.
@@ -287,7 +287,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = 2.1.1 =
-Minor code optimization.
+Minor code optimization and improved readme file.
 
 = 2.1 =
 Added Pinterest button, 'Max Title Length' option, and DISABLE_NGFB_OPEN_GRAPH constant for templates.
