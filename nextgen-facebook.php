@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons for FB, G+, Twitter, LinkedIn, Pinterest, tumblr.
-Version: 2.1
+Version: 2.1.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -341,7 +341,7 @@ function ngfb_render_form() {
 		'Webmail',
 		'Women\'s',
 	);
-	asort ( $article_sections );
+	natsort ( $article_sections );
 
 	$options = get_option( 'ngfb_options' );
 	ksort( $options );
@@ -1017,6 +1017,12 @@ function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 
 	global $post;
 
+	// make sure we have at least $post->ID or $opts['url'] defined
+	if ( ! isset( $post->ID ) && empty( $opts['url' ] ) ) {
+	        $opts['url'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+		$opts['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	}
+
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 	$buttons = '';
 
@@ -1034,16 +1040,13 @@ function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 
 function ngfb_add_content_buttons( $content ) {
 
-	global $post;
-
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
+	$buttons = '';
 
 	// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 	if ( is_page() && ngfb_is_excluded() ) return $content;
 
 	if ( is_singular() || $options['buttons_on_home'] ) {
-
-		$buttons = '';
 
 		if ($options['fb_enable']) $buttons .= ngfb_facebook_button( $options );
 		if ($options['gp_enable']) $buttons .= ngfb_gplus_button( $options );
@@ -1051,7 +1054,6 @@ function ngfb_add_content_buttons( $content ) {
 		if ($options['linkedin_enable']) $buttons .= ngfb_linkedin_button( $options );
 		if ($options['pin_enable']) $buttons .= ngfb_pinterest_button( $options );
 		if ($options['tumblr_enable']) $buttons .= ngfb_tumblr_button( $options );
-
 		if ($buttons) {
 			$buttons = "
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
@@ -1062,7 +1064,6 @@ function ngfb_add_content_buttons( $content ) {
 			else $content = $content.$buttons;
 		}
 	}
-
 	return $content;
 }
 
@@ -1092,13 +1093,17 @@ function ngfb_pinterest_button( &$options, &$opts = array() ) {
 			}
 		}
 	}
+	// define the button, based on what we have
 	if ( $opts['photo'] ) {
 		$button .= '?url=' . urlencode( $opts['url'] );
-		$button .= '&media='.urlencode( cdn_linker( $opts['photo'] ) );
+		$button .= '&media='.urlencode( ngfb_cdn_linker( $opts['photo'] ) );
 		$button .= '&description=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 	}
+	// if we have something, then complete the button code
 	if ( $button ) {
 		$button = '
+			<!-- url = ' . $opts['url'] . ' -->
+			<!-- photo = ' . $opts['photo'] . ' -->
 			<div class="pinterest-button"><a href="http://pinterest.com/pin/create/button/' . $button . '" 
 				class="pin-it-button" count-layout="' . $opts['pin_count_layout'] . '" 
 				title="Share on Pinterest"><img border="0" 
@@ -1140,9 +1145,9 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 	if ( ! $opts['quote'] && get_post_format( $post->ID ) == 'quote' ) {
 		$opts['quote'] = ngfb_get_quote();
 	}
-
+	// define the button, based on what we have
 	if ( $opts['photo'] ) {
-		$button .= 'photo?source='. urlencode( cdn_linker( $opts['photo'] ) );
+		$button .= 'photo?source='. urlencode( ngfb_cdn_linker( $opts['photo'] ) );
 		$button .= '&caption=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 		$button .= '&clickthru=' . urlencode( $opts['url'] );
 	} elseif ( $opts['embed'] ) {
@@ -1156,16 +1161,17 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 		$button .= '&name=' . urlencode( ngfb_str_decode( $opts['title'] ) );
 		$button .= '&description=' . urlencode( ngfb_str_decode( $opts['description'] ) );
 	}
-
+	// if we have something, then complete the button code
 	if ( $button ) {
 		$button = '
+			<!-- url = ' . $opts['url'] . ' -->
+			<!-- photo = ' . $opts['photo'] . ' -->
 			<div class="tumblr-button"><a href="http://www.tumblr.com/share/'. $button . '" 
 				title="Share on tumblr"><img border="0"
 				src="http://platform.tumblr.com/v1/' . $opts['tumblr_button_style'] . '.png"></a></div>
 			<script src="http://platform.tumblr.com/v1/share.js"></script>
 		';
 	}
-
 	return $button;
 }
 
@@ -1173,7 +1179,10 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 
 function ngfb_facebook_button( &$options, &$opts = array() ) {
 
-	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
+	if ( ! $opts['url'] ) { 
+		global $post; 
+		$opts['url'] = get_permalink($post->ID);
+	}
 
 	$fb_send = $options['fb_send'];
 	if ( $fb_send ) $fb_send = 'true';
@@ -1210,7 +1219,10 @@ function ngfb_facebook_button( &$options, &$opts = array() ) {
 
 function ngfb_gplus_button( &$options, &$opts = array() ) {
 
-	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
+	if ( ! $opts['url'] ) { 
+		global $post; 
+		$opts['url'] = get_permalink( $post->ID );
+	}
 
 	$gp_action = $options['gp_action'];
 	if ( ! $gp_action ) $gp_action = 'plusone';
@@ -1252,7 +1264,10 @@ function ngfb_gplus_button( &$options, &$opts = array() ) {
 
 function ngfb_twitter_button( &$options, &$opts = array() ) {
 
-	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
+	if ( ! $opts['url'] ) { 
+		global $post; 
+		$opts['url'] = get_permalink( $post->ID );
+	}
 
 	$twitter_count = $options['twitter_count'];
 	if ( ! $twitter_count ) $twitter_count = 'horizontal';
@@ -1280,7 +1295,10 @@ function ngfb_twitter_button( &$options, &$opts = array() ) {
 
 function ngfb_linkedin_button( &$options, &$opts = array() ) {
 
-	if ( ! $opts['url'] ) { global $post; $opts['url'] = get_permalink($post->ID); }
+	if ( ! $opts['url'] ) { 
+		global $post; 
+		$opts['url'] = get_permalink( $post->ID );
+	}
 
 	$linkedin_counter = $options['linkedin_counter'];
 	if ( ! $linkedin_counter ) $linkedin_counter = 'right';
@@ -1305,44 +1323,30 @@ function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 }
 
 // thumb_id must be 'ngg-#'
-function ngfb_get_ngg_thumb_url( $thumb_id, $size ) {
+function ngfb_get_ngg_thumb_url( $thumb_id, $size_name = 'thumbnail' ) {
 
 	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
 
-	if ( is_string($thumb_id) && substr($thumb_id, 0, 4) == 'ngg-') {
+	if ( is_string( $thumb_id ) && substr($thumb_id, 0, 4) == 'ngg-') {
 
 		$thumb_id = substr($thumb_id, 4);
 		$image = nggdb::find_image($thumb_id);	// returns an nggImage object
 
 		if ( ! empty( $image ) ) {
 
-			$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
-
-			if ( ! $size ) $size = $options['og_img_size'];
-
-			global $_wp_additional_image_sizes;
-			$tmp = get_intermediate_image_sizes();
-	
-			if ( isset( $_wp_additional_image_sizes[$size]['width'] ) )
-				$width = intval( $_wp_additional_image_sizes[$size]['width'] );
-			else $width = get_option( "{$size}_size_w" );
-
-			if ( isset( $_wp_additional_image_sizes[$size]['height'] ) )
-				$height = intval( $_wp_additional_image_sizes[$size]['height'] );
-			else $height = get_option( "{$size}_size_h" );
-
-			if ( isset( $_wp_additional_image_sizes[$size]['crop'] ) )
-				$crop = intval( $_wp_additional_image_sizes[$size]['crop'] );
-			else $crop = get_option( "{$size}_crop" );
-
-			$crop = ( $crop == 1 ? 'crop' : '' );
+			$size = ngfb_get_size_values( $size_name );
+			$crop = ( $size['crop'] == 1 ? 'crop' : '' );
 
 			// check to see if the image already exists
-			$image_url = $image->cached_singlepic_file( $width, $height, $crop );
+			$image_url = $image->cached_singlepic_file( $size['width'], $size['height'], $crop );
 
 			// if not, then use the dynamic image url
-			if (empty($image_url)) 
-				$image_url = trailingslashit(site_url()).'index.php?callback=image&amp;pid='.$thumb_id.'&amp;width='.$width.'&amp;height='.$height.'&amp;mode='.$crop;
+			if ( empty( $image_url ) ) 
+				$image_url = trailingslashit( site_url() ) . 
+					'index.php?callback=image&amp;pid=' . $thumb_id .
+					'&amp;width=' . $size['width'] . 
+					'&amp;height=' . $size['height'] . 
+					'&amp;mode='.$crop;
 		}
     }
     return $image_url;
@@ -1371,18 +1375,16 @@ function ngfb_add_meta_tags() {
 
 		$thumb_id = get_post_thumbnail_id( $post->ID );
 
-		array_push( $debug, "function_exists(has_post_thumbnail) = ".function_exists('has_post_thumbnail') );
-		array_push( $debug, "has_post_thumbnail(", $post->ID, ") = ".has_post_thumbnail( $post->ID ) );
-		array_push( $debug, "get_post_thumbnail_id(".$post->ID.") = ".$thumb_id );
+		array_push( $debug, "function_exists(has_post_thumbnail) = " . function_exists('has_post_thumbnail') );
+		array_push( $debug, "has_post_thumbnail(" . $post->ID . ") = " . has_post_thumbnail( $post->ID ) );
+		array_push( $debug, "get_post_thumbnail_id(" . $post->ID . ") = " . $thumb_id );
 		$debug_pre = "image_source = has_post_thumbnail / ";
 		$debug_post = '('.$thumb_id.','.$options['og_img_size'].')';
 
 		// if the post thumbnail id has the form ngg- then it's a NextGEN image
 		if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
-
 			$og['og:image'] = ngfb_get_ngg_thumb_url( $thumb_id, $options['og_img_size'] );
-			array_push( $debug, $debug_pre.'ngfb_get_ngg_thumb_url'.$debug_post );
-
+			array_push( $debug, $debug_pre . 'ngfb_get_ngg_thumb_url' . $debug_post );
 		} else {
 			$out = wp_get_attachment_image_src( $thumb_id, $options['og_img_size'] );
 			$og['og:image'] = $out[0];
@@ -1715,31 +1717,46 @@ function ngfb_limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 function ngfb_select_img_size( &$options, $option_name ) {
 
 	global $_wp_additional_image_sizes;
+	$size_names = get_intermediate_image_sizes();
+	natsort( $size_names );
 
 	echo '<select name="ngfb_options[', $option_name, ']">', "\n";
 	
-	foreach ( get_intermediate_image_sizes() as $size ) {
+	foreach ( $size_names as $size_name ) {
 
-		if( is_integer( $size ) ) continue;
-	
-		if ( isset( $_wp_additional_image_sizes[$size]['width'] ) )
-			$width = intval( $_wp_additional_image_sizes[$size]['width'] );
-		else $width = get_option( "{$size}_size_w" );
-			
-		if ( isset( $_wp_additional_image_sizes[$size]['height'] ) )
-			$height = intval( $_wp_additional_image_sizes[$size]['height'] );
-		else $height = get_option( "{$size}_size_h" );
-			
-		if ( isset( $_wp_additional_image_sizes[$size]['crop'] ) )
-			$crop = intval( $_wp_additional_image_sizes[$size]['crop'] );
-		else $crop = get_option( "{$size}_crop" );
+		if ( is_integer( $size_name ) ) continue;
 
-		echo '<option value="', $size, '" ', selected( $options[$option_name], $size, false ), '>', 
-			$size, ' (', $width, ' x ', $height, $crop ? " cropped" : "", ')</option>', "\n";
+		$size = ngfb_get_size_values( $size_name );
+
+		echo '<option value="', $size_name, '" ', 
+			selected( $options[$option_name], $size_name, false ), '>', 
+			$size_name, ' (', $size['width'], ' x ', $size['height'], 
+			$size['crop'] ? " cropped" : "", ')</option>', "\n";
 	}
-	unset ( $size );
+	unset ( $size_name );
 
 	echo '</select>', "\n";
+}
+
+function ngfb_get_size_values( $size_name ) {
+
+	global $_wp_additional_image_sizes;
+
+	if ( is_integer( $size_name ) ) return;
+	
+	if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
+		$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
+	else $width = get_option( "{$size_name}_size_w" );
+		
+	if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
+		$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
+	else $height = get_option( "{$size_name}_size_h" );
+		
+	if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
+		$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
+	else $crop = get_option( "{$size_name}_crop" );
+
+	return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 }
 
 function ngfb_is_excluded() {
@@ -1759,7 +1776,7 @@ function ngfb_is_excluded() {
 }
 
 // if it's available, use CDN Linker to re-write URLs
-function cdn_linker( $url = '' ) {
+function ngfb_cdn_linker( $url = '' ) {
 	if ( class_exists( CDNLinksRewriterWordpress ) ) {
 		$rewriter = new CDNLinksRewriterWordpress();
 		$url = '"'.$url.'"';
