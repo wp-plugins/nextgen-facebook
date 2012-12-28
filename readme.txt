@@ -201,7 +201,7 @@ Linker.</li>
 = 2.1.1 =
 * Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
 * Renamed the cdn_linker() function to ngfb_cdn_linker().
-* Added a "Stylesheet" and "Advanced Topics" section in the readme.
+* Added a "Stylesheet" and "Advanced Usage" section in the readme.
 
 = 2.1 =
 * Added an option for Google+ to select either the "G +1" or "G+ Share" button.
@@ -394,7 +394,7 @@ formats:
 }
 </code>
 
-== Advanced Topics ==
+== Advanced Usage ==
 
 = Include Social Buttons from Template File(s) =
 
