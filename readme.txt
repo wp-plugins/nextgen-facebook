@@ -201,6 +201,7 @@ Linker.</li>
 = 2.1.1 =
 * Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
 * Renamed the cdn_linker() function to ngfb_cdn_linker().
+* Added a "Stylesheet" and "Advanced Topics" section in the readme.
 
 = 2.1 =
 * Added an option for Google+ to select either the "G +1" or "G+ Share" button.
@@ -311,7 +312,7 @@ Fixed article:tag and article:author Open Graph meta tags.
 
 == Stylesheets ==
 
-= Social Buttons =
+= Social Buttons Style =
 
 NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social
 buttons, and each button has it's own individual class name as well.  Here's
@@ -365,7 +366,7 @@ styles for social buttons in a widget and added to the content.
 }
 </code>
 
-= Hiding Social Buttons =
+= Hide Social Buttons =
 
 You can hide the social buttons, or pretty much any object, in a page or post
 by using "display:none" in your stylesheet. For example, if you use the
@@ -395,7 +396,7 @@ formats:
 
 == Advanced Topics ==
 
-= Including Social Buttons from Template File(s) =
+= Include Social Buttons from Template File(s) =
 
 The ngfb_get_social_buttons() function can be used to include social buttons
 anywhere in your template files. For example, the following includes the
