@@ -344,7 +344,7 @@ function ngfb_render_form() {
 	natsort ( $article_sections );
 
 	$options = get_option( 'ngfb_options' );
-	if ( $options ) ksort( $options );
+	if ( ! empty( $options ) ) ksort( $options );
 
 	// update option field names BEFORE using ngfb_validate_options()
 	if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
