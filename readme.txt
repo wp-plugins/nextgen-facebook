@@ -124,7 +124,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 == Changelog ==
 
 = 2.1.3 =
-* Added apply_filters( 'the_content' ) before searching for an &lt;img&gt; in the content.
+* Added apply_filters('the_content') before searching for an &lt;img&gt; in the content.
 
 = 2.1.2 =
 * Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
@@ -220,7 +220,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = 2.1.3 =
-Added apply_filters function before searching for an &lt;img&gt; in the content.
+Added apply_filters() function before searching for an &lt;img&gt; in the content.
 
 = 2.1.2 =
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
