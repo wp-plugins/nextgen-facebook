@@ -62,15 +62,13 @@ add_action( 'admin_init', 'ngfb_init' );
 add_action( 'admin_menu', 'ngfb_add_options_page' );
 add_action( 'widgets_init', 'ngfb_widgets_init' );
 
-add_filter( 'wp_head', 'ngfb_add_meta_tags', 10 );
+add_filter( 'wp_head', 'ngfb_add_meta_tags', 20 );
 add_filter( 'the_content', 'ngfb_add_content_buttons', 20 );
 add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
 add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
 
 function ngfb_widgets_init() {
-        if ( !is_blog_installed() )
-                return;
-
+        if ( ! is_blog_installed() ) return;
 	register_widget( 'ngfb_widget_buttons' );
 }
 
@@ -1096,7 +1094,7 @@ function ngfb_pinterest_button( &$options, &$opts = array() ) {
 	// define the button, based on what we have
 	if ( $opts['photo'] ) {
 		$button .= '?url=' . urlencode( $opts['url'] );
-		$button .= '&media='.urlencode( ngfb_cdn_linker( $opts['photo'] ) );
+		$button .= '&media='. urlencode( ngfb_cdn_linker( $opts['photo'] ) );
 		$button .= '&description=' . urlencode( ngfb_str_decode( $opts['caption'] ) );
 	}
 	// if we have something, then complete the button code
@@ -1360,17 +1358,14 @@ function ngfb_add_meta_tags() {
 	}
 
 	global $post;
-	
+	$debug = array();
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 
 	$og['fb:admins'] = $options['og_admins'];
 	$og['fb:app_id'] = $options['og_app_id'];
 	$og['og:url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
-	$debug = array();
-
 	/* ======== og:image ======== */
-
 	if ( is_singular() && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 
 		$thumb_id = get_post_thumbnail_id( $post->ID );
@@ -1383,12 +1378,12 @@ function ngfb_add_meta_tags() {
 
 		// if the post thumbnail id has the form ngg- then it's a NextGEN image
 		if ( is_string( $thumb_id ) && substr( $thumb_id, 0, 4 ) == 'ngg-' ) {
-			$og['og:image'] = ngfb_get_ngg_thumb_url( $thumb_id, $options['og_img_size'] );
 			array_push( $debug, $debug_pre . 'ngfb_get_ngg_thumb_url' . $debug_post );
+			$og['og:image'] = ngfb_get_ngg_thumb_url( $thumb_id, $options['og_img_size'] );
 		} else {
+			array_push( $debug, $debug_pre.'wp_get_attachment_image_src'.$debug_post );
 			$out = wp_get_attachment_image_src( $thumb_id, $options['og_img_size'] );
 			$og['og:image'] = $out[0];
-			array_push( $debug, $debug_pre.'wp_get_attachment_image_src'.$debug_post );
 		}
 	}
 
@@ -1396,8 +1391,8 @@ function ngfb_add_meta_tags() {
 	if ( ! $og['og:image'] ) {
 		if ( is_singular() ||
 			( is_search() && ! $options['og_def_on_search'] ) ||
-			( ! is_singular() && ! is_search() && ! $options['og_def_on_home'] )
-		) {
+			( ! is_singular() && ! is_search() && ! $options['og_def_on_home'] ) ) {
+
 			// resolve nggtags shortcode
 			$content = do_shortcode( $post->post_content );
 
@@ -1405,33 +1400,32 @@ function ngfb_add_meta_tags() {
 
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $content, $match ) ) {
 				$thumb_id = $match[1][0];
-				$og['og:image'] = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id, $options['og_img_size'] );
 				array_push( $debug, $debug_pre."singlepic / ".$thumb_id );
+				$og['og:image'] = ngfb_get_ngg_thumb_url( 'ngg-'.$thumb_id, $options['og_img_size'] );
 	
 			} elseif ( preg_match_all( '/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $content, $match ) ) {
+				array_push( $debug , $debug_pre."img src / ".$match[1][0] );
 				$og['og:image'] = $match[1][0];
-				array_push( $debug , $debug_pre."img src / ".$og['og:image'] );
 			}
 		}
 	}
 
-	// user the default image
+	// use the default image
 	if ( ! $og['og:image'] ) {
 		if ( is_singular() ||
 			( is_search() && $options['og_def_on_search'] ) ||
-			( ! is_singular() && ! is_search() && $options['og_def_on_home'] ) 
-		) {
+			( ! is_singular() && ! is_search() && $options['og_def_on_home'] ) ) {
 
 			if ( $options['og_def_img_id'] != '' ) {
 				$debug_pre = "image_source = default / ";
 				if ($options['og_def_img_id_pre'] == 'ngg') {
 					$img_id = $options['og_def_img_id_pre'].'-'.$options['og_def_img_id'];
-					$og['og:image'] = ngfb_get_ngg_thumb_url( $img_id, $options['og_img_size'] );
 					array_push( $debug, $debug_pre."ngfb_get_ngg_thumb_url(".$img_id.','.$options['og_img_size'].')' );
+					$og['og:image'] = ngfb_get_ngg_thumb_url( $img_id, $options['og_img_size'] );
 				} else {
+					array_push( $debug, $debug_pre."wp_get_attachment_image_src(".$options['og_def_img_id'].",".$options['og_img_size'].")" );
 					$out = wp_get_attachment_image_src( $options['og_def_img_id'], $options['og_img_size'] );
 					$og['og:image'] = $out[0];
-					array_push( $debug, $debug_pre."wp_get_attachment_image_src(".$options['og_def_img_id'].",".$options['og_img_size'].")" );
 				}
 			}
 			// if still empty, use the default url (if one is defined, empty string otherwise)
@@ -1512,9 +1506,7 @@ function ngfb_add_meta_tags() {
 	} else $og['og:type'] = "blog";	// 'website' could also be another choice
 
 	/* Add Open Graph Meta Tags */
-
 	echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
-
 	if ( $options['ngfb_debug'] ) {
 		echo "<!--\nOptions Array:\n";
 		foreach ( $options as $opt => $val ) echo "\t$opt = $val\n";
@@ -1528,15 +1520,19 @@ function ngfb_add_meta_tags() {
 	foreach ( $og as $name => $val ) {
 		if ( $options['inc_'.$name] && $val ) {
 			if ( is_array ( $og[$name] ) ) {
-				foreach ( $og[$name] as $el )
-					echo '<meta property="'.$name.'" content="'.$el.'" />'."\n";
+				foreach ( $og[$name] as $el ) echo ngfb_get_meta_tag( $name, $el );
 				unset ( $el );
-			} else echo '<meta property="'.$name.'" content="'.$val.'" />'."\n";
+			} else echo ngfb_get_meta_tag( $name, $val );
 		}
 	}
 	unset ( $name, $val );
-
 	echo "<!-- NextGEN Facebook OG Meta Tags END -->\n\n";
+}
+
+function ngfb_get_meta_tag( $name, $val = '' ) {
+	$charset = get_bloginfo( 'charset' );
+	$val = htmlentities( ngfb_strip_tags( ngfb_str_decode( $val ) ), ENT_QUOTES, $charset, false );
+	return '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 }
 
 function ngfb_str_decode( $str ) {
@@ -1552,7 +1548,6 @@ function ngfb_utf8_entity_decode( $entity ) {
 function ngfb_get_video_embed() {
 
 	global $post;
-
 	if ( preg_match_all( '/<iframe[^>]+src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]+>[^>]*<\/iframe>/i', 
 		$post->post_content, $match ) ) {
 		return $match[0][0];
@@ -1563,12 +1558,12 @@ function ngfb_get_video_embed() {
 function ngfb_get_quote() {
 
 	global $post;
-
 	$page_text = '';
 
 	if ( has_excerpt( $post->ID ) ) $page_text = get_the_excerpt( $post->ID );
 	else $page_text = $post->post_content;		// fallback to regular content
 
+	// don't run through ngfb_strip_tags() to keep formatting and HTML (if any)
 	$page_text = strip_shortcodes( $page_text );	// remove any remaining shortcodes
 	$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
 
@@ -1578,8 +1573,7 @@ function ngfb_get_quote() {
 function ngfb_get_caption( $type = 'title', $length = 300 ) {
 
 	$caption = '';
-
-	switch ( strtolower( $type ) ) {
+	switch( strtolower( $type ) ) {
 		case 'title':
 			$caption = ngfb_get_title( $length, '...' );
 			break;
@@ -1628,7 +1622,6 @@ function ngfb_get_title( $textlen = 100, $trailing = '' ) {
 function ngfb_get_description( $textlen = 300, $trailing = '') {
 
 	global $post;
-
 	$options = ngfb_validate_options( get_option( 'ngfb_options' ) );
 	$desc = '';
 
@@ -1658,38 +1651,29 @@ function ngfb_get_description( $textlen = 300, $trailing = '') {
 		} 
 
 		if ( ! $desc ) $desc = $post->post_content;		// fallback to regular content
-
-		$desc = strip_shortcodes( $desc );			// remove any remaining shortcodes
 		$desc = preg_replace( '/[\r\n\t ]+/s', ' ', $desc );	// put everything on one line
 
 		// ignore everything until the first paragraph tag if $options['og_desc_strip'] is true
-		if ( $options['og_desc_strip'] ) $desc = preg_replace( '/^.*<p>/', '', $desc );
-
-		// remove javascript, which strip_tags doesn't do
-		$desc = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $desc);
+		if ( $options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/', '', $desc );	// question mark makes regex un-greedy
 
 	} elseif ( is_author() ) { 
 
 		the_post();
 		$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
-		$author_desc = strip_tags( get_the_author_meta( 'description' ) );
-		if ( $author_desc ) $desc .= ' : '.$author_desc;	// add the author's profile description, if there is one
+		$author_desc = preg_replace( '/[\r\n\t ]+/s', ' ', get_the_author_meta( 'description' ) );	// put everything on one line
+		if ( $author_desc ) $desc .= ' : '.$author_desc;		// add the author's profile description, if there is one
 
 	} elseif ( is_tag() ) {
 
 		$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
-		$tag_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
-			strip_tags( strip_shortcodes( tag_description() ) ) ), 0, 
-			$textlen - strlen($desc) ) ) );
-		if ( $tag_desc ) $desc .= ' : '.$tag_desc;	// add the tag description, if there is one
+		$tag_desc = preg_replace( '/[\r\n\t ]+/s', ' ', tag_description() );	// put everything on one line
+		if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
 
 	} elseif ( is_category() ) { 
 
 		$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
-		$cat_desc = esc_attr( trim( substr( preg_replace( '/[\r\n]/', ' ', 
-			strip_tags( strip_shortcodes( category_description() ) ) ), 0, 
-			$textlen - strlen($desc) ) ) );
-		if ($cat_desc) $desc .= ' : '.$cat_desc;	// add the category description, if there is one
+		$cat_desc = preg_replace( '/[\r\n\t ]+/', ' ', category_description() );	// put everything on one line
+		if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
 	}
 	elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
 	elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
@@ -1703,7 +1687,7 @@ function ngfb_limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 
 	$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
 	$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
-	$text = strip_tags( $text );						// remove any remaining html tags
+	$text = ngfb_strip_tags( $text );					// remove any remaining html tags
 	if ( strlen( $text ) > $textlen ) {
 		$text = substr( $text, 0, $textlen - strlen( $trailing ) );
 		$text = trim( preg_replace( '/[^ ]*$/', '', $text ) );		// remove trailing bits of words
@@ -1712,6 +1696,16 @@ function ngfb_limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 	$text = esc_attr( $text ) . $trailing;					// trim and add trailing string (if provided)
 
 	return $text;
+}
+
+function ngfb_strip_tags( $text ) {
+
+	$text = strip_shortcodes( $text );					// remove any remaining shortcodes
+	$text = preg_replace( '/<\?.*\?>/i', ' ', $text);			// remove php
+	$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);	// remove javascript
+	$text = strip_tags( $text );						// remove html tags
+
+	return trim( $text );
 }
 
 function ngfb_select_img_size( &$options, $option_name ) {
@@ -1723,11 +1717,8 @@ function ngfb_select_img_size( &$options, $option_name ) {
 	echo '<select name="ngfb_options[', $option_name, ']">', "\n";
 	
 	foreach ( $size_names as $size_name ) {
-
 		if ( is_integer( $size_name ) ) continue;
-
 		$size = ngfb_get_size_values( $size_name );
-
 		echo '<option value="', $size_name, '" ', 
 			selected( $options[$option_name], $size_name, false ), '>', 
 			$size_name, ' (', $size['width'], ' x ', $size['height'], 

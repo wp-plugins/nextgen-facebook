@@ -198,6 +198,11 @@ Linker.</li>
 
 == Changelog ==
 
+= 2.1.2 =
+* Changed the priority of ngfb_add_meta_tags() from 10 to 20, to allow other plugins time to render additional content before NGFB runs.
+* Added a ngfb_get_meta_tag() function to sanitize and encode all Open Graph meta tag values.
+* Fixed the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
+
 = 2.1.1 =
 * Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
 * Renamed the cdn_linker() function to ngfb_cdn_linker().
@@ -285,6 +290,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.1.2 =
+Added sanitation and encoding of all Open Graph meta tag values.
 
 = 2.1.1 =
 Minor code optimization and improved readme file.
