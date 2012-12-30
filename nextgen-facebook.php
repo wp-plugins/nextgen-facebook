@@ -342,7 +342,6 @@ function ngfb_render_form() {
 	natsort ( $article_sections );
 
 	$options = get_option( 'ngfb_options' );
-	if ( ! empty( $options ) ) ksort( $options );
 
 	// update option field names BEFORE using ngfb_validate_options()
 	if ( ! $options['og_def_img_url'] && $options['og_def_img'] ) {
@@ -1398,6 +1397,11 @@ function ngfb_add_meta_tags() {
 			if ( ! preg_match( '/\[ *album[ =]/', $content ) ) {
 				$content = apply_filters( 'the_content', $content );
 				$content = str_replace(']]>', ']]&gt;', $content);
+				$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
+
+				// remove the social buttons that may have been added
+				$ngfb_msg = 'NextGEN Facebook OG Social Buttons';
+				$content = preg_replace( "/<!-- $ngfb_msg BEGIN -->.*<!-- $ngfb_msg END -->/", ' ', $content );
 			}
 
 			$debug_pre = "image_source = preg_match_all / ";
@@ -1513,14 +1517,16 @@ function ngfb_add_meta_tags() {
 	echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
 	if ( $options['ngfb_debug'] ) {
 		echo "<!--\nOptions Array:\n";
+		if ( ! empty( $options ) ) ksort( $options );
 		foreach ( $options as $opt => $val ) echo "\t$opt = $val\n";
 		unset ( $opt, $val );
 		echo "Debug Array:\n";
+		if ( ! empty( $options ) ) ksort( $options );
 		foreach ( $debug as $val ) echo "\t$val\n";
 		unset ( $val );
 		echo "-->\n";
 	}
-	ksort( $og );
+	if ( ! empty( $og ) ) ksort( $og );
 	foreach ( $og as $name => $val ) {
 		if ( $options['inc_'.$name] && $val ) {
 			if ( is_array ( $og[$name] ) ) {
