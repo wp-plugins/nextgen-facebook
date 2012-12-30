@@ -10,38 +10,13 @@ Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons
 
 == Description ==
 
-The NextGEN Facebook OG plugin adds <a href="http://ogp.me/"
-target="_blank">Open Graph</a> meta tags to all webpage headers, including the
-"artical" object type for posts and pages. The featured image thumbnails, from
-a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/"
-target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also
-correctly listed in the "image" meta tag. This plugin goes well beyond any
-other plugins I know in handling various archive-type webpages. It will create
-appropriate title and description meta tags for category, tag, date based
-archive (day, month, or year), author webpages and search results. <em>You can
-also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and
-tumblr sharing buttons to post and page content (above or bellow), as a
-widget, or even use a function from your templates.</em>
+The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also correctly listed in the "image" meta tag. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. <em>You can also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and tumblr sharing buttons to post and page content (above or bellow), as a widget, or even use a function from your templates.</em>
 
-The Open Graph protocol enables any web page to become a rich object in a
-social graph. For instance, this is used on Facebook to allow any web page to
-have the same functionality as any other object on Facebook. The Open Graph
-meta tags are read by almost all social websites, including Facebook, Google
-(Search and Google+), and LinkedIn.
+The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
 
-NextGEN Facebook OG was specifically written to support featured images
-located in NextGEN Galleries, but also works just as well with the WordPress
-Media Library. <strong>The NextGEN Gallery plugin is not required to use this
-plugin - all features work just as well without it.</strong> The image used in
-the Open Graph meta tag is chosen in this sequence; a featured image from a
-NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or
-IMG HTML tag in the content, a default image defined in the plugin settings.
-If none of these conditions can be satisfied, then the Open Graph image tag
-will be left empty.
+NextGEN Facebook OG was specifically written to support featured images located in NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it.</strong> The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings.  If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
-Here's an example of Open Graph meta tags for a post on my website titled "<a
-href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress
-Caching and Plugins for Performance</a>":
+Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
@@ -76,13 +51,7 @@ Caching and Plugins for Performance</a>":
 &lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook OG is being actively developed and supported. You can review
-the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ
-Page</a> for additional setup notes, and if you have questions or suggestions,
-post them on the NextGEN Facebook OG <a
-href="http://wordpress.org/support/plugin/nextgen-facebook"
-target="_blank">Support Page</a>. Your comment or suggestion will be answered
-in a timely manner.
+NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.
 
 == Installation ==
 
@@ -110,62 +79,27 @@ Some plugin options are available under the "Settings -&gt; NextGEN Facebook" ad
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image
-and text it finds. Facebook then prefers to use that cached information until
-it has expired. So, before you hit the send / share button for the first time,
-make sure you've chosen your featured image and (optionally) entered an
-excerpt text. If you change your mind, and your webpage has not been liked or
-shared yet, then try using <a
-href="https://developers.facebook.com/tools/debug" target="_blank">Facebook's
-Open Graph debugging tool</a>. If your webpage has already been liked or
-shared on Facebook, then there's nothing you can do to change the image, text,
-or title that was used.
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using <a href="https://developers.facebook.com/tools/debug" target="_blank">Facebook's Open Graph debugging tool</a>. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug"
-target="_blank">Open Graph debugging tool</a> where you can enter a URL and
-view a report of it's findings. Try it with your posts, pages, archive pages,
-author pages, search results, etc. to see how NextGEN Facebook OG presents
-your content.
+**A.** Facebook has an <a href="https://developers.facebook.com/tools/debug" target="_blank">Open Graph debugging tool</a> where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content.
 
-If there are Open Graph Warnings, read them carefully -- usually they explain
-that the information they *already have* for this webpage is in conflict with
-the Open Graph information now being presented. This might be just the
-published and modified times, or (if the webpage has already been liked or
-shared) the title and image Facebook has saved previously.
+If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other
-"structured data markup" on your webpage. You can see what Google picks up
-from your webpages by using it's <a
-href="http://www.google.com/webmasters/tools/richsnippets"
-target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your
-WordPress authors with their Google+ profiles by using one of the available
-plugins, like <a
-href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/"
-target="_blank">Google Plus Author Information in Search Result (GPAISR)</a>
-or others like it.
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
-**A.** According to LinkedIn's <a
-href="https://developer.linkedin.com/documents/setting-display-tags-shares"
-target="_blank">Setting Display Tags for Shares</a> information page, they use
-three of the Open Graph tags (title, description, and url).
+**A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
 = Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> says 'there is no attribute "property"'. =
 
-**A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not
-part of the HTML5 standard, so the W3C validator is correct in throwing up an
-error. In practice though, this incorrect attribute is completely harmless --
-social sites (Facebook, Google+, etc.) look for it and don't care if it's part
-of the standard or not.
+**A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
 
-If you want to address the W3C validator error, you'll have to change the
-DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE
-definition is usually located in the header.php file of your theme.
+If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
 
 <code>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
@@ -176,20 +110,11 @@ definition is usually located in the header.php file of your theme.
 **A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
 
 <ul>
-	<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/"
-target="_blank">WP-WikiBox</a> -- If the WP-WikiBox plugin is active, an
-option will be added to the settings page to use WP-WikiBox for the Open Graph
-description field (for pages, not posts).</li>
+<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> -- If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
 
-	<li><a href="http://wordpress.org/extend/plugins/exclude-pages/"
-target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active,
-social buttons will not be added to excluded pages. An additional option will
-be available on the settings page to toggle this default behavior on/off.</li>
+<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
 
-	<li><a href="https://github.com/wmark/CDN-Linker/downloads"
-target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the
-featured image URLs for Pinterest and tumbler will be rewritten by CDN
-Linker.</li>
+<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URLs for Pinterest and tumbler will be rewritten by CDN Linker.</li>
 </ul>
 
 == Screenshots ==
@@ -197,6 +122,9 @@ Linker.</li>
 1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
+
+= 2.1.3 =
+* Added apply_filters( 'the_content' ) before searching for an &lt;img&gt; in the content.
 
 = 2.1.2 =
 * Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
@@ -291,6 +219,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= 2.1.3 =
+Added apply_filters function before searching for an &lt;img&gt; in the content.
+
 = 2.1.2 =
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
 
@@ -322,10 +253,7 @@ Fixed article:tag and article:author Open Graph meta tags.
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social
-buttons, and each button has it's own individual class name as well.  Here's
-an example of the stylesheet I'ved used on <a
-href="http://surniaulula.com/">Surnia Ulula</a>:
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a>:
 
 <code>
 .ngfb-buttons { 
@@ -356,9 +284,7 @@ href="http://surniaulula.com/">Surnia Ulula</a>:
 .tumblr-button { margin-right:0; }	/* last button on the right */
 </code>
 
-The "NGFB Social Buttons" widget adds an extra class name that you can use to
-create a different layout for the widget. For example, here are different
-styles for social buttons in a widget and added to the content.
+The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget. For example, here are different styles for social buttons in a widget and added to the content.
 
 <code>
 .nbfg-widget-buttons .ngfb-buttons { 
@@ -376,11 +302,7 @@ styles for social buttons in a widget and added to the content.
 
 = Hide Social Buttons =
 
-You can hide the social buttons, or pretty much any object, in a page or post
-by using "display:none" in your stylesheet. For example, if you use the
-"Inspect Element" feature of Firefox (right-click on the object to inspect) --
-or use "View Source" to see the page's HTML -- your content should be wrapped
-in a &lt;div&gt; HTML tag similar to this one:
+You can hide the social buttons, or pretty much any object, in a page or post by using "display:none" in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- your content should be wrapped in a &lt;div&gt; HTML tag similar to this one:
 
 <code>
 &lt;div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123"&gt;
@@ -388,10 +310,7 @@ in a &lt;div&gt; HTML tag similar to this one:
 &lt;/div&gt;
 </code>
 
-You could use any of these class names to hide one or more NextGEN Facebook OG
-social buttons. For example, the following stylesheet hides social buttons for
-post #123, any page in category "test", and posts using the Aside and Status
-formats:
+You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 <code>
 .post-123 .ngfb-buttons,
@@ -406,52 +325,37 @@ formats:
 
 = Include Social Buttons from Template File(s) =
 
-The ngfb_get_social_buttons() function can be used to include social buttons
-anywhere in your template files. For example, the following includes the
-Facebook, Google+, and Twitter social buttons from within a loop, post, or
-page (the $post->ID must be available):
+The ngfb_get_social_buttons() function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the $post-&gt;ID must be available):
 
 <code>
 &lt;?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
 	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?&gt;
 </code>
 
-Social button names for the array can be 'facebook', 'gplus', 'twitter',
-'linkedin', 'linkedin', 'pinterest' and 'tumblr'.
+Social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest" and "tumblr".
 
-You can also use the ngfb_get_social_buttons() function <em>outside</em> of a
-loop, post, or page, but you will have to provide additional information to
-the function. Since the $post variable is not available to get the permalink,
-at a minimum you will have to provide the webpage URL. Here's an example from
-a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
+You can also use the ngfb_get_social_buttons() function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the $post variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 
 <code>
 if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
 	$url = $_SERVER['HTTPS'] ? 'https://' : 'http://';
 	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr'),
-		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
+		array ( 'pid' =&gt; 'ngg-'.$image-&gt;pid, 'url' =&gt; $url, 'caption' =&gt; $image-&gt;caption ) );
 }
 </code>
 
-This creates a Pinterest and tumblr button to share a picture from a NextGEN
-Gallery, sets the URL to the current webpage address, and uses the picture's
-caption as well. All social buttons, besides Pinterest and tumblr, only need
-the URL defined.
+This creates a Pinterest and tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and tumblr, only need the URL defined.
 
 = Disable Open Graph Meta Tags =
 
-You can exclude the Open Graph meta tags from being added to certain webpages.
-You must set the DISABLE_NGFB_OPEN_GRAPH constant to true in your theme's
-header.php before the wp_head() function. Here's an example that disables
-NextGEN Facebook OG's meta tags for image search results (a custom 'meta'
-template is called to define the Open Graph tags):
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the DISABLE_NGFB_OPEN_GRAPH constant to true in your theme's header.php before the wp_head() function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 <code>
 if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
 	global $nggSearch;
 	define( 'DISABLE_NGFB_OPEN_GRAPH', true );
-	echo $nggSearch->return_result( 'meta' );
+	echo $nggSearch-&gt;return_result( 'meta' );
 }
 wp_head();
 </code>
