@@ -194,7 +194,7 @@ Linker.</li>
 
 == Screenshots ==
 
-1. NextGEN Facebook OG v2.1 - The Settings Page
+1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
 
