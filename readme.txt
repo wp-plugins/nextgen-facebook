@@ -123,6 +123,11 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 == Changelog ==
 
+= 2.2 =
+* Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
+* Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the &lt;img&gt; tag will take precedence over the "src" attribute.
+* Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
+
 = 2.1.3 =
 * Added apply_filters('the_content') before searching for an &lt;img&gt; in the content.
 
@@ -218,6 +223,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.2 =
+Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
 = 2.1.3 =
 Added apply_filters() function before searching for an &lt;img&gt; in the content.
