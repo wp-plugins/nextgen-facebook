@@ -1052,11 +1052,11 @@ function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 
 function ngfb_add_content_buttons( $content ) {
 
-	$options = ngfb_get_options();
-	$buttons = '';
-
 	// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 	if ( is_page() && ngfb_is_excluded() ) return $content;
+
+	$options = ngfb_get_options();
+	$buttons = '';
 
 	if ( is_singular() || $options['buttons_on_home'] ) {
 
@@ -1377,7 +1377,8 @@ function ngfb_add_meta_tags() {
 
 	$og['fb:admins'] = $options['og_admins'];
 	$og['fb:app_id'] = $options['og_app_id'];
-	$og['og:url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+	$og['og:url'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+	$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 
 	// ========
 	// og:image
@@ -1423,18 +1424,21 @@ function ngfb_add_meta_tags() {
 				// we're in wp_head, so we can apply the content filter without creating a recursive loop
 				$content = ngfb_apply_content_filter( $content, $options['ngfb_filter_content'] );
 
-				if ( preg_match( '/<img[^>]+?(share|src)=[\'"]([^\'"]+)[\'"][^>]*>/i', $content, $match ) ) {
+				// img attributes in order of preference
+				if ( preg_match( '/<img[^>]*? (share-'.$options['og_img_size'].'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/i', $content, $match ) ) {
 					$img = $match[0];
 					$src = $match[1];
 					$og['og:image'] = $match[2];
-					if ( preg_match( '/width=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $width = $match[1];
-					if ( preg_match( '/height=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $height = $match[1];
+					if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $width = $match[1];
+					if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $height = $match[1];
 					array_push( $debug , $debug_pre."img $src / ".$og['og:image']." / src width=$width x height=$height" );
 
 					$size = ngfb_get_size_values( $options['og_img_size'] );
 
 					// if we're picking up an img for src, make sure it's width and height is large enough
-					if ( $src == 'share' || ( $src == 'src' && $width >= $size['width'] && $height >= $size['height'] ) ) {
+					if ( $src == 'share-'.$options['og_img_size'] || $src == 'share' || 
+						( $src == 'src' && $width >= $size['width'] && $height >= $size['height'] ) ) {
+
 						// fix relative URLs - just in case
 						if ( ! preg_match( '/:\/\//', $og['og:image'] ) ) {
 							// if URL starts with slash, then it's from the DocRoot, so add site_url()
@@ -1484,14 +1488,14 @@ function ngfb_add_meta_tags() {
 	// og:video
 	// ========
 
-	if ( preg_match( '/<iframe[^>]+?src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $post->post_content, $match ) ) {
+	if ( preg_match( '/<iframe[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $post->post_content, $match ) ) {
 
 		$iframe_html = $match[0];
 		$og['og:video'] = $match[1];
 		$og['og:video:type'] = "application/x-shockwave-flash";
 
-		if ( preg_match( '/width=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:width'] = $match[1];
-		if ( preg_match( '/height=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:height'] = $match[1];
+		if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:width'] = $match[1];
+		if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $iframe_html, $match) ) $og['og:video:height'] = $match[1];
 
 		$debug_pre = "video_source = preg_match / iframe / ";
 		array_push( $debug, $debug_pre."embed|video / ".$og['og:video'] );
@@ -1612,7 +1616,7 @@ function ngfb_utf8_entity_decode( $entity ) {
 function ngfb_get_video_embed() {
 
 	global $post;
-	if ( preg_match( '/<iframe[^>]+?src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>[^>]*<\/iframe>/i', 
+	if ( preg_match( '/<iframe[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>[^>]*<\/iframe>/i', 
 		$post->post_content, $match ) ) {
 		return $match[0];
 	}
