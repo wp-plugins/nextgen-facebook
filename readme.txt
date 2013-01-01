@@ -123,25 +123,25 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 == Changelog ==
 
-= 2.2 =
+= Version 2.2 =
 * Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
 * Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the &lt;img&gt; tag will take precedence over the "src" attribute.
 * Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
 
-= 2.1.3 =
+= Version 2.1.3 =
 * Added apply_filters('the_content') before searching for an &lt;img&gt; in the content.
 
-= 2.1.2 =
+= Version 2.1.2 =
 * Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
 * Added a ngfb_get_meta_tag() function to sanitize and encode all Open Graph meta tag values.
 * Fixed the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
 
-= 2.1.1 =
+= Version 2.1.1 =
 * Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
 * Renamed the cdn_linker() function to ngfb_cdn_linker().
 * Added a "Stylesheet" and "Advanced Usage" section in the readme.
 
-= 2.1 =
+= Version 2.1 =
 * Added an option for Google+ to select either the "G +1" or "G+ Share" button.
 * Added sharing of WordPress "quote" format posts to tumblr. 
 * Added the Pinterest sharing button for posts and pages with featured images.
@@ -150,7 +150,7 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 * Added a check for the DISABLE_NGFB_OPEN_GRAPH constant before adding Open Graph meta tags.
 * Added a 'Max Title Length' setting (default is 100 characters).
 
-= 2.0 =
+= Version 2.0 =
 * The NextGEN Facebook OG options page has been re-worked to make it more compact.
 * Added the tumblr social sharing button, including support for posting featured images, embeded video, or links to posts and pages.
 * Added a ngfb_get_social_buttons() function to use in your theme templates. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">See the FAQ</a> for additional information on it's use.
@@ -158,59 +158,59 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 You can enable social buttons in the content, use the social buttons widget, and call the ngfb_get_social_buttons() function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">see the FAQ</a> for additional information).
 
-= 1.7.2 =
+= Version 1.7.2 =
 * Fixed: Added the missing "data-annotation" field to the Google+ social button.
 * Fixed: Changed "&lt;/p&gt;" to a space before stripping out all html tags from og:description.
 
-= 1.7.1 =
+= Version 1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
 
-= 1.7 =
+= Version 1.7 =
 * Added LinkedIn social button options.
 * Added a setting to include hidden debug info above the Open Graph tags.
 * If the Exclude Pages plugin is installed, a new option will be available on the settings page to turn on/off social buttons on excluded pages (by default, social buttons are not added to excluded pages).
 * Added the og:video meta tags (including width, height, type, etc.) for youtube iframe embeded videos.
 * Cleaned-up some PHP code to consolidate the OG variables within a single array.
 
-= 1.6.1 =
+= Version 1.6.1 =
 * Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
 * Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.
 
-= 1.6 =
+= Version 1.6 =
 * Added the Google+ and Twitter button options.
 * Added the "Open Graph HTML Meta Tags" options to exclude one or more Facebook and Open Graph HTML meta tags from the webpage headers.
 
-= 1.5.1 =
+= Version 1.5.1 =
 * Added the "Default Image on Search Page" option.
 * Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used to retrieve Wikipedia content.
 * The two WP-WikiBox options ("Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix") will not appear on the settings page unless the WP-WikiBox plugin is installed and activated.
 * Updated the readme's Description and FAQ sections with more information on Open Graph and it's use by Google and LinkedIn.
 
-= 1.5 =
+= Version 1.5 =
 * Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
 * Added the "Content Begins at a Paragraph" option to ignore all text before the first &lt;p&gt; paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
 * Added the "Use WP-WikiBox for Pages" option. This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can use the page's tags or title to retrieve content from Wikipedia. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags, and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for your tags or title, then the content of your page will be used.
 
-= 1.4.1 =
+= Version 1.4.1 =
 * Small fixes to the article:tag and article:author after finding additional information on these meta tags.
 * Changed article:tag by including it once for every WordPress tag, instead only once with an array of values.
 * Changed article:author to a URL instead of the author's name.
 
-= 1.4 =
+= Version 1.4 =
 * Added a website topic setting to choose a value for the article:section meta tag. If defined, the article:section meta tag will be added to all posts and pages. You can leave it blank, if for example, your website covers a wide variety of subjects.
 * When viewing a tag webpage, added the tag description (if there is one) to the Open Graph description meta tag.
 * When viewing a author webpage, added the author biographical info (if there is one) to the Open Graph description meta tag.
 
-= 1.3 =
+= Version 1.3 =
 * Moved some code out of the meta HTML section to make it cleaner. There's no functional difference, it just looks nicer. ;-)
 * When viewing a category webpage, added the category description (if there is one) to the Open Graph description meta tag.
 * When viewing a category webpage, added the category parents (if any) to the Open Graph title meta tag.
 * Added the following meta tags: article:published_time, article:modified_time, article:author, article:tag.
 
-= 1.2 =
+= Version 1.2 =
 * Added the Default Image ID option, in addition to the existing Default Image URL option. Since the plugin can find images by ID number, might as well use it for the default image as well. :)
 
-= 1.1 =
+= Version 1.1 =
 * Improved the description and installation texts.
 * Used a single screenshot image of the settings page, instead of two.
 * Removed the "NextGEN Gallery Image Size" setting - it was a bit redundant. Instead, I've suggested using an existing Size Name from the Media Library, and if necessary, to create an additional Size Name specifically for NextGEN Facebook. Since NextGEN Gallery doesn't understand these Size Names, I've added some code to get the width, height, and crop from the Size Name, before calling the necessary NextGEN Gallery functions.
@@ -219,42 +219,42 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Also improved the og:title text for archive pages, category pages, etc. 
 * No bugs were reported or fixed from the previous version, which is good news I guess. ;-)
 
-= 1.0 =
+= Version 1.0 =
 * Initial release.
 
 == Upgrade Notice ==
 
-= 2.2 =
+= Version 2.2 =
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
-= 2.1.3 =
+= Version 2.1.3 =
 Added apply_filters() function before searching for an &lt;img&gt; in the content.
 
-= 2.1.2 =
+= Version 2.1.2 =
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
 
-= 2.1.1 =
+= Version 2.1.1 =
 Minor code optimization and improved readme file.
 
-= 2.1 =
+= Version 2.1 =
 Added Pinterest button, 'Max Title Length' option, and DISABLE_NGFB_OPEN_GRAPH constant for templates.
 
-= 2.0 =
+= Version 2.0 =
 More compact options page, added tumblr button, social buttons widget, and ngfb_get_social_buttons() function for templates.
 
-= 1.7.2 =
+= Version 1.7.2 =
 Added missing data-annotation field to Google+ social button.
 
-= 1.7.1 =
+= Version 1.7.1 =
 Changed plugin name to NextGEN Facebook OG.
 
-= 1.7 =
+= Version 1.7 =
 Added LinkedIn button and og:video Open Graph meta tag.
 
-= 1.6.1 =
+= Version 1.6.1 =
 Fixed some checked option boxes that could not be unchecked.
 
-= 1.4.1 =
+= Version 1.4.1 =
 Fixed article:tag and article:author Open Graph meta tags.
 
 == Stylesheets ==
