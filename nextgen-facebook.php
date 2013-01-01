@@ -369,57 +369,20 @@ function ngfb_render_form() {
 	natsort ( $article_sections );
 ?>
 	<style type="text/css">
-		.form-table tr {
-			vertical-align:top;
-		}
-		.form-table td {
-			padding:2px 6px 2px 6px;
-		}
-		.form-table th {
-			text-align:right;
-			white-space:nowrap;
-			padding:2px 6px 2px 6px;
-			width:180px;
-		}
-		.form-table th#social {
-			font-weight:bold;
-			text-align:left;
-			background-color:#eee;
-			border:1px solid #ccc;
-		}
-		.form-table th#meta {
-			width:220px;
-		}
+		.form-table tr { vertical-align:top; }
+		.form-table td { padding:2px 6px 2px 6px; }
+		.form-table th { text-align:right; white-space:nowrap; padding:2px 6px 2px 6px; width:180px; }
+		.form-table th#social { font-weight:bold; text-align:left; background-color:#eee; border:1px solid #ccc; }
+		.form-table th#meta { width:220px; }
 		.form-table td select,
-		.form-table td input {
-			margin:0 0 5px 0;
-		}
-		.form-table td input[type=radio] {
-			vertical-align:top;
-			margin:4px 4px 4px 0;
-		}
-		.form-table td select {
-			width:250px;
-		}
-		.wrap {
-			font-size:1em;
-			line-height:1.3em;
-		}
-		.wrap h2 {
-			margin:0 0 10px 0;
-		}
-		.wrap p {
-			text-align:justify;
-			line-height:1.3em;
-			margin:5px 0 5px 0;
-		}
-		.btn_wizard_column {
-			white-space:nowrap;
-		}
-		.btn_wizard_example {
-			display:inline-block;
-			width:155px;
-		}
+		.form-table td input { margin:0 0 5px 0; }
+		.form-table td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
+		.form-table td select { width:250px; }
+		.wrap { font-size:1em; line-height:1.3em; }
+		.wrap h2 { margin:0 0 10px 0; }
+		.wrap p { text-align:justify; line-height:1.3em; margin:5px 0 5px 0; }
+		.btn_wizard_column { white-space:nowrap; }
+		.btn_wizard_example { display:inline-block; width:155px; }
 	</style>
 	<div class="wrap" id="ngfb">
 	<div class="icon32" id="icon-options-general"><br></div>
@@ -427,7 +390,7 @@ function ngfb_render_form() {
 
 	<p>The NextGEN Facebook OG plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable social sharing buttons, define a default image, etc.</p>
 
-	<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;img&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
+	<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;IMG&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
 	<div class="updated" style="margin:10px 0;">
 	<p style="text-align:center">We don't ask for donations, but if you like the NextGEN Facebook OG plugin, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>please take a moment to rate it</strong></a> on the WordPress website. Thank you. :-)</p>
@@ -1025,6 +988,15 @@ function ngfb_plugin_action_links( $links, $file ) {
 	return $links;
 }
 
+
+/* You can enable social buttons in the content, use the social buttons widget,
+ * and call the ngfb_get_social_buttons() function from your template(s) -- all
+ * at the same time -- but all social buttons share the same settings from the
+ * admin options page (the layout of each can differ by using the available CSS
+ * class names - see the Other Notes tab
+ * http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/ for
+ * additional information).
+ */
 function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 
 	global $post;
@@ -1079,8 +1051,9 @@ function ngfb_add_content_buttons( $content ) {
 	return $content;
 }
 
-/* tumblr button */
-
+/* Pinterest button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_pinterest_button( &$options, &$opts = array() ) {
 
 	global $post;
@@ -1126,8 +1099,9 @@ function ngfb_pinterest_button( &$options, &$opts = array() ) {
 	return $button;	
 }
 
-/* tumblr button */
-
+/* tumblr button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_tumblr_button( &$options, &$opts = array() ) {
 
 	global $post;
@@ -1187,8 +1161,9 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 	return $button;
 }
 
-/* Facebook button */
-
+/* Facebook button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_facebook_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { 
@@ -1227,8 +1202,9 @@ function ngfb_facebook_button( &$options, &$opts = array() ) {
 	return $button;
 }
 
-/* Google+ button */
-
+/* Google+ button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_gplus_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { 
@@ -1272,8 +1248,9 @@ function ngfb_gplus_button( &$options, &$opts = array() ) {
 	return $button;
 }
 
-/* Twitter button */
-
+/* Twitter button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_twitter_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { 
@@ -1303,8 +1280,9 @@ function ngfb_twitter_button( &$options, &$opts = array() ) {
 	return $button;
 }
 
-/* LinkedIn button */
-
+/* LinkedIn button called from the ngfb_add_content_buttons() and
+ * ngfb_get_social_buttons() functions.
+ */
 function ngfb_linkedin_button( &$options, &$opts = array() ) {
 
 	if ( ! $opts['url'] ) { 
@@ -1324,6 +1302,9 @@ function ngfb_linkedin_button( &$options, &$opts = array() ) {
 	return $button;
 }
 
+/* Called from the ngfb_add_meta_tags() function to add NGG image tags to the
+ * $og['article:tag'] variable.
+ */
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 
 	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
@@ -1334,7 +1315,9 @@ function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 	return $img_tags;
 }
 
-// thumb_id must be 'ngg-#'
+/* Called from a variety of locations to get an image URL for an NGG picture ID
+ * and a media size name. The thumb_id must be formatted as 'ngg-#'.
+ */
 function ngfb_get_ngg_thumb_url( $thumb_id, $size_name = 'thumbnail' ) {
 
 	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
@@ -1364,6 +1347,8 @@ function ngfb_get_ngg_thumb_url( $thumb_id, $size_name = 'thumbnail' ) {
     return $image_url;
 }
 
+/* Filter for wp_head().
+ */
 function ngfb_add_meta_tags() {
 
 	if ( defined('DISABLE_NGFB_OPEN_GRAPH') && DISABLE_NGFB_OPEN_GRAPH ) {
@@ -1429,13 +1414,18 @@ function ngfb_add_meta_tags() {
 					$img = $match[0];
 					$src = $match[1];
 					$og['og:image'] = $match[2];
+
 					if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $width = $match[1];
 					if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img, $match) ) $height = $match[1];
+
+					$width = is_numeric( $width ) ? $width : 0;
+					$height = is_numeric( $height ) ? $height : 0;
+
 					array_push( $debug , $debug_pre."img $src / ".$og['og:image']." / src width=$width x height=$height" );
 
 					$size = ngfb_get_size_values( $options['og_img_size'] );
 
-					// if we're picking up an img for src, make sure it's width and height is large enough
+					// if we're picking up an img from src, make sure it's width and height is large enough
 					if ( $src == 'share-'.$options['og_img_size'] || $src == 'share' || 
 						( $src == 'src' && $width >= $size['width'] && $height >= $size['height'] ) ) {
 
@@ -1597,6 +1587,9 @@ function ngfb_add_meta_tags() {
 	echo "<!-- NextGEN Facebook OG Meta Tags END -->\n\n";
 }
 
+/* Function called from ngfb_add_meta_tags() to return an Open Graph tag based
+ * on the property name and it's value.
+ */
 function ngfb_get_meta_tag( $name, $val = '' ) {
 	$charset = get_bloginfo( 'charset' );
 	$val = htmlentities( ngfb_strip_tags( ngfb_str_decode( $val ) ), ENT_QUOTES, $charset, false );
@@ -1687,7 +1680,9 @@ function ngfb_get_title( $textlen = 100, $trailing = '' ) {
 	return ngfb_limit_text_length( $title, $textlen, $trailing ) . $page_num;
 }
 
-// content can only be filtered when this function is called from wp_head(), so make it false by default
+/* The content can only be filtered when this function is called from
+ * wp_head(), so make the $filter_content false by default.
+ */
 function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content = false ) {
 
 	global $post;
@@ -1754,7 +1749,9 @@ function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content =
 	return ngfb_limit_text_length( $desc, $textlen, '...' );
 }
 
-// content can only be filtered when this function is called from wp_head(), so make it false by default
+/* The content can only be filtered when this function is called from
+ * wp_head(), so make the $filter_content false by default.
+ */
 function ngfb_apply_content_filter( $content, $filter_content = false ) {
 
 	// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
@@ -1850,7 +1847,9 @@ function ngfb_is_excluded() {
 	return false;
 }
 
-// if it's available, use CDN Linker to re-write URLs
+/* If it's available, use CDN Linker to re-write a URL before it gets
+ * urlencoded.
+ */
 function ngfb_cdn_linker( $url = '' ) {
 	if ( class_exists( CDNLinksRewriterWordpress ) ) {
 		$rewriter = new CDNLinksRewriterWordpress();
