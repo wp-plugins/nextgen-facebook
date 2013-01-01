@@ -130,7 +130,7 @@ If you want to display smaller IMG thumbnails in your content (on index webpages
     width="150" height="150" /&gt;
 </code>
 
-Note: The order in which the attributes are listed is important. Place the "share" attribute first to give it higher priority.
+Note: The order in which the attributes are listed is important -- place the "share" attribute first to give it higher priority.
 
 == Screenshots ==
 
@@ -171,7 +171,7 @@ Note: The order in which the attributes are listed is important. Place the "shar
 * Added a ngfb_get_social_buttons() function to use in your theme templates. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">See the FAQ</a> for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
-You can enable social buttons in the content, use the social buttons widget, and call the ngfb_get_social_buttons() function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">see the FAQ</a> for additional information).
+You can enable social buttons in the content, use the social buttons widget, and call the ngfb_get_social_buttons() function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">see the Other Notes tab</a> for additional information).
 
 = Version 1.7.2 =
 * Fixed: Added the missing "data-annotation" field to the Google+ social button.
