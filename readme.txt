@@ -114,8 +114,23 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 <li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
 
-<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URLs for Pinterest and tumbler will be rewritten by CDN Linker.</li>
+<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URL for Pinterest and tumblr.</li>
 </ul>
+
+= Q. Why does NextGEN Facebook OG ignore the IMG HTML tag in my content? =
+
+**A.**  The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attribute values are smaller than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal or larger than the 'Image Size Name' you've chosen.
+
+If you want to display smaller IMG thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to detect and use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
+
+<code>
+&lt;img
+    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
+    src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
+    width="150" height="150" /&gt;
+<code>
+
+Note: The order in which the attributes are listed is important. Place the "share" attribute first to give it higher priority.
 
 == Screenshots ==
 
