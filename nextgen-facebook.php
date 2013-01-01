@@ -68,8 +68,8 @@ add_filter( 'language_attributes', 'ngfb_add_og_doctype' );
 add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
 
 function ngfb_widgets_init() {
-        if ( ! is_blog_installed() ) return;
-	register_widget( 'ngfb_widget_buttons' );
+	if ( ! is_blog_installed() ) return;
+	register_widget( 'ngfbWidget' );
 }
 
 // add menu page
@@ -831,10 +831,10 @@ function ngfb_render_form() {
 		<!-- tumblr -->
 		<th rowspan="4">tumblr Button Style</th>
 		<td rowspan="4">
-	                <div class="btn_wizard_row clearfix" id="button_styles">
+			<div class="btn_wizard_row clearfix" id="button_styles">
 			<?php
 				foreach ( range(1, 4) as $i ) {
-	                    		echo '
+					echo '
 						<div class="btn_wizard_column share_', $i, '">
 							<div class="btn_wizard_example clearfix">
 								<label for="share_', $i, '">
@@ -1859,83 +1859,85 @@ function ngfb_cdn_linker( $url = '' ) {
 	return $url;
 }
 
-class ngfb_widget_buttons extends WP_Widget {
-
-        function ngfb_widget_buttons() {
-		$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
-			'description' => "The NextGEN Facebook OG social buttons widget
-				is only visible on single posts, pages and attachments." );
-                $this->WP_Widget( 'ngfb-widget-buttons', 'NGFB Social Buttons', $widget_ops );
-        }
-
-        function widget( $args, $instance ) {
-
-		// only show widget on single posts, pages, and attachments
-                if ( ! is_singular() ) return;
-
-		// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-		if ( is_page() && ngfb_is_excluded() ) return;
-
-                extract( $args );
-
-                $title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$buttons = array();
-		foreach ( array( 
-			'Facebook' => 'facebook', 
-			'Google+' => 'gplus',
-			'Twitter' => 'twitter',
-			'LinkedIn' => 'linkedin',
-			'Pinterest' => 'pinterest',
-			'tumblr' => 'tumblr',
-		) as $name => $id ) 
-			if ( (int) $instance[$id] ) $buttons[] = $id;
-		unset( $name, $id );
-
-                echo $before_widget;
-                if ( $title ) echo $before_title . $title . $after_title;
-		echo ngfb_get_social_buttons( $buttons );
-                echo $after_widget;
-        }
-
-        function update( $new_instance, $old_instance ) {
-                $instance = $old_instance;
-                $instance['title'] = strip_tags( $new_instance['title'] );
-		foreach ( array( 
-			'Facebook' => 'facebook', 
-			'Google+' => 'gplus',
-			'Twitter' => 'twitter',
-			'LinkedIn' => 'linkedin',
-			'Pinterest' => 'pinterest',
-			'tumblr' => 'tumblr',
-		) as $name => $id ) 
-			$instance[$id] = (int) $new_instance[$id] ? 1 : 0;
-		unset( $name, $id );
-                return $instance;
-        }
-
-        function form( $instance ) {
-                $title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : 'Share It';
-
-                echo "\n", '<p><label for="', $this->get_field_id( 'title' ), '">Title (Leave Blank for No Title):</label>',
-			'<input class="widefat" id="', $this->get_field_id( 'title' ), 
-				'" name="', $this->get_field_name( 'title' ), 
-				'" type="text" value="', $title, '" /></p>', "\n";
-
-		foreach ( array( 
-			'Facebook' => 'facebook', 
-			'Google+' => 'gplus',
-			'Twitter' => 'twitter',
-			'LinkedIn' => 'linkedin',
-			'Pinterest' => 'pinterest',
-			'tumblr' => 'tumblr',
-		) as $name => $id )
-			echo '<p><label for="', $this->get_field_id( $id ), '">', 
-				'<input id="', $this->get_field_id( $id ), 
-				'" name="', $this->get_field_name( $id ), 
-				'" value="1" type="checkbox" ', checked( 1 , $instance[$id] ), 
-				' /> ', $name, '</label></p>', "\n";
-		unset( $name, $id );
-        }
+if ( ! class_exists( 'ngfb_widget_buttons' ) ) {
+	class ngfb_widget_buttons extends WP_Widget {
+	
+		function ngfb_widget_buttons() {
+			$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
+				'description' => "The NextGEN Facebook OG social buttons widget
+					is only visible on single posts, pages and attachments." );
+			$this->WP_Widget( 'ngfb-widget-buttons', 'NGFB Social Buttons', $widget_ops );
+		}
+	
+		function widget( $args, $instance ) {
+	
+			// only show widget on single posts, pages, and attachments
+			if ( ! is_singular() ) return;
+	
+			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
+			if ( is_page() && ngfb_is_excluded() ) return;
+	
+			extract( $args );
+	
+			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+			$buttons = array();
+			foreach ( array( 
+				'Facebook' => 'facebook', 
+				'Google+' => 'gplus',
+				'Twitter' => 'twitter',
+				'LinkedIn' => 'linkedin',
+				'Pinterest' => 'pinterest',
+				'tumblr' => 'tumblr',
+			) as $name => $id ) 
+				if ( (int) $instance[$id] ) $buttons[] = $id;
+			unset( $name, $id );
+	
+			echo $before_widget;
+			if ( $title ) echo $before_title . $title . $after_title;
+			echo ngfb_get_social_buttons( $buttons );
+			echo $after_widget;
+		}
+	
+		function update( $new_instance, $old_instance ) {
+			$instance = $old_instance;
+			$instance['title'] = strip_tags( $new_instance['title'] );
+			foreach ( array( 
+				'Facebook' => 'facebook', 
+				'Google+' => 'gplus',
+				'Twitter' => 'twitter',
+				'LinkedIn' => 'linkedin',
+				'Pinterest' => 'pinterest',
+				'tumblr' => 'tumblr',
+			) as $name => $id ) 
+				$instance[$id] = (int) $new_instance[$id] ? 1 : 0;
+			unset( $name, $id );
+			return $instance;
+		}
+	
+		function form( $instance ) {
+			$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : 'Share It';
+	
+			echo "\n", '<p><label for="', $this->get_field_id( 'title' ), '">Title (Leave Blank for No Title):</label>',
+				'<input class="widefat" id="', $this->get_field_id( 'title' ), 
+					'" name="', $this->get_field_name( 'title' ), 
+					'" type="text" value="', $title, '" /></p>', "\n";
+	
+			foreach ( array( 
+				'Facebook' => 'facebook', 
+				'Google+' => 'gplus',
+				'Twitter' => 'twitter',
+				'LinkedIn' => 'linkedin',
+				'Pinterest' => 'pinterest',
+				'tumblr' => 'tumblr',
+			) as $name => $id )
+				echo '<p><label for="', $this->get_field_id( $id ), '">', 
+					'<input id="', $this->get_field_id( $id ), 
+					'" name="', $this->get_field_name( $id ), 
+					'" value="1" type="checkbox" ', checked( 1 , $instance[$id] ), 
+					' /> ', $name, '</label></p>', "\n";
+			unset( $name, $id );
+		}
+	}
 }
 
 ?>
