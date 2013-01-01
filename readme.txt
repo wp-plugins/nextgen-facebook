@@ -10,13 +10,13 @@ Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons
 
 == Description ==
 
-<p style="text-align:justify">The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also correctly listed in the "image" meta tag. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. <em>You can also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and tumblr sharing buttons to post and page content (above or bellow), as a widget, or even use a function from your templates</em>.</p>
+<p style="text-align:justify;">The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also correctly listed in the "image" meta tag. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. <em>You can also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and tumblr sharing buttons to post and page content (above or bellow), as a widget, or even use a function from your templates</em>.</p>
 
-<p style="text-align:justify">The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.</p>
+<p align="justify">The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.</p>
 
-<p style="text-align:justify">NextGEN Facebook OG was specifically written to support featured images located in NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it.</strong> The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings.  If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.</p>
+NextGEN Facebook OG was specifically written to support featured images located in NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it.</strong> The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings.  If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
 
-<p style="text-align:justify">Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":</p>
+Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
@@ -51,7 +51,7 @@ Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons
 &lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
-<p style="text-align:justify">NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.</p>
+NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.
 
 == Installation ==
 
@@ -128,7 +128,7 @@ If you want to display smaller IMG thumbnails in your content (on index webpages
     share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
     src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
     width="150" height="150" /&gt;
-<code>
+</code>
 
 Note: The order in which the attributes are listed is important. Place the "share" attribute first to give it higher priority.
 
