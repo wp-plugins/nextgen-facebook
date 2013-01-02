@@ -147,7 +147,7 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 == Changelog ==
 
 = Version 2.3 =
-* Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are still supported).
+* Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are allowed).
 * Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
@@ -297,7 +297,7 @@ Fixed article:tag and article:author Open Graph meta tags.
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a>:
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> in the past:
 
 <code>
 .ngfb-buttons { 
@@ -306,14 +306,13 @@ NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social button
 	margin:20px 0 20px 0;
 }
 .ngfb-buttons img {
-	padding:0;
-	margin:0;
 	border:none;
 }
 .ngfb-buttons img:hover {
 	border:none;
 }
-.facebook-button, .gplus-button, .twitter-button, .linkedin-button, .pinterest-button, tumblr-button {
+.facebook-button, .gplus-button, .twitter-button, .linkedin-button,
+.pinterest-button, .stumbleupon-button, .tumblr-button {
 	display:inline-block;
 	vertical-align:bottom;
 	height:20px;
@@ -325,7 +324,8 @@ NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social button
 .twitter-button { margin-right:-20px; }
 .linkedin-button { margin-right:10px; }
 .pinterest-button { margin-right:30px; }
-.tumblr-button { margin-right:0; }	/* last button on the right */
+.stumbleupon-button { margin-right:15px; }
+.tumblr-button { margin-right:10px; }
 </code>
 
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget. For example, here are different styles for social buttons in a widget and added to the content.
