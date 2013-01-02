@@ -95,7 +95,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
-= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> says 'there is no attribute "property"'. =
+= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> says "there is no attribute '<em>property</em>'". =
 
 **A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
 
@@ -104,6 +104,29 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 <code>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
 </code>
+
+= Q. Why does NextGEN Facebook OG ignore the IMG HTML tag in my content? =
+
+**A.**  The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal to, or larger than, the 'Image Size Name' you've chosen.
+
+If you want to display smaller image thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
+
+<code>
+&lt;img
+    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
+    src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
+    width="150" height="150" /&gt;
+</code>
+
+Note: The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority.
+
+If you do not want, or cannot add a "share" attribute to the IMG tag, and would like NextGEN Facebook OG to share the smaller IMG thumbnail, you can define the NGFB_MIN_IMG_SIZE_DISABLE constant in your wp-config.php or header.php template file. This will disable the width and height check for IMG HTML tags. For example:
+
+<code>
+define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
+</code>
+
+Note: The Facebook debugger suggests using a minimum image size of 200x200px. If you use smaller images in your Open Graph image meta tag, they could be ignored by Facebook and other social websites.
 
 = Q. Does NextGEN Facebook OG use functions from other plugins? =
 
@@ -117,26 +140,21 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 <li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URL for Pinterest and tumblr.</li>
 </ul>
 
-= Q. Why does NextGEN Facebook OG ignore the IMG HTML tag in my content? =
-
-**A.**  The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attribute values are smaller than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal or larger than the 'Image Size Name' you've chosen.
-
-If you want to display smaller IMG thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to detect and use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
-
-<code>
-&lt;img
-    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
-    src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
-    width="150" height="150" /&gt;
-</code>
-
-Note: The order in which the attributes are listed is important -- place the "share" attribute first to give it higher priority.
-
 == Screenshots ==
 
 1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
+
+= Version 2.3 =
+* Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are still supported).
+* Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.
+* Added the StumbleUpon social sharing button.
+* Added a "Preferred Order" option to control the order in which buttons appear.
+* Moved the javascript used by all buttons into the footer section.
+* Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
+* Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
+* Added the ngfbLoader class and started moving functions into it. 
 
 = Version 2.2 =
 * Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
@@ -238,6 +256,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 2.3 =
+Added StumbleUpon button, NGFB_MIN_IMG_SIZE_DISABLE constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
 
 = Version 2.2 =
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
@@ -372,12 +393,12 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 
 = Disable Open Graph Meta Tags =
 
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the DISABLE_NGFB_OPEN_GRAPH constant to true in your theme's header.php before the wp_head() function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the NGFB_OPEN_GRAPH_DISABLE constant to true in your theme's header.php before the wp_head() function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 <code>
 if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
 	global $nggSearch;
-	define( 'DISABLE_NGFB_OPEN_GRAPH', true );
+	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
 	echo $nggSearch-&gt;return_result( 'meta' );
 }
 wp_head();
