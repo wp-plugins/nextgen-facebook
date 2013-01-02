@@ -106,7 +106,7 @@ class ngfbAdminPanel {
 
 		<p>The NextGEN Facebook OG plugin adds Open Graph HTML meta tags to your webpages. If your post or page has a featured image, it will be included as well - even if it's located in a NextGEN Gallery. All options bellow are optional. You can enable social sharing buttons, define a default image, etc.</p>
 
-		<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or &lt;IMG&gt; HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
+		<p>The image used in Open Graph HTML meta tags will be determined in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or IMG HTML tag in the content, and the default image defined here. If none of these conditions can be satisfied, then the Open Graph image tag will be left out.</p>
 
 		<div class="updated" style="margin:10px 0;">
 		<p style="text-align:center">We don't ask for donations, but if you like the NextGEN Facebook OG plugin, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>please take a moment to encourage us and review it</strong></a> on the WordPress website. Thank you. :-)</p>
