@@ -710,12 +710,13 @@ function ngfb_twitter_button( &$options, &$opts = array() ) {
 	if ( $twitter_dnt ) $twitter_dnt = 'true';
 	else $twitter_dnt = 'false';
 	
-	$button .= '<a href="https://twitter.com/share" 
-		class="twitter-button twitter-share-button" 
-		data-url="' . $opts['url'] . '" 
-		data-count="'.$twitter_count.'" 
-		data-size="'.$twitter_size.'" 
-		data-dnt="'.$twitter_dnt.'">Tweet</a>'."\n";
+	$button .= '<div class="twitter-button">
+		<a href="https://twitter.com/share" 
+			class="twitter-share-button"
+			data-url="' . $opts['url'] . '" 
+			data-count="'.$twitter_count.'" 
+			data-size="'.$twitter_size.'" 
+			data-dnt="'.$twitter_dnt.'">Tweet</a></div>'."\n";
 
 	return $button;
 }
