@@ -301,31 +301,27 @@ NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social button
 
 <code>
 .ngfb-buttons { 
+	clear:both;
 	display:block;
 	text-align:center; 
 	margin:20px 0 20px 0;
 }
-.ngfb-buttons img {
-	border:none;
-}
-.ngfb-buttons img:hover {
-	border:none;
-}
-.facebook-button, .gplus-button, .twitter-button, .linkedin-button,
-.pinterest-button, .stumbleupon-button, .tumblr-button {
+.ngfb-buttons img { border:none; }
+.ngfb-buttons img:hover { border:none; }
+.ngfb-buttons > div { 
 	display:inline-block;
 	vertical-align:bottom;
 	height:20px;
 	padding:0;
 	margin:0;
 }
-.facebook-button { margin-right:15px; }
-.gplus-button { margin-right:-20px; }
-.twitter-button { margin-right:-20px; }
-.linkedin-button { margin-right:10px; }
-.pinterest-button { margin-right:30px; }
-.stumbleupon-button { margin-right:15px; }
-.tumblr-button { margin-right:10px; }
+div.facebook-button { margin-right:15px; }
+div.gplus-button { margin-right:-20px; }
+div.twitter-button { margin-right:-20px; }
+div.linkedin-button { margin-right:10px; }
+div.pinterest-button { margin-right:30px; }
+div.stumbleupon-button { margin-right:15px; }
+div.tumblr-button { margin-right:10px; }
 </code>
 
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget. For example, here are different styles for social buttons in a widget and added to the content.
@@ -360,9 +356,7 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 .post-123 .ngfb-buttons,
 .category-test .ngfb-buttons,
 .format-aside .ngfb-buttons,
-.format-status .ngfb-buttons { 
-	display:none;
-}
+.format-status .ngfb-buttons { display:none; }
 </code>
 
 == Advanced Usage ==
