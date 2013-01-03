@@ -1,10 +1,10 @@
 === NextGEN Facebook OG ===
 Contributors: jsmoriss
-Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, widget, cdn linker
+Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.2
-License: GPLv2 or later
+Stable tag: 2.3
+License: GPLv3 or later
 
 Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons for FB, G+, Twitter, LinkedIn, Pinterest, tumblr.
 
