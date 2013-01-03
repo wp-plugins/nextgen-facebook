@@ -151,7 +151,7 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 * Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
-* Moved the javascript used by all buttons into the footer section.
+* Moved the javascript used by all buttons into the footer section (filter on wp_footer() function) to improve page rendering speed.
 * Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
 * Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
 * Added the ngfbLoader class and started moving functions into it. 
