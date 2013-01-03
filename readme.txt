@@ -146,6 +146,9 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 
 == Changelog ==
 
+= Version 2.3.1 =
+* Moved the LinkedIn javascript code to the footer.
+
 = Version 2.3 =
 * Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are allowed).
 * Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.

@@ -101,6 +101,9 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 
 			if ( ! defined( 'NGFB_MIN_IMG_HEIGHT' ) )
 				define( 'NGFB_MIN_IMG_HEIGHT', 200 );
+
+			define( 'NGFB_FOLDER', basename( dirname(__FILE__) ) );
+			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
 		}
 
 		function require_wordpress_version() {
@@ -193,7 +196,7 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 				foreach ( $this->social_options_prefix as $id => $prefix )
 					if ( $options[$prefix.'_enable'] ) 
 						echo eval ( "if ( function_exists( 'ngfb_${id}_footer' ) ) 
-							return ngfb_${id}_footer();" );
+							return ngfb_${id}_footer( \$options );" );
 				unset ( $id, $prefix );
 				echo "\n", '<!-- NextGEN Facebook OG Content Footer END -->', "\n\n";
 			}
@@ -211,8 +214,8 @@ function ngfb_get_default_options() {
 		'og_def_img_id_pre' => '',
 		'og_def_img_id' => '',
 		'og_def_img_url' => '',
-		'og_def_on_home' => 1,
-		'og_def_on_search' => 1,
+		'og_def_on_home' => '1',
+		'og_def_on_search' => '1',
 		'og_ngg_tags' => '',
 		'og_title_len' => '100',
 		'og_desc_len' => '300',
@@ -226,7 +229,7 @@ function ngfb_get_default_options() {
 		'buttons_location' => 'bottom',
 		'fb_enable' => '',
 		'fb_order' => '1',
-		'fb_send' => 1,
+		'fb_send' => '1',
 		'fb_layout' => 'button_count',
 		'fb_colorscheme' => 'light',
 		'fb_font' => 'arial',
@@ -241,7 +244,7 @@ function ngfb_get_default_options() {
 		'twitter_order' => '3',
 		'twitter_count' => 'horizontal',
 		'twitter_size' => 'medium',
-		'twitter_dnt' => 1,
+		'twitter_dnt' => '1',
 		'linkedin_enable' => '',
 		'linkedin_order' => '4',
 		'linkedin_counter' => 'right',
@@ -255,33 +258,33 @@ function ngfb_get_default_options() {
 		'tumblr_order' => '7',
 		'tumblr_button_style' => 'share_1',
 		'tumblr_desc_len' => '300',
-		'tumblr_photo' => 1,
+		'tumblr_photo' => '1',
 		'tumblr_img_size' => 'large',
 		'tumblr_caption' => 'both',
 		'tumblr_cap_len' => '500',
 		'stumble_enable' => '',
 		'stumble_order' => '6',
 		'stumble_badge' => '1',
-		'inc_fb:admins' => 1,
-		'inc_fb:app_id' => 1,
-		'inc_og:site_name' => 1,
-		'inc_og:title' => 1,
-		'inc_og:type' => 1,
-		'inc_og:url' => 1,
-		'inc_og:description' => 1,
-		'inc_og:image' => 1,
-		'inc_og:video' => 1,
-		'inc_og:video:width' => 1,
-		'inc_og:video:height' => 1,
-		'inc_og:video:type' => 1,
-		'inc_article:author' => 1,
-		'inc_article:published_time' => 1,
-		'inc_article:modified_time' => 1,
-		'inc_article:section' => 1,
-		'inc_article:tag' => 1,
+		'inc_fb:admins' => '1',
+		'inc_fb:app_id' => '1',
+		'inc_og:site_name' => '1',
+		'inc_og:title' => '1',
+		'inc_og:type' => '1',
+		'inc_og:url' => '1',
+		'inc_og:description' => '1',
+		'inc_og:image' => '1',
+		'inc_og:video' => '1',
+		'inc_og:video:width' => '1',
+		'inc_og:video:height' => '1',
+		'inc_og:video:type' => '1',
+		'inc_article:author' => '1',
+		'inc_article:published_time' => '1',
+		'inc_article:modified_time' => '1',
+		'inc_article:section' => '1',
+		'inc_article:tag' => '1',
 		'ngfb_reset' => '',
 		'ngfb_debug' => '',
-		'ngfb_filter_content' => 1,
+		'ngfb_filter_content' => '1',
 	);
 }
 
@@ -453,7 +456,7 @@ function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 			return ngfb_${id}_button( \$options, \$opts );" );
 
 		$buttons .= eval ( "if ( function_exists( 'ngfb_${id}_footer' ) ) 
-			return ngfb_${id}_footer();" );
+			return ngfb_${id}_footer( \$options );" );
 	}
 
 	if ( $buttons ) $buttons = '
@@ -480,7 +483,7 @@ function ngfb_stumbleupon_button( &$options, &$opts = array() ) {
 	';
 	return $button;	
 }
-function ngfb_stumbleupon_footer() {
+function ngfb_stumbleupon_footer( &$options ) {
 	return '
 		<!-- StumbleUpon Javascript -->
 		<script type="text/javascript">
@@ -537,7 +540,7 @@ function ngfb_pinterest_button( &$options, &$opts = array() ) {
 	}
 	return $button;	
 }
-function ngfb_pinterest_footer() {
+function ngfb_pinterest_footer( &$options ) {
 	return '
 		<!-- Pinterest Javascript -->
 		<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
@@ -603,7 +606,7 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 	}
 	return $button;
 }
-function ngfb_tumblr_footer() {
+function ngfb_tumblr_footer( &$options ) {
 	return '
 		<!-- tumblr Javascript -->
 		<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>
@@ -647,7 +650,7 @@ function ngfb_facebook_button( &$options, &$opts = array() ) {
 	';
 	return $button;
 }
-function ngfb_facebook_footer() {
+function ngfb_facebook_footer( &$options ) {
 	return '
 		<!-- Facebook Javascript -->
 		<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
@@ -685,7 +688,7 @@ function ngfb_gplus_button( &$options, &$opts = array() ) {
 	';
 	return $button;
 }
-function ngfb_gplus_footer() {
+function ngfb_gplus_footer( &$options ) {
 	return '
 		<!-- Google+ Javascript -->
 		<script type="text/javascript"> ( 
@@ -731,7 +734,7 @@ function ngfb_twitter_button( &$options, &$opts = array() ) {
 
 	return $button;
 }
-function ngfb_twitter_footer() {
+function ngfb_twitter_footer( &$options ) {
 	return '
 		<!-- Twitter Javascript -->
 		<script type="text/javascript">
@@ -759,12 +762,17 @@ function ngfb_linkedin_button( &$options, &$opts = array() ) {
 	if ( ! $linkedin_counter ) $linkedin_counter = 'right';
 
 	$button .= "\n".'<div class="linkedin-button">';	
-	$button .= '<script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
-		<script type="IN/Share" data-url="' . $opts['url'] . '"';
+	$button .= '<script type="IN/Share" data-url="' . $opts['url'] . '"';
 	if ($linkedin_counter) $button .= ' data-counter="'.$linkedin_counter.'"';
 	$button .= '></script></div>'."\n";
 
 	return $button;
+}
+function ngfb_linkedin_footer( &$options ) {
+	return '
+		<!-- LinkedIn Javascript -->
+		<script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+	';
 }
 
 /* Called from the ngfb_add_meta_tags() function to add NGG image tags to the
@@ -1279,7 +1287,7 @@ function ngfb_select_img_size( &$options, $option_name ) {
 	echo '</select>', "\n";
 }
 
-function ngfb_get_size_values( $size_name ) {
+function ngfb_get_size_values( $size_name = 'thumbnail' ) {
 
 	global $_wp_additional_image_sizes;
 

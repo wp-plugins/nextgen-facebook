@@ -319,7 +319,15 @@ class ngfbAdminPanel {
 			<p>Add social buttons (that are enabled bellow) to each entry's content on index webpages (index, archives, author, etc.).</p>
 			</td>
 		</tr>
-	
+		<tr>
+			<th>Location in Content Text</th>
+			<td>
+				<select name='ngfb_options[buttons_location]'>
+					<option value='top' <?php selected($options['buttons_location'], 'top'); ?>>Top</option>
+					<option value='bottom' <?php selected($options['buttons_location'], 'bottom'); ?>>Bottom</option>
+				</select>
+			</td>
+		</tr>
 		<?php	// hide Add to Excluded Pages option if not installed and activated
 			if ( function_exists( 'ep_get_excluded_ids' ) ): ?>
 		<tr>
@@ -331,16 +339,17 @@ class ngfbAdminPanel {
 			</td>
 		</tr>
 		<?php	endif; ?>
-	
+		<!--
 		<tr>
-			<th>Location in Content</th>
-			<td>
-				<select name='ngfb_options[buttons_location]'>
-					<option value='top' <?php selected($options['buttons_location'], 'top'); ?>>Top</option>
-					<option value='bottom' <?php selected($options['buttons_location'], 'bottom'); ?>>Bottom</option>
-				</select>
+			<th>Use Plugin Javascript Files</th>
+			<td><input name="ngfb_options[buttons_plugin_js]" type="checkbox" value="1"
+				<?php checked(1, $options['buttons_plugin_js']); ?> />
+			</td>
+			</td><td colspan="2">
+			<p>Use the Javascript files distributed with this plugin for social buttons, instead of URLs to the original website Javascript files. URLs from your website may improve the speed of your webpage, but the local Javacript files will need to be maintained (by updating this plugin when new versions are available, or with a custom maintenance script).</p>
 			</td>
 		</tr>
+		-->
 		</table>
 		<table class="form-table">
 		<tr>
