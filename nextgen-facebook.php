@@ -456,10 +456,12 @@ function ngfb_get_social_buttons( $ids = array(), $opts = array() ) {
 			return ngfb_${id}_footer();" );
 	}
 
-	if ( $buttons ) $buttons = "
+	if ( $buttons ) $buttons = '
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
-<div class=\"ngfb-buttons\">\n$buttons\n</div>
-<!-- NextGEN Facebook OG Social Buttons END -->\n\n";
+<div class="ngfb-buttons">
+' . $buttons . '
+</div>
+<!-- NextGEN Facebook OG Social Buttons END -->'."\n\n";
 
 	return $buttons;
 }
@@ -471,10 +473,11 @@ function ngfb_stumbleupon_button( &$options, &$opts = array() ) {
 	if ( ! $opts['stumble_badge'] ) $opts['stumble_badge'] = $options['stumble_badge'];
 	if ( ! $opts['url'] ) $opts['url'] = get_permalink( $post->ID );
 
-	$button = '<div class="stumble-button stumbleupon-button"><su:badge 
-		layout="' . $opts['stumble_badge'] . '" 
-		location="' . $opts['url'] . '"></su:badge></div>' . "\n";
-
+	$button = '
+		<!-- StumbleUpon Button -->
+		<div class="stumble-button stumbleupon-button"><su:badge layout="' . $opts['stumble_badge'] . '" 
+			location="' . $opts['url'] . '"></su:badge></div>
+	';
 	return $button;	
 }
 function ngfb_stumbleupon_footer() {
@@ -525,6 +528,7 @@ function ngfb_pinterest_button( &$options, &$opts = array() ) {
 	// if we have something, then complete the button code
 	if ( $button ) {
 		$button = '
+			<!-- Pinterest Button -->
 			<div class="pinterest-button"><a href="http://pinterest.com/pin/create/button/' . $button . '" 
 				class="pin-it-button" count-layout="' . $opts['pin_count_layout'] . '" 
 				title="Share on Pinterest"><img border="0" 
@@ -591,6 +595,7 @@ function ngfb_tumblr_button( &$options, &$opts = array() ) {
 	// if we have something, then complete the button code
 	if ( $button ) {
 		$button = '
+			<!-- Tumblr Button -->
 			<div class="tumblr-button"><a href="http://www.tumblr.com/share/'. $button . '" 
 				title="Share on tumblr"><img border="0"
 				src="http://platform.tumblr.com/v1/' . $opts['tumblr_button_style'] . '.png"></a></div>
@@ -632,12 +637,14 @@ function ngfb_facebook_button( &$options, &$opts = array() ) {
 	$fb_font = $options['fb_font'];
 	if ( ! $fb_font ) $fb_font = 'arial';
 
-	$button .= '<div class="facebook-button"><span class="fb-root"><fb:like 
+	$button .= '
+		<!-- Facebook Button -->
+		<div class="facebook-button"><span class="fb-root"><fb:like 
 		href="' . $opts['url'] . '"
 		send="' . $fb_send . '" layout="' . $fb_layout . '" width="400"
 		show_faces="' . $fb_show_faces . '" font="' . $fb_font . '" action="' . $fb_action . '"
-		colorscheme="' . $fb_colorscheme . '"></fb:like></span></div>' . "\n";
-
+		colorscheme="' . $fb_colorscheme . '"></fb:like></span></div>
+	';
 	return $button;
 }
 function ngfb_facebook_footer() {
@@ -664,17 +671,18 @@ function ngfb_gplus_button( &$options, &$opts = array() ) {
 	if ( ! $gp_annotation ) $gp_annotation = 'bubble';
 
 	// html-5 syntax
-	$button .= '<div class="gplus-button g-plusone-button"><span ';
+	$button .= '
+		<!-- Google+ Button -->
+		<div class="gplus-button g-plusone-button"><span ';
 
 	if ( $gp_action == 'share' )
 		$button .= 'class="g-plus" data-action="share"';
-	else
-		$button .= 'class="g-plusone"';
+	else $button .= 'class="g-plusone"';
 
 	$button .= ' data-size="'.$gp_size.'" 
 		data-annotation="'.$gp_annotation.'" 
-		data-href="' . $opts['url'] . '"></span></div>'."\n";
-	
+		data-href="' . $opts['url'] . '"></span></div>
+	';
 	return $button;
 }
 function ngfb_gplus_footer() {
@@ -710,13 +718,16 @@ function ngfb_twitter_button( &$options, &$opts = array() ) {
 	if ( $twitter_dnt ) $twitter_dnt = 'true';
 	else $twitter_dnt = 'false';
 	
-	$button .= '<div class="twitter-button">
+	$button .= '
+		<!-- Twitter Button -->
+		<div class="twitter-button">
 		<a href="https://twitter.com/share" 
 			class="twitter-share-button"
 			data-url="' . $opts['url'] . '" 
 			data-count="'.$twitter_count.'" 
 			data-size="'.$twitter_size.'" 
-			data-dnt="'.$twitter_dnt.'">Tweet</a></div>'."\n";
+			data-dnt="'.$twitter_dnt.'">Tweet</a></div>
+	';
 
 	return $button;
 }
