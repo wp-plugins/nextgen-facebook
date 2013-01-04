@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons for FB, G+, Twitter, LinkedIn, Pinterest, tumblr.
-Version: 2.3.1
+Version: 2.3.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -213,6 +213,25 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 				echo "\n", '<!-- NextGEN Facebook OG Content Footer END -->', "\n\n";
 			}
 		}
+
+		function debug_msg( $pos, $msg = '' ) {
+			echo "\n", '<!-- NGFB Debug (', $pos, ')';
+			if ( is_array( $msg ) ) {
+				echo "\n";
+				$array_keys = array_keys( $msg );
+				if ( is_numeric( implode( $array_keys ) ) ) {
+					foreach ( $msg as $val ) echo "\t$val\n";
+					unset ( $val );
+				} else {
+					// associative array - sort by key
+					ksort( $msg );
+					foreach ( $msg as $key => $val ) echo "\t$key = $val\n";
+					unset ( $key, $val );
+				}
+			} else echo $msg;
+			echo ' -->', "\n";
+		}
+
 	}
 
         global $ngfb;
@@ -791,8 +810,7 @@ function ngfb_linkedin_footer( &$options ) {
 }
 
 /* Called from the ngfb_add_meta_tags() function to add NGG image tags to the
- * $og['article:tag'] variable.
- */
+ * $og['article:tag'] variable */
 function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 
 	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
@@ -804,8 +822,7 @@ function ngfb_get_ngg_thumb_tags( $thumb_id ) {
 }
 
 /* Called from a variety of locations to get an image URL for an NGG picture ID
- * and a media size name. The thumb_id must be formatted as 'ngg-#'.
- */
+ * and a media size name. The thumb_id must be formatted as 'ngg-#' */
 function ngfb_get_ngg_image_url( $thumb_id, $size_name = 'thumbnail' ) {
 
 	if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
@@ -835,8 +852,7 @@ function ngfb_get_ngg_image_url( $thumb_id, $size_name = 'thumbnail' ) {
     return $image_url;
 }
 
-/* Filter for wp_head().
- */
+/* Filter for wp_head() */
 function ngfb_add_meta_tags() {
 
 	if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
@@ -848,6 +864,8 @@ function ngfb_add_meta_tags() {
 	global $post;
 	$debug = array();
 	$options = ngfb_get_options();
+
+	if ( $options['ngfb_debug'] ) { global $ngfb; $ngfb->debug_msg( __FUNCTION__ , $options ); }
 
 	$og['fb:admins'] = $options['og_admins'];
 	$og['fb:app_id'] = $options['og_app_id'];
@@ -1049,19 +1067,10 @@ function ngfb_add_meta_tags() {
 
 	} else $og['og:type'] = "blog";	// 'website' could also be another choice
 
-	/* Add the Open Graph Meta Tags */
+	if ( $options['ngfb_debug'] ) { global $ngfb; $ngfb->debug_msg( __FUNCTION__ , $debug ); }
 
+	/* Add the Open Graph Meta Tags */
 	echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
-	if ( $options['ngfb_debug'] ) {
-		echo "<!--\nOptions Array:\n";
-		if ( ! empty( $options ) ) ksort( $options );
-		foreach ( $options as $opt => $val ) echo "\t$opt = $val\n";
-		unset ( $opt, $val );
-		echo "Debug Array:\n";
-		foreach ( $debug as $val ) echo "\t$val\n";
-		unset ( $val );
-		echo "-->\n";
-	}
 	if ( ! empty( $og ) ) ksort( $og );
 	foreach ( $og as $name => $val ) {
 		if ( $options['inc_'.$name] && $val ) {
