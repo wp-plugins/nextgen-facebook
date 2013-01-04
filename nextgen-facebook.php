@@ -161,8 +161,6 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 
 		function add_content_buttons( $content ) {
 
-			echo "<!-- NGFB add_content_buttons() called -->\n";
-
 			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 			if ( is_page() && ngfb_is_excluded() ) return $content;
 
@@ -1085,8 +1083,7 @@ function ngfb_add_meta_tags() {
 }
 
 /* Function called from ngfb_add_meta_tags() to return an Open Graph tag based
- * on the property name and it's value.
- */
+ * on the property name and it's value */
 function ngfb_get_meta_tag( $name, $val = '' ) {
 	$charset = get_bloginfo( 'charset' );
 	$val = htmlentities( ngfb_strip_tags( ngfb_str_decode( $val ) ), ENT_QUOTES, $charset, false );
