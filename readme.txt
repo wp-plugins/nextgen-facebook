@@ -147,7 +147,13 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 == Changelog ==
 
 = Version 2.3.1 =
-* Moved the LinkedIn javascript code to the footer.
+* FIXED variable name to have apply_filters('the_content') applied to the OG description as it should.
+* Added apply_filters('the_excerpt') on the OG description when text is from excerpt.
+* Added apply_filters('the_title') on the OG title.
+* Added the ngfb_linkedin_footer() function to move the LinkedIn javascript to the footer.
+* Sanitized the "Facebook Admin(s)" option by stipping off any leading URLs (leaving just the account names).
+* Temporarily removed NGFB as a filter to the_content when using apply_filters('the_content') to prevent recursion.
+* Added NGFB_HEAD_PRIORITY, NGFB_CONTENT_PRIORITY, and NGFB_FOOTER_PRIORITY constants.
 
 = Version 2.3 =
 * Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are allowed).
@@ -170,7 +176,7 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 = Version 2.1.2 =
 * Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
 * Added a ngfb_get_meta_tag() function to sanitize and encode all Open Graph meta tag values.
-* Fixed the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
+* FIXED the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
 
 = Version 2.1.1 =
 * Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
@@ -195,8 +201,8 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 You can enable social buttons in the content, use the social buttons widget, and call the ngfb_get_social_buttons() function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">see the Other Notes tab</a> for additional information).
 
 = Version 1.7.2 =
-* Fixed: Added the missing "data-annotation" field to the Google+ social button.
-* Fixed: Changed "&lt;/p&gt;" to a space before stripping out all html tags from og:description.
+* FIXED: Added the missing "data-annotation" field to the Google+ social button.
+* FIXED: Changed "&lt;/p&gt;" to a space before stripping out all html tags from og:description.
 
 = Version 1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
@@ -209,7 +215,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Cleaned-up some PHP code to consolidate the OG variables within a single array.
 
 = Version 1.6.1 =
-* Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
+* FIXED a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
 * Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.
 
 = Version 1.6 =
@@ -253,12 +259,14 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of the featured image from the first post, for example).
 * Added extra parsing for author pages, tag pages, category pages, etc., to refine the og:description text.
 * Also improved the og:title text for archive pages, category pages, etc. 
-* No bugs were reported or fixed from the previous version, which is good news I guess. ;-)
 
 = Version 1.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 2.3.1 =
+FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling apply_filters() function on 'the_content'.
 
 = Version 2.3 =
 Added StumbleUpon button, NGFB_MIN_IMG_SIZE_DISABLE constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.

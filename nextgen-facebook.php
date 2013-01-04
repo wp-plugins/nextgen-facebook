@@ -81,9 +81,9 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
-			add_filter( 'wp_head', 'ngfb_add_meta_tags', 20 );
-			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), 20 );
-			add_filter( 'wp_footer', array( &$this, 'add_content_footer' ), 10 );
+			add_filter( 'wp_head', 'ngfb_add_meta_tags', NGFB_HEAD_PRIORITY );
+			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+			add_filter( 'wp_footer', array( &$this, 'add_content_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', 'ngfb_plugin_action_links', 10, 2 );
 		}
 		
@@ -93,6 +93,19 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
 
+			define( 'NGFB_FOLDER', basename( dirname( __FILE__ ) ) );
+			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
+
+			// allow constants to be pre-defined in wp-config.php
+			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
+				define( 'NGFB_HEAD_PRIORITY', 20 );
+
+			if ( ! defined( 'NGFB_CONTENT_PRIORITY' ) )
+				define( 'NGFB_CONTENT_PRIORITY', 20 );
+			
+			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
+				define( 'NGFB_FOOTER_PRIORITY', 10 );
+
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 160 );
 
@@ -101,9 +114,6 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 
 			if ( ! defined( 'NGFB_MIN_IMG_HEIGHT' ) )
 				define( 'NGFB_MIN_IMG_HEIGHT', 200 );
-
-			define( 'NGFB_FOLDER', basename( dirname(__FILE__) ) );
-			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
 		}
 
 		function require_wordpress_version() {
@@ -150,6 +160,8 @@ if ( ! class_exists( 'ngfbLoader' ) ) {
 		}
 
 		function add_content_buttons( $content ) {
+
+			echo "<!-- NGFB add_content_buttons() called -->\n";
 
 			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 			if ( is_page() && ngfb_is_excluded() ) return $content;
@@ -227,6 +239,7 @@ function ngfb_get_default_options() {
 		'buttons_on_home' => '',
 		'buttons_on_ex_pages' => '',
 		'buttons_location' => 'bottom',
+		'buttons_plugin_js' => '',
 		'fb_enable' => '',
 		'fb_order' => '1',
 		'fb_send' => '1',
@@ -316,9 +329,10 @@ function ngfb_get_options() {
 function ngfb_validate_options( $options ) {
 
 	$def_opts = ngfb_get_default_options();
-	$options['og_def_img_url'] = wp_filter_nohtml_kses($options['og_def_img_url']);
-	$options['og_admins'] = wp_filter_nohtml_kses($options['og_admins']);
-	$options['og_app_id'] = wp_filter_nohtml_kses($options['og_app_id']);
+	$options['og_def_img_url'] = wp_filter_nohtml_kses( $options['og_def_img_url'] );
+	// sanitize the og_admins option by stipping off any leading URLs (leaving just the account names)
+	$options['og_admins'] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $options['og_admins'] ) );
+	$options['og_app_id'] = wp_filter_nohtml_kses( $options['og_app_id'] );
 
 	if ( ! is_numeric( $options['og_def_img_id'] ) ) 
 		$options['og_def_img_id'] = $def_opts['og_def_img_id'];
@@ -377,6 +391,7 @@ function ngfb_validate_options( $options ) {
 		'og_desc_wiki',
 		'buttons_on_home',
 		'buttons_on_ex_pages',
+		'buttons_plugin_js',
 		'fb_enable',
 		'fb_send',
 		'gp_enable',
@@ -880,7 +895,6 @@ function ngfb_add_meta_tags() {
 				array_push( $debug, $debug_pre.$src." / ".$id );
 				$og['og:image'] = ngfb_get_ngg_image_url( 'ngg-'.$id, $options['og_img_size'] );
 			} else {
-				// we're in wp_head, so we can apply the content filter without creating a recursive loop
 				$content = ngfb_apply_content_filter( $content, $options['ngfb_filter_content'] );
 
 				// img attributes in order of preference
@@ -994,8 +1008,7 @@ function ngfb_add_meta_tags() {
 	// og:description
 	// ==============
 
-	// we're in wp_head, so we can use apply the content filter without creating a recursive loop
-	$og['og:description'] = ngfb_get_description( $options['og_desc_len'], '...', $options['ngfb_filter_content'] );
+	$og['og:description'] = ngfb_get_description( $options['og_desc_len'], '...' );
 
 	// =====================
 	// og:type and article:*
@@ -1152,13 +1165,12 @@ function ngfb_get_title( $textlen = 100, $trailing = '' ) {
 		$textlen = $textlen - strlen( $page_num );	// make room for the page number
 	}
 
+	$title = apply_filters( 'the_title', $title );
+
 	return ngfb_limit_text_length( $title, $textlen, $trailing ) . $page_num;
 }
 
-/* The content can only be filtered when this function is called from
- * wp_head(), so make the $filter_content false by default.
- */
-function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content = false ) {
+function ngfb_get_description( $textlen = 300, $trailing = '' ) {
 
 	global $post;
 	$options = ngfb_get_options();
@@ -1166,11 +1178,13 @@ function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content =
 
 	if ( is_single() || is_page() ) {
 
+		// use the excerpt, if we have one
 		if ( has_excerpt( $post->ID ) ) {
 
 			$desc = $post->post_excerpt;
+			$desc = apply_filters( 'the_excerpt', $desc );
 
-		// use WP-WikiBox for page content, if option is true
+		// if there's no excerpt, then use WP-WikiBox for page content (if wikibox_summary() is available and og_desc_wiki option is true)
 		} elseif ( is_page() && $options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
 
 			$tags = wp_get_post_tags( $post->ID );
@@ -1190,9 +1204,7 @@ function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content =
 		} 
 
 		if ( ! $desc ) $desc = $post->post_content;		// fallback to regular content
-
-		// content can only be filtered when this function is called from wp_head()
-		if ( $filter_content ) $content = ngfb_apply_content_filter( $content, $filter_content );
+		$desc = ngfb_apply_content_filter( $desc, $options['ngfb_filter_content'] );
 
 		// ignore everything until the first paragraph tag if $options['og_desc_strip'] is true
 		if ( $options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/', '', $desc );	// question mark makes regex un-greedy
@@ -1224,14 +1236,20 @@ function ngfb_get_description( $textlen = 300, $trailing = '', $filter_content =
 	return ngfb_limit_text_length( $desc, $textlen, '...' );
 }
 
-/* The content can only be filtered when this function is called from
- * wp_head(), so make the $filter_content false by default.
- */
-function ngfb_apply_content_filter( $content, $filter_content = false ) {
+function ngfb_apply_content_filter( $content, $filter_content = true ) {
 
 	// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
-	if ( ! preg_match( '/\[ *album[ =]/', $content ) && $filter_content )
+	if ( ! preg_match( '/\[ *album[ =]/', $content ) && $filter_content ) {
+		global $ngfb;
+		// temporarily remove add_content_buttons() to prevent recursion
+		$filter_removed = remove_filter( 'the_content', 
+			array( $ngfb, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+
 		$content = apply_filters( 'the_content', $content );
+
+		if ( $filter_removed ) add_filter( 'the_content', 
+			array( $ngfb, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+	}
 
 	$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 	$content = str_replace( ']]>', ']]&gt;', $content );
