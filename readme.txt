@@ -144,7 +144,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Changelog ==
 
-= Version 2.4 =
+= Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checbox options to functions. The drop-down selects and checkboxes now show their default values.
 * Moved the $options variable related functions into the NGFB class.
 * Added the "Author URL" option to allow for the Website value in teh profile, and the GPAISR plugin for Google+.
