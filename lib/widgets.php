@@ -51,14 +51,13 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 
 		extract( $args );
 
-		$options = ngfb_get_options();
+		global $ngfb;
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 		$sorted_ids = array();
 		foreach ( $this->social_options_prefix as $id => $prefix )
 			if ( (int) $instance[$id] )
-				$sorted_ids[$options[$prefix.'_order'] . '-' . $id] = $id;
+				$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
 		ksort( $sorted_ids );
-
 		echo $before_widget;
 		if ( $title ) echo $before_title . $title . $after_title;
 		echo ngfb_get_social_buttons( $sorted_ids );

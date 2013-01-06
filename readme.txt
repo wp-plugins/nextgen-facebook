@@ -95,7 +95,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 **A.** According to LinkedIn's <a href="https://developer.linkedin.com/documents/setting-display-tags-shares" target="_blank">Setting Display Tags for Shares</a> information page, they use three of the Open Graph tags (title, description, and url).
 
-= Q. The <a href="http://validator.w3.org/">W3C Markup Validation Service</a> says "there is no attribute '<em>property</em>'". =
+= Q. The <a href="http://validator.w3.org/" target="_blank">W3C Markup Validation Service</a> says "there is no attribute '<em>property</em>'". =
 
 **A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
 
@@ -107,9 +107,9 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 
 = Q. Why does NextGEN Facebook OG ignore the IMG HTML tag in my content? =
 
-**A.**  The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal to, or larger than, the 'Image Size Name' you've chosen.
+**A.**  The image used in the Open Graph meta tag is chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
-If you want to display smaller image thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
+If you want to display small image thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
 
 <code>
 &lt;img
@@ -118,26 +118,24 @@ If you want to display smaller image thumbnails in your content (on index webpag
     width="150" height="150" /&gt;
 </code>
 
-Note: The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority.
-
-If you do not want, or cannot add a "share" attribute to the IMG tag, and would like NextGEN Facebook OG to share the smaller IMG thumbnail, you can define the NGFB_MIN_IMG_SIZE_DISABLE constant in your wp-config.php or header.php template file. This will disable the width and height check for IMG HTML tags. For example:
+The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG tag, and would like NextGEN Facebook OG to share smaller IMG thumbnails, you can uncheck the "Ignore Small Images in Content" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the wp_head() function).
 
 <code>
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 </code>
-
-Note: The Facebook debugger suggests using a minimum image size of 200x200px. If you use smaller images in your Open Graph image meta tag, they could be ignored by Facebook and other social websites.
 
 = Q. Does NextGEN Facebook OG use functions from other plugins? =
 
 **A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
 
 <ul>
-<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> -- If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
+<li><a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).</li>
 
-<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> -- If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
+<li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
 
-<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> -- If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URL for Pinterest and tumblr.</li>
+<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URL for Pinterest and tumblr.</li>
+
+<li><a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> : If the GPAISR plugin is active, you may choose to use the author's Google+ profile in the "Author URL" option.</li>
 </ul>
 
 == Screenshots ==
@@ -145,6 +143,11 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
+
+= Version 2.4 =
+* Improved the admin page code by moving all select and checbox options to functions.
+* Moved the $options variable related functions into the NGFB class.
+* Added the "Author URL" and "Default Author" options.
 
 = Version 2.3.1 =
 * FIXED variable name to have apply_filters('the_content') applied to the OG description as it should.
@@ -163,7 +166,7 @@ Note: The Facebook debugger suggests using a minimum image size of 200x200px. If
 * Moved the javascript used by all buttons into the footer section (filter on wp_footer() function) to improve page rendering speed.
 * Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
 * Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
-* Added the ngfbLoader class and started moving functions into it. 
+* Added the NGFB class and started moving functions into it. 
 
 = Version 2.2 =
 * Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
@@ -264,6 +267,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 2.4 =
+Added the "Author URL" and "Default Author" options. Continued code optimization. Please report any issues to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB support page</a>.
 
 = Version 2.3.1 =
 FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling apply_filters() function on 'the_content'.
