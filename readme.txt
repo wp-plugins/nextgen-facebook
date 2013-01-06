@@ -147,7 +147,9 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 = Version 2.4 =
 * Improved the admin page code by moving all select and checbox options to functions.
 * Moved the $options variable related functions into the NGFB class.
-* Added the "Author URL" and "Default Author" options.
+* Added the "Author URL" option to allow for the Website value in teh profile, and the GPAISR plugin for Google+.
+* Added the "Default Author" option to add an author meta tag on indexes without content.
+* Added the "Ignore Small Images in Content" to disable the default behavior of NGFB to ignore smaller images in the content.
 
 = Version 2.3.1 =
 * FIXED variable name to have apply_filters('the_content') applied to the OG description as it should.
@@ -269,7 +271,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 2.4 =
-Added the "Author URL" and "Default Author" options. Continued code optimization. Please report any issues to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB support page</a>.
+Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization / overhaul. Please report any issues to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB support page</a>.
 
 = Version 2.3.1 =
 FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling apply_filters() function on 'the_content'.
