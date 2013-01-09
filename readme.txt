@@ -144,6 +144,19 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Changelog ==
 
+= Version 3.0 (2013-01-10) =
+* Major code changes finished - all code has been moved to object-oriented classes. NGFB is 2,300 lines of PHP code in 4 classes with 74 functions.
+* Added the ngfbButtons class in lib/buttons.php.
+* Added a version string in the database options to skip option updates if the options are current.
+* NextGEN Facebook OG now finds and uses all images from the content to present in the Open Graph meta tags.
+* Added the "Maximum Number of Images" and "Maximum Number of Videos" options to limit the number of images and videos listed in the Open Graph meta tags.
+* Added the NGFB_MAX_IMG_OG and NGFB_MAX_VOD_OG constants to define the maximum range in the option selects.
+* Added the "Add Page Ancestor Tags" and "Add Page Titles as Tags" options.
+* Added a Head Link Settings section on the settings page, with the "Add (Duplicate) Author Link" and "Publisher Link URL" options.
+* Improved debugging output with a debug function and dump of the OG array.
+* Added a "Performance Tuning" section in the readme.txt.
+* Added a Donate button on the options page. Please show your appreciation for NextGEN Facebook OG by donating a few dollars. Thank you.
+
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checbox options to functions. The drop-down selects and checkboxes now show their default values.
 * Moved the $options variable related functions into the NGFB class.
@@ -269,6 +282,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.0 =
+Major code changes and several new features: List several images/videos, and add Page ancestor tags, in the OG meta tags. Head Link options for Google. "Performance Tuning" section in Other Notes.
 
 = Version 2.4 =
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization / overhaul. Please report any issues to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB support page</a>.
