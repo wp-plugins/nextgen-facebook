@@ -15,26 +15,6 @@ http://www.gnu.org/licenses/.
 
 class ngfbSocialButtonsWidget extends WP_Widget {
 
-	var $social_full_names = array(
-		'facebook' => 'Facebook', 
-		'gplus' => 'Google+',
-		'twitter' => 'Twitter',
-		'linkedin' => 'Linkedin',
-		'pinterest' => 'Pinterest',
-		'stumbleupon' => 'StumbleUpon',
-		'tumblr' => 'Tumblr',
-	);
-
-	var $social_options_prefix = array(
-		'facebook' => 'fb', 
-		'gplus' => 'gp',
-		'twitter' => 'twitter',
-		'linkedin' => 'linkedin',
-		'pinterest' => 'pin',
-		'stumbleupon' => 'stumble',
-		'tumblr' => 'tumblr',
-	);
-
 	function ngfbSocialButtonsWidget() {
 		$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
 			'description' => "The NextGEN Facebook OG social buttons widget is only visible on single posts, pages and attachments." );
@@ -42,32 +22,28 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-
+		global $ngfb;
 		// only show widget on single posts, pages, and attachments
 		if ( ! is_singular() ) return;
-
-		// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-		if ( is_page() && ngfb_is_excluded() ) return;
-
+		// if using the Exclude Pages plugin, skip social buttons on those pages
+		if ( is_page() && $ngfb->is_excluded() ) return;
 		extract( $args );
-
-		global $ngfb;
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 		$sorted_ids = array();
-		foreach ( $this->social_options_prefix as $id => $prefix )
+		foreach ( $ngfb->social_options_prefix as $id => $prefix )
 			if ( (int) $instance[$id] )
 				$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
 		ksort( $sorted_ids );
 		echo $before_widget;
 		if ( $title ) echo $before_title . $title . $after_title;
-		echo ngfb_get_social_buttons( $sorted_ids );
+		echo $ngfb->get_social_buttons( $sorted_ids );
 		echo $after_widget;
 	}
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
-		foreach ( $this->social_full_names as $id => $name ) 
+		foreach ( $ngfb->social_nice_names as $id => $name ) 
 			$instance[$id] = (int) $new_instance[$id] ? 1 : 0;
 		unset( $name, $id );
 		return $instance;
@@ -81,7 +57,7 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 				'" name="', $this->get_field_name( 'title' ), 
 				'" type="text" value="', $title, '" /></p>', "\n";
 
-		foreach ( $this->social_full_names as $id => $name )
+		foreach ( $ngfb->social_nice_names as $id => $name )
 			echo '<p><label for="', $this->get_field_id( $id ), '">', 
 				'<input id="', $this->get_field_id( $id ), 
 				'" name="', $this->get_field_name( $id ), 

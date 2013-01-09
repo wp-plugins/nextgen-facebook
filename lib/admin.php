@@ -107,39 +107,88 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?><style type="text/css">
 				.form-table tr { vertical-align:top; }
 				.form-table td { padding:2px 6px 2px 6px; }
-				.form-table th { text-align:right; white-space:nowrap; padding:2px 6px 2px 6px; width:180px; }
-				.form-table th.social { font-weight:bold; text-align:left; background-color:#eee; border:1px solid #ccc; }
+				.form-table th { 
+					text-align:right;
+					white-space:nowrap; 
+					padding:2px 6px 2px 6px; 
+					width:180px;
+				}
+				.form-table th.social { 
+					font-weight:bold; 
+					text-align:left; 
+					background-color:#eee; 
+					border:1px solid #ccc;
+				}
 				.form-table th.metatag { width:220px; }
 				.form-table td select,
 				.form-table td input { margin:0 0 5px 0; }
 				.form-table td input[type=text] { width:250px; }
 				.form-table td input[type=text].number { width:50px; }
+				.form-table td input[type=text].wide { width:100%; }
 				.form-table td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
 				.form-table td select { width:250px; }
-				.form-table td select.order { width:100px; }
-				.form-table td select.yesno { width:100px; }
+				.form-table td select.number { width:100px; }
 				.wrap { font-size:1em; line-height:1.3em; }
 				.wrap h2 { margin:0 0 10px 0; }
-				.wrap p { text-align:justify; line-height:1.3em; margin:5px 0 5px 0; }
+				.wrap p { 
+					text-align:justify; 
+					line-height:1.2em; 
+					margin:0 0 10px 0;
+				}
 				.btn_wizard_column { white-space:nowrap; }
 				.btn_wizard_example { display:inline-block; width:155px; }
+				.thankyou {
+					float:right;
+					display:block;
+					font-weight:bold;
+					width:300px;
+					margin:0 0 10px 30px;
+					padding:15px 20px 15px 20px;
+					color: #333;
+					background: #eeeeff;
+					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
+					background-image: -webkit-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
+					-webkit-border-radius: 5px;
+					border-radius: 5px;
+					border: 1px solid #b4b4b4;
+				}
+				.thankyou p { text-align:center; }
+				#donate { text-align:center; }
 			</style>
+		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
-			<h2>NextGEN Facebook OG Plugin</h2>
+			<h2>NextGEN Facebook OG Plugin v<?php echo $ngfb->version; ?></h2>
 	
-			<p>NextGEN Facebook OG plugin provides <a href="http://ogp.me/" target="_blank">Open Graph</a> HTML meta tags for all your webpages. If your post or page has a featured image, from a NextGEN Gallery or Media Library, it will be included in the OG meta tags. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home page, category page, etc.).</p>
-	
-			<p>The image used in the Open Graph HTML meta tags will be determined in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] shortcode or IMG HTML tag in the content, and finally, the default image defined here. If none of these conditions can be satisfied, then the OG image meta tag will be left out.</p>
-	
-			<div class="updated" style="margin:10px 0;">
-			<p style="text-align:center">If you appreciate the NextGEN Facebook OG plugin, please take a moment to <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook?rate=5#postform"><strong>encourage us and rate it</strong></a> on the WordPress website. Thank you.</p>
+			<div class="thankyou">
+			<p>Please show your appreciation for NextGEN Facebook OG by donating a few dollars.</p>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+			<p>Thank you.</p>
+			</ul>
 			</div>
-		
+
+			<p>NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. The featured image from a NextGEN Gallery or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
+
+			<p>All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
+	
+			<p>The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.</p>
+			<div style="clear:both;"></div>
+
 			<div class="metabox-holder">
 			<form name="ngfb" method="post" action="options.php">
 			<?php settings_fields('ngfb_plugin_options'); ?>
-		
+			<input type="hidden" name="ngfb_options[ngfb_version]" value="<?php echo $ngfb->version; ?>" />
 			<div id="ngfb-ogsettings" class="postbox">
 			<h3 class="hndle"><span>Open Graph Settings</span></h3>
 			<div class="inside">	
@@ -147,64 +196,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Website Topic</th>
 				<td><?php $this->select( 'og_art_section', $this->article_sections ); ?></td>
-				<td><p>The topic name that best describes the posts and pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your webpages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
+				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your webpages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
-			<tr>
-				<th>Image Size Name</th>
-				<td><?php $this->select_img_size( 'og_img_size' ); ?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> "size name" for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'), 'x', get_option('thumbnail_size_h'), ', ', get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or another size name like "medium", "large", etc. Choose a size name that is at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the Media Settings admin page. I would suggest creating a "facebook-thumbnail" size name of <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p></td>
-			</tr>
-			<tr>
-				<th>Default Image ID</th>
-				<td><input type="text" name="ngfb_options[og_def_img_id]" class="number"
-					value="<?php echo $ngfb->options['og_def_img_id']; ?>" /> in the
-					<select name='ngfb_options[og_def_img_id_pre]' style="width:150px;">
-						<option value='' <?php selected($ngfb->options['og_def_img_id_pre'], ''); ?>>Media Library</option>
-						<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
-						<option value='ngg' <?php selected($ngfb->options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
-						<?php	endif; ?>
-					</select>
-				</td><td>
-				<p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p>
-				</td>
-			</tr>
-			<tr>
-				<th>Default Image URL</th>
-				<td colspan="2"><input type="text" name="ngfb_options[og_def_img_url]"
-					value="<?php echo $ngfb->options['og_def_img_url']; ?>" style="width:100%;"/>
-				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
-				</td>
-			</tr>
-			<tr>
-				<th>Default Image on Indexes</th>
-				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the webpage. The default is checked.</p></td>
-			</tr>
-			<tr>
-				<th>Default Image on Search Results</th>
-				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
-				<td><p>Check this box if you would like to use the default image on search result webpages as well. The default is checked.</p></td>
-			</tr>
-			<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
-			<tr>
-				<th>Add NextGEN Gallery Tags</th>
-				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
-				<td><p>If the featured or default image is from a NextGEN Gallery, then add the image's tags to the Open Graph tag list. Default is unchecked.</p></td>
-			</tr>
-			<?php	endif; ?>
 			<tr>
 				<th>Author URL</th>
 				<td><?php
 					$author_url = array(
-						'index' => 'Author Index Webpage',
-						'website' => 'Profile Website',
+						'author' => 'Author Index Webpage',
+						'url' => 'Website from Profile',
 					);
 					if ( class_exists( 'GPAISRProfile' ) )
-						$author_url['gplus_link'] = 'Google+ Profile';
-					$this->select( 'og_author_url', $author_url ); ?></td>
-				<td><p>Select the URL to use in the Open Graph author meta tag. The default is the author's index webpage at "<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>". You can also use the author's website in their profile -- if the website field is empty, then the author's index webpage will be used instead. 
+						$author_url['gplus_link'] = 'Google+ Link';
+					$this->select( 'og_author_field', $author_url ); ?></td>
+				<td><p>Select the URL to use in the Open Graph author meta tag. You can use the author's website URL from their user profile, or the author's index webpage at "<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>". If the website field is empty, then the author's index webpage will be used. The URL should point to an author's <em>personal</em> website or social page. In order to associate Google Search results with the author's Google+ profile, the recommended URL value is a <em>personal</em> Google+ page. See the Head Link Settings bellow to define a common <em>publisher</em> URL for all webpages.
 				<?php if ( class_exists( 'GPAISRProfile' ) ): ?>
-				The <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> plugin has been detected. You may choose to use the author's Google+ profile in the Open Graph author meta tag.
+				The <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> plugin has been detected. You may choose to use the Google+ Link from the author's profile.
 				<?php endif; ?>
 				</p></td>
 			</tr>
@@ -222,60 +228,102 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to None (the default).</p></td>
 			</tr>
 			<tr>
-				<th>Max Title Length</th>
-				<td><input type="text" name="ngfb_options[og_title_len]" class="number"
-					value="<?php echo $ngfb->options['og_title_len']; ?>" /> Characters
-				</td><td>
-				<p>The maximum length of text used in the Open Graph title tag (default is 100 characters).</p>
+				<th>Image Size Name</th>
+				<td><?php $this->select_img_size( 'og_img_size' ); ?></td>
+				<td><p>The <a href="options-media.php">Media Settings</a> "size name" for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'), 'x', get_option('thumbnail_size_h'), ', ', get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or another size name like "medium", "large", etc. Choose a size name that is at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the Media Settings admin webpage. I would suggest creating a "facebook-thumbnail" size name of <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p></td>
+			</tr>
+			<tr>
+				<th>Default Image ID</th>
+				<td><?php $this->input( 'og_def_img_id', 'number' ); ?> in the
+					<select name='ngfb_options[og_def_img_id_pre]' style="width:160px;">
+						<option value='' <?php selected($ngfb->options['og_def_img_id_pre'], ''); ?>>Media Library</option>
+						<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
+						<option value='ngg' <?php selected($ngfb->options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
+						<?php	endif; ?>
+					</select>
+				</td>
+				<td><p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
+			</tr>
+			<tr>
+				<th>Default Image URL</th>
+				<td colspan="2"><?php $this->input( 'og_def_img_url', 'wide' ); ?>
+				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
 				</td>
 			</tr>
 			<tr>
-				<th>Max Description Length</th>
-				<td><input type="text" name="ngfb_options[og_desc_len]" class="number"
-					value="<?php echo $ngfb->options['og_desc_len']; ?>" /> Characters
-				</td><td>
-				<p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is 300).</p>
-				</td>
+				<th>Default Image on Indexes</th>
+				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
+				<td><p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the webpage. The default is checked.</p></td>
+			</tr>
+			<tr>
+				<th>Default Image on Search Results</th>
+				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
+				<td><p>Check this box if you would like to use the default image on search result webpages as well (default is checked).</p></td>
+			</tr>
+			<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
+			<tr>
+				<th>Add Featured Image Tags</th>
+				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
+				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, then add the image's tags to the Open Graph tag list (default is checked).</p></td>
+			</tr>
+			<?php	endif; ?>
+			<tr>
+				<th>Add Page Ancestor Tags</th>
+				<td><?php $this->checkbox( 'og_page_ances_tags' ); ?></td>
+				<td><p>Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.</p></td>
+			</tr>
+			<tr>
+				<th>Add Page Titles as Tags</th>
+				<td><?php $this->checkbox( 'og_page_title_tag' ); ?></td>
+				<td><p>Add the title of Pages (and it's ancestors) to the Open Graph tag list as well. This works well if the title of your Pages are short and subject-oriented.</p></td>
+			</tr>
+			<tr>
+				<th>Maximum Number of Images</th>
+				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'number' ); ?></td>
+				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the featured image, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
+			</tr>
+			<tr>
+				<th>Maximum Number of Videos</th>
+				<td><?php $this->select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'number' ); ?></td>
+				<td><p>The maximum number of videos from the content to use in the Open Graph meta property tags (selecting "0" disables all video property tags).</p></td>
+			</tr>
+			<tr>
+				<th>Maxmum Title Length</th>
+				<td><?php $this->input( 'og_title_len', 'number' ); ?> Characters</td>
+				<td><p>The maximum length of text used in the Open Graph title tag (default is 100 characters).</p></td>
+			</tr>
+			<tr>
+				<th>Maxmum Description Length</th>
+				<td><?php $this->input( 'og_desc_len', 'number' ); ?> Characters</td>
+				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is 300).</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
 				<td><?php $this->checkbox( 'og_desc_strip' ); ?></td>
-				<td><p>For a page or post <i>without</i> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in <i>the content</i>. If an excerpt exists, then it's complete text will be used instead.</p></td>
+				<td><p>For a Page or Post <i>without</i> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in <i>the content</i>. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
 				if ( function_exists( 'wikibox_summary' ) ): ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
-				<td><input name="ngfb_options[og_desc_wiki]" type="checkbox" value="1" 
-					<?php checked(1, $ngfb->options['og_desc_wiki']); ?> />
-				</td><td>
-				<p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook OG can ignore the content of your pages when creating the description Open Graph meta tag, and retrieve it from Wikipedia instead. This only aplies to pages - not posts. Here's how it works: The plugin will check for the page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for the tags or title, then the original content of the page will be used.</p>
-				</td>
+				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
+				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook OG can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, then the original content of the Page will be used.</p></td>
 			</tr>
 			<tr>
 				<th>WP-WikiBox Tag Prefix</th>
-				<td><input type="text" name="ngfb_options[og_wiki_tag]" 
-					value="<?php echo $ngfb->options['og_wiki_tag']; ?>" />
-				</td><td>
-				<p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p>
-				</td>
+				<td><?php $this->input( 'og_wiki_tag' ); ?></td>
+				<td><p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p></td>
 			</tr>
 			<?php	endif; ?>
 			<tr>
 				<th>Facebook Admin(s)</th>
-				<td><input type="text" name="ngfb_options[og_admins]" 
-					value="<?php echo $ngfb->options['og_admins']; ?>" />
-				</td><td>
-				<p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those accounts.</p>
-				</td>
+				<td><?php $this->input( 'og_admins' ); ?></td>
+				<td><p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those accounts.</p></td>
 			</tr>
 			<tr>
 				<th>Facebook App ID</th>
-				<td><input type="text" name="ngfb_options[og_app_id]" 
-					value="<?php echo $ngfb->options['og_app_id']; ?>" />
-				</td><td>
-				<p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for accounts associated with the Application ID.</p>
-				</td>
+				<td><?php $this->input( 'og_app_id' ); ?></td>
+				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for accounts associated with the Application ID.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
@@ -288,62 +336,71 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p>NextGEN Facebook OG will add all known Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you may uncheck them here to prevent NextGEN Facebook OG from adding duplicate meta tags.</p>
+				<p>NextGEN Facebook OG will add the following Facebook and Open Graph meta property tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent NextGEN Facebook OG from adding duplicate property tags.</p>
 				</td>
 			</tr>
 			<?php
 				$og_cells = array();
 				$og_rows = array();
-		
 				foreach ( $ngfb->options as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$og_cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
-							<td><input name="ngfb_options['.$opt.']" type="checkbox" 
-								value="1" '.checked(1, $ngfb->options[$opt], false).'/></td>';
+							<td>'. $this->checkbox( $opt, false ) . '</td>';
 				}
 				unset( $opt, $val );
-		
 				$og_per_col = ceil( count( $og_cells ) / $og_cols );
-		
-				foreach ( $og_cells as $num => $cell ) 
-					$og_rows[ $num % $og_per_col ] .= $cell;
+				foreach ( $og_cells as $num => $cell ) $og_rows[ $num % $og_per_col ] .= $cell;
 				unset( $num, $cell );
-		
-				foreach ( $og_rows as $num => $row ) 
-					echo '<tr>', $row, '</tr>', "\n";
+				foreach ( $og_rows as $num => $row ) echo '<tr>', $row, '</tr>', "\n";
 				unset( $num, $row );
 			?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-socialbuttons" class="postbox">
+			<div id="ngfb-head" class="postbox">
+			<h3 class="hndle"><span>Head Link Settings</span></h3>
+			<div class="inside">	
+			<table class="form-table">
+			<tr>
+				<td colspan="4">
+				<p>NextGEN Facebook OG can also include the <em>author</em> and <em>publisher</em> links in your webpage headers. These are used by Google Search to associate an author to search results. The Open Graph meta already has an author property, so enabling the author header link <em>may</em> generate a warning of duplicate tags from some content verification tools. The Open Graph meta tags do not have a publisher property, so you may safely add a publisher URL to your webpage headers. The recommended publisher link is a Google+ URL to a <em>Google+ Page</em> for your website. For example, the publisher URL for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. Enabling these two options, including the duplicate author link, is recommended.</p>
+				</td>
+			</tr>
+			<tr>
+				<th>Add (Duplicate) Author Link</th>
+				<td><?php $this->checkbox( 'link_author' ); ?></td>
+				<td colspan="2"><p></p></td>
+			</tr>
+			<tr>
+				<th>Publisher Link URL</th>
+				<td colspan="2"><?php $this->input( 'link_pub_url', 'wide' ); ?>
+				<p></p></td>
+			</tr>
+			</table>
+			</div><!-- .inside -->
+			</div><!-- .postbox -->
+
+			<div id="ngfb-buttons" class="postbox">
 			<h3 class="hndle"><span>Social Button Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> page for stylesheet examples -- including how to hide the buttons for specific posts, pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (see the <a href="widgets.php">widgets admin page</a> for the widget options).</p>
+				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for stylesheet examples -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (see the <a href="widgets.php">widgets admin webpage</a> for the widget options).</p>
 				</td>
 			</tr>
 			<tr>
 				<th>Include on Index Webpages</th>
-				<td><input name="ngfb_options[buttons_on_home]" type="checkbox" value="1"
-					<?php checked(1, $ngfb->options['buttons_on_home']); ?> />
-				</td>
-				<td colspan="2">
-				<p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p>
-				</td>
+				<td><?php $this->checkbox( 'buttons_on_index' ); ?></td>
+				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
 				if ( function_exists( 'ep_get_excluded_ids' ) ): ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
-				<td><input name="ngfb_options[buttons_on_ex_pages]" type="checkbox" value="1"
-					<?php checked(1, $ngfb->options['buttons_on_ex_pages']); ?> />
-				</td><td colspan="2">
-				<p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded pages. You can over-ride the default and add social buttons to excluded page content by selecting this option.</p>
-				</td>
+				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
+				</td><td colspan="2"><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
 			</tr>
 			<?php	endif; ?>
 			<tr>
@@ -370,10 +427,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'fb_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'fb_order', range( 1, $buttons_count ), 'number' ); ?></td>
 				<!-- Google+ -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'gp_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'gp_order', range( 1, $buttons_count ), 'number' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -469,10 +526,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- LinkedIn -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'linkedin_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'linkedin_order', range( 1, $buttons_count ), 'number' ); ?></td>
 				<!-- Twitter -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'twitter_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'twitter_order', range( 1, $buttons_count ), 'number' ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -517,13 +574,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
 				<!-- Pinterest -->
-				<td colspan="2">
-					<p>The Pinterest "Pin It" button will only appear on posts and pages with a featured image.</p>
-				</td>
+				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a featured image.</p></td>
 				<!-- tumblr -->
-				<td colspan="2">
-					<p>The tumblr button shares featured images, embeded videos, quote post formats, and links to webpages.</p>
-				</td>
+				<td colspan="2"><p>The tumblr button shares featured images, embeded videos, quote post formats, and links to webpages.</p></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -536,10 +589,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'pin_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'pin_order', range( 1, $buttons_count ), 'number' ); ?></td>
 				<!-- tumblr -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'tumblr_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'tumblr_order', range( 1, $buttons_count ), 'number' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -592,19 +645,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Pinterest -->
-				<th>Max Caption Length</th>
-					<td><input type="text" name="ngfb_options[pin_cap_len]" class="number"
-					value="<?php echo $ngfb->options['pin_cap_len']; ?>" /> Characters
-				</td>
+				<th>Maximum Caption Length</th>
+				<td><?php $this->input( 'pin_cap_len', 'number' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
-				<th>Max <u>Link</u> Description Length</th>
-				<td><input type="text" name="ngfb_options[tumblr_desc_len]" class="number"
-					value="<?php echo $ngfb->options['tumblr_desc_len']; ?>" /> Characters
-				</td>
+				<th>Maximum <u>Link</u> Description Length</th>
+				<td><?php $this->input( 'tumblr_desc_len', 'number' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -636,10 +685,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
-				<th>Max Caption Length</th>
-				<td><input type="text" name="ngfb_options[tumblr_cap_len]" class="number"
-					value="<?php echo $ngfb->options['tumblr_cap_len']; ?>" /> Characters
-				</td>
+				<th>Maximum Caption Length</th>
+				<td><?php $this->input( 'tumblr_cap_len', 'number' ); ?> Characters</td>
 			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
@@ -655,7 +702,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- StumbleUpon -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'stumble_order', range( 1, $buttons_count ), 'order' ); ?></td>
+				<td><?php $this->select( 'stumble_order', range( 1, $buttons_count ), 'number' ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumbleUpon -->
@@ -689,8 +736,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 								case '4': echo '</div><div class="badge-col-right">', "\n"; break;
 							}
 							echo '<div class="badge" id="badge-', $i, '">', "\n";
-							echo '<input type="radio" name="ngfb_options[stumble_badge]" 
-									value="', $i, '" ', checked( $i, $ngfb->options['stumble_badge'], false ), '/>', "\n";
+							echo '<input type="radio" name="ngfb_options[stumble_badge]" value="', $i, '" ', 
+								checked( $i, $ngfb->options['stumble_badge'], false ), '/>', "\n";
 							echo '</div>', "\n";
 							switch ( $i ) { case '6': echo '</div>', "\n"; break; }
 						}
@@ -701,7 +748,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-pluginsettings" class="postbox">
+			<div id="ngfb-plugin" class="postbox">
 			<h3 class="hndle"><span>Plugin Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
@@ -716,14 +763,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
-				<th>Filter Content for Meta Tags</th>
+				<th>Apply Content Filters</th>
 				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.</p></td>
+				<td><p>When NextGEN Facebook OG generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
 			</tr>
 			<tr>
-				<th>Ignore Small Images in Content</th>
+				<th>Ignore Small Images</th>
 				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p>If there is no featured image defined, or NextGEN [singlepic] found in the content, the plugin will attempt to use the first IMG HTML tag it finds. The IMG must have a width and height attribute, and it's size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to use smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> page for additional solutions.</p></td>
+				<td><p>If there is no featured image or NextGEN [singlepic] found in the content, the plugin will attempt to use the IMG HTML tags it finds. The IMG HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to use smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
@@ -738,31 +785,37 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		function select( $name, $values = array(), $class = '', $id = '' ) {
 			global $ngfb;
-			$is_assoc = is_numeric( implode( array_keys( $values ) ) ) && $class != 'yesno' ? 0 : 1;
-			echo '<select name="ngfb_options[', $name, ']"';
-			echo empty( $class ) ? '' : ' class="'.$class.'"';
-			echo empty( $id ) ? '' : ' id="'.$id.'"';
-			echo '>', "\n";
+			$is_assoc = $ngfb->is_assoc( $values );
+			echo '<select name="ngfb_options[', $name, ']"',
+				( empty( $class ) ? '' : ' class="'.$class.'"' ),
+				( empty( $id ) ? '' : ' id="'.$id.'"' ), '>', "\n";
 			foreach ( (array) $values as $val => $desc ) {
 				if ( ! $is_assoc ) $val = $desc;
 				echo '<option value="', $val, '"';
 				selected( $ngfb->options[$name], $val );
 				echo '>', $desc;
-				if ( empty( $desc ) ) echo 'None';
+				if ( $desc === '' ) echo 'None';
 				if ( $val == $ngfb->default_options[$name] ) echo ' (default)';
 				echo '</option>', "\n";
 			}
 			echo '</select>';
 		}
 
-		function checkbox( $name, $check = array( '1', '0' ) ) {
+		function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
 			global $ngfb;
-			echo '<input name="ngfb_options[', $name, ']" type="checkbox" value="', $check[0], '"';
-			checked( $ngfb->options[$name], $check[0] );
-			echo ' title="Default is ';
-			echo $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked';
-			echo '" />';
-			echo "</small>";
+			$input = '<input name="ngfb_options[' . $name . ']" type="checkbox" value="' . $check[0] . '"' .
+				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
+				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" /></small>';
+			if ( $echo ) echo $input;
+			else return $input;
+		}
+
+		function input( $name, $class = '', $id = '' ) {
+			global $ngfb;
+			echo '<input type="text" name="ngfb_options[', $name, ']"',
+				( empty( $class ) ? '' : ' class="'.$class.'"' ),
+				( empty( $id ) ? '' : ' id="'.$id.'"' ),
+				' value="', $ngfb->options[$name], '" />';
 		}
 
 		function select_img_size( $name ) {
@@ -773,7 +826,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<select name="ngfb_options[', $name, ']">', "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
-				$size = ngfb_get_size_values( $size_name );
+				$size = $ngfb->get_size_values( $size_name );
 				echo '<option value="', $size_name, '" ', 
 					selected( $ngfb->options[$name], $size_name, false ), '>', 
 					$size_name, ' [ ', $size['width'], 'x', $size['height'],

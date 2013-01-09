@@ -6,52 +6,70 @@ Tested up to: 3.5
 Stable tag: 2.4
 License: GPLv3 or later
 
-Adds Open Graph meta tags for Facebook, G+, LinkedIn, etc., plus sharing buttons for FB, G+, Twitter, LinkedIn, Pinterest, tumblr.
+Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
 
 == Description ==
 
-The NextGEN Facebook OG plugin adds <a href="http://ogp.me/" target="_blank">Open Graph</a> meta tags to all webpage headers, including the "artical" object type for posts and pages. The featured image thumbnails, from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library, are also correctly listed in the "image" meta tag. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. <em>You can also, optionally, add Facebook, Google+, Twitter, LinkedIn, Pinterest and tumblr sharing buttons to post and page content (above or bellow), as a widget, or even use a function from your templates</em>.
+<em>The <a href="http://ogp.me/" target="_blank">Open Graph</a> protocol allows any webpage to become a rich object in a social setting. For instance, this is used on Facebook to allow any webpage to have the same functionality as other objects on Facebook. The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.</em>
 
-The Open Graph protocol enables any web page to become a rich object in a social graph. For instance, this is used on Facebook to allow any web page to have the same functionality as any other object on Facebook. The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.
+NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for posts and pages. The featured image from a <a href="http://wordpress.org/extend/plugins/nextgen-gallery/" target="_blank">NextGEN Gallery</a> or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
 
-NextGEN Facebook OG was specifically written to support featured images located in NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it.</strong> The image used in the Open Graph meta tag is chosen in this sequence; a featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings.  If none of these conditions can be satisfied, then the Open Graph image tag will be left empty.
+<ul>
+<li>Facebook</li>
+<li>Google+</li>
+<li>Twitter</li>
+<li>LinkedIn</li>
+<li>Pinterest</li>
+<li>tumblr</li>
+<li>StumbleUpon</li>
+</ul>
 
-Here's an example of Open Graph meta tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
+NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>.
+
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.
+
+Here's an example of Open Graph meta property tags for a post on my website titled "<a href="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/">Wordpress Caching and Plugins for Performance</a>":
 
 <code>
 &lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
-&lt;meta property="article:author" content="http://surniaulula.com/author/jsmoriss/" /&gt;
-&lt;meta property="article:modified_time" content="2012-12-03T12:33:18+00:00" /&gt;
+&lt;link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" /&gt;
+&lt;link rel="author" href="https://plus.google.com/104808665690163182693/posts" /&gt;
+&lt;meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" /&gt;
+&lt;meta property="article:modified_time" content="2013-01-04T08:11:02+00:00" /&gt;
 &lt;meta property="article:published_time" content="2012-12-01T15:34:56+00:00" /&gt;
 &lt;meta property="article:section" content="Technology" /&gt;
-&lt;meta property="article:tag" content="apache" /&gt;
-&lt;meta property="article:tag" content="apc" /&gt;
-&lt;meta property="article:tag" content="bandwidth" /&gt;
-&lt;meta property="article:tag" content="cache" /&gt;
-&lt;meta property="article:tag" content="caching" /&gt;
-&lt;meta property="article:tag" content="cdn" /&gt;
-&lt;meta property="article:tag" content="content delivery network" /&gt;
-&lt;meta property="article:tag" content="httpd" /&gt;
-&lt;meta property="article:tag" content="linux" /&gt;
-&lt;meta property="article:tag" content="memcached" /&gt;
-&lt;meta property="article:tag" content="opcode" /&gt;
-&lt;meta property="article:tag" content="performance" /&gt;
-&lt;meta property="article:tag" content="php" /&gt;
-&lt;meta property="article:tag" content="plugins" /&gt;
-&lt;meta property="article:tag" content="rewrite" /&gt;
-&lt;meta property="article:tag" content="static content" /&gt;
-&lt;meta property="article:tag" content="wordpress" /&gt;
+&lt;!-- article:tag:1 --&gt;lt;meta property="article:tag" content="apache" /&gt;
+&lt;!-- article:tag:2 --&gt;&lt;meta property="article:tag" content="apache httpd" /&gt;
+&lt;!-- article:tag:3 --&gt;&lt;meta property="article:tag" content="apc" /&gt;
+&lt;!-- article:tag:4 --&gt;&lt;meta property="article:tag" content="bandwidth" /&gt;
+&lt;!-- article:tag:5 --&gt;&lt;meta property="article:tag" content="cache" /&gt;
+&lt;!-- article:tag:6 --&gt;&lt;meta property="article:tag" content="cache servers" /&gt;
+&lt;!-- article:tag:7 --&gt;&lt;meta property="article:tag" content="caching" /&gt;
+&lt;!-- article:tag:8 --&gt;&lt;meta property="article:tag" content="cdn" /&gt;
+&lt;!-- article:tag:9 --&gt;&lt;meta property="article:tag" content="content delivery network" /&gt;
+&lt;!-- article:tag:10 --&gt;&lt;meta property="article:tag" content="httpd" /&gt;
+&lt;!-- article:tag:11 --&gt;&lt;meta property="article:tag" content="linux" /&gt;
+&lt;!-- article:tag:12 --&gt;&lt;meta property="article:tag" content="memcached" /&gt;
+&lt;!-- article:tag:13 --&gt;&lt;meta property="article:tag" content="opcode" /&gt;
+&lt;!-- article:tag:14 --&gt;&lt;meta property="article:tag" content="performance" /&gt;
+&lt;!-- article:tag:15 --&gt;&lt;meta property="article:tag" content="performance gain" /&gt;
+&lt;!-- article:tag:16 --&gt;&lt;meta property="article:tag" content="php" /&gt;
+&lt;!-- article:tag:17 --&gt;&lt;meta property="article:tag" content="php.ini" /&gt;
+&lt;!-- article:tag:18 --&gt;&lt;meta property="article:tag" content="plugins" /&gt;
+&lt;!-- article:tag:19 --&gt;&lt;meta property="article:tag" content="rewrite" /&gt;
+&lt;!-- article:tag:20 --&gt;&lt;meta property="article:tag" content="static content" /&gt;
+&lt;!-- article:tag:21 --&gt;&lt;meta property="article:tag" content="wordpress" /&gt;
 &lt;meta property="fb:app_id" content="525239184171769" /&gt;
-&lt;meta property="og:description" content="Over the past few weeks I&#039;ve been looking at different solutions to improve the speed of my Wordpress websites. The first step was to mirror and redirect the static content to another server (aka Content Delivery Network or CDN). In the case of PHP and Wordpress, there are several additional" /&gt;
-&lt;meta property="og:image" content="http://cdn1.static.surniaulula.com/wp-content/gallery/cache/5_crop_200x200_20120814-114043-sbellive-0078.jpg" /&gt;
+&lt;meta property="og:description" content="Over the past few weeks I&#8217;ve been looking at different solutions to improve the speed of my WordPress websites. The first step was to mirror and redirect the static content to another server (aka Content Delivery Network or CDN). In the case of PHP and WordPress, there are several..." /&gt;
+&lt;!-- og:image:1 --&gt;&lt;meta property="og:image" content="http://surniaulula.com/wp-content/gallery/cache/5_crop_300x300_20120814-114043-sbellive-0078.jpg" /&gt;
 &lt;meta property="og:site_name" content="Surnia Ulula" /&gt;
-&lt;meta property="og:title" content="Wordpress Caching and Plugins for Performance" /&gt;
+&lt;meta property="og:title" content="WordPress Caching and Plugins for Performance" /&gt;
 &lt;meta property="og:type" content="article" /&gt;
 &lt;meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" /&gt;
 &lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
 </code>
 
-NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ Page</a> for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.
+NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/">Other Notes</a> pages for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">Support Page</a>. Your comment or suggestion will be answered in a timely manner.
 
 == Installation ==
 
@@ -73,7 +91,7 @@ NextGEN Facebook OG is being actively developed and supported. You can review th
 
 Once activated, you don't have to configure any settings for NextGEN Facebook OG to automatically start adding Open Graph meta tags to your pages.
 
-Some plugin options are available under the "Settings -&gt; NextGEN Facebook" admin menu, to select a default image, include social buttons at the end of posts and pages, change the shared thumbnail image size, etc.
+Some plugin options are available under the <em>Settings -&gt; NextGEN Facebook</em> admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
 
 == Frequently Asked Questions ==
 
@@ -89,7 +107,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>. You may also want to link your WordPress authors with their Google+ profiles by using one of the available plugins, like <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> or others like it.
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank">Rich Snippets Testing Tool</a>.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
@@ -97,7 +115,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. The <a href="http://validator.w3.org/" target="_blank">W3C Markup Validation Service</a> says "there is no attribute '<em>property</em>'". =
 
-**A.** The Facebook / Open Graph &lt;meta property="" /&gt; attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
+**A.** The Facebook / Open Graph meta <em>property</em> attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
 
 If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
 
@@ -105,11 +123,13 @@ If you want to address the W3C validator error, you'll have to change the DOCTYP
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
 </code>
 
-= Q. Why does NextGEN Facebook OG ignore the IMG HTML tag in my content? =
+= Q. Why does NextGEN Facebook OG ignore the IMG HTML tags in my content? =
 
-**A.**  The image used in the Open Graph meta tag is chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, the first NextGEN [singlepic] or IMG HTML tag in the content, a default image defined in the plugin settings. If the IMG HTML tag is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only share an image equal to, or larger than, the 'Image Size Name' you've chosen.
+**A.** The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. 
 
-If you want to display small image thumbnails in your content (on index webpages, for example), but also want NextGEN Facebook OG to use a larger version of the first thumbnail it finds, then you can add a "share" attribute with a URL to the larger image. For example:
+If one or more IMG HTML tags is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+
+If you want to display small image thumbnails in your content (on index webpages, for example), and have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
 
 <code>
 &lt;img
@@ -118,7 +138,7 @@ If you want to display small image thumbnails in your content (on index webpages
     width="150" height="150" /&gt;
 </code>
 
-The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG tag, and would like NextGEN Facebook OG to share smaller IMG thumbnails, you can uncheck the "Ignore Small Images in Content" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the wp_head() function).
+The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the wp_head() function).
 
 <code>
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
@@ -133,7 +153,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 <li><a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.</li>
 
-<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URL for Pinterest and tumblr.</li>
+<li><a href="https://github.com/wmark/CDN-Linker/downloads" target="_blank">CDN Linker</a> : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and tumblr.</li>
 
 <li><a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> : If the GPAISR plugin is active, you may choose to use the author's Google+ profile in the "Author URL" option.</li>
 </ul>
@@ -144,10 +164,23 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Changelog ==
 
+= Version 3.0 (2013-01-10) =
+* Major code changes finished - all code has been moved to object-oriented classes. NGFB is 2,300 lines of PHP code in 4 classes with 74 functions.
+* Added the ngfbButtons class in lib/buttons.php.
+* Added a version string in the database options to skip option updates if the options are current.
+* NextGEN Facebook OG now finds and uses all images from the content to present in the Open Graph meta tags.
+* Added the "Maximum Number of Images" and "Maximum Number of Videos" options to limit the number of images and videos listed in the Open Graph meta tags.
+* Added the NGFB_MAX_IMG_OG and NGFB_MAX_VOD_OG constants to define the maximum range in the option selects.
+* Added the "Add Page Ancestor Tags" and "Add Page Titles as Tags" options.
+* Added a Head Link Settings section on the settings page, with the "Add (Duplicate) Author Link" and "Publisher Link URL" options.
+* Improved debugging output with a debug function and dump of the OG array.
+* Added a "Performance Tuning" section in the readme.txt.
+* Added a Donate button on the options page. Please show your appreciation for NextGEN Facebook OG by donating a few dollars. Thank you.
+
 = Version 2.4 (2013-01-06) =
-* Improved the admin page code by moving all select and checbox options to functions. The drop-down selects and checkboxes now show their default values.
+* Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
 * Moved the $options variable related functions into the NGFB class.
-* Added the "Author URL" option to allow for the Website value in teh profile, and the GPAISR plugin for Google+.
+* Added the "Author URL" option to allow for the Website value in the profile, and the GPAISR plugin for Google+.
 * Added the "Default Author" option to add an author meta tag on indexes without content.
 * Added the "Ignore Small Images in Content" to disable the default behavior of NGFB to ignore smaller images in the content.
 
@@ -270,6 +303,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.0 =
+Major code changes and several new features: List several images/videos, and add Page ancestor tags, in the OG meta tags. Head Link options for Google. "Performance Tuning" section in Other Notes.
+
 = Version 2.4 =
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization / overhaul. Please report any issues to the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB support page</a>.
 
@@ -343,7 +379,7 @@ div.stumbleupon-button { margin-right:15px; }
 div.tumblr-button { margin-right:10px; }
 </code>
 
-The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget. For example, here are different styles for social buttons in a widget and added to the content.
+The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. For example, here are different styles for social buttons in a widget and added to the content.
 
 <code>
 .nbfg-widget-buttons .ngfb-buttons { 
@@ -361,7 +397,7 @@ The "NGFB Social Buttons" widget adds an extra class name that you can use to cr
 
 = Hide Social Buttons =
 
-You can hide the social buttons, or pretty much any object, in a page or post by using "display:none" in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- your content should be wrapped in a &lt;div&gt; HTML tag similar to this one:
+You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a &lt;div&gt; HTML tag similar to this one:
 
 <code>
 &lt;div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123"&gt;
@@ -389,7 +425,7 @@ The ngfb_get_social_buttons() function can be used to include social buttons any
 	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?&gt;
 </code>
 
-Social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest" and "tumblr".
+The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
 
 You can also use the ngfb_get_social_buttons() function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the $post variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 
@@ -416,4 +452,14 @@ if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
 }
 wp_head();
 </code>
+
+= Performance Tuning =
+
+The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
+
+* If your content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
+
+* If you generally define a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image will count as the "1" image and the plugin will stop there).
+
+* For posts and pages, the content text is used to define the Open Graph description meta property value, if no excerpt is available. If you generally don't use excerpts, and your content does not rely on shortcodes to render it's text, you may uncheck the "Apply Content Filters" option.
 
