@@ -37,8 +37,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'linkedin' => 'Linkedin',
 			'pinterest' => 'Pinterest',
 			'stumbleupon' => 'StumbleUpon',
-			'tumblr' => 'Tumblr',
-		);
+			'tumblr' => 'Tumblr' );
 		var $social_options_prefix = array(
 			'facebook' => 'fb', 
 			'gplus' => 'gp',
@@ -46,8 +45,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'linkedin' => 'linkedin',
 			'pinterest' => 'pin',
 			'stumbleupon' => 'stumble',
-			'tumblr' => 'tumblr',
-		);
+			'tumblr' => 'tumblr' );
 		var $options = array();
 		var $default_options = array(
 			'link_author_field' => 'gplus',
@@ -137,8 +135,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'ngfb_reset' => '',
 			'ngfb_debug' => '',
 			'ngfb_filter_content' => '1',
-			'ngfb_skip_small_img' => '1',
-		);
+			'ngfb_skip_small_img' => '1' );
 
 		function NGFB() {
 
@@ -149,9 +146,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
 			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
-			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall') );
+			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall' ) );
 
-			add_action( 'init', array( &$this, 'init_tests' ) );
+			add_action( 'init', array( &$this, 'init_action_tests' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'wp_head', array( &$this, 'add_head_meta' ), NGFB_HEAD_PRIORITY );
@@ -161,13 +158,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
 	
-		function init_tests() {
+		function init_action_tests() {
 			if ( $this->options['ngfb_debug'] ) {
 				echo '<!-- NextGEN Facebook OG ', $this->version, ' Plugin Loaded -->', "\n";
-				foreach ( array( 'wp_head', 'wp_footer', 'the_content' ) as $hook ) {
+				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
-						add_action( $hook, create_function( '', 
-							"echo '<!-- NextGEN Facebook OG add_action(\'$hook\') Test : Priority $prio = Passed -->', \"\\n\";" ), $prio );
+						add_action( $action, create_function( '', 
+							"echo '<!-- NextGEN Facebook OG add_action(\'$action\') Test : Priority $prio = Passed -->', \"\\n\";" ), $prio );
 				}
 			}
 		}
@@ -281,13 +278,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 					'og_def_home' => 'og_def_img_on_index',
 					'og_def_on_home' => 'og_def_img_on_index',
 					'og_def_on_search' => 'og_def_img_on_search',
-					'buttons_on_home' => 'buttons_on_index',
-				) as $old => $new ) {
+					'buttons_on_home' => 'buttons_on_index'
+				) as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
 						$opts[$new] = $opts[$old];
 						delete_option( $opts[$old] );
 					}
-				}
+				
 				// default values for new options
 				foreach ( $this->default_options as $def_key => $def_val )
 					if ( $def_key && ! array_key_exists( $def_key, $opts ) ) 
@@ -305,25 +302,26 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
 
 			// sanitize the option by stipping off any leading URLs (leaving just the account names)
-			foreach ( array( 
-				'og_admins', 
-			) as $opt ) $opts[$opt] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $opts[$opt] ) );
+			foreach ( array( 'og_admins' ) as $opt ) 
+				$opts[$opt] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $opts[$opt] ) );
 
 			// options that must be a URL
 			foreach ( array( 
 				'link_publisher_url',
-				'og_def_img_url',
-			) as $opt ) if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
-				$opts[$opt] = $this->default_options[$opt];
+				'og_def_img_url'
+			) as $opt ) 
+				if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
+					$opts[$opt] = $this->default_options[$opt];
 
 			// options that must be numeric (blank or zero is ok)
 			foreach ( array( 
 				'og_img_max', 
 				'og_vid_max', 
 				'og_def_img_id',
-				'og_def_author_id',
-			) as $opt ) if ( $opts[$opt] && ! is_numeric( $opts[$opt] ) ) 
-				$opts[$opt] = $this->default_options[$opt];
+				'og_def_author_id'
+			) as $opt ) 
+				if ( $opts[$opt] && ! is_numeric( $opts[$opt] ) ) 
+					$opts[$opt] = $this->default_options[$opt];
 
 			// integer options that cannot be zero
 			foreach ( array( 
@@ -339,9 +337,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'tumblr_desc_len', 
 				'tumblr_cap_len',
 				'stumble_order', 
-				'stumble_badge',
-			) as $opt ) if ( ! $opts[$opt] || ! is_numeric( $opts[$opt] ) )
-				$opts[$opt] = $this->default_options[$opt];
+				'stumble_badge'
+			) as $opt ) 
+				if ( ! $opts[$opt] || ! is_numeric( $opts[$opt] ) )
+					$opts[$opt] = $this->default_options[$opt];
 
 			if ( $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
 				$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
@@ -363,7 +362,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'pin_caption',
 				'tumblr_button_style',
 				'tumblr_img_size',
-				'tumblr_caption',
+				'tumblr_caption'
 			) as $opt ) {
 				$opts[$opt] = wp_filter_nohtml_kses( $opts[$opt] );
 				if ( ! $opts[$opt] ) $opts[$opt] = $this->default_options[$opt];
@@ -413,10 +412,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'ngfb_reset',
 				'ngfb_debug',
 				'ngfb_filter_content',
-				'ngfb_skip_small_img',
-			) as $opt ) { 
+				'ngfb_skip_small_img'
+			) as $opt )
 				$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
-			}
+
 			return $opts;
 		}
 
@@ -516,7 +515,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					'owner'		=> '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
 					'creators'	=> '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
 					'keywords'	=> '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
-					'hierarchs'	=> '<lr:hierarchicalSubject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/lr:hierarchicalSubject>',
+					'hierarchs'	=> '<lr:hierarchicalSubject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/lr:hierarchicalSubject>'
 				) as $key => $regex ) {
 
 					// get a single text string
