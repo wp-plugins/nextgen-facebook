@@ -278,7 +278,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 				}
 				// default values for new options
 				foreach ( $this->default_options as $def_key => $def_val )
-					if ( ! array_key_exists( $def_key, $opts ) ) $opts[$def_key] = $def_val;
+					if ( $def_key && ! array_key_exists( $def_key, $opts ) ) 
+						$opts[$def_key] = $def_val;
 				unset( $def_key, $def_val );
 			}
 			ksort( $opts );
