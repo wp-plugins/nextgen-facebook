@@ -151,15 +151,27 @@ if ( ! class_exists( 'NGFB' ) ) {
 			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
 			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall') );
 
+			add_action( 'init', array( &$this, 'init_tests' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'wp_head', array( &$this, 'add_meta_tags' ), NGFB_HEAD_PRIORITY );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-			add_filter( 'wp_footer', array( &$this, 'add_content_footer' ), NGFB_FOOTER_PRIORITY );
+			add_filter( 'wp_footer', array( &$this, 'add_buttons_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
-		
+	
+		function init_tests() {
+			if ( $this->options['ngfb_debug'] ) {
+				echo '<!-- NextGEN Facebook OG ', $this->version, ' Plugin Loaded -->', "\n";
+				foreach ( array( 'wp_head', 'wp_footer' ) as $hook ) {
+					foreach ( array( 1, 9999 ) as $prio )
+						add_action( $hook, create_function( '', 
+							"echo \"\\n\", '<!-- NextGEN Facebook OG $hook() Test : Priority $prio = Passed -->', \"\\n\\n\";" ), $prio );
+				}
+			}
+		}
+
 		function define_constants() { 
 			global $wp_version;
 
@@ -436,7 +448,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $content;
 		}
 
-		function add_content_footer() {
+		function add_buttons_footer() {
 			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
