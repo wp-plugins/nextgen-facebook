@@ -28,7 +28,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 	class NGFB {
 
 		var $debug = array();
-		var $version = '3.0';
+		var $version = '2.9';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
