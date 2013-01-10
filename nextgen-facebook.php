@@ -50,8 +50,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 		);
 		var $options = array();
 		var $default_options = array(
-			'link_author' => '',
-			'link_pub_url' => '',
+			'link_author_field' => 'gplus',
+			'link_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_size' => 'thumbnail',
 			'og_img_max' => '1',
@@ -64,7 +64,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'og_ngg_tags' => '1',
 			'og_page_parent_tags' => '',
 			'og_page_title_tag' => '',
-			'og_author_field' => 'url',
+			'og_author_field' => 'facebook',
 			'og_def_author_id' => '',
 			'og_title_len' => '100',
 			'og_desc_len' => '300',
@@ -157,6 +157,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 			add_filter( 'wp_footer', array( &$this, 'add_content_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
+			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
 		
 		function define_constants() { 
@@ -192,6 +193,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			if ( ! defined( 'NGFB_MAX_VID_OG' ) )
 				define( 'NGFB_MAX_VID_OG', 20 );
+
+			if ( ! defined( 'NGFB_AUTHOR_SUBDIR' ) )
+				define( 'NGFB_AUTHOR_SUBDIR', 'author' );
+
+			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
+				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
 		}
 
 		function load_dependencies() {
@@ -202,6 +209,15 @@ if ( ! class_exists( 'NGFB' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->ngfbAdmin = new ngfbAdmin();
 			}
+		}
+
+		function user_contactmethods( $fields = array() ) { 
+			foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
+				$field_name = preg_split( '/ *: */', $field_list );
+				$fields[$field_name[0]] = $field_name[1];
+			}
+			ksort( $fields, SORT_STRING );
+			return $fields;
 		}
 
 		function require_wordpress_version() {
@@ -282,7 +298,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			// options that must be a URL
 			foreach ( array( 
-				'link_pub_url',
+				'link_publisher_url',
 				'og_def_img_url',
 			) as $opt ) if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
 				$opts[$opt] = $this->default_options[$opt];
@@ -319,6 +335,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			// options that cannot be blank
 			foreach ( array( 
+				'link_author_field',
 				'og_img_size', 
 				'og_author_field',
 				'buttons_location', 
@@ -341,7 +358,6 @@ if ( ! class_exists( 'NGFB' ) ) {
 		
 			// true/false options
 			foreach ( array( 
-				'link_author',
 				'og_def_img_on_index',
 				'og_def_img_on_search',
 				'og_ngg_tags',
@@ -452,14 +468,22 @@ if ( ! class_exists( 'NGFB' ) ) {
 			echo ' -->';
 		}
 
-		function get_author_url( $author_id ) {
-			switch ( $this->options['og_author_field'] ) {
-				case 'url':
-				case 'gplus_link':
-					$url = get_the_author_meta( $this->options['og_author_field'], $author_id );
+		function get_author_url( $author_id, $field_name = 'url' ) {
+			switch ( $field_name ) {
+				case 'none':
+					break;
+				case 'index':
+					$url = trailingslashit( site_url() ) . NGFB_AUTHOR_SUBDIR . 
+						'/' . get_the_author_meta( 'user_login', $author_id ) . '/';
+					break;
+				default:
+					$url = get_the_author_meta( $field_name, $author_id );
+					// if empty or not a URL, then use the author index page
+					if ( empty( $url ) || ! preg_match( '/:\/\//', $url ) )
+						$url = trailingslashit( site_url() ) . NGFB_AUTHOR_SUBDIR .
+							'/' . get_the_author_meta( 'user_login', $author_id ) . '/';
 					break;
 			}
-			if ( ! $url ) $url = trailingslashit( site_url() ) . 'author/' . get_the_author_meta( 'user_login', $author_id ) . '/';
 			return $url;
 		}
 
@@ -905,9 +929,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 				$og['article:modified_time'] = get_the_modified_date('c');
 				$og['article:published_time'] = get_the_date('c');
 				if ( $post->post_author )
-					$og['article:author'] = $this->get_author_url( $post->post_author );
+					$og['article:author'] = $this->get_author_url( $post->post_author, 
+						$this->options['og_author_field'] );
 				elseif ( $this->options['og_def_author_id'] )
-					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'] );
+					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
+						$this->options['og_author_field'] );
 			} else $og['og:type'] = "website";
 		
 			// add the Open Graph meta tags
@@ -915,16 +941,23 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function og_meta_html( &$arr = array() ) {
+			global $post;
+			$author_url = '';
 			// output whatever debug info we have before printing the open graph meta tags
 			if ( $this->options['ngfb_debug'] ) $this->debug_msg( __FUNCTION__ , $this->debug );
 			if ( $this->options['ngfb_debug'] ) $this->debug_msg( __FUNCTION__ , "\n".print_r( $arr, true ) );
 		
 			echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
-			if ( $this->options['link_pub_url'] )
-				echo '<link rel="publisher" href="', $this->options['link_pub_url'], '" />', "\n";
+			if ( $this->options['link_publisher_url'] )
+				echo '<link rel="publisher" href="', $this->options['link_publisher_url'], '" />', "\n";
 
-			if ( $this->options['link_author'] && $arr['article:author'] )
-				echo '<link rel="author" href="', $arr['article:author'], '" />', "\n";
+			if ( $post->post_author )
+				$author_url = $this->get_author_url( $post->post_author, 
+					$this->options['link_author_field'] );
+			elseif ( $this->options['og_def_author_id'] )
+				$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
+					$this->options['link_author_field'] );
+			if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
 
 			ksort( $arr );
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
@@ -949,7 +982,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$meta = '';
 			if ( $this->options['inc_'.$name] && $val ) {
 				$charset = get_bloginfo( 'charset' );
-				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), ENT_QUOTES, $charset, false );
+				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), 
+					ENT_QUOTES, $charset, false );
 				if ( $cmt ) $meta .= "<!-- $cmt -->";
 				$meta .= '<meta property="' . $name . '" content="' . $val . '" />';
 				$meta .= "\n";
@@ -1061,13 +1095,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function str_decode( $str ) {
-			$str = preg_replace('/&#8230;/', '...', $str );
-			return preg_replace('/&#\d{2,5};/ue', array( &$this, "utf8_entity_decode( '$0' )" ), $str );
-		}
-
-		function utf8_entity_decode( $entity ) {
-			$convmap = array( 0x0, 0x10000, 0, 0xfffff );
-			return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
+			$str = preg_replace( '/&#8230;/', '...', $str );
+			return preg_replace( '/&#\d{2,5};/ue', "ngfb_utf8_entity_decode( '$0' )", $str );
 		}
 
 	}
@@ -1088,6 +1117,13 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $attr = array() ) {
 		global $ngfb;
 		return $ngfb->get_social_buttons( $ids, $attr );
+	}
+}
+
+if ( ! function_exists( 'ngfb_utf8_entity_decode' ) ) {
+	function ngfb_utf8_entity_decode( $entity ) {
+		$convmap = array( 0x0, 0x10000, 0, 0xfffff );
+		return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 	}
 }
 

@@ -200,19 +200,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Author URL</th>
-				<td><?php
-					$author_url = array(
-						'author' => 'Author Index Webpage',
-						'url' => 'Website from Profile',
-					);
-					if ( class_exists( 'GPAISRProfile' ) )
-						$author_url['gplus_link'] = 'Google+ Link';
-					$this->select( 'og_author_field', $author_url ); ?></td>
-				<td><p>Select the URL to use in the Open Graph author meta tag. You can use the author's website URL from their user profile, or the author's index webpage at "<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>". If the website field is empty, then the author's index webpage will be used. The URL should point to an author's <em>personal</em> website or social page. In order to associate Google Search results with the author's Google+ profile, the recommended URL value is a <em>personal</em> Google+ page. See the Head Link Settings bellow to define a common <em>publisher</em> URL for all webpages.
-				<?php if ( class_exists( 'GPAISRProfile' ) ): ?>
-				The <a href="http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/" target="_blank">Google Plus Author Information in Search Result (GPAISR)</a> plugin has been detected. You may choose to use the Google+ Link from the author's profile.
-				<?php endif; ?>
-				</p></td>
+				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
+				<td><p>Select the profile field for the Open Graph author property tag. You can use the author's Website, Facebook, Google+, or the index webpage at "<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>". If the selected profile field is empty, then the author's index webpage will be used. The URL should point to an author's <em>personal</em> website or social page. See the Head Link Settings bellow to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -364,17 +353,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p>NextGEN Facebook OG can also include the <em>author</em> and <em>publisher</em> links in your webpage headers. These are used by Google Search to associate an author to search results. The Open Graph meta already has an author property, so enabling the author header link <em>may</em> generate a warning of duplicate tags from some content verification tools. The Open Graph meta tags do not have a publisher property, so you may safely add a publisher URL to your webpage headers. The recommended publisher link is a Google+ URL to a <em>Google+ Page</em> for your website. For example, the publisher URL for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. Enabling these two options, including the duplicate author link, is recommended.</p>
+				<p>NextGEN Facebook OG can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
 				</td>
 			</tr>
 			<tr>
-				<th>Add (Duplicate) Author Link</th>
-				<td><?php $this->checkbox( 'link_author' ); ?></td>
+				<th>Author Link URL</th>
+				<td><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
 				<td colspan="2"><p></p></td>
 			</tr>
 			<tr>
 				<th>Publisher Link URL</th>
-				<td colspan="2"><?php $this->input( 'link_pub_url', 'wide' ); ?>
+				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?>
 				<p></p></td>
 			</tr>
 			</table>
@@ -836,6 +825,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			unset ( $size_name );
 			echo '</select>';
+		}
+
+		function author_fields() {
+			global $ngfb;
+			return $ngfb->user_contactmethods( 
+				array( 'none' => 'None', 'author' => 'Author Index', 'url' => 'Website' ) 
+			);
 		}
 	}
 }
