@@ -145,6 +145,121 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 * [Google Plus Author Information in Search Result (GPAISR)](http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/) : If the GPAISR plugin is active, you may choose to use the author's Google+ profile in the "Author URL" option.
 
+== Stylesheets ==
+
+= Social Buttons Style =
+
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past.
+
+`
+.ngfb-buttons { 
+	clear:both;
+	display:block;
+	text-align:center; 
+	margin:20px 0 20px 0;
+}
+.ngfb-buttons img { border:none; }
+.ngfb-buttons img:hover { border:none; }
+.ngfb-buttons > div { 
+	display:inline-block;
+	vertical-align:bottom;
+	height:20px;
+	padding:0;
+	margin:0;
+}
+div.facebook-button { margin-right:15px; }
+div.gplus-button { margin-right:-20px; }
+div.twitter-button { margin-right:-20px; }
+div.linkedin-button { margin-right:10px; }
+div.pinterest-button { margin-right:30px; }
+div.stumbleupon-button { margin-right:15px; }
+div.tumblr-button { margin-right:10px; }
+`
+
+The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. For example, here are different styles for social buttons in a widget and added to the content.
+
+`
+.nbfg-widget-buttons .ngfb-buttons { 
+	display:inline-block;
+	text-align:right; 
+	margin:5px;
+}
+.ngfb-content-buttons .ngfb-buttons { 
+        padding:5px;
+        margin:20px auto 20px auto;
+        background-color:#eee;
+        box-shadow:0 0 5px #aaa;
+}
+`
+
+= Hide Social Buttons =
+
+You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
+
+`
+<div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
+	The Content Text
+</div>
+`
+
+You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
+
+`
+.post-123 .ngfb-buttons,
+.category-test .ngfb-buttons,
+.format-aside .ngfb-buttons,
+.format-status .ngfb-buttons { display:none; }
+`
+
+== Advanced Usage ==
+
+= Include Social Buttons from Template File(s) =
+
+The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
+
+`
+<?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
+	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
+`
+
+The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
+
+You can also use the `ngfb_get_social_buttons()` function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
+
+`
+if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
+	$url = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr'),
+		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
+}
+`
+
+This creates a Pinterest and tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and tumblr, only need the URL defined.
+
+= Disable Open Graph Meta Tags =
+
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+
+`
+if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
+	global $nggSearch;
+	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
+	echo $nggSearch->return_result( 'meta' );
+}
+wp_head();
+`
+
+= Performance Tuning =
+
+The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
+
+* If your content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
+
+* If you generally define a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image will count as the "1" image and the plugin will stop there).
+
+* For posts and pages, the content text is used to define the Open Graph description meta property value, if no excerpt is available. If you generally don't use excerpts, and your content does not rely on shortcodes to render it's text, you may uncheck the "Apply Content Filters" option.
+
 == Screenshots ==
 
 1. NextGEN Facebook OG - The Settings Page
@@ -334,119 +449,4 @@ Fixed some checked option boxes that could not be unchecked.
 
 = Version 1.4.1 =
 Fixed article:tag and article:author Open Graph meta tags.
-
-== Stylesheets ==
-
-= Social Buttons Style =
-
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past.
-
-`
-.ngfb-buttons { 
-	clear:both;
-	display:block;
-	text-align:center; 
-	margin:20px 0 20px 0;
-}
-.ngfb-buttons img { border:none; }
-.ngfb-buttons img:hover { border:none; }
-.ngfb-buttons > div { 
-	display:inline-block;
-	vertical-align:bottom;
-	height:20px;
-	padding:0;
-	margin:0;
-}
-div.facebook-button { margin-right:15px; }
-div.gplus-button { margin-right:-20px; }
-div.twitter-button { margin-right:-20px; }
-div.linkedin-button { margin-right:10px; }
-div.pinterest-button { margin-right:30px; }
-div.stumbleupon-button { margin-right:15px; }
-div.tumblr-button { margin-right:10px; }
-`
-
-The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. For example, here are different styles for social buttons in a widget and added to the content.
-
-`
-.nbfg-widget-buttons .ngfb-buttons { 
-	display:inline-block;
-	text-align:right; 
-	margin:5px;
-}
-.ngfb-content-buttons .ngfb-buttons { 
-        padding:5px;
-        margin:20px auto 20px auto;
-        background-color:#eee;
-        box-shadow:0 0 5px #aaa;
-}
-`
-
-= Hide Social Buttons =
-
-You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
-
-`
-<div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
-	The Content Text
-</div>
-`
-
-You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
-
-`
-.post-123 .ngfb-buttons,
-.category-test .ngfb-buttons,
-.format-aside .ngfb-buttons,
-.format-status .ngfb-buttons { display:none; }
-`
-
-== Advanced Usage ==
-
-= Include Social Buttons from Template File(s) =
-
-The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
-
-`
-<?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
-	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
-`
-
-The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
-
-You can also use the `ngfb_get_social_buttons()` function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
-
-`
-if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
-	$url = $_SERVER['HTTPS'] ? 'https://' : 'http://';
-	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr'),
-		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
-}
-`
-
-This creates a Pinterest and tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and tumblr, only need the URL defined.
-
-= Disable Open Graph Meta Tags =
-
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
-
-`
-if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
-	global $nggSearch;
-	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
-	echo $nggSearch->return_result( 'meta' );
-}
-wp_head();
-`
-
-= Performance Tuning =
-
-The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
-
-* If your content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
-
-* If you generally define a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image will count as the "1" image and the plugin will stop there).
-
-* For posts and pages, the content text is used to define the Open Graph description meta property value, if no excerpt is available. If you generally don't use excerpts, and your content does not rely on shortcodes to render it's text, you may uncheck the "Apply Content Filters" option.
 
