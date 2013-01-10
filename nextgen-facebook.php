@@ -164,10 +164,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function init_tests() {
 			if ( $this->options['ngfb_debug'] ) {
 				echo '<!-- NextGEN Facebook OG ', $this->version, ' Plugin Loaded -->', "\n";
-				foreach ( array( 'wp_head', 'wp_footer' ) as $hook ) {
+				foreach ( array( 'wp_head', 'wp_footer', 'the_content' ) as $hook ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $hook, create_function( '', 
-							"echo \"\\n\", '<!-- NextGEN Facebook OG $hook() Test : Priority $prio = Passed -->', \"\\n\\n\";" ), $prio );
+							"echo '<!-- NextGEN Facebook OG add_action(\'$hook\') Test : Priority $prio = Passed -->', \"\\n\";" ), $prio );
 				}
 			}
 		}
@@ -469,7 +469,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function debug_msg( $name, $msg = '' ) {
-			echo "\n", '<!-- NGFB Debug (', $name, ') ';
+			echo '<!-- NGFB Debug (', $name, ') ';
 			if ( is_array( $msg ) ) {
 				echo "\n";
 				$is_assoc = $this->is_assoc( $msg );
