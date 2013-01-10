@@ -56,7 +56,7 @@ Here's an example of Open Graph meta property tags for a Post on my website titl
 <!-- NextGEN Facebook OG Meta Tags END -->
 `
 
-NextGEN Facebook OG is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
+NextGEN Facebook OG is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NextGEN Facebook OG [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
 
 == Installation ==
 
