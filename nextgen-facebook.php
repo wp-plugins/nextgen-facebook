@@ -1062,7 +1062,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function str_decode( $str ) {
 			$str = preg_replace('/&#8230;/', '...', $str );
-			return preg_replace('/&#\d{2,5};/ue', '$this->utf8_entity_decode( $0 )', $str );
+			return preg_replace('/&#\d{2,5};/ue', array( &$this, "utf8_entity_decode( '$0' )" ), $str );
 		}
 
 		function utf8_entity_decode( $entity ) {
