@@ -107,6 +107,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				$videos = array();
 				$content = $ngfb->apply_content_filter( $post->post_content, $ngfb->options['ngfb_filter_content'] );
 				$videos = $ngfb->get_videos( $content, 1 );	// get the first video, if any
+				if ( $ngfb->options['ngfb_debug'] ) 
+					$ngfb->debug_msg( __FUNCTION__ . ':$videos', print_r( $videos, true ) );
 				$attr['embed'] = $videos[0]['og:video'];
 			}
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
@@ -131,6 +133,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['quote'] ) && get_post_format( $post->ID ) == 'quote' ) {
 				$attr['quote'] = $ngfb->get_quote();
 			}
+			if ( $ngfb->options['ngfb_debug'] ) 
+				$ngfb->debug_msg( __FUNCTION__ . ':$attr', print_r( $attr, true ) );
+
 			// define the button, based on what we have
 			if ( ! empty( $attr['photo'] ) && ! empty( $ngfb->options['tumblr_photo'] ) ) {
 				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );

@@ -154,7 +154,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			add_action( 'init', array( &$this, 'init_tests' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
-			add_filter( 'wp_head', array( &$this, 'add_meta_tags' ), NGFB_HEAD_PRIORITY );
+			add_filter( 'wp_head', array( &$this, 'add_head_meta' ), NGFB_HEAD_PRIORITY );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 			add_filter( 'wp_footer', array( &$this, 'add_buttons_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
@@ -478,7 +478,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					echo $is_assoc ? "\t$key = $val\n" : "\t$val\n";
 				unset ( $key, $val );
 			} else echo $msg;
-			echo ' -->';
+			echo ' -->', "\n";
 		}
 
 		function get_author_url( $author_id, $field_name = 'url' ) {
@@ -679,6 +679,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 						// define images for known websites
 						if ( preg_match( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) )
 							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[1].'/0.jpg';
+						$debug_pre = 'image_source = preg_match_all / img ';
+						$this->debug[] = 'video_source = iframe / ' . $og_video['og:video'];
 						array_push( $videos, $og_video );
 					}
 				}
@@ -914,8 +916,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return array_map( 'strtolower', $tags );
 		}
 
-		function add_meta_tags() {
-			if ( $this->options['ngfb_debug'] ) $this->debug_msg( __FUNCTION__ , $this->options );
+		function add_head_meta() {
+			if ( $this->options['ngfb_debug'] ) 
+				$this->debug_msg( __FUNCTION__ . ':$this->options', $this->options );
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
 				echo "\n<!-- NextGEN Facebook OG Meta Tags DISABLED -->\n\n";
@@ -957,8 +960,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 			global $post;
 			$author_url = '';
 			// output whatever debug info we have before printing the open graph meta tags
-			if ( $this->options['ngfb_debug'] ) $this->debug_msg( __FUNCTION__ , $this->debug );
-			if ( $this->options['ngfb_debug'] ) $this->debug_msg( __FUNCTION__ , "\n".print_r( $arr, true ) );
+			if ( $this->options['ngfb_debug'] ) {
+				$this->debug_msg( __FUNCTION__ . ':$this->debug', $this->debug );
+				$this->debug = array();
+			}
+			if ( $this->options['ngfb_debug'] ) 
+				$this->debug_msg( __FUNCTION__ . ':$arr', print_r( $arr, true ) );
 		
 			echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
 			if ( $this->options['link_publisher_url'] )
@@ -1019,6 +1026,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 					return \$ngfbButtons->${id}_button( \$attr );" );
 				$button_html .= eval ( "if ( method_exists( \$ngfbButtons, '${id}_footer' ) ) 
 					return \$ngfbButtons->${id}_footer();" );
+			}
+			if ( $this->options['ngfb_debug'] ) {
+				$this->debug_msg( __FUNCTION__ . ':$this->debug', $this->debug );
+				$this->debug = array();
 			}
 			if ( $button_html ) $button_html = '
 <!-- NextGEN Facebook OG Social Buttons BEGIN -->
