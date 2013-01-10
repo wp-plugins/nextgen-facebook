@@ -269,7 +269,7 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 == Changelog ==
 
 = Version 3.0 (2013-01-10) =
-* Major code revision finished - all code has been moved to object-oriented classes. NGFB is 2,300 lines of PHP code in 4 classes with 74 functions.
+* Major code revision finished - all functions have been moved to object-oriented classes. NGFB is currently 2,350 lines of code in 4 classes and 77 functions.
 * NextGEN Facebook OG now finds and uses all images from the content to include in the Open Graph meta tags.
 * Added the ngfbButtons class in lib/buttons.php.
 * Added a version string in the database options to skip option updates if the database options are current.
