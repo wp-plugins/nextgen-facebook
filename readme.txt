@@ -12,7 +12,7 @@ Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sha
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. For instance, this is used on Facebook to allow any webpage to have the same functionality as other objects on Facebook. The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for posts and pages. The featured image from a [NextGEN Gallery](http://wordpress.org/extend/plugins/nextgen-gallery/) or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
+NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. The featured image from a [NextGEN Gallery](http://wordpress.org/extend/plugins/nextgen-gallery/) or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
 
 * Facebook
 * Google+
@@ -22,9 +22,7 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 * tumblr
 * StumbleUpon
 
-NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>.
-
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img />` HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it.
 
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
@@ -108,11 +106,11 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
-= Q. Why does NextGEN Facebook OG ignore the `<img />` HTML tags in my content? =
+= Q. Why does NextGEN Facebook OG ignore the `<img/>` HTML tags in my content? =
 
-**A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img />` HTML tags in the content, a default image defined in the plugin settings. 
+**A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. 
 
-If one or more `<img />` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
 If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
 
@@ -123,7 +121,7 @@ If you want to display smaller image thumbnails in your content (on index webpag
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img />` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
+The order in which the attributes are listed is important -- place the "share" attribute before "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
@@ -315,11 +313,11 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 = Version 2.2 =
 * Added `ngfb_get_options()` function to validate and upgrade options without having to visit the options page.
-* Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the `<img />` tag will take precedence over the "src" attribute.
+* Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the `<img/>` tag will take precedence over the "src" attribute.
 * Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
 
 = Version 2.1.3 =
-* Added apply_filters('the_content') before searching for an `<img />` in the content.
+* Added apply_filters('the_content') before searching for an `<img/>` in the content.
 
 = Version 2.1.2 =
 * Changed the priority of `ngfb_add_meta_tags()` from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
@@ -429,7 +427,7 @@ Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some funct
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
 = Version 2.1.3 =
-Added `apply_filters()` function before searching for an `<img />` in the content.
+Added `apply_filters()` function before searching for an `<img/>` in the content.
 
 = Version 2.1.2 =
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
