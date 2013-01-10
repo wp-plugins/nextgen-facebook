@@ -24,7 +24,7 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 
 NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. <strong>The NextGEN Gallery plugin is not required to use this plugin - all features work just as well without it</strong>.
 
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img />` HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.
 
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
@@ -86,17 +86,15 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use that cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug). If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh the Facebook cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content.
-
-If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content. If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [>Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets).
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NextGEN Facebook OG settings page to have Google associate author profiles with your search results.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
@@ -104,21 +102,19 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 
 = Q. The [W3C Markup Validation Service](http://validator.w3.org/) says "there is no attribute '<em>property</em>'". =
 
-**A.** The Facebook / Open Graph meta <em>property</em> attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not.
-
-If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
+**A.** The Facebook / Open Graph meta <em>property</em> attribute is not part of the HTML5 standard, so the W3C validator is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
 
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
-= Q. Why does NextGEN Facebook OG ignore the IMG HTML tags in my content? =
+= Q. Why does NextGEN Facebook OG ignore the `<img />` HTML tags in my content? =
 
-**A.** The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. 
+**A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img />` HTML tags in the content, a default image defined in the plugin settings. 
 
-If one or more IMG HTML tags is being ignored, it's probably because the <strong>image "width" and "height" attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page</strong>. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+If one or more `<img />` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
-If you want to display small image thumbnails in your content (on index webpages, for example), and have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
+If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
 
 `
 <img
@@ -127,7 +123,7 @@ If you want to display small image thumbnails in your content (on index webpages
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
+The order in which the attributes are listed is important -- place the "share" attribute before "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img />` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
@@ -142,8 +138,6 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
 
 * [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and tumblr.
-
-* [Google Plus Author Information in Search Result (GPAISR)](http://wordpress.org/extend/plugins/google-author-information-in-search-results-wordpress-plugin/) : If the GPAISR plugin is active, you may choose to use the author's Google+ profile in the "Author URL" option.
 
 == Stylesheets ==
 
@@ -176,7 +170,7 @@ div.stumbleupon-button { margin-right:15px; }
 div.tumblr-button { margin-right:10px; }
 `
 
-The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. For example, here are different styles for social buttons in a widget and added to the content.
+The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
 
 `
 .nbfg-widget-buttons .ngfb-buttons { 
@@ -194,7 +188,7 @@ The "NGFB Social Buttons" widget adds an extra class name that you can use to cr
 
 = Hide Social Buttons =
 
-You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
+You can also hide the social buttons (or pretty much any object) in a webpage or post by using `display:none` in your stylesheet. As an example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the webpage's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
 
 `
 <div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
@@ -215,7 +209,7 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 
 = Include Social Buttons from Template File(s) =
 
-The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
+The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. As an example, the following PHP code includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
 
 `
 <?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
@@ -224,7 +218,7 @@ The `ngfb_get_social_buttons()` function can be used to include social buttons a
 
 The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
 
-You can also use the `ngfb_get_social_buttons()` function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
+You can also use the `ngfb_get_social_buttons()` function *outside* of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available outside of a loop (to get the permalink), at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 
 `
 if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
@@ -250,15 +244,25 @@ if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
 wp_head();
 `
 
+= Rename or Add Profile URL Fields =
+
+By default, NextGEN Facebook OG adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "google". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
+
+`
+define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
+`
+
+A comma separates the the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
+
 = Performance Tuning =
 
 The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
 
-* If your content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
+* If your website content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
 
-* If you generally define a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image will count as the "1" image and the plugin will stop there).
+* If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
 
-* For posts and pages, the content text is used to define the Open Graph description meta property value, if no excerpt is available. If you generally don't use excerpts, and your content does not rely on shortcodes to render it's text, you may uncheck the "Apply Content Filters" option.
+* For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
 
 == Screenshots ==
 
@@ -267,17 +271,18 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 == Changelog ==
 
 = Version 3.0 (2013-01-10) =
-* Major code changes finished - all code has been moved to object-oriented classes. NGFB is 2,300 lines of PHP code in 4 classes with 74 functions.
+* Major code revision finished - all code has been moved to object-oriented classes. NGFB is 2,300 lines of PHP code in 4 classes with 74 functions.
+* NextGEN Facebook OG now finds and uses all images from the content to include in the Open Graph meta tags.
 * Added the ngfbButtons class in lib/buttons.php.
-* Added a version string in the database options to skip option updates if the options are current.
-* NextGEN Facebook OG now finds and uses all images from the content to present in the Open Graph meta tags.
+* Added a version string in the database options to skip option updates if the database options are current.
 * Added the "Maximum Number of Images" and "Maximum Number of Videos" options to limit the number of images and videos listed in the Open Graph meta tags.
-* Added the `NGFB_MAX_IMG_OG` and `NGFB_MAX_VOD_OG` constants to define the maximum range in the option selects.
+* Added the `NGFB_MAX_IMG_OG` and `NGFB_MAX_VID_OG` constants to define the maximum range in the option selects.
+* Added the `NGFB_CONTACT_FIELDS` constant to define the profile field names for Facebook and Google+ URLs.
 * Added the "Add Page Ancestor Tags" and "Add Page Titles as Tags" options.
-* Added a Head Link Settings section on the settings page, with the "Add (Duplicate) Author Link" and "Publisher Link URL" options.
-* Improved debugging output with a debug function and dump of the OG array.
+* Added a Head Link Settings section on the settings page with the "Author Link URL" and "Publisher Link URL" options.
 * Added a "Performance Tuning" section in the readme.txt.
 * Added a Donate button on the options page. Please show your appreciation for NextGEN Facebook OG by donating a few dollars. Thank you.
+* Improved debugging output with a debug function and dump of the OG array.
 
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
@@ -406,7 +411,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.0 =
-Major code changes and several new features: List several images/videos, and add Page ancestor tags, in the OG meta tags. Head Link options for Google. "Performance Tuning" section in Other Notes.
+Major code revision and several new features: List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in Other Notes.
 
 = Version 2.4 =
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.
