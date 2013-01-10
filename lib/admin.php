@@ -142,7 +142,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					display:block;
 					font-weight:bold;
 					width:300px;
-					margin:0 0 10px 30px;
+					margin:0 0 15px 25px;
 					padding:15px 20px 15px 20px;
 					color: #333;
 					background: #eeeeff;
