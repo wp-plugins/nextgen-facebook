@@ -106,7 +106,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
-= Q. Why does NextGEN Facebook OG ignore the `<img/>` HTML tags in my content? =
+= Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
 
 **A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. 
 
