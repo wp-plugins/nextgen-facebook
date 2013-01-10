@@ -284,6 +284,9 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 * Added a Donate button on the options page. Please show your appreciation for NextGEN Facebook OG by donating a few dollars. Thank you.
 * Improved debugging output with a debug function and dump of the OG array.
 
+= Version 2.4.1 (2013-01-10) =
+* Minor fix for "0 is a protected WP option and may not be modified" error.
+
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
 * Moved the `$options` variable related functions into the `NGFB` class.
