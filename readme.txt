@@ -80,7 +80,7 @@ NextGEN Facebook OG is being actively developed and supported. You can review th
 
 Once activated, you don't have to configure any settings for NextGEN Facebook OG to automatically start adding Open Graph meta tags to your pages.
 
-Some plugin options are available under the <em>Settings -&gt; NextGEN Facebook</em> admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
+Some plugin options are available under the *Settings / NextGEN Facebook* admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
 
 == Frequently Asked Questions ==
 
@@ -127,7 +127,7 @@ If you want to display small image thumbnails in your content (on index webpages
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the wp_head() function).
+The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
@@ -166,16 +166,16 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
-* Moved the $options variable related functions into the NGFB class.
+* Moved the `$options` variable related functions into the NGFB class.
 * Added the "Author URL" option to allow for the Website value in the profile, and the GPAISR plugin for Google+.
 * Added the "Default Author" option to add an author meta tag on indexes without content.
 * Added the "Ignore Small Images in Content" to disable the default behavior of NGFB to ignore smaller images in the content.
 
 = Version 2.3.1 =
 * FIXED variable name to have apply_filters('the_content') applied to the OG description as it should.
-* Added apply_filters('the_excerpt') on the OG description when text is from excerpt.
-* Added apply_filters('the_title') on the OG title.
-* Added the ngfb_linkedin_footer() function to move the LinkedIn javascript to the footer.
+* Added `apply_filters('the_excerpt')` on the OG description when text is from excerpt.
+* Added `apply_filters('the_title')` on the OG title.
+* Added the `ngfb_linkedin_footer()` function to move the LinkedIn javascript to the footer.
 * Sanitized the "Facebook Admin(s)" option by stipping off any leading URLs (leaving just the account names).
 * Temporarily removed NGFB as a filter to the_content when using apply_filters('the_content') to prevent recursion.
 * Added NGFB_HEAD_PRIORITY, NGFB_CONTENT_PRIORITY, and NGFB_FOOTER_PRIORITY constants.
@@ -185,13 +185,13 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
-* Moved the javascript used by all buttons into the footer section (filter on wp_footer() function) to improve page rendering speed.
+* Moved the javascript used by all buttons into the footer section (filter on `wp_footer()` function) to improve page rendering speed.
 * Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
 * Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
 * Added the NGFB class and started moving functions into it. 
 
 = Version 2.2 =
-* Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
+* Added `ngfb_get_options()` function to validate and upgrade options without having to visit the options page.
 * Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the `<img />` tag will take precedence over the "src" attribute.
 * Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
 
@@ -199,13 +199,13 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * Added apply_filters('the_content') before searching for an `<img />` in the content.
 
 = Version 2.1.2 =
-* Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
-* Added a ngfb_get_meta_tag() function to sanitize and encode all Open Graph meta tag values.
+* Changed the priority of `ngfb_add_meta_tags()` from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
+* Added a `ngfb_get_meta_tag()` function to sanitize and encode all Open Graph meta tag values.
 * FIXED the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
 
 = Version 2.1.1 =
-* Optimized code by adding ngfb_get_size_values() to return size info based on image size name.
-* Renamed the cdn_linker() function to ngfb_cdn_linker().
+* Optimized code by adding `ngfb_get_size_values()` to return size info based on image size name.
+* Renamed the `cdn_linker()` function to `ngfb_cdn_linker()`.
 * Added a "Stylesheet" and "Advanced Usage" section in the readme.
 
 = Version 2.1 =
@@ -220,14 +220,14 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 = Version 2.0 =
 * The NextGEN Facebook OG options page has been re-worked to make it more compact.
 * Added the tumblr social sharing button, including support for posting featured images, embeded video, or links to posts and pages.
-* Added a ngfb_get_social_buttons() function to use in your theme templates. See the FAQ for additional information on it's use.
+* Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
-You can enable social buttons in the content, use the social buttons widget, and call the ngfb_get_social_buttons() function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the Other Notes tab for additional information).
+You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the Other Notes tab for additional information).
 
 = Version 1.7.2 =
 * FIXED: Added the missing "data-annotation" field to the Google+ social button.
-* FIXED: Changed "&lt;/p&gt;" to a space before stripping out all html tags from og:description.
+* FIXED: Changed `</p>` to a space before stripping out all html tags from og:description.
 
 = Version 1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
@@ -255,7 +255,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = Version 1.5 =
 * Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
-* Added the "Content Begins at a Paragraph" option to ignore all text before the first &lt;p&gt; paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
+* Added the "Content Begins at a Paragraph" option to ignore all text before the first `<p>` paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
 * Added the "Use WP-WikiBox for Pages" option. This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can use the page's tags or title to retrieve content from Wikipedia. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags, and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for your tags or title, then the content of your page will be used.
 
 = Version 1.4.1 =
@@ -297,7 +297,7 @@ Major code changes and several new features: List several images/videos, and add
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.
 
 = Version 2.3.1 =
-FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling apply_filters() function on 'the_content'.
+FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = Version 2.3 =
 Added StumbleUpon button, NGFB_MIN_IMG_SIZE_DISABLE constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
@@ -306,7 +306,7 @@ Added StumbleUpon button, NGFB_MIN_IMG_SIZE_DISABLE constant, moved some functio
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
 = Version 2.1.3 =
-Added apply_filters() function before searching for an &lt;img&gt; in the content.
+Added `apply_filters()` function before searching for an `<img />` in the content.
 
 = Version 2.1.2 =
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
@@ -318,7 +318,7 @@ Minor code optimization and improved readme file.
 Added Pinterest button, 'Max Title Length' option, and DISABLE_NGFB_OPEN_GRAPH constant for templates.
 
 = Version 2.0 =
-More compact options page, added tumblr button, social buttons widget, and ngfb_get_social_buttons() function for templates.
+More compact options page, added tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
 
 = Version 1.7.2 =
 Added missing data-annotation field to Google+ social button.
@@ -384,12 +384,12 @@ The "NGFB Social Buttons" widget adds an extra class name that you can use to cr
 
 = Hide Social Buttons =
 
-You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a &lt;div&gt; HTML tag similar to this one:
+You can also hide the social buttons, or pretty much any object, in a page or post by using <em>display:none</em> in your stylesheet. For example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the page's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
 
 `
-&lt;div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123"&gt;
+<div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
 	The Content Text
-&lt;/div&gt;
+</div>
 `
 
 You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
@@ -405,23 +405,23 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 
 = Include Social Buttons from Template File(s) =
 
-The ngfb_get_social_buttons() function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the $post-&gt;ID must be available):
+The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. For example, the following includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
 
 `
-&lt;?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
-	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?&gt;
+<?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
+	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
 `
 
 The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
 
-You can also use the ngfb_get_social_buttons() function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the $post variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
+You can also use the `ngfb_get_social_buttons()` function <em>outside</em> of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available to get the permalink, at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 
 `
 if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
 	$url = $_SERVER['HTTPS'] ? 'https://' : 'http://';
 	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr'),
-		array ( 'pid' =&gt; 'ngg-'.$image-&gt;pid, 'url' =&gt; $url, 'caption' =&gt; $image-&gt;caption ) );
+		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
 }
 `
 
@@ -429,13 +429,13 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 
 = Disable Open Graph Meta Tags =
 
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the NGFB_OPEN_GRAPH_DISABLE constant to true in your theme's header.php before the wp_head() function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the NGFB_OPEN_GRAPH_DISABLE constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 `
 if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
 	global $nggSearch;
 	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
-	echo $nggSearch-&gt;return_result( 'meta' );
+	echo $nggSearch->return_result( 'meta' );
 }
 wp_head();
 `
