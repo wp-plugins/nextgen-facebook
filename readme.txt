@@ -157,7 +157,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * Added a version string in the database options to skip option updates if the options are current.
 * NextGEN Facebook OG now finds and uses all images from the content to present in the Open Graph meta tags.
 * Added the "Maximum Number of Images" and "Maximum Number of Videos" options to limit the number of images and videos listed in the Open Graph meta tags.
-* Added the NGFB_MAX_IMG_OG and NGFB_MAX_VOD_OG constants to define the maximum range in the option selects.
+* Added the `NGFB_MAX_IMG_OG` and `NGFB_MAX_VOD_OG` constants to define the maximum range in the option selects.
 * Added the "Add Page Ancestor Tags" and "Add Page Titles as Tags" options.
 * Added a Head Link Settings section on the settings page, with the "Add (Duplicate) Author Link" and "Publisher Link URL" options.
 * Improved debugging output with a debug function and dump of the OG array.
@@ -166,7 +166,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
-* Moved the `$options` variable related functions into the NGFB class.
+* Moved the `$options` variable related functions into the `NGFB` class.
 * Added the "Author URL" option to allow for the Website value in the profile, and the GPAISR plugin for Google+.
 * Added the "Default Author" option to add an author meta tag on indexes without content.
 * Added the "Ignore Small Images in Content" to disable the default behavior of NGFB to ignore smaller images in the content.
@@ -177,18 +177,18 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * Added `apply_filters('the_title')` on the OG title.
 * Added the `ngfb_linkedin_footer()` function to move the LinkedIn javascript to the footer.
 * Sanitized the "Facebook Admin(s)" option by stipping off any leading URLs (leaving just the account names).
-* Temporarily removed NGFB as a filter to the_content when using apply_filters('the_content') to prevent recursion.
-* Added NGFB_HEAD_PRIORITY, NGFB_CONTENT_PRIORITY, and NGFB_FOOTER_PRIORITY constants.
+* Temporarily removed NGFB as a filter to the_content when using `apply_filters('the_content')` to prevent recursion.
+* Added `NGFB_HEAD_PRIORITY`, `NGFB_CONTENT_PRIORITY`, and `NGFB_FOOTER_PRIORITY` constants.
 
 = Version 2.3 =
-* Renamed DISABLE_NGFB_OPEN_GRAPH_DISABLE constant to NGFB_OPEN_GRAPH_DISABLE (though both are allowed).
-* Added the NGFB_MIN_IMG_SIZE_DISABLE constant to disable minimum width and height checks for IMG SRC attributes.
+* Renamed `DISABLE_NGFB_OPEN_GRAPH_DISABLE` constant to `NGFB_OPEN_GRAPH_DISABLE` (though both are allowed).
+* Added the `NGFB_MIN_IMG_SIZE_DISABLE` constant to disable minimum width and height checks for `<img>` src attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
 * Moved the javascript used by all buttons into the footer section (filter on `wp_footer()` function) to improve page rendering speed.
 * Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
 * Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
-* Added the NGFB class and started moving functions into it. 
+* Added the `NGFB` class and started moving functions into it. 
 
 = Version 2.2 =
 * Added `ngfb_get_options()` function to validate and upgrade options without having to visit the options page.
@@ -214,7 +214,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * Added the Pinterest sharing button for posts and pages with featured images.
 * Added a check for the "Exclude Pages" plugin in the widget section.
 * Added a call to CDN Linker (if it's installed) for image URLs shared to tumblr and Pinterest.
-* Added a check for the DISABLE_NGFB_OPEN_GRAPH constant before adding Open Graph meta tags.
+* Added a check for the `DISABLE_NGFB_OPEN_GRAPH` constant before adding Open Graph meta tags.
 * Added a 'Max Title Length' setting (default is 100 characters).
 
 = Version 2.0 =
@@ -300,7 +300,7 @@ Added the "Author URL", "Default Author", and "Ignore Small Images in Content" o
 FIXED variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = Version 2.3 =
-Added StumbleUpon button, NGFB_MIN_IMG_SIZE_DISABLE constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
+Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
 
 = Version 2.2 =
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
@@ -315,7 +315,7 @@ Added sanitation and HTML entity encoding of all Open Graph meta tag values.
 Minor code optimization and improved readme file.
 
 = Version 2.1 =
-Added Pinterest button, 'Max Title Length' option, and DISABLE_NGFB_OPEN_GRAPH constant for templates.
+Added Pinterest button, 'Max Title Length' option, and `DISABLE_NGFB_OPEN_GRAPH` constant for templates.
 
 = Version 2.0 =
 More compact options page, added tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
@@ -429,7 +429,7 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 
 = Disable Open Graph Meta Tags =
 
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the NGFB_OPEN_GRAPH_DISABLE constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 `
 if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
