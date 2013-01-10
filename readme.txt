@@ -121,7 +121,7 @@ If you want to display smaller image thumbnails in your content (on index webpag
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function).
+The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
