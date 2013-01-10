@@ -269,7 +269,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php	endif; ?>
 			<tr>
 				<th>Add Page Ancestor Tags</th>
-				<td><?php $this->checkbox( 'og_page_ances_tags' ); ?></td>
+				<td><?php $this->checkbox( 'og_page_parent_tags' ); ?></td>
 				<td><p>Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.</p></td>
 			</tr>
 			<tr>

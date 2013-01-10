@@ -62,7 +62,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'og_def_img_on_index' => '1',
 			'og_def_img_on_search' => '1',
 			'og_ngg_tags' => '1',
-			'og_page_ances_tags' => '',
+			'og_page_parent_tags' => '',
 			'og_page_title_tag' => '',
 			'og_author_field' => 'url',
 			'og_def_author_id' => '',
@@ -148,7 +148,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
-			register_activation_hook( $this->plugin_name, 'activate' );
+			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
 			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall') );
 
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
@@ -225,7 +225,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		// define default option settings
 		function activate() {
-			if ( ( $this->options['ngfb_reset'] == 1 ) || ( ! is_array( $this->options ) ) ) {
+			if ( ! empty( $this->options['ngfb_reset'] ) || ! is_array( $this->options ) ) {
 				delete_option( 'ngfb_options' );	// remove old options, if any
 				update_option( 'ngfb_options', $this->default_options );
 			}
@@ -248,30 +248,22 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function load_options() {
 			$opts = get_option( 'ngfb_options' );
 			if ( $opts['ngfb_version'] != $this->version ) {
-				if ( ! $opts['og_def_img_url'] && $opts['og_def_img'] ) {
-					$opts['og_def_img_url'] = $opts['og_def_img'];
-					delete_option( $opts['og_def_img'] );
-				}
-				if ( ! $opts['og_def_img_on_index'] && $opts['og_def_home']) {
-					$opts['og_def_img_on_index'] = $opts['og_def_home'];
-					delete_option( $opts['og_def_home'] );
-				}
-				if ( ! $opts['og_def_img_on_index'] && $opts['og_def_on_home']) {
-					$opts['og_def_img_on_index'] = $opts['og_def_on_home'];
-					delete_option( $opts['og_def_on_home'] );
-				}
-				if ( ! $opts['og_def_img_on_search'] && $opts['og_def_on_search']) {
-					$opts['og_def_img_on_search'] = $opts['og_def_on_search'];
-					delete_option( $opts['og_def_on_home'] );
-				}
-				if ( ! $opts['buttons_on_index'] && $opts['buttons_on_home']) {
-					$opts['buttons_on_index'] = $opts['buttons_on_home'];
-					delete_option( $opts['buttons_on_home'] );
+				foreach ( array(
+					'og_def_img' => 'og_def_img_url',
+					'og_def_home' => 'og_def_img_on_index',
+					'og_def_on_home' => 'og_def_img_on_index',
+					'og_def_on_search' => 'og_def_img_on_search',
+					'buttons_on_home' => 'buttons_on_index',
+				) as $old => $new ) {
+					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
+						$opts[$new] = $opts[$old];
+						delete_option( $opts[$old] );
+					}
 				}
 				// default values for new options
-				foreach ( $this->default_options as $opt => $def )
-					if ( ! array_key_exists( $opt, $opts ) ) $opts[$opt] = $def;
-				unset( $opt, $def );
+				foreach ( $this->default_options as $def_key => $def_val )
+					if ( ! array_key_exists( $def_key, $opts ) ) $opts[$def_key] = $def_val;
+				unset( $def_key, $def_val );
 			}
 			ksort( $opts );
 			$this->options = $this->validate_options( $opts );
@@ -353,7 +345,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'og_def_img_on_index',
 				'og_def_img_on_search',
 				'og_ngg_tags',
-				'og_page_ances_tags',
+				'og_page_parent_tags',
 				'og_page_title_tag',
 				'og_desc_strip',
 				'og_desc_wiki',
@@ -393,20 +385,18 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'ngfb_debug',
 				'ngfb_filter_content',
 				'ngfb_skip_small_img',
-			) as $opt ) { $opts[$opt] = ( $opts[$opt] ? 1 : 0 ); }
-
+			) as $opt ) { 
+				$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
+			}
 			return $opts;
 		}
 
 		function add_content_buttons( $content ) {
-
-			$ngfbButtons = new ngfbButtons();
-			$button_html = '';
-
 			// if using the Exclude Pages plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
-
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
+				$ngfbButtons = new ngfbButtons();
+				$button_html = '';
 				$sorted_ids = array();
 				foreach ( $this->social_options_prefix as $id => $prefix )
 					if ( $this->options[$prefix.'_enable'] )
@@ -430,11 +420,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function add_content_footer() {
-
 			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
-
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
+				$ngfbButtons = new ngfbButtons();
 				echo "\n", '<!-- NextGEN Facebook OG Content Footer BEGIN -->', "\n";
 				foreach ( $this->social_options_prefix as $id => $prefix )
 					if ( $this->options[$prefix.'_enable'] ) 
@@ -476,8 +465,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_ngg_xmp( $pid ) {
 			if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
+			global $nggdb;
 			$xmp = array();
-			$image = nggdb::find_image( $pid );
+			$image = $nggdb->find_image( $pid );
 			if ( ! empty( $image ) ) {
 				$meta = new nggMeta( $image->pid );
 				foreach ( array(
@@ -559,10 +549,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function get_title( $textlen = 100, $trailing = '' ) {
 			global $post, $page, $paged;
 			$title = trim( wp_title( '|', false, 'right' ), ' |');
+			$page_num = '';
+			$parent_title = '';
 			if ( is_singular() ) {
 				$parent_id = $post->post_parent;
-				if ($parent_id) $parent_title = get_the_title($parent_id);
-				if ($parent_title) $title .= ' ('.$parent_title.')';
+				if ( $parent_id ) $parent_title = get_the_title($parent_id);
+				if ( $parent_title ) $title .= ' ('.$parent_title.')';
 			} elseif ( is_category() ) { 
 				// wordpress does not include parents - we want the parents too
 				$title = $this->str_decode( single_cat_title( '', false ) );
@@ -581,6 +573,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_description( $textlen = 300, $trailing = '' ) {
 			global $post;
+			$desc = '';
 			if ( is_singular() ) {
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
@@ -604,7 +597,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					} else $desc .= wikibox_summary( the_title( '', '', false ), '', false );
 				} 
 		
-				if ( ! $desc ) $desc = $post->post_content;		// fallback to regular content
+				if ( empty( $desc ) ) $desc = $post->post_content;		// fallback to regular content
 				$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
 		
 				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
@@ -834,7 +827,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				}
 			}
 			// if still empty, use the default url (if one is defined, empty string otherwise)
-			if ( ! $og_image['og:image'] ) {
+			if ( empty( $og_image['og:image'] ) ) {
 				$this->debug[] = $debug_pre . 'og_def_img_url = ' . $this->options['og_def_img_url'];
 				if ( $this->options['og_def_img_url'] ) $og_image['og:image'] = $this->options['og_def_img_url'];
 			}
@@ -844,44 +837,44 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function get_tags() {
-			$og_tags = array();
+			$tags = array();
 			if ( is_singular() ) {
 				global $post;
-				$og_tags = array_merge( $og_tags, $this->get_wp_tags( $post->ID ) );
+				$tags = array_merge( $tags, $this->get_wp_tags( $post->ID ) );
 				if ( $this->options['og_ngg_tags'] && function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
 					$pid = get_post_thumbnail_id( $post->ID );
 					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
-						$og_tags = array_merge( $og_tags, $this->get_ngg_tags( $pid ) );
+						$tags = array_merge( $tags, $this->get_ngg_tags( $pid ) );
 				}
 			} elseif ( is_search() )
-				$og_tags = preg_split( '/ *, */', get_search_query( false ) );
+				$tags = preg_split( '/ *, */', get_search_query( false ) );
 		
-			return array_unique( $og_tags );	// filter for duplicate element values - just in case
+			return array_unique( array_map( 'strtolower', $tags ) );	// filter for duplicate (lowercase) element values - just in case
 		}
 
 		function get_wp_tags( $post_id ) {
-			$og_tags = array();
+			$tags = array();
 			$post_ids = array ( $post_id );	// array of one
-			if ( $this->options['og_page_ances_tags'] && is_page( $post_id ) )
+			if ( $this->options['og_page_parent_tags'] && is_page( $post_id ) )
 				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
 			$tag_prefix = isset( $this->options['og_wiki_tag'] ) ? $this->options['og_wiki_tag'] : '';
 			foreach ( $post_ids as $id ) {
 				if ( $this->options['og_page_title_tag'] && is_page( $id ) )
-					$og_tags[] = get_the_title( $id );
+					$tags[] = get_the_title( $id );
 				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name ) {
 					if ( $this->options['og_desc_wiki'] && $tag_prefix ) 
 						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
-					$og_tags[] = $tag_name;
+					$tags[] = $tag_name;
 				}
 			}
-			return array_unique( array_map('strtolower', $og_tags ) );	// filter for duplicate (lowercase) element values - just in case
+			return $tags;
 		}
 
 		function get_ngg_tags( $pid ) {
 			$tags = array();
 			if ( method_exists( 'nggdb', 'find_image' ) && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
-			return $tags;
+			return array_map( 'strtolower', $tags );
 		}
 
 		function add_meta_tags() {
@@ -895,7 +888,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$content_filtered = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
-			$og['og:url'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
@@ -969,8 +962,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$ngfbButtons = new ngfbButtons();
 			$button_html = '';
 			// make sure we have at least $post->ID or $attr['url'] defined
-			if ( ! isset( $post->ID ) && empty( $attr['url' ] ) ) {
-				$attr['url'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+			if ( ! empty( $post->ID ) && empty( $attr['url' ] ) ) {
+				$attr['url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 				$attr['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 			}
 			foreach ( $ids as $id ) {
@@ -1009,8 +1002,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function get_ngg_url( $pid, $size_name = 'thumbnail' ) {
 			if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
+				global $nggdb;
 				$pid = substr( $pid, 4 );
-				$image = nggdb::find_image( $pid );	// returns an nggImage object
+				$image = $nggdb->find_image( $pid );	// returns an nggImage object
 				if ( ! empty( $image ) ) {
 					$size_info = $this->get_size_values( $size_name );
 					$crop = ( $size_info['crop'] == 1 ? 'crop' : '' );
@@ -1027,7 +1021,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function cdn_linker_rewrite( $url = '' ) {
-			if ( class_exists( CDNLinksRewriterWordpress ) ) {
+			if ( class_exists( 'CDNLinksRewriterWordpress' ) ) {
 				$rewriter = new CDNLinksRewriterWordpress();
 				$url = '"'.$url.'"';	// rewrite uses pointer
 				$url = trim( $rewriter->rewrite( $url ), "\"" );
@@ -1068,7 +1062,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function str_decode( $str ) {
 			$str = preg_replace('/&#8230;/', '...', $str );
-			return preg_replace('/&#\d{2,5};/ue', "$this->utf8_entity_decode('$0')", $str );
+			return preg_replace('/&#\d{2,5};/ue', '$this->utf8_entity_decode( $0 )', $str );
 		}
 
 		function utf8_entity_decode( $entity ) {
