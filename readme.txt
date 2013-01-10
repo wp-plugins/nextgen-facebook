@@ -29,42 +29,33 @@ The images used in the Open Graph meta property tag are chosen in this sequence:
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-&lt;!-- NextGEN Facebook OG Meta Tags BEGIN --&gt;
-&lt;link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" /&gt;
-&lt;link rel="author" href="https://plus.google.com/104808665690163182693/posts" /&gt;
-&lt;meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" /&gt;
-&lt;meta property="article:modified_time" content="2013-01-04T08:11:02+00:00" /&gt;
-&lt;meta property="article:published_time" content="2012-12-01T15:34:56+00:00" /&gt;
-&lt;meta property="article:section" content="Technology" /&gt;
-&lt;!-- article:tag:1 --&gt;lt;meta property="article:tag" content="apache" /&gt;
-&lt;!-- article:tag:2 --&gt;&lt;meta property="article:tag" content="apache httpd" /&gt;
-&lt;!-- article:tag:3 --&gt;&lt;meta property="article:tag" content="apc" /&gt;
-&lt;!-- article:tag:4 --&gt;&lt;meta property="article:tag" content="bandwidth" /&gt;
-&lt;!-- article:tag:5 --&gt;&lt;meta property="article:tag" content="cache" /&gt;
-&lt;!-- article:tag:6 --&gt;&lt;meta property="article:tag" content="cache servers" /&gt;
-&lt;!-- article:tag:7 --&gt;&lt;meta property="article:tag" content="caching" /&gt;
-&lt;!-- article:tag:8 --&gt;&lt;meta property="article:tag" content="cdn" /&gt;
-&lt;!-- article:tag:9 --&gt;&lt;meta property="article:tag" content="content delivery network" /&gt;
-&lt;!-- article:tag:10 --&gt;&lt;meta property="article:tag" content="httpd" /&gt;
-&lt;!-- article:tag:11 --&gt;&lt;meta property="article:tag" content="linux" /&gt;
-&lt;!-- article:tag:12 --&gt;&lt;meta property="article:tag" content="memcached" /&gt;
-&lt;!-- article:tag:13 --&gt;&lt;meta property="article:tag" content="opcode" /&gt;
-&lt;!-- article:tag:14 --&gt;&lt;meta property="article:tag" content="performance" /&gt;
-&lt;!-- article:tag:15 --&gt;&lt;meta property="article:tag" content="performance gain" /&gt;
-&lt;!-- article:tag:16 --&gt;&lt;meta property="article:tag" content="php" /&gt;
-&lt;!-- article:tag:17 --&gt;&lt;meta property="article:tag" content="php.ini" /&gt;
-&lt;!-- article:tag:18 --&gt;&lt;meta property="article:tag" content="plugins" /&gt;
-&lt;!-- article:tag:19 --&gt;&lt;meta property="article:tag" content="rewrite" /&gt;
-&lt;!-- article:tag:20 --&gt;&lt;meta property="article:tag" content="static content" /&gt;
-&lt;!-- article:tag:21 --&gt;&lt;meta property="article:tag" content="wordpress" /&gt;
-&lt;meta property="fb:app_id" content="525239184171769" /&gt;
-&lt;meta property="og:description" content="Over the past few weeks I&#8217;ve been looking at different solutions to improve the speed of my WordPress websites. The first step was to mirror and redirect the static content to another server (aka Content Delivery Network or CDN). In the case of PHP and WordPress, there are several..." /&gt;
-&lt;!-- og:image:1 --&gt;&lt;meta property="og:image" content="http://surniaulula.com/wp-content/gallery/cache/5_crop_300x300_20120814-114043-sbellive-0078.jpg" /&gt;
-&lt;meta property="og:site_name" content="Surnia Ulula" /&gt;
-&lt;meta property="og:title" content="WordPress Caching and Plugins for Performance" /&gt;
-&lt;meta property="og:type" content="article" /&gt;
-&lt;meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" /&gt;
-&lt;!-- NextGEN Facebook OG Meta Tags END --&gt;
+<!-- NextGEN Facebook OG Meta Tags BEGIN -->
+<link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
+<link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
+<meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
+<meta property="article:modified_time" content="2013-01-04T08:11:02+00:00" />
+<meta property="article:published_time" content="2012-12-01T15:34:56+00:00" />
+<meta property="article:section" content="Technology" />
+<!-- article:tag:1 -->lt;meta property="article:tag" content="apache" />
+<!-- article:tag:2 --><meta property="article:tag" content="apc" />
+<!-- article:tag:3 --><meta property="article:tag" content="cache" />
+<!-- article:tag:4 --><meta property="article:tag" content="cdn" />
+<!-- article:tag:5 --><meta property="article:tag" content="httpd" />
+<!-- article:tag:6 --><meta property="article:tag" content="opcode" />
+<!-- article:tag:7 --><meta property="article:tag" content="performance" />
+<!-- article:tag:8 --><meta property="article:tag" content="php" />
+<!-- article:tag:9 --><meta property="article:tag" content="plugins" />
+<!-- article:tag:10 --><meta property="article:tag" content="rewrite" />
+<!-- article:tag:11 --><meta property="article:tag" content="static content" />
+<!-- article:tag:12 --><meta property="article:tag" content="wordpress" />
+<meta property="fb:app_id" content="525239184171769" />
+<meta property="og:description" content="Over the past few weeks I&#8217;ve been looking at different solutions to improve the speed of my WordPress websites. The first step was to mirror and redirect the static content to another server (aka Content Delivery Network or CDN). In the case of PHP and WordPress, there are several..." />
+<!-- og:image:1 --><meta property="og:image" content="http://surniaulula.com/wp-content/gallery/cache/5_crop_300x300_20120814-114043-sbellive-0078.jpg" />
+<meta property="og:site_name" content="Surnia Ulula" />
+<meta property="og:title" content="WordPress Caching and Plugins for Performance" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
+<!-- NextGEN Facebook OG Meta Tags END -->
 `
 
 NextGEN Facebook OG is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup notes, and if you have questions or suggestions, post them on the NextGEN Facebook OG [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
@@ -118,7 +109,7 @@ If there are Open Graph Warnings, read them carefully -- usually they explain th
 If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
 
 `
-&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"&gt;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
 = Q. Why does NextGEN Facebook OG ignore the IMG HTML tags in my content? =
@@ -130,10 +121,10 @@ If one or more IMG HTML tags is being ignored, it's probably because the <strong
 If you want to display small image thumbnails in your content (on index webpages, for example), and have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
 
 `
-&lt;img
+<img
     share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
     src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
-    width="150" height="150" /&gt;
+    width="150" height="150" />
 `
 
 The order in which the attributes are listed is important -- place the "share" attribute before "src" to give it a higher priority. If you do not want, or cannot add a "share" attribute to the IMG HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the wp_head() function).
@@ -201,11 +192,11 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Version 2.2 =
 * Added ngfb_get_options() function to validate and upgrade options without having to visit the options page.
-* Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the &lt;img&gt; tag will take precedence over the "src" attribute.
+* Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the `<img />` tag will take precedence over the "src" attribute.
 * Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
 
 = Version 2.1.3 =
-* Added apply_filters('the_content') before searching for an &lt;img&gt; in the content.
+* Added apply_filters('the_content') before searching for an `<img />` in the content.
 
 = Version 2.1.2 =
 * Changed the priority of ngfb_add_meta_tags() from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
