@@ -802,7 +802,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
 			global $ngfb;
-			$input = '<input name="ngfb_options[' . $name . ']" type="checkbox" value="' . $check[0] . '"' .
+			$input = '<input type="checkbox" name="ngfb_options[' . $name . ']" value="' . $check[0] . '"' .
 				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
 				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" /></small>';
 			if ( $echo ) echo $input;

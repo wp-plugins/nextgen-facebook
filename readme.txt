@@ -171,7 +171,7 @@ div.tumblr-button { margin-right:10px; }
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
 
 `
-.nbfg-widget-buttons .ngfb-buttons { 
+.ngfb-widget-buttons .ngfb-buttons { 
 	display:inline-block;
 	text-align:right; 
 	margin:5px;
