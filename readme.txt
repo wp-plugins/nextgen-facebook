@@ -34,7 +34,7 @@ Here's an example of Open Graph meta property tags for a Post on my website titl
 <meta property="article:modified_time" content="2013-01-04T08:11:02+00:00" />
 <meta property="article:published_time" content="2012-12-01T15:34:56+00:00" />
 <meta property="article:section" content="Technology" />
-<!-- article:tag:1 -->lt;meta property="article:tag" content="apache" />
+<!-- article:tag:1 --><meta property="article:tag" content="apache" />
 <!-- article:tag:2 --><meta property="article:tag" content="apc" />
 <!-- article:tag:3 --><meta property="article:tag" content="cache" />
 <!-- article:tag:4 --><meta property="article:tag" content="cdn" />
@@ -171,7 +171,7 @@ div.tumblr-button { margin-right:10px; }
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
 
 `
-.nbfg-widget-buttons .ngfb-buttons { 
+.ngfb-widget-buttons .ngfb-buttons { 
 	display:inline-block;
 	text-align:right; 
 	margin:5px;
@@ -267,6 +267,11 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
+
+= Version 3.1 =
+* Added the ngfbGoogl class from https://github.com/sebi/googl-php to shorten URLs for Twitter.
+* Added the "Apply Excerpt Filter" option (default is unchecked).
+* FIXED apply_content_filter() was being run on the excerpt by mistake.
 
 = Version 3.0 (2013-01-10) =
 * Major code revision finished - all functions have been moved to object-oriented classes. NGFB is currently 2,350 lines of code in 4 classes and 77 functions.
