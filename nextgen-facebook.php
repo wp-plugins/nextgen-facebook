@@ -248,9 +248,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $output . ' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
-		// define default option settings
+		// create new default options on plugin activation if ngfb_reset = 1, ngfb_options is not an array, or ngfb_options is an empty array
 		function activate() {
-			if ( ! empty( $this->options['ngfb_reset'] ) || ! is_array( $this->options ) ) {
+			if ( ! empty( $this->options['ngfb_reset'] ) || ! is_array( $this->options ) || empty( $this->options ) ) {
 				delete_option( 'ngfb_options' );	// remove old options, if any
 				update_option( 'ngfb_options', $this->default_options );
 			}
@@ -272,7 +272,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 			$opts = get_option( 'ngfb_options' );
-			if ( $opts['ngfb_version'] != $this->version ) {
+			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->version ) {
 				foreach ( array(
 					'og_def_img' => 'og_def_img_url',
 					'og_def_home' => 'og_def_img_on_index',
@@ -286,7 +286,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					}
 				
 				// default values for new options
-				foreach ( $this->default_options as $def_key => $def_val )
+				foreach ( (array) $this->default_options as $def_key => $def_val )
 					if ( ! empty( $def_key ) && ! array_key_exists( $def_key, $opts ) ) 
 						$opts[$def_key] = $def_val;
 				unset( $def_key, $def_val );
@@ -296,7 +296,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		// sanitize and validate input
-		function validate_options( $opts ) {
+		function validate_options( &$opts ) {
 
 			$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
 			$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
@@ -692,12 +692,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $videos;
 		}
 
-		function get_images_all( &$content, $num = 0 ) {
+		function get_all_images( &$content, $num = 0, $size_name = 'thumbnail' ) {
 			$images = array();
-			$size_info = $this->get_size_values( $this->options['og_img_size'] );	// the width, height, crop for the og_img_size
 
 			// check for a featured image
-			$images = array_merge( $images, $this->get_featured() );
+			$images = array_merge( $images, 
+				$this->get_featured( $size_name ) );
+
 			// stop and slice here if we have enough images
 			if ( $num > 0 && count( $images ) >= $num )
 				return array_slice( $images, 0, $num );
@@ -707,31 +708,34 @@ if ( ! class_exists( 'NGFB' ) ) {
 				( ! is_singular() && ! is_search() && ! $this->options['og_def_img_on_index'] ) ) {
 	
 				// check for singlepics on raw content
-				$images = array_merge( $images, $this->get_singlepics() );
+				$images = array_merge( $images, 
+					$this->get_singlepics( $size_name ) );
+
 				// stop and slice here if we have enough images
 				if ( $num > 0 && count( $images ) >= $num )
 					return array_slice( $images, 0, $num );
 
 				// check for img html tags on rendered content
-				$images = array_merge( $images, $this->get_imgs( $content ) );
+				$images = array_merge( $images, 
+					$this->get_imgs( $size_name, $content ) );
 			}
 			// if we didn't find any images, then use the default image
 			if ( ! $images ) {
 				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) ||
 					( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) )
-						$images = array_merge( $images, $this->get_default_image() );
+						$images = array_merge( $images, $this->get_default_image( $size_name ) );
 			}
 			if ( $num > 0 ) $images = array_slice( $images, 0, $num );
 			return $images;
 		}
 
-		function get_nggsearch_og( $nggsearch = array() ) {
+		function get_nggsearch( $nggsearch = array(), $size_name = 'thumbnail' ) {
 			$images = array();
 			if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
-				$size_info = $this->get_size_values( $this->options['og_img_size'] );	// the width, height, crop for the og_img_size
+				$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
 				foreach ( $nggsearch as $image ) {
 					$og_image = array();
-					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $this->options['og_img_size'] );
+					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $size_name );
 					$this->debug[] = 'image_source = nggsearch / image id=' . $image->pid . ' / ' . $og_image['og:image'];
 					if ( $og_image['og:image'] ) {
 						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
@@ -745,11 +749,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_imgs( &$content ) {
+		function get_imgs( $size_name = 'thumbnail', &$content ) {
 			$images = array();
-			$size_info = $this->get_size_values( $this->options['og_img_size'] );	// the width, height, crop for the og_img_size
+			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
 			// img attributes in order of preference
-			if ( preg_match_all( '/<img[^>]*? (share-'.$this->options['og_img_size'].'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/i', 
+			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/i', 
 				$content, $match, PREG_SET_ORDER ) ) {
 				$debug_pre = 'image_source = preg_match_all / img ';
 				foreach ( $match as $img ) {
@@ -774,7 +778,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
 
 					// if we're picking up an img from 'src', make sure it's width and height is large enough
-					if ( $src_name == 'share-' . $this->options['og_img_size'] || $src_name == 'share' || 
+					if ( $src_name == 'share-' . $size_name || $src_name == 'share' || 
 						( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
 						( $src_name == 'src' && $this->options['ngfb_skip_small_img'] && 
 							$og_image['og:image:width'] >= $size_info['width'] && 
@@ -799,22 +803,22 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_featured() {
+		function get_featured( $size_name = 'thumbnail' ) {
 			global $post;
 			$images = array();
 			$og_image = array();
-			$size_info = $this->get_size_values( $this->options['og_img_size'] );	// the width, height, crop for the og_img_size
+			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
 			if ( is_singular() && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$pid = get_post_thumbnail_id( $post->ID );
 				$this->debug[] = 'get_post_thumbnail_id(' . $post->ID . ') = ' . $pid;
 				$debug_pre = 'image_source = has_post_thumbnail / ';
-				$debug_post = '('.$pid.','.$this->options['og_img_size'].')';
+				$debug_post = '(' . $pid . ',' . $size_name . ')';
 				// if the post thumbnail id has the form ngg- then it's a NextGEN image
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-					$og_image['og:image'] = $this->get_ngg_url( $pid, $this->options['og_img_size'] );
+					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
 					$this->debug[] = $debug_pre . 'get_ngg_url' . $debug_post . ' / ' . $og_image['og:image'];
 				} else {
-					$out = wp_get_attachment_image_src( $pid, $this->options['og_img_size'] );
+					$out = wp_get_attachment_image_src( $pid, $size_name );
 					$og_image['og:image'] = $out[0];
 					$this->debug[] = $debug_pre . 'wp_get_attachment_image_src' . $debug_post . ' / ' . $og_image['og:image'];
 				}
@@ -828,17 +832,17 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_singlepics() {
+		function get_singlepics( $size_name = 'thumbnail' ) {
 			global $post;
 			$images = array();
 			// check for singlepics on raw content
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
 				$post->post_content, $match, PREG_SET_ORDER ) ) {
-				$size_info = $this->get_size_values( $this->options['og_img_size'] );	// the width, height, crop for the og_img_size
+				$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
 					$pid = $singlepic[1];
-					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid, $this->options['og_img_size'] );
+					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid, $size_name );
 					$this->debug[] = 'image_source = preg_match_all / singlepic id=' . $pid . ' / ' . $og_image['og:image'];
 					if ( $og_image['og:image'] ) {
 						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
@@ -852,19 +856,19 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_default_image() {
+		function get_default_image( $size_name = 'thumbnail' ) {
 			$images = array();
 			$og_image = array();
 			$debug_pre = "image_source = default / ";
 			if ( $this->options['og_def_img_id'] > 0 ) {
 				if ($this->options['og_def_img_id_pre'] == 'ngg') {
 					$pid = $this->options['og_def_img_id_pre'].'-'.$this->options['og_def_img_id'];
-					$this->debug[] = $debug_pre . 'get_ngg_url(' . $pid . ',' . $this->options['og_img_size'] .')';
-					$og_image['og:image'] = $this->get_ngg_url( $pid, $this->options['og_img_size'] );
+					$this->debug[] = $debug_pre . 'get_ngg_url(' . $pid . ',' . $size_name .')';
+					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
 				} else {
 					$this->debug[] = $debug_pre . 'wp_get_attachment_image_src(' . 
-						$this->options['og_def_img_id'] . ',' . $this->options['og_img_size'] . ')';
-					$out = wp_get_attachment_image_src( $this->options['og_def_img_id'], $this->options['og_img_size'] );
+						$this->options['og_def_img_id'] . ',' . $size_name . ')';
+					$out = wp_get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
 					$og_image['og:image'] = $out[0];
 				}
 			}
@@ -937,9 +941,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 			if ( $this->options['og_img_max'] > 0 ) 
-				$og['og:image'] = $this->get_images_all( $content_filtered, $this->options['og_img_max'] );
+				$og['og:image'] = $this->get_all_images( $content_filtered, 
+					$this->options['og_img_max'], $this->options['og_img_size'] );
 			if ( $this->options['og_vid_max'] > 0 ) 
-				$og['og:video'] = $this->get_videos( $content_filtered, $this->options['og_vid_max'] );
+				$og['og:video'] = $this->get_videos( $content_filtered, 
+					$this->options['og_vid_max'] );
 			$og['article:tag'] = $this->get_tags();
 		
 			if ( $post->post_author || $this->options['og_def_author_id'] ) {

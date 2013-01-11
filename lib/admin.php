@@ -118,6 +118,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:left; 
 					background-color:#eee; 
 					border:1px solid #ccc;
+					width:50%;
 				}
 				.form-table th.metatag { width:220px; }
 				.form-table td select,
@@ -570,7 +571,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Pinterest -->
 				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a featured image.</p></td>
 				<!-- tumblr -->
-				<td colspan="2"><p>The tumblr button shares featured images, embeded videos, quote post formats, and links to webpages.</p></td>
+				<td colspan="2"><p>The tumblr button shares featured images (when the option is checked), embeded videos, quote post formats, and links to webpages.</p></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -653,7 +654,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
-				<th>Share Featured Image</th>
+				<th>Prioritize Featured Image</th>
 				<td><?php $this->checkbox( 'tumblr_photo' ); ?></td>
 			</tr>
 			<tr>

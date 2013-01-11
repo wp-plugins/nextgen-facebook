@@ -109,13 +109,13 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				$videos = $ngfb->get_videos( $content, 1 );	// get the first video, if any
 				if ( $ngfb->options['ngfb_debug'] ) 
 					$ngfb->debug_msg( __FUNCTION__ . ':$videos', print_r( $videos, true ) );
-				$attr['embed'] = $videos[0]['og:video'];
+				if ( ! empty( $videos[0]['og:video'] ) ) $attr['embed'] = $videos[0]['og:video'];
 			}
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
 			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
 		
-			// only use an image if $ngfb->options['tumblr_photo'] allows it
+			// only use an get a featured image if 'tumblr_photo' option allows it
 			if ( empty( $attr['photo'] ) && $ngfb->options['tumblr_photo'] ) {
 				if ( empty( $attr['pid'] ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					$attr['pid'] = get_post_thumbnail_id( $post->ID );
@@ -137,7 +137,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				$ngfb->debug_msg( __FUNCTION__ . ':$attr', print_r( $attr, true ) );
 
 			// define the button, based on what we have
-			if ( ! empty( $attr['photo'] ) && ! empty( $ngfb->options['tumblr_photo'] ) ) {
+			if ( ! empty( $attr['photo'] ) ) {
 				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
 				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
 				$button_html .= '&amp;clickthru=' . urlencode( $attr['url'] );
