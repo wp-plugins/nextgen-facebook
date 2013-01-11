@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.0
+Version: 3.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -26,9 +26,8 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) )
 if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
-
 		var $debug = array();
-		var $version = '3.0';
+		var $version = '3.1';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
@@ -135,6 +134,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'ngfb_reset' => '',
 			'ngfb_debug' => '',
 			'ngfb_filter_content' => '1',
+			'ngfb_filter_excerpt' => '',
 			'ngfb_skip_small_img' => '1' );
 
 		function NGFB() {
@@ -159,7 +159,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 	
 		function init_action_tests() {
-			if ( $this->options['ngfb_debug'] ) {
+			if ( ! empty( $this->options['ngfb_debug'] ) ) {
 				echo '<!-- NextGEN Facebook OG ', $this->version, ' Plugin Loaded -->', "\n";
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -287,7 +287,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				
 				// default values for new options
 				foreach ( $this->default_options as $def_key => $def_val )
-					if ( $def_key && ! array_key_exists( $def_key, $opts ) ) 
+					if ( ! empty( $def_key ) && ! array_key_exists( $def_key, $opts ) ) 
 						$opts[$def_key] = $def_val;
 				unset( $def_key, $def_val );
 			}
@@ -412,6 +412,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'ngfb_reset',
 				'ngfb_debug',
 				'ngfb_filter_content',
+				'ngfb_filter_excerpt',
 				'ngfb_skip_small_img'
 			) as $opt )
 				$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
@@ -614,7 +615,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
 					$desc = $post->post_excerpt;
-					$desc = apply_filters( 'the_excerpt', $desc );
+					if ( ! empty( $this->options['ngfb_filter_excerpt'] ) )
+						$desc = apply_filters( 'the_excerpt', $desc );
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox_summary() is available and og_desc_wiki option is true)
 				} elseif ( is_page() && $this->options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
@@ -633,8 +635,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 					} else $desc .= wikibox_summary( the_title( '', '', false ), '', false );
 				} 
 		
-				if ( empty( $desc ) ) $desc = $post->post_content;		// fallback to regular content
-				$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
+				if ( empty( $desc ) ) {
+					$desc = $post->post_content;		// fallback to regular content
+					$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
+				}
 		
 				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
 				if ( $this->options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/', '', $desc );	// question mark makes regex un-greedy
@@ -1105,8 +1109,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
-			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
 			$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
+			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
 			$text = $this->strip_all_tags( $text );					// remove any remaining html tags
 			if ( strlen( $text ) > $textlen ) {
 				$text = substr( $text, 0, $textlen - strlen( $trailing ) );

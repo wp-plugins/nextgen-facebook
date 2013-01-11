@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		var $article_sections = array(
-			'',
+			'',	// none
 			'Animation',
 			'Architecture',
 			'Art',
@@ -157,7 +157,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				.thankyou p { 
 					font-size:1em;
-					line-height:1.2em;
+					line-height:1.25em;
 					margin:10px 0 10px 0;
 					text-align:center;
 				}
@@ -757,9 +757,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
-				<th>Apply Content Filters</th>
+				<th>Apply Content Filter</th>
 				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
 				<td><p>When NextGEN Facebook OG generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
+			</tr>
+			<tr>
+				<th>Apply Excerpt Filter</th>
+				<td><?php $this->checkbox( 'ngfb_filter_excerpt' ); ?></td>
+				<td><p>There should be no need to filter the excerpt text, but the option is here if you need it.</p></td>
 			</tr>
 			<tr>
 				<th>Ignore Small Images</th>
