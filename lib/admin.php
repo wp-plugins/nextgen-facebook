@@ -84,17 +84,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function admin_init() {
-			register_setting( 'ngfb_plugin_options', 'ngfb_options', array( &$this, 'validate_options' ) );
+			register_setting( 'ngfb_plugin_options', 'ngfb_options', array( &$this, 'sanitize_options' ) );
 		}
 	
 		function admin_menu() {
 			add_options_page('NextGEN Facebook OG Plugin', 'NextGEN Facebook', 'manage_options', 'ngfb', array( &$this, 'options_page' ) );
 		}
 	
-		// sanitize and validate input
-		function validate_options( $opts ) {
+		// sanitize and validate options
+		function sanitize_options( $opts ) {
 			global $ngfb;
-			return $ngfb->validate_options( $opts );
+			return $ngfb->sanitize_options( $opts );
 		}
 
 		function options_page() {

@@ -164,7 +164,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- NextGEN Facebook OG add_action(\'$action\') Test : Priority $prio = Passed -->', \"\\n\";" ), $prio );
+							"echo '<!-- NextGEN Facebook OG add_action( \'$action\' ) Priority $prio Test = Passed -->', \"\\n\";" ), $prio );
 				}
 			}
 		}
@@ -273,11 +273,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function load_options() {
 			$opts = get_option( 'ngfb_options' );
 			$this->options = $this->upgrade_options( $opts );
-			$this->options = $this->validate_options( $opts );
 		}
 
 		function upgrade_options( &$opts ) {
 			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->version ) {
+				// move old option values to new option names
 				foreach ( array(
 					'og_def_img' => 'og_def_img_url',
 					'og_def_home' => 'og_def_img_on_index',
@@ -285,22 +285,30 @@ if ( ! class_exists( 'NGFB' ) ) {
 					'og_def_on_search' => 'og_def_img_on_search',
 					'buttons_on_home' => 'buttons_on_index'
 				) as $old => $new )
-					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
+					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) )
 						$opts[$new] = $opts[$old];
-						delete_option( $opts[$old] );
-					}
-				
-				// default values for new options
-				foreach ( (array) $this->default_options as $def_key => $def_val )
-					if ( ! empty( $def_key ) && ! array_key_exists( $def_key, $opts ) ) 
-						$opts[$def_key] = $def_val;
-				unset( $def_key, $def_val );
+				unset ( $old, $new );
+
+				// remove old options that no longer exist
+				foreach ( $opts as $key => $val )
+					if ( ! empty( $key ) && ! array_key_exists( $key, $this->default_options ) )
+						delete_option( $opts[$key] );
+				unset ( $key, $val );
+
+				// add new options with default values
+				foreach ( $this->default_options as $key => $val )
+					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) )
+						$opts[$key] = $val;
+				unset( $key, $val );
+
+				// sanitize and verify the options - just in case
+				$opts = $this->sanitize_options( $opts );
 			}
 			return $opts;
 		}
 
 		// sanitize and validate input
-		function validate_options( &$opts ) {
+		function sanitize_options( &$opts ) {
 
 			$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
 			$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
@@ -473,15 +481,15 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function debug_msg( $name, $msg = '' ) {
-			echo '<!-- NGFB Debug (', $name, ') ';
+			echo '<!-- NGFB Debug ( ', $name, ' )';
 			if ( is_array( $msg ) ) {
-				echo "\n";
+				if ( ! empty( $msg ) ) echo "\n";
 				$is_assoc = $this->is_assoc( $msg );
 				if ( $is_assoc ) ksort( $msg );
 				foreach ( (array) $msg as $key => $val ) 
 					echo $is_assoc ? "\t$key = $val\n" : "\t$val\n";
 				unset ( $key, $val );
-			} else echo $msg;
+			} else echo ' ', $msg;
 			echo ' -->', "\n";
 		}
 
@@ -974,11 +982,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$author_url = '';
 			// output whatever debug info we have before printing the open graph meta tags
 			if ( $this->options['ngfb_debug'] ) {
-				$this->debug_msg( __FUNCTION__ . ':$this->debug', $this->debug );
+				$this->debug_msg( __FUNCTION__ . ' : $this->debug', $this->debug );
 				$this->debug = array();
 			}
 			if ( $this->options['ngfb_debug'] ) 
-				$this->debug_msg( __FUNCTION__ . ':$arr', print_r( $arr, true ) );
+				$this->debug_msg( __FUNCTION__ . ' : $arr', print_r( $arr, true ) );
 		
 			echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
 			if ( $this->options['link_publisher_url'] )
@@ -1041,7 +1049,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					return \$ngfbButtons->${id}_footer();" );
 			}
 			if ( $this->options['ngfb_debug'] ) {
-				$this->debug_msg( __FUNCTION__ . ':$this->debug', $this->debug );
+				$this->debug_msg( __FUNCTION__ . ' : $this->debug', $this->debug );
 				$this->debug = array();
 			}
 			if ( $button_html ) $button_html = '
