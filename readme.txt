@@ -34,7 +34,7 @@ Here's an example of Open Graph meta property tags for a Post on my website titl
 <meta property="article:modified_time" content="2013-01-04T08:11:02+00:00" />
 <meta property="article:published_time" content="2012-12-01T15:34:56+00:00" />
 <meta property="article:section" content="Technology" />
-<!-- article:tag:1 -->lt;meta property="article:tag" content="apache" />
+<!-- article:tag:1 --><meta property="article:tag" content="apache" />
 <!-- article:tag:2 --><meta property="article:tag" content="apc" />
 <!-- article:tag:3 --><meta property="article:tag" content="cache" />
 <!-- article:tag:4 --><meta property="article:tag" content="cdn" />
