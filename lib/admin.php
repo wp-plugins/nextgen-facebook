@@ -143,7 +143,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					font-weight:bold;
 					width:300px;
 					margin:0 0 15px 25px;
-					padding:15px 20px 15px 20px;
+					padding:15px;
 					color: #333;
 					background: #eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -155,7 +155,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border-radius: 5px;
 					border: 1px solid #b4b4b4;
 				}
-				.thankyou p { text-align:center; }
+				.thankyou p { 
+					font-size:1em;
+					line-height:1.2em;
+					margin:10px 0 10px 0;
+					text-align:center;
+				}
 				#donate { text-align:center; }
 			</style>
 		
