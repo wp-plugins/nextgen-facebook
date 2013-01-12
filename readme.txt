@@ -262,6 +262,8 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 * For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
 
+* After updating the NextGEN Facebook OG plugin, visit the settings page and save the options. This will allow the plugin to skip the options version check when called.
+
 == Screenshots ==
 
 1. NextGEN Facebook OG - The Settings Page
@@ -269,11 +271,13 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 == Changelog ==
 
 = Version 3.1 =
-* FIXED apply_content_filter() was being run on the excerpt by mistake.
-* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer.
-* Added the ngfbGoogl class from https://github.com/sebi/googl-php to shorten URLs for Twitter.
+* Fixed a small oversight where apply_content_filter() was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
+* Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
+* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p
+* Added a ngfbGoogl class from https://github.com/sebi/googl-php to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
-* Improved the debug function and it's output.
+* Added the "Shorten URLs" option for Twitter (checked by default) and the (optional) "Goo.gl API Key" field.
+* Improved the output from the debug print-out function.
 
 = Version 3.0 (2013-01-10) =
 * Major code revision finished - all functions have been moved to object-oriented classes. NGFB is currently 2,350 lines of code in 4 classes and 77 functions.
@@ -419,7 +423,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.1 =
-Added a javascript function to load button javascript files asynchronously.
+Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
 
 = Version 3.0 =
 Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in Other Notes.

@@ -106,7 +106,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 			?><style type="text/css">
 				.form-table tr { vertical-align:top; }
-				.form-table td { padding:2px 6px 2px 6px; }
 				.form-table th { 
 					text-align:right;
 					white-space:nowrap; 
@@ -121,6 +120,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					width:50%;
 				}
 				.form-table th.metatag { width:220px; }
+				.form-table td { padding:2px 6px 2px 6px; }
 				.form-table td select,
 				.form-table td input { margin:0 0 5px 0; }
 				.form-table td input[type=text] { width:250px; }
@@ -135,6 +135,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:justify; 
 					line-height:1.2em; 
 					margin:0 0 10px 0;
+				}
+				.wrap p.inline { 
+					display:inline-block;
+					margin:0 0 10px 10px;
 				}
 				.btn_wizard_column { white-space:nowrap; }
 				.btn_wizard_example { display:inline-block; width:155px; }
@@ -559,6 +563,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Do Not Track</th>
 				<td><?php $this->checkbox( 'twitter_dnt' ); ?></td>
 			</tr>
+			<tr>
+				<!-- LinkedIn -->
+				<td colspan="2"></td>
+				<!-- Twitter -->
+				<th>Shorten URLs</th>
+				<td><?php $this->checkbox( 'twitter_shorten' ); ?><p class="inline">See the <em>Goo.gl API Key</em> option in the <em>Plugin Settings</em>.</p></td>
+			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
 				<!-- Pinterest -->
@@ -710,13 +721,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 							width:130px;
 							margin:0 0 10px 0;
 						}
-						.badge-col-left {
-							display:inline-block;
-							float:left;
-						}
-						.badge-col-right {
-							display:inline-block;
-						}
+						.badge-col-left { display:inline-block; float:left; }
+						.badge-col-right { display:inline-block; }
 						#badge-1 { height:60px; background-position:50% 0px; }
 						#badge-2 { height:30px; background-position:50% -100px; }
 						#badge-3 { height:20px; background-position:50% -200px; }
@@ -771,6 +777,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Ignore Small Images</th>
 				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
 				<td><p>If there is no featured image or NextGEN [singlepic] found in the content, the plugin will attempt to use the IMG HTML tags it finds. The IMG HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to use smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
+			</tr>
+			<tr>
+				<th>Goo.gl API Key</th>
+				<td colspan="2"><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
+				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation and follow the directions to aquire your API Key.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->

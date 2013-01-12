@@ -28,7 +28,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 	class NGFB {
 		var $debug_msgs = array();
 		var $admin_msgs_err = array();
-		var $version = '3.0.9';
+		var $version = '3.0.99';
 		var $full_name = 'NextGEN Facebook OG';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
@@ -93,6 +93,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => '1',
+			'twitter_shorten' => '1',
 			'linkedin_enable' => '',
 			'linkedin_order' => '4',
 			'linkedin_counter' => 'right',
@@ -137,13 +138,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'ngfb_debug' => '',
 			'ngfb_filter_content' => '1',
 			'ngfb_filter_excerpt' => '',
-			'ngfb_skip_small_img' => '1' );
+			'ngfb_skip_small_img' => '1',
+			'ngfb_googl_api_key' => '' );
 
 		function NGFB() {
 
 			$this->define_constants();	// define constants first for option defaults
-			$this->load_dependencies();
 			$this->load_options();
+			$this->load_dependencies();
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
@@ -220,6 +222,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function load_dependencies() {
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );

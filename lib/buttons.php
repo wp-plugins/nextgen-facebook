@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/* 	StumbleUpon
 		 *	-----------
 		 */
-		function stumbleupon_button( &$attr = array() ) {
+		function stumbleupon_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Pinterest
 		 *	---------
 		 */
-		function pinterest_button( &$attr = array() ) {
+		function pinterest_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
@@ -105,7 +105,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	tumblr
 		 *	------
 		 */
-		function tumblr_button( &$attr = array() ) {
+		function tumblr_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
@@ -167,14 +167,14 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 
 		// the tumblr host have a valid SSL cert and it's javascript does not work in async mode
-		function tumblr_footer( &$attr = array() ) {
+		function tumblr_footer() {
 			return '<script src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
 		}
 		
 		/*	Facebook
 		 *	--------
 		 */
-		function facebook_button( &$attr = array() ) {
+		function facebook_button( $attr = array() ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Google+
 		 *	-------
 		 */
-		function gplus_button( &$attr = array() ) {
+		function gplus_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
@@ -223,9 +223,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Twitter
 		 *	-------
 		 */
-		function twitter_button( &$attr = array() ) {
+		function twitter_button( $attr = array() ) {
 			global $ngfb, $post; 
+			$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( ! empty( $ngfb->options['twitter_shorten'] ) ) $attr['url'] = $goo->shorten( $attr['url'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			return '
 				<!-- Twitter Button -->
@@ -247,7 +249,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	LinkedIn
 		 *	--------
 		 */
-		function linkedin_button( &$attr = array() ) {
+		function linkedin_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
