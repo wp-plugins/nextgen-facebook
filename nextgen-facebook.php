@@ -277,6 +277,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 			$opts = get_option( 'ngfb_options' );
+			// make sure the options weren't lost for some reason
 			if ( is_array( $opts ) && ! empty( $opts ) )
 				$this->options = $this->upgrade_options( $opts );
 			else
