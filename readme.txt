@@ -269,9 +269,11 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 == Changelog ==
 
 = Version 3.1 =
+* FIXED apply_content_filter() was being run on the excerpt by mistake.
+* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer.
 * Added the ngfbGoogl class from https://github.com/sebi/googl-php to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
-* FIXED apply_content_filter() was being run on the excerpt by mistake.
+* Improved the debug function and it's output.
 
 = Version 3.0 (2013-01-10) =
 * Major code revision finished - all functions have been moved to object-oriented classes. NGFB is currently 2,350 lines of code in 4 classes and 77 functions.
@@ -415,6 +417,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.1 =
+Added a javascript function to load button javascript files asynchronously.
 
 = Version 3.0 =
 Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in Other Notes.

@@ -23,10 +23,13 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		global $ngfb;
+
 		// only show widget on single posts, pages, and attachments
 		if ( ! is_singular() ) return;
+
 		// if using the Exclude Pages plugin, skip social buttons on those pages
 		if ( is_page() && $ngfb->is_excluded() ) return;
+
 		extract( $args );
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 		$sorted_ids = array();

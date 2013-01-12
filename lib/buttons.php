@@ -17,9 +17,25 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 	class ngfbButtons {
 
+		function header_async_js() {
+			return '<script type="text/javascript">
+				function ngfbJavascript( d, s, id, url ) {
+					var js, ngfb_js = d.getElementsByTagName( s )[0];
+					if ( d.getElementById( id ) ) return;
+					js = d.createElement( s );
+					js.id = id;
+					js.async = true;
+					js.src = url;
+					ngfb_js.parentNode.insertBefore( js, ngfb_js );
+				};' . "\n</script>\n";
+		}
+
 		function __construct() {
 		}
 
+		/* 	StumbleUpon
+		 *	-----------
+		 */
 		function stumbleupon_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
@@ -33,23 +49,14 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;	
 		}
 
-		function stumbleupon_footer() {
-			return '
-				<!-- StumbleUpon Javascript -->
-				<script type="text/javascript">
-				(
-					function() { 
-						var li = document.createElement("script");
-						li.type = "text/javascript";
-						li.async = true;
-						li.src = ("https:" == document.location.protocol ? "https:" : "http:") + "//platform.stumbleupon.com/1/widgets.js";
-						var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(li, s);
-					}
-				)();
-				</script>
-			';
+		function stumbleupon_header() {
+			return '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"stumbleupon", "https://platform.stumbleupon.com/1/widgets.js" );</script>' . "\n";
 		}
-		
+
+		/*	Pinterest
+		 *	---------
+		 */
 		function pinterest_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
@@ -89,14 +96,15 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			}
 			return $button_html;	
 		}
-		
-		function pinterest_footer() {
-			return '
-				<!-- Pinterest Javascript -->
-				<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
-			';
+
+		function pinterest_header() {
+			return '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"pinterest", "https://assets.pinterest.com/js/pinit.js" );</script>' . "\n";
 		}
 		
+		/*	tumblr
+		 *	------
+		 */
 		function tumblr_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
@@ -149,22 +157,23 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			// if we have something, then complete the button code
 			if ( $button_html ) {
 				$button_html = '
-					<!-- Tumblr Button -->
+					<!-- tumblr Button -->
 					<div class="tumblr-button"><a href="http://www.tumblr.com/share/'. $button_html . '" 
-						title="Share on tumblr"><img border="0" alt="tumblr"
+						title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
 						src="http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png" /></a></div>
 				';
 			}
 			return $button_html;
 		}
-		
-		function tumblr_footer() {
-			return '
-				<!-- tumblr Javascript -->
-				<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>
-			';
+
+		// the tumblr host have a valid SSL cert and it's javascript does not work in async mode
+		function tumblr_footer( &$attr = array() ) {
+			return '<script src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
 		}
 		
+		/*	Facebook
+		 *	--------
+		 */
 		function facebook_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
@@ -172,25 +181,26 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 			return '
 				<!-- Facebook Button -->
-				<div class="facebook-button"><span class="fb-root"><fb:like 
-				href="' . $attr['url'] . '"
-				send="' . $fb_send . '" 
-				layout="' . $ngfb->options['fb_layout'] . '" 
-				width="400"
-				show_faces="' . $fb_show_faces . '" 
-				font="' . $ngfb->options['fb_font'] . '" 
-				action="' . $ngfb->options['fb_action'] . '"
-				colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></span></div>
+				<div class="facebook-button"><fb:like 
+					href="' . $attr['url'] . '"
+					send="' . $fb_send . '" 
+					layout="' . $ngfb->options['fb_layout'] . '" 
+					show_faces="' . $fb_show_faces . '" 
+					font="' . $ngfb->options['fb_font'] . '" 
+					action="' . $ngfb->options['fb_action'] . '"
+					colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
 			';
 		}
 		
-		function facebook_footer() {
-			return '
-				<!-- Facebook Javascript -->
-				<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-			';
+		function facebook_header() {
+			global $ngfb; 
+			return '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"facebook", "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] . '" );</script>' . "\n";
 		}
-		
+
+		/*	Google+
+		 *	-------
+		 */
 		function gplus_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
@@ -205,22 +215,14 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			';
 		}
 		
-		function gplus_footer() {
-			return '
-				<!-- Google+ Javascript -->
-				<script type="text/javascript"> ( 
-					function() {
-						var po = document.createElement("script");
-						po.type = "text/javascript"; 
-						po.async = true;
-						po.src = "https://apis.google.com/js/plusone.js";
-						var s = document.getElementsByTagName("script")[0]; 
-						s.parentNode.insertBefore(po, s);
-					}
-				)(); </script>
-			';
+		function gplus_header() {
+			return '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"gplus", "https://apis.google.com/js/plusone.js" );</script>' . "\n";
 		}
 		
+		/*	Twitter
+		 *	-------
+		 */
 		function twitter_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
@@ -237,23 +239,14 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			';
 		}
 		
-		function twitter_footer() {
-			return '
-				<!-- Twitter Javascript -->
-				<script type="text/javascript">
-					! function( d, s, id ) {
-						var js, fjs = d.getElementsByTagName( s )[0];
-						if ( ! d.getElementById( id ) ){
-							js = d.createElement( s );
-							js.id = id;
-							js.src = "http://platform.twitter.com/widgets.js";
-							fjs.parentNode.insertBefore( js, fjs );
-						}
-					} ( document, "script", "twitter-wjs" );
-				</script>
-			';
+		function twitter_header() {
+			return '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"twitter", "https://platform.twitter.com/widgets.js" );</script>' . "\n";
 		}
 		
+		/*	LinkedIn
+		 *	--------
+		 */
 		function linkedin_button( &$attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
@@ -271,11 +264,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;
 		}
 		
-		function linkedin_footer() {
-			return '
-				<!-- LinkedIn Javascript -->
-				<script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
-			';
+		function linkedin_header() {
+			return  '<script type="text/javascript">ngfbJavascript( document, "script", 
+				"linkedin", "https://platform.linkedin.com/in.js" );</script>' . "\n";
 		}
 		
 	}

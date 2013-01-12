@@ -28,6 +28,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 	class NGFB {
 		var $debug = array();
 		var $version = '3.0.9';
+		var $full_name = 'NextGEN Facebook OG';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
@@ -151,20 +152,21 @@ if ( ! class_exists( 'NGFB' ) ) {
 			add_action( 'init', array( &$this, 'init_action_tests' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
-			add_filter( 'wp_head', array( &$this, 'add_head_meta' ), NGFB_HEAD_PRIORITY );
-			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-			add_filter( 'wp_footer', array( &$this, 'add_buttons_footer' ), NGFB_FOOTER_PRIORITY );
+			add_filter( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
+			add_filter( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
+			add_filter( 'the_content', array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+			add_filter( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
 	
 		function init_action_tests() {
 			if ( ! empty( $this->options['ngfb_debug'] ) ) {
-				echo '<!-- NextGEN Facebook OG ', $this->version, ' Plugin Loaded -->', "\n";
+				echo '<!-- ', $this->full_name, ' ', $this->version, ' Plugin Loaded -->', "\n";
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- NextGEN Facebook OG add_action( \'$action\' ) Priority $prio Test = Passed -->', \"\\n\";" ), $prio );
+							"echo '<!-- $this->full_name add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
 				}
 			}
 		}
@@ -180,14 +182,17 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			// allow constants to be pre-defined in wp-config.php
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
-				define( 'NGFB_HEAD_PRIORITY', 20 );
+				define( 'NGFB_HEAD_PRIORITY', 10 );
+
+			if ( ! defined( 'NGFB_OG_PRIORITY' ) )
+				define( 'NGFB_OG_PRIORITY', 20 );
 
 			if ( ! defined( 'NGFB_CONTENT_PRIORITY' ) )
 				define( 'NGFB_CONTENT_PRIORITY', 20 );
 			
 			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
 				define( 'NGFB_FOOTER_PRIORITY', 10 );
-
+			
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 160 );
 
@@ -432,7 +437,103 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $opts;
 		}
 
-		function add_content_buttons( $content ) {
+		function add_header() {
+			echo $this->get_buttons_js( 'header' );
+		}
+
+		function add_footer() {
+			echo $this->get_buttons_js( 'footer' );
+		}
+
+		// add button javascript for enabled buttons in content and widget(s)
+		function get_buttons_js( $func = 'footer', $ids = array() ) {
+			$widget = new ngfbSocialButtonsWidget();
+		 	$widget_settings = $widget->get_settings();
+			$button_html = '';
+
+			if ( empty( $ids ) ) {
+				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
+				if ( is_page() && $this->is_excluded() ) return;
+
+				foreach ( $this->social_options_prefix as $id => $prefix ) {
+					if ( $this->options[$prefix.'_enable'] && 
+						( is_singular() || $this->options['buttons_on_index'] ) )
+							$ids[] = $id;
+
+					foreach ( $widget_settings as $instance ) {
+						if ( (int) $instance[$id] && is_singular() )
+							$ids[] = $id;
+					}
+				}
+				unset ( $id, $prefix );
+			}
+			natsort( $ids );
+			$ids = array_unique( $ids );
+			$this->print_debug( '$ids', $ids );
+
+			if ( ! empty( $ids ) ) {
+				$ngfbButtons = new ngfbButtons();
+				$button_html .= "\n<!-- $this->full_name " . ucfirst( $func ) . " Javascript BEGIN -->\n";
+				if ( $func == 'header' ) $button_html .= $ngfbButtons->header_async_js();
+
+				foreach ( $ids as $id ) {
+					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
+					$button_html .= eval( "if ( method_exists( \$ngfbButtons, '${id}_$func' ) ) 
+						return \$ngfbButtons->${id}_$func();" );
+				}
+				$button_html .= "<!-- $this->full_name " . ucfirst( $func ) . " Javascript END -->\n\n";
+			}
+			return $button_html;
+		}
+
+		function add_open_graph() {
+			$this->print_debug( '$this->options', $this->options );
+
+			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
+				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
+				echo "\n<!-- $this->full_name Open Graph DISABLED -->\n\n";
+				return;
+			}
+
+			global $post;
+			$content_filtered = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
+			$og['fb:admins'] = $this->options['og_admins'];
+			$og['fb:app_id'] = $this->options['og_app_id'];
+			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
+			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
+			if ( $this->options['og_img_max'] > 0 ) 
+				$og['og:image'] = $this->get_all_images( $content_filtered, 
+					$this->options['og_img_max'], $this->options['og_img_size'] );
+			if ( $this->options['og_vid_max'] > 0 ) 
+				$og['og:video'] = $this->get_videos( $content_filtered, 
+					$this->options['og_vid_max'] );
+			$og['article:tag'] = $this->get_tags();
+		
+			if ( $post->post_author || $this->options['og_def_author_id'] ) {
+				$og['og:type'] = "article";
+				$og['article:section'] = $this->options['og_art_section'];
+				$og['article:modified_time'] = get_the_modified_date('c');
+				$og['article:published_time'] = get_the_date('c');
+				if ( $post->post_author )
+					$og['article:author'] = $this->get_author_url( $post->post_author, 
+						$this->options['og_author_field'] );
+				elseif ( $this->options['og_def_author_id'] )
+					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
+						$this->options['og_author_field'] );
+			} else $og['og:type'] = "website";
+		
+			// output whatever debug info we have before printing the open graph meta tags
+			$this->print_debug( '$this->debug', $this->debug );
+			$this->debug = array();
+
+			// add the Open Graph meta tags
+			$this->print_meta( $og );
+		}
+
+		function add_content( $content ) {
 			// if using the Exclude Pages plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
@@ -443,77 +544,16 @@ if ( ! class_exists( 'NGFB' ) ) {
 					if ( $this->options[$prefix.'_enable'] )
 						$sorted_ids[$this->options[$prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 				ksort( $sorted_ids );
-				foreach ( $sorted_ids as $id ) {
-					$button_html .= eval ( "if ( method_exists( \$ngfbButtons, '${id}_button' ) ) 
-						return \$ngfbButtons->${id}_button();" );
-				}
-				if ( $button_html ) {
-					$button_html = "
-<!-- NextGEN Facebook OG Social Buttons BEGIN -->
-<div class=\"ngfb-content-buttons ngfb-buttons\">\n$button_html\n</div>
-<!-- NextGEN Facebook OG Social Buttons END -->\n\n";
-					if ( $this->options['buttons_location'] == "top" ) 
-						$content = $button_html . $content;
-					else $content .= $button_html;
-				}
+				if ( $this->options['buttons_location'] == "top" ) 
+					$content = $this->get_social_buttons( $sorted_ids ) . $content;
+				else $content .= $this->get_social_buttons( $sorted_ids );
 			}
 			return $content;
-		}
-
-		function add_buttons_footer() {
-			// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-			if ( is_page() && $this->is_excluded() ) return $content;
-			if ( is_singular() || $this->options['buttons_on_index'] ) {
-				$ngfbButtons = new ngfbButtons();
-				echo "\n", '<!-- NextGEN Facebook OG Content Footer BEGIN -->', "\n";
-				foreach ( $this->social_options_prefix as $id => $prefix )
-					if ( $this->options[$prefix.'_enable'] ) 
-						echo eval ( "if ( method_exists( \$ngfbButtons, '${id}_footer' ) ) 
-							return \$ngfbButtons->${id}_footer();" );
-				unset ( $id, $prefix );
-				echo "\n", '<!-- NextGEN Facebook OG Content Footer END -->', "\n\n";
-			}
 		}
 
 		function is_assoc( &$arr ) {
 			if ( ! is_array( $arr ) ) return 0;
 			return is_numeric( implode( array_keys( $arr ) ) ) ? 0 : 1;
-		}
-
-		function d_msg( $msg = '' ) {
-			if ( $this->options['ngfb_debug'] ) {
-				$stack = debug_backtrace();
-				if ( ! empty( $stack[1]['function'] ) )
-					$called = $stack[1]['function'];
-				if ( ! empty( $called ) ) $msg = $called . '() : ' . $msg;
-				$this->debug[] = $msg;
-			}
-		}
-
-		function print_debug( $name = '', $msg = '' ) {
-			if ( $this->options['ngfb_debug'] ) {
-				$stack = debug_backtrace();
-				if ( ! empty( $stack[1]['function'] ) )
-					$called = $stack[1]['function'];
-
-				echo '<!-- NGFB debug ';
-				if ( ! empty( $called ) ) echo 'from ', $called, '() ';
-				if ( ! empty( $name ) ) echo $name, ' : ';
-				if ( ! empty( $msg ) ) {
-					if ( is_array( $msg ) ) {
-						echo "\n";
-						$is_assoc = $this->is_assoc( $msg );
-						if ( $is_assoc ) ksort( $msg );
-						foreach ( $msg as $key => $val ) 
-							echo $is_assoc ? "\t$key = $val\n" : "\t$val\n";
-						unset ( $key, $val );
-					} else {
-						if ( preg_match( '/^Array/', $msg ) ) echo "\n";	// check for print_r() output
-						echo $msg;
-					}
-				}
-				echo ' -->', "\n";
-			}
 		}
 
 		function get_author_url( $author_id, $field_name = 'url' ) {
@@ -749,7 +789,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 	
 				// check for singlepics on raw content
 				$images = array_merge( $images, 
-					$this->get_singlepics( $size_name ) );
+					$this->get_singlepics( $post->post_content, $size_name ) );
 
 				// stop and slice here if we have enough images
 				if ( $num > 0 && count( $images ) >= $num )
@@ -849,7 +889,6 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$og_image = array();
 			if ( ! empty( $post_id ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
-				$this->d_msg( 'get_post_thumbnail_id(' . $post_id . ') = ' . $pid );
 
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
@@ -872,11 +911,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_singlepics( $size_name = 'thumbnail' ) {
+		function get_singlepics( $content, $size_name = 'thumbnail' ) {
 			global $post;
 			$images = array();
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
-				$post->post_content, $match, PREG_SET_ORDER ) ) {
+				$content, $match, PREG_SET_ORDER ) ) {
 				$size_info = $this->get_size_values( $size_name );
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
@@ -961,56 +1000,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return array_map( 'strtolower', $tags );
 		}
 
-		function add_head_meta() {
-			$this->print_debug( '$this->options', $this->options );
-			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
-				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-				echo "\n<!-- NextGEN Facebook OG Meta Tags DISABLED -->\n\n";
-				return;
-			}
-			global $post;
-			$content_filtered = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
-			$og['fb:admins'] = $this->options['og_admins'];
-			$og['fb:app_id'] = $this->options['og_app_id'];
-			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
-			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
-			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
-			if ( $this->options['og_img_max'] > 0 ) 
-				$og['og:image'] = $this->get_all_images( $content_filtered, 
-					$this->options['og_img_max'], $this->options['og_img_size'] );
-			if ( $this->options['og_vid_max'] > 0 ) 
-				$og['og:video'] = $this->get_videos( $content_filtered, 
-					$this->options['og_vid_max'] );
-			$og['article:tag'] = $this->get_tags();
-		
-			if ( $post->post_author || $this->options['og_def_author_id'] ) {
-				$og['og:type'] = "article";
-				$og['article:section'] = $this->options['og_art_section'];
-				$og['article:modified_time'] = get_the_modified_date('c');
-				$og['article:published_time'] = get_the_date('c');
-				if ( $post->post_author )
-					$og['article:author'] = $this->get_author_url( $post->post_author, 
-						$this->options['og_author_field'] );
-				elseif ( $this->options['og_def_author_id'] )
-					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
-						$this->options['og_author_field'] );
-			} else $og['og:type'] = "website";
-		
-			// add the Open Graph meta tags
-			$this->og_meta_html( $og );
-		}
-
-		function og_meta_html( &$arr = array() ) {
+		function print_meta( &$arr = array() ) {
 			global $post;
 			$author_url = '';
-			// output whatever debug info we have before printing the open graph meta tags
-			$this->print_debug( '$this->debug', $this->debug );
-			$this->print_debug( '$arr', print_r( $arr, true ) );
-			$this->debug = array();
 		
-			echo "\n<!-- NextGEN Facebook OG Meta Tags BEGIN -->\n";
+			echo "\n<!-- $this->full_name Meta BEGIN -->\n";
+			$this->print_debug( '$arr', print_r( $arr, true ) );
+
 			if ( $this->options['link_publisher_url'] )
 				echo '<link rel="publisher" href="', $this->options['link_publisher_url'], '" />', "\n";
 
@@ -1020,7 +1016,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 			elseif ( $this->options['og_def_author_id'] )
 				$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
 					$this->options['link_author_field'] );
-			if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
+
+			if ( $author_url ) 
+				echo '<link rel="author" href="', $author_url, '" />', "\n";
 
 			ksort( $arr );
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
@@ -1038,7 +1036,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 				} else echo $this->get_meta_html( $d_name, $d_val );
 			}
 			unset ( $d_name, $d_val );
-			echo "<!-- NextGEN Facebook OG Meta Tags END -->\n\n";
+
+			echo "<!-- $this->full_name Meta END -->\n\n";
 		}
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
@@ -1065,32 +1064,25 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-				$button_html .= eval ( "if ( method_exists( \$ngfbButtons, '${id}_button' ) ) 
+				$button_html .= eval( "if ( method_exists( \$ngfbButtons, '${id}_button' ) ) 
 					return \$ngfbButtons->${id}_button( \$attr );" );
-				$button_html .= eval ( "if ( method_exists( \$ngfbButtons, '${id}_footer' ) ) 
-					return \$ngfbButtons->${id}_footer();" );
 			}
-			$this->print_debug( '$this->debug', $this->debug );
-			$this->debug = array();
-
-			if ( $button_html ) $button_html = '
-<!-- NextGEN Facebook OG Social Buttons BEGIN -->
-<div class="ngfb-buttons">
-' . $button_html . '
-</div>
-<!-- NextGEN Facebook OG Social Buttons END -->'."\n\n";
+			if ( $button_html ) 
+				$button_html = "\n<!-- $this->full_name Social Buttons BEGIN -->\n" .
+					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
+					"<!-- $this->full_name Social Buttons END -->\n\n";
 			return $button_html;
 		}
 
 		function apply_content_filter( $content, $filter_content = true ) {
 			// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
 			if ( ! preg_match( '/\[ *album[ =]/', $content ) && $filter_content ) {
-				// temporarily remove add_content_buttons() to prevent recursion
+				// temporarily remove add_content() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
-					array( $this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+					array( $this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 				$content = apply_filters( 'the_content', $content );
 				if ( $filter_removed ) add_filter( 'the_content', 
-					array( $this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+					array( $this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 			}
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
@@ -1165,6 +1157,42 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return preg_replace( '/&#\d{2,5};/ue', "ngfb_utf8_entity_decode( '$0' )", $str );
 		}
 
+		function d_msg( $msg = '' ) {
+			if ( $this->options['ngfb_debug'] ) {
+				$stack = debug_backtrace();
+				if ( ! empty( $stack[1]['function'] ) )
+					$called = $stack[1]['function'];
+				if ( ! empty( $called ) ) $msg = $called . '() : ' . $msg;
+				$this->debug[] = $msg;
+			}
+		}
+
+		function print_debug( $name = '', $msg = '' ) {
+			if ( $this->options['ngfb_debug'] ) {
+				$stack = debug_backtrace();
+				if ( ! empty( $stack[1]['function'] ) )
+					$called = $stack[1]['function'];
+
+				echo "<!-- $this->full_name debug ";
+				if ( ! empty( $called ) ) echo 'from ', $called, '() ';
+				if ( ! empty( $name ) ) echo $name, ' : ';
+				if ( ! empty( $msg ) ) {
+					if ( is_array( $msg ) ) {
+						echo "\n";
+						$is_assoc = $this->is_assoc( $msg );
+						if ( $is_assoc ) ksort( $msg );
+						foreach ( $msg as $key => $val ) 
+							echo $is_assoc ? "\t$key = $val\n" : "\t$val\n";
+						unset ( $key, $val );
+					} else {
+						if ( preg_match( '/^Array/', $msg ) ) echo "\n";	// check for print_r() output
+						echo $msg;
+					}
+				}
+				echo ' -->', "\n";
+			}
+		}
+
 	}
         global $ngfb;
 	$ngfb = new NGFB();
@@ -1182,7 +1210,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $attr = array() ) {
 		global $ngfb;
-		return $ngfb->get_social_buttons( $ids, $attr );
+		$button_html = '';
+		$button_html .= $ngfb->get_buttons_js( 'header', $ids );
+		$button_html .= $ngfb->get_social_buttons( $ids, $attr );
+		$button_html .= $ngfb->get_buttons_js( 'footer', $ids );
+		return $button_html;
 	}
 }
 

@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
-			<h2>NextGEN Facebook OG Plugin v<?php echo $ngfb->version; ?></h2>
+			<h2><?php echo $this->full_name, " Plugin v", $ngfb->version; ?></h2>
 	
 			<div class="thankyou">
 			<p>Please show your appreciation for NextGEN Facebook OG by donating a few dollars.</p>
