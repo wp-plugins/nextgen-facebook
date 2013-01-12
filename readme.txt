@@ -12,7 +12,7 @@ Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sha
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. For instance, this is used on Facebook to allow any webpage to have the same functionality as other objects on Facebook. The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. The featured image from a [NextGEN Gallery](http://wordpress.org/extend/plugins/nextgen-gallery/) or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
+NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
 
 * Facebook
 * Google+
@@ -121,7 +121,7 @@ If you want to display smaller image thumbnails in your content (on index webpag
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the "Ignore Small Images" option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
+The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
@@ -273,8 +273,8 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 = Version 3.1 =
 * Fixed a small oversight where apply_content_filter() was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
-* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p
-* Added a ngfbGoogl class from https://github.com/sebi/googl-php to shorten URLs for Twitter.
+* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
+* Added a ngfbGoogl() class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
 * Added the "Shorten URLs" option for Twitter (checked by default) and the (optional) "Goo.gl API Key" field.
 * Improved the output from the debug print-out function.

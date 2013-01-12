@@ -568,7 +568,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Shorten URLs</th>
-				<td><?php $this->checkbox( 'twitter_shorten' ); ?><p class="inline">See the <em>Goo.gl API Key</em> option in the <em>Plugin Settings</em>.</p></td>
+				<td><?php $this->checkbox( 'twitter_shorten' ); ?><p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>
 			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
