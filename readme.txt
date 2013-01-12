@@ -270,7 +270,7 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 == Changelog ==
 
-= Version 3.1 =
+= Version 3.1 (2013-01-12) =
 * Fixed a small oversight where apply_content_filter() was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
 * Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
@@ -294,7 +294,7 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 * Improved debugging output with a debug function and dump of the OG array.
 
 = Version 2.4.1 (2013-01-10) =
-* Minor fix for "0 is a protected WP option and may not be modified" error.
+* Minor update to fix the "0 is a protected WP option and may not be modified" error.
 
 = Version 2.4 (2013-01-06) =
 * Improved the admin page code by moving all select and checkbox options to functions. The drop-down selects and checkboxes now show their default values.
