@@ -26,7 +26,8 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) )
 if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
-		var $debug = array();
+		var $debug_msgs = array();
+		var $admin_msgs_err = array();
 		var $version = '3.0.9';
 		var $full_name = 'NextGEN Facebook OG';
 		var $minimum_wp_version = '3.0';
@@ -151,6 +152,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			add_action( 'init', array( &$this, 'init_action_tests' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
+			add_action( 'admin_notices', array( &$this, 'show_admin_messages' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_filter( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
@@ -280,8 +282,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 			// make sure the options weren't lost for some reason
 			if ( is_array( $opts ) && ! empty( $opts ) )
 				$this->options = $this->upgrade_options( $opts );
-			else
+			else {
+				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'ngfb_options\' array from the database.<br/>
+					All plugin settings have been returned to their default values, though nothing has been saved yet. Please visit 
+					the <a href="' . get_admin_url() . 'options-general.php?page=ngfb">' . $this->full_name . ' plugin settings 
+					page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
+			}
 		}
 
 		function upgrade_options( &$opts ) {
@@ -530,8 +537,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 			} else $og['og:type'] = "website";
 		
 			// output whatever debug info we have before printing the open graph meta tags
-			$this->print_debug( '$this->debug', $this->debug );
-			$this->debug = array();
+			$this->print_debug( '$this->debug_msgs', $this->debug_msgs );
+			$this->debug_msgs = array();
 
 			// add the Open Graph meta tags
 			$this->print_meta( $og );
@@ -1167,7 +1174,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
 				if ( ! empty( $called ) ) $msg = $called . '() : ' . $msg;
-				$this->debug[] = $msg;
+				$this->debug_msgs[] = $msg;
 			}
 		}
 
@@ -1194,6 +1201,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 					}
 				}
 				echo ' -->', "\n";
+			}
+		}
+
+		function show_admin_messages() {
+			foreach ( $this->admin_msgs_err as $msg ) {
+				echo '<div id="message" class="error"><p>', 
+					$this->full_name, ' Error Message : ', $msg, '</p></div>';
 			}
 		}
 
