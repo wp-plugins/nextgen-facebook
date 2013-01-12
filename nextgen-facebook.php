@@ -416,6 +416,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				'gp_enable',
 				'twitter_enable',
 				'twitter_dnt',
+				'twitter_shorten',
 				'linkedin_enable',
 				'pin_enable',
 				'tumblr_enable',
