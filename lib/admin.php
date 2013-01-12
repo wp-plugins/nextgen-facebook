@@ -781,7 +781,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Goo.gl API Key</th>
 				<td colspan="2"><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation and follow the directions to aquire your API Key.</p></td>
+				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to aquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
