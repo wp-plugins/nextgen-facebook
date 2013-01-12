@@ -103,25 +103,24 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
+			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
+			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
+			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
+			if ( empty( $attr['quote'] ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
+
 			if ( empty( $attr['embed'] ) ) {
 				$videos = array();
 				$content = $ngfb->apply_content_filter( $post->post_content, $ngfb->options['ngfb_filter_content'] );
 				$videos = $ngfb->get_videos( $content, 1 );	// get the first video, if any
-				if ( $ngfb->options['ngfb_debug'] ) 
-					$ngfb->debug_msg( __FUNCTION__ . ':$videos', print_r( $videos, true ) );
 				if ( ! empty( $videos[0]['og:video'] ) ) $attr['embed'] = $videos[0]['og:video'];
 			}
-			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
-			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
-			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
 		
-			// only use an get a featured image if 'tumblr_photo' option allows it
+			// only use featured image if 'tumblr_photo' option allows it
 			if ( empty( $attr['photo'] ) && $ngfb->options['tumblr_photo'] ) {
-				if ( empty( $attr['pid'] ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				if ( empty( $attr['pid'] ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) )
 					$attr['pid'] = get_post_thumbnail_id( $post->ID );
-				}
+				
 				if ( ! empty( $attr['pid'] ) ) {
-					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
 						$attr['photo'] = $ngfb->get_ngg_url( $attr['pid'], $attr['size'] );
 					} else {
@@ -130,12 +129,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					}
 				}
 			}
-			if ( empty( $attr['quote'] ) && get_post_format( $post->ID ) == 'quote' ) {
-				$attr['quote'] = $ngfb->get_quote();
-			}
-			if ( $ngfb->options['ngfb_debug'] ) 
-				$ngfb->debug_msg( __FUNCTION__ . ':$attr', print_r( $attr, true ) );
-
+			
 			// define the button, based on what we have
 			if ( ! empty( $attr['photo'] ) ) {
 				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
