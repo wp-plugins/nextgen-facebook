@@ -166,7 +166,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 	
 		function init_action_tests() {
-			if ( ! empty( $this->options['ngfb_debug'] ) ) {
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Loaded -->', "\n";
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -270,7 +270,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 		// create new default options on plugin activation if ngfb_reset = 1, 
 		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		function activate() {
-			if ( ! empty( $this->options['ngfb_reset'] ) || ! is_array( $this->options ) || empty( $this->options ) ) {
+			if ( ! empty( $this->options['ngfb_reset'] ) 
+				|| ( defined( 'NGFB_RESET' ) && NGFB_RESET ) 
+				|| ! is_array( $this->options ) 
+				|| empty( $this->options ) ) {
+
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
 				add_option( NGFB_OPTIONS_NAME, $this->default_options, '', 'yes' );
 			}
@@ -302,10 +306,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 					page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
 			}
-			if ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) $this->options['ngfb_debug'] = 1;
-			if ( defined( 'NGFB_RESET' ) && NGFB_RESET ) $this->options['ngfb_reset'] = 1;
-			if ( ! empty( $this->options['ngfb_debug'] ) ) {
-				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging comments are being generated and added to webpages.';
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
+					comments are being generated and added to webpages.';
 			}
 		}
 
@@ -492,8 +495,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 				if ( is_page() && $this->is_excluded() ) return;
 
 				foreach ( $this->social_options_prefix as $id => $prefix ) {
-					if ( $this->options[$prefix.'_enable'] && 
-						( is_singular() || $this->options['buttons_on_index'] ) )
+					if ( $this->options[$prefix.'_enable'] 
+						&& ( is_singular() || $this->options['buttons_on_index'] ) )
 							$ids[] = $id;
 
 					foreach ( $widget_settings as $instance ) {
@@ -525,8 +528,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function add_open_graph() {
 			$this->print_debug( '$this->options', $this->options );
 
-			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
-				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
+			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
+				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
+
 				echo "\n<!-- ", NGFB_FULLNAME, " Open Graph DISABLED -->\n\n";
 				return;
 			}
@@ -820,8 +824,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 				return array_slice( $images, 0, $num );
 
 			// get images from content if singular, or allowed by options for index default
-			if ( is_singular() || ( is_search() && ! $this->options['og_def_img_on_search'] ) ||
-				( ! is_singular() && ! is_search() && ! $this->options['og_def_img_on_index'] ) ) {
+			if ( is_singular() || ( is_search() && ! $this->options['og_def_img_on_search'] ) 
+				|| ( ! is_singular() && ! is_search() && ! $this->options['og_def_img_on_index'] ) ) {
 	
 				// check for singlepics on raw content
 				$images = array_merge( $images, 
@@ -837,8 +841,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 			// if we didn't find any images, then use the default image
 			if ( ! $images ) {
-				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) ||
-					( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) )
+				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) 
+					|| ( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) )
 						$images = array_merge( $images, $this->get_default_image( $size_name ) );
 			}
 			if ( $num > 0 ) $images = array_slice( $images, 0, $num );
@@ -895,9 +899,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
 
 					// if we're picking up an img from 'src', make sure it's width and height is large enough
-					if ( $src_name == 'share-' . $size_name || $src_name == 'share' || 
-						( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
-						( $src_name == 'src' && $this->options['ngfb_skip_small_img'] && 
+					if ( $src_name == 'share-' . $size_name || $src_name == 'share' 
+						|| ( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) 
+						|| ( $src_name == 'src' && $this->options['ngfb_skip_small_img'] && 
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 
@@ -1194,7 +1198,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function d_msg( $msg = '' ) {
-			if ( $this->options['ngfb_debug'] ) {
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
@@ -1204,7 +1208,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function print_debug( $name = '', $msg = '' ) {
-			if ( $this->options['ngfb_debug'] ) {
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
