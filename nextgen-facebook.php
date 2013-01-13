@@ -148,7 +148,6 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$this->load_dependencies();
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
-			$this->options_url = get_admin_url() . 'options-general.php?page=' . NGFB_CLASSNAME;
 
 			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
 			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall' ) );
@@ -163,6 +162,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 			add_filter( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
+		}
+
+		function get_options_url() {
+			return get_admin_url( null, 'options-general.php?page=' . NGFB_CLASSNAME );
 		}
 	
 		function init_action_tests() {
@@ -288,7 +291,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		// display a settings link on the main plugins page
 		function plugin_action_links( $links, $file ) {
 			if ( $file == plugin_basename( __FILE__ ) ) {
-				array_push( $links, '<a href="'.get_admin_url().'options-general.php?page=ngfb">'.__('Settings').'</a>' );
+				array_push( $links, '<a href="' . $this->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
 			}
 			return $links;
 		}
@@ -302,7 +305,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			else {
 				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
 					from the database.<br/>All plugin settings have been returned to their default values, though nothing
-					has been saved yet. Please visit the <a href="' . $this->options_url . '">' . NGFB_FULLNAME . ' settings 
+					has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings 
 					page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
 			}
@@ -317,7 +320,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated to version ' . 
 					$this->version . '. To avoid these extra sanitation checks, and maximize plugin performance, 
-					please visit the <a href="' . $this->options_url . '">' . NGFB_FULLNAME . ' settings page</a> 
+					please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> 
 					to review and save the updated settings</a>.';
 
 				// move old option values to new option names

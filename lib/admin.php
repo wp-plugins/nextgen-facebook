@@ -193,7 +193,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="metabox-holder">
 			<form name="ngfb" method="post" action="options.php">
 			<?php
-				settings_fields('ngfb_plugin_options');
+				settings_fields( 'ngfb_plugin_options' );
 				echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[ngfb_version]" value="', $ngfb->version, '" />', "\n";
 			?>
 			<div id="ngfb-ogsettings" class="postbox">
