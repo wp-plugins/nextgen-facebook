@@ -793,6 +793,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function select( $name, $values = array(), $class = '', $id = '' ) {
+			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
 			$is_assoc = $ngfb->is_assoc( $values );
 			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
@@ -811,6 +812,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
+			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
 			$input = '<input type="checkbox" name="' . NGFB_OPTIONS_NAME . '[' . $name . ']" value="' . $check[0] . '"' .
 				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
@@ -820,6 +822,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function input( $name, $class = '', $id = '' ) {
+			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
 			echo '<input type="text" name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
@@ -828,6 +831,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function select_img_size( $name ) {
+			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
 			global $_wp_additional_image_sizes;
 			$size_names = get_intermediate_image_sizes();

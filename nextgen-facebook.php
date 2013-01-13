@@ -591,7 +591,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $content;
 		}
 
-		function is_assoc( &$arr ) {
+		function is_assoc( $arr ) {
 			if ( ! is_array( $arr ) ) return 0;
 			return is_numeric( implode( array_keys( $arr ) ) ) ? 0 : 1;
 		}
