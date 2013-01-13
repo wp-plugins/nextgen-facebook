@@ -84,19 +84,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function admin_init() {
-			register_setting( 'ngfb_plugin_options', 'ngfb_options', array( &$this, 'sanitize_options' ) );
+			register_setting( 'ngfb_plugin_options', NGFB_OPTIONS_NAME, array( NGFB_CLASSNAME, 'sanitize_options' ) );
 		}
 	
 		function admin_menu() {
-			add_options_page('NextGEN Facebook OG Plugin', 'NextGEN Facebook', 'manage_options', 'ngfb', array( &$this, 'options_page' ) );
+			add_options_page( NGFB_FULLNAME . 'Plugin', 'NextGEN Facebook', 'manage_options', NGFB_CLASSNAME, array( &$this, 'options_page' ) );
 		}
 	
-		// sanitize and validate options
-		function sanitize_options( $opts ) {
-			global $ngfb;
-			return $ngfb->sanitize_options( $opts );
-		}
-
 		function options_page() {
 			global $ngfb;
 			$buttons_count = 0;
@@ -167,11 +161,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:center;
 				}
 				#donate { text-align:center; }
+				#message p { text-align:left; }
 			</style>
 		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
-			<h2><?php echo $ngfb->full_name, " Plugin v", $ngfb->version; ?></h2>
+			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 	
 			<div class="thankyou">
 			<p>Please show your appreciation for NextGEN Facebook OG by donating a few dollars.</p>
@@ -197,8 +192,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			<div class="metabox-holder">
 			<form name="ngfb" method="post" action="options.php">
-			<?php settings_fields('ngfb_plugin_options'); ?>
-			<input type="hidden" name="ngfb_options[ngfb_version]" value="<?php echo $ngfb->version; ?>" />
+			<?php
+				settings_fields('ngfb_plugin_options');
+				echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[ngfb_version]" value="', $ngfb->version, '" />', "\n";
+			?>
 			<div id="ngfb-ogsettings" class="postbox">
 			<h3 class="hndle"><span>Open Graph Settings</span></h3>
 			<div class="inside">	
@@ -215,7 +212,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Default Author</th>
-				<td><select name="ngfb_options[og_def_author_id]">
+				<td><select name="<?php echo NGFB_OPTIONS_NAME ?>[og_def_author_id]">
 					<option value=""<?php selected( $ngfb->options['og_def_author_id'], '' ); ?>>None (default)</option>
 					<?php $users = get_users( $query_args );
 						foreach ( (array) $users as $user ) 
@@ -234,10 +231,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image ID</th>
 				<td><?php $this->input( 'og_def_img_id', 'number' ); ?> in the
-					<select name='ngfb_options[og_def_img_id_pre]' style="width:160px;">
-						<option value='' <?php selected($ngfb->options['og_def_img_id_pre'], ''); ?>>Media Library</option>
+					<select name="<?php echo NGFB_OPTIONS_NAME ?>[og_def_img_id_pre]" style="width:160px;">
+						<option value="" <?php selected($ngfb->options['og_def_img_id_pre'], ''); ?>>Media Library</option>
 						<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
-						<option value='ngg' <?php selected($ngfb->options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
+						<option value="ngg" <?php selected($ngfb->options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
 						<?php	endif; ?>
 					</select>
 				</td>
@@ -619,7 +616,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 								echo '
 									<div class="btn_wizard_example clearfix">
 										<label for="share_', $i, $t, '">
-											<input type="radio" id="share_', $i, $t, '" name="ngfb_options[tumblr_button_style]" 
+											<input type="radio" id="share_', $i, $t, '" 
+												name="', NGFB_OPTIONS_NAME, '[tumblr_button_style]" 
 												value="share_', $i, $t, '" ', 
 												checked( 'share_'.$i.$t, $ngfb->options['tumblr_button_style'], false ), '/>
 											<img src="http://platform.tumblr.com/v1/share_', $i, $t, '.png" 
@@ -737,7 +735,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 								case '4': echo '</div><div class="badge-col-right">', "\n"; break;
 							}
 							echo '<div class="badge" id="badge-', $i, '">', "\n";
-							echo '<input type="radio" name="ngfb_options[stumble_badge]" value="', $i, '" ', 
+							echo '<input type="radio" name="', NGFB_OPTIONS_NAME, '[stumble_badge]" value="', $i, '" ', 
 								checked( $i, $ngfb->options['stumble_badge'], false ), '/>', "\n";
 							echo '</div>', "\n";
 							switch ( $i ) { case '6': echo '</div>', "\n"; break; }
@@ -797,7 +795,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		function select( $name, $values = array(), $class = '', $id = '' ) {
 			global $ngfb;
 			$is_assoc = $ngfb->is_assoc( $values );
-			echo '<select name="ngfb_options[', $name, ']"',
+			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ), '>', "\n";
 			foreach ( (array) $values as $val => $desc ) {
@@ -814,7 +812,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
 			global $ngfb;
-			$input = '<input type="checkbox" name="ngfb_options[' . $name . ']" value="' . $check[0] . '"' .
+			$input = '<input type="checkbox" name="' . NGFB_OPTIONS_NAME . '[' . $name . ']" value="' . $check[0] . '"' .
 				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
 				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" /></small>';
 			if ( $echo ) echo $input;
@@ -823,7 +821,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		function input( $name, $class = '', $id = '' ) {
 			global $ngfb;
-			echo '<input type="text" name="ngfb_options[', $name, ']"',
+			echo '<input type="text" name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ),
 				' value="', $ngfb->options[$name], '" />';
@@ -834,7 +832,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			global $_wp_additional_image_sizes;
 			$size_names = get_intermediate_image_sizes();
 			natsort( $size_names );
-			echo '<select name="ngfb_options[', $name, ']">', "\n";
+			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']">', "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
 				$size = $ngfb->get_size_values( $size_name );

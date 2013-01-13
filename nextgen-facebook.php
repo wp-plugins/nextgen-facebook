@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.1
+Version: 3.1.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,9 +27,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
 		var $debug_msgs = array();
+		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
-		var $version = '3.1';
-		var $full_name = 'NextGEN Facebook OG';
+		var $version = '3.1.1';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
@@ -148,6 +148,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$this->load_dependencies();
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
+			$this->options_url = get_admin_url() . 'options-general.php?page=' . NGFB_CLASSNAME;
 
 			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
 			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall' ) );
@@ -166,11 +167,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 	
 		function init_action_tests() {
 			if ( ! empty( $this->options['ngfb_debug'] ) ) {
-				echo '<!-- ', $this->full_name, ' ', $this->version, ' Plugin Loaded -->', "\n";
+				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Loaded -->', "\n";
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- $this->full_name add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
+							"echo '<!-- " . NGFB_FULLNAME . " add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
 				}
 			}
 		}
@@ -178,13 +179,21 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function define_constants() { 
 			global $wp_version;
 
+			// NGFB_DEBUG
+			// NGFB_RESET
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
 
+			define( 'NGFB_CLASSNAME', 'NGFB' );
+			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
 			define( 'NGFB_FOLDER', basename( dirname( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
 
-			// allow constants to be pre-defined in wp-config.php
+			// allow some constants to be pre-defined in wp-config.php
+
+			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
+				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
+
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
 				define( 'NGFB_HEAD_PRIORITY', 10 );
 
@@ -258,17 +267,18 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $output . ' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
-		// create new default options on plugin activation if ngfb_reset = 1, ngfb_options is not an array, or ngfb_options is an empty array
+		// create new default options on plugin activation if ngfb_reset = 1, 
+		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		function activate() {
 			if ( ! empty( $this->options['ngfb_reset'] ) || ! is_array( $this->options ) || empty( $this->options ) ) {
-				delete_option( 'ngfb_options' );	// remove old options, if any
-				update_option( 'ngfb_options', $this->default_options );
+				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
+				add_option( NGFB_OPTIONS_NAME, $this->default_options, '', 'yes' );
 			}
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
 		function uninstall() {
-			delete_option( 'ngfb_options' );
+			delete_option( NGFB_OPTIONS_NAME );
 		}
 
 		// display a settings link on the main plugins page
@@ -281,21 +291,32 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
-			$opts = get_option( 'ngfb_options' );
+			$opts = get_option( NGFB_OPTIONS_NAME );
 			// make sure the options weren't lost for some reason
 			if ( is_array( $opts ) && ! empty( $opts ) )
 				$this->options = $this->upgrade_options( $opts );
 			else {
-				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'ngfb_options\' array from the database.<br/>
-					All plugin settings have been returned to their default values, though nothing has been saved yet. Please visit 
-					the <a href="' . get_admin_url() . 'options-general.php?page=ngfb">' . $this->full_name . ' plugin settings 
+				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
+					from the database.<br/>All plugin settings have been returned to their default values, though nothing
+					has been saved yet. Please visit the <a href="' . $this->options_url . '">' . NGFB_FULLNAME . ' settings 
 					page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
+			}
+			if ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) $this->options['ngfb_debug'] = 1;
+			if ( defined( 'NGFB_RESET' ) && NGFB_RESET ) $this->options['ngfb_reset'] = 1;
+			if ( ! empty( $this->options['ngfb_debug'] ) ) {
+				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging comments are being generated and added to webpages.';
 			}
 		}
 
 		function upgrade_options( &$opts ) {
 			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->version ) {
+
+				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated to version ' . 
+					$this->version . '. To avoid these extra sanitation checks, and maximize plugin performance, 
+					please visit the <a href="' . $this->options_url . '">' . NGFB_FULLNAME . ' settings page</a> 
+					to review and save the updated settings</a>.';
+
 				// move old option values to new option names
 				foreach ( array(
 					'og_def_img' => 'og_def_img_url',
@@ -327,7 +348,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		// sanitize and validate input
-		function sanitize_options( &$opts ) {
+		function sanitize_options( $opts ) {
 
 			$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
 			$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
@@ -488,7 +509,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			if ( ! empty( $ids ) ) {
 				$ngfbButtons = new ngfbButtons();
-				$button_html .= "\n<!-- $this->full_name " . ucfirst( $func ) . " Javascript BEGIN -->\n";
+				$button_html .= "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript BEGIN -->\n";
 				if ( $func == 'header' ) $button_html .= $ngfbButtons->header_async_js();
 
 				foreach ( $ids as $id ) {
@@ -496,7 +517,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					$button_html .= eval( "if ( method_exists( \$ngfbButtons, '${id}_$func' ) ) 
 						return \$ngfbButtons->${id}_$func();" );
 				}
-				$button_html .= "<!-- $this->full_name " . ucfirst( $func ) . " Javascript END -->\n\n";
+				$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript END -->\n\n";
 			}
 			return $button_html;
 		}
@@ -506,7 +527,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-				echo "\n<!-- $this->full_name Open Graph DISABLED -->\n\n";
+				echo "\n<!-- ", NGFB_FULLNAME, " Open Graph DISABLED -->\n\n";
 				return;
 			}
 
@@ -1019,7 +1040,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- $this->full_name Meta BEGIN -->\n";
+			echo "\n<!-- ", NGFB_FULLNAME, " Meta BEGIN -->\n";
 			$this->print_debug( '$arr', print_r( $arr, true ) );
 
 			if ( $this->options['link_publisher_url'] )
@@ -1052,7 +1073,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 			unset ( $d_name, $d_val );
 
-			echo "<!-- $this->full_name Meta END -->\n\n";
+			echo "<!-- ", NGFB_FULLNAME, " Meta END -->\n\n";
 		}
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
@@ -1083,9 +1104,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 					return \$ngfbButtons->${id}_button( \$attr );" );
 			}
 			if ( $button_html ) 
-				$button_html = "\n<!-- $this->full_name Social Buttons BEGIN -->\n" .
+				$button_html = "\n<!-- " . NGFB_FULLNAME . " Social Buttons BEGIN -->\n" .
 					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
-					"<!-- $this->full_name Social Buttons END -->\n\n";
+					"<!-- " . NGFB_FULLNAME . " Social Buttons END -->\n\n";
 			return $button_html;
 		}
 
@@ -1188,7 +1209,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
 
-				echo "<!-- $this->full_name debug ";
+				echo "<!-- ", NGFB_FULLNAME, " debug ";
 				if ( ! empty( $called ) ) echo 'from ', $called, '() ';
 				if ( ! empty( $name ) ) echo $name, ' : ';
 				if ( ! empty( $msg ) ) {
@@ -1209,10 +1230,17 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function show_admin_messages() {
-			foreach ( $this->admin_msgs_err as $msg ) {
-				echo '<div id="message" class="error"><p>', 
-					$this->full_name, ' Error Message : ', $msg, '</p></div>';
-			}
+			$prefix = NGFB_FULLNAME;
+
+			if ( ! empty( $this->admin_msgs_err ) ) echo '<div id="message" class="error">';
+			foreach ( $this->admin_msgs_err as $msg )
+				echo '<p>', $prefix, ' Warning : ', $msg, '</p>';
+			if ( ! empty( $this->admin_msgs_err ) ) echo '</div>';
+
+			if ( ! empty( $this->admin_msgs_inf ) ) echo '<div id="message" class="updated fade">';
+			foreach ( $this->admin_msgs_inf as $msg )
+				echo '<p>', $prefix, ' Notice : ', $msg, '</p>';
+			if ( ! empty( $this->admin_msgs_inf ) ) echo '</div>';
 		}
 
 	}
