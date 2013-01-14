@@ -22,7 +22,7 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 * tumblr
 * StumbleUpon
 
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it.
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.
 
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
@@ -268,9 +268,9 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 * For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
 
-== Constants ==
+== PHP Constants ==
 
-To address very specific needs, the following constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
+To address very specific needs, the following PHP constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
 
 * `NGFB_DEBUG` : Set this constant to `true` to turn on hidden debug messages, and use "View Source" on any webpage to view the debug messages. An informational message box will also be displayed in admin pages as reminder that debug mode is on.
 
