@@ -903,24 +903,21 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$images = array();
 			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
 
-			// check for ngg gallery, and if found, for ngg image pids
-			if ( preg_match( '/<div[^>]*? id=[\'"](ngg-gallery-[^\'"]+)[\'"][^>]*>/is', $content, $gallery ) ) {
-				$this->d_msg( 'ngg gallery found = ' . $gallery[1] );
-				if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
-					$content, $match, PREG_SET_ORDER ) ) {
-					foreach ( $match as $pid ) {
-						$og_image = array(
-							'og:image' => '',
-							'og:image:width' => $size_info['width'],
-							'og:image:height' => $size_info['height']
-						);
-						$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid[1], $size_name );
-						$this->d_msg( 'get_ngg_url(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
-						// avoid duplicates
-						if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
-							$found[$og_image['og:image']] = 1;
-							array_push( $images, $og_image );	// everything ok, so push the image
-						}
+			// check for ngg image ids
+			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
+				$content, $match, PREG_SET_ORDER ) ) {
+				foreach ( $match as $pid ) {
+					$og_image = array(
+						'og:image' => '',
+						'og:image:width' => $size_info['width'],
+						'og:image:height' => $size_info['height']
+					);
+					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid[1], $size_name );
+					$this->d_msg( 'get_ngg_url(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
+					// avoid duplicates
+					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
+						$found[$og_image['og:image']] = 1;
+						array_push( $images, $og_image );	// everything ok, so push the image
 					}
 				}
 			}
