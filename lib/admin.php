@@ -237,9 +237,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Image ID</th>
 				<td><?php $this->input( 'og_def_img_id', 'number' ); ?> in the
 					<select name="<?php echo NGFB_OPTIONS_NAME ?>[og_def_img_id_pre]" style="width:160px;">
-						<option value="" <?php selected($ngfb->options['og_def_img_id_pre'], ''); ?>>Media Library</option>
+						<option value="" <?php selected( $ngfb->options['og_def_img_id_pre'], '' ); ?>>Media Library</option>
 						<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
-						<option value="ngg" <?php selected($ngfb->options['og_def_img_id_pre'], 'ngg'); ?>>NextGEN Gallery</option>
+						<option value="ngg" <?php selected( $ngfb->options['og_def_img_id_pre'], 'ngg' ); ?>>NextGEN Gallery</option>
 						<?php	endif; ?>
 					</select>
 				</td>

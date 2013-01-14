@@ -257,7 +257,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$plugin = plugin_basename( __FILE__ );
 			$plugin_data = get_plugin_data( __FILE__, false );
 			if ( version_compare( $wp_version, $this->minimum_wp_version, "<" ) ) {
-				if( is_plugin_active($plugin) ) {
+				if( is_plugin_active( $plugin ) ) {
 					deactivate_plugins( $plugin );
 					wp_die( '\'' . $plugin_data['Name'] . '\' requires WordPress ' . $this->minimum_wp_version . 
 						' or higher and has been deactivated. Please upgrade WordPress and try again.
@@ -299,12 +299,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
-			$opts = get_option( NGFB_OPTIONS_NAME );
 
-			// make sure the options weren't lost for some reason
-			if ( is_array( $opts ) && ! empty( $opts ) )
-				$this->options = $this->upgrade_options( $opts );
-			else {
+			$this->options = get_option( NGFB_OPTIONS_NAME );
+
+			// make sure we have something to work with
+			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
+				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] != $this->opts_version )
+					$this->options = $this->upgrade_options( $this->options );
+			} else {
 				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
 					from the database.<br/>All plugin settings have been returned to their default values, though nothing
 					has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings 
@@ -318,14 +320,16 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 		}
 
-		function upgrade_options( $opts ) {
-			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->opts_version ) {
+		function upgrade_options( $opts = array() ) {
 
-				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these extra 
-					sanitation checks, and maximize plugin performance, please visit the <a href="' . 
+			// make sure we have something to work with
+			if ( ! empty( $opts ) && is_array( $opts ) ) {
+
+				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these 
+					extra sanitation checks, and maximize plugin performance, please visit the <a href="' . 
 					$this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save the 
 					updated settings</a>.';
-
+	
 				// move old option values to new option names
 				foreach ( array(
 					'og_def_img' => 'og_def_img_url',
@@ -337,19 +341,19 @@ if ( ! class_exists( 'NGFB' ) ) {
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) )
 						$opts[$new] = $opts[$old];
 				unset ( $old, $new );
-
+	
 				// remove old options that no longer exist
 				foreach ( $opts as $key => $val )
 					if ( ! empty( $key ) && ! array_key_exists( $key, $this->default_options ) )
 						delete_option( $opts[$key] );
 				unset ( $key, $val );
-
+	
 				// add new options with default values
 				foreach ( $this->default_options as $key => $val )
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) )
 						$opts[$key] = $val;
 				unset( $key, $val );
-
+	
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize_options( $opts );
 			}
@@ -357,128 +361,132 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		// sanitize and validate input
-		function sanitize_options( $opts ) {
+		function sanitize_options( $opts = array() ) {
 
-			$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
-			$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
+			// make sure we have something to work with
+			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-			// sanitize the option by stipping off any leading URLs (leaving just the account names)
-			foreach ( array( 'og_admins' ) as $opt ) 
-				$opts[$opt] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $opts[$opt] ) );
+				$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
+				$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
+	
+				// sanitize the option by stipping off any leading URLs (leaving just the account names)
+				foreach ( array( 'og_admins' ) as $opt ) 
+					$opts[$opt] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $opts[$opt] ) );
+	
+				// options that must be a URL
+				foreach ( array( 
+					'link_publisher_url',
+					'og_def_img_url'
+				) as $opt ) 
+					if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
+						$opts[$opt] = $this->default_options[$opt];
+	
+				// options that must be numeric (blank or zero is ok)
+				foreach ( array( 
+					'og_img_max', 
+					'og_vid_max', 
+					'og_def_img_id',
+					'og_def_author_id'
+				) as $opt ) 
+					if ( $opts[$opt] && ! is_numeric( $opts[$opt] ) ) 
+						$opts[$opt] = $this->default_options[$opt];
+	
+				// integer options that cannot be zero
+				foreach ( array( 
+					'og_title_len', 
+					'og_desc_len', 
+					'fb_order', 
+					'gp_order', 
+					'twitter_order', 
+					'linkedin_order', 
+					'pin_order', 
+					'pin_cap_len', 
+					'tumblr_order', 
+					'tumblr_desc_len', 
+					'tumblr_cap_len',
+					'stumble_order', 
+					'stumble_badge'
+				) as $opt ) 
+					if ( ! $opts[$opt] || ! is_numeric( $opts[$opt] ) )
+						$opts[$opt] = $this->default_options[$opt];
+	
+				if ( $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
+					$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
+	
+				// options that cannot be blank
+				foreach ( array( 
+					'link_author_field',
+					'og_img_size', 
+					'og_author_field',
+					'buttons_location', 
+					'gp_action', 
+					'gp_size', 
+					'gp_annotation', 
+					'twitter_count', 
+					'twitter_size', 
+					'linkedin_counter',
+					'pin_count_layout',
+					'pin_img_size',
+					'pin_caption',
+					'tumblr_button_style',
+					'tumblr_img_size',
+					'tumblr_caption'
+				) as $opt ) {
+					$opts[$opt] = wp_filter_nohtml_kses( $opts[$opt] );
+					if ( ! $opts[$opt] ) $opts[$opt] = $this->default_options[$opt];
+				}
+			
+				// true/false options
+				foreach ( array( 
+					'og_def_img_on_index',
+					'og_def_img_on_search',
+					'og_ngg_tags',
+					'og_page_parent_tags',
+					'og_page_title_tag',
+					'og_desc_strip',
+					'og_desc_wiki',
+					'buttons_on_index',
+					'buttons_on_ex_pages',
+					'fb_enable',
+					'fb_send',
+					'fb_show_faces',
+					'gp_enable',
+					'twitter_enable',
+					'twitter_dnt',
+					'twitter_shorten',
+					'linkedin_enable',
+					'pin_enable',
+					'tumblr_enable',
+					'tumblr_photo',
+					'stumble_enable',
+					'inc_fb:admins',
+					'inc_fb:app_id',
+					'inc_og:site_name',
+					'inc_og:title',
+					'inc_og:type',
+					'inc_og:url',
+					'inc_og:description',
+					'inc_og:image',
+					'inc_og:image:width',
+					'inc_og:image:height',
+					'inc_og:video',
+					'inc_og:video:width',
+					'inc_og:video:height',
+					'inc_og:video:type',
+					'inc_article:author',
+					'inc_article:modified_time',
+					'inc_article:published_time',
+					'inc_article:section',
+					'inc_article:tag',
+					'ngfb_reset',
+					'ngfb_debug',
+					'ngfb_filter_content',
+					'ngfb_filter_excerpt',
+					'ngfb_skip_small_img'
+				) as $opt )
+					$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
 
-			// options that must be a URL
-			foreach ( array( 
-				'link_publisher_url',
-				'og_def_img_url'
-			) as $opt ) 
-				if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
-					$opts[$opt] = $this->default_options[$opt];
-
-			// options that must be numeric (blank or zero is ok)
-			foreach ( array( 
-				'og_img_max', 
-				'og_vid_max', 
-				'og_def_img_id',
-				'og_def_author_id'
-			) as $opt ) 
-				if ( $opts[$opt] && ! is_numeric( $opts[$opt] ) ) 
-					$opts[$opt] = $this->default_options[$opt];
-
-			// integer options that cannot be zero
-			foreach ( array( 
-				'og_title_len', 
-				'og_desc_len', 
-				'fb_order', 
-				'gp_order', 
-				'twitter_order', 
-				'linkedin_order', 
-				'pin_order', 
-				'pin_cap_len', 
-				'tumblr_order', 
-				'tumblr_desc_len', 
-				'tumblr_cap_len',
-				'stumble_order', 
-				'stumble_badge'
-			) as $opt ) 
-				if ( ! $opts[$opt] || ! is_numeric( $opts[$opt] ) )
-					$opts[$opt] = $this->default_options[$opt];
-
-			if ( $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
-				$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
-
-			// options that cannot be blank
-			foreach ( array( 
-				'link_author_field',
-				'og_img_size', 
-				'og_author_field',
-				'buttons_location', 
-				'gp_action', 
-				'gp_size', 
-				'gp_annotation', 
-				'twitter_count', 
-				'twitter_size', 
-				'linkedin_counter',
-				'pin_count_layout',
-				'pin_img_size',
-				'pin_caption',
-				'tumblr_button_style',
-				'tumblr_img_size',
-				'tumblr_caption'
-			) as $opt ) {
-				$opts[$opt] = wp_filter_nohtml_kses( $opts[$opt] );
-				if ( ! $opts[$opt] ) $opts[$opt] = $this->default_options[$opt];
 			}
-		
-			// true/false options
-			foreach ( array( 
-				'og_def_img_on_index',
-				'og_def_img_on_search',
-				'og_ngg_tags',
-				'og_page_parent_tags',
-				'og_page_title_tag',
-				'og_desc_strip',
-				'og_desc_wiki',
-				'buttons_on_index',
-				'buttons_on_ex_pages',
-				'fb_enable',
-				'fb_send',
-				'fb_show_faces',
-				'gp_enable',
-				'twitter_enable',
-				'twitter_dnt',
-				'twitter_shorten',
-				'linkedin_enable',
-				'pin_enable',
-				'tumblr_enable',
-				'tumblr_photo',
-				'stumble_enable',
-				'inc_fb:admins',
-				'inc_fb:app_id',
-				'inc_og:site_name',
-				'inc_og:title',
-				'inc_og:type',
-				'inc_og:url',
-				'inc_og:description',
-				'inc_og:image',
-				'inc_og:image:width',
-				'inc_og:image:height',
-				'inc_og:video',
-				'inc_og:video:width',
-				'inc_og:video:height',
-				'inc_og:video:type',
-				'inc_article:author',
-				'inc_article:modified_time',
-				'inc_article:published_time',
-				'inc_article:section',
-				'inc_article:tag',
-				'ngfb_reset',
-				'ngfb_debug',
-				'ngfb_filter_content',
-				'ngfb_filter_excerpt',
-				'ngfb_skip_small_img'
-			) as $opt )
-				$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
-
 			return $opts;
 		}
 
