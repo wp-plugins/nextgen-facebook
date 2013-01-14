@@ -194,7 +194,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<form name="ngfb" method="post" action="options.php">
 			<?php
 				settings_fields( 'ngfb_plugin_options' );
-				echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[ngfb_version]" value="', $ngfb->version, '" />', "\n";
+				echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[ngfb_version]" value="', $ngfb->opts_version, '" />', "\n";
 			?>
 			<div id="ngfb-ogsettings" class="postbox">
 			<h3 class="hndle"><span>Open Graph Settings</span></h3>

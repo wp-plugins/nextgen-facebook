@@ -26,11 +26,10 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) )
 if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
+		var $version = '3.1.1';		// for display purposes
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
-		var $version = '3.1.1';
-		var $opts_version = '3.0';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
@@ -49,6 +48,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
 		var $options = array();
+		var $opts_version = '3.0';	// compared with ngfb_version
 		var $default_options = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
