@@ -106,6 +106,10 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
+= Q. Why are there duplicate Facebook / Google fields on the user profile page? =
+
+**A.** NextGEN Facebook OG adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NextGEN Facebook OG to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the Other Notes tab for additional information.
+
 = Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
 
 **A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. 
@@ -244,13 +248,15 @@ wp_head();
 
 = Rename or Add Profile URL Fields =
 
-By default, NextGEN Facebook OG adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "google". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
+By default, NextGEN Facebook OG adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "gplus". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
 
 `
 define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
 `
 
 A comma separates the the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
+
+If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NextGEN Facebook OG settings page.
 
 = Performance Tuning =
 
@@ -262,7 +268,41 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 * For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
 
-* After updating the NextGEN Facebook OG plugin, visit the settings page and save the options. This will allow the plugin to skip the options version check when called.
+== Constants ==
+
+To address very specific needs, the following constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
+
+* `NGFB_DEBUG` : Set this constant to `true` to turn on hidden debug messages, and use "View Source" on any webpage to view the debug messages. An informational message box will also be displayed in admin pages as reminder that debug mode is on.
+
+* `NGFB_RESET` : Set this contant to `true` to reset all options to their defaults *when the plugin is activated*.
+
+* `NGFB_OPEN_GRAPH_DISABLE` : Set this contant to `true` to prevent the plugin from adding Open Graph meta tags in the webpage head section. See "Disable Open Graph Meta Tags" above for an example of it's use.
+
+* `NGFB_MIN_IMG_SIZE_DISABLE` : Set this contant to `true` to disable the minimum width and height checks for the `<img/>` attributes in the content. All images, no matter their size, will be added to the Open Graph meta tags. See "Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content?" on the FAQ page for additional information.
+
+* `NGFB_OPTIONS_NAME` : The options field name in the database for NextGEN Facebook OG. The default value is `ngfb_options`.
+
+* `NGFB_HEAD_PRIORITY` : Change the execution priority for the `add_header()` method, which adds javascript to the head section. The default value is 10.
+
+* `NGFB_OG_PRIORITY`: Change the execution priority for the `add_open_graph()` method, which adds Open Graph meta tags to the head section. The default value is 20.
+
+* `NGFB_CONTENT_PRIORITY` : Change the execution priority for the `add_content()` method, which adds social buttons to the content. The default value is 20.
+
+* `NGFB_FOOTER_PRIORITY` : Change the execution priority for the `add_footer()` method, which adds javascript to the footer section. The default value is 10.
+
+* `NGFB_MIN_DESC_LEN` : The minimum allowed description length value. The default is 160. A *maximum* description length value is configurable on the settings page, but any value entered bellow `NGFB_MIN_DESC_LEN` will be changed to `NGFB_MIN_DESC_LEN` when saved.
+
+* `NGFB_MIN_IMG_WIDTH` : The minimum image width *suggested* on the settings page. The default value is 200.
+
+* `NGFB_MIN_IMG_HEIGHT` : The minimum image height *suggested* on the settings page. The default value is 200.
+
+* `NGFB_MAX_IMG_OG` : The maximum range shown in the "Maximum Number of Images" drop-down on the settings page. The default value is 20.
+
+* `NGFB_MAX_VID_OG` : The maximum range shown in the "Maximum Number of Videos" drop-down on the settings page. The default value is 20.
+
+* `NGFB_AUTHOR_SUBDIR` : The subdirectory / folder path for the author index webpages. The default value is "author".
+
+* `NGFB_CONTACT_FIELDS` : The field names and labels for the additional user profile fields. The default value is "facebook:Facebook URL,gplus:Google+ URL". See the "Rename or Add Profile URL Fields" section in the readme for additional information.
 
 == Screenshots ==
 
@@ -321,7 +361,7 @@ The code for NextGEN Facebook OG is highly optimized -- the plugin will not load
 
 = Version 2.3 =
 * Renamed `DISABLE_NGFB_OPEN_GRAPH_DISABLE` constant to `NGFB_OPEN_GRAPH_DISABLE` (though both are allowed).
-* Added the `NGFB_MIN_IMG_SIZE_DISABLE` constant to disable minimum width and height checks for `<img>` src attributes.
+* Added the `NGFB_MIN_IMG_SIZE_DISABLE` constant to disable minimum width and height checks for `<img/>` src attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
 * Moved the javascript used by all buttons into the footer section (filter on `wp_footer()` function) to improve page rendering speed.
