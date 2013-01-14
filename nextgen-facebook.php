@@ -300,6 +300,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 			$opts = get_option( NGFB_OPTIONS_NAME );
+
 			// make sure the options weren't lost for some reason
 			if ( is_array( $opts ) && ! empty( $opts ) )
 				$this->options = $this->upgrade_options( $opts );
@@ -310,13 +311,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 					page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
 			}
+
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
 					comments are being generated and added to webpages.';
 			}
 		}
 
-		function upgrade_options( &$opts ) {
+		function upgrade_options( $opts ) {
 			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->opts_version ) {
 
 				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these extra 
