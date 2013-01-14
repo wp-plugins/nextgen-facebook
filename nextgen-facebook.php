@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.1.1
+Version: 3.1.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -26,7 +26,7 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) )
 if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
-		var $version = '3.1.1';		// for display purposes
+		var $version = '3.1.2';		// for display purposes
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -727,31 +727,46 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $this->limit_text_length( $title, $textlen, $trailing ) . $page_num;
 		}
 
+		function get_wiki_summary() {
+			global $post;
+			$tag_prefix = $this->options['og_wiki_tag'];
+			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
+			$this->d_msg( 'wp_get_post_tags() = ' . implode( ', ', $tags ) );
+
+			foreach ( $tags as $tag_name ) {
+				if ( $tag_prefix ) {
+					if ( preg_match( "/^$tag_prefix/", $tag_name ) )
+						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
+					else continue;	// skip tags that don't have the prefix
+				}
+				$desc .= wikibox_summary( $tag_name, 'en', false ); 
+				$this->d_msg( 'wikibox_summary(\'' . $tag_name . '\') = ' . $desc );
+			}
+			if ( empty( $desc ) ) {
+				$title = the_title( '', '', false );
+				$desc .= wikibox_summary( $title, 'en', false );
+				$this->d_msg( 'wikibox_summary(\'' . $title . '\') = ' . $desc );
+			}
+			return $desc;
+		}
+
 		function get_description( $textlen = 300, $trailing = '' ) {
 			global $post;
 			$desc = '';
 			if ( is_singular() ) {
+				$this->d_msg( 'is_singular()' );
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
+					$this->d_msg( 'has_excerpt()' );
 					$desc = $post->post_excerpt;
 					if ( ! empty( $this->options['ngfb_filter_excerpt'] ) )
 						$desc = apply_filters( 'the_excerpt', $desc );
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox_summary() is available and og_desc_wiki option is true)
 				} elseif ( is_page() && $this->options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
-		
-					$tag_prefix = $this->options['og_wiki_tag'];
-					$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-					if ( $tags ) {
-						foreach ( $tags as $tag_name ) {
-							if ( $tag_prefix ) {
-								if ( preg_match( "/^$tag_prefix/", $tag_name ) )
-									$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
-								else continue;	// skip tags that don't have the prefix
-							}
-							$desc .= wikibox_summary( $tag_name, '', false ); 
-						}
-					} else $desc .= wikibox_summary( the_title( '', '', false ), '', false );
+
+					$this->d_msg( 'is_page() && og_desc_wiki = 1 && function_exists(\'wikibox_summary\')' );
+					$desc = $this->get_wiki_summary();
 				} 
 		
 				if ( empty( $desc ) ) {
@@ -760,7 +775,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				}
 		
 				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
-				if ( $this->options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/', '', $desc );	// question mark makes regex un-greedy
+				if ( $this->options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
 		
 			} elseif ( is_author() ) { 
 		
@@ -874,10 +889,34 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function get_images( &$content, $size_name = 'thumbnail' ) {
+			$found = array();
 			$images = array();
 			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
+
+			// check for ngg gallery, and if found, for ngg image pids
+			if ( preg_match( '/<div[^>]*? id=[\'"](ngg-gallery-[^\'"]+)[\'"][^>]*>/is', $content, $gallery ) ) {
+				$this->d_msg( 'ngg gallery found = ' . $gallery[1] );
+				if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
+					$content, $match, PREG_SET_ORDER ) ) {
+					foreach ( $match as $pid ) {
+						$og_image = array(
+							'og:image' => '',
+							'og:image:width' => $size_info['width'],
+							'og:image:height' => $size_info['height']
+						);
+						$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid[1], $size_name );
+						$this->d_msg( 'get_ngg_url(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
+						// avoid duplicates
+						if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
+							$found[$og_image['og:image']] = 1;
+							array_push( $images, $og_image );	// everything ok, so push the image
+						}
+					}
+				}
+			}
+
 			// img attributes in order of preference
-			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/i', 
+			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $img ) {
 					$src_name = $img[1];
@@ -886,6 +925,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 						'og:image:width' => '',
 						'og:image:height' => ''
 					);
+					if ( ! empty( $found[$og_image['og:image']] ) ) {
+						$this->d_msg( $src_name . ' duplicate skipped = ' . $og_image['og:image'] );
+					}
 					// try to determine image size from filename for NextGEN Gallery images
 					if ( preg_match( '/\/cache\/[0-9]+_(crop)?_([0-9]+)x([0-9]+)_[^\/]+$/', $og_image['og:image'], $match) ) {
 						$og_image['og:image:width'] = $match[2];
@@ -921,8 +963,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 							}
 							$this->d_msg( 'relative url fixed = ' . $og_image['og:image'] );
 						}
-						array_push( $images, $og_image );	// everything ok, so push the image
-					} else $this->d_msg( $src_name . ' rejected = width and height attributes missing or too small' );
+						// avoid duplicates
+						if ( empty( $found[$og_image['og:image']] ) ) {
+							$found[$og_image['og:image']] = 1;
+							array_push( $images, $og_image );	// everything ok, so push the image
+						} else {
+							$this->d_msg( $src_name . ' rejected = image already in array.' );
+						}
+					} else $this->d_msg( $src_name . ' rejected = width and height attributes are missing or too small' );
 				}
 			}
 			return $images;
@@ -936,7 +984,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
-					$this->d_msg( 'get_ngg_url ('.$pid.') = '.$og_image['og:image'] );
+					$this->d_msg( 'get_ngg_url(' . $pid . ') = ' . $og_image['og:image'] );
 				} else {
 					$out = wp_get_attachment_image_src( $pid, $size_name );
 					$og_image['og:image'] = $out[0];

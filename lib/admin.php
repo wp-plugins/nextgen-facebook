@@ -84,13 +84,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function admin_init() {
-			register_setting( 'ngfb_plugin_options', NGFB_OPTIONS_NAME, array( NGFB_CLASSNAME, 'sanitize_options' ) );
+			register_setting( 'ngfb_plugin_options', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		}
 	
 		function admin_menu() {
 			add_options_page( NGFB_FULLNAME . 'Plugin', 'NextGEN Facebook', 'manage_options', NGFB_CLASSNAME, array( &$this, 'options_page' ) );
 		}
-	
+
+		function sanitize_options( $opts ) {
+			global $ngfb;
+			return $ngfb->sanitize_options( $opts );
+		}
+
 		function options_page() {
 			global $ngfb;
 			$buttons_count = 0;
