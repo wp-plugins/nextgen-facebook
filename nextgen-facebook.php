@@ -271,7 +271,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $output . ' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
-		// create new default options on plugin activation if ngfb_reset = 1, 
+		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
 		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		function activate() {
 			if ( ! empty( $this->options['ngfb_reset'] ) 
@@ -280,7 +280,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				|| empty( $this->options ) ) {
 
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
-				add_option( NGFB_OPTIONS_NAME, $this->default_options, '', 'yes' );
+				add_option( NGFB_OPTIONS_NAME, $this->default_options, null, 'yes' );
 			}
 		}
 
