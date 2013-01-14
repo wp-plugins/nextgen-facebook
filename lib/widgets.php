@@ -18,7 +18,7 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 	function ngfbSocialButtonsWidget() {
 		$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
 			'description' => "The NextGEN Facebook OG social buttons widget is only visible on single posts, pages and attachments." );
-		$this->WP_Widget( 'ngfb-widget-buttons', 'NGFB Social Buttons', $widget_ops );
+		$this->WP_Widget( 'ngfb-widget-buttons', NGFB_FULLNAME, $widget_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -44,6 +44,7 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
+		global $ngfb;
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
 		foreach ( $ngfb->social_nice_names as $id => $name ) 
@@ -53,8 +54,8 @@ class ngfbSocialButtonsWidget extends WP_Widget {
 	}
 
 	function form( $instance ) {
+		global $ngfb;
 		$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : 'Share It';
-
 		echo "\n", '<p><label for="', $this->get_field_id( 'title' ), '">Title (Leave Blank for No Title):</label>',
 			'<input class="widefat" id="', $this->get_field_id( 'title' ), 
 				'" name="', $this->get_field_name( 'title' ), 

@@ -30,6 +30,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
 		var $version = '3.1.1';
+		var $opts_version = '3.0';
 		var $minimum_wp_version = '3.0';
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
@@ -316,12 +317,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function upgrade_options( &$opts ) {
-			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->version ) {
+			if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] != $this->opts_version ) {
 
-				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated to version ' . 
-					$this->version . '. To avoid these extra sanitation checks, and maximize plugin performance, 
-					please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> 
-					to review and save the updated settings</a>.';
+				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these extra 
+					sanitation checks, and maximize plugin performance, please visit the <a href="' . 
+					$this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save the 
+					updated settings</a>.';
 
 				// move old option values to new option names
 				foreach ( array(
