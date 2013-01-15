@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.1.2
+Version: 3.1.2b1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
 
-		var $version = '3.1.2';		// for display purposes
+		var $version = '3.1.2b1';	// for display purposes
 		var $opts_version = '1';	// compared with ngfb_version
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
