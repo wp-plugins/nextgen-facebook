@@ -307,6 +307,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] != $this->opts_version )
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
+				$this->print_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
 				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
 					from the database.<br/>All plugin settings have been returned to their default values, though nothing
 					has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings 
