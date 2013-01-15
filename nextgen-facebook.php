@@ -1105,7 +1105,8 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_ngg_tags( $pid ) {
 			$tags = array();
-			if ( method_exists( 'nggdb', 'find_image' ) && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+			if ( method_exists( 'nggdb', 'find_image' ) 
+				&& is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			return array_map( 'strtolower', $tags );
 		}

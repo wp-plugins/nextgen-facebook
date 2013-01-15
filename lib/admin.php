@@ -241,7 +241,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					echo ' in the ';
 					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
 					echo '<option value="wp" ', selected( $ngfb->options['og_def_img_id_pre'], '', false ), '>Media Library</option>', "\n";
-					if ( method_exists( 'nggdb', 'find_image' ) )
+					if ( class_exists( 'nggGallery' ) )
 						echo '<option value="ngg" ', selected( $ngfb->options['og_def_img_id_pre'], 'ngg', false ), 
 							'>NextGEN Gallery</option>', "\n";
 					echo '</select>', "\n";
@@ -264,7 +264,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this box if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( method_exists( 'nggdb', 'find_image' ) ) : ?>
+			<?php	if ( class_exists( 'nggGallery' ) ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
