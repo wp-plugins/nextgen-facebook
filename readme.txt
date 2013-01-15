@@ -310,10 +310,10 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
-= Version 3.1.2 (2013-01-14) =
+= Version 3.1.2 =
 * Added the sanitize_options() method back into admin.php instead of calling it from another class.
-* Added a check for NextGEN Gallery ngg-gallery-* and ngg-image-* CSS ids in the content.
-* Added get_wiki_summary() function to improve code segmentation.
+* Added a check for NextGEN Gallery ngg-image-* CSS ids in the content.
+* Added a get_wiki_summary() method to improve code segmentation.
 
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.
@@ -475,7 +475,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.1.2 =
-Added a check for NextGEN Gallery image ids in the content, to include additional images in the Open Graph meta tags.
+Added a check for NextGEN Gallery image ids in the content to include additional images in the Open Graph meta tags.
 
 = Version 3.1.1 =
 Upgrade suggested. Fixed variable reference in widget. Added informational box when upgrading options.
