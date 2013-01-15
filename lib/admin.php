@@ -217,15 +217,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Default Author</th>
-				<td><select name="<?php echo NGFB_OPTIONS_NAME ?>[og_def_author_id]">
-					<option value=""<?php selected( $ngfb->options['og_def_author_id'], '' ); ?>>None (default)</option>
-					<?php $users = get_users( $query_args );
-						foreach ( (array) $users as $user ) 
-							echo '<option value="', $user->ID, '"', 
-								selected( $ngfb->options['og_def_author_id'], $user->ID, false ), '>', 
-								$user->display_name, '</option>', "\n";
-					?>
-				</select></td>
+				<td><?php
+					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_author_id]">', "\n";
+					echo '<option value="" ', selected( $ngfb->options['og_def_author_id'], '', false ), '>None (default)</option>', "\n";
+					$users = get_users( $query_args );
+					foreach ( (array) $users as $user ) 
+						echo '<option value="', $user->ID, '"', 
+							selected( $ngfb->options['og_def_author_id'], $user->ID, false ), '>', 
+							$user->display_name, '</option>', "\n";
+					echo '</select>', "\n";
+				?></td>
 				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to None (the default).</p></td>
 			</tr>
 			<tr>
@@ -235,14 +236,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Default Image ID</th>
-				<td><?php $this->input( 'og_def_img_id', 'number' ); ?> in the
-					<select name="<?php echo NGFB_OPTIONS_NAME ?>[og_def_img_id_pre]" style="width:160px;">
-						<option value="" <?php selected( $ngfb->options['og_def_img_id_pre'], '' ); ?>>Media Library</option>
-						<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
-						<option value="ngg" <?php selected( $ngfb->options['og_def_img_id_pre'], 'ngg' ); ?>>NextGEN Gallery</option>
-						<?php	endif; ?>
-					</select>
-				</td>
+				<td><?php 
+					$this->input( 'og_def_img_id', 'number' );
+					echo ' in the ';
+					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
+					echo '<option value="" ', selected( $ngfb->options['og_def_img_id_pre'], '', false ), '>Media Library</option>', "\n";
+					if ( method_exists( 'nggdb', 'find_image' ) )
+						echo '<option value="ngg" ', selected( $ngfb->options['og_def_img_id_pre'], 'ngg', false ), 
+							'>NextGEN Gallery</option>', "\n";
+					echo '</select>', "\n";
+				?></td>
 				<td><p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
 			</tr>
 			<tr>
@@ -442,7 +445,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->select( 'gp_action', array( 
 					'plusone' => 'G +1',
 					'share' => 'G+ Share',
-				) ) ?></td>
+				) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -450,16 +453,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->select( 'fb_layout', array( 
 					'standard' => 'Standard',
 					'button_count' => 'Button Count',
-					'box_count' => 'Box Count',
-				) ) ?></td>
+					'box_count' => 'Box Count' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Button Size</th>
 				<td><?php $this->select( 'gp_size', array( 
 					'small' => 'Small [ 15px ]',
 					'medium' => 'Medium [ 20px ]',
 					'standard' => 'Standard [ 24px ]',
-					'tall' => 'Tall [ 60px ]',
-				) ) ?></td>
+					'tall' => 'Tall [ 60px ]' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -471,8 +472,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'inline' => 'Inline',
 					'bubble' => 'Bubble',
 					'vertical-bubble' => 'Vertical Bubble',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -483,8 +483,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'segoe ui' => 'Segoe UI',
 					'tahoma' => 'Tahoma',
 					'trebuchet ms' => 'Trebuchet MS',
-					'verdana' => 'Verdana',
-				) ) ?></td>
+					'verdana' => 'Verdana' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
 			</tr>
@@ -493,8 +492,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Button Color Scheme</th>
 				<td><?php $this->select( 'fb_colorscheme', array( 
 					'light' => 'Light',
-					'dark' => 'Dark',
-				) ) ?></td>
+					'dark' => 'Dark' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
 			</tr>
@@ -503,8 +501,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Facebook Action Name</th>
 				<td><?php $this->select( 'fb_action', array( 
 					'like' => 'Like',
-					'recommend' => 'Recommend',
-				) ) ?></td>
+					'recommend' => 'Recommend' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
 			</tr>				
@@ -538,15 +535,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->select( 'linkedin_counter', array( 
 					'right' => 'Horizontal',
 					'top' => 'Vertical',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 				<!-- Twitter -->
 				<th>Count Box Position</th>
 				<td><?php $this->select( 'twitter_count', array( 
 					'horizontal' => 'Horizontal',
 					'vertical' => 'Vertical',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -555,8 +550,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Button Size</th>
 				<td><?php $this->select( 'twitter_size', array( 
 					'medium' => 'Medium',
-					'large' => 'Large',
-				) ) ?></td>
+					'large' => 'Large' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -608,8 +602,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->select( 'pin_count_layout', array( 
 					'horizontal' => 'Horizontal',
 					'vertical' => 'Vertical',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 				<!-- tumblr -->
 				<th rowspan="4">tumblr Button Style</th>
 				<td rowspan="4">
@@ -649,8 +642,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'title' => 'Title Only',
 					'excerpt' => 'Excerpt Only',
 					'both' => 'Title and Excerpt',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -687,8 +679,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'title' => 'Title Only',
 					'excerpt' => 'Excerpt Only',
 					'both' => 'Title and Excerpt',
-					'none' => 'None',
-				) ) ?></td>
+					'none' => 'None' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
