@@ -577,14 +577,20 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 
 			global $post;
-			$content_filtered = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
-			$og['fb:admins'] = $this->options['og_admins'];
-			$og['fb:app_id'] = $this->options['og_app_id'];
+			$content_filtered = '';
+			
+			if ( ! empty( $post ) )
+				$content_filtered = $this->apply_content_filter( $post->post_content, 
+					$this->options['ngfb_filter_content'] );
+
+			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
+			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
-			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
-			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
+			$og['fb:admins'] = $this->options['og_admins'];
+			$og['fb:app_id'] = $this->options['og_app_id'];
+
 			if ( $this->options['og_img_max'] > 0 ) 
 				$og['og:image'] = $this->get_all_images( $content_filtered, 
 					$this->options['og_img_max'], $this->options['og_img_size'] );
@@ -593,12 +599,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 					$this->options['og_vid_max'] );
 			$og['article:tag'] = $this->get_tags();
 		
-			if ( $post->post_author || ! empty( $this->options['og_def_author_id'] ) ) {
+			if ( ! empty( $post->post_author ) || ! empty( $this->options['og_def_author_id'] ) ) {
+
 				$og['og:type'] = "article";
 				$og['article:section'] = $this->options['og_art_section'];
 				$og['article:modified_time'] = get_the_modified_date('c');
 				$og['article:published_time'] = get_the_date('c');
-				if ( $post->post_author )
+
+				if ( ! empty( $post ) && $post->post_author )
 					$og['article:author'] = $this->get_author_url( $post->post_author, 
 						$this->options['og_author_field'] );
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
@@ -766,6 +774,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_wiki_summary() {
 			global $post;
+			$desc = '';
 			$tag_prefix = $this->options['og_wiki_tag'];
 			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
 			$this->d_msg( 'wp_get_post_tags() = ' . implode( ', ', $tags ) );
@@ -872,8 +881,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$images = array();
 
 			// check for a featured image
-			$images = array_merge( $images, 
-				$this->get_featured( $post->ID, $size_name ) );
+			if ( ! empty( $post ) )
+				$images = array_merge( $images, 
+					$this->get_featured( $post->ID, $size_name ) );
 
 			// stop and slice here if we have enough images
 			if ( $num > 0 && count( $images ) >= $num )
@@ -1137,7 +1147,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			if ( $this->options['link_publisher_url'] )
 				echo '<link rel="publisher" href="', $this->options['link_publisher_url'], '" />', "\n";
 
-			if ( $post->post_author )
+			if ( ! empty( $post->post_author ) )
 				$author_url = $this->get_author_url( $post->post_author, 
 					$this->options['link_author_field'] );
 			elseif ( ! empty( $this->options['og_def_author_id'] ) )

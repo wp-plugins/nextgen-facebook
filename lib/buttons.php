@@ -114,13 +114,20 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
 			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
-			if ( empty( $attr['quote'] ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
+			if ( empty( $attr['quote'] ) && ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
 
 			if ( empty( $attr['embed'] ) ) {
 				$videos = array();
-				$content = $ngfb->apply_content_filter( $post->post_content, $ngfb->options['ngfb_filter_content'] );
-				$videos = $ngfb->get_videos( $content, 1 );	// get the first video, if any
-				if ( ! empty( $videos[0]['og:video'] ) ) $attr['embed'] = $videos[0]['og:video'];
+				$content_filtered = '';
+				if ( ! empty( $post ) )
+					$content_filtered = $ngfb->apply_content_filter( $post->post_content, 
+						$ngfb->options['ngfb_filter_content'] );
+
+				if ( ! empty( $content_filtered ) )
+					$videos = $ngfb->get_videos( $content_filtered, 1 );	// get the first video, if any
+
+				if ( ! empty( $videos[0]['og:video'] ) ) 
+					$attr['embed'] = $videos[0]['og:video'];
 			}
 		
 			// only use featured image if 'tumblr_photo' option allows it
