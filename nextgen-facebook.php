@@ -29,6 +29,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		var $version = '3.1.2';		// for display purposes
 		var $opts_version = '1';	// compared with ngfb_version
+		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -146,7 +147,6 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
-			$this->load_options();
 			$this->load_dependencies();
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
@@ -154,7 +154,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
 			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall' ) );
 
-			add_action( 'init', array( &$this, 'init_action_tests' ) );
+			add_action( 'init', array( &$this, 'init_plugin' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_action( 'admin_notices', array( &$this, 'show_admin_messages' ) );
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
@@ -170,7 +170,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return get_admin_url( null, 'options-general.php?page=' . NGFB_CLASSNAME );
 		}
 	
-		function init_action_tests() {
+		function init_plugin() {
+
+			$this->load_options();
+			$this->load_is_active();
+
+			// add_action() tests
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Loaded -->', "\n";
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
@@ -242,6 +247,17 @@ if ( ! class_exists( 'NGFB' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->ngfbAdmin = new ngfbAdmin();
 			}
+		}
+
+		function load_is_active() {
+			
+			$this->is_active['ngg'] = method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
+			$this->is_active['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? 1 : 0;
+			$this->is_active['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
+			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
+			$this->is_active['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
+
+			$this->print_debug( '$this->is_active', $this->is_active );
 		}
 
 		function user_contactmethods( $fields = array() ) { 
@@ -641,7 +657,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function get_ngg_xmp( $pid ) {
-			if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
+			if ( empty( $this->is_active['ngg'] ) ) return;
 			global $nggdb;
 			$xmp = array();
 			$image = $nggdb->find_image( $pid );
@@ -783,10 +799,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 					if ( ! empty( $this->options['ngfb_filter_excerpt'] ) )
 						$desc = apply_filters( 'the_excerpt', $desc );
 		
-				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox_summary() is available and og_desc_wiki option is true)
-				} elseif ( is_page() && $this->options['og_desc_wiki'] && function_exists( 'wikibox_summary' ) ) {
+				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
+				} elseif ( is_page() && ! empty( $this->options['og_desc_wiki'] ) && ! empty( $this->is_active['wikibox'] ) ) {
 
-					$this->d_msg( 'is_page() && og_desc_wiki = 1 && function_exists(\'wikibox_summary\')' );
+					$this->d_msg( 'is_page() && options[\'og_desc_wiki\'] = 1 && is_active[\'wikibox\'] = 1' );
 					$desc = $this->get_wiki_summary();
 				} 
 		
@@ -877,7 +893,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 				// check for img html tags on rendered content
 				$images = array_merge( $images, 
-					$this->get_images( $content, $size_name ) );
+					$this->get_content_images( $content, $size_name ) );
 			}
 			// if we didn't find any images, then use the default image
 			if ( ! $images ) {
@@ -889,27 +905,26 @@ if ( ! class_exists( 'NGFB' ) ) {
 			return $images;
 		}
 
-		function get_nggsearch( $nggsearch = array(), $size_name = 'thumbnail' ) {
+		// $ngg_images = array of ngg image objects
+		function get_ngg_images( $ngg_images = array(), $size_name = 'thumbnail' ) {
 			$images = array();
-			if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
-				$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
-				foreach ( $nggsearch as $image ) {
-					$og_image = array();
-					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $size_name );
-					$this->d_msg( 'get_ngg_url(' . $image->pid . ') = '.$og_image['og:image'] );
-					if ( $og_image['og:image'] ) {
-						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
-							$og_image['og:image:width'] = $size_info['width'];
-							$og_image['og:image:height'] = $size_info['height'];
-						}
-						array_push( $images, $og_image );
+			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
+			foreach ( $ngg_images as $image ) {
+				$og_image = array();
+				$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $size_name );
+				$this->d_msg( 'get_ngg_url(' . $image->pid . ') = '.$og_image['og:image'] );
+				if ( $og_image['og:image'] ) {
+					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+						$og_image['og:image:width'] = $size_info['width'];
+						$og_image['og:image:height'] = $size_info['height'];
 					}
+					array_push( $images, $og_image );
 				}
 			}
 			return $images;
 		}
 
-		function get_images( &$content, $size_name = 'thumbnail' ) {
+		function get_content_images( &$content, $size_name = 'thumbnail' ) {
 			$found = array();
 			$images = array();
 			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
@@ -997,7 +1012,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function get_featured( $post_id = '', $size_name = 'thumbnail' ) {
 			$images = array();
 			$og_image = array();
-			if ( ! empty( $post_id ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+			if ( ! empty( $post_id ) && ! empty( $this->is_active['postthumb'] ) && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
@@ -1074,7 +1089,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			if ( is_singular() ) {
 				global $post;
 				$tags = array_merge( $tags, $this->get_wp_tags( $post->ID ) );
-				if ( $this->options['og_ngg_tags'] && function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+				if ( $this->options['og_ngg_tags'] && ! empty( $this->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
 					$pid = get_post_thumbnail_id( $post->ID );
 					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 						$tags = array_merge( $tags, $this->get_ngg_tags( $pid ) );
@@ -1105,9 +1120,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_ngg_tags( $pid ) {
 			$tags = array();
-			if ( method_exists( 'nggdb', 'find_image' ) 
-				&& is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+			if ( ! empty( $this->is_active['ngg'] )
+				&& is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
+			}
 			return array_map( 'strtolower', $tags );
 		}
 
@@ -1203,7 +1219,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
 		function get_ngg_url( $pid, $size_name = 'thumbnail' ) {
-			if ( ! method_exists( 'nggdb', 'find_image' ) ) return;
+			if ( empty( $this->is_active['ngg'] ) ) return;
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				global $nggdb;
 				$pid = substr( $pid, 4 );
@@ -1224,7 +1240,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function cdn_linker_rewrite( $url = '' ) {
-			if ( class_exists( 'CDNLinksRewriterWordpress' ) ) {
+			if ( ! empty( $this->is_active['cdnlink'] ) ) {
 				$rewriter = new CDNLinksRewriterWordpress();
 				$url = '"'.$url.'"';	// rewrite uses pointer
 				$url = trim( $rewriter->rewrite( $url ), "\"" );
@@ -1234,7 +1250,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function is_excluded() {
 			global $post;
-			if ( is_page() && $post->ID && function_exists( 'ep_get_excluded_ids' ) && ! $this->options['buttons_on_ex_pages'] ) {
+			if ( is_page() 
+				&& $post->ID 
+				&& ! empty( $this->is_active['expages'] ) 
+				&& empty( $this->options['buttons_on_ex_pages'] ) ) {
+
 				$excluded_ids = ep_get_excluded_ids();
 				$delete_ids = array_unique( $excluded_ids );
 				if ( in_array( $post->ID, $delete_ids ) ) return true;

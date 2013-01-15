@@ -219,12 +219,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Author</th>
 				<td><?php
 					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_author_id]">', "\n";
-					echo '<option value="0" ', selected( $ngfb->options['og_def_author_id'], '', false ), '>None (default)</option>', "\n";
-					$users = get_users();
-					foreach ( (array) $users as $user ) 
-						echo '<option value="', $user->ID, '"', 
-							selected( $ngfb->options['og_def_author_id'], $user->ID, false ), '>', 
-							$user->display_name, '</option>', "\n";
+					echo '<option value="0" ';
+					selected( $ngfb->options['og_def_author_id'], 0 );
+					echo '>None (default)</option>', "\n";
+
+					foreach ( get_users() as $user ) {
+						echo '<option value="', $user->ID, '"';
+						selected( $ngfb->options['og_def_author_id'], $user->ID );
+						echo '>', $user->display_name, '</option>', "\n";
+					}
 					echo '</select>', "\n";
 				?></td>
 				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to None (the default).</p></td>
@@ -238,12 +241,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Image ID</th>
 				<td><?php 
 					$this->input( 'og_def_img_id', 'number' );
-					echo ' in the ';
-					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
-					echo '<option value="wp" ', selected( $ngfb->options['og_def_img_id_pre'], '', false ), '>Media Library</option>', "\n";
-					if ( class_exists( 'nggGallery' ) )
-						echo '<option value="ngg" ', selected( $ngfb->options['og_def_img_id_pre'], 'ngg', false ), 
-							'>NextGEN Gallery</option>', "\n";
+					echo ' in the <select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
+					echo '<option value="wp" ';
+					selected( $ngfb->options['og_def_img_id_pre'], 'wp' );
+					echo '>Media Library</option>', "\n";
+
+					if ( $ngfb->is_active['ngg'] ) {
+						echo '<option value="ngg" '; 
+						selected( $ngfb->options['og_def_img_id_pre'], 'ngg' );
+						echo '>NextGEN Gallery</option>', "\n";
+					}
 					echo '</select>', "\n";
 				?></td>
 				<td><p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
@@ -264,7 +271,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this box if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( class_exists( 'nggGallery' ) ) : ?>
+			<?php	if ( $ngfb->is_active['ngg'] ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
@@ -307,7 +314,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <i>without</i> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in <i>the content</i>. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( function_exists( 'wikibox_summary' ) ) : ?>
+				if ( $ngfb->is_active['wikibox'] ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
@@ -407,7 +414,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( function_exists( 'ep_get_excluded_ids' ) ) : ?>
+				if ( $ngfb->is_active['expages'] ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
@@ -851,10 +858,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
 				$size = $ngfb->get_size_values( $size_name );
-				echo '<option value="', $size_name, '" ', 
-					selected( $ngfb->options[$name], $size_name, false ), '>', 
-					$size_name, ' [ ', $size['width'], 'x', $size['height'],
-					$size['crop'] ? " cropped" : "", ' ]', "\n";
+				echo '<option value="', $size_name, '" ';
+				selected( $ngfb->options[$name], $size_name );
+				echo '>', $size_name, ' [ ', $size['width'], 'x', $size['height'], $size['crop'] ? " cropped" : "", ' ]';
 				if ( $size_name == $ngfb->default_options[$name] ) echo ' (default)';
 				echo '</option>', "\n";
 			}

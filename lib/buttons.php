@@ -65,7 +65,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['pin_img_size'];
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
 			if ( empty( $attr['photo'] ) ) {
-				if ( empty( $attr['pid'] ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				if ( empty( $attr['pid'] ) && ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
 					$attr['pid'] = get_post_thumbnail_id( $post->ID );
 				}
 				if ( ! empty( $attr['pid'] ) ) {
@@ -125,7 +125,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		
 			// only use featured image if 'tumblr_photo' option allows it
 			if ( empty( $attr['photo'] ) && $ngfb->options['tumblr_photo'] ) {
-				if ( empty( $attr['pid'] ) && function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) )
+				if ( empty( $attr['pid'] ) && ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) )
 					$attr['pid'] = get_post_thumbnail_id( $post->ID );
 				
 				if ( ! empty( $attr['pid'] ) ) {
