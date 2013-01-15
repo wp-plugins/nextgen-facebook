@@ -319,6 +319,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Moved NGFB::load_options() from __construct() to init_plugin().
 * Added NGFB::load_is_active() in init_plugin() to check for 3rd party plugins and functions.
 * Replaced many function_exists/method_exists/class_exists() calls by $is_active array check.
+* Added extra checks for empty $post objects before using them.
 
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.
