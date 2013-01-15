@@ -315,6 +315,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added a `NGFB::get_wiki_summary()` method to improve code segmentation.
 * Added a `ngfbAdmin::hidden()` method to save options for uninstalled plugins.
 * Added a check for NextGEN Gallery ngg-image stylesheet ids in the content.
+* Added an informational message on the admin pages when missing options are added.
 
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.
@@ -476,10 +477,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.1.2 =
-Added a check for NextGEN Gallery image IDs in the content (to detect additional images for the Open Graph meta tags).
+RECOMMENDED UPDATE. Improved the options sanitation code. Added a check for NextGEN Gallery image IDs in the content (to detect additional images for Open Graph meta tags).
 
 = Version 3.1.1 =
-Upgrade suggested. Fixed variable reference in widget. Added informational box when upgrading options.
+Fixed variable reference in widget. Added informational box when upgrading options.
 
 = Version 3.1 =
 Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
