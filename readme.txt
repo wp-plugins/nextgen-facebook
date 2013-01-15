@@ -310,7 +310,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
-= Version 3.1.2 =
+= Version 3.1.2 (2013-01-15) =
 * Improved `NGFB::sanitize_options()` method to check for missing option keys.
 * Added a `NGFB::get_wiki_summary()` method to improve code segmentation.
 * Added a `ngfbAdmin::hidden()` method to save options for uninstalled plugins.
