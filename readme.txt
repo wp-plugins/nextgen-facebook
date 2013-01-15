@@ -310,18 +310,25 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
+= Version 3.1.2 =
+* Improved `NGFB::sanitize_options()` method to check for missing option keys.
+* Added a `NGFB::get_wiki_summary()` method to improve code segmentation.
+* Added a `ngfbAdmin::hidden()` method to save options for uninstalled plugins.
+* Added a check for NextGEN Gallery ngg-image stylesheet ids in the content.
+* Added an informational message on the admin pages when missing options are added.
+
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.
-* Added the (optional) NGFB_DEBUG and NGFB_RESET constants. Defining NGFB_RESET will reset the options to their default values when activating the plugin.
-* Added the NGFB_OPTIONS_NAME, NGFB_CLASSNAME, and NGFB_FULLNAME.
+* Added the (optional) `NGFB_DEBUG` and `NGFB_RESET` constants. Defining `NGFB_RESET` will reset the options to their default values when activating the plugin.
+* Added the `NGFB_OPTIONS_NAME`, `NGFB_CLASSNAME`, and `NGFB_FULLNAME`.
 * Added an informational message box in the admin pages when options are updated and need to be saved.
-* Added an $opts_version variable to check if database options need to be updated (as opposed to just using the plugin version string).
+* Added an `$opts_version` variable to check if database options need to be updated (as opposed to just using the plugin version string).
 
 = Version 3.1 (2013-01-12) =
 * Fixed a small oversight where apply_content_filter() was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
 * Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
-* Added a ngfbGoogl() class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
+* Added a `ngfbGoogl()` class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
 * Added the "Shorten URLs" option for Twitter (checked by default) and the (optional) "Goo.gl API Key" field.
 * Improved the output from the debug print-out function.
@@ -469,8 +476,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.1.2 =
+RECOMMENDED UPDATE. Improved the options sanitation code. Added a check for NextGEN Gallery image IDs in the content (to detect additional images for Open Graph meta tags).
+
 = Version 3.1.1 =
-Upgrade suggested. Fixed variable reference in widget. Added informational box when upgrading options.
+Fixed variable reference in widget. Added informational box when upgrading options.
 
 = Version 3.1 =
 Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
