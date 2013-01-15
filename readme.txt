@@ -207,6 +207,16 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 .format-status .ngfb-buttons { display:none; }
 `
 
+== Performance Tuning ==
+
+The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
+
+* If your website content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
+
+* If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
+
+* For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
+
 == Advanced Usage ==
 
 = Include Social Buttons from Template File(s) =
@@ -258,17 +268,7 @@ A comma separates the the different fields, and a colon seperates each field nam
 
 If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NextGEN Facebook OG settings page.
 
-= Performance Tuning =
-
-The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
-
-* If your website content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
-
-* If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
-
-* For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
-
-== PHP Constants ==
+= PHP Constants =
 
 To address very specific needs, the following PHP constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
 
