@@ -73,6 +73,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 		}
 	}
 	
-	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbSocialButtonsWidget" );' ) );
+	add_action( 'widgets_init', 
+		create_function( '', 'return register_widget( "ngfbSocialButtonsWidget" );' ) );
 }	
 ?>

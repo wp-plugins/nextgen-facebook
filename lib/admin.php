@@ -148,16 +148,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					width:300px;
 					margin:0 0 15px 25px;
 					padding:15px;
-					color: #333;
-					background: #eeeeff;
+					color:#333;
+					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
 					background-image: -webkit-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
-					-webkit-border-radius: 5px;
-					border-radius: 5px;
-					border: 1px solid #b4b4b4;
+					-webkit-border-radius:5px;
+					border-radius:5px;
+					border:1px solid #b4b4b4;
 				}
 				.thankyou p { 
 					font-size:1em;
@@ -199,7 +199,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<form name="ngfb" method="post" action="options.php">
 			<?php
 				settings_fields( 'ngfb_plugin_options' );
-				echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[ngfb_version]" value="', $ngfb->opts_version, '" />', "\n";
+				$this->hidden( 'ngfb_version', $ngfb->opts_version );
 			?>
 			<div id="ngfb-ogsettings" class="postbox">
 			<h3 class="hndle"><span>Open Graph Settings</span></h3>
@@ -219,8 +219,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Author</th>
 				<td><?php
 					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_author_id]">', "\n";
-					echo '<option value="" ', selected( $ngfb->options['og_def_author_id'], '', false ), '>None (default)</option>', "\n";
-					$users = get_users( $query_args );
+					echo '<option value="0" ', selected( $ngfb->options['og_def_author_id'], '', false ), '>None (default)</option>', "\n";
+					$users = get_users();
 					foreach ( (array) $users as $user ) 
 						echo '<option value="', $user->ID, '"', 
 							selected( $ngfb->options['og_def_author_id'], $user->ID, false ), '>', 
@@ -264,13 +264,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this box if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( method_exists( 'nggdb', 'find_image' ) ): ?>
+			<?php	if ( method_exists( 'nggdb', 'find_image' ) ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
 				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, then add the image's tags to the Open Graph tag list (default is checked).</p></td>
 			</tr>
-			<?php	endif; ?>
+			<?php	else : $this->hidden( 'og_ngg_tags' ); endif; ?>
 			<tr>
 				<th>Add Page Ancestor Tags</th>
 				<td><?php $this->checkbox( 'og_page_parent_tags' ); ?></td>
@@ -307,7 +307,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <i>without</i> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in <i>the content</i>. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( function_exists( 'wikibox_summary' ) ): ?>
+				if ( function_exists( 'wikibox_summary' ) ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
@@ -318,7 +318,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->input( 'og_wiki_tag' ); ?></td>
 				<td><p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p></td>
 			</tr>
-			<?php	endif; ?>
+			<?php	else : 
+					$this->hidden( 'og_desc_wiki' ); 
+					$this->hidden( 'og_wiki_tag' ); 
+				endif; ?>
 			<tr>
 				<th>Facebook Admin(s)</th>
 				<td><?php $this->input( 'og_admins' ); ?></td>
@@ -346,16 +349,20 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 				$og_cells = array();
 				$og_rows = array();
-				foreach ( $ngfb->options as $opt => $val ) {
+				foreach ( $ngfb->default_options as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$og_cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
 							<td>'. $this->checkbox( $opt, false ) . '</td>';
 				}
 				unset( $opt, $val );
 				$og_per_col = ceil( count( $og_cells ) / $og_cols );
+				// initialize the array
+				foreach ( $og_cells as $num => $cell ) $og_rows[ $num % $og_per_col ] = '';
+				// create the html for each row
 				foreach ( $og_cells as $num => $cell ) $og_rows[ $num % $og_per_col ] .= $cell;
 				unset( $num, $cell );
-				foreach ( $og_rows as $num => $row ) echo '<tr>', $row, '</tr>', "\n";
+				foreach ( $og_rows as $num => $row ) 
+					echo '<tr>', $row, '</tr>', "\n";
 				unset( $num, $row );
 			?>
 			</table>
@@ -400,13 +407,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( function_exists( 'ep_get_excluded_ids' ) ): ?>
+				if ( function_exists( 'ep_get_excluded_ids' ) ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
 				</td><td colspan="2"><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
 			</tr>
-			<?php	endif; ?>
+			<?php	else : $this->hidden( 'buttons_on_ex_pages' ); endif; ?>
 			<tr>
 				<th>Location in Content Text</th>
 				<td><?php $this->select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
@@ -727,14 +734,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					<?php
 						foreach ( range( 1, 6 ) as $i ) {
 							switch ( $i ) {
-								case '1': echo '<div class="badge-col-left">', "\n"; break;
-								case '4': echo '</div><div class="badge-col-right">', "\n"; break;
+								case '1' : echo '<div class="badge-col-left">', "\n"; break;
+								case '4' : echo '</div><div class="badge-col-right">', "\n"; break;
 							}
 							echo '<div class="badge" id="badge-', $i, '">', "\n";
 							echo '<input type="radio" name="', NGFB_OPTIONS_NAME, '[stumble_badge]" value="', $i, '" ', 
 								checked( $i, $ngfb->options['stumble_badge'], false ), '/>', "\n";
 							echo '</div>', "\n";
-							switch ( $i ) { case '6': echo '</div>', "\n"; break; }
+							switch ( $i ) { case '6' : echo '</div>', "\n"; break; }
 						}
 					?>
 				</td>
@@ -812,7 +819,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			global $ngfb;
 			$input = '<input type="checkbox" name="' . NGFB_OPTIONS_NAME . '[' . $name . ']" value="' . $check[0] . '"' .
 				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
-				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" /></small>';
+				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
 			if ( $echo ) echo $input;
 			else return $input;
 		}
@@ -824,6 +831,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ),
 				' value="', $ngfb->options[$name], '" />';
+		}
+
+		function hidden( $name, $value = '' ) {
+			if ( empty( $name ) ) return;	// just in case
+			global $ngfb;
+			$value = empty( $value ) ? $ngfb->options[$name] : $value;
+			echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
+				' value="', $value, '" />';
 		}
 
 		function select_img_size( $name ) {
@@ -840,11 +855,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					selected( $ngfb->options[$name], $size_name, false ), '>', 
 					$size_name, ' [ ', $size['width'], 'x', $size['height'],
 					$size['crop'] ? " cropped" : "", ' ]', "\n";
-				if ( $size_name == $this->default_options[$name] ) echo ' (default)';
+				if ( $size_name == $ngfb->default_options[$name] ) echo ' (default)';
 				echo '</option>', "\n";
 			}
 			unset ( $size_name );
-			echo '</select>';
+			echo '</select>', "\n";
 		}
 
 		function author_fields() {

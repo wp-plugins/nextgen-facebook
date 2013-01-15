@@ -28,6 +28,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 	class NGFB {
 
 		var $version = '3.1.2';		// for display purposes
+		var $opts_version = '1';	// compared with ngfb_version
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -49,98 +50,97 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
 		var $options = array();
-		var $opts_version = '3.0';	// compared with ngfb_version
 		var $default_options = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_size' => 'thumbnail',
-			'og_img_max' => '1',
-			'og_vid_max' => '1',
+			'og_img_max' => 1,
+			'og_vid_max' => 1,
 			'og_def_img_id_pre' => 'wp',
 			'og_def_img_id' => '',
 			'og_def_img_url' => '',
-			'og_def_img_on_index' => '1',
-			'og_def_img_on_search' => '1',
-			'og_ngg_tags' => '1',
-			'og_page_parent_tags' => '',
-			'og_page_title_tag' => '',
+			'og_def_img_on_index' => 1,
+			'og_def_img_on_search' => 1,
+			'og_ngg_tags' => 1,
+			'og_page_parent_tags' => 0,
+			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
-			'og_def_author_id' => '',
+			'og_def_author_id' => 0,
 			'og_title_len' => '100',
 			'og_desc_len' => '300',
-			'og_desc_strip' => '',
-			'og_desc_wiki' => '',
+			'og_desc_strip' => 0,
+			'og_desc_wiki' => 0,
 			'og_wiki_tag' => 'Wiki-',
 			'og_admins' => '',
 			'og_app_id' => '',
-			'buttons_on_index' => '',
-			'buttons_on_ex_pages' => '',
+			'buttons_on_index' => 0,
+			'buttons_on_ex_pages' => 0,
 			'buttons_location' => 'bottom',
-			'fb_enable' => '',
-			'fb_order' => '1',
-			'fb_send' => '1',
+			'fb_enable' => 0,
+			'fb_order' => 1,
+			'fb_send' => 1,
 			'fb_layout' => 'button_count',
 			'fb_colorscheme' => 'light',
 			'fb_font' => 'arial',
-			'fb_show_faces' => '',
+			'fb_show_faces' => 0,
 			'fb_action' => 'like',
-			'gp_enable' => '',
-			'gp_order' => '2',
+			'gp_enable' => 0,
+			'gp_order' => 2,
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
-			'twitter_enable' => '',
-			'twitter_order' => '3',
+			'twitter_enable' => 0,
+			'twitter_order' => 3,
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
-			'twitter_dnt' => '1',
-			'twitter_shorten' => '1',
-			'linkedin_enable' => '',
-			'linkedin_order' => '4',
+			'twitter_dnt' => 1,
+			'twitter_shorten' => 1,
+			'linkedin_enable' => 0,
+			'linkedin_order' => 4,
 			'linkedin_counter' => 'right',
-			'pin_enable' => '',
-			'pin_order' => '5',
+			'pin_enable' => 0,
+			'pin_order' => 5,
 			'pin_count_layout' => 'horizontal',
 			'pin_img_size' => 'large',
 			'pin_caption' => 'both',
-			'pin_cap_len' => '500',
-			'tumblr_enable' => '',
-			'tumblr_order' => '7',
+			'pin_cap_len' => 500,
+			'tumblr_enable' => 0,
+			'tumblr_order' => 7,
 			'tumblr_button_style' => 'share_1',
-			'tumblr_desc_len' => '300',
-			'tumblr_photo' => '1',
+			'tumblr_desc_len' => 300,
+			'tumblr_photo' => 1,
 			'tumblr_img_size' => 'large',
 			'tumblr_caption' => 'both',
-			'tumblr_cap_len' => '500',
-			'stumble_enable' => '',
-			'stumble_order' => '6',
-			'stumble_badge' => '1',
-			'inc_fb:admins' => '1',
-			'inc_fb:app_id' => '1',
-			'inc_og:site_name' => '1',
-			'inc_og:title' => '1',
-			'inc_og:type' => '1',
-			'inc_og:url' => '1',
-			'inc_og:description' => '1',
-			'inc_og:image' => '1',
-			'inc_og:image:width' => '1',
-			'inc_og:image:height' => '1',
-			'inc_og:video' => '1',
-			'inc_og:video:width' => '1',
-			'inc_og:video:height' => '1',
-			'inc_og:video:type' => '1',
-			'inc_article:author' => '1',
-			'inc_article:published_time' => '1',
-			'inc_article:modified_time' => '1',
-			'inc_article:section' => '1',
-			'inc_article:tag' => '1',
+			'tumblr_cap_len' => 500,
+			'stumble_enable' => 0,
+			'stumble_order' => 6,
+			'stumble_badge' => 1,
+			'inc_fb:admins' => 1,
+			'inc_fb:app_id' => 1,
+			'inc_og:site_name' => 1,
+			'inc_og:title' => 1,
+			'inc_og:type' => 1,
+			'inc_og:url' => 1,
+			'inc_og:description' => 1,
+			'inc_og:image' => 1,
+			'inc_og:image:width' => 1,
+			'inc_og:image:height' => 1,
+			'inc_og:video' => 1,
+			'inc_og:video:width' => 1,
+			'inc_og:video:height' => 1,
+			'inc_og:video:type' => 1,
+			'inc_article:author' => 1,
+			'inc_article:published_time' => 1,
+			'inc_article:modified_time' => 1,
+			'inc_article:section' => 1,
+			'inc_article:tag' => 1,
 			'ngfb_version' => '',
-			'ngfb_reset' => '',
-			'ngfb_debug' => '',
-			'ngfb_filter_content' => '1',
-			'ngfb_filter_excerpt' => '',
-			'ngfb_skip_small_img' => '1',
+			'ngfb_reset' => 0,
+			'ngfb_debug' => 0,
+			'ngfb_filter_content' => 1,
+			'ngfb_filter_excerpt' => 0,
+			'ngfb_skip_small_img' => 1,
 			'ngfb_googl_api_key' => '' );
 
 		function __construct() {
@@ -305,7 +305,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
-				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] != $this->opts_version )
+				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opts_version )
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
 				$this->print_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
@@ -322,7 +322,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			}
 		}
 
-		function upgrade_options( $opts = array() ) {
+		function upgrade_options( &$opts = array() ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
@@ -330,7 +330,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these 
 					extra sanitation checks, and maximize plugin performance, please visit the <a href="' . 
 					$this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save the 
-					updated settings</a>.';
+					updated settings.';
 	
 				// move old option values to new option names
 				foreach ( array(
@@ -346,15 +346,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 	
 				// remove old options that no longer exist
 				foreach ( $opts as $key => $val )
+					// check that the key is not empty, and doesn't exist in the default options
 					if ( ! empty( $key ) && ! array_key_exists( $key, $this->default_options ) )
 						delete_option( $opts[$key] );
 				unset ( $key, $val );
-	
-				// add new options with default values
-				foreach ( $this->default_options as $key => $val )
-					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) )
-						$opts[$key] = $val;
-				unset( $key, $val );
 	
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize_options( $opts );
@@ -363,131 +358,145 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		// sanitize and validate input
-		function sanitize_options( $opts = array() ) {
+		function sanitize_options( &$opts = array() ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$opts['og_def_img_url'] = wp_filter_nohtml_kses( $opts['og_def_img_url'] );
-				$opts['og_app_id'] = wp_filter_nohtml_kses( $opts['og_app_id'] );
-	
-				// sanitize the option by stipping off any leading URLs (leaving just the account names)
-				foreach ( array( 'og_admins' ) as $opt ) 
-					$opts[$opt] = wp_filter_nohtml_kses( preg_replace( '/(http|https):\/\/[^\/]*?\//', '', $opts[$opt] ) );
-	
-				// options that must be a URL
-				foreach ( array( 
-					'link_publisher_url',
-					'og_def_img_url'
-				) as $opt ) 
-					if ( $opts[$opt] && ! preg_match( '/:\/\//', $opts[$opt] ) ) 
-						$opts[$opt] = $this->default_options[$opt];
-	
-				// options that must be numeric (blank or zero is ok)
-				foreach ( array( 
-					'og_img_max', 
-					'og_vid_max', 
-					'og_def_img_id',
-					'og_def_author_id'
-				) as $opt ) 
-					if ( $opts[$opt] && ! is_numeric( $opts[$opt] ) ) 
-						$opts[$opt] = $this->default_options[$opt];
-	
-				// integer options that cannot be zero
-				foreach ( array( 
-					'og_title_len', 
-					'og_desc_len', 
-					'fb_order', 
-					'gp_order', 
-					'twitter_order', 
-					'linkedin_order', 
-					'pin_order', 
-					'pin_cap_len', 
-					'tumblr_order', 
-					'tumblr_desc_len', 
-					'tumblr_cap_len',
-					'stumble_order', 
-					'stumble_badge'
-				) as $opt ) 
-					if ( ! $opts[$opt] || ! is_numeric( $opts[$opt] ) )
-						$opts[$opt] = $this->default_options[$opt];
-	
+				foreach ( $this->default_options as $key => $def_val ) {
+
+					// check for missing options - just in case
+					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
+						$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option 
+							with the default value of \'' . $def_val . '\'.';
+						$opts[$key] = $def_val;
+					}
+
+					switch ( $key ) {
+
+						// remove HTML
+						case 'og_def_img_url' :
+						case 'og_app_id' :
+							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
+							break;
+
+						// stip off leading URLs (leaving just the account names)
+						case 'og_admins' :
+							$opts[$key] = wp_filter_nohtml_kses( 
+								preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
+									$opts[$key] ) );
+							break;
+
+						// options that must be a URL
+						case 'link_publisher_url' :
+						case 'og_def_img_url' :
+							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
+								$opts[$key] = $def_val;
+							break;
+
+						// options that must be numeric (blank or zero is ok)
+						case 'og_img_max' :
+						case 'og_vid_max' :
+						case 'og_def_img_id' :
+						case 'og_def_author_id' :
+							if ( $opts[$key] && ! is_numeric( $opts[$key] ) ) 
+								$opts[$key] = $def_val;
+							break;
+
+						// integer options that cannot be zero
+						case 'og_title_len' : 
+						case 'og_desc_len' : 
+						case 'fb_order' : 
+						case 'gp_order' : 
+						case 'twitter_order' : 
+						case 'linkedin_order' : 
+						case 'pin_order' : 
+						case 'pin_cap_len' : 
+						case 'tumblr_order' : 
+						case 'tumblr_desc_len' : 
+						case 'tumblr_cap_len' :
+						case 'stumble_order' : 
+						case 'stumble_badge' :
+							if ( ! $opts[$key] || ! is_numeric( $opts[$key] ) )
+								$opts[$key] = $def_val;
+							break;
+
+						// options that cannot be blank
+						case 'link_author_field' :
+						case 'og_img_size' : 
+						case 'og_author_field' :
+						case 'buttons_location' : 
+						case 'gp_action' : 
+						case 'gp_size' : 
+						case 'gp_annotation' : 
+						case 'twitter_count' : 
+						case 'twitter_size' : 
+						case 'linkedin_counter' :
+						case 'pin_count_layout' :
+						case 'pin_img_size' :
+						case 'pin_caption' :
+						case 'tumblr_button_style' :
+						case 'tumblr_img_size' :
+						case 'tumblr_caption' :
+							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
+							if ( ! $opts[$key] ) $opts[$key] = $def_val;
+							break;
+
+						// true/false options
+						case 'og_def_img_on_index' :
+						case 'og_def_img_on_search' :
+						case 'og_ngg_tags' :
+						case 'og_page_parent_tags' :
+						case 'og_page_title_tag' :
+						case 'og_desc_strip' :
+						case 'og_desc_wiki' :
+						case 'buttons_on_index' :
+						case 'buttons_on_ex_pages' :
+						case 'fb_enable' :
+						case 'fb_send' :
+						case 'fb_show_faces' :
+						case 'gp_enable' :
+						case 'twitter_enable' :
+						case 'twitter_dnt' :
+						case 'twitter_shorten' :
+						case 'linkedin_enable' :
+						case 'pin_enable' :
+						case 'tumblr_enable' :
+						case 'tumblr_photo' :
+						case 'stumble_enable' :
+						case 'inc_fb:admins' :
+						case 'inc_fb:app_id' :
+						case 'inc_og:site_name' :
+						case 'inc_og:title' :
+						case 'inc_og:type' :
+						case 'inc_og:url' :
+						case 'inc_og:description' :
+						case 'inc_og:image' :
+						case 'inc_og:image:width' :
+						case 'inc_og:image:height' :
+						case 'inc_og:video' :
+						case 'inc_og:video:width' :
+						case 'inc_og:video:height' :
+						case 'inc_og:video:type' :
+						case 'inc_article:author' :
+						case 'inc_article:modified_time' :
+						case 'inc_article:published_time' :
+						case 'inc_article:section' :
+						case 'inc_article:tag' :
+						case 'ngfb_reset' :
+						case 'ngfb_debug' :
+						case 'ngfb_filter_content' :
+						case 'ngfb_filter_excerpt' :
+						case 'ngfb_skip_small_img' :
+							$opts[$key] = ( empty( $opts[$key] ) ? 0 : 1 );
+							break;
+					}
+				}
+				unset ( $key, $def_val );
+
 				if ( $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
 					$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
 	
-				// options that cannot be blank
-				foreach ( array( 
-					'link_author_field',
-					'og_img_size', 
-					'og_author_field',
-					'buttons_location', 
-					'gp_action', 
-					'gp_size', 
-					'gp_annotation', 
-					'twitter_count', 
-					'twitter_size', 
-					'linkedin_counter',
-					'pin_count_layout',
-					'pin_img_size',
-					'pin_caption',
-					'tumblr_button_style',
-					'tumblr_img_size',
-					'tumblr_caption'
-				) as $opt ) {
-					$opts[$opt] = wp_filter_nohtml_kses( $opts[$opt] );
-					if ( ! $opts[$opt] ) $opts[$opt] = $this->default_options[$opt];
-				}
-			
-				// true/false options
-				foreach ( array( 
-					'og_def_img_on_index',
-					'og_def_img_on_search',
-					'og_ngg_tags',
-					'og_page_parent_tags',
-					'og_page_title_tag',
-					'og_desc_strip',
-					'og_desc_wiki',
-					'buttons_on_index',
-					'buttons_on_ex_pages',
-					'fb_enable',
-					'fb_send',
-					'fb_show_faces',
-					'gp_enable',
-					'twitter_enable',
-					'twitter_dnt',
-					'twitter_shorten',
-					'linkedin_enable',
-					'pin_enable',
-					'tumblr_enable',
-					'tumblr_photo',
-					'stumble_enable',
-					'inc_fb:admins',
-					'inc_fb:app_id',
-					'inc_og:site_name',
-					'inc_og:title',
-					'inc_og:type',
-					'inc_og:url',
-					'inc_og:description',
-					'inc_og:image',
-					'inc_og:image:width',
-					'inc_og:image:height',
-					'inc_og:video',
-					'inc_og:video:width',
-					'inc_og:video:height',
-					'inc_og:video:type',
-					'inc_article:author',
-					'inc_article:modified_time',
-					'inc_article:published_time',
-					'inc_article:section',
-					'inc_article:tag',
-					'ngfb_reset',
-					'ngfb_debug',
-					'ngfb_filter_content',
-					'ngfb_filter_excerpt',
-					'ngfb_skip_small_img'
-				) as $opt )
-					$opts[$opt] = ( empty( $opts[$opt] ) ? 0 : 1 );
-
 			}
 			return $opts;
 		}
@@ -568,7 +577,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 					$this->options['og_vid_max'] );
 			$og['article:tag'] = $this->get_tags();
 		
-			if ( $post->post_author || $this->options['og_def_author_id'] ) {
+			if ( $post->post_author || ! empty( $this->options['og_def_author_id'] ) ) {
 				$og['og:type'] = "article";
 				$og['article:section'] = $this->options['og_art_section'];
 				$og['article:modified_time'] = get_the_modified_date('c');
@@ -576,7 +585,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 				if ( $post->post_author )
 					$og['article:author'] = $this->get_author_url( $post->post_author, 
 						$this->options['og_author_field'] );
-				elseif ( $this->options['og_def_author_id'] )
+				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['og_author_field'] );
 			} else $og['og:type'] = "website";
@@ -614,13 +623,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_author_url( $author_id, $field_name = 'url' ) {
 			switch ( $field_name ) {
-				case 'none':
+				case 'none' :
 					break;
-				case 'index':
+				case 'index' :
 					$url = trailingslashit( site_url() ) . NGFB_AUTHOR_SUBDIR . 
 						'/' . get_the_author_meta( 'user_login', $author_id ) . '/';
 					break;
-				default:
+				default :
 					$url = get_the_author_meta( $field_name, $author_id );
 					// if empty or not a URL, then use the author index page
 					if ( empty( $url ) || ! preg_match( '/:\/\//', $url ) )
@@ -700,13 +709,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 		function get_caption( $type = 'title', $length = 300 ) {
 			$caption = '';
 			switch( strtolower( $type ) ) {
-				case 'title':
+				case 'title' :
 					$caption = $this->get_title( $length, '...' );
 					break;
-				case 'excerpt':
+				case 'excerpt' :
 					$caption = $this->get_description( $length, '...' );
 					break;
-				case 'both':
+				case 'both' :
 					$title = $this->get_title();
 					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...' );
 					break;
@@ -1081,7 +1090,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			$post_ids = array ( $post_id );	// array of one
 			if ( $this->options['og_page_parent_tags'] && is_page( $post_id ) )
 				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
-			$tag_prefix = isset( $this->options['og_wiki_tag'] ) ? $this->options['og_wiki_tag'] : '';
+			$tag_prefix = empty( $this->options['og_wiki_tag'] ) ? '' : $this->options['og_wiki_tag'];
 			foreach ( $post_ids as $id ) {
 				if ( $this->options['og_page_title_tag'] && is_page( $id ) )
 					$tags[] = get_the_title( $id );
@@ -1114,7 +1123,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			if ( $post->post_author )
 				$author_url = $this->get_author_url( $post->post_author, 
 					$this->options['link_author_field'] );
-			elseif ( $this->options['og_def_author_id'] )
+			elseif ( ! empty( $this->options['og_def_author_id'] ) )
 				$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
 					$this->options['link_author_field'] );
 
