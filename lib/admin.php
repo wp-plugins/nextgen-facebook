@@ -240,7 +240,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$this->input( 'og_def_img_id', 'number' );
 					echo ' in the ';
 					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
-					echo '<option value="" ', selected( $ngfb->options['og_def_img_id_pre'], '', false ), '>Media Library</option>', "\n";
+					echo '<option value="wp" ', selected( $ngfb->options['og_def_img_id_pre'], '', false ), '>Media Library</option>', "\n";
 					if ( method_exists( 'nggdb', 'find_image' ) )
 						echo '<option value="ngg" ', selected( $ngfb->options['og_def_img_id_pre'], 'ngg', false ), 
 							'>NextGEN Gallery</option>', "\n";

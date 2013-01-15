@@ -26,6 +26,7 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) )
 if ( ! class_exists( 'NGFB' ) ) {
 
 	class NGFB {
+
 		var $version = '3.1.2';		// for display purposes
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -56,7 +57,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'og_img_size' => 'thumbnail',
 			'og_img_max' => '1',
 			'og_vid_max' => '1',
-			'og_def_img_id_pre' => '',
+			'og_def_img_id_pre' => 'wp',
 			'og_def_img_id' => '',
 			'og_def_img_url' => '',
 			'og_def_img_on_index' => '1',
@@ -142,7 +143,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			'ngfb_skip_small_img' => '1',
 			'ngfb_googl_api_key' => '' );
 
-		function NGFB() {
+		function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_options();
