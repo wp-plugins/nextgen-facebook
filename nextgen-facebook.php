@@ -23,11 +23,11 @@ http://www.gnu.org/licenses/.
 if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
 	die( 'You are not allowed to call this page directly.' );
 
-if ( ! class_exists( 'NGFB' ) ) {
+if ( ! class_exists( 'ngfbPlugin' ) ) {
 
-	class NGFB {
+	class ngfbPlugin {
 
-		var $version = '3.1.2b1';	// for display purposes
+		var $version = '3.1.2b2';	// for display purposes
 		var $opts_version = '1';	// compared with ngfb_version
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -151,12 +151,13 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
-			register_activation_hook( $this->plugin_name, array( &$this, 'activate' ) );
-			register_uninstall_hook( $this->plugin_name, array( 'NGFB', 'uninstall' ) );
+			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
+			register_uninstall_hook( __FILE__, array( &$this, 'uninstall' ) );
 
 			add_action( 'init', array( &$this, 'init_plugin' ) );
 			add_action( 'admin_init', array( &$this, 'require_wordpress_version' ) );
 			add_action( 'admin_notices', array( &$this, 'show_admin_messages' ) );
+
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_filter( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
@@ -167,7 +168,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function get_options_url() {
-			return get_admin_url( null, 'options-general.php?page=' . NGFB_CLASSNAME );
+			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
 		}
 	
 		function init_plugin() {
@@ -194,7 +195,7 @@ if ( ! class_exists( 'NGFB' ) ) {
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
 
-			define( 'NGFB_CLASSNAME', 'NGFB' );
+			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
 			define( 'NGFB_FOLDER', basename( dirname( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
@@ -239,9 +240,12 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function load_dependencies() {
+
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
+
+			$this->ngfbButtons = new ngfbButtons();
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
@@ -321,7 +325,10 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
-				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opts_version )
+
+				if ( empty( $this->options['ngfb_version'] ) 
+					|| $this->options['ngfb_version'] !== $this->opts_version )
+
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
 				$this->print_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
@@ -332,7 +339,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 				$this->options = $this->default_options;
 			}
 
-			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+			if ( ! empty( $this->options['ngfb_debug'] ) 
+				|| ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
 					comments are being generated and added to webpages.';
 			}
@@ -527,13 +536,14 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		// add button javascript for enabled buttons in content and widget(s)
 		function get_buttons_js( $func = 'footer', $ids = array() ) {
-			$widget = new ngfbSocialButtonsWidget();
-		 	$widget_settings = $widget->get_settings();
-			$button_html = '';
 
 			if ( empty( $ids ) ) {
+
 				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 				if ( is_page() && $this->is_excluded() ) return;
+
+				$widget = new ngfbSocialButtonsWidget();
+		 		$widget_settings = $widget->get_settings();
 
 				foreach ( $this->social_options_prefix as $id => $prefix ) {
 					if ( $this->options[$prefix.'_enable'] 
@@ -550,16 +560,16 @@ if ( ! class_exists( 'NGFB' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->print_debug( '$ids', $ids );
+			$button_html = '';
 
 			if ( ! empty( $ids ) ) {
-				$ngfbButtons = new ngfbButtons();
 				$button_html .= "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript BEGIN -->\n";
-				if ( $func == 'header' ) $button_html .= $ngfbButtons->header_async_js();
+				if ( $func == 'header' ) $button_html .= $this->ngfbButtons->header_async_js();
 
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-					$button_html .= eval( "if ( method_exists( \$ngfbButtons, '${id}_$func' ) ) 
-						return \$ngfbButtons->${id}_$func();" );
+					$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_$func' ) ) 
+						return \$this->ngfbButtons->${id}_$func();" );
 				}
 				$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript END -->\n\n";
 			}
@@ -623,10 +633,11 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 		function add_content( $content ) {
+
 			// if using the Exclude Pages plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
+
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
-				$ngfbButtons = new ngfbButtons();
 				$button_html = '';
 				$sorted_ids = array();
 				foreach ( $this->social_options_prefix as $id => $prefix )
@@ -1192,22 +1203,23 @@ if ( ! class_exists( 'NGFB' ) ) {
 
 		function get_social_buttons( $ids = array(), $attr = array() ) {
 			global $post;
-			$ngfbButtons = new ngfbButtons();
 			$button_html = '';
+
 			// make sure we have at least $post->ID or $attr['url'] defined
-			if ( ! empty( $post->ID ) && empty( $attr['url' ] ) ) {
+			if ( empty( $post->ID ) && empty( $attr['url' ] ) ) {
 				$attr['url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 				$attr['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 			}
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-				$button_html .= eval( "if ( method_exists( \$ngfbButtons, '${id}_button' ) ) 
-					return \$ngfbButtons->${id}_button( \$attr );" );
+				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
+					return \$this->ngfbButtons->${id}_button( \$attr );" );
 			}
 			if ( $button_html ) 
 				$button_html = "\n<!-- " . NGFB_FULLNAME . " Social Buttons BEGIN -->\n" .
 					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
 					"<!-- " . NGFB_FULLNAME . " Social Buttons END -->\n\n";
+
 			return $button_html;
 		}
 
@@ -1349,8 +1361,9 @@ if ( ! class_exists( 'NGFB' ) ) {
 		}
 
 	}
+
         global $ngfb;
-	$ngfb = new NGFB();
+	$ngfb = new ngfbPlugin();
 }
 
 

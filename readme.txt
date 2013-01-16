@@ -310,7 +310,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
-= Version 3.1.2 (2013-01-15) =
+= Version 3.2 (2013-01-16) =
 * Improved `NGFB::sanitize_options()` method to check for missing option keys.
 * Added a `NGFB::get_wiki_summary()` method to improve code segmentation.
 * Added a `ngfbAdmin::hidden()` method to save options for uninstalled plugins.
@@ -320,6 +320,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added NGFB::load_is_active() in init_plugin() to check for 3rd party plugins and functions.
 * Replaced many function_exists/method_exists/class_exists() calls by $is_active array check.
 * Added extra checks for empty $post objects before using them.
+* Fixed social buttons URL when used on index webpages (was linking to index instead of post).
 
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.

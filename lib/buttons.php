@@ -39,8 +39,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function stumbleupon_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$button_html = '
 				<!-- StumbleUpon Button -->
 				<div class="stumble-button stumbleupon-button"><su:badge layout="' . $attr['stumble_badge'] . '" 
@@ -60,8 +61,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function pinterest_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['pin_img_size'];
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
 			if ( empty( $attr['photo'] ) ) {
@@ -108,8 +110,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function tumblr_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
@@ -183,6 +186,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		 */
 		function facebook_button( $attr = array() ) {
 			global $ngfb, $post; 
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
@@ -211,6 +215,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function gplus_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			return '
@@ -232,9 +237,12 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		 */
 		function twitter_button( $attr = array() ) {
 			global $ngfb, $post; 
-			$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( ! empty( $ngfb->options['twitter_shorten'] ) ) $attr['url'] = $goo->shorten( $attr['url'] );
+
+			$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
+			if ( ! empty( $ngfb->options['twitter_shorten'] ) ) 
+				$attr['url'] = $goo->shorten( $attr['url'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			return '
 				<!-- Twitter Button -->
@@ -259,6 +267,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function linkedin_button( $attr = array() ) {
 			global $ngfb, $post; 
 			$button_html;
+			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			$linkedin_counter = $ngfb->options['linkedin_counter'];
 			$button_html = '
