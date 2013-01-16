@@ -311,12 +311,12 @@ To address very specific needs, the following PHP constants may be defined in yo
 == Changelog ==
 
 = Version 3.2 =
-* **RECOMMENDED UPDATE** : Fixed social button URLs on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
+* **RECOMMENDED UPDATE**
 * Fixed the social buttons URL when used on index webpages (was linking to index webpage instead of post).
-* Improved the `sanitize_options()` method to check for missing option keys.
+* Improved the `sanitize_options()` method and options handling code.
+* Added a check for NextGEN Gallery "ngg-image" stylesheet ids in the content.
 * Added a `get_wiki_summary()` method to improve code segmentation.
 * Added a `hidden()` method to save options for inactive plugins.
-* Added a check for NextGEN Gallery "ngg-image" stylesheet ids in the content.
 * Added an informational message on the admin pages when missing options are added.
 * Moved `load_options()` from `__construct()` to `init_plugin()`.
 * Added `load_is_active()` in `init_plugin()` to check for 3rd party plugins and functions.
