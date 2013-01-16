@@ -84,6 +84,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function admin_init() {
+			global $ngfb;
 			register_setting( NGFB_SHORTNAME . '_plugin_options', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		}
 	
@@ -275,7 +276,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
-				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, then add the image's tags to the Open Graph tag list (default is checked).</p></td>
+				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, then add the NextGEN Gallery image's tags to the Open Graph tag list (default is unchecked).</p></td>
 			</tr>
 			<?php	else : $this->hidden( 'og_ngg_tags' ); endif; ?>
 			<tr>
