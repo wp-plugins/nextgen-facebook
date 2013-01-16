@@ -332,7 +332,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added an `$opts_version` variable to check if database options need to be updated (as opposed to just using the plugin version string).
 
 = Version 3.1 =
-* Fixed a small oversight where apply_content_filter() was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
+* Fixed a small oversight where `apply_content_filter()` was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
 * Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
 * Added a `ngfbGoogl()` class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
