@@ -313,14 +313,14 @@ To address very specific needs, the following PHP constants may be defined in yo
 = Version 3.2 (2013-01-16) =
 * Improved `NGFB::sanitize_options()` method to check for missing option keys.
 * Added a `NGFB::get_wiki_summary()` method to improve code segmentation.
-* Added a `ngfbAdmin::hidden()` method to save options for uninstalled plugins.
+* Added a `ngfbAdmin::hidden()` method to save options for inactive plugins.
 * Added a check for NextGEN Gallery ngg-image stylesheet ids in the content.
 * Added an informational message on the admin pages when missing options are added.
 * Moved NGFB::load_options() from __construct() to init_plugin().
 * Added NGFB::load_is_active() in init_plugin() to check for 3rd party plugins and functions.
 * Replaced many function_exists/method_exists/class_exists() calls by $is_active array check.
 * Added extra checks for empty $post objects before using them.
-* Fixed social buttons URL when used on index webpages (was linking to index instead of post).
+* Fixed social buttons URL when used on index webpages (was linking to index webpage instead of post).
 
 = Version 3.1.1 (2013-01-14) =
 * Fixed a variable reference in the widget.
@@ -481,8 +481,8 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= Version 3.1.2 =
-RECOMMENDED UPDATE. Improved the options sanitation code. Added a check for NextGEN Gallery image IDs in the content (to detect additional images for Open Graph meta tags).
+= Version 3.2 =
+RECOMMENDED UPDATE. Fixed buttons URL on index webpages, improved sanitation and options handling code, added check for NextGEN Gallery image IDs in the content.
 
 = Version 3.1.1 =
 Fixed variable reference in widget. Added informational box when upgrading options.

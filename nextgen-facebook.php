@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.1.2b3
+Version: 3.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.1.2b3';	// for display purposes
-		var $opts_version = '1';	// compared with ngfb_version
+		var $version = '3.2';		// for display purposes
+		var $opts_version = '1';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -149,6 +149,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_dependencies();
 
+			if ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG )
+				echo '<!-- ', NGFB_FULLNAME, ' Plugin Loading -->', "\n";
+
 			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
 
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
@@ -178,7 +181,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// add_action() tests
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Loaded -->', "\n";
+
+				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Initialized -->', "\n";
+
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
@@ -255,7 +260,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function load_is_active() {
 			
-			$this->is_active['ngg'] = method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
+			$this->is_active['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
 			$this->is_active['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? 1 : 0;
 			$this->is_active['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
 			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
@@ -1059,7 +1064,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 			// if still empty, use the default url (if one is defined, empty string otherwise)
 			if ( empty( $og_image['og:image'] ) ) {
-				if ( $this->options['og_def_img_url'] ) $og_image['og:image'] = $this->options['og_def_img_url'];
+				$og_image['og:image'] = empty( $this->options['og_def_img_url'] ) ? '' : $this->options['og_def_img_url'];
 				$this->d_msg( 'og_def_img_url = ' . $og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
