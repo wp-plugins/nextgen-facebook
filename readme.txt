@@ -313,16 +313,16 @@ To address very specific needs, the following PHP constants may be defined in yo
 = Version 3.2 =
 * **RECOMMENDED UPDATE**
 * Fixed the social buttons URL when used on index webpages (was linking to index webpage instead of post).
-* Improved the `sanitize_options()` method and options handling code.
+* Improved the `sanitize_options()` method and settings / options handling code.
 * Added a check for NextGEN Gallery "ngg-image" stylesheet ids in the content.
+* Added extra checks for empty `$post` objects before using them.
 * Added a `get_wiki_summary()` method to improve code segmentation.
 * Added a `hidden()` method to save options for inactive plugins.
-* Added an informational message on the admin pages when missing options are added.
 * Moved `load_options()` from `__construct()` to `init_plugin()`.
-* Added `load_is_active()` in `init_plugin()` to check for 3rd party plugins and functions.
+* Added `load_is_active()` in `init_plugin()` to check (one time) for 3rd party plugins and functions.
 * Replaced many `function_exists/method_exists/class_exists()` calls by `$is_active` array value check.
-* Added extra checks for empty `$post` objects before using them.
 * Renamed the main plugin class from NGFB to ngfbPlugin.
+* Added an informational message on the admin pages when missing options are added.
 
 = Version 3.1.1 =
 * Fixed a variable reference in the widget.
