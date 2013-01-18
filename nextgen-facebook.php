@@ -1161,7 +1161,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta = '';
-			if ( $this->options['inc_'.$name] && ( $val || $this->options['og_empty_tags'] ) ) {
+			if ( $this->options['inc_'.$name] && ( ! empty( $val ) 
+				|| ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
+
 				$charset = get_bloginfo( 'charset' );
 				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), 
 					ENT_QUOTES, $charset, false );

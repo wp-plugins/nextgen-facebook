@@ -300,12 +300,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>The maximum number of videos from the content to use in the Open Graph meta property tags (selecting "0" disables all video property tags).</p></td>
 			</tr>
 			<tr>
-				<th>Maxmum Title Length</th>
+				<th>Maximum Title Length</th>
 				<td><?php $this->input( 'og_title_len', 'number' ); ?> Characters</td>
 				<td><p>The maximum length of text used in the Open Graph title tag (default is 100 characters).</p></td>
 			</tr>
 			<tr>
-				<th>Maxmum Description Length</th>
+				<th>Maximum Description Length</th>
 				<td><?php $this->input( 'og_desc_len', 'number' ); ?> Characters</td>
 				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is 300).</p></td>
 			</tr>
@@ -374,9 +374,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				unset( $num, $row );
 			?>
 			<tr>
-				<th>Include Empty Open Graph Meta Tags</th>
+				<th>Include Empty og:* Meta Tags</th>
 				<td><?php $this->checkbox( 'og_empty_tags' ); ?></td>
-				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Uncheck this option to exclude Open Graph meta property tags without any content (default is checked).</p></td>
+				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is checked).</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
