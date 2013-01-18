@@ -310,6 +310,11 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
+= Version 3.2.1 =
+* Added the "Include Empty Open Graph Meta Tags" option (checked by default).
+* Fixed the `update_options()` method that wasn't adding missing option array keys as it should.
+* Allowed the "Maxmum Description Length" value to be 0 (the `NGFB_MIN_DESC_LEN` constant must be 0 as well).
+
 = Version 3.2 =
 * **RECOMMENDED UPDATE**
 * Fixed the social buttons URL when used on index webpages (was linking to index webpage instead of post).

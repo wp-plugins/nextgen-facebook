@@ -193,7 +193,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			<p>All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 	
-			<p>The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or IMG HTML tags in the content, a default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left out.</p>
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left empty.</p>
 			<div style="clear:both;"></div>
 
 			<div class="metabox-holder">
@@ -265,7 +265,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image on Indexes</th>
 				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the first featured image, [singlepic] shortcode, or IMG HTML tag within the list of entries on the webpage. The default is checked.</p></td>
+				<td><p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the featured image, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, and &lt;img/&gt; HTML tag within the first entry on the webpage (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Image on Search Results</th>
@@ -276,7 +276,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
-				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, then add the NextGEN Gallery image's tags to the Open Graph tag list (default is unchecked).</p></td>
+				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery (NGG), then add the NGG image's tags to the Open Graph tag list (default is unchecked).</p></td>
 			</tr>
 			<?php	else : $this->hidden( 'og_ngg_tags' ); endif; ?>
 			<tr>
@@ -373,6 +373,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					echo '<tr>', $row, '</tr>', "\n";
 				unset( $num, $row );
 			?>
+			<tr>
+				<th>Include Empty Open Graph Meta Tags</th>
+				<td><?php $this->checkbox( 'og_empty_tags' ); ?></td>
+				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Uncheck this option to exclude Open Graph meta property tags without any content (default is checked).</p></td>
+			</tr>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
@@ -785,7 +790,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Ignore Small Images</th>
 				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p>If there is no featured image or NextGEN [singlepic] found in the content, the plugin will attempt to use the IMG HTML tags it finds. The IMG HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to use smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
+				<td><p>NextGEN Facebook OG will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Goo.gl API Key</th>

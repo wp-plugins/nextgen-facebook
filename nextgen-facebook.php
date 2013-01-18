@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.2
+Version: 3.2.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.2';		// for display purposes
-		var $opts_version = '1';	// increment when adding/removing $default_options
+		var $version = '3.2.1';		// for display purposes
+		var $opts_version = '2';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -68,13 +68,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
 			'og_def_author_id' => 0,
-			'og_title_len' => '100',
-			'og_desc_len' => '300',
+			'og_title_len' => 100,
+			'og_desc_len' => 300,
 			'og_desc_strip' => 0,
 			'og_desc_wiki' => 0,
 			'og_wiki_tag' => 'Wiki-',
 			'og_admins' => '',
 			'og_app_id' => '',
+			'og_empty_tags' => 1,
 			'buttons_on_index' => 0,
 			'buttons_on_ex_pages' => 0,
 			'buttons_location' => 'bottom',
@@ -201,6 +202,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_MIN_IMG_SIZE_DISABLE
 
 			define( 'NGFB_SHORTNAME', 'ngfb' );
+			define( 'NGFB_ACRONYM', 'NGFB' );
 			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
 			define( 'NGFB_FOLDER', basename( dirname( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
@@ -361,10 +363,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated. To avoid these 
-					extra sanitation checks, and maximize plugin performance, please visit the <a href="' . 
-					$this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save the 
-					updated settings.';
+				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated in memory.
+					To avoid these extra sanitation checks, and maximize plugin performance, please visit 
+					the ' . NGFB_FULLNAME . ' settings page to <a href="' .  $this->get_options_url() . 
+					'">review and save the updated setting values</a>.';
 	
 				// move old option values to new option names
 				foreach ( array(
@@ -386,10 +388,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				unset ( $key, $val );
 	
 				// add missing options and set to defaults
-				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-					$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option 
-						with the default value of \'' . $def_val . '\'.';
-					$opts[$key] = $def_val;
+				foreach ( $this->default_options as $key => $def_val ) {
+					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
+						$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option 
+							with the default value of \'' . $def_val . '\'.';
+						$opts[$key] = $def_val;
+					}
 				}
 
 				// sanitize and verify the options - just in case
@@ -428,6 +432,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							break;
 
 						// options that must be numeric (blank or zero is ok)
+						case 'og_desc_len' : 
 						case 'og_img_max' :
 						case 'og_vid_max' :
 						case 'og_def_img_id' :
@@ -438,7 +443,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 						// integer options that cannot be zero
 						case 'og_title_len' : 
-						case 'og_desc_len' : 
 						case 'fb_order' : 
 						case 'gp_order' : 
 						case 'twitter_order' : 
@@ -1157,7 +1161,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta = '';
-			if ( $this->options['inc_'.$name] && $val ) {
+			if ( $this->options['inc_'.$name] && ( $val || $this->options['og_empty_tags'] ) ) {
 				$charset = get_bloginfo( 'charset' );
 				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), 
 					ENT_QUOTES, $charset, false );
@@ -1263,6 +1267,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
 			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
 			$text = $this->strip_all_tags( $text );					// remove any remaining html tags
+			if ( strlen( $trailing ) > $textlen )
+				$trailing = substr( $text, 0, $textlen );			// trim the trailing string, if too long
 			if ( strlen( $text ) > $textlen ) {
 				$text = substr( $text, 0, $textlen - strlen( $trailing ) );
 				$text = trim( preg_replace( '/[^ ]*$/', '', $text ) );		// remove trailing bits of words
@@ -1314,17 +1320,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function show_admin_messages() {
-			$prefix = NGFB_FULLNAME;
+			$prefix = '<a href="' . $this->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
 
-			if ( ! empty( $this->admin_msgs_err ) ) echo '<div id="message" class="error">';
+			if ( ! empty( $this->admin_msgs_err ) ) 
+				echo '<div id="message" class="error">';
+
+			// warnings and errors
 			foreach ( $this->admin_msgs_err as $msg )
 				echo '<p>', $prefix, ' Warning : ', $msg, '</p>';
-			if ( ! empty( $this->admin_msgs_err ) ) echo '</div>';
 
-			if ( ! empty( $this->admin_msgs_inf ) ) echo '<div id="message" class="updated fade">';
+			if ( ! empty( $this->admin_msgs_err ) ) 
+				echo '</div>';
+
+			// notices and informational
+			if ( ! empty( $this->admin_msgs_inf ) ) 
+				echo '<div id="message" class="updated fade">';
+
 			foreach ( $this->admin_msgs_inf as $msg )
 				echo '<p>', $prefix, ' Notice : ', $msg, '</p>';
-			if ( ! empty( $this->admin_msgs_inf ) ) echo '</div>';
+
+			if ( ! empty( $this->admin_msgs_inf ) ) 
+				echo '</div>';
 		}
 
 	}
