@@ -311,12 +311,12 @@ To address very specific needs, the following PHP constants may be defined in yo
 == Changelog ==
 
 = Version 3.2.1 =
-* Added the "Include Empty Open Graph Meta Tags" option (checked by default).
+* **Recommended Update**
 * Fixed the `update_options()` method that wasn't adding missing option array keys as it should.
 * Allowed the "Maximum Description Length" value to be 0 (the `NGFB_MIN_DESC_LEN` constant must be 0 as well).
+* Added the "Include Empty Open Graph Meta Tags" option (checked by default).
 
 = Version 3.2 =
-* **RECOMMENDED UPDATE**
 * Fixed the social buttons URL when used on index webpages (was linking to index webpage instead of post).
 * Improved the `sanitize_options()` method and settings / options handling code.
 * Added a check for NextGEN Gallery "ngg-image" stylesheet ids in the content.
@@ -488,8 +488,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.2.1 =
+**Recommended Update** : Fixed `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
+
 = Version 3.2 =
-**RECOMMENDED UPDATE** : Fixed social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
+Fixed social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
 = Version 3.1.1 =
 Fixed variable reference in widget. Added informational box when upgrading options.
