@@ -592,6 +592,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['og_author_field'] );
+
 			} else $og['og:type'] = "website";
 		
 			// output whatever debug info we have before printing the open graph meta tags
@@ -652,13 +653,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$image = $nggdb->find_image( $pid );
 			if ( ! empty( $image ) ) {
 				$meta = new nggMeta( $image->pid );
+				//echo "<!--\n"; print_r( $meta->xmp_data ); echo "-->\n";
 				foreach ( array(
 					'email'		=> '<Iptc4xmpCore:CreatorContactInfo[^>]+?CiEmailWork="([^"]*)"',
 					'created'	=> '<rdf:Description[^>]+?xmp:CreateDate="([^"]*)"',
 					'modified'	=> '<rdf:Description[^>]+?xmp:ModifyDate="([^"]*)"',
+					'owner'		=> '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
 					'state'		=> '<rdf:Description[^>]+?photoshop:State="([^"]*)"',
 					'country'	=> '<rdf:Description[^>]+?photoshop:Country="([^"]*)"',
-					'owner'		=> '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
+					'headline'	=> '<rdf:Description[^>]+?photoshop:Headline="([^"]*)"',
 					'creators'	=> '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
 					'keywords'	=> '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
 					'hierarchs'	=> '<lr:hierarchicalSubject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/lr:hierarchicalSubject>'
@@ -1126,18 +1129,22 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			echo "\n<!-- ", NGFB_FULLNAME, " Meta BEGIN -->\n";
 			$this->print_debug( '$arr', print_r( $arr, true ) );
 
-			if ( $this->options['link_publisher_url'] )
+			if ( ! empty( $arr['link:publisher'] ) )
+				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
+			elseif ( $this->options['link_publisher_url'] )
 				echo '<link rel="publisher" href="', $this->options['link_publisher_url'], '" />', "\n";
 
-			if ( ! empty( $post->post_author ) )
-				$author_url = $this->get_author_url( $post->post_author, 
-					$this->options['link_author_field'] );
-			elseif ( ! empty( $this->options['og_def_author_id'] ) )
-				$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
-					$this->options['link_author_field'] );
-
-			if ( $author_url ) 
-				echo '<link rel="author" href="', $author_url, '" />', "\n";
+			if ( ! empty( $arr['link:author'] ) ) {
+				echo '<link rel="author" href="', $arr['link:author'], '" />', "\n";
+			} else {
+				if ( ! empty( $post ) && $post->post_author )
+					$author_url = $this->get_author_url( $post->post_author, 
+						$this->options['link_author_field'] );
+				elseif ( ! empty( $this->options['og_def_author_id'] ) )
+					$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
+						$this->options['link_author_field'] );
+				if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
+			}
 
 			ksort( $arr );
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
