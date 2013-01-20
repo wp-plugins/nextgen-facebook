@@ -178,7 +178,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 		// the tumblr host have a valid SSL cert and it's javascript does not work in async mode
 		function tumblr_footer() {
-			return '<script src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
+			return '<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
 		}
 		
 		/*	Facebook

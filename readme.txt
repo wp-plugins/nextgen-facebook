@@ -312,12 +312,12 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 = Version 3.2.1 =
 * **Recommended Update**
-* Fixed the `update_options()` method that wasn't adding missing option array keys as it should.
-* Allowed the "Maximum Description Length" value to be 0 (the `NGFB_MIN_DESC_LEN` constant must be 0 as well).
+* **Fixed**** the `update_options()` method that wasn't adding missing option array keys as it should.
 * Added the "Include Empty Open Graph Meta Tags" option (checked by default).
+* Allowed the "Maximum Description Length" value to be 0 (the `NGFB_MIN_DESC_LEN` constant must be 0 as well).
 
 = Version 3.2 =
-* Fixed the social buttons URL when used on index webpages (was linking to index webpage instead of post).
+* **Fixed** the social buttons URL when used on index webpages (was linking to index webpage instead of post).
 * Improved the `sanitize_options()` method and settings / options handling code.
 * Added a check for NextGEN Gallery "ngg-image" stylesheet ids in the content.
 * Added extra checks for empty `$post` objects before using them.
@@ -330,14 +330,14 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added an informational message on the admin pages when missing options are added.
 
 = Version 3.1.1 =
-* Fixed a variable reference in the widget.
+* **Fixed** a variable reference in the widget.
 * Added the (optional) `NGFB_DEBUG` and `NGFB_RESET` constants. Defining `NGFB_RESET` will reset the options to their default values when activating the plugin.
 * Added the `NGFB_OPTIONS_NAME`, `NGFB_CLASSNAME`, and `NGFB_FULLNAME`.
 * Added an informational message box in the admin pages when options are updated and need to be saved.
 * Added an `$opts_version` variable to check if database options need to be updated (as opposed to just using the plugin version string).
 
 = Version 3.1 =
-* Fixed a small oversight where `apply_content_filter()` was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
+* **Fixed** a small oversight where `apply_content_filter()` was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
 * Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
 * Added a `ngfbGoogl()` class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
@@ -370,7 +370,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added the "Ignore Small Images in Content" to disable the default behavior of NGFB to ignore smaller images in the content.
 
 = Version 2.3.1 =
-* Fixed variable name to have apply_filters('the_content') applied to the OG description as it should.
+* **Fixed** variable name to have apply_filters('the_content') applied to the OG description as it should.
 * Added `apply_filters('the_excerpt')` on the OG description when text is from excerpt.
 * Added `apply_filters('the_title')` on the OG title.
 * Added the `ngfb_linkedin_footer()` function to move the LinkedIn javascript to the footer.
@@ -399,7 +399,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 = Version 2.1.2 =
 * Changed the priority of `ngfb_add_meta_tags()` from 10 (the default) to 20, so other plugins might run before NGFB and render additional content.
 * Added a `ngfb_get_meta_tag()` function to sanitize and encode all Open Graph meta tag values.
-* Fixed the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
+* **Fixed** the 'Content Begins at First Paragraph' option to make the regex "un-greedy" and work as intended. ;-)
 
 = Version 2.1.1 =
 * Optimized code by adding `ngfb_get_size_values()` to return size info based on image size name.
@@ -424,8 +424,8 @@ To address very specific needs, the following PHP constants may be defined in yo
 You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the Other Notes tab for additional information).
 
 = Version 1.7.2 =
-* Fixed the missing "data-annotation" field to the Google+ social button.
-* Fixed `</p>` to a space before stripping out all html tags from og:description.
+* **Fixed** the missing "data-annotation" field to the Google+ social button.
+* **Fixed** `</p>` to a space before stripping out all html tags from og:description.
 
 = Version 1.7.1 =
 * Changed the plugin name from "NextGEN Facebook" to "NextGEN Facebook OG" to better describe it's function (adding Open Graph meta tags).
@@ -438,7 +438,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Cleaned-up some PHP code to consolidate the OG variables within a single array.
 
 = Version 1.6.1 =
-* Fixed a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
+* **Fixed** a bug where some checked options -- those that should be ON by default -- would always stay checked. Thanks to chrisjborg for reporting this one.
 * Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.
 
 = Version 1.6 =
@@ -489,13 +489,13 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.2.1 =
-**Recommended Update** : Fixed `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
+**Recommended Update** : **Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
 = Version 3.2 =
-Fixed social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
+**Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
 = Version 3.1.1 =
-Fixed variable reference in widget. Added informational box when upgrading options.
+**Fixed** variable reference in widget. Added informational box when upgrading options.
 
 = Version 3.1 =
 Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
@@ -507,7 +507,7 @@ Major revision and several new features. List several images/videos and add Page
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.
 
 = Version 2.3.1 =
-Fixed variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
+**Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = Version 2.3 =
 Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
@@ -540,8 +540,8 @@ Changed plugin name to NextGEN Facebook OG.
 Added LinkedIn button and og:video Open Graph meta tag.
 
 = Version 1.6.1 =
-Fixed some checked option boxes that could not be unchecked.
+**Fixed** some checked option boxes that could not be unchecked.
 
 = Version 1.4.1 =
-Fixed article:tag and article:author Open Graph meta tags.
+**Fixed** article:tag and article:author Open Graph meta tags.
 
