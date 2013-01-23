@@ -19,14 +19,15 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 		function header_async_js() {
 			return '<script type="text/javascript">
-				function ngfbJavascript( d, s, id, url ) {
-					var js, ngfb_js = d.getElementsByTagName( s )[0];
-					if ( d.getElementById( id ) ) return;
-					js = d.createElement( s );
+				function ngfbJavaScript( id, url, async ) {
+					var async = typeof async !== "undefined" ? async : true;
+					var js, firstScript = document.getElementsByTagName( "script" )[0];
+					if ( document.getElementById( id ) ) return;
+					js = document.createElement( "script" );
 					js.id = id;
-					js.async = true;
 					js.src = url;
-					ngfb_js.parentNode.insertBefore( js, ngfb_js );
+					js.async = async;
+					firstScript.parentNode.insertBefore( js, firstScript );
 				};' . "\n</script>\n";
 		}
 
@@ -51,8 +52,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 
 		function stumbleupon_header() {
-			return '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"stumbleupon", "https://platform.stumbleupon.com/1/widgets.js" );</script>' . "\n";
+			return '<script type="text/javascript">ngfbJavaScript( "stumbleupon-js", 
+				"https://platform.stumbleupon.com/1/widgets.js" );</script>' . "\n";
 		}
 
 		/*	Pinterest
@@ -100,8 +101,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 
 		function pinterest_header() {
-			return '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"pinterest", "https://assets.pinterest.com/js/pinit.js" );</script>' . "\n";
+			return '<script type="text/javascript">ngfbJavaScript( "pinterest-js", 
+				"https://assets.pinterest.com/js/pinit.js" );</script>' . "\n";
 		}
 		
 		/*	tumblr
@@ -176,7 +177,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;
 		}
 
-		// the tumblr host have a valid SSL cert and it's javascript does not work in async mode
+		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		function tumblr_footer() {
 			return '<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
 		}
@@ -205,8 +206,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		
 		function facebook_header() {
 			global $ngfb; 
-			return '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"facebook", "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] . '" );</script>' . "\n";
+			return '<script type="text/javascript">ngfbJavaScript( "facebook-js", 
+				"https://connect.facebook.net/en_US/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] . '" );</script>' . "\n";
 		}
 
 		/*	Google+
@@ -228,8 +229,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 		
 		function gplus_header() {
-			return '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"gplus", "https://apis.google.com/js/plusone.js" );</script>' . "\n";
+			return '<script type="text/javascript">ngfbJavaScript( "gplus-js", 
+				"https://apis.google.com/js/plusone.js" );</script>' . "\n";
 		}
 		
 		/*	Twitter
@@ -257,8 +258,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 		
 		function twitter_header() {
-			return '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"twitter", "https://platform.twitter.com/widgets.js" );</script>' . "\n";
+			return '<script type="text/javascript">ngfbJavaScript( "twitter-js", 
+				"https://platform.twitter.com/widgets.js" );</script>' . "\n";
 		}
 		
 		/*	LinkedIn
@@ -283,8 +284,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 		
 		function linkedin_header() {
-			return  '<script type="text/javascript">ngfbJavascript( document, "script", 
-				"linkedin", "https://platform.linkedin.com/in.js" );</script>' . "\n";
+			return  '<script type="text/javascript">ngfbJavaScript( "linkedin-js", 
+				"https://platform.linkedin.com/in.js" );</script>' . "\n";
 		}
 		
 	}

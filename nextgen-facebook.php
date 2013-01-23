@@ -194,7 +194,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function define_constants() { 
-			global $wp_version;
 
 			// NGFB_DEBUG
 			// NGFB_RESET
@@ -644,43 +643,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					break;
 			}
 			return $url;
-		}
-
-		function get_ngg_xmp( $pid ) {
-			if ( empty( $this->is_active['ngg'] ) ) return;
-			global $nggdb;
-			$xmp = array();
-			$image = $nggdb->find_image( $pid );
-			if ( ! empty( $image ) ) {
-				$meta = new nggMeta( $image->pid );
-				//echo "<!--\n"; print_r( $meta->xmp_data ); echo "-->\n";
-				foreach ( array(
-					'email'		=> '<Iptc4xmpCore:CreatorContactInfo[^>]+?CiEmailWork="([^"]*)"',
-					'created'	=> '<rdf:Description[^>]+?xmp:CreateDate="([^"]*)"',
-					'modified'	=> '<rdf:Description[^>]+?xmp:ModifyDate="([^"]*)"',
-					'owner'		=> '<rdf:Description[^>]+?aux:OwnerName="([^"]*)"',
-					'state'		=> '<rdf:Description[^>]+?photoshop:State="([^"]*)"',
-					'country'	=> '<rdf:Description[^>]+?photoshop:Country="([^"]*)"',
-					'headline'	=> '<rdf:Description[^>]+?photoshop:Headline="([^"]*)"',
-					'creators'	=> '<dc:creator>\s*<rdf:Seq>\s*(.*?)\s*<\/rdf:Seq>\s*<\/dc:creator>',
-					'keywords'	=> '<dc:subject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/dc:subject>',
-					'hierarchs'	=> '<lr:hierarchicalSubject>\s*<rdf:Bag>\s*(.*?)\s*<\/rdf:Bag>\s*<\/lr:hierarchicalSubject>'
-				) as $key => $regex ) {
-
-					// get a single text string
-					$xmp[$key] = preg_match( "/$regex/is", $meta->xmp_data, $match ) ? $match[1] : '';
-
-					// if string contains a list, then re-assign the variable as an array with the list elements
-					$xmp[$key] = preg_match_all( "/<rdf:li>([^>]*)<\/rdf:li>/is", $xmp[$key], $match ) ? $match[1] : $xmp[$key];
-
-					// hierarchical keywords need to be split into a second dimension
-					if ( $key == 'hierarchs' ) {
-						foreach ( $xmp[$key] as $li => $val ) $xmp[$key][$li] = explode( '|', $val );
-						unset ( $li, $val );
-					}
-				}
-			}
-			return $xmp;
 		}
 
 		function get_size_values( $size_name = 'thumbnail' ) {
@@ -1289,7 +1251,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function str_decode( $str ) {
 			$str = preg_replace( '/&#8230;/', '...', $str );
-			return preg_replace( '/&#\d{2,5};/ue', "ngfb_utf8_entity_decode( '$0' )", $str );
+			return preg_replace( '/&#\d{2,5};/ue', 'ngfbPlugin::utf8_entity_decode( \'$0\' )', $str );
+		}
+
+		function utf8_entity_decode( $entity ) {
+			$convmap = array( 0x0, 0x10000, 0, 0xfffff );
+			return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 		}
 
 		function d_msg( $msg = '' ) {
@@ -1375,13 +1342,6 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 		$button_html .= $ngfb->get_buttons_html( $ids, $attr );
 		$button_html .= $ngfb->get_buttons_js( 'footer', $ids );
 		return $button_html;
-	}
-}
-
-if ( ! function_exists( 'ngfb_utf8_entity_decode' ) ) {
-	function ngfb_utf8_entity_decode( $entity ) {
-		$convmap = array( 0x0, 0x10000, 0, 0xfffff );
-		return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 	}
 }
 
