@@ -871,7 +871,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $size_name );
 				$this->d_msg( 'get_ngg_url(' . $image->pid . ') = '.$og_image['og:image'] );
 				if ( $og_image['og:image'] ) {
-					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+					if ( $size_info['crop'] ) {		// the width and height are only accurate for cropped images
 						$og_image['og:image:width'] = $size_info['width'];
 						$og_image['og:image:height'] = $size_info['height'];
 					}
@@ -890,15 +890,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $pid ) {
-					$og_image = array(
-						'og:image' => '',
-						'og:image:width' => $size_info['width'],
-						'og:image:height' => $size_info['height']
-					);
+					$og_image = array();
 					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid[1], $size_name );
 					$this->d_msg( 'get_ngg_url(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
 					// avoid duplicates
 					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
+						if ( $size_info['crop'] ) {		// the width and height are only accurate for cropped images
+							$og_image['og:image:width'] = $size_info['width'];
+							$og_image['og:image:height'] = $size_info['height'];
+						}
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );	// everything ok, so push the image
 					}
@@ -982,7 +982,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 				if ( $og_image['og:image'] ) {
 					$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
-					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+					if ( $size_info['crop'] ) {				// the width and height are only accurate for cropped images
 						$og_image['og:image:width'] = $size_info['width'];
 						$og_image['og:image:height'] = $size_info['height'];
 					}
@@ -1005,7 +1005,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid, $size_name );
 					$this->d_msg( 'get_ngg_url(' . $pid . ') = ' .  $og_image['og:image'] );
 					if ( $og_image['og:image'] ) {
-						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+						if ( $size_info['crop'] ) {			// the width and height are only accurate for cropped images
 							$og_image['og:image:width'] = $size_info['width'];
 							$og_image['og:image:height'] = $size_info['height'];
 						}

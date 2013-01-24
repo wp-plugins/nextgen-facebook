@@ -120,12 +120,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
 			if ( empty( $attr['quote'] ) && ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
 
-			if ( empty( $attr['embed'] ) ) {
+			if ( empty( $attr['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
 				$videos = array();
-				$content_filtered = '';
-				if ( ! empty( $post ) )
-					$content_filtered = $ngfb->apply_content_filter( $post->post_content, 
-						$ngfb->options['ngfb_filter_content'] );
+				$content_filtered = $ngfb->apply_content_filter( $post->post_content, 
+					$ngfb->options['ngfb_filter_content'] );
 
 				if ( ! empty( $content_filtered ) )
 					$videos = $ngfb->get_videos_og( $content_filtered, 1 );	// get the first video, if any
@@ -133,11 +131,15 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				if ( ! empty( $videos[0]['og:video'] ) ) 
 					$attr['embed'] = $videos[0]['og:video'];
 			}
-		
+
 			// only use featured image if 'tumblr_photo' option allows it
 			if ( empty( $attr['photo'] ) && $ngfb->options['tumblr_photo'] ) {
-				if ( empty( $attr['pid'] ) && ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) )
-					$attr['pid'] = get_post_thumbnail_id( $post->ID );
+
+				if ( empty( $attr['pid'] ) 
+					&& ! empty( $ngfb->is_active['postthumb'] ) 
+					&& ! empty ( $post ) 
+					&& has_post_thumbnail( $post->ID ) )
+						$attr['pid'] = get_post_thumbnail_id( $post->ID );
 				
 				if ( ! empty( $attr['pid'] ) ) {
 					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
@@ -152,8 +154,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			// define the button, based on what we have
 			if ( ! empty( $attr['photo'] ) ) {
 				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
-				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
 				$button_html .= '&amp;clickthru=' . urlencode( $attr['url'] );
+				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
 			} elseif ( ! empty( $attr['embed'] ) ) {
 				$button_html .= 'video?embed=' . urlencode( $attr['embed'] );
 				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
