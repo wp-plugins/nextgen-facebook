@@ -311,9 +311,12 @@ To address very specific needs, the following PHP constants may be defined in yo
 == Changelog ==
 
 = Version 3.2.2 =
-* Removed the unused get_ngg_xmp() method.
-* Made the og:image:width and og:image:height meta tags depend on the image size being cropped. If the chosen image size is not cropped, these meta tags will be left-out (since the actual image size may be smaller).
-* Moved the utf8_entity_decode() function into a class.
+* Removed the unused `get_ngg_xmp()` method.
+* Moved the `utf8_entity_decode()` function into a class.
+* Retrieved the `og:image:width` and `og:image:height` from the `wp_get_attachment_image_src()` function and `get_ngg_image_src()` method instead of relying on the values from the image size name.
+* Added the "Default Author on Indexes" and "Default Author on Search Results" options.
+* Added the "Language" option for social buttons.
+* Added the "Show Zero in Counter" option for the LinkedIn button.
 
 = Version 3.2.1 =
 * **Recommended Update**

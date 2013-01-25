@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.2.2
+Version: 3.3
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.2.2';		// for display purposes
-		var $opts_version = '2';	// increment when adding/removing $default_options
+		var $version = '3.3';		// for display purposes
+		var $opts_version = '4';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -63,11 +63,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_def_img_url' => '',
 			'og_def_img_on_index' => 1,
 			'og_def_img_on_search' => 1,
+			'og_def_author_id' => 0,
+			'og_def_author_on_index' => 0,
+			'og_def_author_on_search' => 0,
 			'og_ngg_tags' => 0,
 			'og_page_parent_tags' => 0,
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
-			'og_def_author_id' => 0,
 			'og_title_len' => 100,
 			'og_desc_len' => 300,
 			'og_desc_strip' => 0,
@@ -79,6 +81,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'buttons_on_index' => 0,
 			'buttons_on_ex_pages' => 0,
 			'buttons_location' => 'bottom',
+			'buttons_lang' => 'en-US',
 			'fb_enable' => 0,
 			'fb_order' => 1,
 			'fb_send' => 1,
@@ -101,6 +104,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'linkedin_enable' => 0,
 			'linkedin_order' => 4,
 			'linkedin_counter' => 'right',
+			'linkedin_showzero' => 1,
 			'pin_enable' => 0,
 			'pin_order' => 5,
 			'pin_count_layout' => 'horizontal',
@@ -462,6 +466,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'og_img_size' : 
 						case 'og_author_field' :
 						case 'buttons_location' : 
+						case 'buttons_lang' : 
 						case 'gp_action' : 
 						case 'gp_size' : 
 						case 'gp_annotation' : 
@@ -577,10 +582,29 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$og['og:video'] = $this->get_videos_og( $content_filtered, 
 					$this->options['og_vid_max'] );
 			$og['article:tag'] = $this->get_tags();
-		
-			if ( ! empty( $post->post_author ) || ! empty( $this->options['og_def_author_id'] ) ) {
 
-				$og['og:type'] = "article";
+
+			// we potentially have some author information available
+			if ( ! empty( $post->post_author ) || ! empty( $this->options['og_def_author_id'] ) ) {
+	
+		
+				// just for clarity, any singular page is type 'article'
+				if ( is_singular() ) $og['og:type'] = 'article';
+
+				// if it's a search but we're forcing an empty default author, then set type to 'website'
+				elseif ( is_search() && ! empty( $this->options['og_def_author_on_search'] ) 
+					&& empty( $this->options['og_def_author_id'] ) ) $og['og:type'] = "website";
+
+				// if it's an index pae but we're forcing an empty default author, then set type to 'website'
+				elseif ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_author_on_index'] ) 
+					&& empty( $this->options['og_def_author_id'] ) ) $og['og:type'] = "website";
+
+				else $og['og:type'] = 'article';
+
+			} else $og['og:type'] = 'website';
+
+			if ( $og['og:type'] == 'article' ) {
+
 				$og['article:section'] = $this->options['og_art_section'];
 				$og['article:modified_time'] = get_the_modified_date('c');
 				$og['article:published_time'] = get_the_date('c');
@@ -591,8 +615,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['og_author_field'] );
-
-			} else $og['og:type'] = "website";
+			}
 		
 			// output whatever debug info we have before printing the open graph meta tags
 			$this->print_debug( '$this->debug_msgs', $this->debug_msgs );
@@ -837,8 +860,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				return array_slice( $og_ret, 0, $num );
 
 			// get images from content if singular, or allowed by options for index default
-			if ( is_singular() || ( is_search() && ! $this->options['og_def_img_on_search'] ) 
-				|| ( ! is_singular() && ! is_search() && ! $this->options['og_def_img_on_index'] ) ) {
+			if ( is_singular() || ( is_search() && empty( $this->options['og_def_img_on_search'] ) ) 
+				|| ( ! is_singular() && ! is_search() && empty( $this->options['og_def_img_on_index'] ) ) ) {
 	
 				// check for singlepics on raw content
 				$og_ret = array_merge( $og_ret, 
@@ -865,18 +888,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// $ngg_images = array of ngg image objects
 		function get_ngg_images_og( $ngg_images = array(), $size_name = 'thumbnail' ) {
 			$og_ret = array();
-			$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
+			$size_info = $this->get_size_values( $size_name );		// the width, height, crop for the image size
 			foreach ( $ngg_images as $image ) {
 				$og_image = array();
-				$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $image->pid, $size_name );
-				$this->d_msg( 'get_ngg_url(' . $image->pid . ') = '.$og_image['og:image'] );
-				if ( $og_image['og:image'] ) {
-					if ( $size_info['crop'] ) {		// the width and height are only accurate for cropped images
-						$og_image['og:image:width'] = $size_info['width'];
-						$og_image['og:image:height'] = $size_info['height'];
-					}
-					array_push( $og_ret, $og_image );
-				}
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+					$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
+				$this->d_msg( 'get_ngg_image_src(' . $image->pid . ') = '.$og_image['og:image'] );
+				if ( $og_image['og:image'] ) array_push( $og_ret, $og_image );
 			}
 			return $og_ret;
 		}
@@ -891,14 +909,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $pid ) {
 					$og_image = array();
-					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid[1], $size_name );
-					$this->d_msg( 'get_ngg_url(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
+					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
+					$this->d_msg( 'get_ngg_image_src(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
 					// avoid duplicates
 					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
-						if ( $size_info['crop'] ) {		// the width and height are only accurate for cropped images
-							$og_image['og:image:width'] = $size_info['width'];
-							$og_image['og:image:height'] = $size_info['height'];
-						}
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );	// everything ok, so push the image
 					}
@@ -973,19 +988,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
-					$this->d_msg( 'get_ngg_url(' . $pid . ') = ' . $og_image['og:image'] );
+					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
+					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' . $og_image['og:image'] );
 				} else {
-					$out = wp_get_attachment_image_src( $pid, $size_name );
-					$og_image['og:image'] = $out[0];
+					list( $og_image['og:image'], $og_image['og:image:width'], 
+						$og_image['og:image:height'] ) = wp_get_attachment_image_src( $pid, $size_name );
 					$this->d_msg( 'wp_get_attachment_image_src(' . $pid . ') = ' . $og_image['og:image'] );
-				}
-				if ( $og_image['og:image'] ) {
-					$size_info = $this->get_size_values( $size_name );	// the width, height, crop for the image size
-					if ( $size_info['crop'] ) {				// the width and height are only accurate for cropped images
-						$og_image['og:image:width'] = $size_info['width'];
-						$og_image['og:image:height'] = $size_info['height'];
-					}
 				}
 			}
 			// returned array must be two-dimensional
@@ -1002,15 +1011,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
 					$pid = $singlepic[1];
-					$og_image['og:image'] = $this->get_ngg_url( 'ngg-' . $pid, $size_name );
-					$this->d_msg( 'get_ngg_url(' . $pid . ') = ' .  $og_image['og:image'] );
-					if ( $og_image['og:image'] ) {
-						if ( $size_info['crop'] ) {			// the width and height are only accurate for cropped images
-							$og_image['og:image:width'] = $size_info['width'];
-							$og_image['og:image:height'] = $size_info['height'];
-						}
-						array_push( $og_ret, $og_image );
-					}
+					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name );
+					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' .  $og_image['og:image'] );
+					if ( ! empty( $og_image['og:image'] ) ) array_push( $og_ret, $og_image );
 				}
 			}
 			return $og_ret;
@@ -1022,11 +1026,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->options['og_def_img_id'] > 0 ) {
 				if ($this->options['og_def_img_id_pre'] == 'ngg') {
 					$pid = $this->options['og_def_img_id_pre'].'-'.$this->options['og_def_img_id'];
-					$og_image['og:image'] = $this->get_ngg_url( $pid, $size_name );
-					$this->d_msg( 'get_ngg_url(' . $pid . ') = ' .  $og_image['og:image'] );
+					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
+					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' .  $og_image['og:image'] );
 				} else {
-					$out = wp_get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
-					$og_image['og:image'] = $out[0];
+					list( $og_image['og:image'], $og_image['og:image:width'], 
+						$og_image['og:image:height'] ) = wp_get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
 					$this->d_msg( 'wp_get_attachment_image_src(' . 
 						$this->options['og_def_img_id'] . ') = ' . $og_image['og:image'] );
 				}
@@ -1130,8 +1135,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta = '';
-			if ( $this->options['inc_'.$name] && ( ! empty( $val ) 
-				|| ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
+			if ( ! empty( $this->options['inc_'.$name] ) 
+				&& ( ! empty( $val ) || ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
 
 				$charset = get_bloginfo( 'charset' );
 				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), 
@@ -1182,8 +1187,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
-		function get_ngg_url( $pid, $size_name = 'thumbnail' ) {
+		function get_ngg_image_src( $pid, $size_name = 'thumbnail' ) {
+
 			if ( empty( $this->is_active['ngg'] ) ) return;
+
+			$image_url = '';
+			$crop_status = '';
+			$size_info = array( 'width' => '', 'height' => '', 'crop' => '' );
+
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				global $nggdb;
 				$pid = substr( $pid, 4 );
@@ -1191,6 +1202,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $image ) ) {
 					$size_info = $this->get_size_values( $size_name );
 					$crop = ( $size_info['crop'] == 1 ? 'crop' : '' );
+					$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
 					$image_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop );
 					if ( empty( $image_url ) )	// if the image file doesn't exist, use the dynamic image url
 						$image_url = trailingslashit( site_url() ) . 
@@ -1200,7 +1212,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							'&amp;mode=' . $crop;
 				}
 			}
-			return $image_url;
+			return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
 		}
 
 		function cdn_linker_rewrite( $url = '' ) {

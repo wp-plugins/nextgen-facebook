@@ -18,7 +18,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 	class ngfbButtons {
 
 		function header_async_js() {
+			global $ngfb;
+			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			return '<script type="text/javascript">
+				window.___gcfg = { lang: "' .  $lang . '" };
+
 				function ngfbJavaScript( id, url, async ) {
 					var async = typeof async !== "undefined" ? async : true;
 					var js, firstScript = document.getElementsByTagName( "script" )[0];
@@ -74,10 +78,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				if ( ! empty( $attr['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
-						$attr['photo'] = $ngfb->get_ngg_url( $attr['pid'], $attr['size'] );
+						list( $attr['photo'], $attr['width'], $attr['height'], 
+							$attr['cropped'] ) = $ngfb->get_ngg_image_src( $attr['pid'], $attr['size'] );
 					} else {
-						$out = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
-						$attr['photo'] = $out[0];
+						list( $attr['photo'], $attr['width'], 
+							$attr['height'] ) = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
 					}
 				}
 			}
@@ -143,10 +148,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				
 				if ( ! empty( $attr['pid'] ) ) {
 					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
-						$attr['photo'] = $ngfb->get_ngg_url( $attr['pid'], $attr['size'] );
+						list( $attr['photo'], $attr['width'], $attr['height'], 
+							$attr['cropped'] ) = $ngfb->get_ngg_image_src( $attr['pid'], $attr['size'] );
 					} else {
-						$out = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
-						$attr['photo'] = $out[0];
+						list( $attr['photo'], $attr['width'], 
+							$attr['height'] ) = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
 					}
 				}
 			}
@@ -208,8 +214,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		
 		function facebook_header() {
 			global $ngfb; 
+			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
+			$lang = preg_replace( '/-/', '_', $lang );
 			return '<script type="text/javascript">ngfbJavaScript( "facebook-js", 
-				"https://connect.facebook.net/en_US/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] . '" );</script>' . "\n";
+				"https://connect.facebook.net/' . $lang . '/all.js#xfbml=1&appId=' . 
+					$ngfb->options['og_app_id'] . '" );</script>' . "\n";
 		}
 
 		/*	Google+
@@ -247,11 +256,27 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( ! empty( $ngfb->options['twitter_shorten'] ) ) 
 				$attr['url'] = $goo->shorten( $attr['url'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
+			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
+			$lang = substr( $lang, 0, 2);
+			switch ( $lang ) {
+				case 'en' :
+				case 'fr' :
+				case 'de' :
+				case 'it' :
+				case 'es' :
+				case 'ko' :
+				case 'ja' :
+					break;
+				default :
+					$lang = 'en';
+					break;
+			}
 			return '
 				<!-- Twitter Button -->
 				<div class="twitter-button">
 				<a href="https://twitter.com/share" 
 					class="twitter-share-button"
+					lang="'. $lang . '"
 					data-url="' . $attr['url'] . '" 
 					data-count="' . $ngfb->options['twitter_count'] . '" 
 					data-size="' . $ngfb->options['twitter_size'] . '" 
@@ -272,14 +297,16 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html;
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			$linkedin_counter = $ngfb->options['linkedin_counter'];
 			$button_html = '
 				<!-- LinkedIn Button -->
 				<div class="linkedin-button">
 				<script type="IN/Share" data-url="' . $attr['url'] . '"';
 
-			if ( $ngfb->options['linkedin_counter'] ) 
+			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 
 				$button_html .= ' data-counter="' . $ngfb->options['linkedin_counter'] . '"';
+
+			if ( ! empty( $ngfb->options['linkedin_showzero'] ) ) 
+				$button_html .= ' data-showzero="true"';
 
 			$button_html .= '></script></div>'."\n";
 			return $button_html;

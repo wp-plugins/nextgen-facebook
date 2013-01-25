@@ -77,6 +77,70 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'Women\'s',
 		);
 	
+		var $locale = array(
+			'af'	=> 'Afrikaans',
+			'am'	=> 'Amharic',
+			'ar'	=> 'Arabic',
+			'eu'	=> 'Basque',
+			'bn'	=> 'Bengali',
+			'bg'	=> 'Bulgarian',
+			'ca'	=> 'Catalan',
+			'zh-HK'	=> 'Chinese (Hong Kong)',
+			'zh-CN'	=> 'Chinese (Simplified)',
+			'zh-TW'	=> 'Chinese (Traditional)',
+			'hr'	=> 'Croatian',
+			'cs'	=> 'Czech',
+			'da'	=> 'Danish',
+			'nl'	=> 'Dutch',
+			'en-GB'	=> 'English (UK)',
+			'en-US'	=> 'English (US)',
+			'et'	=> 'Estonian',
+			'fil'	=> 'Filipino',
+			'fi'	=> 'Finnish',
+			'fr'	=> 'French',
+			'fr-CA'	=> 'French (Canadian)',
+			'gl'	=> 'Galician',
+			'de'	=> 'German',
+			'el'	=> 'Greek',
+			'gu'	=> 'Gujarati',
+			'iw'	=> 'Hebrew',
+			'hi'	=> 'Hindi',
+			'hu'	=> 'Hungarian',
+			'is'	=> 'Icelandic',
+			'id'	=> 'Indonesian',
+			'it'	=> 'Italian',
+			'ja'	=> 'Japanese',
+			'kn'	=> 'Kannada',
+			'ko'	=> 'Korean',
+			'lv'	=> 'Latvian',
+			'lt'	=> 'Lithuanian',
+			'ms'	=> 'Malay',
+			'ml'	=> 'Malayalam',
+			'mr'	=> 'Marathi',
+			'no'	=> 'Norwegian',
+			'fa'	=> 'Persian',
+			'pl'	=> 'Polish',
+			'pt-BR'	=> 'Portuguese (Brazil)',
+			'pt-PT'	=> 'Portuguese (Portugal)',
+			'ro'	=> 'Romanian',
+			'ru'	=> 'Russian',
+			'sr'	=> 'Serbian',
+			'sk'	=> 'Slovak',
+			'sl'	=> 'Slovenian',
+			'es'	=> 'Spanish',
+			'es-419'	=> 'Spanish (Latin America)',
+			'sw'	=> 'Swahili',
+			'sv'	=> 'Swedish',
+			'ta'	=> 'Tamil',
+			'te'	=> 'Telugu',
+			'th'	=> 'Thai',
+			'tr'	=> 'Turkish',
+			'uk'	=> 'Ukrainian',
+			'ur'	=> 'Urdu',
+			'vi'	=> 'Vietnamese',
+			'zu'	=> 'Zulu'
+		);
+
 		function __construct() {
 			natsort ( $this->article_sections );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
@@ -231,7 +295,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					}
 					echo '</select>', "\n";
 				?></td>
-				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to None (the default).</p></td>
+				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to <em>None</em> (the default).</p></td>
+			</tr>
+			<tr>
+				<th>Default Author on Indexes</th>
+				<td><?php $this->checkbox( 'og_def_author_on_index' ); ?></td>
+				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). If the Default Author is <em>None</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
+			</tr>
+			<tr>
+				<th>Default Author on Search Results</th>
+				<td><?php $this->checkbox( 'og_def_author_on_search' ); ?></td>
+				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. If the Default Author is <em>None</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Image Size Name</th>
@@ -265,12 +339,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image on Indexes</th>
 				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this box if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the featured image, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, and &lt;img/&gt; HTML tag within the first entry on the webpage (default is checked).</p></td>
+				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the featured image, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, and &lt;img/&gt; HTML tag within the first entry on the webpage (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Image on Search Results</th>
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
-				<td><p>Check this box if you would like to use the default image on search result webpages as well (default is checked).</p></td>
+				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
 			<?php	if ( $ngfb->is_active['ngg'] ) : ?>
 			<tr>
@@ -431,6 +505,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Location in Content Text</th>
 				<td><?php $this->select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 			</tr>
+			<tr>
+				<th>Language</th>
+				<td><?php $this->select( 'buttons_lang', $this->locale ); ?></td>
+			</tr>
 			</table>
 			<table class="form-table">
 			<tr>
@@ -565,7 +643,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
-				<td colspan="2"></td>
+				<th>Show Zero in Counter</th>
+				<td><?php $this->checkbox( 'linkedin_showzero' ); ?></td>
 				<!-- Twitter -->
 				<th>Button Size</th>
 				<td><?php $this->select( 'twitter_size', array( 
