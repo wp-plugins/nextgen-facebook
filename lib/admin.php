@@ -508,6 +508,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Language</th>
 				<td><?php $this->select( 'buttons_lang', $this->locale ); ?></td>
+				<td colspan="2"><p>Prefered language for social buttons text (when supported).</p></td>
 			</tr>
 			</table>
 			<table class="form-table">
