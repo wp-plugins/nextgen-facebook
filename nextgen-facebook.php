@@ -538,7 +538,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! empty( $ids ) ) {
 				$button_html .= "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript BEGIN -->\n";
-				if ( $func == 'header' ) $button_html .= $this->ngfbButtons->header_async_js();
+				if ( $func == 'header' ) $button_html .= $this->ngfbButtons->header_js();
 
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
