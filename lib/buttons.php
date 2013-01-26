@@ -127,12 +127,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 			if ( empty( $attr['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
 				$videos = array();
-				$content_filtered = $ngfb->apply_content_filter( $post->post_content, 
-					$ngfb->options['ngfb_filter_content'] );
-
-				if ( ! empty( $content_filtered ) )
-					$videos = $ngfb->get_videos_og( $content_filtered, 1 );	// get the first video, if any
-
+				$videos = $ngfb->get_videos_og( 1 );	// get the first video, if any
 				if ( ! empty( $videos[0]['og:video'] ) ) 
 					$attr['embed'] = $videos[0]['og:video'];
 			}
