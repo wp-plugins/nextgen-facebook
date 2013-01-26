@@ -317,6 +317,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 * Added the "Default Author on Indexes" and "Default Author on Search Results" options.
 * Added the "Language" option for social buttons.
 * Added the "Show Zero in Counter" option for the LinkedIn button.
+* Moved the `get_singlepics_og()` method into `get_content_images_og()` to avoid duplicate OG images.
 
 = Version 3.2.1 =
 * **Recommended Update**
