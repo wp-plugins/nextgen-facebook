@@ -55,7 +55,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;	
 		}
 
-		function stumbleupon_header() {
+		function stumbleupon_js() {
 			return '<script type="text/javascript" id="stumbleupon-script-id">
 					ngfb_header_js( "stumbleupon-script-id", 
 						"https://platform.stumbleupon.com/1/widgets.js", "true" );
@@ -108,7 +108,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;	
 		}
 
-		function pinterest_header() {
+		function pinterest_js() {
 			return '<script type="text/javascript" id="pinterest-script-id">
 					ngfb_header_js( "pinterest-script-id", 
 						"https://assets.pinterest.com/js/pinit.js", "true" );
@@ -186,7 +186,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
-		function tumblr_footer() {
+		function tumblr_js() {
 			return '<script type="text/javascript" id="tumblr-script-id"
 				src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
 		}
@@ -213,7 +213,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			';
 		}
 		
-		function facebook_header() {
+		function facebook_js() {
 			global $ngfb; 
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			$lang = preg_replace( '/-/', '_', $lang );
@@ -242,7 +242,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				</div>' . "\n";
 		}
 		
-		function gplus_header() {
+		function gplus_js() {
 			return '<script type="text/javascript" id="gplus-script-id">
 					ngfb_header_js( "gplus-script-id", 
 						"https://apis.google.com/js/plusone.js", "true" );
@@ -289,7 +289,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				</div>' . "\n";
 		}
 		
-		function twitter_header() {
+		function twitter_js() {
 			return '<script type="text/javascript" id="twitter-script-id">
 					ngfb_header_js( "twitter-script-id", 
 						"https://platform.twitter.com/widgets.js", "true" );
@@ -319,7 +319,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;
 		}
 		
-		function linkedin_header() {
+		function linkedin_js() {
 			return  '<script type="text/javascript" id="linkedin-script-id">
 					ngfb_header_js( "linkedin-script-id", 
 						"https://platform.linkedin.com/in.js", "true" );

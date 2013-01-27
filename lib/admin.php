@@ -19,7 +19,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		var $article_sections = array(
-			'',	// none
 			'Animation',
 			'Architecture',
 			'Art',
@@ -272,7 +271,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<th>Website Topic</th>
-				<td><?php $this->select( 'og_art_section', $this->article_sections ); ?></td>
+				<td><?php $this->select( 'og_art_section', array_merge( array( '' ), $this->article_sections ) ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your webpages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>

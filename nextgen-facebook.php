@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.3';		// for display purposes
-		var $opts_version = '4';	// increment when adding/removing $default_options
+		var $opts_version = '5';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -84,6 +84,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'buttons_lang' => 'en-US',
 			'fb_enable' => 0,
 			'fb_order' => 1,
+			'fb_js_loc' => 'header',
 			'fb_send' => 1,
 			'fb_layout' => 'button_count',
 			'fb_colorscheme' => 'light',
@@ -92,27 +93,32 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'fb_action' => 'like',
 			'gp_enable' => 0,
 			'gp_order' => 2,
+			'gp_js_loc' => 'header',
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
 			'twitter_enable' => 0,
 			'twitter_order' => 3,
+			'twitter_js_loc' => 'header',
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => 1,
 			'twitter_shorten' => 1,
 			'linkedin_enable' => 0,
 			'linkedin_order' => 4,
+			'linkedin_js_loc' => 'header',
 			'linkedin_counter' => 'right',
 			'linkedin_showzero' => 1,
 			'pin_enable' => 0,
 			'pin_order' => 5,
+			'pin_js_loc' => 'header',
 			'pin_count_layout' => 'horizontal',
 			'pin_img_size' => 'large',
 			'pin_caption' => 'both',
 			'pin_cap_len' => 500,
 			'tumblr_enable' => 0,
 			'tumblr_order' => 7,
+			'tumblr_js_loc' => 'footer',
 			'tumblr_button_style' => 'share_1',
 			'tumblr_desc_len' => 300,
 			'tumblr_photo' => 1,
@@ -121,6 +127,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'tumblr_cap_len' => 500,
 			'stumble_enable' => 0,
 			'stumble_order' => 6,
+			'stumble_js_loc' => 'header',
 			'stumble_badge' => 1,
 			'inc_fb:admins' => 1,
 			'inc_fb:app_id' => 1,
@@ -411,6 +418,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
+				// loop through all the known option keys
 				foreach ( $this->default_options as $key => $def_val ) {
 
 					switch ( $key ) {
@@ -467,18 +475,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'og_author_field' :
 						case 'buttons_location' : 
 						case 'buttons_lang' : 
+						case 'fb_js_loc' : 
+						case 'gp_js_loc' : 
 						case 'gp_action' : 
 						case 'gp_size' : 
 						case 'gp_annotation' : 
+						case 'twitter_js_loc' : 
 						case 'twitter_count' : 
 						case 'twitter_size' : 
+						case 'linkedin_js_loc' : 
 						case 'linkedin_counter' :
+						case 'pin_js_loc' : 
 						case 'pin_count_layout' :
 						case 'pin_img_size' :
 						case 'pin_caption' :
+						case 'tumblr_js_loc' : 
 						case 'tumblr_button_style' :
 						case 'tumblr_img_size' :
 						case 'tumblr_caption' :
+						case 'stumble_js_loc' : 
 							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
 							if ( empty( $opts[$key] ) ) $opts[$key] = $def_val;
 							break;
@@ -509,7 +524,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// add button javascript for enabled buttons in content and widget(s)
-		function get_buttons_js( $func = 'footer', $ids = array() ) {
+		function get_buttons_js( $loc = 'footer', $ids = array() ) {
 
 			if ( empty( $ids ) ) {
 
@@ -519,8 +534,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$widget = new ngfbSocialButtonsWidget();
 		 		$widget_settings = $widget->get_settings();
 
-				foreach ( $this->social_options_prefix as $id => $prefix ) {
-					if ( $this->options[$prefix.'_enable'] 
+				foreach ( $this->social_options_prefix as $id => $opt_prefix ) {
+					if ( $this->options[$opt_prefix.'_enable'] 
 						&& ( is_singular() || $this->options['buttons_on_index'] ) )
 							$ids[] = $id;
 
@@ -529,24 +544,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$ids[] = $id;
 					}
 				}
-				unset ( $id, $prefix );
+				unset ( $id, $opt_prefix );
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->print_debug( '$ids', $ids );
-			$button_html = '';
+			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $loc ) . " JavaScript BEGIN -->\n";
+			$button_html .= $loc == 'header' ? $this->ngfbButtons->header_js() : '';
 
 			if ( ! empty( $ids ) ) {
-				$button_html .= "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript BEGIN -->\n";
-				if ( $func == 'header' ) $button_html .= $this->ngfbButtons->header_js();
-
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-					$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_$func' ) ) 
-						return \$this->ngfbButtons->${id}_$func();" );
+					$opt_name = $this->social_options_prefix[$id] . '_js_loc';
+					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $loc )
+						$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_js' ) ) 
+							return \$this->ngfbButtons->${id}_js();" );
 				}
-				$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $func ) . " Javascript END -->\n\n";
 			}
+
+			$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $loc ) . " JavaScript END -->\n\n";
 			return $button_html;
 		}
 
@@ -629,9 +645,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
 				$button_html = '';
 				$sorted_ids = array();
-				foreach ( $this->social_options_prefix as $id => $prefix )
-					if ( $this->options[$prefix.'_enable'] )
-						$sorted_ids[$this->options[$prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
+				foreach ( $this->social_options_prefix as $id => $opt_prefix )
+					if ( $this->options[$opt_prefix.'_enable'] )
+						$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 				ksort( $sorted_ids );
 				if ( $this->options['buttons_location'] == "top" ) 
 					$content = $this->get_buttons_html( $sorted_ids ) . $content;
