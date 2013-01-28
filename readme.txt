@@ -22,7 +22,7 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 * tumblr
 * StumbleUpon
 
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG `<div>` HTML tags for images, `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.
 
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
@@ -310,17 +310,17 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
-= Version 3.2.2 =
-* Removed the unused `get_ngg_xmp()` method.
-* Moved the `utf8_entity_decode()` function into a class.
-* Retrieved the `og:image:width` and `og:image:height` from the `wp_get_attachment_image_src()` function and `get_ngg_image_src()` method instead of relying on the values from the image size name.
-* Added the "Default Author on Indexes" and "Default Author on Search Results" options.
-* Added the "Language" option for social buttons.
+= Version 3.3 =
+* Improved `og:image:width` and `og:image:height` accuracy by getting their values from `wp_get_attachment_image_src()` and `get_ngg_image_src()` instead of relying on the image size name.
+* Added the "Language" option for social buttons. Language support varies; Facebook and Google support all languages, and twitter supports a few.
 * Added the "Show Zero in Counter" option for the LinkedIn button.
+* Added the "JavaScript in" (Header/Footer) option for all buttons.
+* Added the "Default Author on Indexes" and "Default Author on Search Results" options.
 * Moved the `get_singlepics_og()` method into `get_content_images_og()` to avoid duplicate OG images.
+* Moved the `utf8_entity_decode()` function into a class.
+* Removed the unused `get_ngg_xmp()` method.
 
 = Version 3.2.1 =
-* **Recommended Update**
 * **Fixed** the `update_options()` method that wasn't adding missing option array keys as it should.
 * Added the "Include Empty Open Graph Meta Tags" option (checked by default).
 * Allowed the "Maximum Description Length" value to be 0 (the `NGFB_MIN_DESC_LEN` constant must be 0 as well).
@@ -497,8 +497,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.3 =
+Improved `og:image:width` and `og:image:height` accuracy. Added Language support for button text. Configurable location for each button JavaScript (header or footer). Additional default author options.
+
 = Version 3.2.1 =
-**Recommended Update** : **Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
+**Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
 = Version 3.2 =
 **Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.

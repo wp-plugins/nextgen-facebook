@@ -140,6 +140,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'zu'	=> 'Zulu'
 		);
 
+		var $js_locations = array(
+			'header' => 'Header',
+			'footer' => 'Footer'
+		);
+
 		function __construct() {
 			natsort ( $this->article_sections );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
@@ -205,13 +210,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				.btn_wizard_column { white-space:nowrap; }
 				.btn_wizard_example { display:inline-block; width:155px; }
-				.thankyou {
+				.donatebox {
 					float:right;
 					display:block;
 					font-weight:bold;
 					width:300px;
 					margin:0 0 15px 25px;
-					padding:15px;
+					padding:10px;
 					color:#333;
 					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -223,7 +228,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border-radius:5px;
 					border:1px solid #b4b4b4;
 				}
-				.thankyou p { 
+				.donatebox p { 
 					font-size:1em;
 					line-height:1.25em;
 					margin:10px 0 10px 0;
@@ -237,8 +242,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="icon32" id="icon-options-general"><br></div>
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 	
-			<div class="thankyou">
-			<p>Please show your appreciation for NextGEN Facebook OG by donating a few dollars.</p>
+			<div class="donatebox">
+			<p>NextGEN Facebook OG has taken months to develop and fine-tune. Please show your appreciation by donating a few dollars.</p>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
 <input type="hidden" name="cmd" value="_s-xclick">
@@ -252,11 +257,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</ul>
 			</div>
 
-			<p>NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. The featured image from a NextGEN Gallery or WordPress Media Library is also correctly listed in the image meta property. This plugin goes well beyond any other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
+			<p>The NextGEN Facebook OG plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
 
 			<p>All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 	
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. If none of these conditions can be satisfied, then the Open Graph image property tag will be left empty.</p>
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. NextGEN Facebook OG will detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.</p>
+
 			<div style="clear:both;"></div>
 
 			<div class="metabox-holder">
@@ -536,6 +542,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'fb_js_loc', $this->js_locations ); ?></td>
+				<!-- Google+ -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'gp_js_loc', $this->js_locations ); ?></td>
+			</tr>
+			<tr>
+				<!-- Facebook -->
 				<th>Include Send Button</th>
 				<td><?php $this->checkbox( 'fb_send' ); ?></td>
 				<!-- Google+ -->
@@ -562,7 +576,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
-				<th>Show Facebook Faces</th>
+				<th>Show Faces</th>
 				<td><?php $this->checkbox( 'fb_show_faces' ); ?></td>
 				<!-- Google+ -->
 				<th>Annotation</th>
@@ -626,6 +640,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Twitter -->
 				<th>Preferred Order</th>
 				<td><?php $this->select( 'twitter_order', range( 1, $buttons_count ), 'number' ); ?></td>
+			</tr>
+			<tr>
+				<!-- LinkedIn -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'linkedin_js_loc', $this->js_locations ); ?></td>
+				<!-- Twitter -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'twitter_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -694,6 +716,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- tumblr -->
 				<th>Preferred Order</th>
 				<td><?php $this->select( 'tumblr_order', range( 1, $buttons_count ), 'number' ); ?></td>
+			</tr>
+			<tr>
+				<!-- Pinterest -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'pin_js_loc', $this->js_locations ); ?></td>
+				<!-- tumblr -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'tumblr_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -802,6 +832,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- StumbleUpon -->
 				<th>Preferred Order</th>
 				<td><?php $this->select( 'stumble_order', range( 1, $buttons_count ), 'number' ); ?></td>
+			</tr>
+			<tr>
+				<!-- StumblrUpon -->
+				<th>JavaScript in</th>
+				<td><?php $this->select( 'stumble_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumbleUpon -->
