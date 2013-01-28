@@ -834,8 +834,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_videos_og( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-			$content = empty( $post ) ? '' : $this->apply_content_filter( $post->post_content, 
-				$this->options['ngfb_filter_content'] );
+			$content = empty( $post ) ? '' : $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
 
 			if ( preg_match_all( '/<iframe[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $iframe ) {
@@ -918,7 +917,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// remove singlepics, to avoid duplicates
-			//$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
+			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
 			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
 
 			// check for NGG image ids
