@@ -248,8 +248,8 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 `
-if ( is_search() && function_exists( 'ngg_images_results' ) && have_images() ) {
-	global $nggSearch;
+global $nggSearch
+if ( is_search() && $nggSearch->found_images ) {
 	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
 	echo $nggSearch->return_result( 'meta' );
 }
