@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.3
+Version: 3.4
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.3';		// for display purposes
-		var $opts_version = '5';	// increment when adding/removing $default_options
+		var $version = '3.4';		// for display purposes
+		var $opts_version = '6';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -52,6 +52,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'tumblr' => 'tumblr' );
 		var $options = array();
 		var $default_options = array(
+			'add_meta_desc' => 1,
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
@@ -1114,6 +1115,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$this->options['link_author_field'] );
 				if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
+
+			if ( ! empty( $arr['og:description'] ) && ! empty( $this->options['add_meta_desc'] ) )
+				echo '<meta name="description" content="', $arr['og:description'], '" />', "\n";
 
 			ksort( $arr );
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)

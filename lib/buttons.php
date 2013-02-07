@@ -257,9 +257,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 
-			$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
-			if ( ! empty( $ngfb->options['twitter_shorten'] ) ) 
+			if ( function_exists('curl_init') && ! empty( $ngfb->options['twitter_shorten'] ) ) {
+				$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
 				$attr['url'] = $goo->shorten( $attr['url'] );
+			}
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			$lang = substr( $lang, 0, 2);

@@ -178,7 +178,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:right;
 					white-space:nowrap; 
 					padding:2px 6px 2px 6px; 
-					width:180px;
+					min-width:180px;
 				}
 				.form-table th.social { 
 					font-weight:bold; 
@@ -243,18 +243,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 	
 			<div class="donatebox">
-			<p>NextGEN Facebook OG has taken months to develop and fine-tune. Please show your appreciation by donating a few dollars.</p>
-
+			<p>NextGEN Facebook OG has taken months to develop and fine-tune. Please help us continue by donating $10, $20 or more...</p>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
 <input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHRwYJKoZIhvcNAQcEoIIHODCCBzQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYAr63XmMAh/U9aRM2KUpL55/Yi1FG1AKWMUF9JCYCgGcw/jloEQMm2AnGxxXoK4SIc+P6T2Gvwz7cW7p44tlxP3j9lt0g3QUayOqOfLUAz5y25j1I8KXmZk/JAWKywlWBccc42eED1wxv4h+QdX07c4QvMgUw8UMTbHA4+nMN8knDELMAkGBSsOAwIaBQAwgcQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQI1kq2UGU/YU6AgaC9KxwYLz67l05W5liWPtyq0lQOApJ1LtQzwydvn3ojBGQ4E8tgx8i4+qPV5VSQSvdtZk4W8WhstEZkykvvHTgG3lDkGbkq6DQ+L5JIOzRxruHxop9ZrsUxRlwFoqinKwrUhsKjtTmzYHe42NB3+0lGqdhdLbYSiP2/3x4AlYTAsmjoWnWkT5OgOD7Jh8wlY75Gp1QMGhC6djB77y4NUXDwoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTMwMjA3MDI1NjExWjAjBgkqhkiG9w0BCQQxFgQUJH7MiFYMO4zeVWSbIbzchUK79NUwDQYJKoZIhvcNAQEBBQAEgYBlZnx2l4doekEAJZBJXNVkzuhOw8muRsE5FX/LwGa426MdNHBTNpCOqSdtLK1JuXmfZ3KZgTdBaQJDnmtzQ2MdGYenbh1PYcXDFOyYpytv7qANO936Js+0DGgIFomfEhcr9Lzhrfr62TSdvjRhC/jck6WqAom2sqtPxQuxF4T7bw==-----END PKCS7-----
 ">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
-
-			<p>Thank you.</p>
-			</ul>
 			</div>
 
 			<p>The NextGEN Facebook OG plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
@@ -364,9 +360,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.</p></td>
 			</tr>
 			<tr>
-				<th>Add Page Titles as Tags</th>
+				<th>Add Page Title as Tag</th>
 				<td><?php $this->checkbox( 'og_page_title_tag' ); ?></td>
-				<td><p>Add the title of Pages (and it's ancestors) to the Open Graph tag list as well. This works well if the title of your Pages are short and subject-oriented.</p></td>
+				<td><p>Add the title of the Page to the Open Graph tag list as well. If the <em>Add Page Ancestor Tags</em> is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
@@ -437,7 +433,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$og_cells = array();
 				$og_rows = array();
 				foreach ( $ngfb->default_options as $opt => $val ) {
-					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
+					if ( preg_match( '/^inc_(.*:.*)$/', $opt, $match ) )
 						$og_cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
 							<td>'. $this->checkbox( $opt, false ) . '</td>';
 				}
@@ -462,23 +458,26 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .postbox -->
 		
 			<div id="ngfb-head" class="postbox">
-			<h3 class="hndle"><span>Head Link Settings</span></h3>
+			<h3 class="hndle"><span>Additional Head Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
-				<td colspan="4">
+				<td colspan="3">
 				<p>NextGEN Facebook OG can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
 				</td>
 			</tr>
 			<tr>
 				<th>Author Link URL</th>
-				<td><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
-				<td colspan="2"><p></p></td>
+				<td colspan="2"><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
 			</tr>
 			<tr>
 				<th>Publisher Link URL</th>
-				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?>
-				<p></p></td>
+				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?></td>
+			</tr>
+			<tr>
+				<th>Add a Meta Description Tag</th>
+				<td><?php $this->checkbox( 'add_meta_desc' ); ?></td>
+				<td width="100%"><p>Add a meta description tag to the webpage head section (the value is identical to the Open Graph description).</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
@@ -490,7 +489,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the NextGEN Facebook OG Other Notespage for stylesheet examples</a> -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage for the widget options</a>).</p>
+				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the NextGEN Facebook OG Other Notes page for stylesheet examples</a> -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage for the widget options</a>).</p>
 				</td>
 			</tr>
 			<tr>
@@ -909,7 +908,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Goo.gl API Key</th>
 				<td colspan="2"><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to aquire your <em>Simple API Access Key</em>.</p></td>
+				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->

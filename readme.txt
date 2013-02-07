@@ -310,6 +310,10 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
+= Version 3.4 =
+* Added a test for the existence of `curl_init()` function before shortening URLs for twitter.
+* Added the "Add a Meta Description Tag" option (default is checked) to include a description meta tag. The description meta tag value is identical to the Open Graph "og:description" tag.
+
 = Version 3.3 =
 * Improved `og:image:width` and `og:image:height` accuracy by getting their values from `wp_get_attachment_image_src()` and `get_ngg_image_src()` instead of relying on the image size name.
 * Added the "Language" option for social buttons. Language support varies; Facebook and Google support all languages, and twitter supports a few.
@@ -496,6 +500,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.4 =
+Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
 
 = Version 3.3 =
 Improved `og:image:width` and `og:image:height` accuracy. Added Language support for button text. Configurable location for each button JavaScript (header or footer). Additional default author options.
