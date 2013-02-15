@@ -523,7 +523,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.5 =
-Added reading of correct/accurate width and height for NGG cached images.
+Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.
 
 = Version 3.4 =
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
