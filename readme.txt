@@ -145,7 +145,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past.
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
 
 `
 .ngfb-buttons { 
@@ -159,17 +159,19 @@ NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social button
 .ngfb-buttons > div { 
 	display:inline-block;
 	vertical-align:bottom;
+	text-align:left;
+	width:100px;
 	height:20px;
 	padding:0;
-	margin:0;
+	margin:0 5px 0 0;
 }
-div.facebook-button { margin-right:15px; }
-div.gplus-button { margin-right:-20px; }
-div.twitter-button { margin-right:-20px; }
-div.linkedin-button { margin-right:10px; }
-div.pinterest-button { margin-right:30px; }
-div.stumbleupon-button { margin-right:15px; }
-div.tumblr-button { margin-right:10px; }
+div.facebook-button { width:149px; }
+div.gplus-button { width:75px; }
+div.twitter-button { width:89px; }
+div.linkedin-button { width:109px; }
+div.pinterest-button { width:80px; }
+div.stumbleupon-button { width:84px; }
+div.tumblr-button { width:80px; margin-right:0; }
 `
 
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
@@ -309,6 +311,9 @@ To address very specific needs, the following PHP constants may be defined in yo
 1. NextGEN Facebook OG - The Settings Page
 
 == Changelog ==
+
+= Version 3.5 =
+* Added reading of correct/accurate width and height information for NGG cached images.
 
 = Version 3.4 =
 * Added a test for the existence of `curl_init()` function before shortening URLs for twitter.
@@ -500,6 +505,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.5 =
+Added reading of correct/accurate width and height for NGG cached images.
 
 = Version 3.4 =
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
