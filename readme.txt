@@ -308,7 +308,7 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Screenshots ==
 
-1. NextGEN Facebook OG - The Settings Page
+1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
 
