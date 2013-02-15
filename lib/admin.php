@@ -15,7 +15,7 @@ http://www.gnu.org/licenses/.
 
 if ( ! class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbAdmin {
+	class ngfbAdmin extends ngfbPlugin {
 	
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		var $article_sections = array(
@@ -152,7 +152,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function admin_init() {
-			global $ngfb;
 			register_setting( NGFB_SHORTNAME . '_plugin_options', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		}
 	
@@ -161,8 +160,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function sanitize_options( $opts ) {
-			global $ngfb;
-			return $ngfb->sanitize_options( $opts );
+			return parent::sanitize_options( $opts );
 		}
 
 		function options_page() {
@@ -243,7 +241,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 	
 			<div class="donatebox">
-			<p>NextGEN Facebook OG has taken months to develop and fine-tune. Please help us continue by donating $10, $20 or more...</p>
+			<p>NextGEN Facebook OG has taken many, many months to develop and fine-tune. Please help us to continue by donating $10 or $20.</p>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
@@ -251,13 +249,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
+			<p>You can also help by giving NGFB a rating of 5 stars on <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">WordPress.org</a>.</p>
 			</div>
 
 			<p>The NextGEN Facebook OG plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
 
 			<p>All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 	
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. NextGEN Facebook OG will detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.</p>
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. NextGEN Facebook OG will detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.</p>
 
 			<div style="clear:both;"></div>
 
@@ -377,12 +376,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Maximum Title Length</th>
 				<td><?php $this->input( 'og_title_len', 'number' ); ?> Characters</td>
-				<td><p>The maximum length of text used in the Open Graph title tag (default is 100 characters).</p></td>
+				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $ngfb->default_options['og_title_len']; ?> characters).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Description Length</th>
 				<td><?php $this->input( 'og_desc_len', 'number' ); ?> Characters</td>
-				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is 300).</p></td>
+				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $ngfb->default_options['og_desc_len']; ?>).</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
@@ -575,8 +574,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
-				<th>Show Faces</th>
-				<td><?php $this->checkbox( 'fb_show_faces' ); ?></td>
+				<th>Default Width</th>
+				<td><?php $this->input( 'fb_width', 'number' ); ?></td>
 				<!-- Google+ -->
 				<th>Annotation</th>
 				<td><?php $this->select( 'gp_annotation', array( 
@@ -584,6 +583,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'bubble' => 'Bubble',
 					'vertical-bubble' => 'Vertical Bubble',
 					'none' => 'None' ) ); ?></td>
+			</tr>
+			<tr>
+				<!-- Facebook -->
+				<th>Show Faces</th>
+				<td><?php $this->checkbox( 'fb_show_faces' ); ?></td>
+				<!-- Google+ -->
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -606,7 +612,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'dark' => 'Dark' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
-			</tr>
+			</tr>				
 			<tr>
 				<!-- Facebook -->
 				<th>Facebook Action Name</th>
@@ -698,7 +704,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Pinterest -->
 				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a featured image.</p></td>
 				<!-- tumblr -->
-				<td colspan="2"><p>The tumblr button shares featured images (when the option is checked), embeded videos, quote post formats, and links to webpages.</p></td>
+				<td colspan="2"><p>The tumblr button shares featured images (when the option is checked), embedded videos, quote post formats, and links to webpages.</p></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -891,6 +897,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
+				<th>Cache Expiry in Hours</th>
+				<td><?php $this->select( 'ngfb_cache_hours', range( 0, NGFB_MAX_CACHE ), 'number' ); ?></td>
+				<td><p>Save social button images and JavaScript to a cache folder and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.</p><p>Note: Caching remote content works with all social buttons except for the Facebook JavaScript SDK, which cannot be cached (for now). All other social button images and JavaScript files will be cached in <?php echo NGFB_CACHEDIR; ?>.</p></td>
+			</tr>
+			<tr>
+				<th>Verify SSL Certificates</th>
+				<td><?php $this->checkbox( 'ngfb_verify_certs' ); ?></td>
+				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
+			</tr>
+			<tr>
 				<th>Apply Content Filter</th>
 				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
 				<td><p>When NextGEN Facebook OG generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
@@ -906,7 +922,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>NextGEN Facebook OG will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
-				<th>Goo.gl API Key</th>
+				<th>Goo.gl Simple API Access Key</th>
 				<td colspan="2"><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
 				<p>The Google URL Shortener API Key for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>

@@ -12,7 +12,7 @@ Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sha
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. For instance, this is used on Facebook to allow any webpage to have the same functionality as other objects on Facebook. The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons:
+NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
@@ -22,7 +22,7 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 * tumblr
 * StumbleUpon
 
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG `<div>` HTML tags for images, `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embeded videos, and include one or more of each in your Open Graph property tags.
+The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG `<div>` HTML tags for images, `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.
 
 Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
@@ -108,7 +108,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NextGEN Facebook OG adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NextGEN Facebook OG to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the Other Notes tab for additional information.
+**A.** NextGEN Facebook OG adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NextGEN Facebook OG to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
 = Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
 
@@ -145,7 +145,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past.
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
 
 `
 .ngfb-buttons { 
@@ -159,17 +159,19 @@ NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social button
 .ngfb-buttons > div { 
 	display:inline-block;
 	vertical-align:bottom;
+	text-align:left;
+	width:100px;
 	height:20px;
 	padding:0;
-	margin:0;
+	margin:0 5px 0 0;
 }
-div.facebook-button { margin-right:15px; }
-div.gplus-button { margin-right:-20px; }
-div.twitter-button { margin-right:-20px; }
-div.linkedin-button { margin-right:10px; }
-div.pinterest-button { margin-right:30px; }
-div.stumbleupon-button { margin-right:15px; }
-div.tumblr-button { margin-right:10px; }
+div.facebook-button { width:149px; }
+div.gplus-button { width:75px; }
+div.twitter-button { width:89px; }
+div.linkedin-button { width:109px; }
+div.pinterest-button { width:80px; }
+div.stumbleupon-button { width:84px; }
+div.tumblr-button { width:80px; margin-right:0; }
 `
 
 The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
@@ -211,7 +213,7 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 
 The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
 
-* If your website content does not have any embeded videos, or you prefer not to include information on embeded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embeded videos.
+* If your website content does not have any embedded videos, or you prefer not to include information on embedded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embedded videos.
 
 * If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
 
@@ -270,7 +272,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = PHP Constants =
 
-To address very specific needs, the following PHP constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
+**To address very specific needs**, the following PHP constants may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call).
 
 * `NGFB_DEBUG` : Set this constant to `true` to turn on hidden debug messages, and use "View Source" on any webpage to view the debug messages. An informational message box will also be displayed in admin pages as reminder that debug mode is on.
 
@@ -300,15 +302,34 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 * `NGFB_MAX_VID_OG` : The maximum range shown in the "Maximum Number of Videos" drop-down on the settings page. The default value is 20.
 
+* `NGFB_MAX_CACHE` : The maximum range shown in the "Cache Expiry in Hours" drop-down on the settings page. The default value is 24.
+
 * `NGFB_AUTHOR_SUBDIR` : The subdirectory / folder path for the author index webpages. The default value is "author".
 
 * `NGFB_CONTACT_FIELDS` : The field names and labels for the additional user profile fields. The default value is "facebook:Facebook URL,gplus:Google+ URL". See the "Rename or Add Profile URL Fields" section in the readme for additional information.
 
+* `NGFB_USER_AGENT` : Used by the remote content caching feature for social button images and javascript. The Google+ JavaScript is different for (what Google considers) invalid user agents. Since crawlers and robots might refresh the cached files, the NGFB_USER_AGENT defines a default user agent string. You may define a NGFB_USER_AGENT constant in your wp-config.php file to change the default NGFB uses.
+
+* `NGFB_PEM_FILE` : When the "Verify SSL Certificates" option is checked, PHP's curl function needs a certificate authority file. Define the NGFB_PEM_FILE constant in your wp-config.php file to change the default location used by NGFB.
+
 == Screenshots ==
 
-1. NextGEN Facebook OG - The Settings Page
+1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 3.5 =
+* Added reading of correct/accurate width and height information for NGG cached images using the `getimagesize()` function.
+* Added Facebook button "Default Width" option.
+* Added "Cache Expiry in Hours" option to save social button images and javascript to a cache folder, and provide URLs to these cached files instead of the originals. Note: This option is disabled (0 hours) by default. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.
+* Added the "Verify SSL Certificates" option to verify the peer SSL certificate when fetching cache content by HTTPS (default is unchecked).
+* Added the NGFB_MAX_CACHE, NGFB_USER_AGENT, and NGFB_PEM_FILE optional constants for the content caching feature.
+* Changed the "Maximum Description Length" default from 300 to 280 characters.
+* Added `$this->ngg_options` variable to read NextGEN Gallery options.
+* Changed the NGFB_CONTENT_PRIORITY from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
+* Slight improvements to the Async JavaScript function used to retrieve social button javascript files.
+* Changed Facebook like/send button from XFBML to HTML5 code.
+* Improved the social button CSS stylesheet example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
 
 = Version 3.4 =
 * Added a test for the existence of `curl_init()` function before shortening URLs for twitter.
@@ -430,11 +451,11 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 = Version 2.0 =
 * The NextGEN Facebook OG options page has been re-worked to make it more compact.
-* Added the tumblr social sharing button, including support for posting featured images, embeded video, or links to posts and pages.
+* Added the tumblr social sharing button, including support for posting featured images, embedded video, or links to posts and pages.
 * Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
-You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the Other Notes tab for additional information).
+You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information).
 
 = Version 1.7.2 =
 * **Fixed** the missing "data-annotation" field to the Google+ social button.
@@ -447,7 +468,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Added LinkedIn social button options.
 * Added a setting to include hidden debug info above the Open Graph tags.
 * If the Exclude Pages plugin is installed, a new option will be available on the settings page to turn on/off social buttons on excluded pages (by default, social buttons are not added to excluded pages).
-* Added the og:video meta tags (including width, height, type, etc.) for youtube iframe embeded videos.
+* Added the og:video meta tags (including width, height, type, etc.) for youtube iframe embedded videos.
 * Cleaned-up some PHP code to consolidate the OG variables within a single array.
 
 = Version 1.6.1 =
@@ -501,6 +522,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.5 =
+Added reading of correct/accurate width and height for NGG cached images.
+
 = Version 3.4 =
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
 
@@ -520,7 +544,7 @@ Improved `og:image:width` and `og:image:height` accuracy. Added Language support
 Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
 
 = Version 3.0 =
-Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in Other Notes.
+Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/).
 
 = Version 2.4 =
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.

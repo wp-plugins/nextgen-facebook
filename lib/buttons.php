@@ -17,25 +17,62 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 	class ngfbButtons {
 
-		function header_js() {
-			global $ngfb;
-			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
-			return '<script type="text/javascript" id="ngfb-header-script-id">
-				window.___gcfg = { lang: "' .  $lang . '" };
+		var $cache = '';
 
+		function __construct() {
+			require_once ( dirname ( __FILE__ ) . '/cache.php' );
+			$this->cache = new ngfbCache();
+		}
+
+		function setup_cache_vars() {
+			global $ngfb;
+			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
+			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
+			$this->cache->pem_file = NGFB_PEM_FILE;
+			$this->cache->verify_cert = $ngfb->options['ngfb_verify_certs'];
+			$this->cache->expire_time = $ngfb->options['ngfb_cache_hours'] * 60 * 60;
+			$this->cache->user_agent = NGFB_USER_AGENT;
+		}
+
+		function get_cache_url( $url ) {
+			global $ngfb;
+
+			// facebook javascript sdk doesn't work when hosted locally
+			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
+
+			// make sure the cache expiration is greater than 0 hours
+			if ( empty( $ngfb->options['ngfb_cache_hours'] ) ) return $url;
+
+			return ( $ngfb->cdn_linker_rewrite( $this->cache->get( $url ) ) );
+		}
+
+		function get_short_url( $url, $short = true ) {
+			global $ngfb;
+			if ( function_exists('curl_init') && ! empty( $short ) ) {
+				$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
+				$url = $goo->shorten( $url );
+			}
+			return $url;
+		}
+
+		function header_js( $loc = 'id' ) {
+			global $ngfb;
+			$this->setup_cache_vars();
+			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
+			return '<script type="text/javascript" id="ngfb-header-script">
+				window.___gcfg = { lang: "' .  $lang . '" };
 				function ngfb_header_js( script_id, url, async ) {
 					if ( document.getElementById( script_id + "-js" ) ) return;
 					var async = typeof async !== "undefined" ? async : true;
-					var pos = document.getElementById( script_id );
+					var script_pos = document.getElementById( script_id );
 					var js = document.createElement( "script" );
 					js.id = script_id + "-js";
-					js.src = url;
 					js.async = async;
-					pos.parentNode.insertBefore( js, pos );
+					js.type = "text/javascript";
+					js.language = "JavaScript";
+					js.src = url;
+					script_pos.parentNode.insertBefore( js, script_pos );
 				};' . "\n</script>\n";
-		}
-
-		function __construct() {
 		}
 
 		/* 	StumbleUpon
@@ -46,20 +83,20 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$button_html = '
 				<!-- StumbleUpon Button -->
-				<div class="stumble-button stumbleupon-button" id="stumbleupon-button-id"><su:badge 
+				<div class="stumble-button stumbleupon-button" id="stumbleupon-' . $attr['css_id'] . '"><su:badge 
 					layout="' . $attr['stumble_badge'] . '" location="' . $attr['url'] . '"></su:badge></div>
 			';
 			return $button_html;	
 		}
 
-		function stumbleupon_js() {
-			return '<script type="text/javascript" id="stumbleupon-script-id">
-					ngfb_header_js( "stumbleupon-script-id", 
-						"https://platform.stumbleupon.com/1/widgets.js", "true" );
-				</script>' . "\n";
+		function stumbleupon_js( $loc = 'id' ) {
+			return '<script type="text/javascript" id="stumbleupon-script-' . $loc . '">
+				ngfb_header_js( "stumbleupon-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
+			</script>' . "\n";
 		}
 
 		/*	Pinterest
@@ -70,6 +107,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['pin_img_size'];
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
@@ -98,21 +136,20 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( ! empty( $button_html ) ) {
 				$button_html = '
 					<!-- Pinterest Button -->
-					<div class="pinterest-button" id="pinterest-button-id"><a 
+					<div class="pinterest-button" id="pinterest-' . $attr['css_id'] . '"><a 
 						href="http://pinterest.com/pin/create/button/' . $button_html . '" 
 						class="pin-it-button" count-layout="' . $attr['pin_count_layout'] . '" 
 						title="Share on Pinterest"><img border="0" alt="Pin It"
-						src="http://assets.pinterest.com/images/PinExt.png" /></a></div>
+						src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
 				';
 			}
 			return $button_html;	
 		}
 
-		function pinterest_js() {
-			return '<script type="text/javascript" id="pinterest-script-id">
-					ngfb_header_js( "pinterest-script-id", 
-						"https://assets.pinterest.com/js/pinit.js", "true" );
-				</script>' . "\n";
+		function pinterest_js( $loc = 'id' ) {
+			return '<script type="text/javascript" id="pinterest-script-' . $loc . '">
+				ngfb_header_js( "pinterest-script-' . $loc . '", "' . $this->get_cache_url( 'https://assets.pinterest.com/js/pinit.js' ) . '" );
+			</script>' . "\n";
 		}
 		
 		/*	tumblr
@@ -123,6 +160,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
@@ -156,7 +194,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					}
 				}
 			}
-			
+
 			// define the button, based on what we have
 			if ( ! empty( $attr['photo'] ) ) {
 				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
@@ -177,18 +215,18 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( $button_html ) {
 				$button_html = '
 					<!-- tumblr Button -->
-					<div class="tumblr-button" id="tumblr-button-id"><a href="http://www.tumblr.com/share/'. $button_html . '" 
+					<div class="tumblr-button" id="tumblr-' . $attr['css_id'] . '"><a href="http://www.tumblr.com/share/'. $button_html . '" 
 						title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
-						src="http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png" /></a></div>
+						src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png' ) . '" /></a></div>
 				';
 			}
 			return $button_html;
 		}
 
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
-		function tumblr_js() {
-			return '<script type="text/javascript" id="tumblr-script-id"
-				src="http://platform.tumblr.com/v1/share.js"></script>' . "\n";
+		function tumblr_js( $loc = 'id' ) {
+			return '<script type="text/javascript" id="tumblr-script-' . $loc . '"
+				src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ) . '"></script>' . "\n";
 		}
 		
 		/*	Facebook
@@ -198,29 +236,31 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 			return '
 				<!-- Facebook Button -->
-				<div class="facebook-button" id="facebook-button-id"><fb:like 
-					href="' . $attr['url'] . '"
-					send="' . $fb_send . '" 
-					layout="' . $ngfb->options['fb_layout'] . '" 
-					show_faces="' . $fb_show_faces . '" 
-					font="' . $ngfb->options['fb_font'] . '" 
-					action="' . $ngfb->options['fb_action'] . '"
-					colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
+				<div class="facebook-button fb-like" id="facebook-' . $attr['css_id'] . '"
+					data-href="' . $attr['url'] . '"
+					data-send="' . $fb_send . '" 
+					data-layout="' . $ngfb->options['fb_layout'] . '" 
+					data-width="' . $ngfb->options['fb_width'] . '" 
+					data-show-faces="' . $fb_show_faces . '" 
+					data-font="' . $ngfb->options['fb_font'] . '" 
+					data-action="' . $ngfb->options['fb_action'] . '"
+					data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
 			';
 		}
 		
-		function facebook_js() {
+		function facebook_js( $loc = 'id' ) {
 			global $ngfb; 
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			$lang = preg_replace( '/-/', '_', $lang );
-			return '<script type="text/javascript" id="facebook-script-id">
-					ngfb_header_js( "facebook-script-id", 
-						"https://connect.facebook.net/' . $lang . '/all.js#xfbml=1&appId=' .  $ngfb->options['og_app_id'] . '", "true" );
-				</script>' . "\n";
+
+			return '<script type="text/javascript" id="facebook-script-' . $loc . '">
+				ngfb_header_js( "facebook-script-' . $loc . '", "' . $this->get_cache_url( 'https://connect.facebook.net/' . $lang . '/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] ) . '" );
+			</script>' . "\n";
 		}
 
 		/*	Google+
@@ -231,10 +271,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html;
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			return '
 				<!-- Google+ Button -->
-				<div class="gplus-button g-plusone-button" id="gplus-button-id">
+				<div class="gplus-button g-plusone-button" id="gplus-' . $attr['css_id'] . '">
 					<span '. $gp_class . ' 
 						data-size="' . $ngfb->options['gp_size'] . '" 
 						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
@@ -242,11 +283,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				</div>' . "\n";
 		}
 		
-		function gplus_js() {
-			return '<script type="text/javascript" id="gplus-script-id">
-					ngfb_header_js( "gplus-script-id", 
-						"https://apis.google.com/js/plusone.js", "true" );
-				</script>' . "\n";
+		function gplus_js( $loc = 'id' ) {
+			return '<script type="text/javascript" id="gplus-script-' . $loc . '">
+				ngfb_header_js( "gplus-script-' . $loc . '", "' . $this->get_cache_url( 'https://apis.google.com/js/plusone.js' ) . '" );
+			</script>' . "\n";
 		}
 		
 		/*	Twitter
@@ -256,11 +296,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 
-			if ( function_exists('curl_init') && ! empty( $ngfb->options['twitter_shorten'] ) ) {
-				$goo = new ngfbGoogl( $ngfb->options['ngfb_googl_api_key'] );
-				$attr['url'] = $goo->shorten( $attr['url'] );
-			}
+			$attr['url'] = $this->get_short_url( $attr['url'], $ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			$lang = substr( $lang, 0, 2);
@@ -279,7 +317,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			}
 			return '
 				<!-- Twitter Button -->
-				<div class="twitter-button" id="twitter-button-id">
+				<div class="twitter-button" id="twitter-' . $attr['css_id'] . '">
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"
 						lang="'. $lang . '"
@@ -290,11 +328,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				</div>' . "\n";
 		}
 		
-		function twitter_js() {
-			return '<script type="text/javascript" id="twitter-script-id">
-					ngfb_header_js( "twitter-script-id", 
-						"https://platform.twitter.com/widgets.js", "true" );
-				</script>' . "\n";
+		function twitter_js( $loc = 'id' ) {
+			return '<script type="text/javascript" id="twitter-script-' . $loc . '">
+				ngfb_header_js( "twitter-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
+			</script>' . "\n";
 		}
 		
 		/*	LinkedIn
@@ -305,9 +342,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html;
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$button_html = '
 				<!-- LinkedIn Button -->
-				<div class="linkedin-button" id="linkedin-button-id">
+				<div class="linkedin-button" id="linkedin-' . $attr['css_id'] . '">
 				<script type="IN/Share" data-url="' . $attr['url'] . '"';
 
 			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 
@@ -320,13 +358,13 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $button_html;
 		}
 		
-		function linkedin_js() {
-			return  '<script type="text/javascript" id="linkedin-script-id">
-					ngfb_header_js( "linkedin-script-id", 
-						"https://platform.linkedin.com/in.js", "true" );
-				</script>' . "\n";
+		function linkedin_js( $loc = 'id' ) {
+			return  '<script type="text/javascript" id="linkedin-script-' . $loc . '">
+				ngfb_header_js( "linkedin-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.linkedin.com/in.js' ) . '" );
+			</script>' . "\n";
 		}
 		
 	}
+
 }
 ?>

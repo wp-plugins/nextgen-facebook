@@ -41,7 +41,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			ksort( $sorted_ids );
 			echo $before_widget;
 			if ( $title ) echo $before_title . $title . $after_title;
-			echo $ngfb->get_buttons_html( $sorted_ids );
+			echo $ngfb->get_buttons_html( $sorted_ids, array( 'css_id' => $args['widget_id'] ) );
 			echo $after_widget;
 		}
 	

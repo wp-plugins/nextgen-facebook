@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.4
+Version: 3.5
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,13 +27,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.4';		// for display purposes
-		var $opts_version = '6';	// increment when adding/removing $default_options
+		var $version = '3.5';		// for display purposes
+		var $opts_version = '8';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
 		var $minimum_wp_version = '3.0';
+
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
 			'gplus' => 'Google+',
@@ -42,6 +43,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'pinterest' => 'Pinterest',
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr' );
+
 		var $social_options_prefix = array(
 			'facebook' => 'fb', 
 			'gplus' => 'gp',
@@ -50,7 +52,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'pinterest' => 'pin',
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
+
 		var $options = array();
+		var $ngg_options = array();
 		var $default_options = array(
 			'add_meta_desc' => 1,
 			'link_author_field' => 'gplus',
@@ -72,7 +76,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
 			'og_title_len' => 100,
-			'og_desc_len' => 300,
+			'og_desc_len' => 280,
 			'og_desc_strip' => 0,
 			'og_desc_wiki' => 0,
 			'og_wiki_tag' => 'Wiki-',
@@ -88,6 +92,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'fb_js_loc' => 'header',
 			'fb_send' => 1,
 			'fb_layout' => 'button_count',
+			'fb_width' => 200,
 			'fb_colorscheme' => 'light',
 			'fb_font' => 'arial',
 			'fb_show_faces' => 0,
@@ -152,6 +157,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_version' => '',
 			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
+			'ngfb_cache_hours' => 0,
+			'ngfb_verify_certs' => 0,
 			'ngfb_filter_content' => 1,
 			'ngfb_filter_excerpt' => 0,
 			'ngfb_skip_small_img' => 1,
@@ -189,8 +196,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 		function init_plugin() {
 
+			$this->load_is_active();	// run load_is_active before load_options to get NGG options if active
 			$this->load_options();
-			$this->load_is_active();
 
 			// add_action() tests
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
@@ -215,8 +222,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_ACRONYM', 'NGFB' );
 			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
-			define( 'NGFB_FOLDER', basename( dirname( __FILE__ ) ) );
-			define( 'NGFB_URLPATH', trailingslashit( plugins_url( NGFB_FOLDER ) ) );
+			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
+			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
+			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
 
 			// allow some constants to be pre-defined in wp-config.php
 
@@ -230,7 +239,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_OG_PRIORITY', 20 );
 
 			if ( ! defined( 'NGFB_CONTENT_PRIORITY' ) )
-				define( 'NGFB_CONTENT_PRIORITY', 20 );
+				define( 'NGFB_CONTENT_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
 				define( 'NGFB_FOOTER_PRIORITY', 10 );
@@ -250,11 +259,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_MAX_VID_OG' ) )
 				define( 'NGFB_MAX_VID_OG', 20 );
 
+			if ( ! defined( 'NGFB_MAX_CACHE' ) )
+				define( 'NGFB_MAX_CACHE', 24 );
+
 			if ( ! defined( 'NGFB_AUTHOR_SUBDIR' ) )
 				define( 'NGFB_AUTHOR_SUBDIR', 'author' );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
+
+			// NGFB_USER_AGENT is used by the ngfbButtons and ngfbCache classes
+			// Google Plus javascript is different for (what it considers) invalid user agents
+			// visiting crawlers might cause a refresh of the Google Plus javascript, so make
+			// sure all requests we make have a valid user agent string (which one doesn't matter)
+			if ( ! defined( 'NGFB_USER_AGENT' ) )
+				define( 'NGFB_USER_AGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
+
+			if ( ! defined( 'NGFB_PEM_FILE' ) )
+				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'lib/curl/cacert.pem' );
+
 		}
 
 		function load_dependencies() {
@@ -269,17 +292,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->ngfbAdmin = new ngfbAdmin();
 			}
-		}
-
-		function load_is_active() {
-			
-			$this->is_active['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
-			$this->is_active['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? 1 : 0;
-			$this->is_active['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
-			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
-			$this->is_active['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
-
-			$this->print_debug( '$this->is_active', $this->is_active );
 		}
 
 		function user_contactmethods( $fields = array() ) { 
@@ -339,10 +351,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $links;
 		}
 
+		function load_is_active() {
+			
+			$this->is_active['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
+			$this->is_active['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? 1 : 0;
+			$this->is_active['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
+			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
+			$this->is_active['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
+
+			$this->print_debug( '$this->is_active', $this->is_active );
+		}
+
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 
 			$this->options = get_option( NGFB_OPTIONS_NAME );
+
+			if ( ! empty( $this->is_active['ngg'] ) )
+				$this->ngg_options = get_option( 'ngg_options' );
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
@@ -449,6 +475,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'og_vid_max' :
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
+						case 'ngfb_cache_hours' :
 							if ( $opts[$key] && ! is_numeric( $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
@@ -456,6 +483,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						// integer options that cannot be zero
 						case 'og_title_len' : 
 						case 'fb_order' : 
+						case 'fb_width' : 
 						case 'gp_order' : 
 						case 'twitter_order' : 
 						case 'linkedin_order' : 
@@ -525,7 +553,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// add button javascript for enabled buttons in content and widget(s)
-		function get_buttons_js( $loc = 'footer', $ids = array() ) {
+		function get_buttons_js( $location = 'footer', $ids = array() ) {
 
 			if ( empty( $ids ) ) {
 
@@ -550,20 +578,55 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->print_debug( '$ids', $ids );
-			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $loc ) . " JavaScript BEGIN -->\n";
-			$button_html .= $loc == 'header' ? $this->ngfbButtons->header_js() : '';
+			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript BEGIN -->\n";
+			$button_html .= $location == 'header' ? $this->ngfbButtons->header_js() : '';
+
+			switch ( $location ) {
+				case 'pre-button' : 
+					$location_check = 'header';
+					break;
+				case 'post-button' : 
+					$location_check = 'footer';
+					break;
+				default : 
+					$location_check = $location;
+					break;
+			}
 
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 					$opt_name = $this->social_options_prefix[$id] . '_js_loc';
-					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $loc )
+					
+					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $location_check )
 						$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_js' ) ) 
-							return \$this->ngfbButtons->${id}_js();" );
+							return \$this->ngfbButtons->${id}_js( \$location );" );
 				}
 			}
 
-			$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $loc ) . " JavaScript END -->\n\n";
+			$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript END -->\n\n";
+			return $button_html;
+		}
+
+		function get_buttons_html( $ids = array(), $attr = array() ) {
+			global $post;
+			$button_html = '';
+
+			// make sure we have at least $post->ID or $attr['url'] defined
+			if ( empty( $post->ID ) && empty( $attr['url' ] ) ) {
+				$attr['url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+				$attr['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+			}
+			foreach ( $ids as $id ) {
+				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
+				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
+					return \$this->ngfbButtons->${id}_button( \$attr );" );
+			}
+			if ( $button_html ) 
+				$button_html = "\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
+					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
+					"<!-- " . NGFB_FULLNAME . " Buttons HTML END -->\n\n";
+
 			return $button_html;
 		}
 
@@ -904,9 +967,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
 					$pid = $singlepic[1];
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name );
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'], 
+						$og_image['og:image:cropped'] 
+					) = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name );
+
 					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' .  $og_image['og:image'] );
+
 					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );
@@ -926,9 +995,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $pid ) {
 					$og_image = array();
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'],
+						$og_image['og:image:cropped'] 
+					) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
+
 					$this->d_msg( 'get_ngg_image_src(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
+
 					// avoid duplicates
 					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
 						$found[$og_image['og:image']] = 1;
@@ -954,8 +1029,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					// check for NGG image pids
 					if ( preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
 						$this->d_msg( $src_name . ' ngg cache image = ' . $og_image['og:image'] );
-						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-							$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $match[1], $size_name );
+						list( 
+							$og_image['og:image'], 
+							$og_image['og:image:width'], 
+							$og_image['og:image:height'],
+							$og_image['og:image:cropped'] 
+						) = $this->get_ngg_image_src( 'ngg-' . $match[1], $size_name );
+
 						$this->d_msg( 'get_ngg_image_src(\'ngg-' . $match[1] . '\') = ' . $og_image['og:image'] );
 					} else {
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
@@ -1009,12 +1089,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $post_id ) && ! empty( $this->is_active['postthumb'] ) && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'],
+						$og_image['og:image:cropped'] 
+					) = $this->get_ngg_image_src( $pid, $size_name );
+
 					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' . $og_image['og:image'] );
 				} else {
-					list( $og_image['og:image'], $og_image['og:image:width'], 
-						$og_image['og:image:height'] ) = wp_get_attachment_image_src( $pid, $size_name );
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'] 
+					) = wp_get_attachment_image_src( $pid, $size_name );
+
 					$this->d_msg( 'wp_get_attachment_image_src(' . $pid . ') = ' . $og_image['og:image'] );
 				}
 			}
@@ -1029,12 +1118,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->options['og_def_img_id'] > 0 ) {
 				if ($this->options['og_def_img_id_pre'] == 'ngg') {
 					$pid = $this->options['og_def_img_id_pre'].'-'.$this->options['og_def_img_id'];
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
+					list(
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'], 
+						$og_image['og:image:cropped'] 
+					) = $this->get_ngg_image_src( $pid, $size_name );
+
 					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' .  $og_image['og:image'] );
 				} else {
-					list( $og_image['og:image'], $og_image['og:image:width'], 
-						$og_image['og:image:height'] ) = wp_get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'] 
+					) = wp_get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
+
 					$this->d_msg( 'wp_get_attachment_image_src(' . 
 						$this->options['og_def_img_id'] . ') = ' . $og_image['og:image'] );
 				}
@@ -1154,37 +1252,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $meta;
 		}
 
-		function get_buttons_html( $ids = array(), $attr = array() ) {
-			global $post;
-			$button_html = '';
-
-			// make sure we have at least $post->ID or $attr['url'] defined
-			if ( empty( $post->ID ) && empty( $attr['url' ] ) ) {
-				$attr['url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-				$attr['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			}
-			foreach ( $ids as $id ) {
-				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
-					return \$this->ngfbButtons->${id}_button( \$attr );" );
-			}
-			if ( $button_html ) 
-				$button_html = "\n<!-- " . NGFB_FULLNAME . " Social Buttons BEGIN -->\n" .
-					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
-					"<!-- " . NGFB_FULLNAME . " Social Buttons END -->\n\n";
-
-			return $button_html;
-		}
-
 		function apply_content_filter( $content, $filter_content = true ) {
 			// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
 			if ( ! preg_match( '/\[ *album[ =]/', $content ) && $filter_content ) {
+				global $ngfb;
 				// temporarily remove add_content() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
-					array( $this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 				$content = apply_filters( 'the_content', $content );
-				if ( $filter_removed ) add_filter( 'the_content', 
-					array( $this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+				if ( ! empty( $filter_removed ) ) add_filter( 'the_content', 
+					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 			}
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
@@ -1209,13 +1286,26 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$size_info = $this->get_size_values( $size_name );
 					$crop = ( $size_info['crop'] == 1 ? 'crop' : '' );
 					$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-					$image_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop );
+					$image_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop ); 
+					
 					if ( empty( $image_url ) )	// if the image file doesn't exist, use the dynamic image url
 						$image_url = trailingslashit( site_url() ) . 
 							'index.php?callback=image&amp;pid=' . $pid .
 							'&amp;width=' . $size_info['width'] . 
 							'&amp;height=' . $size_info['height'] . 
 							'&amp;mode=' . $crop;
+					else {
+						// get the REAL image width and height
+						$cachename = $image->pid . '_' . $crop . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
+						$cachefolder = WINABSPATH .$this->ngg_options['gallerypath'] . 'cache/';
+						$cached_url = site_url() . '/' . $this->ngg_options['gallerypath'] . 'cache/' . $cachename;
+						$cached_file = $cachefolder . $cachename;
+						$file_info =  getimagesize( $cached_file );
+						if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
+							$size_info['width'] = $file_info[0];
+							$size_info['height'] = $file_info[1];
+						}
+					}
 				}
 			}
 			return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
@@ -1226,8 +1316,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og_ret = array();
 			foreach ( $ngg_images as $image ) {
 				$og_image = array();
-				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-					$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
+				list( 
+					$og_image['og:image'], 
+					$og_image['og:image:width'], 
+					$og_image['og:image:height'], 
+					$og_image['og:image:cropped'] 
+				) = $this->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
+
 				$this->d_msg( 'get_ngg_image_src(' . $image->pid . ') = '.$og_image['og:image'] );
 				if ( $og_image['og:image'] ) array_push( $og_ret, $og_image );
 			}
@@ -1237,7 +1332,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function cdn_linker_rewrite( $url = '' ) {
 			if ( ! empty( $this->is_active['cdnlink'] ) ) {
 				$rewriter = new CDNLinksRewriterWordpress();
-				$url = '"'.$url.'"';	// rewrite uses pointer
+				$url = '"'.$url.'"';	// rewrite function uses var reference, so pad here first
 				$url = trim( $rewriter->rewrite( $url ), "\"" );
 			}
 			return $url;
@@ -1369,9 +1464,9 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $attr = array() ) {
 		global $ngfb;
 		$button_html = '';
-		$button_html .= $ngfb->get_buttons_js( 'header', $ids );
+		$button_html .= $ngfb->get_buttons_js( 'pre-button', $ids );
 		$button_html .= $ngfb->get_buttons_html( $ids, $attr );
-		$button_html .= $ngfb->get_buttons_js( 'footer', $ids );
+		$button_html .= $ngfb->get_buttons_js( 'post-button', $ids );
 		return $button_html;
 	}
 }
