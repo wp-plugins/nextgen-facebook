@@ -145,7 +145,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
+NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
 
 `
 .ngfb-buttons { 
@@ -314,7 +314,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Screenshots ==
 
-1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography)](http://underwaterfocus.com/).
+1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
 
