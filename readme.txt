@@ -323,10 +323,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added the Facebook button "Default Width" option (though I don't really see a use for it).
 * Added "Cache Expiry in Hours" option to save social button images and javascript to a cache folder, and provide URLs to these cached files instead of the originals. Note: This option is disabled (0 hours) by default. **Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites**.
 * Added the "Verify SSL Certificates" option to verify the peer SSL certificate when fetching cache content by HTTPS (default is unchecked).
-* Added the NGFB_MAX_CACHE, NGFB_USER_AGENT, and NGFB_PEM_FILE constants to modify some settings for the content caching feature.
+* Added the `NGFB_MAX_CACHE`, `NGFB_USER_AGENT`, and `NGFB_PEM_FILE` constants to modify some settings for the content caching feature.
 * Changed the "Maximum Description Length" default from 300 to 280 characters.
 * Added `$this->ngg_options` variable to read NextGEN Gallery options.
-* Changed the NGFB_CONTENT_PRIORITY from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
+* Changed the `NGFB_CONTENT_PRIORITY` from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
 * Slight improvements to the async JavaScript function used to retrieve social button javascript files.
 * **Changed Facebook like/send button from XFBML to HTML5 code**.
 * Improved the social button CSS stylesheet example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
