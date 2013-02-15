@@ -312,9 +312,6 @@ To address very specific needs, the following PHP constants may be defined in yo
 
 == Changelog ==
 
-= Version 3.5 =
-* Added reading of correct/accurate width and height information for NGG cached images.
-
 = Version 3.4 =
 * Added a test for the existence of `curl_init()` function before shortening URLs for twitter.
 * Added the "Add a Meta Description Tag" option (default is checked) to include a description meta tag. The description meta tag value is identical to the Open Graph "og:description" tag.
@@ -505,9 +502,6 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
-
-= Version 3.5 =
-Added reading of correct/accurate width and height for NGG cached images.
 
 = Version 3.4 =
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
