@@ -208,13 +208,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				.btn_wizard_column { white-space:nowrap; }
 				.btn_wizard_example { display:inline-block; width:155px; }
+				.postbox {
+					-webkit-border-radius:5px;
+					border-radius:5px;
+					border:1px solid transparent;
+					margin:0 0 10px 0;
+				}
 				.donatebox {
-					float:right;
+					float:left;
 					display:block;
 					font-weight:bold;
-					width:300px;
-					margin:0 0 15px 25px;
-					padding:10px;
+					width:350px;
+					margin:0 20px 10px 0;
+					padding:5px 15px 5px 15px;
 					color:#333;
 					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -240,6 +246,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="icon32" id="icon-options-general"><br></div>
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 	
+			<div class="metabox-holder">
+			<div class="postbox">
+			<div class="inside">	
 			<div class="donatebox">
 			<p>NextGEN Facebook OG has taken many, many months to develop and fine-tune. Please help us to continue by donating $10 or $20.</p>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
@@ -249,18 +258,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
-			<p>You can also help by giving NGFB a rating of 5 stars on <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">WordPress.org</a>.</p>
+			<p>You can also help by giving NGFB a rating of 5 stars on <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">WordPress.org</a>.</p>
 			</div>
 
 			<p>The NextGEN Facebook OG plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results.</p>
-
 			<p>All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
-	
 			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. NextGEN Facebook OG will detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.</p>
 
-			<div style="clear:both;"></div>
+			<p>NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>. Your comment or suggestion will be answered in a timely manner.</p>
 
-			<div class="metabox-holder">
+			<div style="clear:both;"></div>
+			</div>
+			</div>
+
 			<form name="ngfb" method="post" action="options.php">
 			<?php
 				settings_fields( 'ngfb_plugin_options' );
