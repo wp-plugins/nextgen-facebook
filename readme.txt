@@ -10,9 +10,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-*The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. For instance, this is used on Facebook to allow any webpage to have the same functionality as other objects on Facebook. The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
+*The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. You can also add sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG offers the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
@@ -22,9 +22,15 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 * tumblr
 * StumbleUpon
 
-The images used in the Open Graph meta property tag are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG `<div>` HTML tags for images, `<img/>` HTML tags in the content, a default image defined in the plugin settings. NextGEN Facebook OG was specifically written to support featured and singlepic images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** - all features work just as well without it. NextGEN Facebook OG can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.
+The images used in the Open Graph meta property tag are chosen in this sequence:
 
-Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+# A featured image from a NextGEN Gallery or WordPress Media Library.
+# Image(s) from NextGEN Gallery [singlepic] shortcode(s).
+# Image(s) from a NextGEN Gallery [nggallery] or [nggtags] shortcode.
+# Image(s) from `<img/>` HTML tags in the content.
+# A default image defined in the plugin settings.
+
+NextGEN Facebook OG was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin -- all features work just as well without it**. NextGEN Facebook OG can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook OG Meta Tags BEGIN -->
