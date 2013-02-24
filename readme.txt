@@ -24,11 +24,11 @@ NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, i
 
 The images used in the Open Graph meta property tag are chosen in this sequence:
 
-# A featured image from a NextGEN Gallery or WordPress Media Library.
-# Image(s) from NextGEN Gallery [singlepic] shortcode(s).
-# Image(s) from a NextGEN Gallery [nggallery] or [nggtags] shortcode.
-# Image(s) from `<img/>` HTML tags in the content.
-# A default image defined in the plugin settings.
+1. A featured image from a NextGEN Gallery or WordPress Media Library.
+1. Image(s) from NextGEN Gallery [singlepic] shortcode(s).
+1. Image(s) from a NextGEN Gallery [nggallery] or [nggtags] shortcode.
+1. Image(s) from `<img/>` HTML tags in the content.
+1. A default image defined in the plugin settings.
 
 NextGEN Facebook OG was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin -- all features work just as well without it**. NextGEN Facebook OG can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
