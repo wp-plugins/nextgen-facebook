@@ -313,8 +313,6 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_MAX_CACHE` : The maximum range shown in the "Cache Expiry in Hours" drop-down on the settings page. The default value is 24.
 
-* `NGFB_AUTHOR_SUBDIR` : The subdirectory / folder path for the author index webpages. The default value is "author".
-
 * `NGFB_CONTACT_FIELDS` : The field names and labels for the additional user profile fields. The default value is "facebook:Facebook URL,gplus:Google+ URL". See the "Rename or Add Profile URL Fields" section in the readme for additional information.
 
 * `NGFB_USER_AGENT` : Used by the remote content caching feature for social button images and javascript. The Google+ JavaScript is different for (what Google considers) invalid user agents. Since crawlers and robots might refresh the cached files, the NGFB_USER_AGENT defines a default user agent string. You may define a NGFB_USER_AGENT constant in your wp-config.php file to change the default NGFB uses.
@@ -326,6 +324,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 3.5.1 =
+* Improved code for determining the author URL by using `get_author_posts_url()` instead. Thanks to 'reiniggen' for suggesting this change.
 
 = Version 3.5 =
 * Added reading of correct/accurate width and height information for NGG cached images using PHP's `getimagesize()` function.

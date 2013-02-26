@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook OG
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.5
+Version: 3.5.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.5';		// for display purposes
+		var $version = '3.5.1';		// for display purposes
 		var $opts_version = '8';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -261,9 +261,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_MAX_CACHE' ) )
 				define( 'NGFB_MAX_CACHE', 24 );
-
-			if ( ! defined( 'NGFB_AUTHOR_SUBDIR' ) )
-				define( 'NGFB_AUTHOR_SUBDIR', 'author' );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
@@ -730,15 +727,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				case 'none' :
 					break;
 				case 'index' :
-					$url = trailingslashit( site_url() ) . NGFB_AUTHOR_SUBDIR . 
-						'/' . get_the_author_meta( 'user_login', $author_id ) . '/';
+					$url = get_author_posts_url( $author_id );
 					break;
 				default :
 					$url = get_the_author_meta( $field_name, $author_id );
-					// if empty or not a URL, then use the author index page
+
+					// if empty or not a URL, then fallback to the author index page
 					if ( empty( $url ) || ! preg_match( '/:\/\//', $url ) )
-						$url = trailingslashit( site_url() ) . NGFB_AUTHOR_SUBDIR .
-							'/' . get_the_author_meta( 'user_login', $author_id ) . '/';
+						$url = get_author_posts_url( $author_id );
 					break;
 			}
 			return $url;
