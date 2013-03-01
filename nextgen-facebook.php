@@ -214,11 +214,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function define_constants() { 
 
-			// NGFB_DEBUG
-			// NGFB_RESET
-			// NGFB_OPEN_GRAPH_DISABLE
-			// NGFB_MIN_IMG_SIZE_DISABLE
-
 			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_ACRONYM', 'NGFB' );
 			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
@@ -228,6 +223,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
 
 			// allow some constants to be pre-defined in wp-config.php
+
+			if ( ! defined( 'NGFB_DEBUG' ) )
+				define( 'NGFB_DEBUG', false );
+
+			if ( ! defined( 'NGFB_RESET' ) )
+				define( 'NGFB_RESET', false );
+
+			if ( ! defined( 'NGFB_DONATED' ) )
+				define( 'NGFB_DONATED', false );
+
+			if ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) )
+				define( 'NGFB_OPEN_GRAPH_DISABLE', false );
+
+			if ( ! defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) )
+				define( 'NGFB_MIN_IMG_SIZE_DISABLE', false );
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
@@ -275,6 +285,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_PEM_FILE' ) )
 				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'lib/curl/cacert.pem' );
 
+			$defined_constants = get_defined_constants( true );
+			$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
 		}
 
 		function load_dependencies() {
@@ -356,7 +368,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
 			$this->is_active['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
 
-			$this->print_debug( '$this->is_active', $this->is_active );
+			$this->print_debug( '', $this->is_active );
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -389,7 +401,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
 					comments are being generated and added to webpages.';
 			}
-			$this->print_debug( '$this->options', $this->options );
+			$this->print_debug( '', $this->options );
 		}
 
 		function upgrade_options( &$opts = array() ) {
@@ -1191,7 +1203,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$author_url = '';
 		
 			echo "\n<!-- ", NGFB_FULLNAME, " Meta BEGIN -->\n";
-			$this->print_debug( '$arr', print_r( $arr, true ) );
+			$this->print_debug( '', print_r( $arr, true ) );
 
 			if ( ! empty( $arr['link:publisher'] ) )
 				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
@@ -1397,10 +1409,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
 
-				echo "<!-- ", NGFB_FULLNAME, " debug ";
-				if ( ! empty( $called ) ) echo 'from ', $called, '() ';
-				if ( ! empty( $name ) ) echo $name, ' : ';
+				echo "<!-- ", NGFB_FULLNAME, " debug";
+				if ( ! empty( $called ) ) echo ' from ', $called, '()';
+				if ( ! empty( $name ) ) echo ' ', $name;
 				if ( ! empty( $msg ) ) {
+					echo ' : ';
 					if ( is_array( $msg ) ) {
 						echo "\n";
 						$is_assoc = $this->is_assoc( $msg );
@@ -1439,6 +1452,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! empty( $this->admin_msgs_inf ) ) 
 				echo '</div>';
+		}
+
+		function preg_grep_keys( $pattern, $input, $flags = 0 ) {
+			$keys = preg_grep( $pattern, array_keys( $input ), $flags );
+			$vals = array();
+			foreach ( $keys as $key ) $vals[$key] = $input[$key]; 
+			return $vals;
 		}
 
 	}
