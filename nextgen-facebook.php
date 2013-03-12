@@ -930,25 +930,31 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og_ret = array();
 
 			// check for a featured image
-			if ( ! empty( $post ) )
-				$og_ret = array_merge( $og_ret, 
-					$this->get_featured_og( $post->ID, $size_name ) );
+			if ( ! empty( $post ) ) $og_ret = array_merge( $og_ret, $this->get_featured_og( $post->ID, $size_name ) );
 
 			// stop and slice here if we have enough images
-			if ( $num > 0 && count( $og_ret ) >= $num ) return array_slice( $og_ret, 0, $num );
+			if ( $num > 0 && count( $og_ret ) >= $num ) {
+				$this->d_msg( 'returning array: max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
+				return array_slice( $og_ret, 0, $num );
+			}
 
 			// get images from content if singular, or allowed by options for index default
 			if ( is_singular() || ( is_search() && empty( $this->options['og_def_img_on_search'] ) ) 
 				|| ( ! is_singular() && ! is_search() && empty( $this->options['og_def_img_on_index'] ) ) ) {
 	
 				// check for img html tags on rendered content
+				$this->d_msg( 'calling $this->get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
 				$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
 			}
+
 			// if we didn't find any images, then use the default image
 			if ( empty( $og_ret ) ) {
 				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) 
-					|| ( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) )
-						$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
+					|| ( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) ) {
+
+					$this->d_msg( 'calling $this->get_default_image_og( "' . $size_name . '" )' );
+					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
+				}
 			}
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
 			return $og_ret;
@@ -980,8 +986,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );
 						// stop and slice here if we have enough images
-						if ( $num > 0 && count( $og_ret ) >= $num ) 
+						if ( $num > 0 && count( $og_ret ) >= $num ) {
+							$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
 							return array_slice( $og_ret, 0, $num );
+						}
 					}
 				}
 			}
@@ -1010,8 +1018,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );	// everything ok, so push the image
 						// stop and slice here if we have enough images
-						if ( $num > 0 && count( $og_ret ) >= $num ) 
+						if ( $num > 0 && count( $og_ret ) >= $num ) {
+							$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
 							return array_slice( $og_ret, 0, $num );
+						}
 					}
 				}
 			}
@@ -1074,8 +1084,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$found[$og_image['og:image']] = 1;
 							array_push( $og_ret, $og_image );	// everything ok, so push the image
 							// stop and slice here if we have enough images
-							if ( $num > 0 && count( $og_ret ) >= $num ) 
+							if ( $num > 0 && count( $og_ret ) >= $num ) {
+								$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
 								return array_slice( $og_ret, 0, $num );
+							}
 						// check and report duplicates after relative URLs have been fixed
 						} else $this->d_msg( $src_name . ' image rejected = already in array' );
 					} else $this->d_msg( $src_name . ' image rejected = width and height attributes missing or too small' );
@@ -1267,13 +1279,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// temporarily remove add_content() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
-
-				$this->d_msg( '$filter_removed = ' . $filter_removed );
+				$this->d_msg( '$this->add_content() filter removed = ' . $filter_removed );
 
 				$content = apply_filters( 'the_content', $content );
 
-				if ( ! empty( $filter_removed ) ) add_filter( 'the_content', 
-					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+				if ( ! empty( $filter_removed ) ) {
+					add_filter( 'the_content', 
+						array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+					$this->d_msg( '$this->add_content() filter added' );
+				}
 			}
 
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
