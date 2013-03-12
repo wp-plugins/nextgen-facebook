@@ -860,6 +860,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
+					$this->d_msg( 'using $post->post_content' );
 					$desc = $post->post_content;		// fallback to regular content
 					$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
 				}
@@ -962,6 +963,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
 				$content, $match, PREG_SET_ORDER ) ) {
+				$this->d_msg( '[singlepic] shortcode(s) found' );
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
 					$pid = $singlepic[1];
@@ -991,6 +993,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// check for NGG image ids
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
+				$this->d_msg( '<div id="ngg-image-#"> tag(s) found' );
 				foreach ( $match as $pid ) {
 					$og_image = array();
 					list( 
@@ -1016,7 +1019,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
-
+				$this->d_msg( '<img src=""> tag(s) found' );
 				foreach ( $match as $img ) {
 					$src_name = $img[1];
 					$og_image = array(
@@ -1251,19 +1254,32 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function apply_content_filter( $content, $filter_content = true ) {
+
 			// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
-			if ( ! preg_match( '/\[ *album[ =]/', $content ) && $filter_content ) {
+			if ( preg_match( '/\[ *album[ =]/', $content ) ) {
+
+				$this->d_msg( 'preg_matched [album] shortcode in content' );
+
+			} elseif ( $filter_content ) {
+
 				global $ngfb;
+
 				// temporarily remove add_content() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+
+				$this->d_msg( '$filter_removed = ' . $filter_removed );
+
 				$content = apply_filters( 'the_content', $content );
+
 				if ( ! empty( $filter_removed ) ) add_filter( 'the_content', 
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 			}
+
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
+
 			return $content;
 		}
 
