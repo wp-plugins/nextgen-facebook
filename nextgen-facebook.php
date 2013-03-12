@@ -992,10 +992,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
+			} else {
+				$this->d_msg( 'no [singlepic] shortcode found' );
 			}
 
 			// remove singlepics, to avoid duplicates
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
+			$this->d_msg( 'calling $this->apply_content_filter()' );
 			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
 
 			// check for NGG image ids
@@ -1024,6 +1027,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
+			} else {
+				$this->d_msg( 'no <div id="ngg-image-#"> tag found' );
 			}
 
 			// img attributes in order of preference
@@ -1092,6 +1097,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						} else $this->d_msg( $src_name . ' image rejected = already in array' );
 					} else $this->d_msg( $src_name . ' image rejected = width and height attributes missing or too small' );
 				}
+			} else {
+				$this->d_msg( 'no <img src=""> tag found' );
 			}
 			return $og_ret;
 		}
@@ -1281,6 +1288,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 				$this->d_msg( '$this->add_content() filter removed = ' . $filter_removed );
 
+				$this->d_msg( 'calling apply_filters()' );
 				$content = apply_filters( 'the_content', $content );
 
 				if ( ! empty( $filter_removed ) ) {
