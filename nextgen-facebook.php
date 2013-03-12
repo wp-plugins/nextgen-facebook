@@ -1100,6 +1100,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} else {
 				$this->d_msg( 'no <img src=""> tag found' );
 			}
+
+			// if we didn't find anything, then show the full content in the debug output
+			if ( empty( $og_ret ) ) {
+				$this->d_msg( 'post_content (unfiltered) = ' . $post->post_content );
+				$this->d_msg( 'post_content (filtered) = ' . $content );
+			}
 			return $og_ret;
 		}
 
