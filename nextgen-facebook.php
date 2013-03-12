@@ -210,6 +210,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							"echo '<!-- " . NGFB_FULLNAME . " add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
 				}
 			}
+
+			$defined_constants = get_defined_constants( true );
+			$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
+			$this->print_debug( '', $this->is_active );
+			$this->print_debug( '', $this->options );
 		}
 
 		function define_constants() { 
@@ -224,20 +229,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// allow some constants to be pre-defined in wp-config.php
 
-			if ( ! defined( 'NGFB_DEBUG' ) )
-				define( 'NGFB_DEBUG', false );
-
-			if ( ! defined( 'NGFB_RESET' ) )
-				define( 'NGFB_RESET', false );
-
-			if ( ! defined( 'NGFB_DONATED' ) )
-				define( 'NGFB_DONATED', false );
-
-			if ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) )
-				define( 'NGFB_OPEN_GRAPH_DISABLE', false );
-
-			if ( ! defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) )
-				define( 'NGFB_MIN_IMG_SIZE_DISABLE', false );
+			// NGFB_DEBUG
+			// NGFB_RESET
+			// NGFB_DONATED
+			// NGFB_OPEN_GRAPH_DISABLE
+			// NGFB_MIN_IMG_SIZE_DISABLE
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
@@ -284,9 +280,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_PEM_FILE' ) )
 				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'lib/curl/cacert.pem' );
-
-			$defined_constants = get_defined_constants( true );
-			$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
 		}
 
 		function load_dependencies() {
@@ -367,8 +360,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->is_active['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
 			$this->is_active['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
 			$this->is_active['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
-
-			$this->print_debug( '', $this->is_active );
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -401,7 +392,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
 					comments are being generated and added to webpages.';
 			}
-			$this->print_debug( '', $this->options );
 		}
 
 		function upgrade_options( &$opts = array() ) {
@@ -703,7 +693,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 		
 			// output whatever debug info we have before printing the open graph meta tags
-			$this->print_debug( '$this->debug_msgs', $this->debug_msgs );
+			$this->print_debug( '', $this->debug_msgs );
 			$this->debug_msgs = array();
 
 			// add the Open Graph meta tags
