@@ -860,7 +860,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->d_msg( 'using $post->post_content' );
+					$this->d_msg( 'using post_content' );
 					$desc = $post->post_content;		// fallback to regular content
 					$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
 				}
@@ -934,7 +934,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// stop and slice here if we have enough images
 			if ( $num > 0 && count( $og_ret ) >= $num ) {
-				$this->d_msg( 'returning array: max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
+				$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
 				return array_slice( $og_ret, 0, $num );
 			}
 
@@ -943,7 +943,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				|| ( ! is_singular() && ! is_search() && empty( $this->options['og_def_img_on_index'] ) ) ) {
 	
 				// check for img html tags on rendered content
-				$this->d_msg( 'calling $this->get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
+				$this->d_msg( 'calling get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
 				$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
 			}
 
@@ -952,7 +952,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) 
 					|| ( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) ) {
 
-					$this->d_msg( 'calling $this->get_default_image_og( "' . $size_name . '" )' );
+					$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
 					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
 				}
 			}
@@ -998,7 +998,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// remove singlepics, to avoid duplicates
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
-			$this->d_msg( 'calling $this->apply_content_filter()' );
+			$this->d_msg( 'calling apply_content_filter()' );
 			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
 
 			// check for NGG image ids
@@ -1286,15 +1286,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// temporarily remove add_content() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
-				$this->d_msg( '$this->add_content() filter removed = ' . $filter_removed );
+				$this->d_msg( 'add_content() filter removed = ' . $filter_removed );
 
 				$this->d_msg( 'calling apply_filters()' );
+				$content_strlen_before = strlen( $content );
 				$content = apply_filters( 'the_content', $content );
+				$content_strlen_after = strlen( $content );
+				$this->d_msg( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
 						array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
-					$this->d_msg( '$this->add_content() filter added' );
+					$this->d_msg( 'add_content() filter re-added' );
 				}
 			}
 
