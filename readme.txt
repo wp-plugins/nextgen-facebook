@@ -121,7 +121,13 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
 
-**A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. 
+**A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+
+1. A featured image from a NextGEN Gallery or WordPress Media Library.
+1. Images from NextGEN Gallery [singlepic] shortcodes in the Post or Page content text.
+1. Images from a NextGEN Gallery [nggallery] or [nggtags] shortcode in the Post or Page content text.
+1. Images from `<img/>` HTML tags in the Post or Page content text.
+1. A default image defined in the plugin settings.
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
@@ -313,8 +319,6 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_MAX_CACHE` : The maximum range shown in the "Cache Expiry in Hours" drop-down on the settings page. The default value is 24.
 
-* `NGFB_AUTHOR_SUBDIR` : The subdirectory / folder path for the author index webpages. The default value is "author".
-
 * `NGFB_CONTACT_FIELDS` : The field names and labels for the additional user profile fields. The default value is "facebook:Facebook URL,gplus:Google+ URL". See the "Rename or Add Profile URL Fields" section in the readme for additional information.
 
 * `NGFB_USER_AGENT` : Used by the remote content caching feature for social button images and javascript. The Google+ JavaScript is different for (what Google considers) invalid user agents. Since crawlers and robots might refresh the cached files, the NGFB_USER_AGENT defines a default user agent string. You may define a NGFB_USER_AGENT constant in your wp-config.php file to change the default NGFB uses.
@@ -326,6 +330,12 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 3.5.1 =
+* Improved code for determining the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
+* Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
+* Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to WP member "tascam424" for testing and encouraging me to find the source of this problem.
+* Added the "Title Separator" option, which is used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '|'). Thanks to WP member "s_berntheisel" for recommending this option.
 
 = Version 3.5 =
 * Added reading of correct/accurate width and height information for NGG cached images using PHP's `getimagesize()` function.
@@ -530,6 +540,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.5.1 =
+Improved code to determine WP author index URL, added list of NGFB and WP constants
 
 = Version 3.5 =
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.
