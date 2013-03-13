@@ -992,9 +992,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
-			} else {
-				$this->d_msg( 'no [singlepic] shortcode found' );
-			}
+			} else $this->d_msg( 'no [singlepic] shortcode found' );
 
 			// remove singlepics, to avoid duplicates
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
@@ -1027,9 +1025,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
-			} else {
-				$this->d_msg( 'no <div id="ngg-image-#"> tag found' );
-			}
+			} else $this->d_msg( 'no <div id="ngg-image-#"> tag found' );
 
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', 
@@ -1097,15 +1093,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						} else $this->d_msg( $src_name . ' image rejected = already in array' );
 					} else $this->d_msg( $src_name . ' image rejected = width and height attributes missing or too small' );
 				}
-			} else {
-				$this->d_msg( 'no <img src=""> tag found' );
-			}
+			} else $this->d_msg( 'no <img src=""> tag found' );
 
 			// if we didn't find anything, then show the full content in the debug output
-			if ( empty( $og_ret ) ) {
+			/*if ( empty( $og_ret ) ) {
 				$this->d_msg( 'post_content (unfiltered) = ' . $post->post_content );
 				$this->d_msg( 'post_content (filtered) = ' . $content );
-			}
+			}*/
 			return $og_ret;
 		}
 
@@ -1280,12 +1274,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function apply_content_filter( $content, $filter_content = true ) {
 
-			// the_content filter breaks the ngg album shortcode, so skip it if that shortcode if found
-			if ( preg_match( '/\[ *album[ =]/', $content ) ) {
-
-				$this->d_msg( 'preg_matched [album] shortcode in content' );
-
-			} elseif ( $filter_content ) {
+			if ( $filter_content == true ) {
 
 				global $ngfb;
 
@@ -1299,6 +1288,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$content = apply_filters( 'the_content', $content );
 				$content_strlen_after = strlen( $content );
 				$this->d_msg( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
+
+				// cleanup for NGG album shortcode
+				unset( $GLOBALS['subalbum'] );
+				unset( $GLOBALS['nggShowGallery'] );
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
