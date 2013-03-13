@@ -121,7 +121,13 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
 
-**A.** The images used in the Open Graph meta property tags are chosen in this sequence: A featured image from a NextGEN Gallery or WordPress Media Library, NextGEN [singlepic] shortcodes or `<img/>` HTML tags in the content, a default image defined in the plugin settings. 
+**A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+
+1. A featured image from a NextGEN Gallery or WordPress Media Library.
+1. Images from NextGEN Gallery [singlepic] shortcodes in the Post or Page content text.
+1. Images from a NextGEN Gallery [nggallery] or [nggtags] shortcode in the Post or Page content text.
+1. Images from `<img/>` HTML tags in the Post or Page content text.
+1. A default image defined in the plugin settings.
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
