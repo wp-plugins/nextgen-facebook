@@ -25,8 +25,7 @@ The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A featured image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery [singlepic] shortcodes in the Post or Page content text.
-1. Images from a NextGEN Gallery [nggallery] or [nggtags] shortcode in the Post or Page content text.
+1. Images from NextGEN Gallery [singlepic] [nggallery] [nggtags] shortcodes in the Post or Page content text.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
@@ -124,8 +123,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A featured image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery [singlepic] shortcodes in the Post or Page content text.
-1. Images from a NextGEN Gallery [nggallery] or [nggtags] shortcode in the Post or Page content text.
+1. Images from NextGEN Gallery [singlepic] [nggallery] [nggtags] shortcodes in the Post or Page content text.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
