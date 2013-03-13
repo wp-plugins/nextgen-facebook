@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.5.1';		// for display purposes
-		var $opts_version = '8';	// increment when adding/removing $default_options
+		var $opts_version = '9';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -75,6 +75,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_page_parent_tags' => 0,
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
+			'og_title_sep' => '|',
 			'og_title_len' => 100,
 			'og_desc_len' => 280,
 			'og_desc_strip' => 0,
@@ -462,14 +463,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 								wp_filter_nohtml_kses( $opts[$key] ) );
 							break;
 
-						// options that must be a URL
+						// must be a URL
 						case 'link_publisher_url' :
 						case 'og_def_img_url' :
 							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
 
-						// options that must be numeric (blank or zero is ok)
+						// must be numeric (blank or zero is ok)
 						case 'og_desc_len' : 
 						case 'og_img_max' :
 						case 'og_vid_max' :
@@ -794,7 +795,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_title( $textlen = 100, $trailing = '' ) {
 			global $post, $page, $paged;
-			$title = trim( wp_title( '|', false, 'right' ), ' |');
+			$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
 			$page_num = '';
 			$parent_title = '';
 			if ( is_singular() ) {
@@ -804,13 +805,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} elseif ( is_category() ) { 
 				// wordpress does not include parents - we want the parents too
 				$title = $this->str_decode( single_cat_title( '', false ) );
-				$title = trim( get_category_parents( get_cat_ID( $title ), false, ' | ', false ), ' |');
-				$title = preg_replace('/\.\.\. \| /', '... ', $title);	// my own little quirk ;-)
+				$title = trim( get_category_parents( get_cat_ID( $title ), 
+					false, ' ' . $this->options['og_title_sep'] . ' ', 
+					false ), ' ' . $this->options['og_title_sep'] );
+				// beautify title with category names that end with three dots
+				$title = preg_replace('/\.\.\. \\'.$this->options['og_title_sep'].' /', '... ', $title);
 			}
 			if ( ! $title ) $title = get_bloginfo( 'name', 'display' );
 			// add a page number if necessary
 			if ( $paged >= 2 || $page >= 2 ) {
-				$page_num = ' | ' . sprintf( 'Page %s', max( $paged, $page ) );
+				$page_num = ' ' . $this->options['og_title_sep'] . ' ' . sprintf( 'Page %s', max( $paged, $page ) );
 				$textlen = $textlen - strlen( $page_num );	// make room for the page number
 			}
 			$title = apply_filters( 'the_title', $title );
@@ -862,8 +866,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		
 				if ( empty( $desc ) ) {
 					$this->d_msg( 'using post_content' );
-					$desc = $post->post_content;		// fallback to regular content
-					$desc = $this->apply_content_filter( $desc, $this->options['ngfb_filter_content'] );
+					$desc = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
 				}
 		
 				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
@@ -965,7 +968,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$found = array();
 			$og_ret = array();
-			$content = $post->post_content;
+			$content = empty( $post ) ? '' : $post->post_content;
 			$size_info = $this->get_size_values( $size_name );
 
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 

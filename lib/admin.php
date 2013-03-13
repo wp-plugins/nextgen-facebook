@@ -190,11 +190,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				.form-table td select,
 				.form-table td input { margin:0 0 5px 0; }
 				.form-table td input[type=text] { width:250px; }
-				.form-table td input[type=text].number { width:50px; }
+				.form-table td input[type=text].short { width:50px; }
 				.form-table td input[type=text].wide { width:100%; }
 				.form-table td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
 				.form-table td select { width:250px; }
-				.form-table td select.number { width:100px; }
+				.form-table td select.short { width:100px; }
 				.wrap { font-size:1em; line-height:1.3em; }
 				.wrap h2 { margin:0 0 10px 0; }
 				.wrap p { 
@@ -329,7 +329,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image ID</th>
 				<td><?php 
-					$this->input( 'og_def_img_id', 'number' );
+					$this->input( 'og_def_img_id', 'short' );
 					echo ' in the <select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
 					echo '<option value="wp" ';
 					selected( $ngfb->options['og_def_img_id_pre'], 'wp' );
@@ -379,22 +379,27 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
-				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'number' ); ?></td>
+				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short' ); ?></td>
 				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the featured image, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
-				<td><?php $this->select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'number' ); ?></td>
+				<td><?php $this->select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short' ); ?></td>
 				<td><p>The maximum number of videos from the content to use in the Open Graph meta property tags (selecting "0" disables all video property tags).</p></td>
 			</tr>
 			<tr>
+				<th>Title Separator</th>
+				<td><?php $this->input( 'og_title_sep', 'short' ); ?></td>
+				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $ngfb->default_options['og_title_sep']; ?>').</p></td>
+			</tr>
+			<tr>
 				<th>Maximum Title Length</th>
-				<td><?php $this->input( 'og_title_len', 'number' ); ?> Characters</td>
+				<td><?php $this->input( 'og_title_len', 'short' ); ?> Characters</td>
 				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $ngfb->default_options['og_title_len']; ?> characters).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Description Length</th>
-				<td><?php $this->input( 'og_desc_len', 'number' ); ?> Characters</td>
+				<td><?php $this->input( 'og_desc_len', 'short' ); ?> Characters</td>
 				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $ngfb->default_options['og_desc_len']; ?>).</p></td>
 			</tr>
 			<tr>
@@ -547,10 +552,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'fb_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'fb_order', range( 1, $buttons_count ), 'short' ); ?></td>
 				<!-- Google+ -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'gp_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'gp_order', range( 1, $buttons_count ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -589,7 +594,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Default Width</th>
-				<td><?php $this->input( 'fb_width', 'number' ); ?></td>
+				<td><?php $this->input( 'fb_width', 'short' ); ?></td>
 				<!-- Google+ -->
 				<th>Annotation</th>
 				<td><?php $this->select( 'gp_annotation', array( 
@@ -655,10 +660,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- LinkedIn -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'linkedin_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'linkedin_order', range( 1, $buttons_count ), 'short' ); ?></td>
 				<!-- Twitter -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'twitter_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'twitter_order', range( 1, $buttons_count ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -731,10 +736,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'pin_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'pin_order', range( 1, $buttons_count ), 'short' ); ?></td>
 				<!-- tumblr -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'tumblr_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'tumblr_order', range( 1, $buttons_count ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -795,14 +800,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Maximum Caption Length</th>
-				<td><?php $this->input( 'pin_cap_len', 'number' ); ?> Characters</td>
+				<td><?php $this->input( 'pin_cap_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Maximum <u>Link</u> Description Length</th>
-				<td><?php $this->input( 'tumblr_desc_len', 'number' ); ?> Characters</td>
+				<td><?php $this->input( 'tumblr_desc_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -834,7 +839,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Maximum Caption Length</th>
-				<td><?php $this->input( 'tumblr_cap_len', 'number' ); ?> Characters</td>
+				<td><?php $this->input( 'tumblr_cap_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
@@ -850,7 +855,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- StumbleUpon -->
 				<th>Preferred Order</th>
-				<td><?php $this->select( 'stumble_order', range( 1, $buttons_count ), 'number' ); ?></td>
+				<td><?php $this->select( 'stumble_order', range( 1, $buttons_count ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumblrUpon -->
@@ -912,7 +917,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Cache Expiry in Hours</th>
-				<td><?php $this->select( 'ngfb_cache_hours', range( 0, NGFB_MAX_CACHE ), 'number' ); ?></td>
+				<td><?php $this->select( 'ngfb_cache_hours', range( 0, NGFB_MAX_CACHE ), 'short' ); ?></td>
 				<td><p>Save social button images and JavaScript to a cache folder and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.</p><p>Note: Caching remote content works with all social buttons except for the Facebook JavaScript SDK, which cannot be cached (for now). All other social button images and JavaScript files will be cached in <?php echo NGFB_CACHEDIR; ?>.</p></td>
 			</tr>
 			<tr>
