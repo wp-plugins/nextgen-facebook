@@ -326,8 +326,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.5.1 =
-* Improved code for determining the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to 'reiniggen' for suggesting this change.
-* Added a list of NGFB and WP constants to the debug output.
+* Improved code for determining the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
+* Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
+* Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to WP member "tascam424" for testing and encouraging me to find the source of this problem.
 
 = Version 3.5 =
 * Added reading of correct/accurate width and height information for NGG cached images using PHP's `getimagesize()` function.
@@ -534,7 +535,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.5.1 =
-Improved code to determine WP author URL
+Improved code to determine WP author index URL, added list of NGFB and WP constants
 
 = Version 3.5 =
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.

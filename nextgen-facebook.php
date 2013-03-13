@@ -209,12 +209,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						add_action( $action, create_function( '', 
 							"echo '<!-- " . NGFB_FULLNAME . " add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
 				}
+
+				$defined_constants = get_defined_constants( true );
+				$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
+				$this->print_debug( '', $this->is_active );
+				$this->print_debug( '', $this->options );
 			}
 
-			$defined_constants = get_defined_constants( true );
-			$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
-			$this->print_debug( '', $this->is_active );
-			$this->print_debug( '', $this->options );
 		}
 
 		function define_constants() { 
