@@ -12,7 +12,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-NextGEN Facebook OG adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NextGEN Facebook OG includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
@@ -30,10 +30,10 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
-NextGEN Facebook OG was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin -- all features work just as well without it**. NextGEN Facebook OG can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin -- all features work just as well without it**. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-<!-- NextGEN Facebook OG Meta Tags BEGIN -->
+<!-- NextGEN Facebook Open Graph Meta BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
@@ -59,10 +59,10 @@ NextGEN Facebook OG was specifically written to support images from NextGEN Gall
 <meta property="og:title" content="WordPress Caching and Plugins for Performance" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
-<!-- NextGEN Facebook OG Meta Tags END -->
+<!-- NextGEN Facebook Open Graph Meta END -->
 `
 
-NextGEN Facebook OG is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NextGEN Facebook OG [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
+NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
 
 == Installation ==
 
@@ -71,7 +71,7 @@ NextGEN Facebook OG is being actively developed and supported. You can review th
 1. Login to your weblog
 1. Go to Plugins
 1. Select Add New
-1. Search for *NextGEN Facebook OG*
+1. Search for *NextGEN Facebook Open Graph*
 1. Select Install
 1. Select Install Now
 1. Select Activate Plugin
@@ -82,7 +82,7 @@ NextGEN Facebook OG is being actively developed and supported. You can review th
 1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
 1. Activate the plugin through the Plugins menu in WordPress
 
-Once activated, you don't have to configure any settings for NextGEN Facebook OG to automatically start adding Open Graph meta tags to your pages.
+Once activated, you don't have to configure any settings for NGFB to automatically start adding Open Graph meta tags to your pages.
 
 Some plugin options are available under the *Settings / NextGEN Facebook* admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
 
@@ -94,11 +94,11 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NextGEN Facebook OG presents your content. If there are Open Graph Warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NextGEN Facebook OG settings page to have Google associate author profiles with your search results.
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
@@ -117,9 +117,9 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NextGEN Facebook OG adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NextGEN Facebook OG to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
-= Q. Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content? =
+= Q. Why does NextGEN Facebook Open Graph ignore the &lt;img/&gt; HTML tags in my content? =
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
@@ -129,9 +129,9 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
-If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NextGEN Facebook OG will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
-If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NextGEN Facebook OG use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
+If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NGFB use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
 
 `
 <img
@@ -140,15 +140,15 @@ If you want to display smaller image thumbnails in your content (on index webpag
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NextGEN Facebook OG to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
+The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NGFB to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
 
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 `
 
-= Q. Does NextGEN Facebook OG use functions from other plugins? =
+= Q. Does NextGEN Facebook Open Graph use functions from other plugins? =
 
-**A.** Yes, NextGEN Facebook OG can detect and use the following plugins:
+**A.** Yes, NGFB can detect and use the following plugins:
 
 * [WP-WikiBox](http://wordpress.org/extend/plugins/wp-wikibox/) : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).
 
@@ -160,7 +160,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Social Buttons Style =
 
-NextGEN Facebook OG uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
+NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
 
 `
 .ngfb-buttons { 
@@ -215,7 +215,7 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 </div>
 `
 
-You could use any of these class names to hide one or more NextGEN Facebook OG social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NGFB social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 `
 .post-123 .ngfb-buttons,
@@ -226,7 +226,7 @@ You could use any of these class names to hide one or more NextGEN Facebook OG s
 
 == Performance Tuning ==
 
-The code for NextGEN Facebook OG is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
+The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
 
 * If your website content does not have any embedded videos, or you prefer not to include information on embedded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embedded videos.
 
@@ -262,7 +262,7 @@ This creates a Pinterest and tumblr button to share a picture from a NextGEN Gal
 
 = Disable Open Graph Meta Tags =
 
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NextGEN Facebook OG's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
+You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NGFB's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
 
 `
 global $nggSearch
@@ -275,7 +275,7 @@ wp_head();
 
 = Rename or Add Profile URL Fields =
 
-By default, NextGEN Facebook OG adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "gplus". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
+By default, NGFB adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "gplus". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
 
 `
 define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
@@ -283,7 +283,7 @@ define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
 
 A comma separates the the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
 
-If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NextGEN Facebook OG settings page.
+If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NGFB settings page.
 
 = PHP Constants =
 
@@ -295,9 +295,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_OPEN_GRAPH_DISABLE` : Set this contant to `true` to prevent the plugin from adding Open Graph meta tags in the webpage head section. See "Disable Open Graph Meta Tags" above for an example of it's use.
 
-* `NGFB_MIN_IMG_SIZE_DISABLE` : Set this contant to `true` to disable the minimum width and height checks for the `<img/>` attributes in the content. All images, no matter their size, will be added to the Open Graph meta tags. See "Why does NextGEN Facebook OG ignore the &lt;img/&gt; HTML tags in my content?" on the FAQ page for additional information.
+* `NGFB_MIN_IMG_SIZE_DISABLE` : Set this contant to `true` to disable the minimum width and height checks for the `<img/>` attributes in the content. All images, no matter their size, will be added to the Open Graph meta tags. See "Why does NGFB ignore the &lt;img/&gt; HTML tags in my content?" on the FAQ page for additional information.
 
-* `NGFB_OPTIONS_NAME` : The options field name in the database for NextGEN Facebook OG. The default value is `ngfb_options`.
+* `NGFB_OPTIONS_NAME` : The options field name in the database for NGFB. The default value is `ngfb_options`.
 
 * `NGFB_HEAD_PRIORITY` : Change the execution priority for the `add_header()` method, which adds javascript to the head section. The default value is 10.
 
@@ -327,7 +327,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Screenshots ==
 
-1. NextGEN Facebook OG - An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
+1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
 
@@ -400,7 +400,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.0 =
 * Major code revision finished - all functions have been moved to object-oriented classes. NGFB is currently 2,350 lines of code in 4 classes and 77 functions.
-* NextGEN Facebook OG now finds and uses all images from the content to include in the Open Graph meta tags.
+* NextGEN Facebook Open Graph now finds and uses all images from the content to include in the Open Graph meta tags.
 * Added the ngfbButtons class in lib/buttons.php.
 * Added a version string in the database options to skip option updates if the database options are current.
 * Added the "Maximum Number of Images" and "Maximum Number of Videos" options to limit the number of images and videos listed in the Open Graph meta tags.
@@ -409,7 +409,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added the "Add Page Ancestor Tags" and "Add Page Titles as Tags" options.
 * Added a Head Link Settings section on the settings page with the "Author Link URL" and "Publisher Link URL" options.
 * Added a "Performance Tuning" section in the readme.txt.
-* Added a Donate button on the options page. Please show your appreciation for NextGEN Facebook OG by donating a few dollars. Thank you.
+* Added a Donate button on the options page. Please show your appreciation for NGFB by donating a few dollars. Thank you.
 * Improved debugging output with a debug function and dump of the OG array.
 
 = Version 2.4.1 =
@@ -444,7 +444,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 2.2 =
 * Added `ngfb_get_options()` function to validate and upgrade options without having to visit the options page.
 * Enhanced the code where the plugin looks for an image in the content: relative URLs will be completed, images smaller than the 'Image Size Name' defined on the options page will be ignored, and a "share" attribute in the `<img/>` tag will take precedence over the "src" attribute.
-* Added the "Filter Content for Meta Tags" option (checked by default). When NextGEN Facebook OG generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
+* Added the "Filter Content for Meta Tags" option (checked by default). When NGFB generates the Open Graph meta tags, it applies Wordpress filters on the content to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NGFB from applying the Wordpress filters by un-checking this option. If you do, NGFB may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta tags.
 
 = Version 2.1.3 =
 * Added apply_filters('the_content') before searching for an `<img/>` in the content.
@@ -469,7 +469,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added a 'Max Title Length' setting (default is 100 characters).
 
 = Version 2.0 =
-* The NextGEN Facebook OG options page has been re-worked to make it more compact.
+* The NextGEN Facebook Open Graph options page has been re-worked to make it more compact.
 * Added the tumblr social sharing button, including support for posting featured images, embedded video, or links to posts and pages.
 * Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
