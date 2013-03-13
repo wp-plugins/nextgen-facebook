@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: NextGEN Facebook OG
+Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
 Version: 3.5.1
@@ -223,7 +223,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_ACRONYM', 'NGFB' );
-			define( 'NGFB_FULLNAME', 'NextGEN Facebook OG' );
+			define( 'NGFB_FULLNAME', 'NextGEN Facebook Open Graph' );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );

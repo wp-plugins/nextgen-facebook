@@ -254,7 +254,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			
 				if ( ! defined( 'NGFB_DONATED' ) || ! NGFB_DONATED ) echo '
 <div class="donatebox">
-<p>NextGEN Facebook OG has taken many, many months to develop and fine-tune. Please help us to continue by donating $10 or $20.</p>
+<p>NextGEN Facebook Open Graph has taken many, many months to develop and fine-tune. Please help us to continue by donating $10 or $20.</p>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
@@ -266,10 +266,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 </div>', "\n";
 			?>
 
-			<p>The NextGEN Facebook OG plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages and search results. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, &lt;img/&gt; HTML tags in the content, the default image defined in the plugin settings. NextGEN Facebook OG will detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.</p>
+			<p>The <?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 
-			<p>NextGEN Facebook OG is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the NextGEN Facebook OG <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>. Your comment or suggestion will be answered in a timely manner.</p>
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: A featured image from a NextGEN Gallery (NGG) or WordPress Media Library, NGG [singlepic] [nggallery] [nggtags] shortcodes, &lt;img/&gt; HTML tags in the Post or Page content, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags.</p>
+
+			<p><?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>. Your comment or suggestion will be answered in a timely manner.</p>
 
 			<div style="clear:both;"></div>
 			</div>
@@ -353,7 +354,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image on Indexes</th>
 				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, NextGEN Facebook OG will attempt to use the featured image, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, and &lt;img/&gt; HTML tag within the first entry on the webpage (default is checked).</p></td>
+				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, <?php echo NGFB_ACRONYM; ?> will attempt to use the featured image, NGG [singlepic] shortcodes, NGG &lt;div&gt; HTML tags for images, and &lt;img/&gt; HTML tag within the first entry on the webpage (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Image on Search Results</th>
@@ -412,7 +413,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
-				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. NextGEN Facebook OG can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, then the original content of the Page will be used.</p></td>
+				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. <?php echo NGFB_ACRONYM; ?> can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, then the original content of the Page will be used.</p></td>
 			</tr>
 			<tr>
 				<th>WP-WikiBox Tag Prefix</th>
@@ -444,7 +445,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p>NextGEN Facebook OG will add the following Facebook and Open Graph meta property tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent NextGEN Facebook OG from adding duplicate property tags.</p>
+				<p><?php echo NGFB_ACRONYM; ?> will add the following Facebook and Open Graph meta property tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate property tags.</p>
 				</td>
 			</tr>
 			<?php
@@ -481,7 +482,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="3">
-				<p>NextGEN Facebook OG can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
+				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
 				</td>
 			</tr>
 			<tr>
@@ -507,7 +508,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p>NextGEN Facebook OG uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the NextGEN Facebook OG Other Notes page for stylesheet examples</a> -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage for the widget options</a>).</p>
+				<p><?php echo NGFB_ACRONYM; ?> uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a> -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage for the widget options</a>).</p>
 				</td>
 			</tr>
 			<tr>
@@ -908,7 +909,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Reset Settings on Activate</th>
 				<td><?php $this->checkbox( 'ngfb_reset' ); ?></td>
-				<td><p>Check this option to reset NextGEN Facebook OG settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
+				<td><p>Check this option to reset <?php echo NGFB_ACRONYM; ?> settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>
@@ -928,7 +929,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Apply Content Filter</th>
 				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>When NextGEN Facebook OG generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent NextGEN Facebook OG from applying the Wordpress filters by un-checking this option. If you do, NextGEN Facebook OG may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
+				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the Wordpress filters by un-checking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
 			</tr>
 			<tr>
 				<th>Apply Excerpt Filter</th>
@@ -938,7 +939,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Ignore Small Images</th>
 				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p>NextGEN Facebook OG will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">NextGEN Facebook OG FAQ</a> webpage for additional solutions.</p></td>
+				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Goo.gl Simple API Access Key</th>
