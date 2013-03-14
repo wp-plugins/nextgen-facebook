@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 3.5
+Stable tag: 3.5.1
 License: GPLv3 or later
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
@@ -330,7 +330,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.5.1 =
-* Improved code for determining the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
+* Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
 * Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
 * Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to WP member "tascam424" for testing and encouraging me to find the source of this problem.
 * Added the "Title Separator" option, which is used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '|'). Thanks to WP member "s_berntheisel" for recommending this option.
