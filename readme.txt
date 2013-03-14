@@ -10,7 +10,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-<blockquote>The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.</blockquote>
+*The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
 The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
@@ -330,7 +330,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.5.1 =
-* Improved code for determining the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
+* Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
 * Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
 * Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to WP member "tascam424" for testing and encouraging me to find the source of this problem.
 * Added the "Title Separator" option, which is used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '|'). Thanks to WP member "s_berntheisel" for recommending this option.
