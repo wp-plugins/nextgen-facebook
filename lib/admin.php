@@ -470,7 +470,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Include Empty og:* Meta Tags</th>
 				<td><?php $this->checkbox( 'og_empty_tags' ); ?></td>
-				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is checked).</p></td>
+				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is unchecked).</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
@@ -929,7 +929,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Apply Content Filter</th>
 				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the Wordpress filters by un-checking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
+				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the Wordpress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
 			</tr>
 			<tr>
 				<th>Apply Excerpt Filter</th>
