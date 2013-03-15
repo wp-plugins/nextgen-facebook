@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds Open Graph meta tags for Facebook, Google+, LinkedIn, etc., plus social sharing buttons for Facebook, Google+, and many more.
-Version: 3.5.1
+Version: 3.5.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.5.1';		// for display purposes
+		var $version = '3.5.2';		// for display purposes
 		var $opts_version = '9';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_wiki_tag' => 'Wiki-',
 			'og_admins' => '',
 			'og_app_id' => '',
-			'og_empty_tags' => 1,
+			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
 			'buttons_on_ex_pages' => 0,
 			'buttons_location' => 'bottom',
@@ -546,6 +546,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function add_header() {
+			echo "\n<!-- ", NGFB_FULLNAME, " (", NGFB_ACRONYM, ") Version ", $this->version, " -->\n";
 			echo $this->get_buttons_js( 'header' );
 		}
 
@@ -647,24 +648,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$og['og:url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+			$og['og:url'] .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
 
-			if ( $this->options['og_img_max'] > 0 ) 
-				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], 
-					$this->options['og_img_size'] );
+			if ( $this->options['og_img_max'] > 0 ) {
+				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
+				// if there are no images, then a blank og:image meta tag might actually be appropriate
+				// to prevent FB (and others) from choosing a random image from the page (sidebar, etc.)
+				/*if ( empty( $og['og:image'] ) ) unset( $og['og:image'] );*/
+			}
 
-			if ( $this->options['og_vid_max'] > 0 ) 
+			if ( $this->options['og_vid_max'] > 0 ) {
 				$og['og:video'] = $this->get_videos_og( $this->options['og_vid_max'] );
-
-			$og['article:tag'] = $this->get_tags();
-
+				/*if ( empty( $og['og:video'] ) ) unset( $og['og:video'] );*/
+			}
 
 			// we potentially have some author information available
 			if ( ! empty( $post->post_author ) || ! empty( $this->options['og_def_author_id'] ) ) {
 	
-		
 				// just for clarity, any singular page is type 'article'
 				if ( is_singular() ) $og['og:type'] = 'article';
 
@@ -680,8 +682,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			} else $og['og:type'] = 'website';
 
+			// if the page is an article, then define the other article meta tags
 			if ( $og['og:type'] == 'article' ) {
 
+				$og['article:tag'] = $this->get_tags();
 				$og['article:section'] = $this->options['og_art_section'];
 				$og['article:modified_time'] = get_the_modified_date('c');
 				$og['article:published_time'] = get_the_date('c');
@@ -689,6 +693,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $post ) && $post->post_author )
 					$og['article:author'] = $this->get_author_url( $post->post_author, 
 						$this->options['og_author_field'] );
+
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['og_author_field'] );
@@ -903,29 +908,29 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og_ret = array();
 			$content = empty( $post ) ? '' : $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
 
-			if ( preg_match_all( '/<iframe[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match, PREG_SET_ORDER ) ) {
-				foreach ( $match as $iframe ) {
+			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
+				foreach ( $match_all as $media ) {
+					$this->d_msg( 'media found = tag:' . $media[1] . ' src:' . $media[2] );
 					$og_video = array(
 						'og:image' => '',
-						'og:video' => $iframe[1],
+						'og:video' => $media[2],
 						'og:video:width' => '',
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
 					);
 					if ( $og_video['og:video'] ) {
-						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $iframe[0], $match) ) $og_video['og:video:width'] = $match[1];
-						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $iframe[0], $match) ) $og_video['og:video:height'] = $match[1];
+						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
+						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:height'] = $match[1];
 						// define images for known websites
 						if ( preg_match( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) )
 							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[1].'/0.jpg';
-						$this->d_msg( 'iframe = ' . $og_video['og:video'] .
-							' (width=' . $og_video['og:video:width'] . ' x height=' . $og_video['og:video:height'] . ')' );
 						array_push( $og_ret, $og_video );
+						$this->d_msg( 'media info = image:' . $og_video['og:image'] . ' width:' . $og_video['og:video:width'] . 
+							' height:' . $og_video['og:video:height'] . ')' );
 					}
 				}
 			}
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
-
 			return $og_ret;
 		}
 
@@ -1218,7 +1223,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", NGFB_FULLNAME, " Meta BEGIN -->\n";
+			echo "\n<!-- ", NGFB_FULLNAME, " Meta Tags BEGIN -->\n";
+
 			$this->print_debug( '', print_r( $arr, true ) );
 
 			if ( ! empty( $arr['link:publisher'] ) )
@@ -1258,7 +1264,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 			unset ( $d_name, $d_val );
 
-			echo "<!-- ", NGFB_FULLNAME, " Meta END -->\n\n";
+			echo "<!-- ", NGFB_FULLNAME, " Meta Tags END -->\n\n";
 		}
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {

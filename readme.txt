@@ -329,6 +329,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 3.5.2 =
+* Added support for `<embed src="">` videos from youtube.
+* Changed the default for "Include Empty og:* Meta Tags" option from true to false.
+
 = Version 3.5.1 =
 * Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
 * Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
@@ -539,8 +543,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.5.2 =
+Added support for `<embed>` videos, changed 'og_empty_tags' option default from true to false.
+
 = Version 3.5.1 =
-Improved code to determine WP author index URL, added list of NGFB and WP constants
+Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
 
 = Version 3.5 =
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.
