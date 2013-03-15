@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 	
 		function ngfbSocialButtonsWidget() {
 			$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
-				'description' => "The NextGEN Facebook OG social buttons widget is only visible on single posts, pages and attachments." );
+				'description' => 'The ' . NGFB_FULLNAME . ' social buttons widget is only visible on single posts, pages and attachments.' );
 			$this->WP_Widget( 'ngfb-widget-buttons', NGFB_FULLNAME, $widget_ops );
 		}
 	

@@ -508,7 +508,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p><?php echo NGFB_ACRONYM; ?> uses the "ngfb-buttons" CSS class name to wrap all social buttons, and each button has it's own individual class name as well. <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a> -- including how to hide the buttons for specific Posts, Pages, categories, tags, etc. Each of the following social buttons can be added to an "NGFB Social Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage for the widget options</a>).</p>
+				<p><?php echo NGFB_ACRONYM; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
+				
+				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_FULLNAME; ?>" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
 				</td>
 			</tr>
 			<tr>
