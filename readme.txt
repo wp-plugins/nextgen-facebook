@@ -158,7 +158,9 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Social Buttons Style =
 
-NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. Here's an example of the stylesheet I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed.
+NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
+
+Here's an example of some CSS styling I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed significantly.
 
 `
 .ngfb-buttons { 
@@ -187,7 +189,7 @@ div.stumbleupon-button { width:84px; }
 div.tumblr-button { width:80px; margin-right:0; }
 `
 
-The "NGFB Social Buttons" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content.
+The "NextGEN Facebook Open Graph" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content text.
 
 `
 .ngfb-widget-buttons .ngfb-buttons { 
@@ -328,6 +330,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 3.5.2 =
+* Added support for `<embed src="">` videos from youtube.
+* Changed the default for "Include Empty og:* Meta Tags" option from true to false.
 
 = Version 3.5.1 =
 * Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
@@ -539,8 +545,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.5.2 =
+Added support for `<embed>` videos, changed 'og_empty_tags' option default from true to false.
+
 = Version 3.5.1 =
-Improved code to determine WP author index URL, added list of NGFB and WP constants
+Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
 
 = Version 3.5 =
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.
