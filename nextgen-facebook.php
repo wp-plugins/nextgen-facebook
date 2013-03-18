@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.5.2';		// for display purposes
-		var $opts_version = '9';	// increment when adding/removing $default_options
+		var $opts_version = '10';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -75,6 +75,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'og_page_parent_tags' => 0,
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
+			'og_author_fallback' => 1,
 			'og_title_sep' => '|',
 			'og_title_len' => 100,
 			'og_desc_len' => 280,
@@ -742,8 +743,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$url = get_the_author_meta( $field_name, $author_id );
 
 					// if empty or not a URL, then fallback to the author index page
-					if ( empty( $url ) || ! preg_match( '/:\/\//', $url ) )
+					if ( $this->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
 						$url = get_author_posts_url( $author_id );
+
 					break;
 			}
 			return $url;
@@ -1238,9 +1240,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $post ) && $post->post_author )
 					$author_url = $this->get_author_url( $post->post_author, 
 						$this->options['link_author_field'] );
+
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$author_url = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['link_author_field'] );
+
 				if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
 

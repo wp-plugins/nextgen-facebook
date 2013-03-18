@@ -288,12 +288,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Website Topic</th>
 				<td><?php $this->select( 'og_art_section', array_merge( array( '' ), $this->article_sections ) ); ?></td>
-				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your webpages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
+				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
 				<th>Author URL</th>
 				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field for the Open Graph author property tag. You can use the author's Website, Facebook, Google+, or the index webpage at "<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>". If the selected profile field is empty, then the author's index webpage will be used. The URL should point to an author's <em>personal</em> website or social page. See the Head Link Settings bellow to define a common <em>publisher</em> URL for all webpages.</p></td>
+				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Head Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+			</tr>
+			<tr>
+				<th>Fallback to Author Index</th>
+				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
+				<td><p>If the value found in the Author URL field is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -482,7 +487,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="3">
-				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
+				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used primarily by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
 				</td>
 			</tr>
 			<tr>
