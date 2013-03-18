@@ -940,8 +940,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$og_ret = array();
 
+			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
+				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
+					$this->d_msg( 'is_singular() = ' . is_singular() );
+					$this->d_msg( 'is_search() = ' . is_search() );
+					$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
+					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
+					return $og_ret;
+			}
+
 			// check for a featured image
-			if ( ! empty( $post ) ) $og_ret = array_merge( $og_ret, $this->get_featured_og( $post->ID, $size_name ) );
+			if ( ! empty( $post ) ) 
+				$og_ret = array_merge( $og_ret, $this->get_featured_og( $post->ID, $size_name ) );
 
 			// stop and slice here if we have enough images
 			if ( $num > 0 && count( $og_ret ) >= $num ) {
@@ -949,23 +959,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				return array_slice( $og_ret, 0, $num );
 			}
 
-			// get images from content if singular, or allowed by options for index default
-			if ( is_singular() || ( is_search() && empty( $this->options['og_def_img_on_search'] ) ) 
-				|| ( ! is_singular() && ! is_search() && empty( $this->options['og_def_img_on_index'] ) ) ) {
-	
-				// check for img html tags on rendered content
-				$this->d_msg( 'calling get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
-				$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
-			}
+			// check for img html tags on rendered content
+			$this->d_msg( 'calling get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
+			$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
 
 			// if we didn't find any images, then use the default image
 			if ( empty( $og_ret ) ) {
-				if ( is_singular() || ( is_search() && $this->options['og_def_img_on_search'] ) 
-					|| ( ! is_singular() && ! is_search() && $this->options['og_def_img_on_index'] ) ) {
-
-					$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
-					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
-				}
+				$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
+				$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
 			}
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
 			return $og_ret;
