@@ -298,7 +298,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
+				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Head Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -487,7 +487,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="3">
-				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are used primarily by Google Search to associate a Google+ profile to search results. If you have a Google+ <em>Page</em> for your website, you may use it's URL as the publisher link. As an example, the publisher link for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> is <a href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" target="_blank">https://plus.google.com/b/100429778043098222378/100429778043098222378/posts</a>. The publisher link takes precedence over the author link in search results.</p>
+				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>. The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p>
 				</td>
 			</tr>
 			<tr>
