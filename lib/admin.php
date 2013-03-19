@@ -298,14 +298,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
-				<th>Author URL</th>
+				<th>Article Author URL</th>
 				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Head Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Meta Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Head Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
+				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Meta Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -450,6 +450,28 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
+			<div id="ngfb-head" class="postbox">
+			<h3 class="hndle"><span>Additional Meta Settings</span></h3>
+			<div class="inside">	
+			<table class="form-table">
+			<tr>
+				<th>Author Link URL</th>
+				<td><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
+				<td><p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>. The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p></td>
+			</tr>
+			<tr>
+				<th>Publisher Link URL</th>
+				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?></td>
+			</tr>
+			<tr>
+				<th>Add a Meta Description Tag</th>
+				<td><?php $this->checkbox( 'add_meta_desc' ); ?></td>
+				<td><p>Add a meta description tag to the webpage head section (the value is identical to the Open Graph description).</p></td>
+			</tr>
+			</table>
+			</div><!-- .inside -->
+			</div><!-- .postbox -->
+
 			<div id="ngfb-ogtags" class="postbox">
 			<h3 class="hndle"><span>Open Graph Meta Tags</span></h3>
 			<div class="inside">	
@@ -488,32 +510,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-head" class="postbox">
-			<h3 class="hndle"><span>Additional Head Settings</span></h3>
-			<div class="inside">	
-			<table class="form-table">
-			<tr>
-				<td colspan="3">
-				<p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>. The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p>
-				</td>
-			</tr>
-			<tr>
-				<th>Author Link URL</th>
-				<td colspan="2"><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
-			</tr>
-			<tr>
-				<th>Publisher Link URL</th>
-				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?></td>
-			</tr>
-			<tr>
-				<th>Add a Meta Description Tag</th>
-				<td><?php $this->checkbox( 'add_meta_desc' ); ?></td>
-				<td width="100%"><p>Add a meta description tag to the webpage head section (the value is identical to the Open Graph description).</p></td>
-			</tr>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-
 			<div id="ngfb-buttons" class="postbox">
 			<h3 class="hndle"><span>Social Button Settings</span></h3>
 			<div class="inside">	
