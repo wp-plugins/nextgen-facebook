@@ -298,6 +298,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 
+			$long_url = $attr['url'];
 			$attr['url'] = $this->get_short_url( $attr['url'], $ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
@@ -317,6 +318,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			}
 			return '
 				<!-- Twitter Button -->
+				<!-- URL = ' . $long_url . ' -->
 				<div class="twitter-button" id="twitter-' . $attr['css_id'] . '">
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"

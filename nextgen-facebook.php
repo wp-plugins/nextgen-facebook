@@ -786,11 +786,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$caption = $this->get_title( $length, '...' );
 					break;
 				case 'excerpt' :
-					$caption = $this->get_description( $length, '...' );
+					// force the use of $post info for buttons on index pages
+					$caption = $this->get_description( $length, '...', true );
 					break;
 				case 'both' :
 					$title = $this->get_title();
-					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...' );
+					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', true );
 					break;
 			}
 			return $caption;
@@ -801,9 +802,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
 			$page_num = '';
 			$parent_title = '';
-			if ( is_singular() ) {
-				$parent_id = $post->post_parent;
-				if ( $parent_id ) $parent_title = get_the_title($parent_id);
+
+			if ( ! empty( $post ) && $post->post_parent ) {
+				$parent_title = get_the_title( $post->post_parent );
 				if ( $parent_title ) $title .= ' ('.$parent_title.')';
 			} elseif ( is_category() ) { 
 				// wordpress does not include parents - we want the parents too
@@ -814,12 +815,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// beautify title with category names that end with three dots
 				$title = preg_replace('/\.\.\. \\'.$this->options['og_title_sep'].' /', '... ', $title);
 			}
+
 			if ( ! $title ) $title = get_bloginfo( 'name', 'display' );
+
 			// add a page number if necessary
 			if ( $paged >= 2 || $page >= 2 ) {
 				$page_num = ' ' . $this->options['og_title_sep'] . ' ' . sprintf( 'Page %s', max( $paged, $page ) );
 				$textlen = $textlen - strlen( $page_num );	// make room for the page number
 			}
+
 			$title = apply_filters( 'the_title', $title );
 			return $this->limit_text_length( $title, $textlen, $trailing ) . $page_num;
 		}
@@ -848,11 +852,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $desc;
 		}
 
-		function get_description( $textlen = 300, $trailing = '' ) {
+		function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
 			global $post;
 			$desc = '';
-			if ( is_singular() ) {
-				$this->d_msg( 'is_singular()' );
+			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) {
+
+				$this->d_msg( 'is_singular() = ' . is_singular() );
+				$this->d_msg( '$use_post() = ' . $use_post );
+
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
 					$this->d_msg( 'has_excerpt()' );
@@ -898,6 +905,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
 			elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
 			else $desc = get_bloginfo( 'description', 'display' );
+
 			return $this->limit_text_length( $desc, $textlen, '...' );
 		}
 
