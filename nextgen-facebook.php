@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.5.2';		// for display purposes
-		var $opts_version = '10';	// increment when adding/removing $default_options
+		var $opts_version = '11';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -108,6 +108,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'twitter_enable' => 0,
 			'twitter_order' => 3,
 			'twitter_js_loc' => 'header',
+			'twitter_caption' => 'title',
+			'twitter_cap_len' => 140,
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => 1,

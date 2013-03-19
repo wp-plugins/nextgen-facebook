@@ -145,6 +145,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'footer' => 'Footer'
 		);
 
+		var $captions = array(
+			'title' => 'Title Only',
+			'excerpt' => 'Excerpt Only',
+			'both' => 'Title and Excerpt',
+			'none' => 'None'
+		);
+
 		function __construct() {
 			natsort ( $this->article_sections );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
@@ -709,6 +716,20 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- LinkedIn -->
 				<td colspan="2"></td>
 				<!-- Twitter -->
+				<th>Tweet Text</th>
+				<td><?php $this->select( 'twitter_caption', $this->captions ); ?></td>
+			</tr>
+			<tr>
+				<!-- LinkedIn -->
+				<td colspan="2"></td>
+				<!-- Twitter -->
+				<th>Maximum Text Length</th>
+				<td><?php $this->input( 'twitter_cap_len', 'short' ); ?> Characters</td>
+			</tr>
+			<tr>
+				<!-- LinkedIn -->
+				<td colspan="2"></td>
+				<!-- Twitter -->
 				<th>Do Not Track</th>
 				<td><?php $this->checkbox( 'twitter_dnt' ); ?></td>
 			</tr>
@@ -799,11 +820,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Image Caption Text</th>
-				<td><?php $this->select( 'pin_caption', array( 
-					'title' => 'Title Only',
-					'excerpt' => 'Excerpt Only',
-					'both' => 'Title and Excerpt',
-					'none' => 'None' ) ); ?></td>
+				<td><?php $this->select( 'pin_caption', $this->captions ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -836,11 +853,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Image and Video Caption Text</th>
-				<td><?php $this->select( 'tumblr_caption', array( 
-					'title' => 'Title Only',
-					'excerpt' => 'Excerpt Only',
-					'both' => 'Title and Excerpt',
-					'none' => 'None' ) ); ?></td>
+				<td><?php $this->select( 'tumblr_caption', $this->captions ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
