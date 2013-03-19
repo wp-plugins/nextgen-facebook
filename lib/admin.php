@@ -288,8 +288,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				settings_fields( 'ngfb_plugin_options' );
 				$this->hidden( 'ngfb_version', $ngfb->opts_version );
 			?>
-			<div id="ngfb-ogsettings" class="postbox">
-			<h3 class="hndle"><span>Open Graph Settings</span></h3>
+			<div class="postbox">
+			<h3 class="hndle"><span>Meta Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
@@ -300,12 +300,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Article Author URL</th>
 				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Link and Meta Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Link Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Link and Meta Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
+				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Link Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -450,8 +450,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-head" class="postbox">
-			<h3 class="hndle"><span>Additional Link and Meta Settings</span></h3>
+			<div class="postbox">
+			<h3 class="hndle"><span>Link Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
@@ -463,30 +463,25 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Publisher Link URL</th>
 				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?></td>
 			</tr>
-			<tr>
-				<th>Add a Meta Description Tag</th>
-				<td><?php $this->checkbox( 'add_meta_desc' ); ?></td>
-				<td><p>Add a meta description tag to the webpage head section (the value is identical to the Open Graph description).</p></td>
-			</tr>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 
-			<div id="ngfb-ogtags" class="postbox">
-			<h3 class="hndle"><span>Open Graph Meta Tags</span></h3>
+			<div class="postbox">
+			<h3 class="hndle"><span>Meta Tag List</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p><?php echo NGFB_ACRONYM; ?> will add the following Facebook and Open Graph meta property tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate property tags.</p>
+				<p><?php echo NGFB_ACRONYM; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
 				</td>
 			</tr>
 			<?php
 				$og_cells = array();
 				$og_rows = array();
 				foreach ( $ngfb->default_options as $opt => $val ) {
-					if ( preg_match( '/^inc_(.*:.*)$/', $opt, $match ) )
+					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$og_cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
 							<td>'. $this->checkbox( $opt, false ) . '</td>';
 				}
@@ -510,7 +505,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-buttons" class="postbox">
+			<div class="postbox">
 			<h3 class="hndle"><span>Social Button Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
@@ -918,7 +913,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 		
-			<div id="ngfb-plugin" class="postbox">
+			<div class="postbox">
 			<h3 class="hndle"><span>Plugin Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">

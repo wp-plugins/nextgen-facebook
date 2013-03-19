@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.5.2';		// for display purposes
-		var $opts_version = '11';	// increment when adding/removing $default_options
+		var $opts_version = '12';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -56,7 +56,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		var $options = array();
 		var $ngg_options = array();
 		var $default_options = array(
-			'add_meta_desc' => 1,
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
@@ -139,6 +138,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumble_order' => 6,
 			'stumble_js_loc' => 'header',
 			'stumble_badge' => 1,
+			'inc_description' => 1,
 			'inc_fb:admins' => 1,
 			'inc_fb:app_id' => 1,
 			'inc_og:site_name' => 1,
@@ -411,6 +411,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 				// move old option values to new option names
 				foreach ( array(
+					'add_meta_desc' => 'inc_description',
 					'og_def_img' => 'og_def_img_url',
 					'og_def_home' => 'og_def_img_on_index',
 					'og_def_on_home' => 'og_def_img_on_index',
@@ -1255,7 +1256,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
 
-			if ( ! empty( $arr['og:description'] ) && ! empty( $this->options['add_meta_desc'] ) )
+			if ( ! empty( $arr['og:description'] ) && ! empty( $this->options['inc_description'] ) )
 				echo '<meta name="description" content="', $arr['og:description'], '" />', "\n";
 
 			ksort( $arr );
