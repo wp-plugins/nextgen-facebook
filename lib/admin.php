@@ -300,12 +300,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Article Author URL</th>
 				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Meta Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Additional Link and Meta Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Meta Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
+				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Additional Link and Meta Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -451,7 +451,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .postbox -->
 		
 			<div id="ngfb-head" class="postbox">
-			<h3 class="hndle"><span>Additional Meta Settings</span></h3>
+			<h3 class="hndle"><span>Additional Link and Meta Settings</span></h3>
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
