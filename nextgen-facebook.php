@@ -665,31 +665,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				/*if ( empty( $og['og:video'] ) ) unset( $og['og:video'] );*/
 			}
 
-			// we potentially have some author information available
-			if ( ! empty( $post->post_author ) || ! empty( $this->options['og_def_author_id'] ) ) {
-	
-				// just for clarity, any singular page is type 'article'
-				if ( is_singular() ) $og['og:type'] = 'article';
-
-				// if it's a search but we're forcing an empty default author, then set type to 'website'
-				elseif ( is_search() && ! empty( $this->options['og_def_author_on_search'] ) 
-					&& empty( $this->options['og_def_author_id'] ) ) $og['og:type'] = "website";
-
-				// if it's an index pae but we're forcing an empty default author, then set type to 'website'
-				elseif ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_author_on_index'] ) 
-					&& empty( $this->options['og_def_author_id'] ) ) $og['og:type'] = "website";
-
-				else $og['og:type'] = 'article';
-
-			} else $og['og:type'] = 'website';
-
-			// if the page is an article, then define the other article meta tags
-			if ( $og['og:type'] == 'article' ) {
-
-				$og['article:tag'] = $this->get_tags();
-				$og['article:section'] = $this->options['og_art_section'];
-				$og['article:modified_time'] = get_the_modified_date('c');
-				$og['article:published_time'] = get_the_date('c');
+			// any singular page is type 'article'
+			if ( is_singular() ) {
+				$og['og:type'] = 'article';
 
 				if ( ! empty( $post ) && $post->post_author )
 					$og['article:author'] = $this->get_author_url( $post->post_author, 
@@ -698,6 +676,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				elseif ( ! empty( $this->options['og_def_author_id'] ) )
 					$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
 						$this->options['og_author_field'] );
+
+			// check for default author info on indexes and searches
+			} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_author_on_index'] ) && ! empty( $this->options['og_def_author_id'] ) )
+				|| ( is_search() && ! empty( $this->options['og_def_author_on_search'] ) && ! empty( $this->options['og_def_author_id'] ) ) ) {
+
+				$og['og:type'] = "article";
+				$og['article:author'] = $this->get_author_url( $this->options['og_def_author_id'], 
+					$this->options['og_author_field'] );
+
+			// default
+			} else $og['og:type'] = 'website';
+
+			// if the page is an article, then define the other article meta tags
+			if ( $og['og:type'] == 'article' ) {
+				$og['article:tag'] = $this->get_tags();
+				$og['article:section'] = $this->options['og_art_section'];
+				$og['article:modified_time'] = get_the_modified_date('c');
+				$og['article:published_time'] = get_the_date('c');
 			}
 		
 			// output whatever debug info we have before printing the open graph meta tags
