@@ -938,6 +938,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				foreach ( $match_all as $media ) {
 					$this->d_msg( 'media found = tag:' . $media[1] . ' src:' . $media[2] );
+					$media[2] = preg_replace( '/\?.*/', '', $media[2] );	// strip any query string
 					$og_video = array(
 						'og:image' => '',
 						'og:video' => $media[2],
@@ -1132,11 +1133,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			} else $this->d_msg( 'no <img src=""> tag found' );
 
-			// if we didn't find anything, then show the full content in the debug output
-			/*if ( empty( $og_ret ) ) {
-				$this->d_msg( 'post_content (unfiltered) = ' . $post->post_content );
-				$this->d_msg( 'post_content (filtered) = ' . $content );
-			}*/
 			return $og_ret;
 		}
 

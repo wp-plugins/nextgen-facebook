@@ -126,18 +126,20 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					}
 				}
 			}
+
 			// define the button, based on what we have
 			if ( ! empty( $attr['photo'] ) ) {
-				$button_html .= '?url=' . urlencode( $attr['url'] );
-				$button_html .= '&amp;media='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
-				$button_html .= '&amp;description=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
+				$button_query .= 'url=' . urlencode( $attr['url'] );
+				$button_query .= '&amp;media='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
+				$button_query .= '&amp;description=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
 			}
+
 			// if we have something, then complete the button code
-			if ( ! empty( $button_html ) ) {
+			if ( ! empty( $button_query ) ) {
 				$button_html = '
 					<!-- Pinterest Button -->
 					<div class="pinterest-button" id="pinterest-' . $attr['css_id'] . '"><a 
-						href="http://pinterest.com/pin/create/button/' . $button_html . '" 
+						href="http://pinterest.com/pin/create/button/?' . $button_query . '" 
 						class="pin-it-button" count-layout="' . $attr['pin_count_layout'] . '" 
 						title="Share on Pinterest"><img border="0" alt="Pin It"
 						src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
