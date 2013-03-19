@@ -297,6 +297,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
 			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
+			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'] );
 
 			$long_url = $attr['url'];
 			$attr['url'] = $this->get_short_url( $attr['url'], $ngfb->options['twitter_shorten'] );
@@ -324,6 +325,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 						class="twitter-share-button"
 						lang="'. $lang . '"
 						data-url="' . $attr['url'] . '" 
+						data-text="' . $attr['caption'] . '" 
 						data-count="' . $ngfb->options['twitter_count'] . '" 
 						data-size="' . $ngfb->options['twitter_size'] . '" 
 						data-dnt="' . $twitter_dnt . '">Tweet</a>

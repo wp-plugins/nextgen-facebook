@@ -855,7 +855,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
 			global $post;
 			$desc = '';
-			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) {
+			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
 				$this->d_msg( 'is_singular() = ' . is_singular() );
 				$this->d_msg( '$use_post() = ' . $use_post );
