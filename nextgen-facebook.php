@@ -204,7 +204,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->load_options();
 
 			// add_action() tests
-			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+			if ( ! is_admin() && ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) ) {
 
 				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Initialized -->', "\n";
 
@@ -786,39 +786,48 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$caption = '';
 			switch( strtolower( $type ) ) {
 				case 'title' :
-					$caption = $this->get_title( $length, '...' );
+					$caption = $this->get_title( $length, '...', true );
 					break;
 				case 'excerpt' :
 					// force the use of $post info for buttons on index pages
 					$caption = $this->get_description( $length, '...', true );
 					break;
 				case 'both' :
-					$title = $this->get_title();
+					$title = $this->get_title( null, null, true);
 					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', true );
 					break;
 			}
 			return $caption;
 		}
 
-		function get_title( $textlen = 100, $trailing = '' ) {
+		function get_title( $textlen = 100, $trailing = '', $use_post = false ) {
 			global $post, $page, $paged;
-			$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
+			$title = '';
 			$page_num = '';
 			$parent_title = '';
 
-			if ( ! empty( $post ) && $post->post_parent ) {
-				$parent_title = get_the_title( $post->post_parent );
-				if ( $parent_title ) $title .= ' ('.$parent_title.')';
-			} elseif ( is_category() ) { 
-				// wordpress does not include parents - we want the parents too
+			if ( is_category() ) { 
+
 				$title = $this->str_decode( single_cat_title( '', false ) );
 				$title = trim( get_category_parents( get_cat_ID( $title ), 
 					false, ' ' . $this->options['og_title_sep'] . ' ', 
 					false ), ' ' . $this->options['og_title_sep'] );
 				// beautify title with category names that end with three dots
 				$title = preg_replace('/\.\.\. \\'.$this->options['og_title_sep'].' /', '... ', $title);
+
+			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
+
+				$title = get_the_title();
+				if ( $post->post_parent ) {
+					$parent_title = get_the_title( $post->post_parent );
+					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
+				}
+
+			} else {
+				$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
 			}
 
+			// just in case
 			if ( ! $title ) $title = get_bloginfo( 'name', 'display' );
 
 			// add a page number if necessary
@@ -827,8 +836,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$textlen = $textlen - strlen( $page_num );	// make room for the page number
 			}
 
-			$title = apply_filters( 'the_title', $title );
-			return $this->limit_text_length( $title, $textlen, $trailing ) . $page_num;
+			$title = $this->strip_all_tags( apply_filters( 'the_title', $title ) );
+
+			// append the text number after the trailing character string
+			if ( $textlen > 0 ) $title = $this->limit_text_length( $title, $textlen, $trailing );
+
+			return $title . $page_num;
 		}
 
 		function get_wiki_summary() {
@@ -909,7 +922,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
 			else $desc = get_bloginfo( 'description', 'display' );
 
-			return $this->limit_text_length( $desc, $textlen, '...' );
+			$desc = $this->strip_all_tags( $desc );
+
+			if ( $textlen > 0 ) 
+				$desc = $this->limit_text_length( $desc, $textlen, '...' );
+
+			return $desc;
 		}
 
 		function get_videos_og( $num = 0 ) {
@@ -1322,9 +1340,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 
+			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
-			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 
 			return $content;
 		}

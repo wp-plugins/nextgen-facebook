@@ -152,7 +152,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			</script>' . "\n";
 		}
 		
-		/*	tumblr
+		/*	Tumblr
 		 *	------
 		 */
 		function tumblr_button( $attr = array() ) {
@@ -163,9 +163,9 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
-			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title();
+			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title( null, null, true);
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
-			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...' );
+			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...', true );
 			if ( empty( $attr['quote'] ) && ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
 
 			if ( empty( $attr['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
@@ -214,7 +214,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			// if we have something, then complete the button code
 			if ( $button_html ) {
 				$button_html = '
-					<!-- tumblr Button -->
+					<!-- Tumblr Button -->
 					<div class="tumblr-button" id="tumblr-' . $attr['css_id'] . '"><a href="http://www.tumblr.com/share/'. $button_html . '" 
 						title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
 						src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png' ) . '" /></a></div>
