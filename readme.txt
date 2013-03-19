@@ -340,6 +340,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
 * Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to WP member "TraciBunkers" for reporting the problem.
 * Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitely for each Twitter button. Thanks to WP member "TraciBunkers" for reporting the problem.
+* Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options.
 
 = Version 3.5.1 =
 * Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
