@@ -337,6 +337,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Improved CSS styling information text on the settings and readme pages.
 * Added a "Fallback to Author Index" option to allow/prevent fallback to the author index URL (when an invalid URL is entered in the chosen author's profile field). Thanks to "Rafal" for suggesting this option via email.
 * Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended. Thanks to WP member "Fonfon" for reporting this issue.
+* Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
+* Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to WP member "TraciBunkers" for reporting the problem.
 
 = Version 3.5.1 =
 * Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
