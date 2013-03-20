@@ -619,9 +619,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$button_html = '';
 
 			// make sure we have at least $post->ID or $attr['url'] defined
-			// if we don't, then use the current request URL
+			// if we don't, then use the current request URL (minus the tracking queries)
 			if ( empty( $post->ID ) && empty( $attr['url' ] ) )
-				$attr['url'] = $this->get_current_url();
+				$attr['url'] = $this->get_url( 'notrack' );
 			
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
@@ -647,9 +647,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			global $post;
 			$og = array();
-			
+		
+			// if possible, use the permalink, otherwise use the current URL (minus tracking queries)
 			if ( is_singular() ) $og['og:url'] = get_permalink( $post->ID );
-			else $og['og:url'] = $this->get_current_url();
+			else $og['og:url'] = $this->get_url( 'notrack' );
 
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
@@ -937,10 +938,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				foreach ( $match_all as $media ) {
 					$this->d_msg( 'media found = tag:' . $media[1] . ' src:' . $media[2] );
-					$media[2] = preg_replace( '/\?.*/', '', $media[2] );	// strip any query string
 					$og_video = array(
 						'og:image' => '',
-						'og:video' => $media[2],
+						'og:video' => $this->get_url( 'noquery', $media[2] ),
 						'og:video:width' => '',
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
@@ -1109,10 +1109,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						// fix relative URLs - just in case
 						if ( ! preg_match( '/:\/\//', $og_image['og:image'] ) ) {
 							$this->d_msg( 'relative url found = ' . $og_image['og:image'] );
+
 							// if it starts with a slash, just add the site_url() prefix
 							if ( preg_match( '/^\//', $og_image['og:image'] ) )
 								$og_image['og:image'] = site_url() . $og_image['og:image'];
-							else $og_image['og:image'] = trailingslashit( $this->get_current_url() ) . $og_image['og:image'];
+							else 
+								// remove any query string from the current url
+								$og_image['og:image'] = trailingslashit( $this->get_url( 'noquery' ) ) . $og_image['og:image'];
 
 							$this->d_msg( 'relative url fixed = ' . $og_image['og:image'] );
 						}
@@ -1524,12 +1527,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $vals;
 		}
 
-		function get_current_url() {
-			$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
-			// remove the query string
-			if ( strpos( $url, "?") !== false ) 
-				$url = reset( explode( '?', $url ) );
+		function get_url( $strip_query = 'notrack', $url = '' ) {
+			if ( empty( $url ) ) {
+				$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+				$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
+			}
+			switch ( $strip_query ) {
+				case 'noquery' :
+					if ( strpos( $url, '?' ) !== false ) 
+						$url = reset( explode( '?', $url ) );
+					break;
+				case 'notrack' :
+					$url = preg_replace( '/([\?&])(utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
+					break;
+			}
 			return $url;
 		}
 
