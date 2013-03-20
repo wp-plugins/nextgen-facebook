@@ -12,15 +12,15 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
-* Twitter
 * LinkedIn
 * Pinterest
-* tumblr
 * StumbleUpon
+* Tumblr
+* Twitter
 
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
@@ -152,7 +152,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 * [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
 
-* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and tumblr.
+* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
 
 == Stylesheets ==
 
@@ -339,7 +339,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended. Thanks to WP member "Fonfon" for reporting this issue.
 * Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
 * Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to WP member "TraciBunkers" for reporting the problem.
-* Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitely for each Twitter button. Thanks to WP member "TraciBunkers" for reporting the problem.
+* Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button. Thanks to WP member "TraciBunkers" for reporting the problem.
 * Fixed video URLs with query strings that where not getting stripped of their query data. Thanks to WP member "curtisonline" for reporting this issue.
 * Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used. Thanks to WP member "Israel Viana" for reporting the issue.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options. Thanks to "Rafal" for suggesting some of these changes via email.
