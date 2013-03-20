@@ -341,6 +341,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to WP member "TraciBunkers" for reporting the problem.
 * Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitely for each Twitter button. Thanks to WP member "TraciBunkers" for reporting the problem.
 * Fixed video URLs with query strings that where not getting stripped of their query data. Thanks to WP member "curtisonline" for reporting this issue.
+* Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the URL is reconstructed without the query string. Thanks to WP member "Israel Viana" for reporting the issue.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options. Thanks to "Rafal" for suggesting some of these changes via email.
 
 = Version 3.5.1 =
