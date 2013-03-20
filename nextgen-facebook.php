@@ -619,10 +619,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$button_html = '';
 
 			// make sure we have at least $post->ID or $attr['url'] defined
-			if ( empty( $post->ID ) && empty( $attr['url' ] ) ) {
-				$attr['url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-				$attr['url'] .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			}
+			// if we don't, then use the current request URL
+			if ( empty( $post->ID ) && empty( $attr['url' ] ) )
+				$attr['url'] = $this->get_current_url();
+			
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
@@ -648,18 +648,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$og = array();
 			
+			if ( is_singular() ) $og['og:url'] = get_permalink( $post->ID );
+			else $og['og:url'] = $this->get_current_url();
+
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
-			$og['og:url'] = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$og['og:url'] .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
 
 			if ( $this->options['og_img_max'] > 0 ) {
 				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
-				// if there are no images, then a blank og:image meta tag might actually be appropriate
-				// to prevent FB (and others) from choosing a random image from the page (sidebar, etc.)
 				/*if ( empty( $og['og:image'] ) ) unset( $og['og:image'] );*/
 			}
 
@@ -1110,13 +1109,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						// fix relative URLs - just in case
 						if ( ! preg_match( '/:\/\//', $og_image['og:image'] ) ) {
 							$this->d_msg( 'relative url found = ' . $og_image['og:image'] );
+							// if it starts with a slash, just add the site_url() prefix
 							if ( preg_match( '/^\//', $og_image['og:image'] ) )
 								$og_image['og:image'] = site_url() . $og_image['og:image'];
-							else {
-								$og_image['og:image'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
-								$og_image['og:image'] .= trailingslashit( $_SERVER["SERVER_NAME"] . 
-									$_SERVER["REQUEST_URI"] ) . $og_image['og:image'];
-							}
+							else $og_image['og:image'] = trailingslashit( $this->get_current_url() ) . $og_image['og:image'];
+
 							$this->d_msg( 'relative url fixed = ' . $og_image['og:image'] );
 						}
 						if ( empty( $found[$og_image['og:image']] ) ) {
@@ -1525,6 +1522,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$vals = array();
 			foreach ( $keys as $key ) $vals[$key] = $input[$key]; 
 			return $vals;
+		}
+
+		function get_current_url() {
+			$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
+			// remove the query string
+			if ( strpos( $url, "?") !== false ) 
+				$url = reset( explode( '?', $url ) );
+			return $url;
 		}
 
 	}
