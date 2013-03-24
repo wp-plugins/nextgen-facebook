@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 3.5.2
+Version: 3.5.3
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -808,7 +808,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_category() ) { 
 
+				$this->d_msg( 'is_category() = 1' );
 				$title = $this->str_decode( single_cat_title( '', false ) );
+				$this->d_msg( 'single_cat_title() = "' . $title . '"' );
 				$title = trim( get_category_parents( get_cat_ID( $title ), 
 					false, ' ' . $this->options['og_title_sep'] . ' ', 
 					false ), ' ' . $this->options['og_title_sep'] );
@@ -818,6 +820,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
 				$title = get_the_title();
+				$this->d_msg( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
 					$parent_title = get_the_title( $post->post_parent );
 					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
@@ -825,10 +828,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			} else {
 				$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
+				$this->d_msg( 'wp_title() = "' . $title . '"' );
 			}
 
 			// just in case
-			if ( ! $title ) $title = get_bloginfo( 'name', 'display' );
+			if ( ! $title ) {
+				$title = get_bloginfo( 'name', 'display' );
+				$this->d_msg( 'get_bloginfo() = "' . $title . '"' );
+			}
 
 			// add a page number if necessary
 			if ( $paged >= 2 || $page >= 2 ) {
@@ -837,6 +844,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			$title = $this->strip_all_tags( apply_filters( 'the_title', $title ) );
+			$this->d_msg( 'apply_filters( "the_title" ) = "' . $title . '"' );
 
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->limit_text_length( $title, $textlen, $trailing );

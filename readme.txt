@@ -331,6 +331,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 3.5.3 =
+* Added several debug messages to NGFB's `get_title()` method.
+
 = Version 3.5.2 =
 * Added support for `<embed src="">` videos from youtube.
 * Changed the "Include Empty og:* Meta Tags" option default from checked to unchecked.
