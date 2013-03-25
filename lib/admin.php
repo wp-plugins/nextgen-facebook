@@ -928,6 +928,26 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
+				<th>Apply Title Filters</th>
+				<td><?php $this->checkbox( 'ngfb_filter_title' ); ?></td>
+				<td><p>Apply the standard WordPress filters to the webpage title (default is checked).</p></td>
+			</tr>
+			<tr>
+				<th>Apply Excerpt Filters</th>
+				<td><?php $this->checkbox( 'ngfb_filter_excerpt' ); ?></td>
+				<td><p>There should be no need to filter the excerpt text, but the option is here if you need it (default is unchecked).</p></td>
+			</tr>
+			<tr>
+				<th>Apply Content Filters</th>
+				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
+				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the WordPress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the WordPress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags (default is checked).</p></td>
+			</tr>
+			<tr>
+				<th>Ignore Small Images</th>
+				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
+				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
+			</tr>
+			<tr>
 				<th>Cache Expiry in Hours</th>
 				<td><?php $this->select( 'ngfb_cache_hours', range( 0, NGFB_MAX_CACHE ), 'short' ); ?></td>
 				<td><p>Save social button images and JavaScript to a cache folder and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.</p><p>Note: Caching remote content works with all social buttons except for the Facebook JavaScript SDK, which cannot be cached (for now). All other social button images and JavaScript files will be cached in <?php echo NGFB_CACHEDIR; ?>.</p></td>
@@ -936,21 +956,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Verify SSL Certificates</th>
 				<td><?php $this->checkbox( 'ngfb_verify_certs' ); ?></td>
 				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
-			</tr>
-			<tr>
-				<th>Apply Content Filter</th>
-				<td><?php $this->checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the Wordpress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases, it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the Wordpress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags.</p></td>
-			</tr>
-			<tr>
-				<th>Apply Excerpt Filter</th>
-				<td><?php $this->checkbox( 'ngfb_filter_excerpt' ); ?></td>
-				<td><p>There should be no need to filter the excerpt text, but the option is here if you need it.</p></td>
-			</tr>
-			<tr>
-				<th>Ignore Small Images</th>
-				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from the &lt;img/&gt; HTML tags it finds in the content (along with the featured image, NGG [singlepic], or NGG &lt;div&gt; HTML tags for images). The &lt;img/&gt; HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Goo.gl Simple API Access Key</th>

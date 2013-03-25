@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.5.3';		// for display purposes
-		var $opts_version = '12';	// increment when adding/removing $default_options
+		var $opts_version = '13';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -163,6 +163,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_debug' => 0,
 			'ngfb_cache_hours' => 0,
 			'ngfb_verify_certs' => 0,
+			'ngfb_filter_title' => 1,
 			'ngfb_filter_content' => 1,
 			'ngfb_filter_excerpt' => 0,
 			'ngfb_skip_small_img' => 1,
@@ -827,6 +828,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 
 			} else {
+				/* The title text depends on the query:
+				 *	Single post = the title of the post 
+				 *	Date-based archive = the date (e.g., "2006", "2006 - January") 
+				 *	Category = the name of the category 
+				 *	Author page = the public name of the user 
+				 */
 				$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
 				$this->d_msg( 'wp_title() = "' . $title . '"' );
 			}
@@ -843,8 +850,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$textlen = $textlen - strlen( $page_num );	// make room for the page number
 			}
 
-			$title = $this->strip_all_tags( apply_filters( 'the_title', $title ) );
-			$this->d_msg( 'apply_filters( "the_title" ) = "' . $title . '"' );
+			if ( ! empty( $this->options['ngfb_filter_title'] ) ) {
+				$title = apply_filters( 'the_title', $title );
+				$this->d_msg( 'apply_filters() = "' . $title . '"' );
+			}
+
+			$title = $this->strip_all_tags( $title );
+			$this->d_msg( 'strip_all_tags() = "' . $title . '"' );
 
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->limit_text_length( $title, $textlen, $trailing );
