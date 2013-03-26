@@ -332,10 +332,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.5.3 =
-* Added several new debug messages to NGFB's `get_title()` method.
+* Added several debug messages to NGFB's `get_title()` method.
 * Added the "Apply Title Filters" option to enable/disable the standard WordPress filters on the title text (default is checked).
 * Added a check for defined video images to skip fallback to the default image if possible. Thanks to WordPress.org member "techraf" for reporting this issue.
-* Added a work-around for a taxonomy table problem with category parents. Thanks to WordPress.org member "Andrey4o" for bringing this one to my attention, and to "jonathan (previously known as macmend) spencer" for the solution.
+* Added a work-around for a (known) WordPress taxonomy table problem with category parents. Thanks to WordPress.org member "Andrey4o" for bringing this one to my attention, and to "jonathan (previously known as macmend) spencer" for the solution.
 
 = Version 3.5.2 =
 * Added support for `<embed src="">` videos from youtube.
@@ -560,8 +560,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.5.3 =
+A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.
+
 = Version 3.5.2 =
-Many small but important fixes. Please update NGFB at your earliest convenience.
+Many small but important fixes (see the Changelog for the complete list). Please update NGFB at your earliest convenience.
 
 = Version 3.5.1 =
 Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
