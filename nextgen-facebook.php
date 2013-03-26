@@ -648,25 +648,42 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			global $post;
 			$og = array();
+			$has_video_image = '';
 		
 			// if possible, use the permalink, otherwise use the current URL (minus tracking queries)
 			if ( is_singular() ) $og['og:url'] = get_permalink( $post->ID );
 			else $og['og:url'] = $this->get_url( 'notrack' );
 
-			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
-			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
-			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
+			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 
-			if ( $this->options['og_img_max'] > 0 ) {
-				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
-				/*if ( empty( $og['og:image'] ) ) unset( $og['og:image'] );*/
-			}
+			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
+			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 
 			if ( $this->options['og_vid_max'] > 0 ) {
+				$this->d_msg( 'calling get_videos_og( "' . $this->options['og_vid_max'] . '" )' );
 				$og['og:video'] = $this->get_videos_og( $this->options['og_vid_max'] );
-				/*if ( empty( $og['og:video'] ) ) unset( $og['og:video'] );*/
+				if ( is_array( $og['og:video'] ) ) {
+					foreach ( $og['og:video'] as $val ) {
+						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
+							$this->d_msg( 'og:image found in og:video array (no default image required)' );
+							$has_video_image = 1;
+						}
+					}
+					unset( $vid );
+				}
+			}
+
+			if ( $this->options['og_img_max'] > 0 ) {
+				$this->d_msg( 'calling get_all_images_og( "' . $this->options['og_img_max'] . '", "' . $this->options['og_img_size'] . '" )' );
+				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
+
+				// if we didn't find any images, then use the default image
+				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
+					$this->d_msg( 'calling get_default_image_og( "' . $this->options['og_img_size'] . '" )' );
+					$og['og:image'] = array_merge( $og['og:image'], $this->get_default_image_og( $this->options['og_img_size'] ) );
+				}
 			}
 
 			// any singular page is type 'article'
@@ -1015,11 +1032,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->d_msg( 'calling get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
 			$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
 
-			// if we didn't find any images, then use the default image
-			if ( empty( $og_ret ) ) {
-				$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
-				$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
-			}
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
 			return $og_ret;
 		}
@@ -1302,7 +1314,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			ksort( $arr );
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
-				if ( is_array ( $d_val ) ) {
+				if ( is_array( $d_val ) ) {
 					foreach ( $d_val as $dd_num => $dd_val ) {			// second-dimension array
 						if ( $this->is_assoc( $dd_val ) ) {
 							ksort( $dd_val );
@@ -1491,9 +1503,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
-				if ( ! empty( $called ) ) $msg = $called . '() : ' . $msg;
+				if ( ! empty( $called ) ) $msg = sprintf( '%22s() : %s', $called, $msg );
 				$this->debug_msgs[] = $msg;
 			}
+			return;
 		}
 
 		function print_debug( $name = '', $msg = '' ) {
