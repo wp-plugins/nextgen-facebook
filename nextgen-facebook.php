@@ -826,19 +826,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_category() ) { 
 
-				$this->d_msg( 'is_category() = 1' );
+				$this->d_msg( 'is_category() = true' );
 				$title = single_cat_title( '', false );
 				$this->d_msg( 'single_cat_title() = "' . $title . '"' );
-			
 				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->options['og_title_sep'] . ' ', false );
-				$this->d_msg( 'get_category_parents() = "' . $cat_parents . '"' );
 
-				if ( $cat_parents ) {
-					$title = trim( $cat_parents, ' ' . $this->options['og_title_sep'] );
-
-					// beautify title with category names that end with three dots
-					$title = preg_replace( '/\.\.\. \\' . $this->options['og_title_sep'] . ' /', '... ', $title );
+				// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
+				if ( is_wp_error( $cat_parents ) ) {
+					$this->d_msg( 'get_category_parents() returned WP_Error object.' );
+				} else {
+					$this->d_msg( 'get_category_parents() = "' . $cat_parents . '"' );
+					if ( ! empty( $cat_parents ) ) {
+						$title = trim( $cat_parents, ' ' . $this->options['og_title_sep'] );
+						// beautify title with category names that end with three dots
+						$title = preg_replace( '/\.\.\. \\' . $this->options['og_title_sep'] . ' /', '... ', $title );
+					}
 				}
+				unset( $cat_parents );
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 

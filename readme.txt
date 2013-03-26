@@ -335,6 +335,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added several new debug messages to NGFB's `get_title()` method.
 * Added the "Apply Title Filters" option to enable/disable the standard WordPress filters on the title text (default is checked).
 * Added a check for defined video images to skip fallback to the default image if possible. Thanks to WordPress.org member "techraf" for reporting this issue.
+* Added a work-around for a taxonomy table problem with category parents. Thanks to WordPress.org member "Andrey4o" for bringing this one to my attention, and to "jonathan (previously known as macmend) spencer" for the solution.
 
 = Version 3.5.2 =
 * Added support for `<embed src="">` videos from youtube.
