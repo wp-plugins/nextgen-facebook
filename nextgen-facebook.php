@@ -810,13 +810,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_category() ) { 
 
 				$this->d_msg( 'is_category() = 1' );
-				$title = $this->str_decode( single_cat_title( '', false ) );
+				$title = single_cat_title( '', false );
 				$this->d_msg( 'single_cat_title() = "' . $title . '"' );
-				$title = trim( get_category_parents( get_cat_ID( $title ), 
-					false, ' ' . $this->options['og_title_sep'] . ' ', 
-					false ), ' ' . $this->options['og_title_sep'] );
-				// beautify title with category names that end with three dots
-				$title = preg_replace('/\.\.\. \\'.$this->options['og_title_sep'].' /', '... ', $title);
+			
+				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->options['og_title_sep'] . ' ', false );
+				$this->d_msg( 'get_category_parents() = "' . $cat_parents . '"' );
+
+				if ( $cat_parents ) {
+					$title = trim( $cat_parents, ' ' . $this->options['og_title_sep'] );
+
+					// beautify title with category names that end with three dots
+					$title = preg_replace( '/\.\.\. \\' . $this->options['og_title_sep'] . ' /', '... ', $title );
+				}
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
@@ -849,6 +854,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$page_num = ' ' . $this->options['og_title_sep'] . ' ' . sprintf( 'Page %s', max( $paged, $page ) );
 				$textlen = $textlen - strlen( $page_num );	// make room for the page number
 			}
+
+			$title = $this->str_decode( $title );
 
 			if ( ! empty( $this->options['ngfb_filter_title'] ) ) {
 				$title = apply_filters( 'the_title', $title );
