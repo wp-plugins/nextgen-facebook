@@ -12,7 +12,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
@@ -154,6 +154,16 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 * [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
 
+== Shortcodes ==
+
+You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
+
+`
+[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
+`
+
+Note: Like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
+
 == Stylesheets ==
 
 = Social Buttons Style =
@@ -245,7 +255,7 @@ The `ngfb_get_social_buttons()` function can be used to include social buttons a
 	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
 `
 
-The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
+The social button names for the array can be "facebook", "gplus", "linkedin", "pinterest", "stumbleupon", "tumblr", and "twitter".
 
 You can also use the `ngfb_get_social_buttons()` function *outside* of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available outside of a loop (to get the permalink), at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 
@@ -330,6 +340,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 3.6 =
+* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text.
 
 = Version 3.5.3 =
 * Added several debug messages to NGFB's `get_title()` method.
