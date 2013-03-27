@@ -1377,7 +1377,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				unset( $GLOBALS['subalbum'] );
 				unset( $GLOBALS['nggShowGallery'] );
 
-				add_shortcode( 'ngfb', array( $this->ngfbShortCodes, 'ngfb_shortcode' ) );
+				add_shortcode( 'ngfb', array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
 				$this->d_msg( '"ngfb" shortcode re-added' );
 
 				if ( ! empty( $filter_removed ) ) {
