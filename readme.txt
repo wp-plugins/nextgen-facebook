@@ -12,7 +12,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+**The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. **You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -25,11 +25,11 @@ The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A featured image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery [singlepic] [nggallery] [nggtags] shortcodes in the Post or Page content text.
+1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
-NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin -- all features work just as well without it**. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** -- all options and features work just as well without it. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook Open Graph Meta BEGIN -->
@@ -123,7 +123,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A featured image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery [singlepic] [nggallery] [nggtags] shortcodes in the Post or Page content text.
+1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
