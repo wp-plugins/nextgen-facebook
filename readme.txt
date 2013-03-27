@@ -162,7 +162,7 @@ You can add one or more social sharing buttons to your content by using the `[ng
 [ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
 `
 
-Note: Like add other methods to add social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
+Note: Like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
 
 == Stylesheets ==
 
