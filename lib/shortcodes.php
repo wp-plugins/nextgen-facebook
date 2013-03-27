@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 			extract( shortcode_atts( array( 
 				'buttons' => null,
 				'css_class' => 'button',
-				'css_id' => 'shortcode'
+				'css_id' => 'shortcode',
 			), $atts ) );
 
 			if ( ! empty( $atts['buttons'] ) )

@@ -253,7 +253,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 			return '
-				<!-- Facebook Button -->' . $atts['css_id'] . '
+				<!-- Facebook Button -->
 				<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
 					data-href="' . $atts['url'] . '"
 					data-send="' . $fb_send . '" 
