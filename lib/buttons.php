@@ -55,18 +55,18 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $url;
 		}
 
-		function get_css( $css_name, $attr = array(), $css_class_other = '' ) {
+		function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
 			global $post;
 
-			$attr['css_class'] = empty( $attr['css_class'] ) ? 'button' : $attr['css_class'];
-			$attr['css_class'] = $css_name . '-' . $attr['css_class'];
-			if ( ! empty( $css_class_other ) ) $attr['css_class'] = $css_class_other . ' ' . $attr['css_class'];
+			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
+			$atts['css_class'] = $css_name . '-' . $atts['css_class'];
+			if ( ! empty( $css_class_other ) ) $atts['css_class'] = $css_class_other . ' ' . $atts['css_class'];
 
-			$attr['css_id'] = empty( $attr['css_id'] ) ? 'button' : $attr['css_id'];
-			$attr['css_id'] = $css_name . '-' . $attr['css_id'];
-			if ( ! empty( $post ) ) $attr['css_id'] .= ' ' . $attr['css_id'] . '-post-' . $post->ID;
+			$atts['css_id'] = empty( $atts['css_id'] ) ? 'button' : $atts['css_id'];
+			$atts['css_id'] = $css_name . '-' . $atts['css_id'];
+			if ( ! empty( $post ) ) $atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
 
-			return 'class="' . $attr['css_class'] . '" id="' . $attr['css_id'] . '"';
+			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
 		}
 
 
@@ -93,16 +93,16 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/* 	StumbleUpon
 		 *	-----------
 		 */
-		function stumbleupon_button( $attr = array() ) {
+		function stumbleupon_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$button_html = '
 				<!-- StumbleUpon Button -->
-				<div ' . $this->get_css( 'stumbleupon', $attr, 'stumble-button' ) . '><su:badge 
-					layout="' . $attr['stumble_badge'] . '" location="' . $attr['url'] . '"></su:badge></div>
+				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
+					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
 			';
 			return $button_html;	
 		}
@@ -116,44 +116,44 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Pinterest
 		 *	---------
 		 */
-		function pinterest_button( $attr = array() ) {
+		function pinterest_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
-			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['pin_img_size'];
-			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
-			if ( empty( $attr['photo'] ) ) {
-				if ( empty( $attr['pid'] ) && ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
-					$attr['pid'] = get_post_thumbnail_id( $post->ID );
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['pin_count_layout'] ) ) $atts['pin_count_layout'] = $ngfb->options['pin_count_layout'];
+			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['pin_img_size'];
+			if ( empty( $atts['caption'] ) ) $atts['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
+			if ( empty( $atts['photo'] ) ) {
+				if ( empty( $atts['pid'] ) && ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
+					$atts['pid'] = get_post_thumbnail_id( $post->ID );
 				}
-				if ( ! empty( $attr['pid'] ) ) {
+				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
-					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
-						list( $attr['photo'], $attr['width'], $attr['height'], 
-							$attr['cropped'] ) = $ngfb->get_ngg_image_src( $attr['pid'], $attr['size'] );
+					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
+						list( $atts['photo'], $atts['width'], $atts['height'], 
+							$atts['cropped'] ) = $ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
 					} else {
-						list( $attr['photo'], $attr['width'], 
-							$attr['height'] ) = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
+						list( $atts['photo'], $atts['width'], 
+							$atts['height'] ) = wp_get_attachment_image_src( $atts['pid'], $atts['size'] );
 					}
 				}
 			}
 
 			// define the button, based on what we have
-			if ( ! empty( $attr['photo'] ) ) {
-				$button_query .= 'url=' . urlencode( $attr['url'] );
-				$button_query .= '&amp;media='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
-				$button_query .= '&amp;description=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
+			if ( ! empty( $atts['photo'] ) ) {
+				$button_query .= 'url=' . urlencode( $atts['url'] );
+				$button_query .= '&amp;media='. urlencode( $ngfb->cdn_linker_rewrite( $atts['photo'] ) );
+				$button_query .= '&amp;description=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
 			}
 
 			// if we have something, then complete the button code
 			if ( ! empty( $button_query ) ) {
 				$button_html = '
 					<!-- Pinterest Button -->
-					<div ' . $this->get_css( 'pinterest', $attr ) . '><a 
+					<div ' . $this->get_css( 'pinterest', $atts ) . '><a 
 						href="http://pinterest.com/pin/create/button/?' . $button_query . '" 
-						class="pin-it-button" count-layout="' . $attr['pin_count_layout'] . '" 
+						class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
 						title="Share on Pinterest"><img border="0" alt="Pin It"
 						src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
 				';
@@ -170,68 +170,68 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Tumblr
 		 *	------
 		 */
-		function tumblr_button( $attr = array() ) {
+		function tumblr_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
-			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
-			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title( null, null, true);
-			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
-			if ( empty( $attr['description'] ) ) $attr['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...', true );
-			if ( empty( $attr['quote'] ) && ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) $attr['quote'] = $ngfb->get_quote();
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
+			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['tumblr_img_size'];
+			if ( empty( $atts['title'] ) ) $atts['title'] = $ngfb->get_title( null, null, true);
+			if ( empty( $atts['caption'] ) ) $atts['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'] );
+			if ( empty( $atts['description'] ) ) $atts['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...', true );
+			if ( empty( $atts['quote'] ) && ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) $atts['quote'] = $ngfb->get_quote();
 
-			if ( empty( $attr['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
+			if ( empty( $atts['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
 				$videos = array();
 				$videos = $ngfb->get_videos_og( 1 );	// get the first video, if any
 				if ( ! empty( $videos[0]['og:video'] ) ) 
-					$attr['embed'] = $videos[0]['og:video'];
+					$atts['embed'] = $videos[0]['og:video'];
 			}
 
 			// only use featured image if 'tumblr_photo' option allows it
-			if ( empty( $attr['photo'] ) && $ngfb->options['tumblr_photo'] ) {
+			if ( empty( $atts['photo'] ) && $ngfb->options['tumblr_photo'] ) {
 
-				if ( empty( $attr['pid'] ) 
+				if ( empty( $atts['pid'] ) 
 					&& ! empty( $ngfb->is_active['postthumb'] ) 
 					&& ! empty ( $post ) 
 					&& has_post_thumbnail( $post->ID ) )
-						$attr['pid'] = get_post_thumbnail_id( $post->ID );
+						$atts['pid'] = get_post_thumbnail_id( $post->ID );
 				
-				if ( ! empty( $attr['pid'] ) ) {
-					if ( is_string( $attr['pid'] ) && substr( $attr['pid'], 0, 4 ) == 'ngg-' ) {
-						list( $attr['photo'], $attr['width'], $attr['height'], 
-							$attr['cropped'] ) = $ngfb->get_ngg_image_src( $attr['pid'], $attr['size'] );
+				if ( ! empty( $atts['pid'] ) ) {
+					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
+						list( $atts['photo'], $atts['width'], $atts['height'], 
+							$atts['cropped'] ) = $ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
 					} else {
-						list( $attr['photo'], $attr['width'], 
-							$attr['height'] ) = wp_get_attachment_image_src( $attr['pid'], $attr['size'] );
+						list( $atts['photo'], $atts['width'], 
+							$atts['height'] ) = wp_get_attachment_image_src( $atts['pid'], $atts['size'] );
 					}
 				}
 			}
 
 			// define the button, based on what we have
-			if ( ! empty( $attr['photo'] ) ) {
-				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $attr['photo'] ) );
-				$button_html .= '&amp;clickthru=' . urlencode( $attr['url'] );
-				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
-			} elseif ( ! empty( $attr['embed'] ) ) {
-				$button_html .= 'video?embed=' . urlencode( $attr['embed'] );
-				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $attr['caption'] ) );
-			} elseif ( ! empty( $attr['quote'] ) ) {
-				$button_html .= 'quote?quote=' . urlencode( $attr['quote'] );
-				$button_html .= '&amp;source=' . urlencode( $ngfb->str_decode( $attr['title'] ) );
-			} elseif ( ! empty( $attr['url'] ) ) {
-				$button_html .= 'link?url=' . urlencode( $attr['url'] );
-				$button_html .= '&amp;name=' . urlencode( $ngfb->str_decode( $attr['title'] ) );
-				$button_html .= '&amp;description=' . urlencode( $ngfb->str_decode( $attr['description'] ) );
+			if ( ! empty( $atts['photo'] ) ) {
+				$button_html .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $atts['photo'] ) );
+				$button_html .= '&amp;clickthru=' . urlencode( $atts['url'] );
+				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
+			} elseif ( ! empty( $atts['embed'] ) ) {
+				$button_html .= 'video?embed=' . urlencode( $atts['embed'] );
+				$button_html .= '&amp;caption=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
+			} elseif ( ! empty( $atts['quote'] ) ) {
+				$button_html .= 'quote?quote=' . urlencode( $atts['quote'] );
+				$button_html .= '&amp;source=' . urlencode( $ngfb->str_decode( $atts['title'] ) );
+			} elseif ( ! empty( $atts['url'] ) ) {
+				$button_html .= 'link?url=' . urlencode( $atts['url'] );
+				$button_html .= '&amp;name=' . urlencode( $ngfb->str_decode( $atts['title'] ) );
+				$button_html .= '&amp;description=' . urlencode( $ngfb->str_decode( $atts['description'] ) );
 			}
 			// if we have something, then complete the button code
 			if ( $button_html ) {
 				$button_html = '
 					<!-- Tumblr Button -->
-					<div ' . $this->get_css( 'tumblr', $attr ) . '><a href="http://www.tumblr.com/share/'. $button_html . '" 
+					<div ' . $this->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $button_html . '" 
 						title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
-						src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png' ) . '" /></a></div>
+						src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>
 				';
 			}
 			return $button_html;
@@ -246,16 +246,16 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Facebook
 		 *	--------
 		 */
-		function facebook_button( $attr = array() ) {
+		function facebook_button( $atts = array() ) {
 			global $ngfb, $post; 
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 			return '
-				<!-- Facebook Button -->
-				<div ' . $this->get_css( 'facebook', $attr, 'fb-like' ) . '
-					data-href="' . $attr['url'] . '"
+				<!-- Facebook Button -->' . $atts['css_id'] . '
+				<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
+					data-href="' . $atts['url'] . '"
 					data-send="' . $fb_send . '" 
 					data-layout="' . $ngfb->options['fb_layout'] . '" 
 					data-width="' . $ngfb->options['fb_width'] . '" 
@@ -279,19 +279,19 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Google+
 		 *	-------
 		 */
-		function gplus_button( $attr = array() ) {
+		function gplus_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
 			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			return '
 				<!-- Google+ Button -->
-				<div ' . $this->get_css( 'gplus', $attr, 'g-plusone-button' ) . '>
+				<div ' . $this->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
 					<span '. $gp_class . ' 
 						data-size="' . $ngfb->options['gp_size'] . '" 
 						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
-						data-href="' . $attr['url'] . '"></span>
+						data-href="' . $atts['url'] . '"></span>
 				</div>' . "\n";
 		}
 		
@@ -304,13 +304,13 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	Twitter
 		 *	-------
 		 */
-		function twitter_button( $attr = array() ) {
+		function twitter_button( $atts = array() ) {
 			global $ngfb, $post; 
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'] );
-			$long_url = $attr['url'];
-			$attr['url'] = $this->get_short_url( $attr['url'], $ngfb->options['twitter_shorten'] );
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['caption'] ) ) $atts['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'] );
+			$long_url = $atts['url'];
+			$atts['url'] = $this->get_short_url( $atts['url'], $ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
 			$lang = substr( $lang, 0, 2);
@@ -330,12 +330,12 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return '
 				<!-- Twitter Button -->
 				<!-- URL = ' . $long_url . ' -->
-				<div ' . $this->get_css( 'twitter', $attr ) . '>
+				<div ' . $this->get_css( 'twitter', $atts ) . '>
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"
 						lang="'. $lang . '"
-						data-url="' . $attr['url'] . '" 
-						data-text="' . $attr['caption'] . '" 
+						data-url="' . $atts['url'] . '" 
+						data-text="' . $atts['caption'] . '" 
 						data-count="' . $ngfb->options['twitter_count'] . '" 
 						data-size="' . $ngfb->options['twitter_size'] . '" 
 						data-dnt="' . $twitter_dnt . '">Tweet</a>
@@ -351,15 +351,15 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		/*	LinkedIn
 		 *	--------
 		 */
-		function linkedin_button( $attr = array() ) {
+		function linkedin_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$button_html = '';
-			if ( empty( $attr['url'] ) && empty( $post ) ) return;
-			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
+			if ( empty( $atts['url'] ) && empty( $post ) ) return;
+			if ( empty( $atts['url'] ) ) $atts['url'] = get_permalink( $post->ID );
 			$button_html = '
 				<!-- LinkedIn Button -->
-				<div ' . $this->get_css( 'linkedin', $attr ) . '>
-				<script type="IN/Share" data-url="' . $attr['url'] . '"';
+				<div ' . $this->get_css( 'linkedin', $atts ) . '>
+				<script type="IN/Share" data-url="' . $atts['url'] . '"';
 
 			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 
 				$button_html .= ' data-counter="' . $ngfb->options['linkedin_counter'] . '"';

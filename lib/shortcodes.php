@@ -22,19 +22,18 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 		}
 
 		function ngfb_shortcode( $atts, $content = null ) { 
+			// using extract method here turns each key in the merged array into its own variable
+			// $atts or the default array will not be modified after the call to shortcode_atts()
 			extract( shortcode_atts( array( 
 				'buttons' => null,
 				'css_class' => 'button',
-				'css_id' => 'shortcode',
+				'css_id' => 'shortcode'
 			), $atts ) );
 
-			global $post;
-			$button_html = '';
-			if ( ! empty( $atts['buttons'] ) ) {
-				$button_ids = explode( ',', $atts['buttons'] );
-				$button_html = ngfb_get_social_buttons( $button_ids, array( 'css_id' => $css_id ) );
-			}
-			return $button_html;
+			if ( ! empty( $atts['buttons'] ) )
+				return ngfb_get_social_buttons( explode( ',', $buttons ), 
+					array( 'css_class' => $css_class, 'css_id' => $css_id ) );
+			else return;
 		}
 	}
 }

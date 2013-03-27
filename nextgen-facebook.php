@@ -617,19 +617,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $button_html;
 		}
 
-		function get_buttons_html( $ids = array(), $attr = array() ) {
+		function get_buttons_html( $ids = array(), $atts = array() ) {
 			global $post;
 			$button_html = '';
 
-			// make sure we have at least $post->ID or $attr['url'] defined
+			// make sure we have at least $post->ID or $atts['url'] defined
 			// if we don't, then use the current request URL (minus the tracking queries)
-			if ( empty( $post->ID ) && empty( $attr['url' ] ) )
-				$attr['url'] = $this->get_url( 'notrack' );
+			if ( empty( $post->ID ) && empty( $atts['url' ] ) )
+				$atts['url'] = $this->get_url( 'notrack' );
 			
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
-					return \$this->ngfbButtons->${id}_button( \$attr );" );
+					return \$this->ngfbButtons->${id}_button( \$atts );" );
 			}
 			if ( $button_html ) 
 				$button_html = "\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
@@ -1612,11 +1612,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
  * additional information).
  */
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
-	function ngfb_get_social_buttons( $ids = array(), $attr = array() ) {
+	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		$button_html = '';
 		$button_html .= $ngfb->get_buttons_js( 'pre-button', $ids );
-		$button_html .= $ngfb->get_buttons_html( $ids, $attr );
+		$button_html .= $ngfb->get_buttons_html( $ids, $atts );
 		$button_html .= $ngfb->get_buttons_js( 'post-button', $ids );
 		return $button_html;
 	}
