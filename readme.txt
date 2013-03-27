@@ -12,7 +12,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, or even call a function from your templates. NGFB includes the following sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
+The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for CSS styling examples):
 
 * Facebook
 * Google+
@@ -153,6 +153,16 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 * [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
 
 * [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
+
+== Shortcodes ==
+
+You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
+
+`
+[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
+`
+
+Note: Like add other methods to add social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
 
 == Stylesheets ==
 
