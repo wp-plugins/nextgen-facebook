@@ -55,6 +55,21 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return $url;
 		}
 
+		function get_css( $css_name, $attr = array(), $css_class_other = '' ) {
+			global $post;
+
+			$attr['css_class'] = empty( $attr['css_class'] ) ? 'button' : $attr['css_class'];
+			$attr['css_class'] = $css_name . '-' . $attr['css_class'];
+			if ( ! empty( $css_class_other ) ) $attr['css_class'] = $css_class_other . ' ' . $attr['css_class'];
+
+			$attr['css_id'] = empty( $attr['css_id'] ) ? 'button' : $attr['css_id'];
+			$attr['css_id'] = $css_name . '-' . $attr['css_id'];
+			if ( ! empty( $post ) ) $attr['css_id'] .= ' ' . $attr['css_id'] . '-post-' . $post->ID;
+
+			return 'class="' . $attr['css_class'] . '" id="' . $attr['css_id'] . '"';
+		}
+
+
 		function header_js( $loc = 'id' ) {
 			global $ngfb;
 			$this->setup_cache_vars();
@@ -83,11 +98,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['stumble_badge'] ) ) $attr['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$button_html = '
 				<!-- StumbleUpon Button -->
-				<div class="stumble-button stumbleupon-button" id="stumbleupon-' . $attr['css_id'] . '"><su:badge 
+				<div ' . $this->get_css( 'stumbleupon', $attr, 'stumble-button' ) . '><su:badge 
 					layout="' . $attr['stumble_badge'] . '" location="' . $attr['url'] . '"></su:badge></div>
 			';
 			return $button_html;	
@@ -107,7 +121,6 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['pin_count_layout'] ) ) $attr['pin_count_layout'] = $ngfb->options['pin_count_layout'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['pin_img_size'];
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'] );
@@ -138,7 +151,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( ! empty( $button_query ) ) {
 				$button_html = '
 					<!-- Pinterest Button -->
-					<div class="pinterest-button" id="pinterest-' . $attr['css_id'] . '"><a 
+					<div ' . $this->get_css( 'pinterest', $attr ) . '><a 
 						href="http://pinterest.com/pin/create/button/?' . $button_query . '" 
 						class="pin-it-button" count-layout="' . $attr['pin_count_layout'] . '" 
 						title="Share on Pinterest"><img border="0" alt="Pin It"
@@ -162,7 +175,6 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['tumblr_button_style'] ) ) $attr['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $attr['size'] ) ) $attr['size'] = $ngfb->options['tumblr_img_size'];
 			if ( empty( $attr['title'] ) ) $attr['title'] = $ngfb->get_title( null, null, true);
@@ -217,7 +229,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( $button_html ) {
 				$button_html = '
 					<!-- Tumblr Button -->
-					<div class="tumblr-button" id="tumblr-' . $attr['css_id'] . '"><a href="http://www.tumblr.com/share/'. $button_html . '" 
+					<div ' . $this->get_css( 'tumblr', $attr ) . '><a href="http://www.tumblr.com/share/'. $button_html . '" 
 						title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
 						src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $attr['tumblr_button_style'] . '.png' ) . '" /></a></div>
 				';
@@ -238,12 +250,11 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 			return '
 				<!-- Facebook Button -->
-				<div class="facebook-button fb-like" id="facebook-' . $attr['css_id'] . '"
+				<div ' . $this->get_css( 'facebook', $attr, 'fb-like' ) . '
 					data-href="' . $attr['url'] . '"
 					data-send="' . $fb_send . '" 
 					data-layout="' . $ngfb->options['fb_layout'] . '" 
@@ -270,14 +281,13 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		 */
 		function gplus_button( $attr = array() ) {
 			global $ngfb, $post; 
-			$button_html;
+			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			return '
 				<!-- Google+ Button -->
-				<div class="gplus-button g-plusone-button" id="gplus-' . $attr['css_id'] . '">
+				<div ' . $this->get_css( 'gplus', $attr, 'g-plusone-button' ) . '>
 					<span '. $gp_class . ' 
 						data-size="' . $ngfb->options['gp_size'] . '" 
 						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
@@ -298,9 +308,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			if ( empty( $attr['caption'] ) ) $attr['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'] );
-
 			$long_url = $attr['url'];
 			$attr['url'] = $this->get_short_url( $attr['url'], $ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
@@ -322,7 +330,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return '
 				<!-- Twitter Button -->
 				<!-- URL = ' . $long_url . ' -->
-				<div class="twitter-button" id="twitter-' . $attr['css_id'] . '">
+				<div ' . $this->get_css( 'twitter', $attr ) . '>
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"
 						lang="'. $lang . '"
@@ -345,13 +353,12 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		 */
 		function linkedin_button( $attr = array() ) {
 			global $ngfb, $post; 
-			$button_html;
+			$button_html = '';
 			if ( empty( $attr['url'] ) && empty( $post ) ) return;
 			if ( empty( $attr['url'] ) ) $attr['url'] = get_permalink( $post->ID );
-			if ( empty( $attr['css_id'] ) ) $attr['css_id'] = 'button-id';
 			$button_html = '
 				<!-- LinkedIn Button -->
-				<div class="linkedin-button" id="linkedin-' . $attr['css_id'] . '">
+				<div ' . $this->get_css( 'linkedin', $attr ) . '>
 				<script type="IN/Share" data-url="' . $attr['url'] . '"';
 
 			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 

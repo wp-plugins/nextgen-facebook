@@ -245,7 +245,7 @@ The `ngfb_get_social_buttons()` function can be used to include social buttons a
 	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
 `
 
-The social button names for the array can be "facebook", "gplus", "twitter", "linkedin", "linkedin", "pinterest", "tumblr", and "stumbleupon".
+The social button names for the array can be "facebook", "gplus", "linkedin", "pinterest", "stumbleupon", "tumblr", and "twitter".
 
 You can also use the `ngfb_get_social_buttons()` function *outside* of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available outside of a loop (to get the permalink), at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
 

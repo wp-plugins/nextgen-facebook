@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 3.5.3
+Version: 3.6
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.5.3';		// for display purposes
+		var $version = '3.6';		// for display purposes
 		var $opts_version = '13';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -290,11 +290,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function load_dependencies() {
 
-			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 
 			$this->ngfbButtons = new ngfbButtons();
+			$this->ngfbShortCodes = new ngfbShortCodes();
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
@@ -584,7 +586,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$this->print_debug( '$ids', $ids );
+			$this->d_msg( $location . ' ids = ' . implode( ', ', $ids ) );
 			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript BEGIN -->\n";
 			$button_html .= $location == 'header' ? $this->ngfbButtons->header_js() : '';
 
@@ -1362,6 +1364,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 				$this->d_msg( 'add_content() filter removed = ' . $filter_removed );
 
+				remove_shortcode( 'ngfb' );
+				$this->d_msg( '"ngfb" shortcode removed' );
+
 				$this->d_msg( 'calling apply_filters()' );
 				$content_strlen_before = strlen( $content );
 				$content = apply_filters( 'the_content', $content );
@@ -1371,6 +1376,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// cleanup for NGG album shortcode
 				unset( $GLOBALS['subalbum'] );
 				unset( $GLOBALS['nggShowGallery'] );
+
+				add_shortcode( 'ngfb', array( $this->ngfbShortCodes, 'ngfb_shortcode' ) );
+				$this->d_msg( '"ngfb" shortcode re-added' );
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
