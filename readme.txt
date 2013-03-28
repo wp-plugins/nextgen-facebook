@@ -342,32 +342,33 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.6 =
-* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text.
+* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
+* Added missing support for attachment page images. Thanks to wordpress.org member "Jeylenz" for finding this one.
 
 = Version 3.5.3 =
 * Added several debug messages to NGFB's `get_title()` method.
 * Added the "Apply Title Filters" option to enable/disable the standard WordPress filters on the title text (default is checked).
-* Added a check for defined video images to skip fallback to the default image if possible. Thanks to WordPress.org member "techraf" for reporting this issue.
-* Added a work-around for a (known) WordPress taxonomy table problem with category parents. Thanks to WordPress.org member "Andrey4o" for bringing this one to my attention, and to "jonathan (previously known as macmend) spencer" for the solution.
+* Added a check for defined video images to skip fallback to the default image if possible. Thanks to wordpress.org member "techraf" for reporting this issue.
+* Added a work-around for a (known) WordPress taxonomy table problem with category parents. Thanks to wordpress.org member "Andrey4o" for bringing this one to my attention, and to "jonathan (previously known as macmend) spencer" for the solution.
 
 = Version 3.5.2 =
 * Added support for `<embed src="">` videos from youtube.
 * Changed the "Include Empty og:* Meta Tags" option default from checked to unchecked.
 * Improved CSS styling information text on the settings and readme pages.
 * Added a "Fallback to Author Index" option to allow/prevent fallback to the author index URL (when an invalid URL is entered in the chosen author's profile field). Thanks to "Rafal" for suggesting this option via email.
-* Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended. Thanks to WP member "Fonfon" for reporting this issue.
+* Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended. Thanks to wordpress.org member "Fonfon" for reporting this issue.
 * Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
-* Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to WP member "TraciBunkers" for reporting the problem.
-* Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button. Thanks to WP member "TraciBunkers" for reporting the problem.
-* Fixed video URLs with query strings that where not getting stripped of their query data. Thanks to WP member "curtisonline" for reporting this issue.
-* Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used. Thanks to WP member "Israel Viana" for reporting the issue.
+* Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page. Thanks to wordpress.org member "TraciBunkers" for reporting the problem.
+* Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button. Thanks to wordpress.org member "TraciBunkers" for reporting the problem.
+* Fixed video URLs with query strings that where not getting stripped of their query data. Thanks to wordpress.org member "curtisonline" for reporting this issue.
+* Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used. Thanks to wordpress.org member "Israel Viana" for reporting the issue.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options. Thanks to "Rafal" for suggesting some of these changes via email.
 
 = Version 3.5.1 =
-* Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to WP member "reiniggen" for suggesting this change.
+* Improved the code to create the WordPress author index URL by using `get_author_posts_url()` instead. Thanks to wordpress.org member "reiniggen" for suggesting this change.
 * Added a list of NGFB and WP constants to the debug output, and additional debug messages to the get_content_images_og() function.
-* Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to WP member "tascam424" for testing and encouraging me to find the source of this problem.
-* Added the "Title Separator" option, which is used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '|'). Thanks to WP member "s_berntheisel" for recommending this option.
+* Worked around a NextGEN Gallery "bug" for album shortcodes. NGG sets the 'subalbum' and 'nggShowGallery' GLOBALS when album shortcodes are first filtered, thus breaking subsequent runs through the same shortcode filter. Thanks to wordpress.org member "tascam424" for testing and encouraging me to find the source of this problem.
+* Added the "Title Separator" option, which is used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '|'). Thanks to wordpress.org member "s_berntheisel" for recommending this option.
 
 = Version 3.5 =
 * Added reading of correct/accurate width and height information for NGG cached images using PHP's `getimagesize()` function.
