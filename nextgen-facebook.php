@@ -20,8 +20,8 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details at
 http://www.gnu.org/licenses/.
 */
 
-if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
-	die( 'You are not allowed to call this page directly.' );
+if ( preg_match( '#/nextgen-facebook/'.basename(__FILE__).'#', $_SERVER['PHP_SELF'] ) ) 
+	die( 'Sorry, you cannot execute the '.$_SERVER['PHP_SELF'].' webpage directly.' );
 
 if ( ! class_exists( 'ngfbPlugin' ) ) {
 
@@ -1646,7 +1646,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
         global $ngfb;
 	$ngfb = new ngfbPlugin();
 }
-
 
 /* You can enable social buttons in the content, use the social buttons widget,
  * and call the ngfb_get_social_buttons() function from your template(s) -- all

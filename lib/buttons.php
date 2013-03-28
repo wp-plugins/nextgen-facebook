@@ -13,8 +13,8 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details at
 http://www.gnu.org/licenses/.
 */
 
-if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
-	die( 'You are not allowed to call this page directly.' );
+if ( preg_match( '#/nextgen-facebook/lib/'.basename(__FILE__).'#', $_SERVER['PHP_SELF'] ) ) 
+	die( 'Sorry, you cannot execute the '.$_SERVER['PHP_SELF'].' webpage directly.' );
 
 if ( ! class_exists( 'ngfbButtons' ) ) {
 
