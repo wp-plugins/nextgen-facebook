@@ -1032,31 +1032,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_attachment( $post->ID ) ) {
 				$this->d_msg( 'is_attachment() = true' );
-				$this->d_msg( 'calling wp_get_attachment_image(' . $post->ID . ',"' . $size_name . '")' );
-				$content = wp_get_attachment_image( $post->ID, $size_name );
-				if ( preg_match( '/<img[^>]*? (src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $img ) ) {
-					$this->d_msg( '<img src=""> html tag found' );
-					$src_name = $img[1];
-					$og_image = array(
-						'og:image' => $img[2],
-						'og:image:width' => '',
-						'og:image:height' => ''
-					);
-					if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
-						$og_image['og:image:width'] = $match[1];
-					if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
-						$og_image['og:image:height'] = $match[1];
+				$og_image = array();
+				list( 
+					$og_image['og:image'], 
+					$og_image['og:image:width'], 
+					$og_image['og:image:height']
+				) = wp_get_attachment_image_src( $post->ID, $size_name );
 
-					$this->d_msg( $src_name . ' = ' . $og_image['og:image'] . 
-						' (width=' . $og_image['og:image:width'] . ' x height=' . $og_image['og:image:height'] . ')' );
+				$this->d_msg( 'wp_get_attachment_image_src(' . $post->ID . ',"' . $size_name . '") = ' . 
+					$og_image['og:image'] .  ' (' . $og_image['og:image:width'] . ' x ' . $og_image['og:image:height'] . ')' );
 
-					if ( ! is_numeric( $og_image['og:image:width'] ) ) $og_image['og:image:width'] = 0;
-					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
-
+				if ( ! empty( $og_image['og:image'] ) ) {
 					array_push( $og_ret, $og_image );	// everything ok, so push the image
-
-					return $og_ret;
-				} else $this->d_msg( 'no <img src=""> html tag found' );
+					return $og_ret;				// stop here and return the image array
+				};
 			}
 
 			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
@@ -1189,7 +1178,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					}
 
 					$this->d_msg( $src_name . ' = ' . $og_image['og:image'] . 
-						' (width=' . $og_image['og:image:width'] . ' x height=' . $og_image['og:image:height'] . ')' );
+						' (' . $og_image['og:image:width'] . ' x ' . $og_image['og:image:height'] . ')' );
 
 					if ( ! is_numeric( $og_image['og:image:width'] ) ) $og_image['og:image:width'] = 0;
 					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
