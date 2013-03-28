@@ -1013,9 +1013,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					if ( $og_video['og:video'] ) {
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:height'] = $match[1];
-						// define images for known websites
-						if ( preg_match( '/^.*youtube\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) )
-							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[1].'/0.jpg';
+
+						// define video images for known websites like youtube
+						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) )
+							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[2].'/0.jpg';
+
 						array_push( $og_ret, $og_video );
 						$this->d_msg( 'media info = image:' . $og_video['og:image'] . ' width:' . $og_video['og:video:width'] . 
 							' height:' . $og_video['og:video:height'] . ')' );
