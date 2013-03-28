@@ -664,7 +664,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 
 			if ( $this->options['og_vid_max'] > 0 ) {
-				$this->d_msg( 'calling get_videos_og( "' . $this->options['og_vid_max'] . '" )' );
+				$this->d_msg( 'calling get_videos_og(' . $this->options['og_vid_max'] . ')' );
 				$og['og:video'] = $this->get_videos_og( $this->options['og_vid_max'] );
 				if ( is_array( $og['og:video'] ) ) {
 					foreach ( $og['og:video'] as $val ) {
@@ -678,12 +678,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			if ( $this->options['og_img_max'] > 0 ) {
-				$this->d_msg( 'calling get_all_images_og( "' . $this->options['og_img_max'] . '", "' . $this->options['og_img_size'] . '" )' );
+				$this->d_msg( 'calling get_all_images_og(' . $this->options['og_img_max'] . ', "' . $this->options['og_img_size'] . '")' );
 				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
 
 				// if we didn't find any images, then use the default image
 				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->d_msg( 'calling get_default_image_og( "' . $this->options['og_img_size'] . '" )' );
+					$this->d_msg( 'calling get_default_image_og("' . $this->options['og_img_size'] . '")' );
 					$og['og:image'] = array_merge( $og['og:image'], $this->get_default_image_og( $this->options['og_img_size'] ) );
 				}
 			}
@@ -848,6 +848,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
+				$this->d_msg( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+				$this->d_msg( '$use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+
 				$title = get_the_title();
 				$this->d_msg( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
@@ -908,12 +911,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					else continue;	// skip tags that don't have the prefix
 				}
 				$desc .= wikibox_summary( $tag_name, 'en', false ); 
-				$this->d_msg( 'wikibox_summary(\'' . $tag_name . '\') = ' . $desc );
+				$this->d_msg( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
 			}
 			if ( empty( $desc ) ) {
 				$title = the_title( '', '', false );
 				$desc .= wikibox_summary( $title, 'en', false );
-				$this->d_msg( 'wikibox_summary(\'' . $title . '\') = ' . $desc );
+				$this->d_msg( 'wikibox_summary("' . $title . '") = ' . $desc );
 			}
 			return $desc;
 		}
@@ -923,12 +926,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$desc = '';
 			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
-				$this->d_msg( 'is_singular() = ' . is_singular() );
-				$this->d_msg( '$use_post() = ' . $use_post );
+				$this->d_msg( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+				$this->d_msg( '$use_post = ' . ( $use_post  ? 'true' : 'false' ) );
 
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
-					$this->d_msg( 'has_excerpt()' );
+					$this->d_msg( 'has_excerpt() = true' );
 					$desc = $post->post_excerpt;
 					if ( ! empty( $this->options['ngfb_filter_excerpt'] ) )
 						$desc = apply_filters( 'the_excerpt', $desc );
@@ -950,6 +953,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		
 			} elseif ( is_author() ) { 
 		
+				$this->d_msg( 'is_author() = true' );
 				the_post();
 				$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 				$author_desc = preg_replace( '/[\r\n\t ]+/s', ' ', get_the_author_meta( 'description' ) );	// put everything on one line
@@ -957,12 +961,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		
 			} elseif ( is_tag() ) {
 		
+				$this->d_msg( 'is_tag() = true' );
 				$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
 				$tag_desc = preg_replace( '/[\r\n\t ]+/s', ' ', tag_description() );	// put everything on one line
 				if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
 		
 			} elseif ( is_category() ) { 
 		
+				$this->d_msg( 'is_category() = true' );
 				$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 				$cat_desc = preg_replace( '/[\r\n\t ]+/', ' ', category_description() );	// put everything on one line
 				if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
@@ -1035,7 +1041,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// check for img html tags on rendered content
-			$this->d_msg( 'calling get_content_images_og( ' . $num . ', "' . $size_name . '" )' );
+			$this->d_msg( 'calling get_content_images_og(' . $num . ', "' . $size_name . '")' );
 			$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
 
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
@@ -1356,17 +1362,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function apply_content_filter( $content, $filter_content = true ) {
 
-			if ( $filter_content == true ) {
+			if ( empty( $content ) ) {
+
+				$this->d_msg( 'skipping filters for empty content' );
+
+			} elseif ( $filter_content == true ) {
 
 				global $ngfb;
 
 				// temporarily remove add_content_buttons() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
 					array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-				$this->d_msg( 'add_content_buttons() filter removed = ' . $filter_removed );
+				$this->d_msg( 'add_content_buttons() filter removed = ' . ( $filter_removed  ? 'true' : 'false' ) );
 
 				remove_shortcode( 'ngfb' );
-				$this->d_msg( '"ngfb" shortcode removed' );
+				$this->d_msg( 'ngfb shortcode removed' );
 
 				$this->d_msg( 'calling apply_filters()' );
 				$content_strlen_before = strlen( $content );
@@ -1379,7 +1389,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				unset( $GLOBALS['nggShowGallery'] );
 
 				add_shortcode( 'ngfb', array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
-				$this->d_msg( '"ngfb" shortcode re-added' );
+				$this->d_msg( 'ngfb shortcode re-added' );
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
