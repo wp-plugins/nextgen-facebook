@@ -18,6 +18,9 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
+	die( 'You are not allowed to call this page directly.' );
+
 if ( ! class_exists( 'ngfbGoogl' ) ) {
 
 	class ngfbGoogl {

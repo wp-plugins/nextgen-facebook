@@ -39,6 +39,9 @@ real folder location (which may be outside of the document root). The
 $cache->base_dir and $cache->base_url variables should end with a slash.
 */
 
+if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
+	die( 'You are not allowed to call this page directly.' );
+
 if ( ! class_exists( 'ngfbCache' ) ) {
 
 	class ngfbCache {

@@ -13,6 +13,9 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details at
 http://www.gnu.org/licenses/.
 */
 
+if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) 
+	die( 'You are not allowed to call this page directly.' );
+
 if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 
 	class ngfbSocialButtonsWidget extends WP_Widget {
