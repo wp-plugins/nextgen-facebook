@@ -187,7 +187,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 			if ( empty( $atts['embed'] ) && ! empty( $post ) && ! empty( $post->post_content ) ) {
 				$videos = array();
-				$videos = $ngfb->get_videos_og( 1 );	// get the first video, if any
+				$videos = $ngfb->get_content_videos_og( 1 );	// get the first video, if any
 				if ( ! empty( $videos[0]['og:video'] ) ) 
 					$atts['embed'] = $videos[0]['og:video'];
 			}

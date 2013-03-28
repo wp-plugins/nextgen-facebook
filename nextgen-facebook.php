@@ -664,8 +664,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 
 			if ( $this->options['og_vid_max'] > 0 ) {
-				$this->d_msg( 'calling get_videos_og(' . $this->options['og_vid_max'] . ')' );
-				$og['og:video'] = $this->get_videos_og( $this->options['og_vid_max'] );
+				$this->d_msg( 'calling get_content_videos_og(' . $this->options['og_vid_max'] . ')' );
+				$og['og:video'] = $this->get_content_videos_og( $this->options['og_vid_max'] );
 				if ( is_array( $og['og:video'] ) ) {
 					foreach ( $og['og:video'] as $val ) {
 						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -944,7 +944,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->d_msg( 'using post_content' );
+					$this->d_msg( 'using $post->post_content' );
 					$desc = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
 				}
 		
@@ -986,10 +986,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $desc;
 		}
 
-		function get_videos_og( $num = 0 ) {
+		function get_content_videos_og( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-			$content = empty( $post ) ? '' : $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
+			$content = empty( $post ) ? '' : $post->post_content;
+			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
+
+			if ( empty( $content ) ) {
+				$this->d_msg( 'skipping filters for empty content' );
+				return $og_ret;
+			}
+
+			$this->d_msg( 'calling apply_content_filter()' );
+			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
 
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				foreach ( $match_all as $media ) {
@@ -1020,6 +1029,35 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_all_images_og( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
 			$og_ret = array();
+
+			if ( is_attachment( $post->ID ) ) {
+				$this->d_msg( 'is_attachment() = true' );
+				$this->d_msg( 'calling wp_get_attachment_image(' . $post->ID . ',"' . $size_name . '")' );
+				$content = wp_get_attachment_image( $post->ID, $size_name );
+				if ( preg_match( '/<img[^>]*? (src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $img ) ) {
+					$this->d_msg( '<img src=""> html tag found' );
+					$src_name = $img[1];
+					$og_image = array(
+						'og:image' => $img[2],
+						'og:image:width' => '',
+						'og:image:height' => ''
+					);
+					if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
+						$og_image['og:image:width'] = $match[1];
+					if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
+						$og_image['og:image:height'] = $match[1];
+
+					$this->d_msg( $src_name . ' = ' . $og_image['og:image'] . 
+						' (width=' . $og_image['og:image:width'] . ' x height=' . $og_image['og:image:height'] . ')' );
+
+					if ( ! is_numeric( $og_image['og:image:width'] ) ) $og_image['og:image:width'] = 0;
+					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
+
+					array_push( $og_ret, $og_image );	// everything ok, so push the image
+
+					return $og_ret;
+				} else $this->d_msg( 'no <img src=""> html tag found' );
+			}
 
 			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
 				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
@@ -1056,6 +1094,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$content = empty( $post ) ? '' : $post->post_content;
 			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
 
+			if ( empty( $content ) ) {
+				$this->d_msg( '' );
+				return $og_ret;
+			}
+
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
 				$content, $match, PREG_SET_ORDER ) ) {
 				$this->d_msg( '[singlepic] shortcode(s) found' );
@@ -1091,7 +1134,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// check for NGG image ids
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
-				$this->d_msg( '<div id="ngg-image-#"> tag(s) found' );
+				$this->d_msg( '<div id="ngg-image-#"> html tag(s) found' );
 				foreach ( $match as $pid ) {
 					$og_image = array();
 					list( 
@@ -1114,12 +1157,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
-			} else $this->d_msg( 'no <div id="ngg-image-#"> tag found' );
+			} else $this->d_msg( 'no <div id="ngg-image-#"> html tag found' );
 
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', 
 				$content, $match, PREG_SET_ORDER ) ) {
-				$this->d_msg( '<img src=""> tag(s) found' );
+				$this->d_msg( '<img src=""> html tag(s) found' );
 				foreach ( $match as $img ) {
 					$src_name = $img[1];
 					$og_image = array(
@@ -1183,7 +1226,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						} else $this->d_msg( $src_name . ' image rejected = already in array' );
 					} else $this->d_msg( $src_name . ' image rejected = width and height attributes missing or too small' );
 				}
-			} else $this->d_msg( 'no <img src=""> tag found' );
+			} else $this->d_msg( 'no <img src=""> html tag found' );
 
 			return $og_ret;
 		}

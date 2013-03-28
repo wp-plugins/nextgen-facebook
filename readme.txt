@@ -343,6 +343,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6 =
 * Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text.
+* Added missing support for attachment page images.
 
 = Version 3.5.3 =
 * Added several debug messages to NGFB's `get_title()` method.
