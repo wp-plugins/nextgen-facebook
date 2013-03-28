@@ -189,7 +189,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_filter( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
-			add_filter( 'the_content', array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 			add_filter( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
@@ -727,7 +727,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->print_meta( $og );
 		}
 
-		function add_content( $content ) {
+		function add_content_buttons( $content ) {
 
 			// if using the Exclude Pages plugin, skip social buttons on those pages
 			if ( is_page() && $this->is_excluded() ) return $content;
@@ -1046,8 +1046,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$found = array();
 			$og_ret = array();
-			$content = empty( $post ) ? '' : $post->post_content;
 			$size_info = $this->get_size_values( $size_name );
+			$content = empty( $post ) ? '' : $post->post_content;
+			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
 
 			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
 				$content, $match, PREG_SET_ORDER ) ) {
@@ -1359,10 +1360,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				global $ngfb;
 
-				// temporarily remove add_content() to prevent recursion
+				// temporarily remove add_content_buttons() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
-					array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
-				$this->d_msg( 'add_content() filter removed = ' . $filter_removed );
+					array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+				$this->d_msg( 'add_content_buttons() filter removed = ' . $filter_removed );
 
 				remove_shortcode( 'ngfb' );
 				$this->d_msg( '"ngfb" shortcode removed' );
@@ -1382,8 +1383,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
-						array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
-					$this->d_msg( 'add_content() filter re-added' );
+						array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+					$this->d_msg( 'add_content_buttons() filter re-added' );
 				}
 			}
 
