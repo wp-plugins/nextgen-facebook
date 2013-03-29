@@ -12,7 +12,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 *The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
 
-**The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. **You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos.
+
+**You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -27,12 +29,12 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 1. A featured image from a NextGEN Gallery or WordPress Media Library.
 1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
-1. A default image defined in the plugin settings.
+1. A default image defined in the NGFB plugin settings.
 
 NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** -- all options and features work just as well without it. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-<!-- NextGEN Facebook Open Graph Meta BEGIN -->
+<!-- NextGEN Facebook Open Graph Meta Tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
@@ -58,10 +60,10 @@ NGFB was specifically written to support images from NextGEN Galleries, but also
 <meta property="og:title" content="WordPress Caching and Plugins for Performance" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
-<!-- NextGEN Facebook Open Graph Meta END -->
+<!-- NextGEN Facebook Open Graph Meta Tags END -->
 `
 
-NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook). Your comment or suggestion will be answered in a timely manner.
+NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
 == Installation ==
 
