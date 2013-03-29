@@ -18,8 +18,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if ( preg_match( '#/nextgen-facebook/lib/'.basename(__FILE__).'#', $_SERVER['PHP_SELF'] ) ) 
-	die( 'Sorry, you cannot execute the '.$_SERVER['PHP_SELF'].' webpage directly.' );
+if ( ! defined( 'ABSPATH' ) ) 
+	die( 'Sorry, you cannot call this webpage directly.' );
 
 if ( ! class_exists( 'ngfbGoogl' ) ) {
 
