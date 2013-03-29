@@ -39,8 +39,8 @@ real folder location (which may be outside of the document root). The
 $cache->base_dir and $cache->base_url variables should end with a slash.
 */
 
-if ( preg_match( '#/nextgen-facebook/lib/'.basename(__FILE__).'#', $_SERVER['PHP_SELF'] ) ) 
-	die( 'Sorry, you cannot execute the '.$_SERVER['PHP_SELF'].' webpage directly.' );
+if ( ! defined( 'ABSPATH' ) ) 
+	die( 'Sorry, you cannot call this webpage directly.' );
 
 if ( ! class_exists( 'ngfbCache' ) ) {
 
