@@ -216,9 +216,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 
 				$defined_constants = get_defined_constants( true );
-				$this->print_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
-				$this->print_debug( '', $this->is_active );
-				$this->print_debug( '', $this->options );
+				echo $this->get_debug( '', $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
+				echo $this->get_debug( '', $this->is_active );
+				echo $this->get_debug( '', $this->options );
 			}
 
 		}
@@ -386,7 +386,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
-				$this->print_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
+				echo $this->get_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
 				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
 					from the database.<br/>All plugin settings have been returned to their default values, though nothing
 					has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings 
@@ -601,7 +601,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$location_check = $location;
 					break;
 			}
-
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
@@ -620,22 +619,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_buttons_html( $ids = array(), $atts = array() ) {
 			global $post;
 			$button_html = '';
-
-			// make sure we have at least $post->ID or $atts['url'] defined
-			// if we don't, then use the current request URL (minus the tracking queries)
-			if ( empty( $post->ID ) && empty( $atts['url' ] ) )
-				$atts['url'] = $this->get_url( 'notrack' );
-			
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
+				$this->d_msg( 'calling ' . $id . '_button()' );
 				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
 					return \$this->ngfbButtons->${id}_button( \$atts );" );
 			}
-			if ( $button_html ) 
-				$button_html = "\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
+			if ( $button_html ) {
+				$button_html = $this->get_debug( '', $this->debug_msgs ) .
+					"\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
 					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
 					"<!-- " . NGFB_FULLNAME . " Buttons HTML END -->\n\n";
-
+				$this->debug_msgs = array();
+			}
 			return $button_html;
 		}
 
@@ -652,14 +648,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og = array();
 			$has_video_image = '';
 		
-			// if possible, use the permalink, otherwise use the current URL (minus tracking queries)
-			if ( is_singular() ) $og['og:url'] = get_permalink( $post->ID );
-			else $og['og:url'] = $this->get_url( 'notrack' );
-
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
+			$og['og:url'] = $this->get_sharing_url( 'notrack', null, false );
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
-
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 
@@ -720,7 +712,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 		
 			// output whatever debug info we have before printing the open graph meta tags
-			$this->print_debug( '', $this->debug_msgs );
+			echo $this->get_debug( '', $this->debug_msgs );
 			$this->debug_msgs = array();
 
 			// add the Open Graph meta tags
@@ -802,19 +794,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $page_text;
 		}
 
-		function get_caption( $type = 'title', $length = 300 ) {
+		function get_caption( $type = 'title', $length = 300, $use_post = true ) {
 			$caption = '';
 			switch( strtolower( $type ) ) {
 				case 'title' :
-					$caption = $this->get_title( $length, '...', true );
+					$caption = $this->get_title( $length, '...', $use_post );
 					break;
 				case 'excerpt' :
-					// force the use of $post info for buttons on index pages
-					$caption = $this->get_description( $length, '...', true );
+					$caption = $this->get_description( $length, '...', $use_post );
 					break;
 				case 'both' :
-					$title = $this->get_title( null, null, true);
-					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', true );
+					$title = $this->get_title( null, null, $use_post);
+					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
 					break;
 			}
 			return $caption;
@@ -849,7 +840,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
 				$this->d_msg( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-				$this->d_msg( '$use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+				$this->d_msg( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
 
 				$title = get_the_title();
 				$this->d_msg( 'get_the_title() = "' . $title . '"' );
@@ -1005,7 +996,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->d_msg( 'media found = tag:' . $media[1] . ' src:' . $media[2] );
 					$og_video = array(
 						'og:image' => '',
-						'og:video' => $this->get_url( 'noquery', $media[2] ),
+						'og:video' => $this->get_sharing_url( 'noquery', $media[2], false ),
 						'og:video:width' => '',
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
@@ -1054,19 +1045,30 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
 					$this->d_msg( 'is_singular() = ' . is_singular() );
 					$this->d_msg( 'is_search() = ' . is_search() );
-					$this->d_msg( 'calling get_default_image_og( "' . $size_name . '" )' );
+					$this->d_msg( 'calling get_default_image_og("' . $size_name . '")' );
 					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
-					return $og_ret;
+					return $og_ret;				// stop here and return the image array
 			}
 
-			// check for a featured image
-			if ( ! empty( $post ) ) 
+			// check for featured or attaches image(s)
+			if ( ! empty( $post ) ) {
+				$this->d_msg( 'calling get_featured_og(' . $post->ID . ', "' . $size_name . '")' );
 				$og_ret = array_merge( $og_ret, $this->get_featured_og( $post->ID, $size_name ) );
 
-			// stop and slice here if we have enough images
-			if ( $num > 0 && count( $og_ret ) >= $num ) {
-				$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
-				return array_slice( $og_ret, 0, $num );
+				// stop and slice here if we have enough images
+				if ( $num > 0 && count( $og_ret ) >= $num ) {
+					$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
+					return array_slice( $og_ret, 0, $num );
+				}
+	
+				$this->d_msg( 'calling get_attached_images_og(' . $post->ID . ', "' . $size_name . '")' );
+				$og_ret = array_merge( $og_ret, $this->get_attached_images_og( $post->ID, $size_name ) );
+
+				// stop and slice here if we have enough images
+				if ( $num > 0 && count( $og_ret ) >= $num ) {
+					$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
+					return array_slice( $og_ret, 0, $num );
+				}
 			}
 
 			// check for img html tags on rendered content
@@ -1201,7 +1203,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 								$og_image['og:image'] = site_url() . $og_image['og:image'];
 							else 
 								// remove any query string from the current url
-								$og_image['og:image'] = trailingslashit( $this->get_url( 'noquery' ) ) . $og_image['og:image'];
+								$og_image['og:image'] = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $og_image['og:image'];
 
 							$this->d_msg( 'relative url fixed = ' . $og_image['og:image'] );
 						}
@@ -1222,6 +1224,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $og_ret;
 		}
 
+		function get_attached_images_og( $post_id = '', $size_name = 'thumbnail' ) {
+			$og_ret = array();
+			$og_image = array();
+			if ( ! empty( $post_id ) ) {
+				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
+				foreach ( $images as $attachment ) {
+					list( 
+						$og_image['og:image'], 
+						$og_image['og:image:width'], 
+						$og_image['og:image:height'] 
+					) = wp_get_attachment_image_src( $attachment->ID, $size_name );
+
+					$this->d_msg( 'wp_get_attachment_image_src(' . $attachment->ID . ', "' . 
+						$size_name . '") = ' . $og_image['og:image'] );
+				}
+			}
+			// returned array must be two-dimensional
+			if ( ! empty( $og_image ) ) array_push( $og_ret, $og_image );
+			return $og_ret;
+		}
+
 		function get_featured_og( $post_id = '', $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			$og_image = array();
@@ -1235,7 +1258,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$og_image['og:image:cropped'] 
 					) = $this->get_ngg_image_src( $pid, $size_name );
 
-					$this->d_msg( 'get_ngg_image_src(' . $pid . ') = ' . $og_image['og:image'] );
+					$this->d_msg( 'get_ngg_image_src(' . $pid . ', "' . 
+						$size_name . '") = ' . $og_image['og:image'] );
 				} else {
 					list( 
 						$og_image['og:image'], 
@@ -1243,7 +1267,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$og_image['og:image:height'] 
 					) = wp_get_attachment_image_src( $pid, $size_name );
 
-					$this->d_msg( 'wp_get_attachment_image_src(' . $pid . ') = ' . $og_image['og:image'] );
+					$this->d_msg( 'wp_get_attachment_image_src(' . $pid . ', "' . 
+						$size_name . '") = ' . $og_image['og:image'] );
 				}
 			}
 			// returned array must be two-dimensional
@@ -1334,8 +1359,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$author_url = '';
 		
 			echo "\n<!-- ", NGFB_FULLNAME, " Meta Tags BEGIN -->\n";
-
-			$this->print_debug( '', print_r( $arr, true ) );
+			echo $this->get_debug( '', print_r( $arr, true ) );
 
 			if ( ! empty( $arr['link:publisher'] ) )
 				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
@@ -1566,31 +1590,33 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return;
 		}
 
-		function print_debug( $name = '', $msg = '' ) {
+		function get_debug( $name = '', $msg = '' ) {
+			$out = '';
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
 					$called = $stack[1]['function'];
 
-				echo "<!-- ", NGFB_FULLNAME, " debug";
-				if ( ! empty( $called ) ) echo ' from ', $called, '()';
-				if ( ! empty( $name ) ) echo ' ', $name;
+				$out .= "<!-- " . NGFB_FULLNAME . " debug";
+				if ( ! empty( $called ) ) $out .= ' from ' . $called . '()';
+				if ( ! empty( $name ) ) $out .= ' ' . $name;
 				if ( ! empty( $msg ) ) {
-					echo ' : ';
+					$out .= ' : ';
 					if ( is_array( $msg ) ) {
-						echo "\n";
+						$out .= "\n";
 						$is_assoc = $this->is_assoc( $msg );
 						if ( $is_assoc ) ksort( $msg );
 						foreach ( $msg as $key => $val ) 
-							echo $is_assoc ? "\t$key = $val\n" : "\t$val\n";
+							$out .= $is_assoc ? "\t$key = $val\n" : "\t$val\n";
 						unset ( $key, $val );
 					} else {
-						if ( preg_match( '/^Array/', $msg ) ) echo "\n";	// check for print_r() output
-						echo $msg;
+						if ( preg_match( '/^Array/', $msg ) ) $out .= "\n";	// check for print_r() output
+						$out .= $msg;
 					}
 				}
-				echo ' -->', "\n";
+				$out .= ' -->' . "\n";
 			}
+			return $out;
 		}
 
 		function show_admin_messages() {
@@ -1624,10 +1650,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $vals;
 		}
 
-		function get_url( $strip_query = 'notrack', $url = '' ) {
+		function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
 			if ( empty( $url ) ) {
-				$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-				$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
+				global $post;
+				if ( is_singular() || ( ! empty( $post ) && $use_post ) ) {
+					$url = get_permalink( $post->ID );
+				} else {
+					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+					$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
+				}
 			}
 			switch ( $strip_query ) {
 				case 'noquery' :

@@ -20,17 +20,14 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 
 	class ngfbSocialButtonsWidget extends WP_Widget {
 	
-		function ngfbSocialButtonsWidget() {
+		function __construct() {
 			$widget_ops = array( 'classname' => 'ngfb-widget-buttons',
-				'description' => 'The ' . NGFB_FULLNAME . ' social buttons widget is only visible on single posts, pages and attachments.' );
-			$this->WP_Widget( 'ngfb-widget-buttons', NGFB_FULLNAME, $widget_ops );
+				'description' => 'The ' . NGFB_FULLNAME . ' social sharing buttons widget.' );
+			$this->WP_Widget( 'ngfb-widget-buttons', NGFB_ACRONYM . ' Social Sharing Buttons', $widget_ops );
 		}
 	
 		function widget( $args, $instance ) {
 			global $ngfb;
-	
-			// only show widget on single posts, pages, and attachments
-			if ( ! is_singular() ) return;
 	
 			// if using the Exclude Pages plugin, skip social buttons on those pages
 			if ( is_page() && $ngfb->is_excluded() ) return;
@@ -44,7 +41,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			ksort( $sorted_ids );
 			echo $before_widget;
 			if ( $title ) echo $before_title . $title . $after_title;
-			echo $ngfb->get_buttons_html( $sorted_ids, array( 'css_id' => $args['widget_id'] ) );
+			echo $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
 			echo $after_widget;
 		}
 	
@@ -66,12 +63,22 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $ngfb->social_nice_names as $id => $name )
+			foreach ( $ngfb->social_nice_names as $id => $name ) {
 				echo '<p><label for="', $this->get_field_id( $id ), '">', 
 					'<input id="', $this->get_field_id( $id ), 
 					'" name="', $this->get_field_name( $id ), 
 					'" value="1" type="checkbox" ', checked( 1 , $instance[$id] ), 
-					' /> ', $name, '</label></p>', "\n";
+					' /> ', $name;
+				switch ( $id ) {
+					case 'pinterest' :
+						echo ' (not added on indexes)';
+						break;
+					case 'tumblr' :
+						echo ' (shares link on indexes)';
+						break;
+				}
+				echo '</label></p>', "\n";
+			}
 			unset( $name, $id );
 		}
 	}
