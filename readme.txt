@@ -344,7 +344,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.6 =
-* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
+* Added an `[[ngfb]]` shortcode that can be used to add one or more social buttons to content text. For example, `[[ngfb buttons="facebook, gplus"]]`.
 * Added missing Open Graph og:image tags for attachment webpages. Thanks to wordpress.org member "Jeylenz" for finding this one.
 * Added the list of attached images to the Open Graph og:image tags.
 * Added the first attached image to the Pinterest and Tumblr buttons, if no featured image is present.
