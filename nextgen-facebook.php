@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://wordpress.org/extend/plugins/nextgen-facebook/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 3.6.0.1
+Version: 3.6.1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.6';		// for display purposes
-		var $opts_version = '13';	// increment when adding/removing $default_options
+		var $opts_version = '14';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -161,12 +161,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_version' => '',
 			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
-			'ngfb_cache_hours' => 0,
+			'ngfb_enable_shortcode' => 1,
 			'ngfb_verify_certs' => 0,
 			'ngfb_filter_title' => 1,
-			'ngfb_filter_content' => 1,
 			'ngfb_filter_excerpt' => 0,
+			'ngfb_filter_content' => 1,
 			'ngfb_skip_small_img' => 1,
+			'ngfb_cache_hours' => 0,
 			'ngfb_googl_api_key' => '' );
 
 		function __construct() {
@@ -295,9 +296,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 
-			$this->ngfbButtons = new ngfbButtons();
-			$this->ngfbShortCodes = new ngfbShortCodes();
-
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->ngfbAdmin = new ngfbAdmin();
@@ -380,10 +378,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
-
 				if ( empty( $this->options['ngfb_version'] ) 
 					|| $this->options['ngfb_version'] !== $this->opts_version )
-
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
 				echo $this->get_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
@@ -394,12 +390,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options = $this->default_options;
 			}
 
-			if ( ! empty( $this->options['ngfb_debug'] ) 
-				|| ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+			$this->ngfbButtons = new ngfbButtons();
 
+			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
+				$this->ngfbShortCodes = new ngfbShortCodes();
+
+			if ( ! empty( $this->options['ngfb_debug'] ) 
+				|| ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
 					comments are being generated and added to webpages.';
-			}
 		}
 
 		function upgrade_options( &$opts = array() ) {
@@ -734,6 +733,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					if ( $this->options[$opt_prefix.'_enable'] )
 						$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 				ksort( $sorted_ids );
+				$this->d_msg( 'calling get_buttons_html()' );
 				if ( $this->options['buttons_location'] == "top" ) 
 					$content = $this->get_buttons_html( $sorted_ids ) . $content;
 				else $content .= $this->get_buttons_html( $sorted_ids );
@@ -1436,8 +1436,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 				$this->d_msg( 'add_content_buttons() filter removed = ' . ( $filter_removed  ? 'true' : 'false' ) );
 
-				remove_shortcode( 'ngfb' );
-				$this->d_msg( 'ngfb shortcode removed' );
+				// temporarily remove ngfb shortcode to prevent recursion
+				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
+					remove_shortcode( 'ngfb' );
+					$this->d_msg( 'ngfb shortcode removed' );
+				}
 
 				$this->d_msg( 'calling apply_filters()' );
 				$content_strlen_before = strlen( $content );
@@ -1449,13 +1452,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				unset( $GLOBALS['subalbum'] );
 				unset( $GLOBALS['nggShowGallery'] );
 
-				add_shortcode( 'ngfb', array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
-				$this->d_msg( 'ngfb shortcode re-added' );
-
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
 						array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 					$this->d_msg( 'add_content_buttons() filter re-added' );
+				}
+
+				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
+					add_shortcode( 'ngfb', array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
+					$this->d_msg( 'ngfb shortcode re-added' );
 				}
 			}
 

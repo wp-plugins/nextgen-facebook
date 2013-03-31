@@ -158,10 +158,10 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Shortcodes ==
 
-You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
+You can add one or more social sharing buttons to your content by using the `[ngfb /]` shortcode. For example:
 
 `
-[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
+[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter" /]
 `
 
 Note: Like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
@@ -343,11 +343,12 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 3.6.0.1 =
+= Version 3.6.1 =
 * Fixed javascript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+* Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is checked).
 
 = Version 3.6 =
-* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
+* Added an `[ngfb /]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus" /]`.
 * Added missing Open Graph og:image tags for attachment template webpages.
 * Added the first attached image to the Pinterest and Tumblr buttons (if no featured image is present).
 * Added the list of attached images to the Open Graph og:image tags.
@@ -583,11 +584,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= Version 3.6.0.1 =
+= Version 3.6.1 =
 Fixed javascript for enabled widget buttons on index webpages.
 
 = Version 3.6 =
-Added an `[ngfb]` shortcode to add social buttons to content text, better support for attached images, and improved widget code for index webpages.
+Added an `[ngfb /]` shortcode to add social buttons to content text, better support for attached images, and improved widget code for index webpages.
 
 = Version 3.5.3 =
 A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.

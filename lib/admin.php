@@ -928,6 +928,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
+				<th>Enable Shortcode</th>
+				<td><?php $this->checkbox( 'ngfb_enable_shortcode' ); ?></td>
+				<td><p>Enable the NGFB content shortcode (default is checked).</p></td>
+			</tr>
+			<tr>
 				<th>Apply Title Filters</th>
 				<td><?php $this->checkbox( 'ngfb_filter_title' ); ?></td>
 				<td><p>Apply the standard WordPress filters to the webpage title (default is checked).</p></td>

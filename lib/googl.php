@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 		private $apiKey;
 		private $ch;
 	
-		function __construct($apiKey = null) {
+		function __construct( $apiKey = null ) {
 			# Extended output mode
 			$extended = false;
 	
@@ -51,7 +51,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		}
 	
-		public function shorten($url, $extended = false) {
+		public function shorten( $url, $extended = false ) {
 			# Payload
 			$data = array( 'longUrl' => $url );
 			$data_string = '{ "longUrl": "'.$url.'" }';
@@ -68,7 +68,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 			}
 		}
 	
-		public function expand($url, $extended = false) {
+		public function expand( $url, $extended = false ) {
 			# Set cURL options
 			curl_setopt($this->ch, CURLOPT_URL, $this->target.'shortUrl='.$url);
 	
