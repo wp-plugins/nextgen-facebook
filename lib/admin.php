@@ -930,7 +930,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Enable Shortcode</th>
 				<td><?php $this->checkbox( 'ngfb_enable_shortcode' ); ?></td>
-				<td><p>Enable the NGFB content shortcode (default is checked).</p></td>
+				<td><p>Enable the NGFB content shortcode (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Title Filters</th>

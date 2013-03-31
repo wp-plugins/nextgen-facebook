@@ -161,7 +161,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_version' => '',
 			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
-			'ngfb_enable_shortcode' => 1,
+			'ngfb_enable_shortcode' => 0,
 			'ngfb_verify_certs' => 0,
 			'ngfb_filter_title' => 1,
 			'ngfb_filter_excerpt' => 0,
