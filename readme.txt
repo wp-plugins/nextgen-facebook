@@ -347,7 +347,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6.1 =
 * Fixed javascript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
-* Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is checked).
+* Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is unchecked).
 
 = Version 3.6 =
 * Added an `[ngfb /]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus" /]`.
