@@ -158,13 +158,13 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Shortcodes ==
 
-You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
+You can add one or more social sharing buttons to your content by using the `[ngfb /]` shortcode. For example:
 
 `
-[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
+[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter" /]
 `
 
-Note: Like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the Pinterest button will only show on posts with a featured image.
+Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a featured or *attached* image**.
 
 == Stylesheets ==
 
@@ -244,7 +244,9 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
 
-* For posts and pages, the content text is used to define the Open Graph description meta property value (if no excerpt is available). If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render it's text, you may uncheck the "Apply Content Filters" option.
+* For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
+
+* If you don't use the `[ngfb /]` shortcode, you can uncheck the "Enable Shortcode" option (the default is unchecked).
 
 == Advanced Usage ==
 
@@ -270,7 +272,7 @@ if ( function_exists( 'ngfb_get_social_buttons' ) ) {
 }
 `
 
-This creates a Pinterest and tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and tumblr, only need the URL defined.
+This creates a Pinterest and Tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and Tumblr, only need the URL defined.
 
 = Disable Open Graph Meta Tags =
 
@@ -343,11 +345,15 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 3.6.1 =
+* Fixed javascript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+* Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is checked).
+
 = Version 3.6 =
-* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
+* Added an `[ngfb /]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus" /]`.
 * Added missing Open Graph og:image tags for attachment template webpages.
-* Added the first attached image to the Pinterest and Tumblr buttons (if no featured image is present).
-* Added the list of attached images to the Open Graph og:image tags.
+* Added the first *attached* image to the Pinterest and Tumblr buttons (if no featured image is present).
+* Added the list of *attached* images to the Open Graph og:image tags.
 * Added support for index webpages for the NGFB social sharing widget.
 * Added support for YouTube videos from the youtube-nocookie.com domain as well.
 
@@ -431,7 +437,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 3.1 =
 * **Fixed** a small oversight where `apply_content_filter()` was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
-* Added a javascript function to load button javascript files asynchronously -- all except for tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
+* Added a javascript function to load button javascript files asynchronously -- all except for Tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
 * Added a `ngfbGoogl()` class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
 * Added the "Shorten URLs" option for Twitter (checked by default) and the (optional) "Goo.gl API Key" field.
@@ -500,16 +506,16 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 2.1 =
 * Added an option for Google+ to select either the "G +1" or "G+ Share" button.
-* Added sharing of WordPress "quote" format posts to tumblr. 
+* Added sharing of WordPress "quote" format posts to Tumblr. 
 * Added the Pinterest sharing button for posts and pages with featured images.
 * Added a check for the "Exclude Pages" plugin in the widget section.
-* Added a call to CDN Linker (if it's installed) for image URLs shared to tumblr and Pinterest.
+* Added a call to CDN Linker (if it's installed) for image URLs shared to Tumblr and Pinterest.
 * Added a check for the `DISABLE_NGFB_OPEN_GRAPH` constant before adding Open Graph meta tags.
 * Added a 'Max Title Length' setting (default is 100 characters).
 
 = Version 2.0 =
 * The NextGEN Facebook Open Graph options page has been re-worked to make it more compact.
-* Added the tumblr social sharing button, including support for posting featured images, embedded video, or links to posts and pages.
+* Added the Tumblr social sharing button, including support for posting featured images, embedded video, or links to posts and pages.
 * Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
@@ -580,8 +586,11 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.6.1 =
+Fixed javascript for enabled widget buttons on index webpages.
+
 = Version 3.6 =
-Added an `[ngfb]` shortcode to add social buttons to content text, better support for attached images, and improved widget code for index webpages.
+Added an `[ngfb /]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
 
 = Version 3.5.3 =
 A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.
@@ -641,7 +650,7 @@ Minor code optimization and improved readme file.
 Added Pinterest button, 'Max Title Length' option, and `DISABLE_NGFB_OPEN_GRAPH` constant for templates.
 
 = Version 2.0 =
-More compact options page, added tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
+More compact options page, added Tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
 
 = Version 1.7.2 =
 Added missing data-annotation field to Google+ social button.
