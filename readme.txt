@@ -343,6 +343,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 3.6.0.1 =
+* Fixed javascript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+
 = Version 3.6 =
 * Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
 * Added missing Open Graph og:image tags for attachment template webpages.
@@ -579,6 +582,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.6.0.1 =
+Fixed javascript for enabled widget buttons on index webpages.
 
 = Version 3.6 =
 Added an `[ngfb]` shortcode to add social buttons to content text, better support for attached images, and improved widget code for index webpages.
