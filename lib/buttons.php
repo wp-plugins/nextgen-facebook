@@ -60,14 +60,17 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 		function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
 			global $post;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
 			$atts['css_class'] = $css_name . '-' . $atts['css_class'];
-			if ( ! empty( $css_class_other ) ) $atts['css_class'] = $css_class_other . ' ' . $atts['css_class'];
+			if ( ! empty( $css_class_other ) ) 
+				$atts['css_class'] = $css_class_other . ' ' . $atts['css_class'];
 
 			$atts['css_id'] = empty( $atts['css_id'] ) ? 'button' : $atts['css_id'];
 			$atts['css_id'] = $css_name . '-' . $atts['css_id'];
-			if ( ! empty( $post ) ) $atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
+			if ( $use_post == true && ! empty( $post ) ) 
+				$atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
 
 			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
 		}

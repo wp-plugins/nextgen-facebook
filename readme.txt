@@ -201,7 +201,7 @@ div.stumbleupon-button { width:84px; }
 div.tumblr-button { width:80px; margin-right:0; }
 `
 
-The "NextGEN Facebook Open Graph" widget adds an extra class name that you can use to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget, and added to the content text.
+The *NextGEN Social Sharing Buttons* widget adds an extra class name that can be used to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget and in the content text.
 
 `
 .ngfb-widget-buttons .ngfb-buttons { 
