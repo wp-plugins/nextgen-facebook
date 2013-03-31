@@ -587,7 +587,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.6.1 =
-Fixed javascript for enabled widget buttons on index webpages.
+Fixed javascript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
 = Version 3.6 =
 Added an `[ngfb /]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
