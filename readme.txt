@@ -31,7 +31,37 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
-NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** -- all options and features work just as well without it. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags. Here's an example of Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** -- all options and features work just as well without it. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+
+NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
+
+== Installation ==
+
+*Using the WordPress Dashboard*
+
+1. Login to your weblog
+1. Go to Plugins
+1. Select Add New
+1. Search for *NextGEN Facebook Open Graph*
+1. Select Install
+1. Select Install Now
+1. Select Activate Plugin
+
+*Manual*
+
+1. Download and unzip the plugin
+1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
+1. Activate the plugin through the Plugins menu in WordPress
+
+Once activated, you don't have to configure any settings for NGFB to automatically start adding Open Graph meta tags to your pages.
+
+Some plugin options are available under the *Settings / NextGEN Facebook* admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
+
+== Frequently Asked Questions ==
+
+= Q. What do Open Graph property tags look like? =
+
+Open Graph property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook Open Graph Meta Tags BEGIN -->
@@ -62,32 +92,6 @@ NGFB was specifically written to support images from NextGEN Galleries, but also
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
 <!-- NextGEN Facebook Open Graph Meta Tags END -->
 `
-
-NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
-
-== Installation ==
-
-*Using the WordPress Dashboard*
-
-1. Login to your weblog
-1. Go to Plugins
-1. Select Add New
-1. Search for *NextGEN Facebook Open Graph*
-1. Select Install
-1. Select Install Now
-1. Select Activate Plugin
-
-*Manual*
-
-1. Download and unzip the plugin
-1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
-1. Activate the plugin through the Plugins menu in WordPress
-
-Once activated, you don't have to configure any settings for NGFB to automatically start adding Open Graph meta tags to your pages.
-
-Some plugin options are available under the *Settings / NextGEN Facebook* admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
-
-== Frequently Asked Questions ==
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
