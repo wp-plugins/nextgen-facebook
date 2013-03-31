@@ -31,7 +31,7 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
-NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library. **The NextGEN Gallery plugin is not required to use this plugin** -- all options and features work just as well without it. NGFB can detect images of varying sizes, embedded videos, and include one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+**NGFB was specifically written to support images from NextGEN Galleries, but also works just as well with the WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. NGFB can detect images of varying sizes and embedded videos -- and include one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
 NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
