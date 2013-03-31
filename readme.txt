@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 3.6
+Stable tag: 3.6.1
 License: GPLv3 or later
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
