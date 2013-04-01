@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( $use_post == true && ! empty( $post ) ) 
 				$atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
 
-			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
+			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '" style="overflow:visible;"';
 		}
 
 		function header_js( $loc = 'id' ) {
@@ -108,22 +108,45 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		 */
 		function facebook_button( $atts = array() ) {
 			global $ngfb, $post; 
+			$button_html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
-			return '
-				<!-- Facebook Button -->
-				<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
-					data-href="' . $atts['url'] . '"
-					data-send="' . $fb_send . '" 
-					data-layout="' . $ngfb->options['fb_layout'] . '" 
-					data-width="' . $ngfb->options['fb_width'] . '" 
-					data-show-faces="' . $fb_show_faces . '" 
-					data-font="' . $ngfb->options['fb_font'] . '" 
-					data-action="' . $ngfb->options['fb_action'] . '"
-					data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
-			';
+
+			switch ( $ngfb->options['fb_markup'] ) {
+				case 'xfbml' :
+					// XFBML
+					$button_html = '
+					<!-- Facebook Button -->
+					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
+						href="' . $attr['url'] . '" 
+						send="' . $fb_send . '" 
+						layout="' . $ngfb->options['fb_layout'] . '" 
+						show_faces="' . $fb_show_faces . '" 
+						font="' . $ngfb->options['fb_font'] . '" 
+						action="' . $ngfb->options['fb_action'] . '" 
+						colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
+					';
+					break;
+				case 'html5' :
+				default :
+					// HTML5
+					$button_html = '
+					<!-- Facebook Button -->
+					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
+						data-href="' . $atts['url'] . '"
+						data-send="' . $fb_send . '" 
+						data-layout="' . $ngfb->options['fb_layout'] . '" 
+						data-width="' . $ngfb->options['fb_width'] . '" 
+						data-show-faces="' . $fb_show_faces . '" 
+						data-font="' . $ngfb->options['fb_font'] . '" 
+						data-action="' . $ngfb->options['fb_action'] . '"
+						data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
+					';
+					break;
+			}
+			return $button_html;
 		}
 		
 		function facebook_js( $loc = 'id' ) {

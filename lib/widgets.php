@@ -33,16 +33,17 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			if ( is_page() && $ngfb->is_excluded() ) return;
 	
 			extract( $args );
+			//$before_widget = preg_replace( '/>/', ' style="overflow:visible;">', $before_widget );
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 			$sorted_ids = array();
 			foreach ( $ngfb->social_options_prefix as $id => $prefix )
 				if ( (int) $instance[$id] )
 					$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
 			ksort( $sorted_ids );
-			echo $before_widget;
-			if ( $title ) echo $before_title . $title . $after_title;
+			echo $before_widget, "\n";
+			if ( $title ) echo $before_title . $title . $after_title, "\n";
 			echo $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
-			echo $after_widget;
+			echo $after_widget, "\n";
 		}
 	
 		function update( $new_instance, $old_instance ) {
