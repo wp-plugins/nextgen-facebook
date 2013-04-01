@@ -110,7 +110,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
 			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
 
@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			return '
 				<!-- Google+ Button -->
@@ -192,7 +192,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			$button_html = '
 				<!-- LinkedIn Button -->
 				<div ' . $this->get_css( 'linkedin', $atts ) . '>
@@ -221,7 +221,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_query = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['pin_img_size'];
 			if ( empty( $atts['photo'] ) ) {
 				if ( empty( $atts['pid'] ) ) {
@@ -274,7 +274,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$button_html = '
 				<!-- StumbleUpon Button -->
@@ -297,7 +297,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			global $ngfb, $post; 
 			$button_query = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
 			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['tumblr_img_size'];
 
@@ -392,7 +392,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function twitter_button( $atts = array() ) {
 			global $ngfb, $post; 
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'noquery', null, $use_post );
 			if ( empty( $atts['caption'] ) ) 
 				$atts['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'], $use_post );
 

@@ -654,7 +654,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
-			$og['og:url'] = $this->get_sharing_url( 'notrack', null, false );
+			$og['og:url'] = $this->get_sharing_url();
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
@@ -1001,7 +1001,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->d_msg( 'media found = tag:' . $media[1] . ' src:' . $media[2] );
 					$og_video = array(
 						'og:image' => '',
-						'og:video' => $this->get_sharing_url( 'noquery', $media[2], false ),
+						'og:video' => $this->get_sharing_url( 'noquery', $media[2] ),
 						'og:video:width' => '',
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
@@ -1210,7 +1210,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 								$og_image['og:image'] = site_url() . $og_image['og:image'];
 							else 
 								// remove any query string from the current url
-								$og_image['og:image'] = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $og_image['og:image'];
+								$og_image['og:image'] = trailingslashit( $this->get_sharing_url(), false ) . $og_image['og:image'];
 
 							$this->d_msg( 'relative url fixed = ' . $og_image['og:image'] );
 						}
@@ -1662,11 +1662,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $vals;
 		}
 
-		function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
+		function get_sharing_url( $strip_query = 'noquery', $url = '', $use_post = false ) {
+			// $use_post = false when used for Open Graph meta tags and buttons in widget
+			// $use_post = true when buttons are added to individual posts on an index webpage
 			if ( empty( $url ) ) {
 				global $post;
 				if ( is_singular() || ( ! empty( $post ) && $use_post ) ) {
 					$url = get_permalink( $post->ID );
+					$strip_query = 'none';	// don't modify the permalinks
 				} else {
 					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 					$url .= $_SERVER["SERVER_NAME"] .  $_SERVER["REQUEST_URI"];
