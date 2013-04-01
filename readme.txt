@@ -116,7 +116,7 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
-= When I click the Facebook Like button, the popup window doesn't show. Why? =
+= Q. When I click the Facebook Like button, the popup window doesn't show. Why? =
 
 **A.** If the Like button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto.
 
