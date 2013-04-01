@@ -116,9 +116,9 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
-= Q. When I click the Facebook Like button, the popup window doesn't show. Why? =
+= Q. When I click the Facebook "Like" button, the popup window doesn't show. Why? =
 
-**A.** If the Like button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
+**A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
 
 `
 #page {
@@ -126,7 +126,7 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 }
 `
 
-Note: There is a known issue with Facebook's "Like" button and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` window created by Facebook's javascript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button window appears unaffected by this issue.
+Note: There is a known problem with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears unaffected by this issue.
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
@@ -325,13 +325,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_OPTIONS_NAME` : The options field name in the database for NGFB. The default value is `ngfb_options`.
 
-* `NGFB_HEAD_PRIORITY` : Change the execution priority for the `add_header()` method, which adds javascript to the head section. The default value is 10.
+* `NGFB_HEAD_PRIORITY` : Change the execution priority for the `add_header()` method, which adds JavaScript to the head section. The default value is 10.
 
 * `NGFB_OG_PRIORITY`: Change the execution priority for the `add_open_graph()` method, which adds Open Graph meta tags to the head section. The default value is 20.
 
 * `NGFB_CONTENT_PRIORITY` : Change the execution priority for the `add_content()` method, which adds social buttons to the content. The default value is 20.
 
-* `NGFB_FOOTER_PRIORITY` : Change the execution priority for the `add_footer()` method, which adds javascript to the footer section. The default value is 10.
+* `NGFB_FOOTER_PRIORITY` : Change the execution priority for the `add_footer()` method, which adds JavaScript to the footer section. The default value is 10.
 
 * `NGFB_MIN_DESC_LEN` : The minimum allowed description length value. The default is 160. A *maximum* description length value is configurable on the settings page, but any value entered bellow `NGFB_MIN_DESC_LEN` will be changed to `NGFB_MIN_DESC_LEN` when saved.
 
@@ -347,7 +347,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_CONTACT_FIELDS` : The field names and labels for the additional user profile fields. The default value is "facebook:Facebook URL,gplus:Google+ URL". See the "Rename or Add Profile URL Fields" section in the readme for additional information.
 
-* `NGFB_USER_AGENT` : Used by the remote content caching feature for social button images and javascript. The Google+ JavaScript is different for (what Google considers) invalid user agents. Since crawlers and robots might refresh the cached files, the NGFB_USER_AGENT defines a default user agent string. You may define a NGFB_USER_AGENT constant in your wp-config.php file to change the default NGFB uses.
+* `NGFB_USER_AGENT` : Used by the remote content caching feature for social button images and JavaScript. The Google+ JavaScript is different for (what Google considers) invalid user agents. Since crawlers and robots might refresh the cached files, the NGFB_USER_AGENT defines a default user agent string. You may define a NGFB_USER_AGENT constant in your wp-config.php file to change the default NGFB uses.
 
 * `NGFB_PEM_FILE` : When the "Verify SSL Certificates" option is checked, PHP's curl function needs a certificate authority file. Define the NGFB_PEM_FILE constant in your wp-config.php file to change the default location used by NGFB.
 
@@ -358,7 +358,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.6.1 =
-* Fixed javascript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+* Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
 * Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is unchecked).
 
 = Version 3.6 =
@@ -383,7 +383,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended.
 * Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
 * Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page.
-* Fixed Twitter tweet text when the button is used on an index page. Twitter executes javascript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
+* Fixed Twitter tweet text when the button is used on an index page. Twitter executes JavaScript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
 * Fixed video URLs with query strings that where not getting stripped of their query data.
 * Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options.
@@ -397,13 +397,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 3.5 =
 * Added reading of correct/accurate width and height information for NGG cached images using PHP's `getimagesize()` function.
 * Added the Facebook button "Default Width" option (though I don't really see a use for it).
-* Added "Cache Expiry in Hours" option to save social button images and javascript to a cache folder, and provide URLs to these cached files instead of the originals. Note: This option is disabled (0 hours) by default. **Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites**.
+* Added "Cache Expiry in Hours" option to save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. Note: This option is disabled (0 hours) by default. **Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites**.
 * Added the "Verify SSL Certificates" option to verify the peer SSL certificate when fetching cache content by HTTPS (default is unchecked).
 * Added the `NGFB_MAX_CACHE`, `NGFB_USER_AGENT`, and `NGFB_PEM_FILE` constants to modify some settings for the content caching feature.
 * Changed the "Maximum Description Length" default from 300 to 280 characters.
 * Added `$this->ngg_options` variable to read NextGEN Gallery options.
 * Changed the `NGFB_CONTENT_PRIORITY` from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
-* Slight improvements to the async JavaScript function used to retrieve social button javascript files.
+* Slight improvements to the async JavaScript function used to retrieve social button JavaScript files.
 * **Changed Facebook like/send button from XFBML to HTML5 code**.
 * Improved the social button CSS stylesheet example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
 
@@ -449,7 +449,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 3.1 =
 * **Fixed** a small oversight where `apply_content_filter()` was being run on the excerpt by mistake. The fix is in keeping with improving performance as much as possible.
 * Added a warning message (in the admin pages) for missing plugin options in the database. This fixes an error where the plugin has been installed and activated, but it's options have disappeared from the database at some point. The plugin will now recognize this condition, generate a warning message, and reset the options to their defaults.
-* Added a javascript function to load button javascript files asynchronously -- all except for Tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
+* Added a JavaScript function to load button JavaScript files asynchronously -- all except for Tumblr, which must be loaded from the footer. :-p This should further help to improve page load speeds - always an important consideration.
 * Added a `ngfbGoogl()` class (from https://github.com/sebi/googl-php) to shorten URLs for Twitter.
 * Added the "Apply Excerpt Filter" option (default is unchecked).
 * Added the "Shorten URLs" option for Twitter (checked by default) and the (optional) "Goo.gl API Key" field.
@@ -483,7 +483,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * **Fixed** variable name to have apply_filters('the_content') applied to the OG description as it should.
 * Added `apply_filters('the_excerpt')` on the OG description when text is from excerpt.
 * Added `apply_filters('the_title')` on the OG title.
-* Added the `ngfb_linkedin_footer()` function to move the LinkedIn javascript to the footer.
+* Added the `ngfb_linkedin_footer()` function to move the LinkedIn JavaScript to the footer.
 * Sanitized the "Facebook Admin(s)" option by stipping off any leading URLs (leaving just the account names).
 * Temporarily removed NGFB as a filter to the_content when using `apply_filters('the_content')` to prevent recursion.
 * Added `NGFB_HEAD_PRIORITY`, `NGFB_CONTENT_PRIORITY`, and `NGFB_FOOTER_PRIORITY` constants.
@@ -493,7 +493,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added the `NGFB_MIN_IMG_SIZE_DISABLE` constant to disable minimum width and height checks for `<img/>` src attributes.
 * Added the StumbleUpon social sharing button.
 * Added a "Preferred Order" option to control the order in which buttons appear.
-* Moved the javascript used by all buttons into the footer section (filter on `wp_footer()` function) to improve page rendering speed.
+* Moved the JavaScript used by all buttons into the footer section (filter on `wp_footer()` function) to improve page rendering speed.
 * Moved the admin settings page code into plugins/nextgen-facebook/lib/admin.php.
 * Moved the widget code into plugins/nextgen-facebook/lib/widgets.php.
 * Added the `NGFB` class and started moving functions into it. 
@@ -549,7 +549,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = Version 1.6.1 =
 * **Fixed** a bug where some checked options -- those that should be ON by default -- would always stay checked.
-* Stripped javascript from the_content text so it doesn't make it to the og:description meta tag.
+* Stripped JavaScript from the_content text so it doesn't make it to the og:description meta tag.
 
 = Version 1.6 =
 * Added the Google+ and Twitter button options.
@@ -599,7 +599,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.6.1 =
-Fixed javascript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
+Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
 = Version 3.6 =
 Added an `[ngfb /]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
@@ -614,7 +614,7 @@ Many small but important fixes (see the Changelog for the complete list). Please
 Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
 
 = Version 3.5 =
-Added reading of accurate width and height for NGG cached images, a caching feature for social button images and javascript (disabled by default), Facebook button changed from XFBML to HTML5.
+Added reading of accurate width and height for NGG cached images, a caching feature for social button images and JavaScript (disabled by default), Facebook button changed from XFBML to HTML5.
 
 = Version 3.4 =
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
@@ -632,7 +632,7 @@ Improved `og:image:width` and `og:image:height` accuracy. Added Language support
 **Fixed** variable reference in widget. Added informational box when upgrading options.
 
 = Version 3.1 =
-Added javascript function to load button javascript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
+Added JavaScript function to load button JavaScript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
 
 = Version 3.0 =
 Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/).
@@ -644,7 +644,7 @@ Added the "Author URL", "Default Author", and "Ignore Small Images in Content" o
 **Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = Version 2.3 =
-Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button javascript to footer.
+Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button JavaScript to footer.
 
 = Version 2.2 =
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
