@@ -118,7 +118,13 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 `
 = Q. When I click the Facebook Like button, the popup window doesn't show. Why? =
 
-**A.** If the Like button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto.
+**A.** If the Like button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
+
+`
+#page {
+	overflow:visible;
+}
+`
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
