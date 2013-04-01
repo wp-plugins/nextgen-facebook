@@ -1678,7 +1678,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$url = reset( explode( '?', $url ) );
 					break;
 				case 'notrack' :
-					$url = preg_replace( '/([\?&])(utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
+					// strip out tracking query arguments by Facebook, Google, etc.
+					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
 					break;
 			}
 			return $url;
