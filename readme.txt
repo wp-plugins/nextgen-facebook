@@ -126,6 +126,8 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 }
 `
 
+Note: There is a known issue with Facebook's "Like" button and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` window created by Facebook's javascript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button window appears unaffected by this issue.
+
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
 **A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
