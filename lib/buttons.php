@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( $use_post == true && ! empty( $post ) ) 
 				$atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
 
-			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '" style="overflow:visible;"';
+			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
 		}
 
 		function header_js( $loc = 'id' ) {

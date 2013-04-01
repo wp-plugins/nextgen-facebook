@@ -513,6 +513,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'buttons_location' : 
 						case 'buttons_lang' : 
 						case 'fb_js_loc' : 
+						case 'fb_markup' : 
 						case 'gp_js_loc' : 
 						case 'gp_action' : 
 						case 'gp_size' : 
@@ -1009,9 +1010,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:height'] = $match[1];
 
-						// define video images for known websites like youtube
-						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) )
+						// fix URLs and define video images for known websites (like youtube)
+						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) ) {
+							$og_video['og:video'] = 'http://www.youtube.com/v/'.$match[2];
 							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[2].'/0.jpg';
+						}
 
 						array_push( $og_ret, $og_video );
 						$this->d_msg( 'media info = image:' . $og_video['og:image'] . ' width:' . $og_video['og:video:width'] . 

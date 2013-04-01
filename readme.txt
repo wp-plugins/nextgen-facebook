@@ -355,6 +355,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 3.6.2 =
+* Fixed YouTube embeded URLs to make them more compatible with Facebook.
+* Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to HTML5).
+
 = Version 3.6.1 =
 * Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
 * Added "Enable Shortcode" option to enable/disable the `[ngfb /]` shortcode filter (default is unchecked).

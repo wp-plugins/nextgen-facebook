@@ -573,8 +573,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
-				<th>Include Send Button</th>
-				<td><?php $this->checkbox( 'fb_send' ); ?></td>
+				<th>Markup Language</th>
+				<td><?php $this->select( 'fb_markup', array( 
+					'html5' => 'HTML5',
+					'xfbml' => 'XFBML' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Button Type</th>
 				<td><?php $this->select( 'gp_action', array( 
@@ -584,11 +586,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
-				<th>Button Layout</th>
-				<td><?php $this->select( 'fb_layout', array( 
-					'standard' => 'Standard',
-					'button_count' => 'Button Count',
-					'box_count' => 'Box Count' ) ); ?></td>
+				<th>Include Send Button</th>
+				<td><?php $this->checkbox( 'fb_send' ); ?></td>
 				<!-- Google+ -->
 				<th>Button Size</th>
 				<td><?php $this->select( 'gp_size', array( 
@@ -599,8 +598,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- Facebook -->
-				<th>Default Width</th>
-				<td><?php $this->input( 'fb_width', 'short' ); ?></td>
+				<th>Button Layout</th>
+				<td><?php $this->select( 'fb_layout', array( 
+					'standard' => 'Standard',
+					'button_count' => 'Button Count',
+					'box_count' => 'Box Count' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Annotation</th>
 				<td><?php $this->select( 'gp_annotation', array( 
@@ -608,6 +610,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'bubble' => 'Bubble',
 					'vertical-bubble' => 'Vertical Bubble',
 					'none' => 'None' ) ); ?></td>
+			</tr>
+			<tr>
+				<!-- Facebook -->
+				<th>Default Width</th>
+				<td><?php $this->input( 'fb_width', 'short' ); ?></td>
+				<!-- Google+ -->
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -628,7 +637,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'verdana' => 'Verdana' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
-			</tr>
+			</tr>				
 			<tr>
 				<!-- Facebook -->
 				<th>Button Color Scheme</th>
@@ -637,7 +646,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'dark' => 'Dark' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
-			</tr>				
+			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Facebook Action Name</th>
@@ -646,7 +655,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'recommend' => 'Recommend' ) ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
-			</tr>				
+			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
 				<!-- LinkedIn -->
