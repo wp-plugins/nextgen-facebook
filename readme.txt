@@ -116,17 +116,15 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
-= Q. When I click the Facebook "Like" button, the popup window doesn't show. Why? =
+= Q. Why does the Facebook "Like" button flyout get clipped (or doesn't show)? =
 
 **A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
 
 `
-#page {
-	overflow:visible;
-}
+#page { overflow:visible; }
 `
 
-Note: There is a known problem with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears unaffected by this issue.
+Note: There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears unaffected by this issue.
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
