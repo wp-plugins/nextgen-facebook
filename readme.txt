@@ -116,7 +116,7 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
-= Q. Why does the Facebook "Like" button flyout get clipped (or doesn't show)? =
+= Q. Why does the Facebook "Like" button flyout get clipped? =
 
 **A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
 
@@ -124,13 +124,13 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 #page { overflow:visible; }
 `
 
-Note: There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears unaffected by this issue.
+Note: There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears to be unaffected by this issue.
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
 **A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
-= Q. Why does NextGEN Facebook Open Graph ignore the &lt;img/&gt; HTML tags in my content? =
+= Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
@@ -357,8 +357,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6.2 =
 * Fixed YouTube embeded URLs to make them more compatible with Facebook.
+* Changed the behavior used to determine the sharing URL for index (non-singular) type webpages, from stripping only tracking query arguments to stripping all query arguments.
 * Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to HTML5).
-* Changed the default behavior, used to determine the sharing URL, to strip all query arguments from the URL for non-singular pages.
 
 = Version 3.6.1 =
 * Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
@@ -600,6 +600,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.6.2 =
+Improved the sharing URL for index webpages and YouTube embeded videos.
 
 = Version 3.6.1 =
 Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
