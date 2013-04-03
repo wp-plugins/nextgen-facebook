@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Tags: nextgen, featured, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 3.6.2
@@ -26,7 +26,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
-1. A featured image from a NextGEN Gallery or WordPress Media Library.
+1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
 1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
@@ -95,7 +95,7 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your featured image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh the Facebook cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your *featured* image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh the Facebook cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
 
 = Q. How can I see what Facebook sees? =
 
@@ -134,7 +134,7 @@ Note: There is also a known issue with Facebook's "Like" button flyout and the W
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
-1. A featured image from a NextGEN Gallery or WordPress Media Library.
+1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
 1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
@@ -164,7 +164,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 * [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
 
-* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the featured image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
+* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the *featured* image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
 
 == Shortcodes ==
 
@@ -174,7 +174,7 @@ You can add one or more social sharing buttons to your content by using the `[ng
 [ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter" /]
 `
 
-Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a featured or *attached* image**.
+Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a *featured* or *attached* image**.
 
 == Stylesheets ==
 
@@ -252,7 +252,7 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * If your website content does not have any embedded videos, or you prefer not to include information on embedded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embedded videos.
 
-* If you generally have a featured image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the featured image counts as "1" and the plugin will stop there).
+* If you generally have a *featured* image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the *featured* image counts as "1" and the plugin will stop there).
 
 * For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
 
@@ -366,8 +366,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6 =
 * Added an `[ngfb /]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus" /]`.
-* Added missing Open Graph og:image tags for attachment template webpages.
-* Added the first *attached* image to the Pinterest and Tumblr buttons (if no featured image is present).
+* Added missing Open Graph og:image tags for *attachment* template webpages.
+* Added the first *attached* image to the Pinterest and Tumblr buttons (if no *featured* image is present).
 * Added the list of *attached* images to the Open Graph og:image tags.
 * Added support for index webpages for the NGFB social sharing widget.
 * Added support for YouTube videos from the youtube-nocookie.com domain as well.
@@ -522,7 +522,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 2.1 =
 * Added an option for Google+ to select either the "G +1" or "G+ Share" button.
 * Added sharing of WordPress "quote" format posts to Tumblr. 
-* Added the Pinterest sharing button for posts and pages with featured images.
+* Added the Pinterest sharing button for posts and pages with *featured* images.
 * Added a check for the "Exclude Pages" plugin in the widget section.
 * Added a call to CDN Linker (if it's installed) for image URLs shared to Tumblr and Pinterest.
 * Added a check for the `DISABLE_NGFB_OPEN_GRAPH` constant before adding Open Graph meta tags.
@@ -530,7 +530,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 2.0 =
 * The NextGEN Facebook Open Graph options page has been re-worked to make it more compact.
-* Added the Tumblr social sharing button, including support for posting featured images, embedded video, or links to posts and pages.
+* Added the Tumblr social sharing button, including support for posting *featured* images, embedded video, or links to posts and pages.
 * Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
@@ -565,7 +565,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Updated the readme's Description and FAQ sections with more information on Open Graph and it's use by Google and LinkedIn.
 
 = Version 1.5 =
-* Added the "Add NextGEN Gallery Tags" option to include the featured (or default) image tags from the NextGEN Gallery.
+* Added the "Add NextGEN Gallery Tags" option to include the *featured* (or default) image tags from the NextGEN Gallery.
 * Added the "Content Begins at a Paragraph" option to ignore all text before the first `<p>` paragraph in the content (not the excerpt). This might be useful for photography oriented websites that have thumbnails, captions, etc. preceeding their content.
 * Added the "Use WP-WikiBox for Pages" option. This is an option very few, if any, besides myself will find useful. If you use the WP-WikiBox plugin's function in your theme's templates (and not the shortcode), then you can use the page's tags or title to retrieve content from Wikipedia. This only aplies to pages, not posts. Here's how it works; the plugin will check for the page's tags, and use their names to retrieve content from Wikipedia. If no tags are defined, then the page title will be used. If Wikipedia does not return a summary for your tags or title, then the content of your page will be used.
 
@@ -592,7 +592,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Improved the description and installation texts.
 * Used a single screenshot image of the settings page, instead of two.
 * Removed the "NextGEN Gallery Image Size" setting - it was a bit redundant. Instead, I've suggested using an existing Size Name from the Media Library, and if necessary, to create an additional Size Name specifically for NextGEN Facebook. Since NextGEN Gallery doesn't understand these Size Names, I've added some code to get the width, height, and crop from the Size Name, before calling the necessary NextGEN Gallery functions.
-* Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of the featured image from the first post, for example).
+* Added a "Use Default on Multi-Entry Pages" checkbox to force the default image to be used on the homepage, category page, author page, etc. (instead of the *featured* image from the first post, for example).
 * Added extra parsing for author pages, tag pages, category pages, etc., to refine the og:description text.
 * Also improved the og:title text for archive pages, category pages, etc. 
 
