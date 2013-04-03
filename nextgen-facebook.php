@@ -98,7 +98,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'fb_font' => 'arial',
 			'fb_show_faces' => 0,
 			'fb_action' => 'like',
-			'fb_markup' => 'html5',
+			'fb_markup' => 'xfbml',
 			'gp_enable' => 0,
 			'gp_order' => 2,
 			'gp_js_loc' => 'header',
