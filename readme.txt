@@ -358,7 +358,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 3.6.2 =
 * Fixed YouTube embeded URLs to make them more compatible with Facebook.
 * Changed the behavior used to determine the sharing URL for index (non-singular) type webpages, from stripping only tracking query arguments to stripping all query arguments.
-* Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to HTML5).
+* Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to XFBML).
 
 = Version 3.6.1 =
 * Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
@@ -407,7 +407,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added `$this->ngg_options` variable to read NextGEN Gallery options.
 * Changed the `NGFB_CONTENT_PRIORITY` from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
 * Slight improvements to the async JavaScript function used to retrieve social button JavaScript files.
-* **Changed Facebook like/send button from XFBML to HTML5 code**.
+* Changed Facebook like/send button from XFBML to HTML5 code.
 * Improved the social button CSS stylesheet example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
 
 = Version 3.4 =
