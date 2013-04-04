@@ -38,10 +38,10 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 			$button_html = '';
 			if ( ! empty( $atts['buttons'] ) ) {
 				$ids = explode( ',', $buttons );
-				$button_html .= $ngfb->get_buttons_js( 'pre-button', $ids );
+				$button_html .= $ngfb->get_buttons_js( 'pre-shortcode', $ids );
 				$button_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
 					$ngfb->get_buttons_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
-				$button_html .= $ngfb->get_buttons_js( 'post-button', $ids );
+				$button_html .= $ngfb->get_buttons_js( 'post-shortcode', $ids );
 			}
 			return $button_html;
 		}

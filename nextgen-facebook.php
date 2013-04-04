@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.6.2';		// for display purposes
-		var $opts_version = '15';	// increment when adding/removing $default_options
+		var $opts_version = '16';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -87,10 +87,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'buttons_on_index' => 0,
 			'buttons_on_ex_pages' => 0,
 			'buttons_location' => 'bottom',
-			'buttons_lang' => 'en-US',
 			'fb_enable' => 0,
 			'fb_order' => 1,
 			'fb_js_loc' => 'header',
+			'fb_lang' => 'en_US',
 			'fb_send' => 1,
 			'fb_layout' => 'button_count',
 			'fb_width' => 200,
@@ -102,12 +102,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'gp_enable' => 0,
 			'gp_order' => 2,
 			'gp_js_loc' => 'header',
+			'gp_lang' => 'en-US',
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
 			'twitter_enable' => 0,
 			'twitter_order' => 3,
 			'twitter_js_loc' => 'header',
+			'twitter_lang' => 'en',
 			'twitter_caption' => 'title',
 			'twitter_cap_len' => 140,
 			'twitter_count' => 'horizontal',
@@ -419,10 +421,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					'og_def_home' => 'og_def_img_on_index',
 					'og_def_on_home' => 'og_def_img_on_index',
 					'og_def_on_search' => 'og_def_img_on_search',
-					'buttons_on_home' => 'buttons_on_index'
+					'buttons_on_home' => 'buttons_on_index',
+					'buttons_lang' => 'gp_lang',
 				) as $old => $new )
-					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) )
+					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
+						$this->admin_msgs_inf[] = 'Renamed \'' . $old . '\' option to \'' . 
+							$new . '\' with a value of \'' . $opts[$old] . '\'.';
 						$opts[$new] = $opts[$old];
+					}
 				unset ( $old, $new );
 	
 				// remove old options that no longer exist
@@ -511,10 +517,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'og_img_size' : 
 						case 'og_author_field' :
 						case 'buttons_location' : 
-						case 'buttons_lang' : 
 						case 'fb_js_loc' : 
 						case 'fb_markup' : 
 						case 'gp_js_loc' : 
+						case 'gp_lang' : 
 						case 'gp_action' : 
 						case 'gp_size' : 
 						case 'gp_annotation' : 
@@ -595,10 +601,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$button_html .= $location == 'header' ? $this->ngfbButtons->header_js() : '';
 
 			switch ( $location ) {
-				case 'pre-button' : 
+				case 'pre-buttons' : 
+				case 'pre-shortcode' : 
 					$location_check = 'header';
 					break;
-				case 'post-button' : 
+				case 'post-buttons' : 
+				case 'post-shortcode' : 
 					$location_check = 'footer';
 					break;
 				default : 
@@ -609,7 +617,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 					$opt_name = $this->social_options_prefix[$id] . '_js_loc';
-					
 					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $location_check )
 						$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_js' ) ) 
 							return \$this->ngfbButtons->${id}_js( \$location );" );
@@ -1710,9 +1717,9 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		$button_html = '';
-		$button_html .= $ngfb->get_buttons_js( 'pre-button', $ids );
+		$button_html .= $ngfb->get_buttons_js( 'pre-buttons', $ids );
 		$button_html .= $ngfb->get_buttons_html( $ids, $atts );
-		$button_html .= $ngfb->get_buttons_js( 'post-button', $ids );
+		$button_html .= $ngfb->get_buttons_js( 'post-buttons', $ids );
 		return $button_html;
 	}
 }

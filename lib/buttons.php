@@ -78,7 +78,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		function header_js( $loc = 'id' ) {
 			global $ngfb;
 			$this->setup_cache_vars();
-			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
+			$lang = empty( $ngfb->options['gp_lang'] ) ? 'en-US' : $ngfb->options['gp_lang'];
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "' .  $lang . '" };
 				function ngfb_header_js( script_id, url, async ) {
@@ -151,8 +151,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		
 		function facebook_js( $loc = 'id' ) {
 			global $ngfb; 
-			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
-			$lang = preg_replace( '/-/', '_', $lang );
+			$lang = empty( $ngfb->options['fb_lang'] ) ? 'en_US' : $ngfb->options['fb_lang'];
 			return '<script type="text/javascript" id="facebook-script-' . $loc . '">
 				ngfb_header_js( "facebook-script-' . $loc . '", "' . 
 					$this->get_cache_url( 'https://connect.facebook.net/' . 
@@ -399,22 +398,8 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			$long_url = $atts['url'];
 			$atts['url'] = $this->get_short_url( $atts['url'], $ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
-			$lang = empty( $ngfb->options['buttons_lang'] ) ? 'en-US' : $ngfb->options['buttons_lang'];
-			$lang = substr( $lang, 0, 2);
+			$lang = empty( $ngfb->options['twitter_lang'] ) ? 'en' : $ngfb->options['twitter_lang'];
 
-			switch ( $lang ) {
-				case 'en' :
-				case 'fr' :
-				case 'de' :
-				case 'it' :
-				case 'es' :
-				case 'ko' :
-				case 'ja' :
-					break;
-				default :
-					$lang = 'en';
-					break;
-			}
 			return '
 				<!-- Twitter Button -->
 				<!-- URL = ' . $long_url . ' -->

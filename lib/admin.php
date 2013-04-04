@@ -78,8 +78,88 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'Webmail',
 			'Women\'s',
 		);
-	
-		var $locale = array(
+
+		var $fb_lang = array(
+			'af_ZA' => 'Afrikaans',
+			'sq_AL' => 'Albanian',
+			'ar_AR' => 'Arabic',
+			'hy_AM' => 'Armenian',
+			'az_AZ' => 'Azerbaijani',
+			'eu_ES' => 'Basque',
+			'be_BY' => 'Belarusian',
+			'bn_IN' => 'Bengali',
+			'bs_BA' => 'Bosnian',
+			'bg_BG' => 'Bulgarian',
+			'ca_ES' => 'Catalan',
+			'zh_HK' => 'Chinese (Hong Kong)',
+			'zh_CN' => 'Chinese (Simplified)',
+			'zh_TW' => 'Chinese (Traditional)',
+			'hr_HR' => 'Croatian',
+			'cs_CZ' => 'Czech',
+			'da_DK' => 'Danish',
+			'nl_NL' => 'Dutch',
+			'en_GB' => 'English (UK)',
+			'en_PI' => 'English (Pirate)',
+			'en_UD' => 'English (Upside Down)',
+			'en_US' => 'English (US)',
+			'eo_EO' => 'Esperanto',
+			'et_EE' => 'Estonian',
+			'fo_FO' => 'Faroese',
+			'tl_PH' => 'Filipino',
+			'fi_FI' => 'Finnish',
+			'fr_CA' => 'French (Canada)',
+			'fr_FR' => 'French (France)',
+			'fy_NL' => 'Frisian',
+			'gl_ES' => 'Galician',
+			'ka_GE' => 'Georgian',
+			'de_DE' => 'German',
+			'el_GR' => 'Greek',
+			'he_IL' => 'Hebrew',
+			'hi_IN' => 'Hindi',
+			'hu_HU' => 'Hungarian',
+			'is_IS' => 'Icelandic',
+			'id_ID' => 'Indonesian',
+			'ga_IE' => 'Irish',
+			'it_IT' => 'Italian',
+			'ja_JP' => 'Japanese',
+			'km_KH' => 'Khmer',
+			'ko_KR' => 'Korean',
+			'ku_TR' => 'Kurdish',
+			'la_VA' => 'Latin',
+			'lv_LV' => 'Latvian',
+			'fb_LT' => 'Leet Speak',
+			'lt_LT' => 'Lithuanian',
+			'mk_MK' => 'Macedonian',
+			'ms_MY' => 'Malay',
+			'ml_IN' => 'Malayalam',
+			'ne_NP' => 'Nepali',
+			'nb_NO' => 'Norwegian (Bokmal)',
+			'nn_NO' => 'Norwegian (Nynorsk)',
+			'ps_AF' => 'Pashto',
+			'fa_IR' => 'Persian',
+			'pl_PL' => 'Polish',
+			'pt_BR' => 'Portuguese (Brazil)',
+			'pt_PT' => 'Portuguese (Portugal)',
+			'pa_IN' => 'Punjabi',
+			'ro_RO' => 'Romanian',
+			'ru_RU' => 'Russian',
+			'sk_SK' => 'Slovak',
+			'sl_SI' => 'Slovenian',
+			'es_LA' => 'Spanish',
+			'es_ES' => 'Spanish (Spain)',
+			'sr_RS' => 'Serbian',
+			'sw_KE' => 'Swahili',
+			'sv_SE' => 'Swedish',
+			'ta_IN' => 'Tamil',
+			'te_IN' => 'Telugu',
+			'th_TH' => 'Thai',
+			'tr_TR' => 'Turkish',
+			'uk_UA' => 'Ukrainian',
+			'vi_VN' => 'Vietnamese',
+			'cy_GB' => 'Welsh',
+		);
+
+		var $gplus_lang = array(
 			'af'	=> 'Afrikaans',
 			'am'	=> 'Amharic',
 			'ar'	=> 'Arabic',
@@ -140,19 +220,29 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'uk'	=> 'Ukrainian',
 			'ur'	=> 'Urdu',
 			'vi'	=> 'Vietnamese',
-			'zu'	=> 'Zulu'
+			'zu'	=> 'Zulu',
 		);
 
+		var $twitter_lang = array(
+			'en'	=> 'English',
+			'fr'	=> 'French',
+			'de'	=> 'German',
+			'it'	=> 'Italian',
+			'es'	=> 'Spanish',
+			'ko'	=> 'Korean',
+			'ja'	=> 'Japanese',
+		);
+	
 		var $js_locations = array(
 			'header' => 'Header',
-			'footer' => 'Footer'
+			'footer' => 'Footer',
 		);
 
 		var $captions = array(
 			'title' => 'Title Only',
 			'excerpt' => 'Excerpt Only',
 			'both' => 'Title and Excerpt',
-			'none' => 'None'
+			'none' => 'None',
 		);
 
 		function __construct() {
@@ -533,11 +623,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Location in Content Text</th>
 				<td><?php $this->select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 			</tr>
-			<tr>
-				<th>Language</th>
-				<td><?php $this->select( 'buttons_lang', $this->locale ); ?></td>
-				<td colspan="2"><p>Prefered language for social buttons text (when supported).</p></td>
-			</tr>
 			</table>
 			<table class="form-table">
 			<tr>
@@ -570,6 +655,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<!-- Google+ -->
 				<th>JavaScript in</th>
 				<td><?php $this->select( 'gp_js_loc', $this->js_locations ); ?></td>
+			</tr>
+			<tr>
+				<!-- Facebook -->
+				<th>Language</th>
+				<td><?php $this->select( 'fb_lang', $this->fb_lang ); ?></td>
+				<!-- Google+ -->
+				<th>Language</th>
+				<td><?php $this->select( 'gp_lang', $this->gplus_lang ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -696,6 +789,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'top' => 'Vertical',
 					'none' => 'None' ) ); ?></td>
 				<!-- Twitter -->
+				<th>Language</th>
+				<td><?php $this->select( 'twitter_lang', $this->twitter_lang ); ?></td>
+			</tr>
+			<tr>
+				<!-- LinkedIn -->
+				<th>Show Zero in Counter</th>
+				<td><?php $this->checkbox( 'linkedin_showzero' ); ?></td>
+				<!-- Twitter -->
 				<th>Count Box Position</th>
 				<td><?php $this->select( 'twitter_count', array( 
 					'horizontal' => 'Horizontal',
@@ -704,8 +805,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
-				<th>Show Zero in Counter</th>
-				<td><?php $this->checkbox( 'linkedin_showzero' ); ?></td>
+				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Button Size</th>
 				<td><?php $this->select( 'twitter_size', array( 
