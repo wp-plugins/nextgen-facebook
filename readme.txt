@@ -93,6 +93,58 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 <!-- NextGEN Facebook Open Graph Meta Tags END -->
 `
 
+And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/).
+
+`
+<!-- NextGEN Facebook Open Graph Meta Tags BEGIN -->
+<link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
+<link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
+<meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Curaçao it forms a group referred to..." />
+<meta property="article:author" content="https://www.facebook.com/pages/Underwater-Focus/427082117363463" />
+<meta property="article:modified_time" content="2013-01-09T15:55:14+00:00" />
+<meta property="article:published_time" content="2012-07-30T15:07:13+00:00" />
+<meta property="article:section" content="Photography" />
+<!-- article:tag:1 --><meta property="article:tag" content="bonaire" />
+<!-- article:tag:2 --><meta property="article:tag" content="netherlands" />
+<meta property="fb:app_id" content="125425797600886" />
+<meta property="og:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Cura&ccedil;ao it forms a group referred to..." />
+<!-- og:image:1 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/192_crop_300x300_20070430-153247-jsmoriss-9364.jpg" />
+<!-- og:image:1 --><meta property="og:image:height" content="300" />
+<!-- og:image:1 --><meta property="og:image:width" content="300" />
+<!-- og:image:2 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/191_crop_300x300_20070430-111635-jsmoriss-9316.jpg" />
+<!-- og:image:2 --><meta property="og:image:height" content="300" />
+<!-- og:image:2 --><meta property="og:image:width" content="300" />
+<!-- og:image:3 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/190_crop_300x300_20080514-100511-mevallee-2928.jpg" />
+<!-- og:image:3 --><meta property="og:image:height" content="300" />
+<!-- og:image:3 --><meta property="og:image:width" content="300" />
+<!-- og:image:4 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/189_crop_300x300_20051019-112651-jsmoriss-3661.jpg" />
+<!-- og:image:4 --><meta property="og:image:height" content="300" />
+<!-- og:image:4 --><meta property="og:image:width" content="300" />
+<!-- og:image:5 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/188_crop_300x300_20080514-095134-jsmoriss-0636.jpg" />
+<!-- og:image:5 --><meta property="og:image:height" content="300" />
+<!-- og:image:5 --><meta property="og:image:width" content="300" />
+<!-- og:image:6 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/187_crop_300x300_20080513-145720-jsmoriss-0620.jpg" />
+<!-- og:image:6 --><meta property="og:image:height" content="300" />
+<!-- og:image:6 --><meta property="og:image:width" content="300" />
+<!-- og:image:7 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/186_crop_300x300_20080521-094013-jsmoriss-0918.jpg" />
+<!-- og:image:7 --><meta property="og:image:height" content="300" />
+<!-- og:image:7 --><meta property="og:image:width" content="300" />
+<!-- og:image:8 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/185_crop_300x300_20051031-145248-jsmoriss-4345.jpg" />
+<!-- og:image:8 --><meta property="og:image:height" content="300" />
+<!-- og:image:8 --><meta property="og:image:width" content="300" />
+<!-- og:image:9 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/184_crop_300x300_20050509-150718-jsmoriss-2667.jpg" />
+<!-- og:image:9 --><meta property="og:image:height" content="300" />
+<!-- og:image:9 --><meta property="og:image:width" content="300" />
+<!-- og:image:10 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/183_crop_300x300_20051102-090501-jsmoriss-4458.jpg" />
+<!-- og:image:10 --><meta property="og:image:height" content="300" />
+<!-- og:image:10 --><meta property="og:image:width" content="300" />
+<meta property="og:site_name" content="Underwater Focus" />
+<meta property="og:title" content="Bonaire" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
+<!-- NextGEN Facebook Open Graph Meta Tags END -->
+`
+
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
 **A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your *featured* image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh the Facebook cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
@@ -248,11 +300,11 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 
 `
 <div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
-	The Content Text
+	The Post Content Text...
 </div>
 `
 
-You could use any of these class names to hide one or more NGFB social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on post #123, any page in category "test", and posts using the Aside and Status formats:
 
 `
 .post-123 .ngfb-content-buttons,
