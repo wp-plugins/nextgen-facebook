@@ -632,7 +632,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $button_html ) {
 				$button_html = $this->get_debug( '', $this->debug_msgs ) .
 					"\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
-					"<div class=\"ngfb-buttons\">\n$button_html\n</div>\n" .
+					"<div class=\"" . NGFB_SHORTNAME . "-buttons\">\n$button_html\n</div>\n" .
 					"<!-- " . NGFB_FULLNAME . " Buttons HTML END -->\n\n";
 				$this->debug_msgs = array();
 			}
@@ -731,14 +731,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
 				$button_html = '';
 				$sorted_ids = array();
+
 				foreach ( $this->social_options_prefix as $id => $opt_prefix )
 					if ( $this->options[$opt_prefix.'_enable'] )
 						$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 				ksort( $sorted_ids );
+
 				$this->d_msg( 'calling get_buttons_html()' );
-				if ( $this->options['buttons_location'] == "top" ) 
-					$content = $this->get_buttons_html( $sorted_ids ) . $content;
-				else $content .= $this->get_buttons_html( $sorted_ids );
+				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . 
+					$this->get_buttons_html( $sorted_ids ) . "</div>\n";
+
+				if ( $this->options['buttons_location'] == "top" ) $content = $button_html . $content;
+				else $content .= $button_html;
 			}
 			return $content;
 		}
@@ -1442,8 +1446,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				// temporarily remove ngfb shortcode to prevent recursion
 				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
-					remove_shortcode( 'ngfb' );
-					$this->d_msg( 'ngfb shortcode removed' );
+					remove_shortcode( NGFB_SHORTNAME );
+					$this->d_msg( NGFB_SHORTNAME . ' shortcode removed' );
 				}
 
 				$this->d_msg( 'calling apply_filters()' );
@@ -1463,8 +1467,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 
 				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
-					add_shortcode( 'ngfb', array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
-					$this->d_msg( 'ngfb shortcode re-added' );
+					add_shortcode( NGFB_SHORTNAME, array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
+					$this->d_msg( NGFB_SHORTNAME . ' shortcode re-added' );
 				}
 			}
 

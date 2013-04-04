@@ -32,11 +32,17 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 				'css_class' => 'button',
 				'css_id' => 'shortcode',
 			), $atts ) );
-	
+
+			global $ngfb;
+			$ids = array();
 			$button_html = '';
-			if ( ! empty( $atts['buttons'] ) )
-				$button_html = ngfb_get_social_buttons( explode( ',', $buttons ), 
-					array( 'css_class' => $css_class, 'css_id' => $css_id ) );
+			if ( ! empty( $atts['buttons'] ) ) {
+				$ids = explode( ',', $buttons );
+				$button_html .= $ngfb->get_buttons_js( 'pre-button', $ids );
+				$button_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
+					$ngfb->get_buttons_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
+				$button_html .= $ngfb->get_buttons_js( 'post-button', $ids );
+			}
 			return $button_html;
 		}
 	}

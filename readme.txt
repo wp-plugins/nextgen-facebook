@@ -124,7 +124,11 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 #page { overflow:visible; }
 `
 
-Note: There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve themes. The `<iframe>` flyout created by Facebook's JavaScript (for the "Like" button) gets clipped, and no solution has yet been found. Facebook's "Send" button flyout, on the other hand, appears to be unaffected by this issue.
+There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve based themes. Including the following CSS in your stylesheet should fix the problem:
+
+`
+.fb-like span { width:472px !important; }
+`
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
@@ -180,27 +184,53 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 = Social Buttons Style =
 
-NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
+NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-Here's an example of some CSS styling I'ved used on [Surnia Ulula (UNIX Ideas for SysAdmins)](http://surniaulula.com/) in the past. **Note that I've specified the width (and height) for each button's `<div>`.** This takes a little more work to get right, but pre-defining the height and width of each button area helps the page rendering speed significantly.
+Here's an example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled in the NGFB settings, `.ngfb-widget-buttons` for buttons enabled in the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb /]` shortcode.
 
 `
-.ngfb-buttons { 
-	clear:both;
+/* make sure the Facebook flyout does not get clipped */
+#page { overflow:visible; }
+
+/* fix the Facebook "Like" flyout on 2012 based themes */
+.fb-like span { width:472px !important; }
+
+/* buttons in content: create a shadowed box for the buttons */
+.ngfb-content-buttons { 
 	display:block;
-	text-align:center; 
-	margin:20px 0 20px 0;
+	padding:2px;
+	margin:20px auto 20px auto;
+	text-align:center;
+	background-color:#eee;
+	-moz-box-shadow:0 0 5px #aaa;
+	-webkit-box-shadow:0 0 5px #aaa;
+	box-shadow:0 0 5px #aaa;
 }
+
+/* buttons in widget: align vertically in 150px columns */
+.ngfb-widget-buttons { text-align:left; }
+.ngfb-widget-buttons .ngfb-buttons > div { width:150px; }
+
+/* buttons in shortcode: display inline with text */
+.ngfb-shortcode-buttons { 
+	display:inline-block;
+	text-align:left;
+}
+
+/* defaults for the block of buttons */
+.ngfb-buttons { }
 .ngfb-buttons img { border:none; }
 .ngfb-buttons img:hover { border:none; }
+
+/* defaults for each button */
 .ngfb-buttons > div { 
 	display:inline-block;
 	vertical-align:bottom;
 	text-align:left;
-	width:100px;
+	width:100px;	/* default */
 	height:20px;
 	padding:0;
-	margin:0 5px 0 0;
+	margin:2px 3px 2px 2px;
 }
 div.facebook-button { width:149px; }
 div.gplus-button { width:75px; }
@@ -208,23 +238,8 @@ div.twitter-button { width:89px; }
 div.linkedin-button { width:109px; }
 div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
+/* last button - no margin on right */
 div.tumblr-button { width:80px; margin-right:0; }
-`
-
-The *NextGEN Social Sharing Buttons* widget adds an extra class name that can be used to create a different layout for the widget buttons. As an example, here are different styles for social buttons in a widget and in the content text.
-
-`
-.ngfb-widget-buttons .ngfb-buttons { 
-	display:inline-block;
-	text-align:right; 
-	margin:5px;
-}
-.ngfb-content-buttons .ngfb-buttons { 
-        padding:5px;
-        margin:20px auto 20px auto;
-        background-color:#eee;
-        box-shadow:0 0 5px #aaa;
-}
 `
 
 = Hide Social Buttons =
@@ -240,10 +255,10 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 You could use any of these class names to hide one or more NGFB social buttons. For example, the following stylesheet hides social buttons for post #123, any page in category "test", and posts using the Aside and Status formats:
 
 `
-.post-123 .ngfb-buttons,
-.category-test .ngfb-buttons,
-.format-aside .ngfb-buttons,
-.format-status .ngfb-buttons { display:none; }
+.post-123 .ngfb-content-buttons,
+.category-test .ngfb-content-buttons,
+.format-aside .ngfb-content-buttons,
+.format-status .ngfb-content-buttons { display:none; }
 `
 
 == Performance Tuning ==
