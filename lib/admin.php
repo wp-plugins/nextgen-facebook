@@ -365,7 +365,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			<p>The <?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a featured image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic/]</code>, <code>[nggallery/]</code> or <code>[nggtags/]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
 
 			<p><?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
 
@@ -390,12 +390,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Article Author URL</th>
 				<td><?php $this->select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the <i>Link Settings</i> bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the "Link Settings" section bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php $this->checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the <i>Link Settings</i> bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
+				<td><p>If the value found in the Author URL field (and the Author Link URL in the "Link Settings" section bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author</th>
@@ -456,7 +456,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image on Indexes</th>
 				<td><?php $this->checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, <?php echo NGFB_ACRONYM; ?> will attempt to use the featured image, NGG <code>[singlepic]</code> shortcodes, NGG <code>&lt;div&gt;</code> HTML tags for images, and <code>&lt;img/&gt;</code> HTML tag within the first entry on the webpage (default is checked).</p></td>
+				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, <?php echo NGFB_ACRONYM; ?> will attempt to use an image from the first entry on the webpage (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Image on Search Results</th>
@@ -467,7 +467,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
-				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery (NGG), then add the NGG image's tags to the Open Graph tag list (default is unchecked).</p></td>
+				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery (NGG), then add that image's tags to the Open Graph tag list (default is unchecked).</p></td>
 			</tr>
 			<?php	else : $this->hidden( 'og_ngg_tags' ); endif; ?>
 			<tr>
@@ -478,12 +478,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Add Page Title as Tag</th>
 				<td><?php $this->checkbox( 'og_page_title_tag' ); ?></td>
-				<td><p>Add the title of the Page to the Open Graph tag list as well. If the <em>Add Page Ancestor Tags</em> is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
+				<td><p>Add the title of the Page to the Open Graph tag list as well. If the "Add Page Ancestor Tags" option is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
 				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short' ); ?></td>
-				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the featured image, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
+				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the *featured* or *attached* images, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
@@ -508,7 +508,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Content Begins at First Paragraph</th>
 				<td><?php $this->checkbox( 'og_desc_strip' ); ?></td>
-				<td><p>For a Page or Post <i>without</i> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in <i>the content</i>. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
+				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
 				if ( $ngfb->is_active['wikibox'] ) : ?>
@@ -850,9 +850,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
 				<!-- Pinterest -->
-				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a featured image.</p></td>
+				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a *featured* or *attached* image.</p></td>
 				<!-- tumblr -->
-				<td colspan="2"><p>The tumblr button shares featured images (when the option is checked), embedded videos, quote post formats, and links to webpages.</p></td>
+				<td colspan="2"><p>The tumblr button shares a *featured* or *attached* image (when the option is checked), embedded video, <em>quote</em> Post format content, or link to the webpage.</p></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
@@ -1059,7 +1059,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Ignore Small Images</th>
 				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from the <code>&lt;img/&gt;</code> HTML tags it finds in the content (along with the featured image, NGG <code>[singlepic]</code>, or NGG <code>&lt;div&gt;</code> HTML tags for images). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
+				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content (provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Cache Expiry in Hours</th>

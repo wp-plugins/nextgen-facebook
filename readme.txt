@@ -27,7 +27,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Images from NextGEN Gallery `[singlepic/]`, `[nggallery/]` or `[nggtags/]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
@@ -191,7 +191,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Images from NextGEN Gallery `[singlepic/]`, `[nggallery/]` or `[nggtags/]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
