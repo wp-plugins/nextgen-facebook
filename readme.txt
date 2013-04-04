@@ -238,7 +238,7 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-Here's an example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled in the NGFB settings, `.ngfb-widget-buttons` for buttons enabled in the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb/]` shortcode.
+Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb/]` shortcode.
 
 `
 /* make sure the Facebook flyout does not get clipped */
@@ -263,7 +263,7 @@ Here's an example of CSS styling for the NGFB social buttons. Note that I've spe
 .ngfb-widget-buttons { text-align:left; }
 .ngfb-widget-buttons .ngfb-buttons > div { width:150px; }
 
-/* buttons in shortcode: display inline with text */
+/* buttons in shortcode: display inline with the text */
 .ngfb-shortcode-buttons { 
 	display:inline-block;
 	text-align:left;
