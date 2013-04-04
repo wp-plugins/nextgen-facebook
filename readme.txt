@@ -674,6 +674,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 3.6.3 =
+Fixed the missing "ngfb-content-buttons" CSS class, added "ngfb-shortcode-buttons" CSS class and additional language options.
+
 = Version 3.6.2 =
 Improved the sharing URL for index webpages and YouTube embeded videos.
 
