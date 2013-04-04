@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.6.3';		// for display purposes
-		var $opts_version = '16';	// increment when adding/removing $default_options
+		var $opts_version = '17';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -386,10 +386,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
 				echo $this->get_debug( 'get_option(\'' . NGFB_OPTIONS_NAME . '\')', print_r( get_option( NGFB_OPTIONS_NAME ), true ) );
-				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array 
-					from the database.<br/>All plugin settings have been returned to their default values, though nothing
-					has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings 
-					page</a> to review and save these new settings</a>.';
+				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array from the database.<br/>All plugin settings have been returned to their default values, though nothing has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save these new settings</a>.';
 				$this->options = $this->default_options;
 			}
 
@@ -409,10 +406,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->admin_msgs_inf[] = 'Option settings read from the database have been updated in memory.
-					To avoid these extra sanitation checks, and maximize plugin performance, please visit 
-					the ' . NGFB_FULLNAME . ' settings page to <a href="' .  $this->get_options_url() . 
-					'">review and save the updated setting values</a>.';
+				$this->admin_msgs_inf[] = 'Option settings from the database have been read and updated in memory. These updates have NOT been saved back to the database. <a href="' . $this->get_options_url() . '">Review and save the new settings</a> to disable this update notice.';
 	
 				// move old option values to new option names
 				foreach ( array(
@@ -425,8 +419,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					'buttons_lang' => 'gp_lang',
 				) as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
-						$this->admin_msgs_inf[] = 'Renamed \'' . $old . '\' option to \'' . 
-							$new . '\' with a value of \'' . $opts[$old] . '\'.';
+						$this->admin_msgs_inf[] = 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.';
 						$opts[$new] = $opts[$old];
 					}
 				unset ( $old, $new );
@@ -441,14 +434,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// add missing options and set to defaults
 				foreach ( $this->default_options as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option 
-							with the default value of \'' . $def_val . '\'.';
+						$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.';
 						$opts[$key] = $def_val;
 					}
 				}
 
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize_options( $opts );
+
+				if ( ! defined( 'NGFB_DONATED' ) || ! NGFB_DONATED )
+					$this->admin_msgs_inf[] = '<b>' . NGFB_FULLNAME . ' (NGFB) has taken many, many months to develop and fine-tune. Please say thank you by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
 			}
 			return $opts;
 		}
@@ -1660,7 +1655,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				echo '<div id="message" class="updated fade">';
 
 			foreach ( $this->admin_msgs_inf as $msg )
-				echo '<p>', $prefix, ' Notice : ', $msg, '</p>';
+				echo '<p style="padding:0;margin:5px;">', $prefix, ' Notice : ', $msg, '</p>';
 
 			if ( ! empty( $this->admin_msgs_inf ) ) 
 				echo '</div>';

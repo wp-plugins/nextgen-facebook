@@ -483,7 +483,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Maximum Number of Images</th>
 				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short' ); ?></td>
-				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the *featured* or *attached* images, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
+				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
@@ -850,9 +850,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
 				<!-- Pinterest -->
-				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a *featured* or *attached* image.</p></td>
+				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>featured</em> or <em>attached</em> image.</p></td>
 				<!-- tumblr -->
-				<td colspan="2"><p>The tumblr button shares a *featured* or *attached* image (when the option is checked), embedded video, <em>quote</em> Post format content, or link to the webpage.</p></td>
+				<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when the option is checked), embedded video, <em>quote</em> Post format content, or link to the webpage.</p></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
