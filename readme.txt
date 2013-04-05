@@ -284,6 +284,7 @@ Here's a fairly complete example of CSS styling for the NGFB social buttons. Not
 	padding:0;
 	margin:2px;
 }
+
 div.facebook-button { width:149px; }
 div.gplus-button { width:75px; }
 div.twitter-button { width:89px; }
@@ -292,6 +293,13 @@ div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
 /* last button - no margin on right */
 div.tumblr-button { width:80px; margin-right:0; }
+`
+
+You can also create a subtle "highlighting" effect using the <em>opacity</em> CSS property.
+
+`
+.ngfb-buttons > div { opacity:0.9; }
+.ngfb-buttons > div:hover { opacity:1.0; }
 `
 
 = Hide Social Buttons =

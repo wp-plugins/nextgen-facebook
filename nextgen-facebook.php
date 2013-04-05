@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph-plugin-for-wordpress/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 3.6.3
+Version: 3.6.4
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.6.3';		// for display purposes
+		var $version = '3.6.4';		// for display purposes
 		var $opts_version = '17';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -740,11 +740,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				ksort( $sorted_ids );
 
 				$this->d_msg( 'calling get_buttons_html()' );
-				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . 
-					$this->get_buttons_html( $sorted_ids ) . "</div>\n";
+				$button_html = $this->get_buttons_html( $sorted_ids );
 
-				if ( $this->options['buttons_location'] == "top" ) $content = $button_html . $content;
-				else $content .= $button_html;
+				if ( ! empty( $button_html ) ) {
+					$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n";
+					if ( $this->options['buttons_location'] == "top" ) $content = $button_html . $content;
+					else $content .= $button_html;
+				}
 			}
 			return $content;
 		}
