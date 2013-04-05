@@ -27,7 +27,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic/]`, `[nggallery/]` or `[nggtags/]` shortcodes.
+1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
@@ -179,7 +179,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve based themes. Including the following CSS in your stylesheet should fix the problem:
 
 `
-.fb-like span { width:472px !important; }
+.ngfb-buttons iframe { max-width:none; }
 `
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
@@ -191,7 +191,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic/]`, `[nggallery/]` or `[nggtags/]` shortcodes.
+1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the plugin settings.
 
@@ -224,10 +224,10 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Shortcodes ==
 
-You can add one or more social sharing buttons to your content by using the `[ngfb/]` shortcode. For example:
+You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
 
 `
-[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"/]
+[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
 `
 
 Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a *featured* or *attached* image**.
@@ -238,14 +238,11 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb/]` shortcode.
+Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb]` shortcode.
 
 `
 /* make sure the Facebook flyout does not get clipped */
 #page { overflow:visible; }
-
-/* fix the Facebook "Like" flyout on 2012 based themes */
-.fb-like span { width:472px !important; }
 
 /* buttons in content: create a shadowed box for the buttons */
 .ngfb-content-buttons { 
@@ -274,6 +271,9 @@ Here's a fairly complete example of CSS styling for the NGFB social buttons. Not
 .ngfb-buttons img { border:none; }
 .ngfb-buttons img:hover { border:none; }
 
+/* fix the FB "Like" flyout width on 2012 based themes */
+.ngfb-buttons iframe { max-width:none; }
+
 /* defaults for each button */
 .ngfb-buttons > div { 
 	display:inline-block;
@@ -282,7 +282,7 @@ Here's a fairly complete example of CSS styling for the NGFB social buttons. Not
 	width:100px;	/* default */
 	height:20px;
 	padding:0;
-	margin:2px 3px 2px 2px;
+	margin:2px;
 }
 div.facebook-button { width:149px; }
 div.gplus-button { width:75px; }
@@ -323,7 +323,7 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
 
-* If you don't use the `[ngfb/]` shortcode, you can uncheck the "Enable Shortcode" option (the default is unchecked).
+* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option (the default is unchecked).
 
 == Advanced Usage ==
 
@@ -424,7 +424,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6.3 =
 * Fixed / added the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
-* Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb/]` shortcode.
+* Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb]` shortcode.
 * Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
 
@@ -435,10 +435,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.6.1 =
 * Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
-* Added "Enable Shortcode" option to enable/disable the `[ngfb/]` shortcode filter (default is unchecked).
+* Added "Enable Shortcode" option to enable/disable the `[ngfb]` shortcode filter (default is unchecked).
 
 = Version 3.6 =
-* Added an `[ngfb/]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"/]`.
+* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
 * Added missing Open Graph og:image tags for *attachment* template webpages.
 * Added the first *attached* image to the Pinterest and Tumblr buttons (if no *featured* image is present).
 * Added the list of *attached* images to the Open Graph og:image tags.
@@ -684,7 +684,7 @@ Improved the sharing URL for index webpages and YouTube embeded videos.
 Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
 = Version 3.6 =
-Added an `[ngfb/]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
+Added an `[ngfb]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
 
 = Version 3.5.3 =
 A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.
