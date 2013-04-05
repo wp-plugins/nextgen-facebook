@@ -291,8 +291,7 @@ div.twitter-button { width:89px; }
 div.linkedin-button { width:109px; }
 div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
-/* last button - no margin on right */
-div.tumblr-button { width:80px; margin-right:0; }
+div.tumblr-button { width:80px; }
 `
 
 You can also create a subtle "highlighting" effect using the <em>opacity</em> CSS property.
