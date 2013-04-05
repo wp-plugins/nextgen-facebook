@@ -740,11 +740,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				ksort( $sorted_ids );
 
 				$this->d_msg( 'calling get_buttons_html()' );
-				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . 
-					$this->get_buttons_html( $sorted_ids ) . "</div>\n";
+				$button_html = $this->get_buttons_html( $sorted_ids );
 
-				if ( $this->options['buttons_location'] == "top" ) $content = $button_html . $content;
-				else $content .= $button_html;
+				if ( ! empty( $button_html ) ) {
+					$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n";
+					if ( $this->options['buttons_location'] == "top" ) $content = $button_html . $content;
+					else $content .= $button_html;
+				}
 			}
 			return $content;
 		}
