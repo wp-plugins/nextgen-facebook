@@ -430,10 +430,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.6.3 =
-* Fixed / added the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
+* Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
+* Fixed (added) the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
 * Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb]` shortcode.
 * Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
-* Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
 
 = Version 3.6.2 =
 * Fixed YouTube embeded URLs to make them more compatible with Facebook.
@@ -682,7 +682,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 == Upgrade Notice ==
 
 = Version 3.6.3 =
-Fixed the missing "ngfb-content-buttons" CSS class, added "ngfb-shortcode-buttons" CSS class and additional language options.
+Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
 
 = Version 3.6.2 =
 Improved the sharing URL for index webpages and YouTube embeded videos.
