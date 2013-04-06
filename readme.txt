@@ -240,7 +240,7 @@ NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap al
 
 Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb]` shortcode.
 
-`
+<pre>
 /* make sure the Facebook flyout does not get clipped */
 #page { overflow:visible; }
 
@@ -292,14 +292,14 @@ div.linkedin-button { width:109px; }
 div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
 div.tumblr-button { width:80px; }
-`
+</pre>
 
 You can also create a subtle "highlighting" effect using the <em>opacity</em> CSS property.
 
-`
+<pre>
 .ngfb-buttons > div { opacity:0.9; }
 .ngfb-buttons > div:hover { opacity:1.0; }
-`
+</pre>
 
 = Hide Social Buttons =
 
