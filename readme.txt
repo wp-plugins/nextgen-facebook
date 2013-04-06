@@ -172,9 +172,9 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 **A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
 
-`
+<pre>
 #page { overflow:visible; }
-`
+</pre>
 
 There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve based themes. Including the following CSS in your stylesheet should fix the problem:
 
