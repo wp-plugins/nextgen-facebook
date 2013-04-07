@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: NextGEN Facebook Open Graph
-Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph-plugin-for-wordpress/
+Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 Version: 3.6.3
 Author: Jean-Sebastien Morisset
