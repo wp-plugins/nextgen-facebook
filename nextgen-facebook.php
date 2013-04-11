@@ -278,8 +278,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_MAX_CACHE' ) )
 				define( 'NGFB_MAX_CACHE', 24 );
 
+			// by default, expire the WP object cache items after 300 seconds
 			if ( ! defined( 'NGFB_WP_CACHE_EXPIRE' ) )
-				define( 'NGFB_WP_CACHE_EXPIRE', 0 );
+				define( 'NGFB_WP_CACHE_EXPIRE', 300 );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
@@ -959,8 +960,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->d_msg( 'using $post->post_content' );
-					$desc = $this->apply_content_filter( $post->post_content, $this->options['ngfb_filter_content'] );
+					$this->d_msg( 'calling get_filtered_content()' );
+					$desc = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
 				}
 		
 				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
@@ -1004,16 +1005,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_content_videos_og( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-			$content = empty( $post ) ? '' : $post->post_content;
-			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
-
-			if ( empty( $content ) ) {
-				$this->d_msg( 'exiting early for empty content' );
-				return $og_ret;
-			}
-
-			$this->d_msg( 'calling apply_content_filter()' );
-			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
+			$this->d_msg( 'calling get_filtered_content()' );
+			$content = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
 
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				foreach ( $match_all as $media ) {
@@ -1115,7 +1108,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// check for img html tags on rendered content
 			$this->d_msg( 'calling get_content_images_og(' . $num . ', "' . $size_name . '")' );
 			$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
-
 			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
 			return $og_ret;
 		}
@@ -1125,16 +1117,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$found = array();
 			$og_ret = array();
 			$size_info = $this->get_size_values( $size_name );
-			$content = empty( $post ) ? '' : $post->post_content;
-			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
 
-			if ( empty( $content ) ) {
-				$this->d_msg( 'exiting early for empty content' );
-				return $og_ret;
-			}
-
-			if ( preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', 
-				$content, $match, PREG_SET_ORDER ) ) {
+			// check for singlepics before calling get_filtered_content()
+			if ( ! empty( $post ) && preg_match_all( '/\[singlepic[^\]]+id=([0-9]+)/i', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				$this->d_msg( '[singlepic] shortcode(s) found' );
 				foreach ( $match as $singlepic ) {
 					$og_image = array();
@@ -1160,10 +1145,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			} else $this->d_msg( 'no [singlepic] shortcode found' );
 
-			// remove singlepics, to avoid duplicates
-			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content );
-			$this->d_msg( 'calling apply_content_filter()' );
-			$content = $this->apply_content_filter( $content, $this->options['ngfb_filter_content'] );
+			$this->d_msg( 'calling get_filtered_content()' );
+			$content = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
+			if ( empty( $content ) ) { $this->d_msg( 'exiting early for empty content' ); return $og_ret; }
 
 			// check for NGG image ids
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
@@ -1460,15 +1444,28 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $meta;
 		}
 
-		function apply_content_filter( $content, $filter_content = true ) {
+		function get_filtered_content( $filter_content = true ) {
 
-			if ( empty( $content ) ) {
+			global $post;
+			if ( empty( $post ) ) return;
+			$cache_group = __METHOD__;
+			$cache_id = 'post_' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' );
+			$this->d_msg( 'using content from post ID ' . $post->ID );
 
-				$this->d_msg( 'skipping filters for empty content' );
+			$content = wp_cache_get( $cache_id, $cache_group );
+			if ( $content !== false ) {
+				$this->d_msg( 'filtered content retrieved from WP object cache for id "' . $cache_id . '"' );
+				return $content;
+			}
 
-			} elseif ( $filter_content == true ) {
+			$content = $post->post_content;
+			$this->d_msg( 'pre-filter content strlen() = ' . strlen( $content ) );
 
-				global $ngfb;
+			// remove singlepics, which we parse before-hand in get_content_images_og()
+			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
+			if ( $count > 0 ) $this->d_msg( '[singlepic] shortcode removed from content' );
+
+			if ( $filter_content == true ) {
 
 				// temporarily remove add_content_buttons() to prevent recursion
 				$filter_removed = remove_filter( 'the_content', 
@@ -1502,10 +1499,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->d_msg( NGFB_SHORTNAME . ' shortcode re-added' );
 				}
 			}
-
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
+			$this->d_msg( 'post-filter content strlen() = ' . strlen( $content ) );
+
+			wp_cache_set( $cache_id, $content, $cache_group, NGFB_WP_CACHE_EXPIRE );
+			$this->d_msg( 'filtered content saved to WP object cache for ' . NGFB_WP_CACHE_EXPIRE . ' seconds (0 = never expires)');
 
 			return $content;
 		}

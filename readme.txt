@@ -433,6 +433,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added code to fetch the preview image URL for videos from Vimeo using Vimeo's API.
 * Moved the `ngfbCache()` caching object (and it's configuration variables) from the buttons library to the main NGFB class. This was necessary in order to use the cache object's `curl()` features for Vimeo's API.
 * Added a `$cache = 'file'` default argument to the `ngfbCache->get()` method. By passing it `$ret = 'raw'` and `$cache = 'wp_cache'`, it's possible to use this method to fetch content (like information from the Vimeo API).
+* Renamed the `ngfbPlugin::apply_content_filter()` to `get_filtered_content()` and added WP object cache code to save the filtered content.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.

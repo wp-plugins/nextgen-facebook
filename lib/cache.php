@@ -135,7 +135,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					if ( $cache == 'wp_cache' && $ret == 'raw' ) {
 
 						wp_cache_set( $url, $raw_data, $cache_group, NGFB_WP_CACHE_EXPIRE );
-						$ngfb->d_msg( 'raw data saved to WP object cache' );
+						$ngfb->d_msg( 'raw data saved to WP object cache for '. NGFB_WP_CACHE_EXPIRE . ' seconds (0 = never expires)' );
 
 					} elseif ( $cache == 'file' ) {
 
