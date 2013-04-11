@@ -78,6 +78,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$url_frag = parse_url( $url, PHP_URL_FRAGMENT );
 			if ( ! empty( $url_frag ) ) $url_frag = '#' . $url_frag;
 
+			$cache_group = __METHOD__;
 			$cache_file = $this->base_dir . $url_key . '.' . $url_ext;
 			$cache_url = $this->base_url . $url_key . '.' . $url_ext . $url_frag;
 			$cache_time = time() - $this->expire_time;
@@ -85,10 +86,11 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 			if ( $cache == 'wp_cache' ) {
 				if ( $ret == 'raw' ) {
-					$raw_data = wp_cache_get( $url, 'ngfb_cache' );
-					if ( $raw_data !== false )
+					$raw_data = wp_cache_get( $url, $cache_group );
+					if ( $raw_data !== false ) {
 						$ngfb->d_msg( 'raw data retrieved from WP object cache' );
-
+						return $raw_data;
+					}
 				} else {
 					$ngfb->d_msg( 'returning original url ' . $url );
 					return $url;
@@ -99,8 +101,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$fh = fopen( $cache_file, 'rb' );
 					$raw_data = fread( $fh, filesize( $cache_file ) );
 					fclose( $fh );
-					if ( ! empty( $raw_data ) )
+					if ( ! empty( $raw_data ) ) {
 						$ngfb->d_msg( 'raw data retrieved from cache file ' . $cache_file );
+						return $raw_data;
+					}
 				} else {
 					$ngfb->d_msg( 'returning cache url ' . $cache_url );
 					return $cache_url;
@@ -130,7 +134,8 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				} else {
 					if ( $cache == 'wp_cache' && $ret == 'raw' ) {
 
-						wp_cache_set( $url, $raw_data, 'ngfb_cache', NGFB_WP_CACHE_EXPIRE );
+						wp_cache_set( $url, $raw_data, $cache_group, NGFB_WP_CACHE_EXPIRE );
+						$ngfb->d_msg( 'raw data saved to WP object cache' );
 
 					} elseif ( $cache == 'file' ) {
 

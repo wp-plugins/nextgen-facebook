@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '3.6.3';		// for display purposes
+		var $version = '3.7';		// for display purposes
 		var $opts_version = '17';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
@@ -1008,7 +1008,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
 
 			if ( empty( $content ) ) {
-				$this->d_msg( 'skipping filters for empty content' );
+				$this->d_msg( 'exiting early for empty content' );
 				return $og_ret;
 			}
 
@@ -1129,7 +1129,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->d_msg( '$post->post_content strlen() = ' . strlen( $content ) );
 
 			if ( empty( $content ) ) {
-				$this->d_msg( '' );
+				$this->d_msg( 'exiting early for empty content' );
 				return $og_ret;
 			}
 
@@ -1262,6 +1262,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			} else $this->d_msg( 'no <img src=""> html tag found' );
 
+			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
 			return $og_ret;
 		}
 
@@ -1629,8 +1630,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
-					$called = $stack[1]['function'];
-				if ( ! empty( $called ) ) $msg = sprintf( '%22s() : %s', $called, $msg );
+					$called_from = $stack[1]['function'];
+				if ( ! empty( $called_from ) ) $msg = sprintf( '%22s() : %s', $called_from, $msg );
 				$this->debug_msgs[] = $msg;
 			}
 			return;
@@ -1641,10 +1642,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
-					$called = $stack[1]['function'];
+					$called_from = $stack[1]['function'];
 
 				$out .= "<!-- " . NGFB_FULLNAME . " debug";
-				if ( ! empty( $called ) ) $out .= ' from ' . $called . '()';
+				if ( ! empty( $called_from ) ) $out .= ' from ' . $called_from . '()';
 				if ( ! empty( $name ) ) $out .= ' ' . $name;
 				if ( ! empty( $msg ) ) {
 					$out .= ' : ';
