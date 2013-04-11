@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 3.6.3
+Version: 3.7
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -278,6 +278,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_MAX_CACHE' ) )
 				define( 'NGFB_MAX_CACHE', 24 );
 
+			if ( ! defined( 'NGFB_WP_CACHE_EXPIRE' ) )
+				define( 'NGFB_WP_CACHE_EXPIRE', 0 );
+
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
 
@@ -294,6 +297,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function load_dependencies() {
 
+			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
@@ -301,7 +305,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
-				$this->ngfbAdmin = new ngfbAdmin();
+				$this->admin = new ngfbAdmin();
 			}
 		}
 
@@ -390,10 +394,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options = $this->default_options;
 			}
 
-			$this->ngfbButtons = new ngfbButtons();
+			$this->buttons = new ngfbButtons();
+			$this->cache = new ngfbCache();
+			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
+			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
+			$this->cache->pem_file = NGFB_PEM_FILE;
+			$this->cache->verify_cert = $this->options['ngfb_verify_certs'];
+			$this->cache->expire_time = $this->options['ngfb_cache_hours'] * 60 * 60;
+			$this->cache->user_agent = NGFB_USER_AGENT;
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->ngfbShortCodes = new ngfbShortCodes();
+				$this->shortcodes = new ngfbShortCodes();
 
 			if ( ! empty( $this->options['ngfb_debug'] ) 
 				|| ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
@@ -593,7 +604,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$ids = array_unique( $ids );
 			$this->d_msg( $location . ' ids = ' . implode( ', ', $ids ) );
 			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript BEGIN -->\n";
-			$button_html .= $location == 'header' ? $this->ngfbButtons->header_js() : '';
+			$button_html .= $location == 'header' ? $this->buttons->header_js() : '';
 
 			switch ( $location ) {
 				case 'pre-buttons' : 
@@ -613,8 +624,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 					$opt_name = $this->social_options_prefix[$id] . '_js_loc';
 					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $location_check )
-						$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_js' ) ) 
-							return \$this->ngfbButtons->${id}_js( \$location );" );
+						$button_html .= eval( "if ( method_exists( \$this->buttons, '${id}_js' ) ) 
+							return \$this->buttons->${id}_js( \$location );" );
 				}
 			}
 
@@ -628,8 +639,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
 				$this->d_msg( 'calling ' . $id . '_button()' );
-				$button_html .= eval( "if ( method_exists( \$this->ngfbButtons, '${id}_button' ) ) 
-					return \$this->ngfbButtons->${id}_button( \$atts );" );
+				$button_html .= eval( "if ( method_exists( \$this->buttons, '${id}_button' ) ) 
+					return \$this->buttons->${id}_button( \$atts );" );
 			}
 			if ( $button_html ) {
 				$button_html = $this->get_debug( '', $this->debug_msgs ) .
@@ -671,7 +682,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$has_video_image = 1;
 						}
 					}
-					unset( $vid );
+					unset ( $vid );
 				}
 			}
 
@@ -848,7 +859,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$title = preg_replace( '/\.\.\. \\' . $this->options['og_title_sep'] . ' /', '... ', $title );
 					}
 				}
-				unset( $cat_parents );
+				unset ( $cat_parents );
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
@@ -1015,17 +1026,32 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						'og:video:type' => 'application/x-shockwave-flash'
 					);
 					if ( $og_video['og:video'] ) {
+
+						// set the height and width based on the iframe/embed attributes
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:height'] = $match[1];
 
-						// fix URLs and define video images for known websites (like youtube)
-						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/]+)$/i', $og_video['og:video'], $match ) ) {
+						// fix URLs and define video images for known websites (youtube, vimeo, etc.)
+						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/\?\&]+)$/i', $og_video['og:video'], $match ) ) {
+
 							$og_video['og:video'] = 'http://www.youtube.com/v/'.$match[2];
 							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[2].'/0.jpg';
-						}
 
+						} elseif ( preg_match( '/^.*(vimeo)\.com\/.*\/([^\/\?\&]+)$/i', $og_video['og:video'], $match ) ) {
+
+							$api_url = "http://vimeo.com/api/v2/video/$match[2].php";
+							$this->d_msg( 'fetching video details from ' . $api_url );
+							$hash = unserialize( $this->cache->get( $api_url, 'raw', 'wp_cache' ) );
+
+							if ( ! empty( $hash ) ) {
+								$this->d_msg( 'setting og:video and og:image from Vimeo API hash' );
+								$og_video['og:video'] = $hash[0]['url'];
+								$og_video['og:image'] = $hash[0]['thumbnail_large'];
+							}
+						}
 						array_push( $og_ret, $og_video );
-						$this->d_msg( 'media info = image:' . $og_video['og:image'] . ' width:' . $og_video['og:video:width'] . 
+						$this->d_msg( 'image info = ' . $og_video['og:image'] );
+						$this->d_msg( 'video info = ' . $og_video['og:video'] . ' (width:' . $og_video['og:video:width'] . 
 							' height:' . $og_video['og:video:height'] . ')' );
 					}
 				}
@@ -1461,8 +1487,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->d_msg( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 				// cleanup for NGG album shortcode
-				unset( $GLOBALS['subalbum'] );
-				unset( $GLOBALS['nggShowGallery'] );
+				unset ( $GLOBALS['subalbum'] );
+				unset ( $GLOBALS['nggShowGallery'] );
 
 				if ( ! empty( $filter_removed ) ) {
 					add_filter( 'the_content', 
@@ -1471,7 +1497,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 
 				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
-					add_shortcode( NGFB_SHORTNAME, array( &$this->ngfbShortCodes, 'ngfb_shortcode' ) );
+					add_shortcode( NGFB_SHORTNAME, array( &$this->shortcodes, 'ngfb_shortcode' ) );
 					$this->d_msg( NGFB_SHORTNAME . ' shortcode re-added' );
 				}
 			}

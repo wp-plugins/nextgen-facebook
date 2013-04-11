@@ -58,12 +58,15 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 		}
 
-		// $ret = url : return the cached url if successful, else return the original url
-		// $ret = raw : return the cached raw_data if successful, else return an empty string
+		// $ret = url; return the cached url if successful, else return the original url
+		// $ret = raw; return the cached raw_data if successful, else return an empty string
+		// $cache = true; by default, cache the data retrieved
 
-		function get( $url, $ret = 'url' ) {
+		function get( $url, $ret = 'url', $cache = 'file' ) {
 
 			if ( ! function_exists('curl_init') ) return $url;
+
+			global $ngfb;
 
 			// if we're not using https on the current page, then no need to make our requests using https
 			$get_url = empty( $_SERVER['HTTPS'] ) ? preg_replace( '/^https:/', 'http:', $url ) : $url;
@@ -80,14 +83,32 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$cache_time = time() - $this->expire_time;
 			$raw_data = '';
 
-			if ( file_exists( $cache_file ) && filemtime( $cache_file ) > $cache_time ) {
-				$url = $cache_url;
+			if ( $cache == 'wp_cache' ) {
+				if ( $ret == 'raw' ) {
+					$raw_data = wp_cache_get( $url, 'ngfb_cache' );
+					if ( $raw_data !== false )
+						$ngfb->d_msg( 'raw data retrieved from WP object cache' );
+
+				} else {
+					$ngfb->d_msg( 'returning original url ' . $url );
+					return $url;
+				}
+			
+			} elseif ( $cache == 'file' && file_exists( $cache_file ) && filemtime( $cache_file ) > $cache_time ) {
 				if ( $ret == 'raw' ) {
 					$fh = fopen( $cache_file, 'rb' );
 					$raw_data = fread( $fh, filesize( $cache_file ) );
 					fclose( $fh );
+					if ( ! empty( $raw_data ) )
+						$ngfb->d_msg( 'raw data retrieved from cache file ' . $cache_file );
+				} else {
+					$ngfb->d_msg( 'returning cache url ' . $cache_url );
+					return $cache_url;
 				}
-			} else {
+			}
+
+			if ( empty( $raw_data ) ) {
+
 				$ch = curl_init();
 				curl_setopt( $ch, CURLOPT_URL, $get_url );
 				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
@@ -101,19 +122,35 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, TRUE );
 					curl_setopt( $ch, CURLOPT_CAINFO, $this->pem_file );
 				}
+				$ngfb->d_msg( 'fetching raw data from ' . $get_url );
 				$raw_data = curl_exec( $ch );
 				curl_close( $ch );
-				if ( ! empty( $raw_data ) ) {
-					if ( ! is_dir( $this->base_dir ) ) mkdir( $this->base_dir );
-					$fh = fopen( $cache_file, 'wb' );
-					if ( ! empty( $fh ) ) {
-						if ( fwrite( $fh, $raw_data ) ) $url = $cache_url;
-						fclose( $fh );
+				if ( empty( $raw_data ) ) {
+					$ngfb->d_msg( 'raw data returned from ' . $get_url . ' is empty' );
+				} else {
+					if ( $cache == 'wp_cache' && $ret == 'raw' ) {
+
+						wp_cache_set( $url, $raw_data, 'ngfb_cache', NGFB_WP_CACHE_EXPIRE );
+
+					} elseif ( $cache == 'file' ) {
+
+						if ( ! is_dir( $this->base_dir ) ) 
+							mkdir( $this->base_dir );
+						$fh = fopen( $cache_file, 'wb' );
+						if ( ! empty( $fh ) ) {
+							if ( fwrite( $fh, $raw_data ) ) {
+								$ngfb->d_msg( 'raw data saved to ' . $cache_file );
+								$url = $cache_url;
+							}
+							fclose( $fh );
+						}
 					}
 				}
 			}
+
 			if ( $ret == 'raw' ) return $raw_data;
 			else return $url;
 		}
 	}
 }
+?>

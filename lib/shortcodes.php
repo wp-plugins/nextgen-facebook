@@ -47,3 +47,4 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 		}
 	}
 }
+?>

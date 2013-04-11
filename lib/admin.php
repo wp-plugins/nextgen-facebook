@@ -1064,7 +1064,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Cache Expiry in Hours</th>
 				<td><?php $this->select( 'ngfb_cache_hours', range( 0, NGFB_MAX_CACHE ), 'short' ); ?></td>
-				<td><p>Save social button images and JavaScript to a cache folder and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.</p><p>Note: Caching remote content works with all social buttons except for the Facebook JavaScript SDK, which cannot be cached (for now). All other social button images and JavaScript files will be cached in <?php echo NGFB_CACHEDIR; ?>.</p></td>
+				<td><p>NGFB can save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can deliver these files faster and more reliably than the original websites.</p><p>Note: Caching remote content works with all social buttons, except for the Facebook JavaScript SDK, which does not work correctly when cached. The cached social button images and JavaScript files will be provided from the <?php echo NGFB_CACHEURL; ?> base URL.</p></td>
 			</tr>
 			<tr>
 				<th>Verify SSL Certificates</th>

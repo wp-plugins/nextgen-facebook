@@ -20,21 +20,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 	class ngfbButtons {
 
-		var $cache = '';
-
 		function __construct() {
-			require_once ( dirname ( __FILE__ ) . '/cache.php' );
-			$this->cache = new ngfbCache();
-		}
-
-		function setup_cache_vars() {
-			global $ngfb;
-			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
-			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
-			$this->cache->pem_file = NGFB_PEM_FILE;
-			$this->cache->verify_cert = $ngfb->options['ngfb_verify_certs'];
-			$this->cache->expire_time = $ngfb->options['ngfb_cache_hours'] * 60 * 60;
-			$this->cache->user_agent = NGFB_USER_AGENT;
 		}
 
 		function get_cache_url( $url ) {
@@ -46,7 +32,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			// make sure the cache expiration is greater than 0 hours
 			if ( empty( $ngfb->options['ngfb_cache_hours'] ) ) return $url;
 
-			return ( $ngfb->cdn_linker_rewrite( $this->cache->get( $url ) ) );
+			return ( $ngfb->cdn_linker_rewrite( $ngfb->cache->get( $url ) ) );
 		}
 
 		function get_short_url( $url, $short = true ) {
@@ -77,7 +63,6 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 		function header_js( $loc = 'id' ) {
 			global $ngfb;
-			$this->setup_cache_vars();
 			$lang = empty( $ngfb->options['gp_lang'] ) ? 'en-US' : $ngfb->options['gp_lang'];
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "' .  $lang . '" };
