@@ -213,21 +213,21 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					if ( $use_post == true ) {
 						if ( ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-							$ngfb->d_msg( 'get_post_thumbnail_id() = ' . $atts['pid'] );
+							$ngfb->debug->push( 'get_post_thumbnail_id() = ' . $atts['pid'] );
 						} else {
 							$atts['pid'] = $this->get_first_attached_image_id( $post->ID );
-							$ngfb->d_msg( 'get_first_attached_image_id() = ' . $atts['pid'] );
+							$ngfb->debug->push( 'get_first_attached_image_id() = ' . $atts['pid'] );
 						}
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						$ngfb->d_msg( 'calling get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$ngfb->debug->push( 'calling get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
 						list( $atts['photo'], $atts['width'], $atts['height'], 
 							$atts['cropped'] ) = $ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
 					} else {
-						$ngfb->d_msg( 'calling wp_get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$ngfb->debug->push( 'calling wp_get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
 						list( $atts['photo'], $atts['width'], $atts['height'] ) = wp_get_attachment_image_src( $atts['pid'], $atts['size'] );
 					}
 				}
