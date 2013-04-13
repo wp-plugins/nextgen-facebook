@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 3.6.3
@@ -423,6 +423,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_PEM_FILE` : When the "Verify SSL Certificates" option is checked, PHP's curl function needs a certificate authority file. Define the NGFB_PEM_FILE constant in your wp-config.php file to change the default location used by NGFB.
 
+* `NGFB_WP_CACHE_EXPIRE` : Expiration time for data saved in the WordPress object cache. The default value is 300 seconds.
+
 == Screenshots ==
 
 1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
@@ -430,11 +432,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.7 =
-* Added code to fetch the preview image URL for videos from Vimeo using Vimeo's API.
-* Moved the caching object (and it's configuration variables) from the buttons class to the main NGFB class. This was necessary in order to use the cache object's `curl()` features for Vimeo's API.
-* Added a `$cache = 'file'` default argument to the cache `get()` method - by passing it `$ret = 'raw'` and `$cache = 'wp_cache'`, it's possible to use the method to raw fetch content (like an array from the Vimeo API).
-* Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added WP object cache code to save the filtered content. This should improve performance (slightly) for websites without caching plugins.
-* Added a `NGFB_WP_CACHE_EXPIRE` constant with a default value of 300 seconds.
+* Added code to fetch the preview image URL for videos using Vimeo's API.
+* Moved the NGFB caching object from the buttons class to the main NGFB class. This was necessary in order to use the cache object for Vimeo's API.
+* Added a `$cache = 'file'` default argument to the cache `get()` method - by passing it `$ret = 'raw'` and `$cache = 'wp_cache'` or `$cache = 'transient'`, it's possible to use the cache method to fetch raw content (like an array from the Vimeo API).
+* Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added non-persistant object caching code (using wp_cache) to save the filtered content.
+* Added persistent WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
+* Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
+* Added the "Object Cache Expiry" option with a default value of 60 seconds.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
