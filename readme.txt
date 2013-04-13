@@ -432,13 +432,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.7 =
+* Added the "Object Cache Expiry" option with a default value of 60 seconds.
+* Added *persistent* WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
+* Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added *non-persistant* object caching code (using wp_cache) to save the filtered content.
+* Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
 * Moved the NGFB caching object from the buttons class to the main NGFB class. This was necessary in order to use the cache object for Vimeo's API.
-* Added a `$cache = 'file'` default argument to the cache `get()` method - by passing it `$ret = 'raw'` and `$cache = 'wp_cache'` or `$cache = 'transient'`, it's possible to use the cache method to fetch raw content (like an array from the Vimeo API).
-* Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added non-persistant object caching code (using wp_cache) to save the filtered content.
-* Added persistent WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
-* Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
-* Added the "Object Cache Expiry" option with a default value of 60 seconds.
+* Modified the NGFB caching class to use file, wp_cache, or transient caches.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
