@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
 
 			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $ngfb->options['ngfb_cache_hours'] ) ) return $url;
+			if ( empty( $ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
 
 			return ( $ngfb->cdn_linker_rewrite( $ngfb->cache->get( $url ) ) );
 		}
