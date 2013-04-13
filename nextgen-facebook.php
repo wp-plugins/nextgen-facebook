@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		var $version = '3.7';		// for display purposes
-		var $opts_version = '17';	// increment when adding/removing $default_options
+		var $opts_version = '18';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $debug_msgs = array();
 		var $admin_msgs_inf = array();
@@ -170,8 +170,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_filter_excerpt' => 0,
 			'ngfb_filter_content' => 1,
 			'ngfb_skip_small_img' => 1,
-			'ngfb_cache_hours' => 0,
+			'ngfb_file_cache_hrs' => 0,
+			'ngfb_object_cache_exp' => 60,
 			'ngfb_googl_api_key' => '' );
+		var $renamed_options = array(
+			'add_meta_desc' => 'inc_description',
+			'og_def_img' => 'og_def_img_url',
+			'og_def_home' => 'og_def_img_on_index',
+			'og_def_on_home' => 'og_def_img_on_index',
+			'og_def_on_search' => 'og_def_img_on_search',
+			'buttons_on_home' => 'buttons_on_index',
+			'buttons_lang' => 'gp_lang',
+			'ngfb_cache_hours' => 'ngfb_file_cache_hrs' );
 
 		function __construct() {
 
@@ -277,10 +287,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_MAX_CACHE' ) )
 				define( 'NGFB_MAX_CACHE', 24 );
-
-			// by default, expire the WP object cache items after 300 seconds
-			if ( ! defined( 'NGFB_WP_CACHE_EXPIRE' ) )
-				define( 'NGFB_WP_CACHE_EXPIRE', 300 );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
@@ -401,7 +407,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->cache->pem_file = NGFB_PEM_FILE;
 			$this->cache->verify_cert = $this->options['ngfb_verify_certs'];
-			$this->cache->expire_time = $this->options['ngfb_cache_hours'] * 60 * 60;
+			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
+			$this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 			$this->cache->user_agent = NGFB_USER_AGENT;
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
@@ -421,15 +428,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->admin_msgs_inf[] = 'Option settings from the database have been read and updated in memory. These updates have NOT been saved back to the database. <a href="' . $this->get_options_url() . '">Review and save the new settings</a> to disable this update notice.';
 	
 				// move old option values to new option names
-				foreach ( array(
-					'add_meta_desc' => 'inc_description',
-					'og_def_img' => 'og_def_img_url',
-					'og_def_home' => 'og_def_img_on_index',
-					'og_def_on_home' => 'og_def_img_on_index',
-					'og_def_on_search' => 'og_def_img_on_search',
-					'buttons_on_home' => 'buttons_on_index',
-					'buttons_lang' => 'gp_lang',
-				) as $old => $new )
+				foreach ( $this->renamed_options as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
 						$this->admin_msgs_inf[] = 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.';
 						$opts[$new] = $opts[$old];
@@ -496,7 +495,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'og_vid_max' :
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
-						case 'ngfb_cache_hours' :
+						case 'ngfb_file_cache_hrs' :
 							if ( $opts[$key] && ! is_numeric( $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
@@ -515,6 +514,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						case 'tumblr_cap_len' :
 						case 'stumble_order' : 
 						case 'stumble_badge' :
+						case 'ngfb_object_cache_exp' :
 							if ( empty( $opts[$key] ) || ! is_numeric( $opts[$key] ) )
 								$opts[$key] = $def_val;
 							break;
@@ -662,13 +662,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				return;
 			}
 
+			$cache_id = md5( $this->get_sharing_url() );
+			$cache_group = __METHOD__;
+			$cache_type = 'object cache';
+			$og = get_transient( $cache_id );
+
+			if ( $og !== false ) {
+				$this->d_msg( $cache_type . ' : og array retrieved from transient for id "' . $cache_id . '"' );
+				echo $this->get_debug( '', $this->debug_msgs );
+				$this->debug_msgs = array();
+				$this->print_meta( $og );
+				return;
+			}
+
 			global $post;
-			$og = array();
 			$has_video_image = '';
-		
+			$og = array();
+			$og['og:url'] = $this->get_sharing_url();
 			$og['fb:admins'] = $this->options['og_admins'];
 			$og['fb:app_id'] = $this->options['og_app_id'];
-			$og['og:url'] = $this->get_sharing_url();
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:title'] = $this->get_title( $this->options['og_title_len'], '...' );
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
@@ -729,12 +741,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$og['article:published_time'] = get_the_date('c');
 			}
 		
-			// output whatever debug info we have before printing the open graph meta tags
+			set_transient( $cache_id, $og, $this->options['ngfb_object_cache_exp'] );
+			$this->d_msg( $cache_type . ' : og array saved to transient for ' . $this->options['ngfb_object_cache_exp'] . ' seconds');
+
 			echo $this->get_debug( '', $this->debug_msgs );
 			$this->debug_msgs = array();
-
-			// add the Open Graph meta tags
 			$this->print_meta( $og );
+			return;
 		}
 
 		function add_content_buttons( $content ) {
@@ -1034,7 +1047,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 							$api_url = "http://vimeo.com/api/v2/video/$match[2].php";
 							$this->d_msg( 'fetching video details from ' . $api_url );
-							$hash = unserialize( $this->cache->get( $api_url, 'raw', 'wp_cache' ) );
+							$hash = unserialize( $this->cache->get( $api_url, 'raw', 'transient' ) );
 
 							if ( ! empty( $hash ) ) {
 								$this->d_msg( 'setting og:video and og:image from Vimeo API hash' );
@@ -1069,19 +1082,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->d_msg( 'wp_get_attachment_image_src(' . $post->ID . ',"' . $size_name . '") = ' . 
 					$og_image['og:image'] .  ' (' . $og_image['og:image:width'] . ' x ' . $og_image['og:image:height'] . ')' );
 
+				// if this is an attachment webpage, and we have an attachment, 
+				// then stop here and return the image array
 				if ( ! empty( $og_image['og:image'] ) ) {
 					array_push( $og_ret, $og_image );	// everything ok, so push the image
-					return $og_ret;				// stop here and return the image array
+					return $og_ret;
 				};
 			}
 
+			// check for index-type pages with option enabled to force a default image
 			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
 				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
 					$this->d_msg( 'is_singular() = ' . is_singular() );
 					$this->d_msg( 'is_search() = ' . is_search() );
 					$this->d_msg( 'calling get_default_image_og("' . $size_name . '")' );
+
 					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
-					return $og_ret;				// stop here and return the image array
+					return $og_ret;	// stop here and return the image array
 			}
 
 			// check for featured or attaches image(s)
@@ -1089,26 +1106,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->d_msg( 'calling get_featured_og(' . $post->ID . ', "' . $size_name . '")' );
 				$og_ret = array_merge( $og_ret, $this->get_featured_og( $post->ID, $size_name ) );
 
-				// stop and slice here if we have enough images
-				if ( $num > 0 && count( $og_ret ) >= $num ) {
-					$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
-					return array_slice( $og_ret, 0, $num );
-				}
-	
-				$this->d_msg( 'calling get_attached_images_og(' . $post->ID . ', "' . $size_name . '")' );
-				$og_ret = array_merge( $og_ret, $this->get_attached_images_og( $post->ID, $size_name ) );
-
-				// stop and slice here if we have enough images
-				if ( $num > 0 && count( $og_ret ) >= $num ) {
-					$this->d_msg( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
-					return array_slice( $og_ret, 0, $num );
+				// if we haven't reached the limit of images yet, keep going
+				if ( $num == 0 || count( $og_ret ) < $num ) {
+					$this->d_msg( 'calling get_attached_images_og(' . $post->ID . ', "' . $size_name . '")' );
+					$og_ret = array_merge( $og_ret, $this->get_attached_images_og( $post->ID, $size_name ) );
 				}
 			}
 
-			// check for img html tags on rendered content
-			$this->d_msg( 'calling get_content_images_og(' . $num . ', "' . $size_name . '")' );
-			$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
-			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
+			// if we haven't reached the limit of images yet, keep going
+			if ( $num == 0 || count( $og_ret ) < $num ) {
+				$this->d_msg( 'calling get_content_images_og(' . $num . ', "' . $size_name . '")' );
+				$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
+			}
+
+			// if we have a limit, and we're over, then slice the array
+			if ( $num > 0 && count( $og_ret ) > $num ) {
+				$this->d_msg( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
+				$og_ret = array_slice( $og_ret, 0, $num );
+			}
+
 			return $og_ret;
 		}
 
@@ -1147,7 +1163,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			$this->d_msg( 'calling get_filtered_content()' );
 			$content = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->d_msg( 'exiting early for empty content' ); return $og_ret; }
+			if ( empty( $content ) ) { 
+				$this->d_msg( 'exiting early for empty content' ); 
+				return $og_ret;
+			}
 
 			// check for NGG image ids
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', 
@@ -1246,7 +1265,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			} else $this->d_msg( 'no <img src=""> html tag found' );
 
-			if ( $num > 0 ) $og_ret = array_slice( $og_ret, 0, $num );
+			if ( $num > 0 && count( $og_ret ) > $num ) {
+				$this->d_msg( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
+				$og_ret = array_slice( $og_ret, 0, $num );
+			}
 			return $og_ret;
 		}
 
@@ -1445,22 +1467,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function get_filtered_content( $filter_content = true ) {
-
 			global $post;
 			if ( empty( $post ) ) return;
-			$cache_group = __METHOD__;
-			$cache_id = 'post_' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' );
 			$this->d_msg( 'using content from post ID ' . $post->ID );
-
+			$cache_id = md5( 'post_' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' ) );
+			$cache_group = __METHOD__;
+			$cache_type = 'object cache';
 			$content = wp_cache_get( $cache_id, $cache_group );
-			if ( $content !== false ) {
-				$this->d_msg( 'filtered content retrieved from WP object cache for id "' . $cache_id . '"' );
-				return $content;
-			}
 
+			if ( $content !== false ) {
+				$this->d_msg( $cache_type . ' : filtered content retrieved from wp_cache for id "' . $cache_id . '"' );
+				return $content;
+			} 
+			
 			$content = $post->post_content;
 			$this->d_msg( 'pre-filter content strlen() = ' . strlen( $content ) );
-
 			// remove singlepics, which we parse before-hand in get_content_images_og()
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
 			if ( $count > 0 ) $this->d_msg( '[singlepic] shortcode removed from content' );
@@ -1504,8 +1525,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$content = str_replace( ']]>', ']]&gt;', $content );
 			$this->d_msg( 'post-filter content strlen() = ' . strlen( $content ) );
 
-			wp_cache_set( $cache_id, $content, $cache_group, NGFB_WP_CACHE_EXPIRE );
-			$this->d_msg( 'filtered content saved to WP object cache for ' . NGFB_WP_CACHE_EXPIRE . ' seconds (0 = never expires)');
+			wp_cache_set( $cache_id, $content, $cache_group, $this->options['ngfb_object_cache_exp'] );
+			$this->d_msg( $cache_type . ' : filtered content saved to wp_cache for ' . $this->options['ngfb_object_cache_exp'] . ' seconds');
 
 			return $content;
 		}
@@ -1644,7 +1665,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $stack[1]['function'] ) )
 					$called_from = $stack[1]['function'];
 
-				$out .= "<!-- " . NGFB_FULLNAME . " debug";
+				$out .= "<!-- " . NGFB_ACRONYM . " debug";
 				if ( ! empty( $called_from ) ) $out .= ' from ' . $called_from . '()';
 				if ( ! empty( $name ) ) $out .= ' ' . $name;
 				if ( ! empty( $msg ) ) {
@@ -1698,8 +1719,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function get_sharing_url( $strip_query = 'noquery', $url = '', $use_post = false ) {
-			// $use_post = false when used for Open Graph meta tags and buttons in widget
-			// $use_post = true when buttons are added to individual posts on an index webpage
+			// $use_post = false; when used for Open Graph meta tags and buttons in widget
+			// $use_post = true; when buttons are added to individual posts on an index webpage
 			if ( empty( $url ) ) {
 				global $post;
 				if ( is_singular() || ( ! empty( $post ) && $use_post ) ) {
