@@ -33,32 +33,36 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			if ( is_page() && $ngfb->is_excluded() ) return;
 	
 			extract( $args );
-			$cache_id = md5( $this->id . '_' . $ngfb->get_sharing_url() );
-			$cache_group = __METHOD__;
+
+			if ( is_search() ) $sharing_url = $ngfb->get_sharing_url( 'notrack' );
+			else $sharing_url = $ngfb->get_sharing_url();
+
+			$cache_salt = __METHOD__ . '(' . $this->id . '_' . $sharing_url . ')';
+			$cache_id = 'ngfb_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$widget_html = get_transient( $cache_id );
+			$ngfb->debug->push( $cache_type . ' : widget_html transient id salt "' . $cache_salt . '"' );
 
 			if ( $widget_html !== false ) {
-				echo $ngfb->get_debug( $cache_type, 'widget_html retrieved from transient for id "' . $cache_id . '"' );
-				echo $widget_html;
-				return;
-			} 
-
-			$widget_html = '';
-			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-			$sorted_ids = array();
-			foreach ( $ngfb->social_options_prefix as $id => $prefix )
-				if ( (int) $instance[$id] )
-					$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
-			ksort( $sorted_ids );
-
-			$widget_html .= $before_widget . "\n";
-			if ( $title ) $widget_html .= $before_title . $title . $after_title . "\n";
-			$widget_html .= $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
-			$widget_html .= $after_widget . "\n";
-
-			set_transient( $cache_id, $widget_html, $ngfb->options['ngfb_object_cache_exp'] );
-			echo $ngfb->get_debug( $cache_type, 'widget_html saved to transient for ' . $this->options['ngfb_object_cache_exp'] . ' seconds (0 = never expires)');
+				$ngfb->debug->push( $cache_type . ' : widget_html retrieved from transient for id "' . $cache_id . '"' );
+			} else {
+				$widget_html = '';
+				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+				$sorted_ids = array();
+				foreach ( $ngfb->social_options_prefix as $id => $prefix )
+					if ( (int) $instance[$id] )
+						$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
+				ksort( $sorted_ids );
+	
+				$widget_html .= $before_widget . "\n";
+				if ( $title ) $widget_html .= $before_title . $title . $after_title . "\n";
+				$widget_html .= $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
+				$widget_html .= $after_widget . "\n";
+	
+				set_transient( $cache_id, $widget_html, $ngfb->options['ngfb_object_cache_exp'] );
+				$ngfb->debug->push( $cache_type . ' : widget_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
+			}
+			$ngfb->debug->show();
 			echo $widget_html;
 		}
 	

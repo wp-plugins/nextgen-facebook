@@ -432,6 +432,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 == Changelog ==
 
 = Version 3.7 =
+* Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
 * Added *persistent* WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
 * Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added *non-persistant* object caching code (using wp_cache) to save the filtered content.
