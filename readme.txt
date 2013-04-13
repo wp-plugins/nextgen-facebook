@@ -438,6 +438,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added non-persistant object caching code (using wp_cache) to save the filtered content.
 * Added persistent WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
 * Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
+* Added the "Object Cache Expiry" option with a default value of 60 seconds.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
