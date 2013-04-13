@@ -433,12 +433,14 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.7 =
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
-* Added *persistent* WP object caching code (using transient) to the completed Open Graph array and the NGFB social buttons widget.
-* Renamed the `apply_content_filter()` method to `get_filtered_content()`, and added *non-persistant* object caching code (using wp_cache) to save the filtered content.
+* Many changes to the NGFB caching class to use "file", "wp_cache" (non-persistent), or "transient" (persistent) caches.
+* Added *persistent* WP object caching code (using WP's transient functions) to the completed Open Graph array and the NGFB social buttons widget.
+* Added *non-persistant* object caching code (using WP's wp_cache functions) to the filtered content.
 * Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
-* Added code to fetch the preview image URL for videos using Vimeo's API.
 * Moved the NGFB caching object from the buttons class to the main NGFB class. This was necessary in order to use the cache object for Vimeo's API.
-* Modified the NGFB caching class to use file, wp_cache, or transient caches.
+* Added code to fetch the preview image URL for videos using Vimeo's API.
+* Renamed the `apply_content_filter()` method to `get_filtered_content()`.
+* Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
@@ -691,6 +693,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 3.6.3 =
+Added persistent and non-persistant caching code, added support for video preview images from Vimeo.
 
 = Version 3.6.3 =
 Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
