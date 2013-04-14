@@ -436,7 +436,7 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
 * Many changes to the NGFB caching class to use "file" (disk based), "wp_cache" (non-persistent), or "transient" (persistent) caches.
-* Added *non-persistant* ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
+* Added *non-persistent* ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Added *persistent* ([Transients API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
 * Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
@@ -733,7 +733,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = Version 4.0 =
 
-Added persistent and non-persistant caching code to improve speed (especially for logged-in users), added support for video preview images from Vimeo.
+Added persistent and non-persistent caching code to improve speed (especially for logged-in users), added support for video preview images from Vimeo.
 
 = Version 3.6.3 =
 
