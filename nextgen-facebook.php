@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.1';		// for display purposes
+		var $version = '4.0.1';		// for display purposes
 		var $opts_version = '19';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $admin_msgs_inf = array();
