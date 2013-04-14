@@ -432,7 +432,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.0 =
 
-Version 4.0 includes many changes to use the WordPress [Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache) and [Transients API](http://codex.wordpress.org/Transients_API) functions to improve performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
+Version 4.0 includes many changes to use the WordPress [Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache) and [Transients API](http://codex.wordpress.org/Transients_API) functions to improve performance. The performance gains will be most noticeable for logged-in users and websites that aren't using full-webpage caching plugins.
 
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
 * Many changes to the NGFB caching class to use "file" (disk based), "wp_cache" (non-persistent), or "transient" (persistent) caches.
