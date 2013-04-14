@@ -24,13 +24,6 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 * Tumblr
 * Twitter
 
-The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
-
-1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
-1. Images from `<img/>` HTML tags in the Post or Page content text.
-1. A default image defined in the NGFB plugin settings.
-
 **NGFB was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. 
 
 **NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
@@ -192,14 +185,16 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 **A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
-= Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
+= Q. How does NGFB find images to include in the Open Graph meta tags? =
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
 1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Images from `<img/>` HTML tags in the Post or Page content text.
-1. A default image defined in the plugin settings.
+1. A default image defined in the NGFB plugin settings.
+
+= Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
 
