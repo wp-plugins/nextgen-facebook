@@ -224,7 +224,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- " . NGFB_FULLNAME . " add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
+							"echo '<!-- " . NGFB_ACRONYM . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 				$defined_constants = get_defined_constants( true );
 				$this->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
@@ -239,6 +239,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_ACRONYM', 'NGFB' );
 			define( 'NGFB_FULLNAME', 'NextGEN Facebook Open Graph' );
+			define( 'NGFB_LONGNAME', 'NextGEN Facebook Open Graph (NGFB)' );
+			define( 'NGFB_URL', 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/' );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
@@ -413,7 +415,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 
 				$this->debug->on = $this->options['ngfb_debug'];
-				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = 1 second' );
+				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = 1 seconds' );
 				$this->cache->object_expire = 1;
 				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging comments are being generated and added to webpages.';
 
@@ -571,7 +573,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function add_header() {
-			echo "\n<!-- ", NGFB_FULLNAME, " (", NGFB_ACRONYM, ") Version ", $this->version, " -->\n";
+			echo "\n<!-- ", NGFB_LONGNAME, ' Version ', $this->version, " -->\n";
+			echo '<!-- About NGFB : ', NGFB_URL, " -->\n";
 			echo $this->get_buttons_js( 'header' );
 		}
 
@@ -608,22 +611,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->debug->push( $location . ' ids = ' . implode( ', ', $ids ) );
-			$button_html = "\n<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript BEGIN -->\n";
+			$button_html = "<!-- " . NGFB_LONGNAME . " " . $location . " javascript BEGIN -->\n";
 			$button_html .= $location == 'header' ? $this->buttons->header_js() : '';
 
-			switch ( $location ) {
-				case 'pre-buttons' : 
-				case 'pre-shortcode' : 
-					$location_check = 'header';
-					break;
-				case 'post-buttons' : 
-				case 'post-shortcode' : 
-					$location_check = 'footer';
-					break;
-				default : 
-					$location_check = $location;
-					break;
-			}
+			if ( preg_match( '/^pre/i', $location ) ) $location_check = 'header';
+			elseif ( preg_match( '/^post/i', $location ) ) $location_check = 'footer';
+			else $location_check = $location;
+
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
@@ -634,7 +628,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 
-			$button_html .= "<!-- " . NGFB_FULLNAME . " " . ucfirst( $location ) . " JavaScript END -->\n\n";
+			$button_html .= "<!-- " . NGFB_LONGNAME . " " . $location . " javascript END -->\n";
 			return $button_html;
 		}
 
@@ -647,11 +641,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$button_html .= eval( "if ( method_exists( \$this->buttons, '${id}_button' ) ) 
 					return \$this->buttons->${id}_button( \$atts );" );
 			}
-			if ( $button_html ) {
-				$button_html = "\n<!-- " . NGFB_FULLNAME . " Buttons HTML BEGIN -->\n" .
-					"<div class=\"" . NGFB_SHORTNAME . "-buttons\">\n$button_html\n</div>\n" .
-					"<!-- " . NGFB_FULLNAME . " Buttons HTML END -->\n\n";
-			}
+			if ( $button_html )
+				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$button_html</div>\n";
 			return $button_html;
 		}
 
@@ -660,7 +651,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
 
-				echo "\n<!-- ", NGFB_FULLNAME, " Open Graph DISABLED -->\n\n";
+				echo "\n<!-- ", NGFB_LONGNAME, " Open Graph DISABLED -->\n\n";
 				return;
 			}
 
@@ -762,6 +753,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
 				global $post;
+				// we should always have a unique post ID for each content
 				$cache_salt = __METHOD__ . '(post:' . $post->ID . ')';
 				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 				$cache_type = 'object cache';
@@ -781,7 +773,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$button_html = $this->get_buttons_html( $sorted_ids );
 	
 					if ( ! empty( $button_html ) ) {
-						$button_html = "<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n";
+						$button_html = "\n<!-- " . NGFB_LONGNAME . " content buttons BEGIN -->\n" .
+							"<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n" .
+							"<!-- " . NGFB_LONGNAME . " content buttons END -->\n";
+
 						set_transient( $cache_id, $button_html, $this->cache->object_expire );
 						$this->debug->push( $cache_type . ' : button_html saved to transient for id "' . $cache_id . '" (' . $this->cache->object_expire . ' seconds)');
 					}
@@ -1423,7 +1418,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", NGFB_FULLNAME, " Meta Tags BEGIN -->\n";
+			echo "\n<!-- ", NGFB_LONGNAME, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
 			$this->debug->show( print_r( $arr, true ) );
@@ -1471,7 +1466,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 			unset ( $d_name, $d_val );
 
-			echo "<!-- ", NGFB_FULLNAME, " Meta Tags END -->\n\n";
+			echo "<!-- ", NGFB_LONGNAME, " meta tags END -->\n";
 		}
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
@@ -1744,11 +1739,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
-		$button_html = '';
-		$button_html .= $ngfb->get_buttons_js( 'pre-buttons', $ids );
-		$button_html .= $ngfb->get_buttons_html( $ids, $atts );
-		$button_html .= $ngfb->get_buttons_js( 'post-buttons', $ids );
-		return $button_html;
+		$cache_salt = __METHOD__ . '(url:' . $ngfb->get_sharing_url( 'notrack' ) . '_ids:' . ( implode( '_', $ids ) ) . '_atts:' . ( implode( '_', $atts ) ) . ')';
+		$cache_id = 'ngfb_' . md5( $cache_salt );
+		$cache_type = 'object cache';
+		$ngfb->debug->push( $cache_type . ' : social buttons transient id salt "' . $cache_salt . '"' );
+		$button_html = get_transient( $cache_id );
+
+		if ( $button_html !== false ) {
+			$ngfb->debug->push( $cache_type . ' : button_html retrieved from transient for id "' . $cache_id . '"' );
+		} else {
+			$button_html = "\n<!-- " . NGFB_LONGNAME . " social buttons BEGIN -->\n" .
+				$ngfb->get_buttons_js( 'pre-social-buttons', $ids ) .
+				$ngfb->get_buttons_html( $ids, $atts ) .
+				$ngfb->get_buttons_js( 'post-social-buttons', $ids ) .
+				"<!-- " . NGFB_LONGNAME . " social buttons END -->\n";
+
+			set_transient( $cache_id, $button_html, $ngfb->cache->object_expire );
+			$ngfb->debug->push( $cache_type . ' : button_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
+		}
+		return $ngfb->debug->get() . $button_html;
 	}
 }
 
