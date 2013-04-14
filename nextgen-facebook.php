@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.0.1';		// for display purposes
-		var $opts_version = '18';	// increment when adding/removing $default_options
+		var $version = '4.1';		// for display purposes
+		var $opts_version = '19';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -171,7 +171,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_skip_small_img' => 1,
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 60,
-			'ngfb_googl_api_key' => '' );
+			'ngfb_googl_api_key' => '',
+			'ngfb_donated' => '' );
 		var $renamed_options = array(
 			'add_meta_desc' => 'inc_description',
 			'og_def_img' => 'og_def_img_url',
@@ -441,11 +442,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					}
 				unset ( $old, $new );
 	
-				// remove old options that no longer exist
+				// unset options that no longer exist
 				foreach ( $opts as $key => $val )
 					// check that the key is not empty, and doesn't exist in the default options
 					if ( ! empty( $key ) && ! array_key_exists( $key, $this->default_options ) )
-						delete_option( $opts[$key] );
+						unset( $opts[$key] );
 				unset ( $key, $val );
 	
 				// add missing options and set to defaults
