@@ -36,8 +36,8 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 **NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
 
 * Optional file / disk based caching for javascript and images from social websites.
-* Non-persistent (aka "[wp_cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)") object cache for rendered Post and Page content.
-* Persitent (aka "[transient](http://codex.wordpress.org/Transients_API)") object cache for complete Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
+* Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
+* Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 
 NGFB is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
@@ -443,8 +443,8 @@ Version 4.0 includes many changes to use the WordPress "[Object Cache](http://co
 
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
 * Many changes to the NGFB caching class to use "file" (disk based), "wp_cache" (non-persistent), or "transient" (persistent) caches.
-* Added *non-persistant* (aka "[wp_cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)") object caching code to the filtered Post or Page content, which may be re-used internatlly several times for a single webpage.
-* Added *persistent* (aka "[transient](http://codex.wordpress.org/Transients_API)" object caching code for complete Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
+* Added *non-persistant* ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
+* Added *persistent* ([Transients API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
 * Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 
