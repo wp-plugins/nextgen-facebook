@@ -33,7 +33,7 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 
 **NGFB was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. 
 
-**NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
+**NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques** (new in version 3.7):
 
 * Optional file / disk based caching for javascript and images from social websites.
 * Non-persistent (aka "wp_cache") object cache for rendered content.
