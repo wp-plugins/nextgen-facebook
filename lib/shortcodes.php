@@ -33,17 +33,31 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 				'css_id' => 'shortcode',
 			), $atts ) );
 
-			global $ngfb;
+			global $ngfb, $post;
 			$ids = array();
-			$button_html = '';
-			if ( ! empty( $atts['buttons'] ) ) {
-				$ids = explode( ',', $buttons );
-				$button_html .= $ngfb->get_buttons_js( 'pre-shortcode', $ids );
-				$button_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
-					$ngfb->get_buttons_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
-				$button_html .= $ngfb->get_buttons_js( 'post-shortcode', $ids );
+			$shortcode_html = '';
+
+			if ( ! empty( $buttons ) ) {
+				$ids = array_map( 'trim', explode( ',', $buttons ) );	// trim white spaces during explode
+				$cache_salt = __METHOD__ . '(post:' . $post->ID . '_buttons:' . ( implode( '_', $ids ) ) . '_css:' . $css_class . '_' . $css_id . ')';
+				$cache_id = 'ngfb_' . md5( $cache_salt );
+				$cache_type = 'object cache';
+				$shortcode_html = get_transient( $cache_id );
+				$ngfb->debug->push( $cache_type . ' : shortcode transient id salt "' . $cache_salt . '"' );
+
+				if ( $shortcode_html !== false ) {
+					$ngfb->debug->push( $cache_type . ' : shortcode_html retrieved from transient for id "' . $cache_id . '"' );
+				} else {
+					$shortcode_html .= $ngfb->get_buttons_js( 'pre-shortcode', $ids );
+					$shortcode_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
+						$ngfb->get_buttons_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
+					$shortcode_html .= $ngfb->get_buttons_js( 'post-shortcode', $ids );
+
+					set_transient( $cache_id, $shortcode_html, $ngfb->cache->object_expire );
+					$ngfb->debug->push( $cache_type . ' : shortcode_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
+				}
 			}
-			return $button_html;
+			return $ngfb->debug->get() . $shortcode_html;
 		}
 	}
 }

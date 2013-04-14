@@ -33,7 +33,13 @@ The images used in the Open Graph meta property tags for Posts and Pages are cho
 
 **NGFB was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. 
 
-NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
+**NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
+
+* Optional file / disk based caching for javascript and images from social websites.
+* Non-persistent (aka "wp_cache") object cache for rendered content.
+* Persitent (aka "transient") object cache for complete Open Graph meta tags, social buttons widget and shortcode.
+
+NGFB is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
 == Installation ==
 
@@ -433,14 +439,15 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 3.7 =
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
-* Many changes to the NGFB caching class to use "file", "wp_cache" (non-persistent), or "transient" (persistent) caches.
-* Added *persistent* WP object caching code (using WP's transient functions) to the completed Open Graph array and the NGFB social buttons widget.
-* Added *non-persistant* object caching code (using WP's wp_cache functions) to the filtered content.
-* Using the WordPress wp_cache and transient functions should improve performance, especially for websites without full-webpage cache plugins.
+* Many changes to the NGFB caching class to use "file" (disk based), "wp_cache" (non-persistent), or "transient" (persistent) caches.
+* Added *persistent* WP object caching code (using WP's transient functions) for the Open Graph meta tags, the social buttons widget, and shortcodes.
+* Added *non-persistant* object caching code (using WP's wp_cache functions) to the filtered content, which may be used several times for a single webpage.
 * Moved the NGFB caching object from the buttons class to the main NGFB class. This was necessary in order to use the cache object for Vimeo's API.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
 * Renamed the `apply_content_filter()` method to `get_filtered_content()`.
 * Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
+
+Using the WordPress `wp_cache` and `transient` functions should improve performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
@@ -694,8 +701,8 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= Version 3.6.3 =
-Added persistent and non-persistant caching code, added support for video preview images from Vimeo.
+= Version 3.7 =
+Added persistent and non-persistant caching code to improve speed (especially for logged-in users), added support for video preview images from Vimeo.
 
 = Version 3.6.3 =
 Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.

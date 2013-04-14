@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			if ( is_search() ) $sharing_url = $ngfb->get_sharing_url( 'notrack' );
 			else $sharing_url = $ngfb->get_sharing_url();
 
-			$cache_salt = __METHOD__ . '(' . $this->id . '_' . $sharing_url . ')';
+			$cache_salt = __METHOD__ . '(widget:' . $this->id . '_sharing_url:' . $sharing_url . ')';
 			$cache_id = 'ngfb_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$widget_html = get_transient( $cache_id );
@@ -59,7 +59,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 				$widget_html .= $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
 				$widget_html .= $after_widget . "\n";
 	
-				set_transient( $cache_id, $widget_html, $ngfb->options['ngfb_object_cache_exp'] );
+				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
 				$ngfb->debug->push( $cache_type . ' : widget_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
 			}
 			$ngfb->debug->show();
