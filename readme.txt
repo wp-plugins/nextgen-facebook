@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 3.6.3
@@ -70,7 +70,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 Open Graph property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-<!-- NextGEN Facebook Open Graph Meta Tags BEGIN -->
+<!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
@@ -96,13 +96,13 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 <meta property="og:title" content="WordPress Caching and Plugins for Performance" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
-<!-- NextGEN Facebook Open Graph Meta Tags END -->
+<!-- NextGEN Facebook Open Graph (NGFB) meta tags END -->
 `
 
 And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/).
 
 `
-<!-- NextGEN Facebook Open Graph Meta Tags BEGIN -->
+<!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Curaçao it forms a group referred to..." />
@@ -148,7 +148,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 <meta property="og:title" content="Bonaire" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
-<!-- NextGEN Facebook Open Graph Meta Tags END -->
+<!-- NextGEN Facebook Open Graph (NGFB) meta tags END -->
 `
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =

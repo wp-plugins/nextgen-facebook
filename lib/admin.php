@@ -363,11 +363,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 <p>You can also contribute by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">giving NGFB a positive review and rating of 5 stars</a>.</p>
 </div>', "\n"; ?>
 
-			<p>The <?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
+			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 
 			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
 
-			<p><?php echo NGFB_FULLNAME, ' (', NGFB_ACRONYM, ')'; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
+			<p><?php echo NGFB_LONGNAME; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
 
 			<div style="clear:both;"></div>
 			</div>
@@ -564,7 +564,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p><?php echo NGFB_ACRONYM; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
+				<p><?php echo NGFB_LONGNAME; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
 				</td>
 			</tr>
 			<?php
@@ -601,9 +601,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="form-table">
 			<tr>
 				<td colspan="4">
-				<p><?php echo NGFB_ACRONYM; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
+				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
 				
-				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_FULLNAME; ?>" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
+				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_ACRONYM; ?> Social Sharing Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
 				</td>
 			</tr>
 			<tr>
