@@ -317,10 +317,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				.donatebox {
 					float:left;
 					display:block;
-					font-weight:bold;
 					width:350px;
-					margin:0 20px 10px 0;
-					padding:5px 15px 5px 15px;
+					margin:0 20px 5px 0;
+					padding:10px;
 					color:#333;
 					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -333,51 +332,54 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border:1px solid #b4b4b4;
 				}
 				.donatebox p { 
-					font-size:1em;
 					line-height:1.25em;
-					margin:10px 0 10px 0;
+					margin:5px 0 5px 0;
 					text-align:center;
 				}
 				#donate { text-align:center; }
-				#message p { text-align:left; }
 			</style>
 		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
-	
 			<div class="metabox-holder">
-			<div class="postbox">
-			<div class="inside">	
 
-			<?php if ( ! defined( 'NGFB_DONATED' ) || ! NGFB_DONATED ) echo '
-<div class="donatebox">
-<p>NextGEN Facebook Open Graph has taken many, many months to develop and fine-tune. Please say thank you by donating $10 or $20.</p>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">
+			<div class="postbox" <?php if ( ! empty( $ngfb->options['ngfb_donated'] ) ) echo 'style="display:none;"'; ?> >
+			<div class="inside">	
+			<div class="donatebox">
+			<p>The NextGEN Facebook Open Graph plugin has taken many, many months to develop and fine-tune. Please say thank you by donating a few dollars and / or <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">writing a positive review on wordpress.org</a>.</p>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate">
 <input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+<table align="center">
+<tr><td><input type="hidden" name="on0" value="Choose Your Support">Choose Your Support</td></tr><tr><td><select name="os0">
+	<option value="S'up!">S'up! $5.00 USD</option>
+	<option value="Thank You!">Thank You! $10.00 USD</option>
+	<option value="Great Job!">Great Job! $20.00 USD</option>
+	<option value="Keep Going!">Keep Going! $30.00 USD</option>
+</select> </td></tr>
+</table>
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
 ">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
-<p>You can also contribute by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">giving NGFB a positive review and rating of 5 stars</a>.</p>
-</div>', "\n"; ?>
+			</div>
 
 			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
 
 			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
 
-			<p><?php echo NGFB_LONGNAME; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
+			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
 
 			<div style="clear:both;"></div>
-			</div>
-			</div>
+			</div><!-- .inside -->
+			</div><!-- .postbox -->
 
 			<form name="ngfb" method="post" action="options.php">
-			<?php
-				settings_fields( 'ngfb_plugin_options' );
-				$this->hidden( 'ngfb_version', $ngfb->opts_version );
-			?>
+			<?php settings_fields( 'ngfb_plugin_options' ); $this->hidden( 'ngfb_version', $ngfb->opts_version ); ?>
+
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Settings</span></h3>
 			<div class="inside">	
@@ -1027,9 +1029,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="inside">	
 			<table class="form-table">
 			<tr>
-				<th>Reset Settings on Activate</th>
+				<th>Reset on Activate</th>
 				<td><?php $this->checkbox( 'ngfb_reset' ); ?></td>
-				<td><p>Check this option to reset <?php echo NGFB_ACRONYM; ?> settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
+				<td><p>Check this option if you would like to reset the <?php echo NGFB_ACRONYM; ?> settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>
@@ -1042,14 +1044,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Enable the NGFB content shortcode(s) (default is unchecked).</p></td>
 			</tr>
 			<tr>
+				<th>Ignore Small Images</th>
+				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
+				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content (provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
+			</tr>
+			<tr>
 				<th>Apply Title Filters</th>
 				<td><?php $this->checkbox( 'ngfb_filter_title' ); ?></td>
 				<td><p>Apply the standard WordPress filters to the webpage title (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Apply Excerpt Filters</th>
-				<td><?php $this->checkbox( 'ngfb_filter_excerpt' ); ?></td>
-				<td><p>There should be no need to filter the excerpt text, but the option is here if you need it (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Content Filters</th>
@@ -1057,9 +1059,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the WordPress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the WordPress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags (default is checked).</p></td>
 			</tr>
 			<tr>
-				<th>Ignore Small Images</th>
-				<td><?php $this->checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content (provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
+				<th>Apply Excerpt Filters</th>
+				<td><?php $this->checkbox( 'ngfb_filter_excerpt' ); ?></td>
+				<td><p>There shouldn't be any need to filter excerpt text, but the option is here if you need it (default is unchecked).</p></td>
+			</tr>
+			<tr>
+				<th>Verify SSL Certificates</th>
+				<td><?php $this->checkbox( 'ngfb_verify_certs' ); ?></td>
+				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
 			</tr>
 			<tr>
 				<th>File Cache Expiry</th>
@@ -1072,15 +1079,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>NGFB saves the rendered (filtered) content text to a non-presistant cache (wp_cache), and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and webpages will not be reflected in the Open Graph and NGFB social buttons until the object cache has expired. Decrease this value if your content changes frequently, or increase it to improve performance. The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
 			</tr>
 			<tr>
-				<th>Verify SSL Certificates</th>
-				<td><?php $this->checkbox( 'ngfb_verify_certs' ); ?></td>
-				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
-			</tr>
-			<tr>
 				<th>Goo.gl Simple API Access Key</th>
 				<td></td>
 				<td><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
 				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
+			</tr>
+			<tr>
+				<th>Have Donated</th>
+				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
+				<td><p>Check this option if you have donated a few dollars, reviewed and rated <?php echo NGFB_ACRONYM; ?>, or helped in the <?php echo NGFB_ACRONYM; ?> support forum (default is unchecked).</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->

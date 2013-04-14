@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.0.1
+Version: 4.0.2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.0.1';		// for display purposes
-		var $opts_version = '19';	// increment when adding/removing $default_options
+		var $version = '4.0.2';		// for display purposes
+		var $opts_version = '20';	// increment when adding/removing $default_options
 		var $is_active = array();	// assoc array for function/class/method checks
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -161,18 +161,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'inc_article:section' => 1,
 			'inc_article:tag' => 1,
 			'ngfb_version' => '',
+			'ngfb_donated' => 0,
 			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
 			'ngfb_enable_shortcode' => 0,
-			'ngfb_verify_certs' => 0,
 			'ngfb_filter_title' => 1,
 			'ngfb_filter_excerpt' => 0,
 			'ngfb_filter_content' => 1,
 			'ngfb_skip_small_img' => 1,
+			'ngfb_verify_certs' => 0,
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 60,
-			'ngfb_googl_api_key' => '',
-			'ngfb_donated' => '' );
+			'ngfb_googl_api_key' => '' );
 		var $renamed_options = array(
 			'add_meta_desc' => 'inc_description',
 			'og_def_img' => 'og_def_img_url',
@@ -251,7 +251,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// NGFB_DEBUG
 			// NGFB_RESET
-			// NGFB_DONATED
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
 
@@ -460,7 +459,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize_options( $opts );
 
-				if ( ! defined( 'NGFB_DONATED' ) || ! NGFB_DONATED )
+				if ( empty( $opts['ngfb_donated'] ) )
 					$this->admin_msgs_inf[] = '<b>' . NGFB_FULLNAME . ' (NGFB) has taken many, many months to develop and fine-tune. Please say thank you by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
 			}
 			return $opts;

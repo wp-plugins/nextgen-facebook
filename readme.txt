@@ -430,9 +430,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.2 =
+
+* Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
+
 = Version 4.0.1 =
 
-* Added missing `debug.php` library file to the SVN.
+* Added the missing `debug.php` library file to the SVN repository.
 
 = Version 4.0 =
 
@@ -735,9 +739,13 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
+= Version 4.0.2 =
+
+Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
+
 = Version 4.0.1 =
 
-Added missing `debug.php` library file to the SVN.
+Added the missing `debug.php` library file to the SVN repository.
 
 = Version 4.0 =
 
