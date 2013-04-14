@@ -430,6 +430,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.1 =
+
+* Added missing `debug.php` library file to the SVN.
+
 = Version 4.0 =
 
 Version 4.0 includes many changes to use the WordPress [Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache) and [Transients API](http://codex.wordpress.org/Transients_API) functions to improve performance. The performance gains will be most noticeable for logged-in users and websites that aren't using full-webpage caching plugins.
@@ -730,6 +734,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 4.0.1 =
+
+Added missing `debug.php` library file to the SVN.
 
 = Version 4.0 =
 
