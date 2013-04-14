@@ -429,8 +429,6 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * `NGFB_PEM_FILE` : When the "Verify SSL Certificates" option is checked, PHP's curl function needs a certificate authority file. Define the NGFB_PEM_FILE constant in your wp-config.php file to change the default location used by NGFB.
 
-* `NGFB_WP_CACHE_EXPIRE` : Expiration time for data saved in the WordPress object cache. The default value is 300 seconds.
-
 == Screenshots ==
 
 1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
@@ -439,7 +437,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.0 =
 
-Version 4.0 includes many changes to use the WordPress "[Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)" and "[Transients API](http://codex.wordpress.org/Transients_API)" functions to improve performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
+Version 4.0 includes many changes to use the WordPress [Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache) and [Transients API](http://codex.wordpress.org/Transients_API) functions to improve performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
 
 * Added the "Object Cache Expiry" option with a default value of 60 seconds.
 * Many changes to the NGFB caching class to use "file" (disk based), "wp_cache" (non-persistent), or "transient" (persistent) caches.
