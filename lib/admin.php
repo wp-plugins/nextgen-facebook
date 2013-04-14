@@ -1037,9 +1037,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
-				<th>Enable Shortcode</th>
+				<th>Enable Shortcode(s)</th>
 				<td><?php $this->checkbox( 'ngfb_enable_shortcode' ); ?></td>
-				<td><p>Enable the NGFB content shortcode (default is unchecked).</p></td>
+				<td><p>Enable the NGFB content shortcode(s) (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Title Filters</th>

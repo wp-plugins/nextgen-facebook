@@ -218,8 +218,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->load_options();
 
 			// add_action() tests
-			if ( ! is_admin() && ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) ) {
-
+			if ( ! is_admin() && $this->debug->on ) {
 				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Initialized -->', "\n";
 
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
@@ -227,7 +226,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						add_action( $action, create_function( '', 
 							"echo '<!-- " . NGFB_FULLNAME . " add_action( \'$action\' ) Priority $prio Test = Passed -->\n';" ), $prio );
 				}
-
 				$defined_constants = get_defined_constants( true );
 				$this->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
 				$this->debug->show( $this->is_active );
@@ -402,26 +400,28 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			$this->debug = new ngfbDebug();
-			$this->debug->on = $this->options['ngfb_debug'];
-
 			$this->buttons = new ngfbButtons();
-
 			$this->cache = new ngfbCache();
+
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->cache->pem_file = NGFB_PEM_FILE;
 			$this->cache->verify_cert = $this->options['ngfb_verify_certs'];
-			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
-			$this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 			$this->cache->user_agent = NGFB_USER_AGENT;
+			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
+
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+
+				$this->debug->on = $this->options['ngfb_debug'];
+				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = 1 second' );
+				$this->cache->object_expire = 1;
+				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging comments are being generated and added to webpages.';
+
+			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
 				$this->shortcodes = new ngfbShortCodes();
 
-			if ( ! empty( $this->options['ngfb_debug'] ) 
-				|| ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
-				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Additional hidden debugging 
-					comments are being generated and added to webpages.';
 		}
 
 		function upgrade_options( &$opts = array() ) {
@@ -667,7 +667,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_search() ) $sharing_url = $this->get_sharing_url( 'notrack' );
 			else $sharing_url = $this->get_sharing_url();
 
-			$cache_salt = __METHOD__ . '(' . $sharing_url . ')';
+			$cache_salt = __METHOD__ . '(sharing_url:' . $sharing_url . ')';
 			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$og = get_transient( $cache_id );
@@ -762,7 +762,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_singular() || $this->options['buttons_on_index'] ) {
 				global $post;
-				$cache_salt = __METHOD__ . '(' . 'post_' . $post->ID . ')';
+				$cache_salt = __METHOD__ . '(post:' . $post->ID . ')';
 				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$button_html = get_transient( $cache_id );
@@ -973,7 +973,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
 				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-				$this->debug->push( '$use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+				$this->debug->push( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
 
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
@@ -1493,7 +1493,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$this->debug->push( 'using content from post ID ' . $post->ID );
-			$cache_salt = __METHOD__ . '(' . 'post_' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' ) . ')';
+			$cache_salt = __METHOD__ . '(post:' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' ) . ')';
 			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$content = wp_cache_get( $cache_id, __METHOD__ );
@@ -1503,9 +1503,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->push( $cache_type . ' : filtered content retrieved from wp_cache for id "' . $cache_id . '"' );
 				return $content;
 			} 
-			
 			$content = $post->post_content;
-			$this->debug->push( 'pre-filter content strlen() = ' . strlen( $content ) );
+			$content_strlen_before = strlen( $content );
+
 			// remove singlepics, which we parse before-hand in get_content_images_og()
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
 			if ( $count > 0 ) $this->debug->push( '[singlepic] shortcode removed from content' );
@@ -1524,10 +1524,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 
 				$this->debug->push( 'calling apply_filters()' );
-				$content_strlen_before = strlen( $content );
 				$content = apply_filters( 'the_content', $content );
-				$content_strlen_after = strlen( $content );
-				$this->debug->push( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 				// cleanup for NGG album shortcode
 				unset ( $GLOBALS['subalbum'] );
@@ -1547,7 +1544,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
-			$this->debug->push( 'post-filter content strlen() = ' . strlen( $content ) );
+			$content_strlen_after = strlen( $content );
+			$this->debug->push( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->cache->object_expire );
 			$this->debug->push( $cache_type . ' : filtered content saved to wp_cache for id "' . $cache_id . '" (' . $this->cache->object_expire . ' seconds)');
