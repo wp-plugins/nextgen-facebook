@@ -447,7 +447,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Renamed the `apply_content_filter()` method to `get_filtered_content()`.
 * Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 
-Using the WordPress `wp_cache` and `transient` functions should improve performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
+Using the WordPress `wp_cache` and `transient` functions improves performance, especially for logged-in users and websites that aren't using full-webpage caching plugins.
 
 = Version 3.6.3 =
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
