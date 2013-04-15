@@ -211,7 +211,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( $use_post == true ) {
-						if ( ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
+						if ( ! empty( $ngfb->is_avail['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
 							$ngfb->debug->push( 'get_post_thumbnail_id() = ' . $atts['pid'] );
 						} else {
@@ -295,7 +295,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( $use_post == true ) {
-						if ( ! empty( $ngfb->is_active['postthumb'] ) && has_post_thumbnail( $post->ID ) )
+						if ( ! empty( $ngfb->is_avail['postthumb'] ) && has_post_thumbnail( $post->ID ) )
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
 						else $atts['pid'] = $this->get_first_attached_image_id( $post->ID );
 					}

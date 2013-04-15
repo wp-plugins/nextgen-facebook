@@ -314,6 +314,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border:1px solid transparent;
 					margin:0 0 10px 0;
 				}
+				.save_button { 
+					text-align:center;
+					margin:15px 0 0 0;
+				}
 				.donatebox {
 					float:left;
 					display:block;
@@ -344,40 +348,35 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
 			<div class="metabox-holder">
 
-			<div class="postbox" <?php if ( ! empty( $ngfb->options['ngfb_donated'] ) ) echo 'style="display:none;"'; ?> >
+			<?php if ( empty( $ngfb->options['ngfb_donated'] ) ) : ?>
+			<div class="postbox">
 			<div class="inside">	
 			<div class="donatebox">
 			<p>The NextGEN Facebook Open Graph plugin has taken many, many months to develop and fine-tune. Please say thank you by donating a few dollars and / or <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">writing a positive review on wordpress.org</a>.</p>
-
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate">
-<input type="hidden" name="cmd" value="_s-xclick">
-<table align="center">
-<tr><td><input type="hidden" name="on0" value="Choose Your Support">Choose Your Support</td></tr><tr><td><select name="os0">
-	<option value="S'up!">S'up! $5.00 USD</option>
-	<option value="Thank You!">Thank You! $10.00 USD</option>
-	<option value="Great Job!">Great Job! $20.00 USD</option>
-	<option value="Keep Going!">Keep Going! $30.00 USD</option>
-</select> </td></tr>
-</table>
-<input type="hidden" name="currency_code" value="USD">
-<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<table align="center">
+			<tr><td><input type="hidden" name="on0" value="Choose Your Support">Choose Your Support Level :</td></tr><tr><td><select name="os0">
+				<option value="Thank You!">Thank You! ($10)</option>
+				<option value="Great Job!">Great Job! ($20)</option>
+				<option value="Keep Going!">Keep Going! ($30)</option>
+			</select> </td></tr>
+			</table>
+			<input type="hidden" name="currency_code" value="USD">
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			</form>
 			</div>
-
 			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
-
 			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
-
 			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
-
 			<div style="clear:both;"></div>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
+			<?php endif; ?>
 
-			<form name="ngfb" method="post" action="options.php">
+			<form name="ngfb" method="post" action="options.php" id="settings">
 			<?php settings_fields( 'ngfb_plugin_options' ); $this->hidden( 'ngfb_version', $ngfb->opts_version ); ?>
 
 			<div class="postbox">
@@ -440,7 +439,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					selected( $ngfb->options['og_def_img_id_pre'], 'wp' );
 					echo '>Media Library</option>', "\n";
 
-					if ( $ngfb->is_active['ngg'] ) {
+					if ( $ngfb->is_avail['ngg'] ) {
 						echo '<option value="ngg" '; 
 						selected( $ngfb->options['og_def_img_id_pre'], 'ngg' );
 						echo '>NextGEN Gallery</option>', "\n";
@@ -465,7 +464,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( $ngfb->is_active['ngg'] ) : ?>
+			<?php	if ( $ngfb->is_avail['ngg'] ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
@@ -513,7 +512,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( $ngfb->is_active['wikibox'] ) : ?>
+				if ( $ngfb->is_avail['wikibox'] ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
@@ -614,7 +613,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( $ngfb->is_active['expages'] ) : ?>
+				if ( $ngfb->is_avail['expages'] ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
@@ -1085,15 +1084,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
 			<tr>
-				<th>Have Donated</th>
+				<th>I Have Donated</th>
 				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
-				<td><p>Check this option if you have donated a few dollars, reviewed and rated <?php echo NGFB_ACRONYM; ?>, or helped in the <?php echo NGFB_ACRONYM; ?> support forum (default is unchecked).</p></td>
+				<td><p>Check this option if you have donated a few dollars, reviewed and rated <?php echo NGFB_ACRONYM; ?>, or helped in the <?php echo NGFB_ACRONYM; ?> support forum (default is unchecked). I haven't received many donations (I can count them on one hand), so your donation will certainly be appreciated. Thank you.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
-		
-			<input type="submit" class="button-primary" value="Save Changes" />
+			<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>
 			</form>
 			</div><!-- .metabox-holder -->
 			</div><!-- .wrap -->

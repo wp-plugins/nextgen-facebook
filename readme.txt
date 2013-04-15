@@ -430,6 +430,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.3 =
+
+* Added a check for `mb_decode_numericentity()` (available with PHP since v4.0.6), which is required to decode UTF8 entities. If the function is missing, an error message will be displayed in the admin section.
+
 = Version 4.0.2 =
 
 * Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
@@ -738,6 +742,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 4.0.3 =
+
+Added a check for the `mb_decode_numericentity()` function (available with PHP since v4.0.6), which is required to decode UTF8 entities.
 
 = Version 4.0.2 =
 
