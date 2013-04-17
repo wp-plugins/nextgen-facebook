@@ -58,9 +58,9 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 == Frequently Asked Questions ==
 
-= Q. What do Open Graph property tags look like? =
+= Q. What do the Open Graph property tags look like? =
 
-Open Graph property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+[Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
