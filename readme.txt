@@ -432,7 +432,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.0.3 =
 
-* Added a check for the `mb_decode_numericentity()` function (available since with PHP v4.0.6), which is required to decode UTF8 entities. If the function is missing, an error message will be displayed in the admin section.
+* Added a check for the `mb_decode_numericentity()` function (available since PHP v4.0.6), which is required to decode UTF8 entities. If the function is missing, an error message will be displayed in the admin section.
 
 = Version 4.0.2 =
 
