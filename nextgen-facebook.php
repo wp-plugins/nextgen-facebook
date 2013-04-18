@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.0.3
+Version: 4.0.4
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.0.3';		// for display purposes
+		var $version = '4.0.4';		// for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
 		var $admin_msgs_inf = array();
 		var $admin_msgs_err = array();
@@ -199,12 +199,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_action( 'init', array( &$this, 'init_plugin' ) );
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_notices', array( &$this, 'show_admin_messages' ) );
+			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
+			add_action( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
+			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
-			add_filter( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
-			add_filter( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-			add_filter( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
@@ -588,6 +588,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function add_header() {
 			echo "\n<!-- ", NGFB_LONGNAME, ' Version ', $this->version, " -->\n";
 			echo '<!-- About NGFB : ', NGFB_URL, " -->\n";
+
+			if ( ! is_admin() && $this->debug->on ) {
+				$this->debug->push( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+			}
+
 			echo $this->get_buttons_js( 'header' );
 		}
 
@@ -849,12 +858,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_quote() {
 			global $post;
 			if ( empty( $post ) ) return;
-			if ( has_excerpt( $post->ID ) ) $page_text = get_the_excerpt( $post->ID );
-			else $page_text = $post->post_content;		// fallback to regular content
-			// don't run through strip_all_tags() to keep formatting and HTML (if any)
-			$page_text = strip_shortcodes( $page_text );	// remove any remaining shortcodes
-			$page_text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $page_text);
-			return $page_text;
+			if ( has_excerpt( $post->ID ) ) $content = get_the_excerpt( $post->ID );
+			else $content = $post->post_content;			// fallback to regular content
+			$content = cleanup_html_tags( $content, false );	// remove shortcodes, etc., but don't strip html tags
+			return $content;
 		}
 
 		function get_caption( $type = 'title', $length = 300, $use_post = true ) {
@@ -882,7 +889,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_category() ) { 
 
-				$this->debug->push( 'is_category() = true' );
 				$title = single_cat_title( '', false );
 				$this->debug->push( 'single_cat_title() = "' . $title . '"' );
 				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->options['og_title_sep'] . ' ', false );
@@ -902,9 +908,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
-				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 				$this->debug->push( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
-
 				$title = get_the_title();
 				$this->debug->push( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
@@ -942,8 +946,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->push( 'apply_filters() = "' . $title . '"' );
 			}
 
-			$title = $this->strip_all_tags( $title );
-			$this->debug->push( 'strip_all_tags() = "' . $title . '"' );
+			$title = $this->cleanup_html_tags( $title );
+			$this->debug->push( 'cleanup_html_tags() = "' . $title . '"' );
 
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->limit_text_length( $title, $textlen, $trailing );
@@ -1032,7 +1036,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
 			else $desc = get_bloginfo( 'description', 'display' );
 
-			$desc = $this->strip_all_tags( $desc );
+			$desc = $this->cleanup_html_tags( $desc );
 
 			if ( $textlen > 0 ) 
 				$desc = $this->limit_text_length( $desc, $textlen, '...' );
@@ -1118,10 +1122,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// check for index-type pages with option enabled to force a default image
 			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
 				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
-					$this->debug->push( 'is_singular() = ' . is_singular() );
-					$this->debug->push( 'is_search() = ' . is_search() );
-					$this->debug->push( 'calling get_default_image_og("' . $size_name . '")' );
 
+					$this->debug->push( 'calling get_default_image_og("' . $size_name . '")' );
 					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $size_name ) );
 					return $og_ret;	// stop here and return the image array
 			}
@@ -1486,10 +1488,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$meta_html = '';
 			if ( ! empty( $this->options['inc_'.$name] ) 
 				&& ( ! empty( $val ) || ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
-
 				$charset = get_bloginfo( 'charset' );
-				$val = htmlentities( $this->strip_all_tags( $this->str_decode( $val ) ), 
-					ENT_QUOTES, $charset, false );
+				$val = htmlentities( $this->cleanup_html_tags( $this->str_decode( $val ) ), ENT_QUOTES, $charset, false );
 				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />';
 				$meta_html .= "\n";
@@ -1644,18 +1644,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return false;
 		}
 
-		function strip_all_tags( $text ) {
+		function cleanup_html_tags( $text, $strip_tags = true ) {
 			$text = strip_shortcodes( $text );					// remove any remaining shortcodes
 			$text = preg_replace( '/<\?.*\?>/i', ' ', $text);			// remove php
 			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);	// remove javascript
-			$text = strip_tags( $text );						// remove html tags
+			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);	// remove inline stylesheets
+			if ( $strip_tags == true ) $text = strip_tags( $text );			// remove remaining html tags
 			return trim( $text );
 		}
 
 		function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 			$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
 			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
-			$text = $this->strip_all_tags( $text );					// remove any remaining html tags
+			$text = $this->cleanup_html_tags( $text );				// remove any remaining html tags
 			if ( strlen( $trailing ) > $textlen )
 				$trailing = substr( $text, 0, $textlen );			// trim the trailing string, if too long
 			if ( strlen( $text ) > $textlen ) {
