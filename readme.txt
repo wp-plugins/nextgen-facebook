@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 License: GPLv3 or later
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
@@ -750,7 +750,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = Version 4.0.4 =
 
-Added code to remove `<script>` tags from content for descriptions, etc.
+Added code to remove `<script>` tags from content text for descriptions, etc.
 
 = Version 4.0.3 =
 
