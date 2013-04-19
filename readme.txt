@@ -430,6 +430,11 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.4 =
+
+* Added a few more debug status msgs to the `add_header()` method.
+* Renamed `strip_all_tags()` to `cleanup_html_tags()` and added code to remove `<script>` tags as well.
+
 = Version 4.0.3 =
 
 * Added a check for the `mb_decode_numericentity()` function (available since PHP v4.0.6), which is required to decode UTF8 entities. If the function is missing, an error message will be displayed in the admin section.
@@ -742,6 +747,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 4.0.4 =
+
+Added code to remove `<script>` tags from content for descriptions, etc.
 
 = Version 4.0.3 =
 
