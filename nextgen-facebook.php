@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.0.4
+Version: 4.0.5
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,38 +27,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.0.4';		// for display purposes
+		var $version = '4.0.5';		// for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
-		var $admin_msgs_inf = array();
-		var $admin_msgs_err = array();
-		var $minimum_wp_version = '3.0';
-
-		var $social_nice_names = array(
-			'facebook' => 'Facebook', 
-			'gplus' => 'Google+',
-			'twitter' => 'Twitter',
-			'linkedin' => 'Linkedin',
-			'pinterest' => 'Pinterest',
-			'stumbleupon' => 'StumbleUpon',
-			'tumblr' => 'Tumblr' );
-
-		var $social_options_prefix = array(
-			'facebook' => 'fb', 
-			'gplus' => 'gp',
-			'twitter' => 'twitter',
-			'linkedin' => 'linkedin',
-			'pinterest' => 'pin',
-			'stumbleupon' => 'stumble',
-			'tumblr' => 'tumblr' );
-
 		var $is_avail = array();	// assoc array for function/class/method/etc. checks
 		var $options = array();
 		var $ngg_options = array();
+
 		var $default_options = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
-			'og_img_size' => 'thumbnail',
+			'og_img_size' => 'medium',
 			'og_img_max' => 1,
 			'og_vid_max' => 1,
 			'og_def_img_id_pre' => 'wp',
@@ -173,6 +152,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 60,
 			'ngfb_googl_api_key' => '' );
+
 		var $renamed_options = array(
 			'add_meta_desc' => 'inc_description',
 			'og_def_img' => 'og_def_img_url',
@@ -183,6 +163,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'buttons_lang' => 'gp_lang',
 			'ngfb_cache_hours' => 'ngfb_file_cache_hrs' );
 
+		var $social_options_prefix = array(
+			'facebook' => 'fb', 
+			'gplus' => 'gp',
+			'twitter' => 'twitter',
+			'linkedin' => 'linkedin',
+			'pinterest' => 'pin',
+			'stumbleupon' => 'stumble',
+			'tumblr' => 'tumblr' );
+
+		var $social_nice_names = array(
+			'facebook' => 'Facebook', 
+			'gplus' => 'Google+',
+			'twitter' => 'Twitter',
+			'linkedin' => 'Linkedin',
+			'pinterest' => 'Pinterest',
+			'stumbleupon' => 'StumbleUpon',
+			'tumblr' => 'Tumblr' );
+
 		function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
@@ -191,14 +189,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG )
 				echo '<!-- ', NGFB_FULLNAME, ' Plugin Loading -->', "\n";
 
-			$this->plugin_name = basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ );
-
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
 
 			add_action( 'init', array( &$this, 'init_plugin' ) );
-			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
-			add_action( 'admin_notices', array( &$this, 'show_admin_messages' ) );
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
@@ -314,6 +308,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->admin = new ngfbAdmin();
+				$this->admin->plugin_name = plugin_basename( __FILE__ );
+				$this->admin->plugin_data = get_plugin_data( __FILE__ );
 			}
 		}
 
@@ -324,18 +320,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 			ksort( $fields, SORT_STRING );
 			return $fields;
-		}
-
-		function check_wp_version() {
-			global $wp_version;
-			$plugin = plugin_basename( __FILE__ );
-			$plugin_data = get_plugin_data( __FILE__, false );
-			if ( version_compare( $wp_version, $this->minimum_wp_version, "<" ) ) {
-				if( is_plugin_active( $plugin ) ) {
-					deactivate_plugins( $plugin );
-					wp_die( '"' . $plugin_data['Name'] . '" requires WordPress ' . $this->minimum_wp_version .  ' or higher and has therefore been deactivated. Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
-				}
-			}
 		}
 
 		// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
@@ -366,34 +350,33 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// display a settings link on the main plugins page
 		function plugin_action_links( $links, $file ) {
-			if ( $file == plugin_basename( __FILE__ ) ) {
+			if ( $file == plugin_basename( __FILE__ ) )
 				array_push( $links, '<a href="' . $this->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
-			}
 			return $links;
 		}
 
 		function load_is_avail() {
 		
 			// php v4.0.6+
-			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? 1 : 0;
+			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
 			// post thumbnail feature is supported by wp theme
-			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? 1 : 0;
+			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
 			// nextgen gallery plugin
-			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? 1 : 0;
+			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
 
 			// cdn linker plugin
-			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? 1 : 0;
+			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
 
 			// wikibox plugin
-			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? 1 : 0;
+			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? true : false;
 
 			// exclude pages plugin
-			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? 1 : 0;
+			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? true : false;
 
-			if ( empty( $this->is_avail['mbdecnum'] ) )
-				$this->admin_msgs_err[] = 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.';
+			if ( $this->is_avail['mbdecnum'] != true )
+				$this->admin->msg_err[] = 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.';
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -401,7 +384,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
-			if ( ! empty( $this->is_avail['ngg'] ) )
+			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
 			// make sure we have something to work with
@@ -410,7 +393,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					|| $this->options['ngfb_version'] !== $this->opts_version )
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
-				$this->admin_msgs_err[] = 'WordPress returned an error when reading the \'' . NGFB_OPTIONS_NAME . '\' array from the database.<br/>All plugin settings have been returned to their default values, though nothing has been saved yet. Please visit the <a href="' . $this->get_options_url() . '">' . NGFB_FULLNAME . ' settings page</a> to review and save these new settings</a>.';
+				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the database.<br/>All plugin settings have been returned to their default values, though nothing has been saved yet. <a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default options</a>.';
 				$this->debug->show( print_r( get_option( NGFB_OPTIONS_NAME ) ), 'get_option("' . NGFB_OPTIONS_NAME . '")' );
 				$this->options = $this->default_options;
 			}
@@ -427,16 +410,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
 
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-
 				$this->debug->on = $this->options['ngfb_debug'];
 				$this->cache->object_expire = 1;
 				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
-				$this->admin_msgs_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
+				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
 				$this->shortcodes = new ngfbShortCodes();
-
 		}
 
 		function upgrade_options( &$opts = array() ) {
@@ -444,12 +425,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->admin_msgs_inf[] = 'Option settings from the database have been read and updated in memory. These updates have NOT been saved back to the database. <a href="' . $this->get_options_url() . '">Review and save the new settings to disable this update notice</a>.';
+				$this->admin->msg_inf[] = 'Option settings from the database have been read and updated in memory. These updates have NOT been saved back to the database. <a href="' . $this->get_options_url() . '">Please review and save these new settings</a>.';
 	
 				// move old option values to new option names
 				foreach ( $this->renamed_options as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
-						$this->admin_msgs_inf[] = 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.';
+						$this->admin->msg_inf[] = 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.';
 						$opts[$new] = $opts[$old];
 					}
 				unset ( $old, $new );
@@ -464,7 +445,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// add missing options and set to defaults
 				foreach ( $this->default_options as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						$this->admin_msgs_inf[] = 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.';
+						$this->admin->msg_inf[] = 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.';
 						$opts[$key] = $def_val;
 					}
 				}
@@ -473,7 +454,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$opts = $this->sanitize_options( $opts );
 
 				if ( empty( $opts['ngfb_donated'] ) )
-					$this->admin_msgs_inf[] = '<b>' . NGFB_FULLNAME . ' (NGFB) has taken many, many months to develop and fine-tune. Please say thank you by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
+					$this->admin->msg_inf[] = '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. Please suppport us by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
 			}
 			return $opts;
 		}
@@ -995,9 +976,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						$desc = apply_filters( 'the_excerpt', $desc );
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
-				} elseif ( is_page() && ! empty( $this->options['og_desc_wiki'] ) && ! empty( $this->is_avail['wikibox'] ) ) {
+				} elseif ( is_page() && ! empty( $this->options['og_desc_wiki'] ) && $this->is_avail['wikibox'] == true ) {
 
-					$this->debug->push( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = 1' );
+					$this->debug->push( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
 					$desc = $this->get_wiki_summary();
 				} 
 		
@@ -1323,7 +1304,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_featured_og( $post_id = '', $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			$og_image = array();
-			if ( ! empty( $post_id ) && ! empty( $this->is_avail['postthumb'] ) && has_post_thumbnail( $post_id ) ) {
+			if ( ! empty( $post_id ) && $this->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					list( 
@@ -1391,7 +1372,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_singular() ) {
 				global $post;
 				$tags = array_merge( $tags, $this->get_wp_tags( $post->ID ) );
-				if ( $this->options['og_ngg_tags'] && ! empty( $this->is_avail['postthumb'] ) && has_post_thumbnail( $post->ID ) ) {
+				if ( $this->options['og_ngg_tags'] && $this->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 					$pid = get_post_thumbnail_id( $post->ID );
 					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 						$tags = array_merge( $tags, $this->get_ngg_tags( $pid ) );
@@ -1422,8 +1403,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_ngg_tags( $pid ) {
 			$tags = array();
-			if ( ! empty( $this->is_avail['ngg'] )
-				&& is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
+			if ( $this->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			}
 			return array_map( 'strtolower', $tags );
@@ -1564,7 +1544,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
 		function get_ngg_image_src( $pid, $size_name = 'thumbnail' ) {
 
-			if ( empty( $this->is_avail['ngg'] ) ) return;
+			if ( $this->is_avail['ngg'] != true ) return;
 
 			$cropped = '';
 			$image_url = '';
@@ -1622,7 +1602,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function cdn_linker_rewrite( $url = '' ) {
-			if ( ! empty( $this->is_avail['cdnlink'] ) ) {
+			if ( $this->is_avail['cdnlink'] == true ) {
 				$rewriter = new CDNLinksRewriterWordpress();
 				$url = '"'.$url.'"';	// rewrite function uses var reference, so pad here first
 				$url = trim( $rewriter->rewrite( $url ), "\"" );
@@ -1632,11 +1612,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function is_excluded() {
 			global $post;
-			if ( is_page() 
-				&& $post->ID 
-				&& ! empty( $this->is_avail['expages'] ) 
-				&& empty( $this->options['buttons_on_ex_pages'] ) ) {
-
+			if ( is_page() && $post->ID && $this->is_avail['expages'] == true && empty( $this->options['buttons_on_ex_pages'] ) ) {
 				$excluded_ids = ep_get_excluded_ids();
 				$delete_ids = array_unique( $excluded_ids );
 				if ( in_array( $post->ID, $delete_ids ) ) return true;
@@ -1676,7 +1652,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$str = preg_replace( '/&#8230;/', '...', $str );
 
 			// if mb_decode_numericentity is not available, return the string un-converted
-			if ( empty( $this->is_avail['mbdecnum'] ) ) return $str;
+			if ( $this->is_avail['mbdecnum'] != true ) return $str;
 
 			return preg_replace( '/&#\d{2,5};/ue', 'ngfbPlugin::utf8_entity_decode( \'$0\' )', $str );
 		}
@@ -1684,31 +1660,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function utf8_entity_decode( $entity ) {
 			$convmap = array( 0x0, 0x10000, 0, 0xfffff );
 			return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
-		}
-
-
-		function show_admin_messages() {
-
-			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
-			$p_end = '</p>';
-
-			if ( ! empty( $this->admin_msgs_err ) ) 
-				echo '<div id="message" class="error">';
-
-			// warnings and errors
-			foreach ( $this->admin_msgs_err as $msg )
-				echo $p_start, ' Warning : ', $msg, $p_end;
-
-			if ( ! empty( $this->admin_msgs_err ) ) echo '</div>';
-
-			// notices and informational
-			if ( ! empty( $this->admin_msgs_inf ) ) 
-				echo '<div id="message" class="updated fade">';
-
-			foreach ( $this->admin_msgs_inf as $msg )
-				echo $p_start, ' Notice : ', $msg, $p_end;
-
-			if ( ! empty( $this->admin_msgs_inf ) ) echo '</div>';
 		}
 
 		function preg_grep_keys( $pattern, $input, $flags = 0 ) {

@@ -430,6 +430,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.5 =
+
+* Changed the default "Image Size Name" value, used for images in the Open Graph meta tags, from "thumbnail" to "medium".
+* Added `ngfbAdmin::check_options()` to validate that the chosen "Image Size Name" is larger than 200x200. If the width or height is less than 200, a notice message will be displayed in the admin section.
+* Moved `ngfbPlugin::check_wp_version()` to `ngfbAdmin::check_wp_version()`.
+* Moved `ngfbPlugin::show_admin_messages()` to `ngfbAdmin::admin_notices()`.
+
 = Version 4.0.4 =
 
 * Added a few more debug status msgs to the `add_header()` method.

@@ -18,8 +18,14 @@ if ( ! defined( 'ABSPATH' ) )
 
 if ( ! class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbAdmin extends ngfbPlugin {
+	class ngfbAdmin {
 	
+		var $plugin_name = '';
+		var $plugin_data = array();
+		var $min_wp_version = '3.0';
+		var $msg_inf = array();
+		var $msg_err = array();
+
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		var $article_sections = array(
 			'Animation',
@@ -247,10 +253,33 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		function __construct() {
 			natsort ( $this->article_sections );
+			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
+			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 		}
 	
+		function check_wp_version() {
+			global $wp_version;
+			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
+				if( is_plugin_active( $this->plugin_name ) ) {
+					deactivate_plugins( $this->plugin_name );
+					wp_die( '"' . $this->plugin_data['Name'] . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
+				}
+			}
+		}
+
+		function check_options() {
+			global $ngfb;
+			$size_info = $ngfb->get_size_values( $ngfb->options['og_img_size'] );
+
+			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
+				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
+				$this->msg_inf[] = 'The "' . $ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $ngfb->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
+			}
+		}
+
 		function admin_init() {
 			register_setting( NGFB_SHORTNAME . '_plugin_options', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		}
@@ -259,8 +288,35 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_options_page( NGFB_FULLNAME . ' Plugin', 'NextGEN Facebook', 'manage_options', NGFB_SHORTNAME, array( &$this, 'options_page' ) );
 		}
 
+		function admin_notices() {
+
+			global $ngfb;
+
+			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $ngfb->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
+			$p_end = '</p>';
+
+			if ( ! empty( $this->msg_err ) ) 
+				echo '<div id="message" class="error">';
+
+			// warnings and errors
+			foreach ( $this->msg_err as $msg )
+				echo $p_start, ' Warning : ', $msg, $p_end;
+
+			if ( ! empty( $this->msg_err ) ) echo '</div>';
+
+			// notices and informational
+			if ( ! empty( $this->msg_inf ) ) 
+				echo '<div id="message" class="updated fade">';
+
+			foreach ( $this->msg_inf as $msg )
+				echo $p_start, ' Notice : ', $msg, $p_end;
+
+			if ( ! empty( $this->msg_inf ) ) echo '</div>';
+		}
+
 		function sanitize_options( $opts ) {
-			return parent::sanitize_options( $opts );
+			global $ngfb;
+			return $ngfb->sanitize_options( $opts );
 		}
 
 		function options_page() {
@@ -427,8 +483,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Image Size Name</th>
-				<td><?php $this->select_img_size( 'og_img_size' ); ?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> "size name" for the image used in the Open Graph HTML meta tag. Generally this would be "thumbnail" (currently defined as <?php echo get_option('thumbnail_size_w'), 'x', get_option('thumbnail_size_h'), ', ', get_option('thumbnail_crop') == "1" ? "" : "not"; ?> cropped), or another size name like "medium", "large", etc. Choose a size name that is at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom size names on the Media Settings admin webpage. I would suggest creating a "facebook-thumbnail" size name of <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> (or larger) cropped, to manage the size of Open Graph images independently from those of your theme.</p></td>
+				<td><?php 
+					$this->select_img_size( 'og_img_size' ); 
+					$size_info = $ngfb->get_size_values( $ngfb->default_options['og_img_size'] );
+					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
+				?></td>
+				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "open-graph" image size to manage the size of Open Graph images independently from those of your theme.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image ID</th>
@@ -439,7 +499,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					selected( $ngfb->options['og_def_img_id_pre'], 'wp' );
 					echo '>Media Library</option>', "\n";
 
-					if ( $ngfb->is_avail['ngg'] ) {
+					if ( $ngfb->is_avail['ngg'] == true ) {
 						echo '<option value="ngg" '; 
 						selected( $ngfb->options['og_def_img_id_pre'], 'ngg' );
 						echo '>NextGEN Gallery</option>', "\n";
@@ -464,7 +524,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( $ngfb->is_avail['ngg'] ) : ?>
+			<?php	if ( $ngfb->is_avail['ngg'] == true ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
@@ -512,7 +572,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( $ngfb->is_avail['wikibox'] ) : ?>
+				if ( $ngfb->is_avail['wikibox'] == true ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
@@ -613,7 +673,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( $ngfb->is_avail['expages'] ) : ?>
+				if ( $ngfb->is_avail['expages'] == true ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
