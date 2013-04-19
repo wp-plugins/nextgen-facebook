@@ -432,7 +432,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.0.4 =
 
-* Added a few more debug status msgs to `add_header()`.
+* Added a few more debug status msgs to the `add_header()` method.
 * Renamed `strip_all_tags()` to `cleanup_html_tags()` and added code to remove `<script>` tags as well.
 
 = Version 4.0.3 =
