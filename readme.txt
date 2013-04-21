@@ -331,7 +331,11 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
 
-* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option (the default is unchecked).
+* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
+
+* If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option to several hours (the default of "0" hours disables this option).
+
+* If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 60 seconds to several minutes.
 
 == Advanced Usage ==
 
