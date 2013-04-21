@@ -430,6 +430,14 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.5 =
+
+* Changed the default "Image Size Name" value, used for images in the Open Graph meta tags, from "thumbnail" to "medium".
+* Added `ngfbAdmin::check_options()` to validate that the chosen "Image Size Name" is larger than 200x200. If the width or height is less than 200, a notice message will be displayed in the admin section.
+* Moved `ngfbPlugin::check_wp_version()` to `ngfbAdmin::check_wp_version()`.
+* Moved `ngfbPlugin::show_admin_messages()` to `ngfbAdmin::admin_notices()`.
+* Fixed an `$atts['url']` variable typo in the Facebook button method.
+
 = Version 4.0.4 =
 
 * Added a few more debug status msgs to the `add_header()` method.
@@ -747,6 +755,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= Version 4.0.5 =
+
+Fixed a variable typo in the Facebook method, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
 
 = Version 4.0.4 =
 
