@@ -105,7 +105,7 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					$button_html = '
 					<!-- Facebook Button -->
 					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
-						href="' . $attr['url'] . '" 
+						href="' . $atts['url'] . '" 
 						send="' . $fb_send . '" 
 						layout="' . $ngfb->options['fb_layout'] . '" 
 						show_faces="' . $fb_show_faces . '" 
