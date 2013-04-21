@@ -757,143 +757,143 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= Version 4.0.5 =
+= 4.0.5 =
 
-Fixed a variable typo in the Facebook method, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
+Fixed a variable typo in the Facebook method, fixed order of ngfbDebug object creation, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
 
-= Version 4.0.4 =
+= 4.0.4 =
 
 Added code to remove `<script>` tags from content text for descriptions, etc.
 
-= Version 4.0.3 =
+= 4.0.3 =
 
 Added a check for the `mb_decode_numericentity()` function (available since PHP v4.0.6), which is required to decode UTF8 entities.
 
-= Version 4.0.2 =
+= 4.0.2 =
 
 Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
 
-= Version 4.0.1 =
+= 4.0.1 =
 
 Added the missing `debug.php` library file to the SVN repository.
 
-= Version 4.0 =
+= 4.0 =
 
 Added persistent and non-persistent caching code to improve speed (especially for logged-in users), added support for video preview images from Vimeo.
 
-= Version 3.6.3 =
+= 3.6.3 =
 
 Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
 
-= Version 3.6.2 =
+= 3.6.2 =
 
 Improved the sharing URL for index webpages and YouTube embeded videos.
 
-= Version 3.6.1 =
+= 3.6.1 =
 
 Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
-= Version 3.6 =
+= 3.6 =
 
 Added an `[ngfb]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
 
-= Version 3.5.3 =
+= 3.5.3 =
 
 A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.
 
-= Version 3.5.2 =
+= 3.5.2 =
 
 Many small but important fixes (see the Changelog for the complete list). Please update NGFB at your earliest convenience.
 
-= Version 3.5.1 =
+= 3.5.1 =
 
 Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
 
-= Version 3.5 =
+= 3.5 =
 
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and JavaScript (disabled by default), Facebook button changed from XFBML to HTML5.
 
-= Version 3.4 =
+= 3.4 =
 
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
 
-= Version 3.3 =
+= 3.3 =
 
 Improved `og:image:width` and `og:image:height` accuracy. Added Language support for button text. Configurable location for each button JavaScript (header or footer). Additional default author options.
 
-= Version 3.2.1 =
+= 3.2.1 =
 
 **Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
-= Version 3.2 =
+= 3.2 =
 
 **Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
-= Version 3.1.1 =
+= 3.1.1 =
 
 **Fixed** variable reference in widget. Added informational box when upgrading options.
 
-= Version 3.1 =
+= 3.1 =
 
 Added JavaScript function to load button JavaScript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
 
-= Version 3.0 =
+= 3.0 =
 
 Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/).
 
-= Version 2.4 =
+= 2.4 =
 
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.
 
-= Version 2.3.1 =
+= 2.3.1 =
 
 **Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
-= Version 2.3 =
+= 2.3 =
 
 Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button JavaScript to footer.
 
-= Version 2.2 =
+= 2.2 =
 
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
-= Version 2.1.3 =
+= 2.1.3 =
 
 Added `apply_filters()` function before searching for an `<img/>` in the content.
 
-= Version 2.1.2 =
+= 2.1.2 =
 
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
 
-= Version 2.1.1 =
+= 2.1.1 =
 
 Minor code optimization and improved readme file.
 
-= Version 2.1 =
+= 2.1 =
 
 Added Pinterest button, 'Max Title Length' option, and `DISABLE_NGFB_OPEN_GRAPH` constant for templates.
 
-= Version 2.0 =
+= 2.0 =
 
 More compact options page, added Tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
 
-= Version 1.7.2 =
+= 1.7.2 =
 
 Added missing data-annotation field to Google+ social button.
 
-= Version 1.7.1 =
+= 1.7.1 =
 
 Changed plugin name to NextGEN Facebook OG.
 
-= Version 1.7 =
+= 1.7 =
 
 Added LinkedIn button and og:video Open Graph meta tag.
 
-= Version 1.6.1 =
+= 1.6.1 =
 
 **Fixed** some checked option boxes that could not be unchecked.
 
-= Version 1.4.1 =
+= 1.4.1 =
 
 **Fixed** article:tag and article:author Open Graph meta tags.
 
