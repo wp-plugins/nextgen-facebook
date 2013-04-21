@@ -437,6 +437,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Moved `ngfbPlugin::check_wp_version()` to `ngfbAdmin::check_wp_version()`.
 * Moved `ngfbPlugin::show_admin_messages()` to `ngfbAdmin::admin_notices()`.
 * Fixed an `$atts['url']` variable typo in the Facebook button method.
+* Fixed the `ngfbDebug()` object that was being created after a possible call to `ngfbDebug::show()`.
 
 = Version 4.0.4 =
 
