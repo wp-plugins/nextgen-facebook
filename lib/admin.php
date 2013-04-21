@@ -21,7 +21,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	class ngfbAdmin {
 	
 		var $plugin_name = '';
-		var $plugin_data = array();
 		var $min_wp_version = '3.0';
 		var $msg_inf = array();
 		var $msg_err = array();
@@ -265,7 +264,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
 				if( is_plugin_active( $this->plugin_name ) ) {
 					deactivate_plugins( $this->plugin_name );
-					wp_die( '"' . $this->plugin_data['Name'] . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
+					wp_die( '"' . NGFB_FULLNAME . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
 				}
 			}
 		}

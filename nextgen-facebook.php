@@ -309,7 +309,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				$this->admin = new ngfbAdmin();
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
-				$this->admin->plugin_data = get_plugin_data( __FILE__ );
 			}
 		}
 
@@ -387,20 +386,22 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
+			// load debug class first
+			$this->debug = new ngfbDebug();
+
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
 				if ( empty( $this->options['ngfb_version'] ) 
 					|| $this->options['ngfb_version'] !== $this->opts_version )
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
-				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the database.<br/>All plugin settings have been returned to their default values, though nothing has been saved yet. <a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default options</a>.';
+				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. All plugin settings have been returned to their default values (though nothing has been saved back to the database). <a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
 				$this->debug->show( print_r( get_option( NGFB_OPTIONS_NAME ) ), 'get_option("' . NGFB_OPTIONS_NAME . '")' );
 				$this->options = $this->default_options;
 			}
 
-			$this->debug = new ngfbDebug();
-			$this->buttons = new ngfbButtons();
 			$this->cache = new ngfbCache();
+			$this->buttons = new ngfbButtons();
 
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
