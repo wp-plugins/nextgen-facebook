@@ -381,13 +381,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 
+			$this->debug = new ngfbDebug();
+			$this->cache = new ngfbCache();
+			$this->buttons = new ngfbButtons();
+
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
-
-			// load debug class first
-			$this->debug = new ngfbDebug();
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
@@ -400,8 +401,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options = $this->default_options;
 			}
 
-			$this->cache = new ngfbCache();
-			$this->buttons = new ngfbButtons();
+			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
+				$this->shortcodes = new ngfbShortCodes();
 
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
@@ -411,14 +412,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
 
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+
 				$this->debug->on = $this->options['ngfb_debug'];
 				$this->cache->object_expire = 1;
 				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
 				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
-			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
-			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->shortcodes = new ngfbShortCodes();
+			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}
 
 		function upgrade_options( &$opts = array() ) {
