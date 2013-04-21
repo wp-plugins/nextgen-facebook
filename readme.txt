@@ -759,7 +759,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 4.0.5 =
 
-Fixed a variable typo in the Facebook method, fixed order of ngfbDebug object creation, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
+**Recommended update** - fixed a variable typo in the Facebook method, fixed order of `ngfbDebug()` object creation, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
 
 = 4.0.4 =
 
@@ -783,7 +783,7 @@ Added persistent and non-persistent caching code to improve speed (especially fo
 
 = 3.6.3 =
 
-Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
+**Recommended update** - added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
 
 = 3.6.2 =
 
@@ -823,15 +823,15 @@ Improved `og:image:width` and `og:image:height` accuracy. Added Language support
 
 = 3.2.1 =
 
-**Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
+Fixed `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
 = 3.2 =
 
-**Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
+Fixed social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
 = 3.1.1 =
 
-**Fixed** variable reference in widget. Added informational box when upgrading options.
+Fixed variable reference in widget. Added informational box when upgrading options.
 
 = 3.1 =
 
@@ -847,7 +847,7 @@ Added the "Author URL", "Default Author", and "Ignore Small Images in Content" o
 
 = 2.3.1 =
 
-**Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
+Fixed variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = 2.3 =
 
@@ -891,9 +891,9 @@ Added LinkedIn button and og:video Open Graph meta tag.
 
 = 1.6.1 =
 
-**Fixed** some checked option boxes that could not be unchecked.
+Fixed some checked option boxes that could not be unchecked.
 
 = 1.4.1 =
 
-**Fixed** article:tag and article:author Open Graph meta tags.
+Fixed article:tag and article:author Open Graph meta tags.
 
