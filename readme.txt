@@ -436,8 +436,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added `ngfbAdmin::check_options()` to validate that the chosen "Image Size Name" is larger than 200x200. If the width or height is less than 200, a notice message will be displayed in the admin section.
 * Moved `ngfbPlugin::check_wp_version()` to `ngfbAdmin::check_wp_version()`.
 * Moved `ngfbPlugin::show_admin_messages()` to `ngfbAdmin::admin_notices()`.
-* Fixed an `$atts['url']` variable typo in the Facebook button method.
-* Fixed the `ngfbDebug()` object that was being created after a possible call to `ngfbDebug::show()`.
+* **Fixed** an `$atts['url']` variable typo in the Facebook button method.
+* **Fixed** the `ngfbDebug()` object that was being created after a possible call to `ngfbDebug::show()`.
 
 = Version 4.0.4 =
 
@@ -465,24 +465,24 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Added *non-persistent* ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Added *persistent* ([Transients API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
-* Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
+* **Fixed** the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 
 = Version 3.6.3 =
 
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
-* Fixed (added) the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
+* **Fixed** the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
 * Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb]` shortcode.
 * Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
 
 = Version 3.6.2 =
 
-* Fixed YouTube embeded URLs to make them more compatible with Facebook.
+* **Fixed** YouTube embeded URLs to make them more compatible with Facebook.
 * Changed the behavior used to determine the sharing URL for index (non-singular) type webpages, from stripping only tracking query arguments to stripping all query arguments.
 * Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to XFBML).
 
 = Version 3.6.1 =
 
-* Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+* **Fixed** JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
 * Added "Enable Shortcode" option to enable/disable the `[ngfb]` shortcode filter (default is unchecked).
 
 = Version 3.6 =
@@ -507,12 +507,12 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Changed the "Include Empty og:* Meta Tags" option default from checked to unchecked.
 * Improved CSS styling information text on the settings and readme pages.
 * Added a "Fallback to Author Index" option to allow/prevent fallback to the author index URL (when an invalid URL is entered in the chosen author's profile field).
-* Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended.
-* Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
-* Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page.
-* Fixed Twitter tweet text when the button is used on an index page. Twitter executes JavaScript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
-* Fixed video URLs with query strings that where not getting stripped of their query data.
-* Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used.
+* **Fixed** the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended.
+* **Fixed** the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
+* **Fixed** the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page.
+* **Fixed** Twitter tweet text when the button is used on an index page. Twitter executes JavaScript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
+* **Fixed** video URLs with query strings that where not getting stripped of their query data.
+* **Fixed** URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options.
 
 = Version 3.5.1 =
@@ -791,7 +791,7 @@ Improved the sharing URL for index webpages and YouTube embeded videos.
 
 = 3.6.1 =
 
-Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
+**Fixed** JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
 = 3.6 =
 
@@ -823,15 +823,15 @@ Improved `og:image:width` and `og:image:height` accuracy. Added Language support
 
 = 3.2.1 =
 
-Fixed `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
+**Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
 = 3.2 =
 
-Fixed social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
+**Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
 = 3.1.1 =
 
-Fixed variable reference in widget. Added informational box when upgrading options.
+**Fixed** variable reference in widget. Added informational box when upgrading options.
 
 = 3.1 =
 
@@ -847,7 +847,7 @@ Added the "Author URL", "Default Author", and "Ignore Small Images in Content" o
 
 = 2.3.1 =
 
-Fixed variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
+**Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
 = 2.3 =
 
@@ -891,9 +891,9 @@ Added LinkedIn button and og:video Open Graph meta tag.
 
 = 1.6.1 =
 
-Fixed some checked option boxes that could not be unchecked.
+**Fixed** some checked option boxes that could not be unchecked.
 
 = 1.4.1 =
 
-Fixed article:tag and article:author Open Graph meta tags.
+**Fixed** article:tag and article:author Open Graph meta tags.
 
