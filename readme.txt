@@ -10,7 +10,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-*The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
+<em>The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. <strong>The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn.</strong></em>
 
 **The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results. NGFB detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
@@ -307,7 +307,7 @@ You can also create a subtle "highlighting" effect using the <em>opacity</em> CS
 You can also hide the social buttons (or pretty much any object) in a webpage or post by using `display:none` in your stylesheet. As an example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the webpage's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
 
 `
-<div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
+<div class="postid-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html">
 	The Post Content Text...
 </div>
 `
@@ -315,10 +315,10 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on post #123, any page in category "test", and posts using the Aside and Status formats:
 
 `
-.post-123 .ngfb-content-buttons,
-.category-test .ngfb-content-buttons,
-.format-aside .ngfb-content-buttons,
-.format-status .ngfb-content-buttons { display:none; }
+.postid-123 .ngfb-buttons,
+.category-test .ngfb-buttons,
+.format-aside .ngfb-buttons,
+.format-status .ngfb-buttons { display:none; }
 `
 
 == Performance Tuning ==
