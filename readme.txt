@@ -3,14 +3,14 @@ Contributors: jsmoriss
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 4.0.2
+Stable tag: 4.0.5
 License: GPLv3 or later
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 
 == Description ==
 
-*The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. The tags are read by almost all social websites, including Facebook, Google (Search and Google+), and LinkedIn.*
+<em>The [Open Graph](http://ogp.me/) protocol allows any webpage to become a rich object in a social setting. The Open Graph meta property tags are used by Facebook to allow any webpage to have the same functionality as other objects on Facebook. <strong>The Open Graph meta tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn.</strong></em>
 
 **The NextGEN Facebook Open Graph (NGFB) plugin adds Open Graph meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results. NGFB detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
@@ -58,9 +58,9 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 
 == Frequently Asked Questions ==
 
-= Q. What do Open Graph property tags look like? =
+= Q. What do the Open Graph property tags look like? =
 
-Open Graph property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on my website titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+[Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
@@ -92,7 +92,7 @@ Open Graph property tags are added to the `<head>` section of webpages. Here's a
 <!-- NextGEN Facebook Open Graph (NGFB) meta tags END -->
 `
 
-And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/).
+And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/).
 
 `
 <!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
@@ -307,7 +307,7 @@ You can also create a subtle "highlighting" effect using the <em>opacity</em> CS
 You can also hide the social buttons (or pretty much any object) in a webpage or post by using `display:none` in your stylesheet. As an example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the webpage's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
 
 `
-<div class="post-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html" id="post-123">
+<div class="postid-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html">
 	The Post Content Text...
 </div>
 `
@@ -315,10 +315,10 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on post #123, any page in category "test", and posts using the Aside and Status formats:
 
 `
-.post-123 .ngfb-content-buttons,
-.category-test .ngfb-content-buttons,
-.format-aside .ngfb-content-buttons,
-.format-status .ngfb-content-buttons { display:none; }
+.postid-123 .ngfb-buttons,
+.category-test .ngfb-buttons,
+.format-aside .ngfb-buttons,
+.format-status .ngfb-buttons { display:none; }
 `
 
 == Performance Tuning ==
@@ -331,7 +331,11 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
 
-* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option (the default is unchecked).
+* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
+
+* If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option to several hours (the default of "0" hours disables this option).
+
+* If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 60 seconds to several minutes.
 
 == Advanced Usage ==
 
@@ -430,6 +434,24 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.5 =
+
+* Changed the default "Image Size Name" value, used for images in the Open Graph meta tags, from "thumbnail" to "medium".
+* Added `ngfbAdmin::check_options()` to validate that the chosen "Image Size Name" is larger than 200x200. If the width or height is less than 200, a notice message will be displayed in the admin section.
+* Moved `ngfbPlugin::check_wp_version()` to `ngfbAdmin::check_wp_version()`.
+* Moved `ngfbPlugin::show_admin_messages()` to `ngfbAdmin::admin_notices()`.
+* **Fixed** an `$atts['url']` variable typo in the Facebook button method.
+* **Fixed** the `ngfbDebug()` object that was being created after a possible call to `ngfbDebug::show()`.
+
+= Version 4.0.4 =
+
+* Added a few more debug status msgs to the `add_header()` method.
+* Renamed `strip_all_tags()` to `cleanup_html_tags()` and added code to remove `<script>` tags as well.
+
+= Version 4.0.3 =
+
+* Added a check for the `mb_decode_numericentity()` function (available since PHP v4.0.6), which is required to decode UTF8 entities. If the function is missing, an error message will be displayed in the admin section.
+
 = Version 4.0.2 =
 
 * Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
@@ -447,24 +469,24 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Added *non-persistent* ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Added *persistent* ([Transients API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 * Added code to fetch the preview image URL for videos using Vimeo's API.
-* Fixed the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
+* **Fixed** the URL used in Open Graph meta tags to keep the query string (minus tracking arguments) for the search results webpage.
 
 = Version 3.6.3 =
 
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
-* Fixed (added) the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
+* **Fixed** the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
 * Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb]` shortcode.
 * Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
 
 = Version 3.6.2 =
 
-* Fixed YouTube embeded URLs to make them more compatible with Facebook.
+* **Fixed** YouTube embeded URLs to make them more compatible with Facebook.
 * Changed the behavior used to determine the sharing URL for index (non-singular) type webpages, from stripping only tracking query arguments to stripping all query arguments.
 * Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to XFBML).
 
 = Version 3.6.1 =
 
-* Fixed JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
+* **Fixed** JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
 * Added "Enable Shortcode" option to enable/disable the `[ngfb]` shortcode filter (default is unchecked).
 
 = Version 3.6 =
@@ -489,12 +511,12 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Changed the "Include Empty og:* Meta Tags" option default from checked to unchecked.
 * Improved CSS styling information text on the settings and readme pages.
 * Added a "Fallback to Author Index" option to allow/prevent fallback to the author index URL (when an invalid URL is entered in the chosen author's profile field).
-* Fixed the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended.
-* Fixed the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
-* Fixed the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page.
-* Fixed Twitter tweet text when the button is used on an index page. Twitter executes JavaScript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
-* Fixed video URLs with query strings that where not getting stripped of their query data.
-* Fixed URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used.
+* **Fixed** the "Default Image on Indexes" and "Default Image on Search Results" options to work as intended.
+* **Fixed** the og:type code to determine if a webpage is an 'article' or 'website', and use a default author ID when those options are checked.
+* **Fixed** the Pinterest and Tumblr caption to use the post text when the buttons are added to posts on an index page.
+* **Fixed** Twitter tweet text when the button is used on an index page. Twitter executes JavaScript to define the tweet text, instead of using the Open Graph meta tags, so the tweet text must be defined explicitly for each Twitter button.
+* **Fixed** video URLs with query strings that where not getting stripped of their query data.
+* **Fixed** URL of current pages with query strings. get_permalink() is now used when possible, otherwise the current URL is used.
 * Renamed and moved some sections on the NGFB admin page to help separate the Meta and Link options.
 
 = Version 3.5.1 =
@@ -739,131 +761,143 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= Version 4.0.2 =
+= 4.0.5 =
+
+**Recommended update** - fixed a variable typo in the Facebook method, fixed order of `ngfbDebug()` object creation, changed the "Image Size Name" option default value to "medium", added a warning for image sizes that are too small (less than 200x200).
+
+= 4.0.4 =
+
+Added code to remove `<script>` tags from content text for descriptions, etc.
+
+= 4.0.3 =
+
+Added a check for the `mb_decode_numericentity()` function (available since PHP v4.0.6), which is required to decode UTF8 entities.
+
+= 4.0.2 =
 
 Updated the donation options. NGFB has taken many, many months to develop and fine-tune -- please say thank you by donating a few dollars.
 
-= Version 4.0.1 =
+= 4.0.1 =
 
 Added the missing `debug.php` library file to the SVN repository.
 
-= Version 4.0 =
+= 4.0 =
 
 Added persistent and non-persistent caching code to improve speed (especially for logged-in users), added support for video preview images from Vimeo.
 
-= Version 3.6.3 =
+= 3.6.3 =
 
-Added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
+**Recommended update** - added additional social button language options, fixed the missing "ngfb-content-buttons" CSS class, and added the "ngfb-shortcode-buttons" CSS class.
 
-= Version 3.6.2 =
+= 3.6.2 =
 
 Improved the sharing URL for index webpages and YouTube embeded videos.
 
-= Version 3.6.1 =
+= 3.6.1 =
 
-Fixed JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
+**Fixed** JavaScript for enabled widget buttons on index webpages and added "Enable Shortcode" option.
 
-= Version 3.6 =
+= 3.6 =
 
 Added an `[ngfb]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
 
-= Version 3.5.3 =
+= 3.5.3 =
 
 A few minor fixes for special / infrequent situations. Upgrade at the earliest opportunity if you're not running at least v3.5.2.
 
-= Version 3.5.2 =
+= 3.5.2 =
 
 Many small but important fixes (see the Changelog for the complete list). Please update NGFB at your earliest convenience.
 
-= Version 3.5.1 =
+= 3.5.1 =
 
 Improved code to create WP author index URL, added list of NGFB and WP constants to debug output, bypassed NextGEN Gallery shortcode bug, added "Title Separator" option.
 
-= Version 3.5 =
+= 3.5 =
 
 Added reading of accurate width and height for NGG cached images, a caching feature for social button images and JavaScript (disabled by default), Facebook button changed from XFBML to HTML5.
 
-= Version 3.4 =
+= 3.4 =
 
 Added the "Add a Meta Description Tag" option (default is checked) and a test for the existence of `curl_init()` function before shortening URLs for twitter.
 
-= Version 3.3 =
+= 3.3 =
 
 Improved `og:image:width` and `og:image:height` accuracy. Added Language support for button text. Configurable location for each button JavaScript (header or footer). Additional default author options.
 
-= Version 3.2.1 =
+= 3.2.1 =
 
 **Fixed** `update_options()` method that wasn't adding missing options as it should. Added the "Include Empty Open Graph Meta Tags" option.
 
-= Version 3.2 =
+= 3.2 =
 
 **Fixed** social button links on index webpages, improved the sanitation and options handling code, added a check for NextGEN Gallery image IDs in the content.
 
-= Version 3.1.1 =
+= 3.1.1 =
 
 **Fixed** variable reference in widget. Added informational box when upgrading options.
 
-= Version 3.1 =
+= 3.1 =
 
 Added JavaScript function to load button JavaScript files asynchronously. Added goo.gl URL shortener for Twitter. Added warning message for missing options in database.
 
-= Version 3.0 =
+= 3.0 =
 
 Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/).
 
-= Version 2.4 =
+= 2.4 =
 
 Added the "Author URL", "Default Author", and "Ignore Small Images in Content" options. Continued code optimization/overhaul. Please report any issues to the NGFB support page.
 
-= Version 2.3.1 =
+= 2.3.1 =
 
 **Fixed** variable name when using applying 'the_content' filter on OG description. Prevented recursion when calling `apply_filters()` function on 'the_content'.
 
-= Version 2.3 =
+= 2.3 =
 
 Added StumbleUpon button, `NGFB_MIN_IMG_SIZE_DISABLE` constant, moved some functions into classes and library files, added "Preferred Order" for buttons, move button JavaScript to footer.
 
-= Version 2.2 =
+= 2.2 =
 
 Improved validation of option values, enhanced code where plugin looks for an image in the content, and added new "Filter Content for Meta Tags" option.
 
-= Version 2.1.3 =
+= 2.1.3 =
 
 Added `apply_filters()` function before searching for an `<img/>` in the content.
 
-= Version 2.1.2 =
+= 2.1.2 =
 
 Added sanitation and HTML entity encoding of all Open Graph meta tag values.
 
-= Version 2.1.1 =
+= 2.1.1 =
 
 Minor code optimization and improved readme file.
 
-= Version 2.1 =
+= 2.1 =
 
 Added Pinterest button, 'Max Title Length' option, and `DISABLE_NGFB_OPEN_GRAPH` constant for templates.
 
-= Version 2.0 =
+= 2.0 =
 
 More compact options page, added Tumblr button, social buttons widget, and `ngfb_get_social_buttons()` function for templates.
 
-= Version 1.7.2 =
+= 1.7.2 =
 
 Added missing data-annotation field to Google+ social button.
 
-= Version 1.7.1 =
+= 1.7.1 =
 
 Changed plugin name to NextGEN Facebook OG.
 
-= Version 1.7 =
+= 1.7 =
 
 Added LinkedIn button and og:video Open Graph meta tag.
 
-= Version 1.6.1 =
+= 1.6.1 =
 
 **Fixed** some checked option boxes that could not be unchecked.
 
-= Version 1.4.1 =
+= 1.4.1 =
 
 **Fixed** article:tag and article:author Open Graph meta tags.
 
