@@ -401,6 +401,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
 			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
+			<a name="top"></a>
 			<div class="metabox-holder">
 
 			<?php if ( empty( $ngfb->options['ngfb_donated'] ) ) : ?>
@@ -542,13 +543,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
-				<td><?php $this->select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short' ); ?></td>
-				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content (selecting "0" disables all image property tags).</p></td>
+				<td><?php $this->select( 'og_img_max', 
+					array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short' ); ?></td>
+				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
-				<td><?php $this->select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short' ); ?></td>
-				<td><p>The maximum number of videos from the content to use in the Open Graph meta property tags (selecting "0" disables all video property tags).</p></td>
+				<td><?php $this->select( 'og_vid_max',
+					array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short' ); ?></td>
+				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Title Separator</th>
@@ -1129,7 +1132,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>File Cache Expiry</th>
 				<td nowrap><?php $this->select( 'ngfb_file_cache_hrs', range( 0, NGFB_MAX_CACHE ), 'short' ); ?> Hours</td>
-				<td><p>NGFB can save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. A value of 0 hours (the default) disables this option. Caching should only be enabled if your infrastructure can provide these files faster and more reliably than the original websites. All possible images and javascript will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. The cached files will be provided from the <?php echo NGFB_CACHEURL; ?> folder.</p></td>
+				<td><p>NGFB can save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. A value of "0" hours (the default) disables this feature. Caching should only be enabled if your infrastructure can provide these files faster and more reliably than the original websites. All possible images and javascript will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. The cached files will be provided from the <?php echo NGFB_CACHEURL; ?> folder.</p></td>
 			</tr>
 			<tr>
 				<th>Object Cache Expiry</th>
@@ -1145,7 +1148,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>I Have Donated</th>
 				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
-				<td><p>Check this option if you have donated a few dollars, reviewed and rated <?php echo NGFB_ACRONYM; ?>, or helped in the <?php echo NGFB_ACRONYM; ?> support forum (default is unchecked). I haven't received many donations (I can count them on one hand), so your donation will certainly be appreciated. Thank you.</p></td>
+				<td><p>Check this option if you have <a href="#top">donated a few dollars</a>, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewed and rated <?php echo NGFB_ACRONYM; ?></a>, or helped in the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank"><?php echo NGFB_ACRONYM; ?> support forum</a> (default is unchecked). I haven't received many donations yet (I can count them on one hand), so <u>your donation will certainly be appreciated</u>. Thank you.</p></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
