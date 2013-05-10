@@ -670,7 +670,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( $og !== false ) {
 				$this->debug->push( $cache_type . ' : og array retrieved from transient for id "' . $cache_id . '"' );
-				$this->show_meta( $og );
+				$this->add_meta_tags( $og );
 				$this->debug->show();
 				return;
 			}
@@ -745,7 +745,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->debug->push( $cache_type . ' : og array saved to transient for id "' . $cache_id . '" (' . $this->cache->object_expire . ' seconds)');
 
 			// show debug before printing 
-			$this->show_meta( $og );
+			$this->add_meta_tags( $og );
 			$this->debug->show();
 			return;
 		}
@@ -1139,7 +1139,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_content_images_og( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
-			$found = array();
+			$found = array();	// track image URLs from shortcodes, html tags, etc. to filter duplicates
 			$og_ret = array();
 			$size_info = $this->get_size_values( $size_name );
 
@@ -1192,7 +1192,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 					$this->debug->push( 'get_ngg_image_src(ngg-' . $pid[1] . ') = ' . $og_image['og:image'] );
 
-					// avoid duplicates
 					if ( ! empty( $og_image['og:image'] ) && empty( $found[$og_image['og:image']] ) ) {
 						$found[$og_image['og:image']] = 1;
 						array_push( $og_ret, $og_image );	// everything ok, so push the image
@@ -1247,19 +1246,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 
-						// fix relative URLs - just in case
-						if ( ! preg_match( '/:\/\//', $og_image['og:image'] ) ) {
-							$this->debug->push( 'relative url found = ' . $og_image['og:image'] );
+						// check and fix relative URLs here for duplicate check (instead of later in the get_meta_html() method)
+						$og_image['og:image'] = $this->fix_relative_url( $og_image['og:image'] );
 
-							// if it starts with a slash, just add the site_url() prefix
-							if ( preg_match( '/^\//', $og_image['og:image'] ) )
-								$og_image['og:image'] = site_url( $og_image['og:image'] );
-							else 
-								// remove any query string from the current url
-								$og_image['og:image'] = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $og_image['og:image'];
-
-							$this->debug->push( 'relative url fixed = ' . $og_image['og:image'] );
-						}
+						// check and report duplicates after relative URLs have been fixed
 						if ( empty( $found[$og_image['og:image']] ) ) {
 							$found[$og_image['og:image']] = 1;
 							array_push( $og_ret, $og_image );	// everything ok, so push the image
@@ -1268,7 +1258,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 								$this->debug->push( 'max images reached ( ' . count( $og_ret ) . ' >= ' . $num . ' )' );
 								return array_slice( $og_ret, 0, $num );
 							}
-						// check and report duplicates after relative URLs have been fixed
 						} else $this->debug->push( $src_name . ' image rejected = already in array' );
 					} else $this->debug->push( $src_name . ' image rejected = width and height attributes missing or too small' );
 				}
@@ -1410,7 +1399,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return array_map( 'strtolower', $tags );
 		}
 
-		function show_meta( &$arr = array() ) {
+		function add_meta_tags( &$arr = array() ) {
 			global $post;
 			$author_url = '';
 		
@@ -1467,13 +1456,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->options['inc_'.$name] ) 
-				&& ( ! empty( $val ) || ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
+			if ( ! empty( $this->options['inc_'.$name] ) && ( ! empty( $val ) || ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
 				$charset = get_bloginfo( 'charset' );
+				if ( $name == 'og:image' ) $val = $this->fix_relative_url( $val );	// fix relative URLs from content, wp_get_attachment_image_src(), etc.
 				$val = htmlentities( $this->cleanup_html_tags( $this->str_decode( $val ) ), ENT_QUOTES, $charset, false );
 				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />';
-				$meta_html .= "\n";
+				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 			}
 			return $meta_html;
 		}
@@ -1696,6 +1684,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $url;
 		}
 
+		function fix_relative_url( $url = '' ) {
+			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
+				$this->debug->push( 'relative url found = ' . $url );
+				// if it starts with a slash, just add the site_url() prefix
+				if ( preg_match( '/^\//', $url ) ) $url = site_url( $url );
+				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $url;
+				$this->debug->push( 'relative url fixed = ' . $url );
+			}
+			return $url;
+		}
+	
 	}
 
         global $ngfb;

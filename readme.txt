@@ -434,6 +434,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.0.6 =
+* Added an `ngfbPlugin::fix_relative_url()` method to filter all Open Graph image URLs, not just those from the content text, as relative URLs may also come from unexpected sources like the `wp_get_attachment_image_src()` function.
+
 = Version 4.0.5 =
 
 * Changed the default "Image Size Name" value, used for images in the Open Graph meta tags, from "thumbnail" to "medium".
@@ -760,6 +763,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 4.0.6 =
+
+Added a method to filter all Open Graph image URLs, not just those from the content text, as relative URLs may also come from WordPress function(s).
 
 = 4.0.5 =
 
