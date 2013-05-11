@@ -1256,7 +1256,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 
-						// check and fix relative URLs here for duplicate check (instead of later in the get_meta_html() method)
+						// check and fix relative URLs for duplicate checks (instead of later in the get_meta_html() method)
 						$og_image['og:image'] = $this->fix_relative_url( $og_image['og:image'] );
 
 						// check and report duplicates after relative URLs have been fixed
@@ -1468,7 +1468,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$meta_html = '';
 			if ( ! empty( $this->options['inc_'.$name] ) && ( ! empty( $val ) || ( ! empty( $this->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
 				$charset = get_bloginfo( 'charset' );
-				if ( $name == 'og:image' ) $val = $this->fix_relative_url( $val );	// fix relative URLs from content, wp_get_attachment_image_src(), etc.
+
+				// fix relative URLs from content, wp_get_attachment_image_src(), etc.
+				if ( $name == 'og:image' ) $val = $this->fix_relative_url( $val );
+
 				$val = htmlentities( $this->cleanup_html_tags( $this->str_decode( $val ) ), ENT_QUOTES, $charset, false );
 				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
@@ -1697,8 +1700,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function fix_relative_url( $url = '' ) {
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
 				$this->debug->push( 'relative url found = ' . $url );
-				// if it starts with a slash, just add the site_url() prefix
-				if ( preg_match( '/^\//', $url ) ) $url = site_url( $url );
+				// if it starts with a slash, just add the home_url() prefix
+				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
 				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $url;
 				$this->debug->push( 'relative url fixed = ' . $url );
 			}
