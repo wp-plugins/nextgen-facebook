@@ -434,9 +434,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 4.0.6 =
+= Version 4.1 =
 
-* Added `ngfbPlugin::fix_relative_url()` method to filter all Open Graph image URLs, not just those from the content text, as relative URLs may also come from unexpected sources like the `wp_get_attachment_image_src()` function.
+* Added support for NextGEN Gallery preview images for `[nggallery]` and `[nggalbum]` (aka `[album]`) shortcodes.
+* Added an `ngfbPlugin::fix_relative_url()` method to filter and fix relative URLs in all `og:image` property tags, not just those from content text (as relative URLs may also come from unexpected sources, like the `wp_get_attachment_image_src()` function).
 
 = Version 4.0.5 =
 
@@ -496,9 +497,9 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 = Version 3.6 =
 
 * Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
-* Added missing Open Graph og:image tags for *attachment* template webpages.
+* Added missing Open Graph `og:image` tags for *attachment* template webpages.
 * Added the first *attached* image to the Pinterest and Tumblr buttons (if no *featured* image is present).
-* Added the list of *attached* images to the Open Graph og:image tags.
+* Added the list of *attached* images to the Open Graph `og:image` tags.
 * Added support for index webpages for the NGFB social sharing widget.
 * Added support for YouTube videos from the youtube-nocookie.com domain as well.
 
@@ -765,9 +766,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= 4.0.6 =
+= 4.1 =
 
-Added method to filter all Open Graph image URLs, not just those from the content text, as relative URLs may also come from WordPress function(s).
+Added support for NGG preview images for `[nggallery]` and `[nggalbum]` (aka `[album]`) shortcodes, and added a new method to filter and fix relative URLs in all `og:image` property tags.
 
 = 4.0.5 =
 
