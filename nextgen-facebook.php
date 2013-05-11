@@ -310,6 +310,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->admin = new ngfbAdmin();
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
 			}
+
+			# load pro class to extend other classes
+			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) ) {
+				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
+				$this->pro = new ngfbPro();
+			}
 		}
 
 		function user_contactmethods( $fields = array() ) { 
@@ -356,6 +362,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		function load_is_avail() {
 		
+			// ngfb pro
+			$this->is_avail['ngfbpro'] = class_exists( 'ngfbPro' ) ? true : false;
+
 			// php v4.0.6+
 			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
@@ -454,7 +463,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize_options( $opts );
 
-				if ( empty( $opts['ngfb_donated'] ) )
+				// don't show message if already donated, or pro version installed
+				if ( empty( $opts['ngfb_donated'] ) && $this->is_avail['ngfbpro'] == false )
 					$this->admin->msg_inf[] = '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. Please suppport us by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
 			}
 			return $opts;

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2012 - Jean-Sebastien Morisset - http://surniaulula.com/
+Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
 This script is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -404,7 +404,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<a name="top"></a>
 			<div class="metabox-holder">
 
-			<?php if ( empty( $ngfb->options['ngfb_donated'] ) ) : ?>
+			<?php	// don't show donation box if already donated, or pro version installed
+				if ( empty( $ngfb->options['ngfb_donated'] ) && $ngfb->is_avail['ngfbpro'] == false ) : ?>
 			<div class="postbox">
 			<div class="inside">	
 			<div class="donatebox">
@@ -430,7 +431,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div style="clear:both;"></div>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
-			<?php endif; ?>
+			<?php	// end of donation box 
+				endif; ?>
 
 			<form name="ngfb" method="post" action="options.php" id="settings">
 			<?php settings_fields( 'ngfb_plugin_options' ); $this->hidden( 'ngfb_version', $ngfb->opts_version ); ?>
@@ -1145,11 +1147,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
 				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
+			<?php	// don't show option if pro version installed
+				if ( $ngfb->is_avail['ngfbpro'] == false ) : ?>
 			<tr>
 				<th>I Have Donated</th>
 				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
 				<td><p>Check this option if you have <a href="#top">donated a few dollars</a>, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewed and rated <?php echo NGFB_ACRONYM; ?></a>, or helped in the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank"><?php echo NGFB_ACRONYM; ?> support forum</a> (default is unchecked). I haven't received many donations yet (I can count them on one hand), so <u>your donation will certainly be appreciated</u>. Thank you.</p></td>
 			</tr>
+			<?php endif; ?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
@@ -1232,6 +1237,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				array( 'none' => 'None', 'author' => 'Author Index', 'url' => 'Website' ) 
 			);
 		}
+
 	}
 }
 ?>
