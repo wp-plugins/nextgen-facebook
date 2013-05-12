@@ -186,9 +186,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_dependencies();
 
-			if ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG )
-				echo '<!-- ', NGFB_FULLNAME, ' Plugin Loading -->', "\n";
-
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
 
@@ -214,20 +211,36 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->load_options();
 
 			// add_action() tests and debug output
-			if ( ! is_admin() && $this->debug->on ) {
-				echo '<!-- ', NGFB_FULLNAME, ' ', $this->version, ' Plugin Initialized -->', "\n";
-
+			if ( $this->debug->on ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
 							"echo '<!-- " . NGFB_ACRONYM . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
-				$defined_constants = get_defined_constants( true );
-				$this->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
-				$this->debug->show( $this->is_avail );
-				$this->debug->show( $this->options );
 			}
 
+		}
+
+		function add_header() {
+			echo "\n<!-- ", NGFB_LONGNAME, ' Version ', $this->version, " -->\n";
+			echo '<!-- ', NGFB_URL, " -->\n";
+			if ( $this->debug->on ) {
+				$defined_constants = get_defined_constants( true );
+				$this->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
+				$this->debug->show( $this->options );
+				$this->debug->show( $this->is_avail );
+
+				$this->debug->push( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+			}
+			echo $this->get_buttons_js( 'header' );
+		}
+
+		function add_footer() {
+			echo $this->get_buttons_js( 'footer' );
 		}
 
 		function define_constants() { 
@@ -405,7 +418,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					|| $this->options['ngfb_version'] !== $this->opts_version )
 					$this->options = $this->upgrade_options( $this->options );
 			} else {
-				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. All plugin settings have been returned to their default values (though nothing has been saved back to the database). <a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
+				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
+					All plugin settings have been returned to their default values (though nothing has been saved back to the database). 
+					<a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
 				$this->debug->show( print_r( get_option( NGFB_OPTIONS_NAME ) ), 'get_option("' . NGFB_OPTIONS_NAME . '")' );
 				$this->options = $this->default_options;
 			}
@@ -425,7 +440,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->on = $this->options['ngfb_debug'];
 				$this->cache->object_expire = 1;
 				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
-				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
+				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
+					WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}
@@ -575,25 +591,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 			}
 			return $opts;
-		}
-
-		function add_header() {
-			echo "\n<!-- ", NGFB_LONGNAME, ' Version ', $this->version, " -->\n";
-			echo '<!-- About NGFB : ', NGFB_URL, " -->\n";
-
-			if ( ! is_admin() && $this->debug->on ) {
-				$this->debug->push( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
-				$this->debug->push( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
-				$this->debug->push( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
-				$this->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
-				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-			}
-
-			echo $this->get_buttons_js( 'header' );
-		}
-
-		function add_footer() {
-			echo $this->get_buttons_js( 'footer' );
 		}
 
 		// add button javascript for enabled buttons in content and widget(s)
