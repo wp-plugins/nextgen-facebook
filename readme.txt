@@ -10,11 +10,11 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature rich objects in a social setting. **Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
+The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature rich objects in a social setting. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
 
 **NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons, that you can add above or bellow content, as a widget, shortcode, or even as a function from your template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow content, as a widget, shortcode, or even as a function from your template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -32,7 +32,7 @@ The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 
-NextGEN Facebook Open Graph (NGFB) is being actively developed and supported. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
+**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
 == Installation ==
 
@@ -146,11 +146,11 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the send / share button for the first time, make sure you've chosen your *featured* image and (optionally) entered an excerpt text. If you change your mind, and your webpage has not been liked or shared yet, then try using [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh the Facebook cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the image, text, or title that was used.
+**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your posts, pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. What about Google Search and Google Plus? =
 
@@ -190,8 +190,9 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. Images from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
-1. Images from `<img/>` HTML tags in the Post or Page content text.
+1. A preview image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
+1. Image(s) from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
