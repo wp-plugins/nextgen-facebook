@@ -1750,7 +1750,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function fix_relative_url( $url = '' ) {
-			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
+			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
 				$this->debug->push( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
