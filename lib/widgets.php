@@ -34,9 +34,10 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 	
 			extract( $args );
 
-			if ( is_search() ) $sharing_url = $ngfb->get_sharing_url( 'notrack' );
-			else $sharing_url = $ngfb->get_sharing_url();
+			//if ( is_search() ) $sharing_url = $ngfb->get_sharing_url( 'notrack' );
+			//else $sharing_url = $ngfb->get_sharing_url();
 
+			$sharing_url = $ngfb->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__ . '(widget:' . $this->id . '_sharing_url:' . $sharing_url . ')';
 			$cache_id = 'ngfb_' . md5( $cache_salt );
 			$cache_type = 'object cache';

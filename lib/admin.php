@@ -324,34 +324,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( $ngfb->options as $opt => $val )
 				if ( preg_match( '/_enable$/', $opt ) )
 					$buttons_count++;
-	
+
+			$this->admin_style();
+
 			?><style type="text/css">
-				.form-table tr { vertical-align:top; }
-				.form-table th { 
-					text-align:right;
-					white-space:nowrap; 
-					padding:2px 6px 2px 6px; 
-					min-width:180px;
+				.wrap { 
+					font-size:1em; 
+					line-height:1.3em; 
 				}
-				.form-table th.social { 
-					font-weight:bold; 
-					text-align:left; 
-					background-color:#eee; 
-					border:1px solid #ccc;
-					width:50%;
+				.wrap h2 { 
+					margin:0 0 10px 0; 
 				}
-				.form-table th.metatag { width:220px; }
-				.form-table td { padding:2px 6px 2px 6px; }
-				.form-table td select,
-				.form-table td input { margin:0 0 5px 0; }
-				.form-table td input[type=text] { width:250px; }
-				.form-table td input[type=text].short { width:50px; }
-				.form-table td input[type=text].wide { width:100%; }
-				.form-table td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
-				.form-table td select { width:250px; }
-				.form-table td select.short { width:100px; }
-				.wrap { font-size:1em; line-height:1.3em; }
-				.wrap h2 { margin:0 0 10px 0; }
 				.wrap p { 
 					text-align:justify; 
 					line-height:1.2em; 
@@ -400,7 +383,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
-			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; ?></h2>
+			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; if ( $ngfb->is_avail['ngfbpro'] == true ) echo ' (Pro)'; ?></h2>
 			<a name="top"></a>
 			<div class="metabox-holder">
 
@@ -440,7 +423,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Settings</span></h3>
 			<div class="inside">	
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<th>Website Topic</th>
 				<td><?php $this->select( 'og_art_section', array_merge( array( '' ), $this->article_sections ) ); ?></td>
@@ -545,14 +528,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
-				<td><?php $this->select( 'og_img_max', 
-					array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short' ); ?></td>
+				<td><?php $this->select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short' ); ?></td>
 				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
-				<td><?php $this->select( 'og_vid_max',
-					array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short' ); ?></td>
+				<td><?php $this->select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short' ); ?></td>
 				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
@@ -608,7 +589,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="postbox">
 			<h3 class="hndle"><span>Link Settings</span></h3>
 			<div class="inside">	
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<th>Author Link URL</th>
 				<td><?php $this->select( 'link_author_field', $this->author_fields() ); ?></td>
@@ -625,7 +606,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Tag List</span></h3>
 			<div class="inside">	
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
@@ -663,7 +644,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="postbox">
 			<h3 class="hndle"><span>Social Button Settings</span></h3>
 			<div class="inside">	
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<td colspan="4">
 				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
@@ -689,7 +670,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 			</tr>
 			</table>
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<!-- Facebook -->
 				<th colspan="2" class="social">Facebook</th>
@@ -732,14 +713,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Markup Language</th>
-				<td><?php $this->select( 'fb_markup', array( 
-					'html5' => 'HTML5',
-					'xfbml' => 'XFBML' ) ); ?></td>
+				<td><?php $this->select( 'fb_markup', array( 'html5' => 'HTML5', 'xfbml' => 'XFBML' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Button Type</th>
-				<td><?php $this->select( 'gp_action', array( 
-					'plusone' => 'G +1',
-					'share' => 'G+ Share',
+				<td><?php $this->select( 'gp_action', array( 'plusone' => 'G +1', 'share' => 'G+ Share',
 				) ); ?></td>
 			</tr>
 			<tr>
@@ -1090,7 +1067,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="postbox">
 			<h3 class="hndle"><span>Plugin Settings</span></h3>
 			<div class="inside">	
-			<table class="form-table">
+			<table class="ngfb-settings">
 			<tr>
 				<th>Reset on Activate</th>
 				<td><?php $this->checkbox( 'ngfb_reset' ); ?></td>
@@ -1203,6 +1180,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				' value="', $ngfb->options[$name], '" />';
 		}
 
+		function textarea( $name, $class = '', $id = '' ) {
+			if ( empty( $name ) ) return;	// just in case
+			global $ngfb;
+			echo '<textarea name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
+				( empty( $class ) ? '' : ' class="'.$class.'"' ),
+				( empty( $id ) ? '' : ' id="'.$id.'"' ),
+				'>', $ngfb->options[$name], '</textarea>';
+		}
+
 		function hidden( $name, $value = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
@@ -1238,6 +1224,41 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			);
 		}
 
+		public function admin_style() {
+			?>
+			<style type="text/css">
+				table.ngfb-settings { 
+					width:100%;
+				}
+				table.ngfb-settings tr { vertical-align:top; }
+				table.ngfb-settings th { 
+					text-align:right;
+					white-space:nowrap; 
+					padding:2px 6px 2px 6px; 
+					min-width:180px;
+				}
+				table.ngfb-settings th.social { 
+					font-weight:bold; 
+					text-align:left; 
+					background-color:#eee; 
+					border:1px solid #ccc;
+					width:50%;
+				}
+				table.ngfb-settings th.metatag { width:220px; }
+				table.ngfb-settings td { padding:2px 6px 2px 6px; }
+				table.ngfb-settings td select,
+				table.ngfb-settings td input { margin:0 0 5px 0; }
+				table.ngfb-settings td input[type=text] { width:250px; }
+				table.ngfb-settings td input[type=text].short { width:50px; }
+				table.ngfb-settings td input[type=text].wide { width:100%; }
+				table.ngfb-settings td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
+				table.ngfb-settings td textarea { padding:2px; }
+				table.ngfb-settings td textarea.wide { width:100%; height:5em; }
+				table.ngfb-settings td select { width:250px; }
+				table.ngfb-settings td select.short { width:100px; }
+			</style>
+			<?php
+		}
 	}
 }
 ?>
