@@ -1092,8 +1092,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_attachment( $post->ID ) ) {
 				$this->debug->push( 'is_attachment() = true' );
 				$og_image = array();
-				list( $og_image['og:image'], $og_image['og:image:width'], 
-					$og_image['og:image:height'] ) = $this->get_attachment_image_src( $post->ID, $size_name );
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+					$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $post->ID, $size_name );
 
 				// if this is an attachment webpage, and we have an attachment, then stop here and return the image array
 				if ( ! empty( $og_image['og:image'] ) ) {
@@ -1592,16 +1592,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function get_attachment_image_src( $pid, $size_name = 'thumbnail' ) {
-
 			$image_url = '';
 			$size_info = $this->get_size_values( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-
 			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
-
 			$this->debug->push( 'image for post ' . $pid . ' size ' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
-
 			return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
 		}
 
