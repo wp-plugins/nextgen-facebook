@@ -439,7 +439,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 * Added a check for "album" and "gallery" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) shortcode, to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
-* Changed URL cleanup argument in calls to `ngfbPlugin::get_sharing_url()` from "noquery" to "notrack".
+* Changed argument in calls to `ngfbPlugin::get_sharing_url()` from "noquery" to "notrack".
 
 = Version 4.1 =
 
