@@ -24,7 +24,13 @@ The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature
 * Tumblr
 * Twitter
 
-**NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. 
+**NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. Images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+
+1. A *featured* or *attached* image from NextGEN Gallery or WordPress Media Library.
+1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
+1. Image(s) from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
+1. A default image defined in the NGFB plugin settings.
 
 **NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
 
@@ -189,8 +195,8 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
-1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. A preview image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
+1. A *featured* or *attached* image from NextGEN Gallery or WordPress Media Library.
+1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
 1. Image(s) from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
 1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
