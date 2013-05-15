@@ -1506,7 +1506,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// show the array structure before the html block
 			$this->debug->show( print_r( $arr, true ) );
 
-			echo '<meta name="generator" content="', NGFB_FULLNAME, ' v', $this->version, '" />', "\n";
+			echo '<meta name="generator" content="', NGFB_LONGNAME, ' Version ', $this->version, '" />', "\n";
 
 			// echo the publisher link
 			if ( ! empty( $arr['link:publisher'] ) )
