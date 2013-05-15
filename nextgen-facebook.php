@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.2.dev.2
+Version: 4.2.dev.3
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.2.dev.2';	// only for display purposes
+		var $version = '4.2.dev.3';	// only for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
 		var $is_avail = array();	// assoc array for function/class/method/etc. checks
 		var $options = array();
@@ -949,14 +949,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function get_wiki_summary() {
 			global $post;
 			$desc = '';
+			if ( $this->is_avail['wikibox'] !== true ) return $desc;
 			$tag_prefix = $this->options['og_wiki_tag'];
 			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-			$this->debug->push( 'wp_get_post_tags() = ' . implode( ', ', $tags ) );
-
+			$this->debug->push( 'post tags = ' . implode( ', ', $tags ) );
 			foreach ( $tags as $tag_name ) {
 				if ( $tag_prefix ) {
-					if ( preg_match( "/^$tag_prefix/", $tag_name ) )
+					if ( preg_match( "/^$tag_prefix/", $tag_name ) ) {
 						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
+						if ( $tag_name == 'NoWikiText' ) return $desc;
+					}
 					else continue;	// skip tags that don't have the prefix
 				}
 				$desc .= wikibox_summary( $tag_name, 'en', false ); 
@@ -987,7 +989,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
 				} elseif ( is_page() && ! empty( $this->options['og_desc_wiki'] ) && $this->is_avail['wikibox'] == true ) {
-
 					$this->debug->push( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
 					$desc = $this->get_wiki_summary();
 				} 
@@ -1719,11 +1720,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function cleanup_html_tags( $text, $strip_tags = true ) {
-			$text = strip_shortcodes( $text );					// remove any remaining shortcodes
-			$text = preg_replace( '/<\?.*\?>/i', ' ', $text);			// remove php
-			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);	// remove javascript
-			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);	// remove inline stylesheets
-			if ( $strip_tags == true ) $text = strip_tags( $text );			// remove remaining html tags
+			$text = strip_shortcodes( $text );						// remove any remaining shortcodes
+			$text = preg_replace( '/<\?.*\?>/i', ' ', $text);				// remove php
+			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);		// remove javascript
+			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);		// remove inline stylesheets
+			$text = preg_replace( '/<!--no-text-->(.*?)<!--\/no-text-->/im', ' ', $text);	// remove text between comment strings
+			if ( $strip_tags == true ) $text = strip_tags( $text );				// remove remaining html tags
 			return trim( $text );
 		}
 

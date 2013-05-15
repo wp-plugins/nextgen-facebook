@@ -448,9 +448,11 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 * Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) and `[nggallery]` shortcode(s), to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
 * Added a class variable and `ngfbPlugin::og_img_url_check()` method, to track and filter duplicate image URLs from shortcodes, content, etc.
+* Added a filter to remove text between the `<!--no-text-->` and `<!--/no-text-->` comment tags for Open Graph title, description, etc. meta property tags.
+* Added a check for a "NoWikiTag" tag on Pages, to prevent WP-WikiBox text from being used for the Open Graph description.
+* Added the `ngfbPlugin::get_ngg_query_images_og()` method.
+* Added the `ngfbPlugin::get_ngg_shortcode_images_og()` method.
 * Changed argument in most calls to the `ngfbPlugin::get_sharing_url()` method, from "noquery" to "notrack".
-* Added `ngfbPlugin::get_ngg_query_images_og()` method.
-* Added `ngfbPlugin::get_ngg_shortcode_images_og()` method.
 
 = Version 4.1 =
 
