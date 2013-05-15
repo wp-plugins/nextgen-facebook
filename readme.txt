@@ -222,6 +222,14 @@ The order in which the attributes are listed is important -- place the "share" a
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 `
 
+= Q. How can I share a single NextGEN Gallery image? =
+
+**A.** You could create a Page with the `[singlepic]` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
+
+= Q. How can I exclude certain parts of the content text? =
+
+**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
+
 = Q. Does NextGEN Facebook Open Graph use functions from other plugins? =
 
 **A.** Yes, NGFB can detect and use the following plugins:
