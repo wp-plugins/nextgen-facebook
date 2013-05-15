@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 4.1
@@ -453,6 +453,8 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.2 =
 
+Improved support for NextGEN Gallery shortcodes and its ImageBrowser.
+
 * Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) and `[nggallery]` shortcode(s), to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
 * Added a class variable and `ngfbPlugin::og_img_url_check()` method, to track and filter duplicate image URLs from shortcodes, content, etc.
@@ -793,6 +795,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 4.2 =
+
+Improved support for NextGEN Gallery shortcodes and its ImageBrowser.
 
 = 4.1 =
 
