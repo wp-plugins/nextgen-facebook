@@ -417,7 +417,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.2 =
 
-Improved support for NextGEN Gallery shortcodes and its ImageBrowser.
+Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
 
 * Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) and `[nggallery]` shortcode(s), to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
@@ -762,7 +762,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 4.2 =
 
-Improved support for NextGEN Gallery shortcodes and its ImageBrowser.
+Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
 
 = 4.1 =
 
