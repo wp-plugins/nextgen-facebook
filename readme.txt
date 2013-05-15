@@ -24,7 +24,14 @@ The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature
 * Tumblr
 * Twitter
 
-**NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. 
+**NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. Images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+
+1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
+1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `[nggalbum]` or `[nggallery]` shortcode).
+1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
+1. Image(s) from expanded NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
+1. A default image defined in the NGFB plugin settings.
 
 **NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
 
@@ -189,10 +196,11 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
-1. A *featured* or *attached* image from a NextGEN Gallery or WordPress Media Library.
-1. A preview image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
-1. Image(s) from NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
-1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
+1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
+1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `[nggalbum]` or `[nggallery]` shortcode).
+1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
+1. Image(s) from expanded NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
@@ -435,11 +443,14 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 4.2.dev.1 =
+= Version 4.2 =
 
-* Added a check for "album" and "gallery" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) shortcode, to determine the correct preview image(s).
+* Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) and `[nggallery]` shortcode(s), to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
-* Changed argument in calls to `ngfbPlugin::get_sharing_url()` from "noquery" to "notrack".
+* Added a class variable and `ngfbPlugin::og_img_url_check()` method, to track and filter duplicate image URLs from shortcodes, content, etc.
+* Changed argument in most calls to the `ngfbPlugin::get_sharing_url()` method, from "noquery" to "notrack".
+* Added `ngfbPlugin::get_ngg_query_images_og()` method.
+* Added `ngfbPlugin::get_ngg_shortcode_images_og()` method.
 
 = Version 4.1 =
 

@@ -31,7 +31,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
 					$from = $stack[1]['function'];
-				if ( ! empty( $from ) ) $msg = sprintf( '%24s() : %s', $from, $msg );
+				if ( ! empty( $from ) ) $msg = sprintf( '%28s() : %s', $from, $msg );
 				$this->log[] = $msg;
 			}
 			return;

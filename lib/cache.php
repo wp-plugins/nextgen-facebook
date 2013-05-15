@@ -107,20 +107,20 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					elseif ( $cache_name == 'transient' ) 
 						$cache_data = get_transient( $cache_id );
 					if ( $cache_data !== false ) {
-						$ngfb->debug->push( $cache_type . ' : cache_data retrieved from ' . $cache_name . ' for id "' . $cache_id . '"' );
+						$ngfb->debug->push( $cache_type . ': cache_data retrieved from ' . $cache_name . ' for id "' . $cache_id . '"' );
 					}
 					break;
 				case 'file' :
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
-					$ngfb->debug->push( $cache_type . ' : filename id salt "' . $cache_salt . '"' );
+					$ngfb->debug->push( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $this->file_expire ) {
 						$fh = fopen( $cache_file, 'rb' );
 						$cache_data = fread( $fh, filesize( $cache_file ) );
 						fclose( $fh );
 						if ( ! empty( $cache_data ) ) {
-							$ngfb->debug->push( $cache_type . ' : cache_data retrieved from "' . $cache_file . '"' );
+							$ngfb->debug->push( $cache_type . ': cache_data retrieved from "' . $cache_file . '"' );
 						}
 					}
 					break;
@@ -140,25 +140,25 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'transient' :
 					$cache_type = 'object cache';
 					$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );	// add a prefix to the object cache id
-					$ngfb->debug->push( $cache_type . ' : cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
+					$ngfb->debug->push( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
 						wp_cache_set( $cache_id, $cache_data, __METHOD__, $this->object_expire );
 					elseif ( $cache_name == 'transient' ) 
 						set_transient( $cache_id, $cache_data, $this->object_expire );
-					$ngfb->debug->push( $cache_type . ' : cache_data saved to ' . $cache_name . ' for id "' . $cache_id . '" (' . $this->object_expire . ' seconds)' );
+					$ngfb->debug->push( $cache_type . ': cache_data saved to ' . $cache_name . ' for id "' . $cache_id . '" (' . $this->object_expire . ' seconds)' );
 					$ret_status = true;	// success
 					break;
 				case 'file' :
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
-					$ngfb->debug->push( $cache_type . ' : filename id salt "' . $cache_salt . '"' );
+					$ngfb->debug->push( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
 					$fh = fopen( $cache_file, 'wb' );
 					if ( ! empty( $fh ) ) {
 						if ( fwrite( $fh, $cache_data ) ) {
-							$ngfb->debug->push( $cache_type . ' : cache_data saved to "' . $cache_file . '"' );
+							$ngfb->debug->push( $cache_type . ': cache_data saved to "' . $cache_file . '"' );
 							$ret_status = true;	// success
 						}
 						fclose( $fh );
