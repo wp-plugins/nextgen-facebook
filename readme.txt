@@ -230,16 +230,6 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 **A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
 
-= Q. Does NextGEN Facebook Open Graph use functions from other plugins? =
-
-**A.** Yes, NGFB can detect and use the following plugins:
-
-* [WP-WikiBox](http://wordpress.org/extend/plugins/wp-wikibox/) : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).
-
-* [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
-
-* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the *featured* image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
-
 == Shortcodes ==
 
 You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
@@ -337,6 +327,16 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-aside .ngfb-buttons,
 .format-status .ngfb-buttons { display:none; }
 `
+
+== Other Plugins ==
+
+NextGEN Facebook Open Graph (NGFB) can detect and use the following plugins:
+
+* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the *featured* image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
+
+* [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
+
+* [WP-WikiBox](http://wordpress.org/extend/plugins/wp-wikibox/) : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).
 
 == Performance Tuning ==
 
