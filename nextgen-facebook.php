@@ -223,8 +223,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		function add_header() {
-			echo "\n<!-- ", NGFB_LONGNAME, ' Version ', $this->version, " -->\n";
-			echo '<!-- ', NGFB_URL, " -->\n";
 			if ( $this->debug->on ) {
 				$defined_constants = get_defined_constants( true );
 				$this->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ) );
@@ -1507,6 +1505,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// show the array structure before the html block
 			$this->debug->show( print_r( $arr, true ) );
+
+			echo '<meta name="generator" content="', NGFB_FULLNAME, ' v', $this->version, '" />', "\n";
 
 			// echo the publisher link
 			if ( ! empty( $arr['link:publisher'] ) )
