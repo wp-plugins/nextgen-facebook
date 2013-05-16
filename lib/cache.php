@@ -78,12 +78,12 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, TRUE );
 				curl_setopt( $ch, CURLOPT_CAINFO, $this->pem_file );
 			}
-			$ngfb->debug->push( 'curl : fetching cache_data from ' . $get_url );
+			$ngfb->debug->push( 'curl: fetching cache_data from ' . $get_url );
 			$cache_data = curl_exec( $ch );
 			curl_close( $ch );
 
 			if ( empty( $cache_data ) ) 
-				$ngfb->debug->push( 'curl : cache_data returned from "' . $get_url . '" is empty' );
+				$ngfb->debug->push( 'curl: cache_data returned from "' . $get_url . '" is empty' );
 			elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext ) == true ) {
 				$ngfb->debug->push( 'cache_data sucessfully saved' );
 				if ( $want_this == 'url' ) return $cache_url;
