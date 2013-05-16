@@ -424,7 +424,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.3 =
 
-* Many small code changes to improve duplicate image detection between various sources (featured, attached, shorcodes, content, etc.).
+* Many small code improvements to enhance duplicate image detection between various sources (featured, attached, shorcode, content, etc.).
 
 = Version 4.2.1 =
 
@@ -774,6 +774,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 4.3 =
+
+Many small code improvements to enhance duplicate image detection between various sources (featured, attached, shorcode, content, etc.).
 
 = 4.2.1 =
 

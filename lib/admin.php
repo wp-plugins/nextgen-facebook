@@ -1131,7 +1131,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
 				<td><p>Check this option if you have <a href="#top">donated a few dollars</a>, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewed and rated <?php echo NGFB_ACRONYM; ?></a>, or helped in the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank"><?php echo NGFB_ACRONYM; ?> support forum</a> (default is unchecked). I haven't received many donations yet (I can count them on one hand), so <u>your donation will certainly be appreciated</u>. Thank you.</p></td>
 			</tr>
-			<?php endif; ?>
+			<?php	else : $this->hidden( 'ngfb_donated' ); endif; ?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
