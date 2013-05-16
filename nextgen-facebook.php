@@ -440,7 +440,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->object_expire = 1;
 				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
 				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
-					WP object cache expiration time has been set to ' . $this->cache->object_expire . ' second (instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
+					WP object cache expiration time has been temporarily set to ' . $this->cache->object_expire . ' second 
+					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}
