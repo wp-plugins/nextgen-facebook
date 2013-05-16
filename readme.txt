@@ -161,7 +161,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
-**A.** The NextGEN Facebook Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly - instead of linking the preview image (for example) to the source website. There are two possible solutions:
+**A.** The NextGEN Facebook Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
@@ -421,6 +421,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
 
 == Changelog ==
+
+= Version 4.3 =
+
+* Many small code changes to improve duplicate image detection between various sources (featured, attached, shorcodes, content, etc.).
 
 = Version 4.2.1 =
 
