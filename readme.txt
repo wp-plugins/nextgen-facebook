@@ -70,7 +70,7 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 [Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-<!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
+<!-- NextGEN Facebook Open Graph meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
@@ -96,13 +96,13 @@ Some plugin options are available under the *Settings / NextGEN Facebook* admin 
 <meta property="og:title" content="WordPress Caching and Plugins for Performance" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
-<!-- NextGEN Facebook Open Graph (NGFB) meta tags END -->
+<!-- NextGEN Facebook Open Graph meta tags END -->
 `
 
 And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/).
 
 `
-<!-- NextGEN Facebook Open Graph (NGFB) meta tags BEGIN -->
+<!-- NextGEN Facebook Open Graph meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Curaçao it forms a group referred to..." />
@@ -148,7 +148,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 <meta property="og:title" content="Bonaire" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
-<!-- NextGEN Facebook Open Graph (NGFB) meta tags END -->
+<!-- NextGEN Facebook Open Graph meta tags END -->
 `
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
@@ -158,6 +158,13 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 = Q. How can I see what Facebook sees? =
 
 **A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+
+= Q. Why does Facebook play videos instead of linking them to my webpage? =
+
+**A.** The NextGEN Facebook Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly - instead of linking the preview image (for example) to the source website. There are two possible solutions:
+
+1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
+1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
 
 = Q. What about Google Search and Google Plus? =
 
