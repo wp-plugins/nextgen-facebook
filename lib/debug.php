@@ -84,8 +84,8 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		function is_assoc( $arr ) {
-			if ( ! is_array( $arr ) ) return 0;
-			return is_numeric( implode( array_keys( $arr ) ) ) ? 0 : 1;
+			if ( ! is_array( $arr ) ) return false;
+			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
 

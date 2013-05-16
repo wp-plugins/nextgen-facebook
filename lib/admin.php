@@ -528,12 +528,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
-				<td><?php $this->select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short' ); ?></td>
+				<td><?php $this->select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
-				<td><?php $this->select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short' ); ?></td>
+				<td><?php $this->select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
@@ -1142,15 +1142,20 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php	
 		}
 	
-		function select( $name, $values = array(), $class = '', $id = '' ) {
+		function select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) ) return;	// just in case
 			global $ngfb;
-			$is_assoc = $ngfb->is_assoc( $values );
+			if ( $is_assoc == false )
+				$is_assoc = $ngfb->is_assoc( $values );
+
 			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ), '>', "\n";
+
 			foreach ( (array) $values as $val => $desc ) {
-				if ( ! $is_assoc ) $val = $desc;
+				if ( $is_assoc == false ) 
+					$val = $desc;
+
 				echo '<option value="', $val, '"';
 				selected( $ngfb->options[$name], $val );
 				echo '>', $desc;
