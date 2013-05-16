@@ -417,7 +417,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 4.2.1 =
 
-* Fixed drop-down value of "0" for "Maximum Number of Images/Videos" on the settings page.
+* Minor fix for the "Maximum Number of Images/Videos" drop-down value of "0" on the settings page.
 
 = Version 4.2 =
 
@@ -766,7 +766,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 4.2.1 =
 
-Fixed drop-down value of "0" for "Maximum Number of Images/Videos" on the settings page.
+Minor fix for the "Maximum Number of Images/Videos" drop-down value of "0" on the settings page.
 
 = 4.2 =
 
