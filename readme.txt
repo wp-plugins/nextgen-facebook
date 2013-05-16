@@ -415,6 +415,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 4.2.1 =
+
+* Fixed drop-down value of "0" for "Maximum Number of Images/Videos" on the settings page.
+
 = Version 4.2 =
 
 Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
@@ -759,6 +763,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 4.2.1 =
+
+Fixed drop-down value of "0" for "Maximum Number of Images/Videos" on the settings page.
 
 = 4.2 =
 
