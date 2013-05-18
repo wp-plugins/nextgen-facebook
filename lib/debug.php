@@ -31,7 +31,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$from = '';
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['class'] ) ) 
-					$from .= sprintf( '%-14s:: ', $stack[1]['class'] );
+					$from .= sprintf( '%-24s:: ', $stack[1]['class'] );
 
 				if ( ! empty( $stack[1]['function'] ) ) 
 					$from .= sprintf( '%-24s : ', $stack[1]['function'] );

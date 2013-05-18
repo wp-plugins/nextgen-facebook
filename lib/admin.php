@@ -257,6 +257,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
+
+			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 		}
 	
 		function check_wp_version() {
@@ -275,7 +277,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-				$this->msg_inf[] = 'The "' . $ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $ngfb->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
+				$this->msg_inf[] = 'The "' . $ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $this->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
 			}
 		}
 
@@ -291,7 +293,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			global $ngfb;
 
-			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $ngfb->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
+			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
 			$p_end = '</p>';
 
 			if ( ! empty( $this->msg_err ) ) 
@@ -318,6 +320,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return $ngfb->sanitize_options( $opts );
 		}
 
+		// display a settings link on the main plugins page
+		function plugin_action_links( $links, $file ) {
+			if ( $file == plugin_basename( __FILE__ ) )
+				array_push( $links, '<a href="' . $this->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
+			return $links;
+		}
+
+		function get_options_url() {
+			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
+		}
+	
 		function options_page() {
 			global $ngfb;
 			$buttons_count = 0;

@@ -374,8 +374,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
 				foreach ( $images as $attachment ) {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $ngfb->get_attachment_image_src( $attachment->ID, $size_name );
+					if ( ! empty( $attachment->ID ) )
+						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+							$og_image['og:image:cropped'] ) = $ngfb->get_attachment_image_src( $attachment->ID, $size_name );
 				}
 			}
 			// returned array must be two-dimensional
@@ -449,5 +450,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 	}
-}	
+}
+
 ?>

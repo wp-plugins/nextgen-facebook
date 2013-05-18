@@ -20,17 +20,116 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 	class ngfbButtons {
 
+		var $website = array();
+
 		function __construct() {
+			$this->load_libs();
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 		}
 
+		function load_libs() {
+			global $ngfb;
+			foreach ( $ngfb->social_nice_names as $filename => $classname ) {
+
+				require_once ( dirname ( __FILE__ ) . '/websites/' . $filename . '.php' );
+
+				$classname = 'ngfbWebSite' . $classname;
+				$this->website[$filename] = new $classname();
+
+				//$r = new ReflectionClass( $classname );
+				//$this->website[$filename] = $r->newInstance();
+			}
+		}
+
 		function add_header() {
-			echo $this->get_buttons_js( 'header' );
+			echo $this->get_js( 'header' );
 		}
 
 		function add_footer() {
-			echo $this->get_buttons_js( 'footer' );
+			echo $this->get_js( 'footer' );
+		}
+
+		function get_html( $ids = array(), $atts = array() ) {
+			global $ngfb, $post;
+			$html = '';
+			foreach ( $ids as $id ) {
+				$id = preg_replace( '/[^a-z]/', '', $id );
+				$ngfb->debug->push( 'calling this->website[' . $id . ']->get_html()' );
+				if ( is_object( $this->website[$id] ) )
+					$html .= $this->website[$id]->get_html( $atts );
+			}
+			if ( $html ) $html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$html</div>\n";
+			return $html;
+		}
+
+		// add javascript for enabled buttons in content and widget(s)
+		function get_js( $pos = 'footer', $ids = array() ) {
+			global $ngfb;
+			if ( empty( $ids ) ) {
+
+				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
+				if ( is_page() && $ngfb->is_excluded() ) return;
+
+				$widget = new ngfbSocialButtonsWidget();
+		 		$widget_settings = $widget->get_settings();
+
+				foreach ( $ngfb->social_options_prefix as $id => $opt_prefix ) {
+
+					// check for enabled buttons on settings page
+					if ( $ngfb->options[$opt_prefix.'_enable'] 
+						&& ( is_singular() || $ngfb->options['buttons_on_index'] ) )
+							$ids[] = $id;
+
+					// check for enabled buttons in widget
+					foreach ( $widget_settings as $instance ) {
+						if ( (int) $instance[$id] )
+							$ids[] = $id;
+					}
+				}
+				unset ( $id, $opt_prefix );
+			}
+			natsort( $ids );
+			$ids = array_unique( $ids );
+			$ngfb->debug->push( $pos . ' ids = ' . implode( ', ', $ids ) );
+			$js = "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript BEGIN -->\n";
+			$js .= $pos == 'header' ? $this->header_js() : '';
+
+			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
+			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
+			else $pos_section = $pos;
+
+			if ( ! empty( $ids ) ) {
+				foreach ( $ids as $id ) {
+					$id = preg_replace( '/[^a-z]/', '', $id );
+					$opt_name = $ngfb->social_options_prefix[$id] . '_js_loc';
+					$ngfb->debug->push( 'calling this->website[' . $id . ']->get_js()' );
+					if ( is_object( $this->website[$id] ) && ! empty( $ngfb->options[ $opt_name ] ) && $ngfb->options[ $opt_name ] == $pos_section )
+						$js .= $this->website[$id]->get_js( $pos );
+				}
+			}
+
+			$js .= "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript END -->\n";
+			return $js;
+		}
+
+		function header_js( $pos = 'id' ) {
+			global $ngfb;
+			$lang = empty( $ngfb->options['gp_lang'] ) ? 'en-US' : $ngfb->options['gp_lang'];
+			return '<script type="text/javascript" id="ngfb-header-script">
+				window.___gcfg = { lang: "' .  $lang . '" };
+				function ngfb_header_js( script_id, url, async ) {
+					if ( document.getElementById( script_id + "-js" ) ) return;
+					var async = typeof async !== "undefined" ? async : true;
+					var script_pos = document.getElementById( script_id );
+					var js = document.createElement( "script" );
+					js.id = script_id + "-js";
+					js.async = async;
+					js.type = "text/javascript";
+					js.language = "JavaScript";
+					js.src = url;
+					script_pos.parentNode.insertBefore( js, script_pos );
+				};' . "\n</script>\n";
 		}
 
 		function get_cache_url( $url ) {
@@ -71,420 +170,12 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
 		}
 
-		function header_js( $loc = 'id' ) {
-			global $ngfb;
-			$lang = empty( $ngfb->options['gp_lang'] ) ? 'en-US' : $ngfb->options['gp_lang'];
-			return '<script type="text/javascript" id="ngfb-header-script">
-				window.___gcfg = { lang: "' .  $lang . '" };
-				function ngfb_header_js( script_id, url, async ) {
-					if ( document.getElementById( script_id + "-js" ) ) return;
-					var async = typeof async !== "undefined" ? async : true;
-					var script_pos = document.getElementById( script_id );
-					var js = document.createElement( "script" );
-					js.id = script_id + "-js";
-					js.async = async;
-					js.type = "text/javascript";
-					js.language = "JavaScript";
-					js.src = url;
-					script_pos.parentNode.insertBefore( js, script_pos );
-				};' . "\n</script>\n";
-		}
-
 		function get_first_attached_image_id( $post_id = '' ) {
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
 				foreach ( $images as $attachment ) return $attachment->ID;
 			}
 			return;
-		}
-
-		// add button javascript for enabled buttons in content and widget(s)
-		function get_buttons_js( $location = 'footer', $ids = array() ) {
-			global $ngfb;
-			if ( empty( $ids ) ) {
-
-				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-				if ( is_page() && $ngfb->is_excluded() ) return;
-
-				$widget = new ngfbSocialButtonsWidget();
-		 		$widget_settings = $widget->get_settings();
-
-				foreach ( $ngfb->social_options_prefix as $id => $opt_prefix ) {
-
-					// check for enabled buttons on settings page
-					if ( $ngfb->options[$opt_prefix.'_enable'] 
-						&& ( is_singular() || $ngfb->options['buttons_on_index'] ) )
-							$ids[] = $id;
-
-					// check for enabled buttons in widget
-					foreach ( $widget_settings as $instance ) {
-						if ( (int) $instance[$id] )
-							$ids[] = $id;
-					}
-				}
-				unset ( $id, $opt_prefix );
-			}
-			natsort( $ids );
-			$ids = array_unique( $ids );
-			$ngfb->debug->push( $location . ' ids = ' . implode( ', ', $ids ) );
-			$button_html = "<!-- " . NGFB_FULLNAME . " " . $location . " javascript BEGIN -->\n";
-			$button_html .= $location == 'header' ? $this->header_js() : '';
-
-			if ( preg_match( '/^pre/i', $location ) ) $location_check = 'header';
-			elseif ( preg_match( '/^post/i', $location ) ) $location_check = 'footer';
-			else $location_check = $location;
-
-			if ( ! empty( $ids ) ) {
-				foreach ( $ids as $id ) {
-					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-					$opt_name = $ngfb->social_options_prefix[$id] . '_js_loc';
-					$ngfb->debug->push( 'calling this->' . $id . '_js()' );
-					if ( ! empty( $ngfb->options[ $opt_name ] ) && $ngfb->options[ $opt_name ] == $location_check )
-						$button_html .= eval( "if ( method_exists( \$this, '${id}_js' ) ) 
-							return \$this->${id}_js( \$location );" );
-				}
-			}
-
-			$button_html .= "<!-- " . NGFB_FULLNAME . " " . $location . " javascript END -->\n";
-			return $button_html;
-		}
-
-		function get_buttons_html( $ids = array(), $atts = array() ) {
-			global $ngfb, $post;
-			$button_html = '';
-			foreach ( $ids as $id ) {
-				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-				$ngfb->debug->push( 'calling this->' . $id . '_button()' );
-				$button_html .= eval( "if ( method_exists( \$this, '${id}_button' ) ) 
-					return \$this->${id}_button( \$atts );" );
-			}
-			if ( $button_html )
-				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$button_html</div>\n";
-			return $button_html;
-		}
-
-		/*	Facebook
-		 *	--------
-		 */
-		function facebook_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
-			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
-
-			switch ( $ngfb->options['fb_markup'] ) {
-				case 'xfbml' :
-					// XFBML
-					$button_html = '
-					<!-- Facebook Button -->
-					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
-						href="' . $atts['url'] . '" 
-						send="' . $fb_send . '" 
-						layout="' . $ngfb->options['fb_layout'] . '" 
-						show_faces="' . $fb_show_faces . '" 
-						font="' . $ngfb->options['fb_font'] . '" 
-						action="' . $ngfb->options['fb_action'] . '" 
-						colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
-					';
-					break;
-				case 'html5' :
-				default :
-					// HTML5
-					$button_html = '
-					<!-- Facebook Button -->
-					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
-						data-href="' . $atts['url'] . '"
-						data-send="' . $fb_send . '" 
-						data-layout="' . $ngfb->options['fb_layout'] . '" 
-						data-width="' . $ngfb->options['fb_width'] . '" 
-						data-show-faces="' . $fb_show_faces . '" 
-						data-font="' . $ngfb->options['fb_font'] . '" 
-						data-action="' . $ngfb->options['fb_action'] . '"
-						data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
-					';
-					break;
-			}
-			return $button_html;
-		}
-		
-		function facebook_js( $loc = 'id' ) {
-			global $ngfb; 
-			$lang = empty( $ngfb->options['fb_lang'] ) ? 'en_US' : $ngfb->options['fb_lang'];
-			return '<script type="text/javascript" id="facebook-script-' . $loc . '">
-				ngfb_header_js( "facebook-script-' . $loc . '", "' . 
-					$this->get_cache_url( 'https://connect.facebook.net/' . 
-					$lang . '/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] ) . '" );
-			</script>' . "\n";
-		}
-
-		/*	Google+
-		 *	-------
-		 */
-		function gplus_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
-			return '
-				<!-- Google+ Button -->
-				<div ' . $this->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
-					<span '. $gp_class . ' 
-						data-size="' . $ngfb->options['gp_size'] . '" 
-						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
-						data-href="' . $atts['url'] . '"></span>
-				</div>' . "\n";
-		}
-		
-		function gplus_js( $loc = 'id' ) {
-			return '<script type="text/javascript" id="gplus-script-' . $loc . '">
-				ngfb_header_js( "gplus-script-' . $loc . '", "' . $this->get_cache_url( 'https://apis.google.com/js/plusone.js' ) . '" );
-			</script>' . "\n";
-		}
-		
-		/*	LinkedIn
-		 *	--------
-		 */
-		function linkedin_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$button_html = '
-				<!-- LinkedIn Button -->
-				<div ' . $this->get_css( 'linkedin', $atts ) . '>
-				<script type="IN/Share" data-url="' . $atts['url'] . '"';
-
-			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 
-				$button_html .= ' data-counter="' . $ngfb->options['linkedin_counter'] . '"';
-
-			if ( ! empty( $ngfb->options['linkedin_showzero'] ) ) 
-				$button_html .= ' data-showzero="true"';
-
-			$button_html .= '></script></div>'."\n";
-			return $button_html;
-		}
-		
-		function linkedin_js( $loc = 'id' ) {
-			return  '<script type="text/javascript" id="linkedin-script-' . $loc . '">
-				ngfb_header_js( "linkedin-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.linkedin.com/in.js' ) . '" );
-			</script>' . "\n";
-		}
-
-		/*	Pinterest
-		 *	---------
-		 */
-		function pinterest_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_query = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['pin_img_size'];
-			if ( empty( $atts['photo'] ) ) {
-				if ( empty( $atts['pid'] ) ) {
-					// allow on index pages only if in content (not a widget)
-					if ( $use_post == true ) {
-						if ( $ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
-							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-							$ngfb->debug->push( 'get_post_thumbnail_id() = ' . $atts['pid'] );
-						} else {
-							$atts['pid'] = $this->get_first_attached_image_id( $post->ID );
-							$ngfb->debug->push( 'get_first_attached_image_id() = ' . $atts['pid'] );
-						}
-					}
-				}
-				if ( ! empty( $atts['pid'] ) ) {
-					// if the post thumbnail id has the form ngg- then it's a NextGEN image
-					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						$ngfb->debug->push( 'calling ngfb->get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
-						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
-					} else {
-						$ngfb->debug->push( 'calling ngfb->get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
-						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $ngfb->get_attachment_image_src( $atts['pid'], $atts['size'] );
-					}
-				}
-			}
-			if ( empty( $atts['photo'] ) ) return;
-			if ( empty( $atts['pin_count_layout'] ) ) $atts['pin_count_layout'] = $ngfb->options['pin_count_layout'];
-			if ( empty( $atts['caption'] ) ) $atts['caption'] = $ngfb->get_caption( $ngfb->options['pin_caption'], $ngfb->options['pin_cap_len'], $use_post );
-
-			$button_query .= 'url=' . urlencode( $atts['url'] );
-			$button_query .= '&amp;media='. urlencode( $ngfb->cdn_linker_rewrite( $atts['photo'] ) );
-			$button_query .= '&amp;description=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
-
-			return '
-				<!-- Pinterest Button -->
-				<div ' . $this->get_css( 'pinterest', $atts ) . '><a 
-					href="http://pinterest.com/pin/create/button/?' . $button_query . '" 
-					class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
-					title="Share on Pinterest"><img border="0" alt="Pin It"
-					src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
-			';
-		}
-
-		function pinterest_js( $loc = 'id' ) {
-			return '<script type="text/javascript" id="pinterest-script-' . $loc . '">
-				ngfb_header_js( "pinterest-script-' . $loc . '", "' . $this->get_cache_url( 'https://assets.pinterest.com/js/pinit.js' ) . '" );
-			</script>' . "\n";
-		}
-		
-		/* 	StumbleUpon
-		 *	-----------
-		 */
-		function stumbleupon_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
-			$button_html = '
-				<!-- StumbleUpon Button -->
-				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
-					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
-			';
-			return $button_html;	
-		}
-
-		function stumbleupon_js( $loc = 'id' ) {
-			return '<script type="text/javascript" id="stumbleupon-script-' . $loc . '">
-				ngfb_header_js( "stumbleupon-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
-			</script>' . "\n";
-		}
-
-		/*	Tumblr
-		 *	------
-		 */
-		function tumblr_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$button_query = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $ngfb->options['tumblr_button_style'];
-			if ( empty( $atts['size'] ) ) $atts['size'] = $ngfb->options['tumblr_img_size'];
-
-			// only use featured image if 'tumblr_photo' option allows it
-			if ( empty( $atts['photo'] ) && $ngfb->options['tumblr_photo'] ) {
-				if ( empty( $atts['pid'] ) ) {
-					// allow on index pages only if in content (not a widget)
-					if ( $use_post == true ) {
-						if ( $ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-						else $atts['pid'] = $this->get_first_attached_image_id( $post->ID );
-					}
-				}
-				if ( ! empty( $atts['pid'] ) ) {
-					// if the post thumbnail id has the form ngg- then it's a NextGEN image
-					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
-					} else {
-						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $ngfb->get_attachment_image_src( $atts['pid'], $atts['size'] );
-					}
-				}
-			}
-
-			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) ) {
-				// allow on index pages only if in content (not a widget)
-				if ( $use_post == true ) {
-					if ( ! empty( $post ) && ! empty( $post->post_content ) ) {
-						$videos = array();
-						$videos = $ngfb->og->get_content_videos( 1 );	// get the first video, if any
-						if ( ! empty( $videos[0]['og:video'] ) ) 
-							$atts['embed'] = $videos[0]['og:video'];
-					}
-				}
-			}
-
-			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && empty( $atts['quote'] ) ) {
-				// allow on index pages only if in content (not a widget)
-				if ( $use_post == true ) {
-					if ( ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) 
-						$atts['quote'] = $ngfb->get_quote();
-				}
-			}
-
-			// we only need the caption / title / description for some cases
-			if ( ! empty( $atts['photo'] ) || ! empty( $atts['embed'] ) ) {
-				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $ngfb->get_caption( $ngfb->options['tumblr_caption'], $ngfb->options['tumblr_cap_len'], $use_post );
-			} else {
-				if ( empty( $atts['title'] ) ) 
-					$atts['title'] = $ngfb->get_title( null, null, $use_post);
-				if ( empty( $atts['description'] ) ) 
-					$atts['description'] = $ngfb->get_description( $ngfb->options['tumblr_desc_len'], '...', $use_post );
-			}
-
-			// define the button, based on what we have
-			if ( ! empty( $atts['photo'] ) ) {
-				$button_query .= 'photo?source='. urlencode( $ngfb->cdn_linker_rewrite( $atts['photo'] ) );
-				$button_query .= '&amp;clickthru=' . urlencode( $atts['url'] );
-				$button_query .= '&amp;caption=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
-			} elseif ( ! empty( $atts['embed'] ) ) {
-				$button_query .= 'video?embed=' . urlencode( $atts['embed'] );
-				$button_query .= '&amp;caption=' . urlencode( $ngfb->str_decode( $atts['caption'] ) );
-			} elseif ( ! empty( $atts['quote'] ) ) {
-				$button_query .= 'quote?quote=' . urlencode( $atts['quote'] );
-				$button_query .= '&amp;source=' . urlencode( $ngfb->str_decode( $atts['title'] ) );
-			} elseif ( ! empty( $atts['url'] ) ) {
-				$button_query .= 'link?url=' . urlencode( $atts['url'] );
-				$button_query .= '&amp;name=' . urlencode( $ngfb->str_decode( $atts['title'] ) );
-				$button_query .= '&amp;description=' . urlencode( $ngfb->str_decode( $atts['description'] ) );
-			}
-			if ( empty( $button_query ) ) return;
-
-			return '
-				<!-- Tumblr Button -->
-				<div ' . $this->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $button_query . '" 
-					title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
-					src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>
-			';
-		}
-
-		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
-		function tumblr_js( $loc = 'id' ) {
-			return '<script type="text/javascript" id="tumblr-script-' . $loc . '"
-				src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ) . '"></script>' . "\n";
-		}
-		
-		/*	Twitter
-		 *	-------
-		 */
-		function twitter_button( $atts = array() ) {
-			global $ngfb, $post; 
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['caption'] ) ) 
-				$atts['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'], $use_post );
-
-			$long_url = $atts['url'];
-			$atts['url'] = $this->get_short_url( $atts['url'], $ngfb->options['twitter_shorten'] );
-			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
-			$lang = empty( $ngfb->options['twitter_lang'] ) ? 'en' : $ngfb->options['twitter_lang'];
-
-			return '
-				<!-- Twitter Button -->
-				<!-- URL = ' . $long_url . ' -->
-				<div ' . $this->get_css( 'twitter', $atts ) . '>
-					<a href="https://twitter.com/share" 
-						class="twitter-share-button"
-						lang="'. $lang . '"
-						data-url="' . $atts['url'] . '" 
-						data-text="' . $atts['caption'] . '" 
-						data-count="' . $ngfb->options['twitter_count'] . '" 
-						data-size="' . $ngfb->options['twitter_size'] . '" 
-						data-dnt="' . $twitter_dnt . '">Tweet</a>
-				</div>' . "\n";
-		}
-		
-		function twitter_js( $loc = 'id' ) {
-			return '<script type="text/javascript" id="twitter-script-' . $loc . '">
-				ngfb_header_js( "twitter-script-' . $loc . '", "' . $this->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
-			</script>' . "\n";
 		}
 
 	}

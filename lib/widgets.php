@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 				$widget_html .= "\n<!-- " . NGFB_LONGNAME . " widget BEGIN -->\n";
 				$widget_html .= $before_widget . "\n";
 				if ( $title ) $widget_html .= $before_title . $title . $after_title . "\n";
-				$widget_html .= $ngfb->buttons->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
+				$widget_html .= $ngfb->buttons->get_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
 				$widget_html .= $after_widget . "\n";
 				$widget_html .= "<!-- " . NGFB_LONGNAME . " widget END -->\n";
 	

@@ -49,10 +49,10 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 					$ngfb->debug->push( $cache_type . ' : shortcode_html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					$shortcode_html .= "\n<!-- " . NGFB_LONGNAME . " shortcode BEGIN -->\n";
-					$shortcode_html .= $ngfb->get_buttons_js( 'pre-shortcode', $ids );
+					$shortcode_html .= $ngfb->buttons->get_js( 'pre-shortcode', $ids );
 					$shortcode_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
-						$ngfb->get_buttons_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
-					$shortcode_html .= $ngfb->get_buttons_js( 'post-shortcode', $ids );
+						$ngfb->buttons->get_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
+					$shortcode_html .= $ngfb->buttons->get_js( 'post-shortcode', $ids );
 					$shortcode_html .= "<!-- " . NGFB_LONGNAME . " shortcode END -->\n";
 
 					set_transient( $cache_id, $shortcode_html, $ngfb->cache->object_expire );

@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.4.dev1
+Version: 4.4.dev2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.4.dev1';	// only for display purposes
+		var $version = '4.4.dev2';	// only for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
 		var $is_avail = array();	// assoc array for function/class/method/etc. checks
 		var $options = array();
@@ -175,7 +175,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		var $social_nice_names = array(
 			'facebook' => 'Facebook', 
-			'gplus' => 'Google+',
+			'gplus' => 'GooglePlus',
 			'twitter' => 'Twitter',
 			'linkedin' => 'Linkedin',
 			'pinterest' => 'Pinterest',
@@ -185,7 +185,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
-			$this->load_dependencies();
+			$this->load_libs();
 
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
@@ -196,19 +196,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
 
-		function get_options_url() {
-			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
-		}
-	
 		function init_plugin() {
 
-			// run load_is_avail before load_options to get NGG options (if the plugin is installed)
-			$this->load_is_avail();
-			$this->load_options();
+			// run check_deps() before set_vars() to get ngg options (if the plugin is installed)
+			$this->check_deps();
+			$this->set_vars();
 
 			// add_action() tests and debug output
 			if ( $this->debug->on ) {
@@ -303,15 +298,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'lib/curl/cacert.pem' );
 		}
 
-		function load_dependencies() {
+		function load_libs() {
 
 			require_once ( dirname ( __FILE__ ) . '/lib/debug.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
@@ -361,14 +357,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			delete_option( NGFB_OPTIONS_NAME );
 		}
 
-		// display a settings link on the main plugins page
-		function plugin_action_links( $links, $file ) {
-			if ( $file == plugin_basename( __FILE__ ) )
-				array_push( $links, '<a href="' . $this->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
-			return $links;
-		}
-
-		function load_is_avail() {
+		function check_deps() {
 		
 			// ngfb pro
 			$this->is_avail['ngfbpro'] = class_exists( 'ngfbPro' ) ? true : false;
@@ -396,7 +385,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
-		function load_options() {
+		function set_vars() {
 
 			$this->og = new ngfbOpenGraph();
 			$this->debug = new ngfbDebug();
@@ -415,7 +404,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} else {
 				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database). 
-					<a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
+					<a href="' . $this->admin->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
 				$this->debug->show( print_r( get_option( NGFB_OPTIONS_NAME ) ), 'get_option("' . NGFB_OPTIONS_NAME . '")' );
 				$this->options = $this->default_options;
 			}
@@ -447,7 +436,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->admin->msg_inf[] = 'Option settings from the database have been read and updated in memory. These updates have NOT been saved back to the database. <a href="' . $this->get_options_url() . '">Please review and save these new settings</a>.';
+				$this->admin->msg_inf[] = 'Option settings from the database have been read and updated in memory. 
+					These updates have NOT been saved back to the database. 
+					<a href="' . $this->admin->get_options_url() . '">Please review and save these new settings</a>.';
 	
 				// move old option values to new option names
 				foreach ( $this->renamed_options as $old => $new )
@@ -477,7 +468,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				// don't show message if already donated, or pro version installed
 				if ( empty( $opts['ngfb_donated'] ) && $this->is_avail['ngfbpro'] == false )
-					$this->admin->msg_inf[] = '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. Please suppport us by <a href="' . $this->get_options_url() . '">donating</a> and <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
+					$this->admin->msg_inf[] = '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. 
+						Please suppport us by <a href="' . $this->admin->get_options_url() . '">donating</a> and 
+						<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
 			}
 			return $opts;
 		}
@@ -713,8 +706,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 					ksort( $sorted_ids );
 	
-					$this->debug->push( 'calling this->buttons->get_buttons_html()' );
-					$button_html = $this->buttons->get_buttons_html( $sorted_ids );
+					$this->debug->push( 'calling this->buttons->get_html()' );
+					$button_html = $this->buttons->get_html( $sorted_ids );
 	
 					if ( ! empty( $button_html ) ) {
 						$button_html = "\n<!-- " . NGFB_FULLNAME . " content buttons BEGIN -->\n" .
@@ -1274,11 +1267,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
 					$url = get_permalink( $post->ID );
 					$strip_query = 'none';	// don't modify the permalinks
-					$this->debug->push( 'using permalink URL = ' . $url );
+					//$this->debug->push( 'using permalink url = ' . $url );
 				} else {
 					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 					$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-					$this->debug->push( 'using SERVER array URL = ' . $url );
+					//$this->debug->push( 'using php server url = ' . $url );
 				}
 			}
 			switch ( $strip_query ) {
@@ -1355,39 +1348,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
         global $ngfb;
 	$ngfb = new ngfbPlugin();
-}
-
-/* You can enable social buttons in the content, use the social buttons widget,
- * and call the ngfb_get_social_buttons() function from your template(s) -- all
- * at the same time -- but all social buttons share the same settings from the
- * admin options page (the layout of each can differ by using the available CSS
- * class names - see the Other Notes tab at
- * http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/ for
- * additional information).
- */
-if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
-	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
-		global $ngfb;
-		$cache_salt = __METHOD__ . '(url:' . $ngfb->get_sharing_url( 'notrack' ) . '_ids:' . ( implode( '_', $ids ) ) . '_atts:' . ( implode( '_', $atts ) ) . ')';
-		$cache_id = 'ngfb_' . md5( $cache_salt );
-		$cache_type = 'object cache';
-		$ngfb->debug->push( $cache_type . ': social buttons transient id salt "' . $cache_salt . '"' );
-		$button_html = get_transient( $cache_id );
-
-		if ( $button_html !== false ) {
-			$ngfb->debug->push( $cache_type . ': button_html retrieved from transient for id "' . $cache_id . '"' );
-		} else {
-			$button_html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
-				$ngfb->buttons->get_buttons_js( 'pre-social-buttons', $ids ) .
-				$ngfb->buttons->get_buttons_html( $ids, $atts ) .
-				$ngfb->buttons->get_buttons_js( 'post-social-buttons', $ids ) .
-				"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
-
-			set_transient( $cache_id, $button_html, $ngfb->cache->object_expire );
-			$ngfb->debug->push( $cache_type . ': button_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
-		}
-		return $ngfb->debug->get() . $button_html;
-	}
 }
 
 ?>
