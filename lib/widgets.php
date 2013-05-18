@@ -73,7 +73,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $ngfb->social_nice_names as $id => $name ) {
+			foreach ( $ngfb->social_class_names as $id => $name ) {
 				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
 			}
 			unset( $name, $id );
@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $ngfb->social_nice_names as $id => $name ) {
+			foreach ( $ngfb->social_class_names as $id => $name ) {
 				echo '<p><label for="', $this->get_field_id( $id ), '">', 
 					'<input id="', $this->get_field_id( $id ), 
 					'" name="', $this->get_field_name( $id ), 

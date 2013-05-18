@@ -369,15 +369,16 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
+			global $ngfb;
 			$og_ret = array();
 			$og_image = array();
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
-				foreach ( $images as $attachment ) {
-					if ( ! empty( $attachment->ID ) )
-						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-							$og_image['og:image:cropped'] ) = $ngfb->get_attachment_image_src( $attachment->ID, $size_name );
-				}
+				if ( is_array( $images ) )
+					foreach ( $images as $attachment )
+						if ( ! empty( $attachment->ID ) )
+							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+								$og_image['og:image:cropped'] ) = $ngfb->get_attachment_image_src( $attachment->ID, $size_name );
 			}
 			// returned array must be two-dimensional
 			$this->push_to_max( $og_ret, $og_image, $num );

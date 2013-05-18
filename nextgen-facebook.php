@@ -173,7 +173,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
 
-		var $social_nice_names = array(
+		var $social_class_names = array(
 			'facebook' => 'Facebook', 
 			'gplus' => 'GooglePlus',
 			'twitter' => 'Twitter',
@@ -196,7 +196,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
-			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
 		}
 
 		function init_plugin() {
@@ -308,6 +307,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/user.php' );
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
@@ -320,15 +320,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
 				$this->pro = new ngfbPro();
 			}
-		}
-
-		function user_contactmethods( $fields = array() ) { 
-			foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
-				$field_name = preg_split( '/ *: */', $field_list );
-				$fields[$field_name[0]] = $field_name[1];
-			}
-			ksort( $fields, SORT_STRING );
-			return $fields;
 		}
 
 		// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
@@ -387,10 +378,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function set_vars() {
 
-			$this->og = new ngfbOpenGraph();
 			$this->debug = new ngfbDebug();
 			$this->cache = new ngfbCache();
+			$this->og = new ngfbOpenGraph();
 			$this->buttons = new ngfbButtons();
+			$this->user = new ngfbUser();
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
@@ -730,7 +722,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
-		public function get_author_url( $author_id, $field_name = 'url' ) {
+		function get_author_url( $author_id, $field_name = 'url' ) {
 			switch ( $field_name ) {
 				case 'none' :
 					break;
@@ -1050,7 +1042,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $meta_html;
 		}
 
-		public function get_filtered_content( $filter_content = true ) {
+		function get_filtered_content( $filter_content = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$this->debug->push( 'using content from post id ' . $post->ID );

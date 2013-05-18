@@ -23,21 +23,21 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 		$cache_id = 'ngfb_' . md5( $cache_salt );
 		$cache_type = 'object cache';
 		$ngfb->debug->push( $cache_type . ': social buttons transient id salt "' . $cache_salt . '"' );
-		$button_html = get_transient( $cache_id );
+		$html = get_transient( $cache_id );
 
-		if ( $button_html !== false ) {
-			$ngfb->debug->push( $cache_type . ': button_html retrieved from transient for id "' . $cache_id . '"' );
+		if ( $html !== false ) {
+			$ngfb->debug->push( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
 		} else {
-			$button_html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
+			$html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
 				$ngfb->buttons->get_js( 'pre-social-buttons', $ids ) .
 				$ngfb->buttons->get_html( $ids, $atts ) .
 				$ngfb->buttons->get_js( 'post-social-buttons', $ids ) .
 				"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
 
-			set_transient( $cache_id, $button_html, $ngfb->cache->object_expire );
-			$ngfb->debug->push( $cache_type . ': button_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
+			set_transient( $cache_id, $html, $ngfb->cache->object_expire );
+			$ngfb->debug->push( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
 		}
-		return $ngfb->debug->get() . $button_html;
+		return $ngfb->debug->get() . $html;
 	}
 }
 

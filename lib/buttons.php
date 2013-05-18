@@ -30,15 +30,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 
 		function load_libs() {
 			global $ngfb;
-			foreach ( $ngfb->social_nice_names as $filename => $classname ) {
-
+			foreach ( $ngfb->social_class_names as $filename => $classname ) {
 				require_once ( dirname ( __FILE__ ) . '/websites/' . $filename . '.php' );
-
 				$classname = 'ngfbWebSite' . $classname;
 				$this->website[$filename] = new $classname();
-
-				//$r = new ReflectionClass( $classname );
-				//$this->website[$filename] = $r->newInstance();
 			}
 		}
 
@@ -51,12 +46,12 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 		}
 
 		function get_html( $ids = array(), $atts = array() ) {
-			global $ngfb, $post;
+			global $ngfb;
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );
 				$ngfb->debug->push( 'calling this->website[' . $id . ']->get_html()' );
-				if ( is_object( $this->website[$id] ) )
+				if ( method_exists( &$this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
 			if ( $html ) $html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$html</div>\n";
@@ -104,8 +99,10 @@ if ( ! class_exists( 'ngfbButtons' ) ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
 					$opt_name = $ngfb->social_options_prefix[$id] . '_js_loc';
 					$ngfb->debug->push( 'calling this->website[' . $id . ']->get_js()' );
-					if ( is_object( $this->website[$id] ) && ! empty( $ngfb->options[ $opt_name ] ) && $ngfb->options[ $opt_name ] == $pos_section )
-						$js .= $this->website[$id]->get_js( $pos );
+					if ( method_exists( &$this->website[$id], 'get_js' ) && 
+						! empty( $ngfb->options[ $opt_name ] ) && 
+						$ngfb->options[ $opt_name ] == $pos_section )
+							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
 
