@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'transient' :
 					$cache_type = 'object cache';
 					$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );	// add a prefix to the object cache id
-					$ngfb->debug->push( $cache_type . ' : cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
+					$ngfb->debug->push( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
 						$cache_data = wp_cache_get( $cache_id, __METHOD__ );
 					elseif ( $cache_name == 'transient' ) 

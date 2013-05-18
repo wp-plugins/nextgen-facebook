@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.3
+Version: 4.4.dev1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.3';		// only for display purposes
+		var $version = '4.4.dev1';	// only for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
 		var $is_avail = array();	// assoc array for function/class/method/etc. checks
 		var $options = array();
@@ -193,7 +193,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_action( 'init', array( &$this, 'init_plugin' ) );
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_head', array( &$this, 'add_open_graph' ), NGFB_OG_PRIORITY );
-			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
 			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 			add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
@@ -230,16 +229,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->show( $this->is_avail, 'Available Features' );
 
 				$this->debug->push( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
+				$this->debug->push( 'is_attachment() = ' . ( is_attachment() ? 'true' : 'false' ) );
 				$this->debug->push( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
 				$this->debug->push( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
 				$this->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
 				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 			}
-			echo $this->get_buttons_js( 'header' );
-		}
-
-		function add_footer() {
-			echo $this->get_buttons_js( 'footer' );
 		}
 
 		function define_constants() { 
@@ -312,6 +307,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			require_once ( dirname ( __FILE__ ) . '/lib/debug.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
@@ -402,10 +398,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function load_options() {
 
+			$this->og = new ngfbOpenGraph();
 			$this->debug = new ngfbDebug();
 			$this->cache = new ngfbCache();
 			$this->buttons = new ngfbButtons();
-
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
@@ -593,70 +589,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $opts;
 		}
 
-		// add button javascript for enabled buttons in content and widget(s)
-		function get_buttons_js( $location = 'footer', $ids = array() ) {
-
-			if ( empty( $ids ) ) {
-
-				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-				if ( is_page() && $this->is_excluded() ) return;
-
-				$widget = new ngfbSocialButtonsWidget();
-		 		$widget_settings = $widget->get_settings();
-
-				foreach ( $this->social_options_prefix as $id => $opt_prefix ) {
-
-					// check for enabled buttons on settings page
-					if ( $this->options[$opt_prefix.'_enable'] 
-						&& ( is_singular() || $this->options['buttons_on_index'] ) )
-							$ids[] = $id;
-
-					// check for enabled buttons in widget
-					foreach ( $widget_settings as $instance ) {
-						if ( (int) $instance[$id] )
-							$ids[] = $id;
-					}
-				}
-				unset ( $id, $opt_prefix );
-			}
-			natsort( $ids );
-			$ids = array_unique( $ids );
-			$this->debug->push( $location . ' ids = ' . implode( ', ', $ids ) );
-			$button_html = "<!-- " . NGFB_FULLNAME . " " . $location . " javascript BEGIN -->\n";
-			$button_html .= $location == 'header' ? $this->buttons->header_js() : '';
-
-			if ( preg_match( '/^pre/i', $location ) ) $location_check = 'header';
-			elseif ( preg_match( '/^post/i', $location ) ) $location_check = 'footer';
-			else $location_check = $location;
-
-			if ( ! empty( $ids ) ) {
-				foreach ( $ids as $id ) {
-					$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-					$opt_name = $this->social_options_prefix[$id] . '_js_loc';
-					if ( ! empty( $this->options[ $opt_name ] ) && $this->options[ $opt_name ] == $location_check )
-						$button_html .= eval( "if ( method_exists( \$this->buttons, '${id}_js' ) ) 
-							return \$this->buttons->${id}_js( \$location );" );
-				}
-			}
-
-			$button_html .= "<!-- " . NGFB_FULLNAME . " " . $location . " javascript END -->\n";
-			return $button_html;
-		}
-
-		function get_buttons_html( $ids = array(), $atts = array() ) {
-			global $post;
-			$button_html = '';
-			foreach ( $ids as $id ) {
-				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize input before eval
-				$this->debug->push( 'calling ' . $id . '_button()' );
-				$button_html .= eval( "if ( method_exists( \$this->buttons, '${id}_button' ) ) 
-					return \$this->buttons->${id}_button( \$atts );" );
-			}
-			if ( $button_html )
-				$button_html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$button_html</div>\n";
-			return $button_html;
-		}
-
 		function add_open_graph() {
 
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
@@ -694,8 +626,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$og['og:description'] = $this->get_description( $this->options['og_desc_len'], '...' );
 
 			if ( $this->options['og_vid_max'] > 0 ) {
-				$this->debug->push( 'calling get_content_videos_og(' . $this->options['og_vid_max'] . ')' );
-				$og['og:video'] = $this->get_content_videos_og( $this->options['og_vid_max'] );
+				$this->debug->push( 'calling ngfb->og->get_content_videos(' . $this->options['og_vid_max'] . ')' );
+				$og['og:video'] = $this->og->get_content_videos( $this->options['og_vid_max'] );
 				if ( is_array( $og['og:video'] ) ) {
 					foreach ( $og['og:video'] as $val ) {
 						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -708,13 +640,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			if ( $this->options['og_img_max'] > 0 ) {
-				$this->debug->push( 'calling get_all_images_og(' . $this->options['og_img_max'] . ', "' . $this->options['og_img_size'] . '")' );
-				$og['og:image'] = $this->get_all_images_og( $this->options['og_img_max'], $this->options['og_img_size'] );
+				$this->debug->push( 'calling ngfb->og->get_all_images(' . $this->options['og_img_max'] . ', "' . $this->options['og_img_size'] . '")' );
+				$og['og:image'] = $this->og->get_all_images( $this->options['og_img_max'], $this->options['og_img_size'] );
 
 				// if we didn't find any images, then use the default image
 				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->debug->push( 'calling get_default_image_og(' . $this->options['og_img_max'] . ', "' . $this->options['og_img_size'] . '")' );
-					$og['og:image'] = $this->get_default_image_og( $this->options['og_img_max'], $this->options['og_img_size'] );
+					$this->debug->push( 'calling ngfb->og->get_default_image(' . $this->options['og_img_max'] . ', "' . $this->options['og_img_size'] . '")' );
+					$og['og:image'] = $this->og->get_default_image( $this->options['og_img_max'], $this->options['og_img_size'] );
 				}
 			}
 
@@ -781,8 +713,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 					ksort( $sorted_ids );
 	
-					$this->debug->push( 'calling get_buttons_html()' );
-					$button_html = $this->get_buttons_html( $sorted_ids );
+					$this->debug->push( 'calling this->buttons->get_buttons_html()' );
+					$button_html = $this->buttons->get_buttons_html( $sorted_ids );
 	
 					if ( ! empty( $button_html ) ) {
 						$button_html = "\n<!-- " . NGFB_FULLNAME . " content buttons BEGIN -->\n" .
@@ -822,27 +754,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					break;
 			}
 			return $url;
-		}
-
-		function get_size_values( $size_name = 'thumbnail' ) {
-
-			global $_wp_additional_image_sizes;
-
-			if ( is_integer( $size_name ) ) return;
-	
-			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
-				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
-			else $width = get_option( "{$size_name}_size_w" );
-		
-			if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
-				$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
-			else $height = get_option( "{$size_name}_size_h" );
-		
-			if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
-				$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
-			else $crop = get_option( "{$size_name}_crop" );
-
-			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
 		function get_quote() {
@@ -945,7 +856,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $title . $page_num;
 		}
 
-		public function get_wiki_summary() {
+		function get_wiki_summary() {
 			global $post;
 			$desc = '';
 			if ( $this->is_avail['wikibox'] !== true ) return $desc;
@@ -993,7 +904,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->debug->push( 'calling get_filtered_content()' );
+					$this->debug->push( 'calling this->get_filtered_content()' );
 					$desc = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
 				}
 		
@@ -1033,395 +944,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$desc = $this->limit_text_length( $desc, $textlen, '...' );
 
 			return $desc;
-		}
-
-		function get_content_videos_og( $num = 0 ) {
-			global $post;
-			$og_ret = array();
-			$this->debug->push( 'calling get_filtered_content()' );
-			$content = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
-
-			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
-				$this->debug->push( count( $match_all ) . ' x video html tag(s) found' );
-				foreach ( $match_all as $media ) {
-					$this->debug->push( '<' . $media[1] . '/> html tag found = ' . $media[2] );
-					$og_video = array(
-						'og:image' => '',
-						'og:video' => $this->get_sharing_url( 'noquery', $media[2] ),
-						'og:video:width' => '',
-						'og:video:height' => '',
-						'og:video:type' => 'application/x-shockwave-flash'
-					);
-					if ( $this->url_is_good( $og_video['og:video'] ) ) {
-
-						// set the height and width based on the iframe/embed attributes
-						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
-						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:height'] = $match[1];
-
-						// fix URLs and define video images for known websites (youtube, vimeo, etc.)
-						if ( preg_match( '/^.*(youtube|youtube-nocookie)\.com\/.*\/([^\/\?\&]+)$/i', $og_video['og:video'], $match ) ) {
-
-							$og_video['og:video'] = 'http://www.youtube.com/v/'.$match[2];
-							$og_video['og:image'] = 'http://img.youtube.com/vi/'.$match[2].'/0.jpg';
-
-						} elseif ( preg_match( '/^.*(vimeo)\.com\/.*\/([^\/\?\&]+)$/i', $og_video['og:video'], $match ) ) {
-
-							$api_url = "http://vimeo.com/api/v2/video/$match[2].php";
-							$this->debug->push( 'fetching video details from ' . $api_url );
-							$hash = unserialize( $this->cache->get( $api_url, 'raw', 'transient' ) );
-
-							if ( ! empty( $hash ) ) {
-								$this->debug->push( 'setting og:video and og:image from Vimeo API hash' );
-								$og_video['og:video'] = $hash[0]['url'];
-								$og_video['og:image'] = $hash[0]['thumbnail_large'];
-							}
-						}
-						$this->debug->push( 'image = ' . $og_video['og:image'] );
-						$this->debug->push( 'video = ' . $og_video['og:video'] . 
-							' (' . $og_video['og:video:width'] .  ' x ' . $og_video['og:video:height'] . ')' );
-
-						if ( $this->push_to_max( $og_ret, $og_video, $num ) ) return $og_ret;
-					}
-				}
-			} else $this->debug->push( 'no <iframe|embed/> html tag(s) found' );
-
-			return $og_ret;
-		}
-
-		function get_all_images_og( $num = 0, $size_name = 'thumbnail' ) {
-			global $post;
-			$og_ret = array();
-
-			if ( is_attachment( $post->ID ) ) {
-				$this->debug->push( 'is_attachment() = true' );
-				$og_image = array();
-				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-					$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $post->ID, $size_name );
-
-				// if this is an attachment webpage, and we have an attachment, then stop here 
-				// and return the image array (even if max num hasn't been reached yet)
-				if ( ! empty( $og_image['og:image'] ) ) {
-					$this->push_to_max( $og_ret, $og_image, $num );
-					return $og_ret;
-				};
-			}
-
-			// check for index-type pages with option enabled to force a default image
-			if ( ( ! is_singular() && ! is_search() && ! empty( $this->options['og_def_img_on_index'] ) )
-				|| ( is_search() && ! empty( $this->options['og_def_img_on_search'] ) ) ) {
-
-					$this->debug->push( 'calling get_default_image_og(' . $num . ', "' . $size_name . '")' );
-					$og_ret = array_merge( $og_ret, $this->get_default_image_og( $num, $size_name ) );
-					return $og_ret;	// stop here and return the image array
-			}
-
-			// check for featured or attached image(s)
-			if ( ! empty( $post ) ) {
-				$this->debug->push( 'calling get_featured_og(' . $num . ', "' . $size_name . '", ' . $post->ID . ')' );
-				$og_ret = array_merge( $og_ret, $this->get_featured_og( $num, $size_name, $post->ID ) );
-
-				if ( ! $this->is_maxed( $og_ret, $num ) ) {
-					$this->debug->push( 'calling get_attached_images_og(' . $post->ID . ', "' . $size_name . '")' );
-					$og_ret = array_merge( $og_ret, $this->get_attached_images_og( $post->ID, $size_name ) );
-				}
-				// keep going to find more images - the featured / attached image(s) will be
-				// listed first in the open graph meta property tags
-			}
-
-			// check for ngg shortcodes and query vars
-			if ( $this->is_avail['ngg'] == true && ! $this->is_maxed( $og_ret, $num ) ) {
-				$this->debug->push( 'calling get_ngg_query_images_og(' . $num . ', "' . $size_name . '")' );
-				$ngg_og_ret = $this->get_ngg_query_images_og( $num, $size_name );
-
-				if ( count( $ngg_og_ret ) > 0 ) {
-					$this->debug->push( count( $ngg_og_ret ) . ' image(s) returned - skipping additional shortcode images' );
-					$og_ret = array_merge( $og_ret, $ngg_og_ret );
-
-				// check for ngg shortcodes in content
-				} elseif ( ! $this->is_maxed( $og_ret, $num ) ) {
-					$this->debug->push( 'calling get_ngg_shortcode_images_og(' . $num . ', "' . $size_name . '")' );
-					$og_ret = array_merge( $og_ret, $this->get_ngg_shortcode_images_og( $num, $size_name ) );
-				}
-			}
-
-			// if we haven't reached the limit of images yet, keep going
-			if ( ! $this->is_maxed( $og_ret, $num ) ) {
-				$this->debug->push( 'calling get_content_images_og(' . $num . ', "' . $size_name . '")' );
-				$og_ret = array_merge( $og_ret, $this->get_content_images_og( $num, $size_name ) );
-			}
-
-			// if we have a limit, and we're over, then slice the array
-			if ( $this->is_maxed( $og_ret, $num ) ) {
-				$this->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
-
-			return $og_ret;
-		}
-
-		function get_ngg_query_images_og( $num = 0, $size_name = 'thumbnail' ) {
-			$og_ret = array();
-			if ( $this->is_avail['ngg'] !== true ) return $og_ret;
-
-			$size_info = $this->get_size_values( $size_name );
-			global $post, $wpdb, $wp_query;
-
-			if ( empty( $post ) ) {
-				$this->debug->push( 'exiting early for: empty post object' ); return $og_ret;
-			} elseif ( empty( $post->post_content ) ) { 
-				$this->debug->push( 'exiting early for: empty post content' ); return $og_ret;
-			}
-
-			// sanitize possible query values
-			$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
-			$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
-			$ngg_pageid = empty( $wp_query->query['pageid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pageid'] );
-			$ngg_pid = empty( $wp_query->query['pid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pid'] );
-
-			if ( empty( $ngg_album ) && empty( $ngg_gallery ) && empty( $ngg_pid ) ) {
-				$this->debug->push( 'exiting early for: no ngg query values' ); return $og_ret;
-			} else {
-				$this->debug->push( 'ngg query found (pageid:' . $ngg_pageid . ' album:' . $ngg_album . ' gallery:' . $ngg_gallery . ' pid:' . $ngg_pid . ')' );
-			}
-
-			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
-
-				$this->debug->push( 'ngg query with [' . $match[1] . '] shortcode' );
-				if ( $ngg_pid > 0 ) {
-					$this->debug->push( 'getting image for ngg query pid:' . $ngg_pid );
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $ngg_pid, $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-
-				} elseif ( $ngg_gallery > 0 ) {
-					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
-					if ( is_array( $galleries ) ) {
-						foreach ( $galleries as $row ) {
-							$this->debug->push( 'getting image for ngg query gallery:' . $row->gid . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
-				} elseif ( $ngg_album > 0 ) {
-					$albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
-					if ( is_array( $albums ) ) {
-						foreach ( $albums as $row ) {
-							$this->debug->push( 'getting image for ngg query album:' . $row->id . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
-				}
-			} else $this->debug->push( 'ngg query without [nggalbum|album|nggallery] shortcode' );
-
-			if ( $num > 0 && count( $og_ret ) > $num ) {
-				$this->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
-			return $og_ret;
-		}
-
-		function get_ngg_shortcode_images_og( $num = 0, $size_name = 'thumbnail' ) {
-			$og_ret = array();
-			if ( $this->is_avail['ngg'] !== true ) return $og_ret;
-
-			$size_info = $this->get_size_values( $size_name );
-			global $post, $wpdb;
-
-			if ( empty( $post ) ) {
-				$this->debug->push( 'exiting early for: empty post object' ); return $og_ret;
-			} elseif ( empty( $post->post_content ) ) { 
-				$this->debug->push( 'exiting early for: empty post content' ); return $og_ret;
-			}
-
-			if ( preg_match_all( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
-				foreach ( $match as $album ) {
-					$this->debug->push( '[' . $album[1] . '] shortcode found' );
-					$og_image = array();
-					if ( $album[3] == '' ) {
-						$ngg_album = 0;
-						$this->debug->push( 'album id not found - setting album id to 0 (all)' );
-					} else $ngg_album = $album[3];
-					if ( $ngg_album > 0 ) $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
-					else $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum, OBJECT_K );
-					if ( is_array( $albums ) ) {
-						foreach ( $albums as $row ) {
-							$this->debug->push( 'getting image for nggalbum:' . $row->id . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
-				}
-			} else $this->debug->push( 'no [nggalbum|album] shortcode found' );
-
-			if ( preg_match_all( '/\[(nggallery) [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
-				foreach ( $match as $gallery ) {
-					$this->debug->push( '[' . $gallery[1] . '] shortcode found' );
-					$og_image = array();
-					$ngg_gallery = $gallery[2];
-					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
-					if ( is_array( $galleries ) ) {
-						foreach ( $galleries as $row ) {
-							$this->debug->push( 'getting image for nggallery:' . $row->gid . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
-				}
-			} else $this->debug->push( 'no [nggallery] shortcode found' );
-
-			if ( preg_match_all( '/\[(singlepic) [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
-				foreach ( $match as $singlepic ) {
-					$this->debug->push( '[' . $singlepic[1] . '] shortcode found' );
-					$og_image = array();
-					$pid = $singlepic[2];
-					$this->debug->push( 'getting image for singlepic:' . $pid );
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-				}
-			} else $this->debug->push( 'no [singlepic] shortcode found' );
-
-			if ( $num > 0 && count( $og_ret ) > $num ) {
-				$this->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
-			return $og_ret;
-		}
-
-		function get_content_images_og( $num = 0, $size_name = 'thumbnail' ) {
-			global $post;
-			$og_ret = array();
-			$size_info = $this->get_size_values( $size_name );
-			$this->debug->push( 'calling get_filtered_content()' );
-			$content = $this->get_filtered_content( $this->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
-
-			// check for ngg image ids
-			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->debug->push( count( $match ) . ' x <div id="ngg-image-#"> html tag(s) found' );
-				foreach ( $match as $pid ) {
-					$og_image = array();
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-				}
-			} else $this->debug->push( 'no <div id="ngg-image-#"> html tag found' );
-
-			// img attributes in order of preference
-			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->debug->push( count( $match ) . ' x <img/> html tag(s) found' );
-				foreach ( $match as $img ) {
-					$src_name = $img[1];
-					$og_image = array(
-						'og:image' => $this->get_sharing_url( 'asis', $img[2] ),
-						'og:image:width' => '',
-						'og:image:height' => '',
-						'og:image:cropped' => '',
-					);
-
-					// check for NGG image pids
-					if ( preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
-						$this->debug->push( $src_name . ' ngg cache image = ' . $og_image['og:image'] );
-						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-							$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $match[1], $size_name );
-
-					} elseif ( $this->url_is_good( $og_image['og:image'] ) ) {
-						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:width'] = $match[1];
-						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:height'] = $match[1];
-
-					} else continue;	// skip anything that is "not good" (duplicate or empty)
-
-					$this->debug->push( $src_name . ' = ' . $og_image['og:image'] . 
-						' (' . $og_image['og:image:width'] . ' x ' . $og_image['og:image:height'] . ')' );
-
-					// set value to 0 if not valid, to avoid error when comparing image sizes
-					if ( ! is_numeric( $og_image['og:image:width'] ) ) $og_image['og:image:width'] = 0;
-					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
-
-					// if we're picking up an img from 'src', make sure it's width and height is large enough
-					if ( $src_name == 'share-' . $size_name || $src_name == 'share' 
-						|| ( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) 
-						|| ( $src_name == 'src' && $this->options['ngfb_skip_small_img'] && 
-							$og_image['og:image:width'] >= $size_info['width'] && 
-							$og_image['og:image:height'] >= $size_info['height'] ) ) {
-
-						if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
-
-					} else $this->debug->push( $src_name . ' image rejected: width and height attributes missing or too small' );
-				}
-			} else $this->debug->push( 'no <img/> html tag(s) found' );
-
-			return $og_ret;
-		}
-
-		function get_attached_images_og( $post_id = '', $size_name = 'thumbnail' ) {
-			$og_ret = array();
-			$og_image = array();
-			if ( ! empty( $post_id ) ) {
-				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
-				foreach ( $images as $attachment ) {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attachment->ID, $size_name );
-				}
-			}
-			// returned array must be two-dimensional
-			if ( ! empty( $og_image ) ) array_push( $og_ret, $og_image );
-			return $og_ret;
-		}
-
-		function get_featured_og( $num = 0, $size_name = 'thumbnail', $post_id ) {
-			$og_ret = array();
-			$og_image = array();
-			if ( ! empty( $post_id ) && $this->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
-				$pid = get_post_thumbnail_id( $post_id );
-				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
-				} else {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name );
-				}
-			}
-			// returned array must be two-dimensional
-			$this->push_to_max( $og_ret, $og_image, $num );
-			return $og_ret;
-		}
-
-		function get_default_image_og( $num = 0, $size_name = 'thumbnail' ) {
-			$og_ret = array();
-			$og_image = array();
-			if ( $this->options['og_def_img_id'] > 0 ) {
-				if ($this->options['og_def_img_id_pre'] == 'ngg') {
-					$pid = $this->options['og_def_img_id_pre'].'-'.$this->options['og_def_img_id'];
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name );
-				} else {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $this->options['og_def_img_id'], $size_name );
-				}
-			}
-			// if still empty, use the default url (if one is defined, empty string otherwise)
-			if ( empty( $og_image['og:image'] ) ) {
-				$og_image['og:image'] = empty( $this->options['og_def_img_url'] ) ? '' : $this->options['og_def_img_url'];
-				$this->debug->push( 'using default img url = ' . $og_image['og:image'] );
-			}
-			// returned array must be two-dimensional
-			$this->push_to_max( $og_ret, $og_image, $num );
-			return $og_ret;
 		}
 
 		function get_tags() {
@@ -1535,7 +1057,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $meta_html;
 		}
 
-		function get_filtered_content( $filter_content = true ) {
+		public function get_filtered_content( $filter_content = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$this->debug->push( 'using content from post id ' . $post->ID );
@@ -1552,7 +1074,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$content = $post->post_content;
 			$content_strlen_before = strlen( $content );
 
-			// remove singlepics, which we detect and use before-hand in get_content_images_og()
+			// remove singlepics, which we detect and use before-hand 
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
 			if ( $count > 0 ) $this->debug->push( $count . ' [singlepic] shortcode(s) removed from content' );
 
@@ -1640,7 +1162,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					else {
 						// get the REAL image width and height
 						$cachename = $image->pid . '_' . $crop . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
-						$cachefolder = WINABSPATH .$this->ngg_options['gallerypath'] . 'cache/';
+						$cachefolder = WINABSPATH . $this->ngg_options['gallerypath'] . 'cache/';
 						$cached_url = site_url() . '/' . $this->ngg_options['gallerypath'] . 'cache/' . $cachename;
 						$cached_file = $cachefolder . $cachename;
 						$file_info =  getimagesize( $cached_file );
@@ -1657,18 +1179,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->url_is_good( $image_url ) )
 				return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
 			else return array( null, null, null, null );
-		}
-
-		// $ngg_images = array of ngg image objects
-		function get_ngg_images_og( $ngg_images = array(), $size_name = 'thumbnail' ) {
-			$og_ret = array();
-			foreach ( $ngg_images as $image ) {
-				$og_image = array();
-				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-					$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
-				if ( $og_image['og:image'] ) array_push( $og_ret, $og_image );
-			}
-			return $og_ret;
 		}
 
 		public function cdn_linker_rewrite( $url = '' ) {
@@ -1715,7 +1225,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $text;
 		}
 
-		function str_decode( $str ) {
+		public function str_decode( $str ) {
 			// if we don't have something to decode, return immediately
 			if ( strpos( $str, '&#' ) === false ) return $str;
 
@@ -1728,12 +1238,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return preg_replace( '/&#\d{2,5};/ue', 'ngfbPlugin::utf8_entity_decode( \'$0\' )', $str );
 		}
 
-		function utf8_entity_decode( $entity ) {
+		public function utf8_entity_decode( $entity ) {
 			$convmap = array( 0x0, 0x10000, 0, 0xfffff );
 			return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 		}
 
-		function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
+		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
 
 			// $use_post = false when used for Open Graph meta tags and buttons in widget
 			// $use_post = true when buttons are added to individual posts on an index webpage
@@ -1786,14 +1296,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $url;
 		}
 
-		private function preg_grep_keys( $pattern, $input, $flags = 0 ) {
+		public function preg_grep_keys( $pattern, $input, $flags = 0 ) {
 			$keys = preg_grep( $pattern, array_keys( $input ), $flags );
 			$vals = array();
 			foreach ( $keys as $key ) $vals[$key] = $input[$key]; 
 			return $vals;
 		}
 
-		private function fix_relative_url( $url = '' ) {
+		public function fix_relative_url( $url = '' ) {
 			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
 				$this->debug->push( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
@@ -1804,28 +1314,29 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $url;
 		}
 	
-		private function push_to_max( &$dst, &$src, $num = 0 ) {
+		public function get_size_values( $size_name = 'thumbnail' ) {
 
-			if ( ! is_array( $dst ) || ! is_array( $src ) ) 
-				return false;
+			global $_wp_additional_image_sizes;
 
-			if ( ! empty( $src ) ) 
-				array_push( $dst, $src );
+			if ( is_integer( $size_name ) ) return;
+	
+			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
+				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
+			else $width = get_option( "{$size_name}_size_w" );
+		
+			if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
+				$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
+			else $height = get_option( "{$size_name}_size_h" );
+		
+			if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
+				$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
+			else $crop = get_option( "{$size_name}_crop" );
 
-			if ( $this->is_maxed( $dst, $num ) ) {
-				$this->debug->push( 'max values reached (' . count( $dst ) . ' >= ' . $num . ') - slicing array' );
-				$dst = array_slice( $dst, 0, $num );
-				return true;
-			}
-			return false;
+			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
-		private function is_maxed( &$arr, $num = 0 ) {
-			if ( is_array( $arr ) && $num > 0 && count( $arr ) >= $num ) return true;
-			return false;
-		}
+		public function url_is_good( $url = '' ) {
 
-		private function url_is_good( $url = '' ) {
 			if ( empty( $url ) ) return false;
 
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
@@ -1867,9 +1378,9 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 			$ngfb->debug->push( $cache_type . ': button_html retrieved from transient for id "' . $cache_id . '"' );
 		} else {
 			$button_html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
-				$ngfb->get_buttons_js( 'pre-social-buttons', $ids ) .
-				$ngfb->get_buttons_html( $ids, $atts ) .
-				$ngfb->get_buttons_js( 'post-social-buttons', $ids ) .
+				$ngfb->buttons->get_buttons_js( 'pre-social-buttons', $ids ) .
+				$ngfb->buttons->get_buttons_html( $ids, $atts ) .
+				$ngfb->buttons->get_buttons_js( 'post-social-buttons', $ids ) .
 				"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
 
 			set_transient( $cache_id, $button_html, $ngfb->cache->object_expire );

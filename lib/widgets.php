@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 				$widget_html .= "\n<!-- " . NGFB_LONGNAME . " widget BEGIN -->\n";
 				$widget_html .= $before_widget . "\n";
 				if ( $title ) $widget_html .= $before_title . $title . $after_title . "\n";
-				$widget_html .= $ngfb->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
+				$widget_html .= $ngfb->buttons->get_buttons_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
 				$widget_html .= $after_widget . "\n";
 				$widget_html .= "<!-- " . NGFB_LONGNAME . " widget END -->\n";
 	
@@ -73,8 +73,9 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $ngfb->social_nice_names as $id => $name ) 
-				$instance[$id] = (int) $new_instance[$id] ? 1 : 0;
+			foreach ( $ngfb->social_nice_names as $id => $name ) {
+				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
+			}
 			unset( $name, $id );
 			return $instance;
 		}
@@ -91,8 +92,10 @@ if ( ! class_exists( 'ngfbSocialButtonsWidget' ) ) {
 				echo '<p><label for="', $this->get_field_id( $id ), '">', 
 					'<input id="', $this->get_field_id( $id ), 
 					'" name="', $this->get_field_name( $id ), 
-					'" value="1" type="checkbox" ', checked( 1 , $instance[$id] ), 
-					' /> ', $name;
+					'" value="1" type="checkbox" ';
+				if ( ! empty( $instance[$id] ) )
+					echo checked( 1 , $instance[$id] );
+				echo ' /> ', $name;
 				switch ( $id ) {
 					case 'pinterest' :
 						echo ' (not added on indexes)';

@@ -28,10 +28,17 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 		function push( $msg = '' ) {
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+				$from = '';
 				$stack = debug_backtrace();
-				if ( ! empty( $stack[1]['function'] ) )
-					$from = $stack[1]['function'];
-				if ( ! empty( $from ) ) $msg = sprintf( '%28s() : %s', $from, $msg );
+				if ( ! empty( $stack[1]['class'] ) ) 
+					$from .= sprintf( '%-14s:: ', $stack[1]['class'] );
+
+				if ( ! empty( $stack[1]['function'] ) ) 
+					$from .= sprintf( '%-24s : ', $stack[1]['function'] );
+
+				if ( ! empty( $from ) ) 
+					$msg = $from . $msg;
+
 				$this->log[] = $msg;
 			}
 			return;
