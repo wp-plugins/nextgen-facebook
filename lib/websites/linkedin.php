@@ -20,31 +20,38 @@ if ( ! class_exists( 'ngfbWebSiteLinkedIn' ) ) {
 
 	class ngfbWebSiteLinkedIn extends ngfbButtons {
 
-		function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
-		function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+		public function get_lang() {
+			return array();
+		}
+
+		public function get_html( $atts = array() ) {
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
 			$html = '
 				<!-- LinkedIn Button -->
 				<div ' . $this->get_css( 'linkedin', $atts ) . '>
 				<script type="IN/Share" data-url="' . $atts['url'] . '"';
 
-			if ( ! empty( $ngfb->options['linkedin_counter'] ) ) 
-				$html .= ' data-counter="' . $ngfb->options['linkedin_counter'] . '"';
+			if ( ! empty( $this->ngfb->options['linkedin_counter'] ) ) 
+				$html .= ' data-counter="' . $this->ngfb->options['linkedin_counter'] . '"';
 
-			if ( ! empty( $ngfb->options['linkedin_showzero'] ) ) 
+			if ( ! empty( $this->ngfb->options['linkedin_showzero'] ) ) 
 				$html .= ' data-showzero="true"';
 
 			$html .= '></script></div>'."\n";
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		
-		function get_js( $pos = 'id' ) {
+		public function get_js( $pos = 'id' ) {
 			return  '<script type="text/javascript" id="linkedin-script-' . $pos . '">
 				ngfb_header_js( "linkedin-script-' . $pos . '", "' . $this->get_cache_url( 'https://platform.linkedin.com/in.js' ) . '" );
 			</script>' . "\n";

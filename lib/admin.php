@@ -20,13 +20,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 	class ngfbAdmin {
 	
-		var $plugin_name = '';
-		var $min_wp_version = '3.0';
-		var $msg_inf = array();
-		var $msg_err = array();
+		public $plugin_name = '';
+		public $msg_inf = array();
+		public $msg_err = array();
+
+		private $min_wp_version = '3.0';
 
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
-		var $article_sections = array(
+		public $website_topics = array(
 			'Animation',
 			'Architecture',
 			'Art',
@@ -84,160 +85,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'Women\'s',
 		);
 
-		var $fb_lang = array(
-			'af_ZA' => 'Afrikaans',
-			'sq_AL' => 'Albanian',
-			'ar_AR' => 'Arabic',
-			'hy_AM' => 'Armenian',
-			'az_AZ' => 'Azerbaijani',
-			'eu_ES' => 'Basque',
-			'be_BY' => 'Belarusian',
-			'bn_IN' => 'Bengali',
-			'bs_BA' => 'Bosnian',
-			'bg_BG' => 'Bulgarian',
-			'ca_ES' => 'Catalan',
-			'zh_HK' => 'Chinese (Hong Kong)',
-			'zh_CN' => 'Chinese (Simplified)',
-			'zh_TW' => 'Chinese (Traditional)',
-			'hr_HR' => 'Croatian',
-			'cs_CZ' => 'Czech',
-			'da_DK' => 'Danish',
-			'nl_NL' => 'Dutch',
-			'en_GB' => 'English (UK)',
-			'en_PI' => 'English (Pirate)',
-			'en_UD' => 'English (Upside Down)',
-			'en_US' => 'English (US)',
-			'eo_EO' => 'Esperanto',
-			'et_EE' => 'Estonian',
-			'fo_FO' => 'Faroese',
-			'tl_PH' => 'Filipino',
-			'fi_FI' => 'Finnish',
-			'fr_CA' => 'French (Canada)',
-			'fr_FR' => 'French (France)',
-			'fy_NL' => 'Frisian',
-			'gl_ES' => 'Galician',
-			'ka_GE' => 'Georgian',
-			'de_DE' => 'German',
-			'el_GR' => 'Greek',
-			'he_IL' => 'Hebrew',
-			'hi_IN' => 'Hindi',
-			'hu_HU' => 'Hungarian',
-			'is_IS' => 'Icelandic',
-			'id_ID' => 'Indonesian',
-			'ga_IE' => 'Irish',
-			'it_IT' => 'Italian',
-			'ja_JP' => 'Japanese',
-			'km_KH' => 'Khmer',
-			'ko_KR' => 'Korean',
-			'ku_TR' => 'Kurdish',
-			'la_VA' => 'Latin',
-			'lv_LV' => 'Latvian',
-			'fb_LT' => 'Leet Speak',
-			'lt_LT' => 'Lithuanian',
-			'mk_MK' => 'Macedonian',
-			'ms_MY' => 'Malay',
-			'ml_IN' => 'Malayalam',
-			'ne_NP' => 'Nepali',
-			'nb_NO' => 'Norwegian (Bokmal)',
-			'nn_NO' => 'Norwegian (Nynorsk)',
-			'ps_AF' => 'Pashto',
-			'fa_IR' => 'Persian',
-			'pl_PL' => 'Polish',
-			'pt_BR' => 'Portuguese (Brazil)',
-			'pt_PT' => 'Portuguese (Portugal)',
-			'pa_IN' => 'Punjabi',
-			'ro_RO' => 'Romanian',
-			'ru_RU' => 'Russian',
-			'sk_SK' => 'Slovak',
-			'sl_SI' => 'Slovenian',
-			'es_LA' => 'Spanish',
-			'es_ES' => 'Spanish (Spain)',
-			'sr_RS' => 'Serbian',
-			'sw_KE' => 'Swahili',
-			'sv_SE' => 'Swedish',
-			'ta_IN' => 'Tamil',
-			'te_IN' => 'Telugu',
-			'th_TH' => 'Thai',
-			'tr_TR' => 'Turkish',
-			'uk_UA' => 'Ukrainian',
-			'vi_VN' => 'Vietnamese',
-			'cy_GB' => 'Welsh',
-		);
-
-		var $gplus_lang = array(
-			'af'	=> 'Afrikaans',
-			'am'	=> 'Amharic',
-			'ar'	=> 'Arabic',
-			'eu'	=> 'Basque',
-			'bn'	=> 'Bengali',
-			'bg'	=> 'Bulgarian',
-			'ca'	=> 'Catalan',
-			'zh-HK'	=> 'Chinese (Hong Kong)',
-			'zh-CN'	=> 'Chinese (Simplified)',
-			'zh-TW'	=> 'Chinese (Traditional)',
-			'hr'	=> 'Croatian',
-			'cs'	=> 'Czech',
-			'da'	=> 'Danish',
-			'nl'	=> 'Dutch',
-			'en-GB'	=> 'English (UK)',
-			'en-US'	=> 'English (US)',
-			'et'	=> 'Estonian',
-			'fil'	=> 'Filipino',
-			'fi'	=> 'Finnish',
-			'fr'	=> 'French',
-			'fr-CA'	=> 'French (Canadian)',
-			'gl'	=> 'Galician',
-			'de'	=> 'German',
-			'el'	=> 'Greek',
-			'gu'	=> 'Gujarati',
-			'iw'	=> 'Hebrew',
-			'hi'	=> 'Hindi',
-			'hu'	=> 'Hungarian',
-			'is'	=> 'Icelandic',
-			'id'	=> 'Indonesian',
-			'it'	=> 'Italian',
-			'ja'	=> 'Japanese',
-			'kn'	=> 'Kannada',
-			'ko'	=> 'Korean',
-			'lv'	=> 'Latvian',
-			'lt'	=> 'Lithuanian',
-			'ms'	=> 'Malay',
-			'ml'	=> 'Malayalam',
-			'mr'	=> 'Marathi',
-			'no'	=> 'Norwegian',
-			'fa'	=> 'Persian',
-			'pl'	=> 'Polish',
-			'pt-BR'	=> 'Portuguese (Brazil)',
-			'pt-PT'	=> 'Portuguese (Portugal)',
-			'ro'	=> 'Romanian',
-			'ru'	=> 'Russian',
-			'sr'	=> 'Serbian',
-			'sk'	=> 'Slovak',
-			'sl'	=> 'Slovenian',
-			'es'	=> 'Spanish',
-			'es-419'	=> 'Spanish (Latin America)',
-			'sw'	=> 'Swahili',
-			'sv'	=> 'Swedish',
-			'ta'	=> 'Tamil',
-			'te'	=> 'Telugu',
-			'th'	=> 'Thai',
-			'tr'	=> 'Turkish',
-			'uk'	=> 'Ukrainian',
-			'ur'	=> 'Urdu',
-			'vi'	=> 'Vietnamese',
-			'zu'	=> 'Zulu',
-		);
-
-		var $twitter_lang = array(
-			'en'	=> 'English',
-			'fr'	=> 'French',
-			'de'	=> 'German',
-			'it'	=> 'Italian',
-			'es'	=> 'Spanish',
-			'ko'	=> 'Korean',
-			'ja'	=> 'Japanese',
-		);
-	
 		var $js_locations = array(
 			'header' => 'Header',
 			'footer' => 'Footer',
@@ -250,8 +97,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'none' => 'None',
 		);
 
-		function __construct() {
-			natsort ( $this->article_sections );
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
+			natsort ( $this->website_topics );
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
@@ -272,12 +122,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function check_options() {
-			global $ngfb;
-			$size_info = $ngfb->get_size_values( $ngfb->options['og_img_size'] );
-
+			$size_info = $this->ngfb->get_size_values( $this->ngfb->options['og_img_size'] );
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-				$this->msg_inf[] = 'The "' . $ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $this->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
+				$this->msg_inf[] = 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $this->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
 			}
 		}
 
@@ -290,9 +138,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function admin_notices() {
-
-			global $ngfb;
-
 			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->get_options_url() . '">' . NGFB_ACRONYM . '</a>';
 			$p_end = '</p>';
 
@@ -316,8 +161,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function sanitize_options( $opts ) {
-			global $ngfb;
-			return $ngfb->sanitize_options( $opts );
+			return $this->ngfb->sanitize_options( $opts );
 		}
 
 		// display a settings link on the main plugins page
@@ -332,9 +176,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		function options_page() {
-			global $ngfb;
 			$buttons_count = 0;
-			foreach ( $ngfb->options as $opt => $val )
+			foreach ( $this->ngfb->options as $opt => $val )
 				if ( preg_match( '/_enable$/', $opt ) )
 					$buttons_count++;
 
@@ -396,12 +239,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		
 			<div class="wrap" id="ngfb">
 			<div class="icon32" id="icon-options-general"><br></div>
-			<h2><?php echo NGFB_FULLNAME, " Plugin v", $ngfb->version; if ( $ngfb->is_avail['ngfbpro'] == true ) echo ' (Pro)'; ?></h2>
+			<h2><?php echo NGFB_FULLNAME, " Plugin v", $this->ngfb->version; if ( $this->ngfb->is_avail['ngfbpro'] == true ) echo ' (Pro)'; ?></h2>
 			<a name="top"></a>
 			<div class="metabox-holder">
 
 			<?php	// don't show donation box if already donated, or pro version installed
-				if ( empty( $ngfb->options['ngfb_donated'] ) && $ngfb->is_avail['ngfbpro'] == false ) : ?>
+				if ( empty( $this->ngfb->options['ngfb_donated'] ) && $this->ngfb->is_avail['ngfbpro'] == false ) : ?>
 			<div class="postbox">
 			<div class="inside">	
 			<div class="donatebox">
@@ -431,7 +274,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				endif; ?>
 
 			<form name="ngfb" method="post" action="options.php" id="settings">
-			<?php settings_fields( 'ngfb_plugin_options' ); $this->hidden( 'ngfb_version', $ngfb->opts_version ); ?>
+			<?php settings_fields( 'ngfb_plugin_options' ); $this->hidden( 'ngfb_version', $this->ngfb->opts_version ); ?>
 
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Settings</span></h3>
@@ -439,7 +282,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Website Topic</th>
-				<td><?php $this->select( 'og_art_section', array_merge( array( '' ), $this->article_sections ) ); ?></td>
+				<td><?php $this->select( 'og_art_section', array_merge( array( '' ), $this->website_topics ) ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
@@ -457,12 +300,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php
 					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_author_id]">', "\n";
 					echo '<option value="0" ';
-					selected( $ngfb->options['og_def_author_id'], 0 );
+					selected( $this->ngfb->options['og_def_author_id'], 0 );
 					echo '>None (default)</option>', "\n";
 
 					foreach ( get_users() as $user ) {
 						echo '<option value="', $user->ID, '"';
-						selected( $ngfb->options['og_def_author_id'], $user->ID );
+						selected( $this->ngfb->options['og_def_author_id'], $user->ID );
 						echo '>', $user->display_name, '</option>', "\n";
 					}
 					echo '</select>', "\n";
@@ -483,10 +326,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Image Size Name</th>
 				<td><?php 
 					$this->select_img_size( 'og_img_size' ); 
-					$size_info = $ngfb->get_size_values( $ngfb->default_options['og_img_size'] );
+					$size_info = $this->ngfb->get_size_values( $this->ngfb->default_options['og_img_size'] );
 					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
+				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image ID</th>
@@ -494,12 +337,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$this->input( 'og_def_img_id', 'short' );
 					echo ' in the <select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
 					echo '<option value="wp" ';
-					selected( $ngfb->options['og_def_img_id_pre'], 'wp' );
+					selected( $this->ngfb->options['og_def_img_id_pre'], 'wp' );
 					echo '>Media Library</option>', "\n";
 
-					if ( $ngfb->is_avail['ngg'] == true ) {
+					if ( $this->ngfb->is_avail['ngg'] == true ) {
 						echo '<option value="ngg" '; 
-						selected( $ngfb->options['og_def_img_id_pre'], 'ngg' );
+						selected( $this->ngfb->options['og_def_img_id_pre'], 'ngg' );
 						echo '>NextGEN Gallery</option>', "\n";
 					}
 					echo '</select>', "\n";
@@ -522,7 +365,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php $this->checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
-			<?php	if ( $ngfb->is_avail['ngg'] == true ) : ?>
+			<?php	if ( $this->ngfb->is_avail['ngg'] == true ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
 				<td><?php $this->checkbox( 'og_ngg_tags' ); ?></td>
@@ -552,17 +395,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Title Separator</th>
 				<td><?php $this->input( 'og_title_sep', 'short' ); ?></td>
-				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $ngfb->default_options['og_title_sep']; ?>').</p></td>
+				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $this->ngfb->default_options['og_title_sep']; ?>').</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Title Length</th>
 				<td><?php $this->input( 'og_title_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $ngfb->default_options['og_title_len']; ?> characters).</p></td>
+				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $this->ngfb->default_options['og_title_len']; ?> characters).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Description Length</th>
 				<td><?php $this->input( 'og_desc_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $ngfb->default_options['og_desc_len']; ?>).</p></td>
+				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->default_options['og_desc_len']; ?>).</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
@@ -570,7 +413,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( $ngfb->is_avail['wikibox'] == true ) : ?>
+				if ( $this->ngfb->is_avail['wikibox'] == true ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
 				<td><?php $this->checkbox( 'og_desc_wiki' ); ?></td>
@@ -629,7 +472,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 				$og_cells = array();
 				$og_rows = array();
-				foreach ( $ngfb->default_options as $opt => $val ) {
+				foreach ( $this->ngfb->default_options as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$og_cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
 							<td>'. $this->checkbox( $opt, false ) . '</td>';
@@ -671,7 +514,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( $ngfb->is_avail['expages'] == true ) : ?>
+				if ( $this->ngfb->is_avail['expages'] == true ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php $this->checkbox( 'buttons_on_ex_pages' ); ?></td>
@@ -718,10 +561,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Language</th>
-				<td><?php $this->select( 'fb_lang', $this->fb_lang ); ?></td>
+				<td><?php $this->select( 'fb_lang', $this->ngfb->buttons->website['facebook']->get_lang() ); ?></td>
 				<!-- Google+ -->
 				<th>Language</th>
-				<td><?php $this->select( 'gp_lang', $this->gplus_lang ); ?></td>
+				<td><?php $this->select( 'gp_lang', $this->ngfb->buttons->website['gplus']->get_lang() ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
@@ -845,7 +688,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					'none' => 'None' ) ); ?></td>
 				<!-- Twitter -->
 				<th>Language</th>
-				<td><?php $this->select( 'twitter_lang', $this->twitter_lang ); ?></td>
+				<td><?php $this->select( 'twitter_lang', $this->ngfb->buttons->website['twitter']->get_lang() ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
@@ -954,7 +797,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 											<input type="radio" id="share_', $i, $t, '" 
 												name="', NGFB_OPTIONS_NAME, '[tumblr_button_style]" 
 												value="share_', $i, $t, '" ', 
-												checked( 'share_'.$i.$t, $ngfb->options['tumblr_button_style'], false ), '/>
+												checked( 'share_'.$i.$t, $this->ngfb->options['tumblr_button_style'], false ), '/>
 											<img src="http://platform.tumblr.com/v1/share_', $i, $t, '.png" 
 												height="20" class="share_button_image"/>
 										</label>
@@ -1066,7 +909,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 							}
 							echo '<div class="badge" id="badge-', $i, '">', "\n";
 							echo '<input type="radio" name="', NGFB_OPTIONS_NAME, '[stumble_badge]" value="', $i, '" ', 
-								checked( $i, $ngfb->options['stumble_badge'], false ), '/>', "\n";
+								checked( $i, $this->ngfb->options['stumble_badge'], false ), '/>', "\n";
 							echo '</div>', "\n";
 							switch ( $i ) { case '6' : echo '</div>', "\n"; break; }
 						}
@@ -1138,7 +981,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
 			<?php	// don't show option if pro version installed
-				if ( $ngfb->is_avail['ngfbpro'] == false ) : ?>
+				if ( $this->ngfb->is_avail['ngfbpro'] == false ) : ?>
 			<tr>
 				<th>I Have Donated</th>
 				<td><?php $this->checkbox( 'ngfb_donated' ); ?></td>
@@ -1157,9 +1000,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		function select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
 			if ( $is_assoc == false )
-				$is_assoc = $ngfb->is_assoc( $values );
+				$is_assoc = $this->ngfb->is_assoc( $values );
 
 			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
@@ -1170,10 +1012,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$val = $desc;
 
 				echo '<option value="', $val, '"';
-				selected( $ngfb->options[$name], $val );
+				selected( $this->ngfb->options[$name], $val );
 				echo '>', $desc;
 				if ( $desc === '' ) echo 'None';
-				if ( $val == $ngfb->default_options[$name] ) echo ' (default)';
+				if ( $val == $this->ngfb->default_options[$name] ) echo ' (default)';
 				echo '</option>', "\n";
 			}
 			echo '</select>';
@@ -1181,54 +1023,49 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
 			$input = '<input type="checkbox" name="' . NGFB_OPTIONS_NAME . '[' . $name . ']" value="' . $check[0] . '"' .
-				checked( $ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
-				( $ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
+				checked( $this->ngfb->options[$name], $check[0], false ) . ' title="Default is ' .
+				( $this->ngfb->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
 			if ( $echo ) echo $input;
 			else return $input;
 		}
 
 		function input( $name, $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
 			echo '<input type="text" name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ),
-				' value="', $ngfb->options[$name], '" />';
+				' value="', $this->ngfb->options[$name], '" />';
 		}
 
 		function textarea( $name, $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
 			echo '<textarea name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				( empty( $class ) ? '' : ' class="'.$class.'"' ),
 				( empty( $id ) ? '' : ' id="'.$id.'"' ),
-				'>', $ngfb->options[$name], '</textarea>';
+				'>', $this->ngfb->options[$name], '</textarea>';
 		}
 
 		function hidden( $name, $value = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
-			$value = empty( $value ) ? $ngfb->options[$name] : $value;
+			$value = empty( $value ) ? $this->ngfb->options[$name] : $value;
 			echo '<input type="hidden" name="', NGFB_OPTIONS_NAME, '[', $name, ']"',
 				' value="', $value, '" />';
 		}
 
 		function select_img_size( $name ) {
 			if ( empty( $name ) ) return;	// just in case
-			global $ngfb;
 			global $_wp_additional_image_sizes;
 			$size_names = get_intermediate_image_sizes();
 			natsort( $size_names );
 			echo '<select name="', NGFB_OPTIONS_NAME, '[', $name, ']">', "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
-				$size = $ngfb->get_size_values( $size_name );
+				$size = $this->ngfb->get_size_values( $size_name );
 				echo '<option value="', $size_name, '" ';
-				selected( $ngfb->options[$name], $size_name );
+				selected( $this->ngfb->options[$name], $size_name );
 				echo '>', $size_name, ' [ ', $size['width'], 'x', $size['height'], $size['crop'] ? " cropped" : "", ' ]';
-				if ( $size_name == $ngfb->default_options[$name] ) echo ' (default)';
+				if ( $size_name == $this->ngfb->default_options[$name] ) echo ' (default)';
 				echo '</option>', "\n";
 			}
 			unset ( $size_name );
@@ -1236,8 +1073,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function author_fields() {
-			global $ngfb;
-			return $ngfb->user_contactmethods( 
+			return $this->ngfb->user->contactmethods( 
 				array( 'none' => 'None', 'author' => 'Author Index', 'url' => 'Website' ) 
 			);
 		}

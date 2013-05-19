@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) )
 	die( 'Sorry, you cannot call this webpage directly.' );
 
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
+
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		$cache_salt = __METHOD__ . '(url:' . $ngfb->get_sharing_url( 'notrack' ) . '_ids:' . ( implode( '_', $ids ) ) . '_atts:' . ( implode( '_', $atts ) ) . ')';

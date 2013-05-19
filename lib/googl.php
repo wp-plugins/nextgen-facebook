@@ -26,6 +26,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 	class ngfbGoogl {
 
 		public $extended;
+
 		private $target;
 		private $apiKey;
 		private $ch;

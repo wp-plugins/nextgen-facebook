@@ -20,25 +20,32 @@ if ( ! class_exists( 'ngfbWebSiteStumbleUpon' ) ) {
 
 	class ngfbWebSiteStumbleUpon extends ngfbButtons {
 
-		function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb ) {
+			$this->ngfb =& $ngfb;
 		}
 
-		function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+		public function get_lang() {
+			return array();
+		}
+
+		public function get_html( $atts = array() ) {
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
 			$html = '
 				<!-- StumbleUpon Button -->
 				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
 					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
 			';
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 
-		function get_js( $pos = 'id' ) {
+		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="stumbleupon-script-' . $pos . '">
 				ngfb_header_js( "stumbleupon-script-' . $pos . '", "' . $this->get_cache_url( 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
 			</script>' . "\n";

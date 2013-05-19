@@ -20,11 +20,14 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 	class ngfbUser {
 
-		function __construct() {
-			add_filter( 'user_contactmethods', array( &$this, 'user_contactmethods' ), 20, 1 );
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
+			add_filter( 'user_contactmethods', array( &$this, 'contactmethods' ), 20, 1 );
 		}
 
-		function user_contactmethods( $fields = array() ) { 
+		function contactmethods( $fields = array() ) { 
 			foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
 				$field_name = preg_split( '/ *: */', $field_list );
 				$fields[$field_name[0]] = $field_name[1];

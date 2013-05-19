@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 4.4.dev2
+Version: 5.0.dev1
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '4.4.dev2';	// only for display purposes
+		var $version = '5.0.dev1';	// only for display purposes
 		var $opts_version = '21';	// increment when adding/removing $default_options
 		var $is_avail = array();	// assoc array for function/class/method/etc. checks
 		var $options = array();
@@ -309,17 +309,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/user.php' );
 
-			if ( is_admin() ) {
+			if ( is_admin() )
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
-				$this->admin = new ngfbAdmin();
-				$this->admin->plugin_name = plugin_basename( __FILE__ );
-			}
 
-			# load pro class to extend other classes
-			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) ) {
+			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) )
 				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
-				$this->pro = new ngfbPro();
-			}
 		}
 
 		// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
@@ -378,15 +372,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function set_vars() {
 
-			$this->debug = new ngfbDebug();
-			$this->cache = new ngfbCache();
-			$this->og = new ngfbOpenGraph();
-			$this->buttons = new ngfbButtons();
-			$this->user = new ngfbUser();
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
+
+			$this->debug = new ngfbDebug( &$this );
+			$this->cache = new ngfbCache( &$this );
+			$this->og = new ngfbOpenGraph( &$this );
+			$this->buttons = new ngfbButtons( &$this );
+			$this->user = new ngfbUser( &$this );
+
+			if ( is_admin() ) {
+				$this->admin = new ngfbAdmin( &$this );
+				$this->admin->plugin_name = plugin_basename( __FILE__ );
+			}
+			if ( $this->is_avail['ngfbpro'] == true )
+				$this->pro = new ngfbPro( &$this );
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
@@ -402,7 +404,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->shortcodes = new ngfbShortCodes();
+				$this->shortcodes = new ngfbShortCodes( &$this );
 
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );

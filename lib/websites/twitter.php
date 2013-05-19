@@ -20,21 +20,36 @@ if ( ! class_exists( 'ngfbWebSiteTwitter' ) ) {
 
 	class ngfbWebSiteTwitter extends ngfbButtons {
 
-		function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb ) {
+			$this->ngfb =& $ngfb;
 		}
 
-		function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+		public function get_lang() {
+			return array(
+				'en'	=> 'English',
+				'fr'	=> 'French',
+				'de'	=> 'German',
+				'it'	=> 'Italian',
+				'es'	=> 'Spanish',
+				'ko'	=> 'Korean',
+				'ja'	=> 'Japanese',
+			);
+		}
+
+		public function get_html( $atts = array() ) {
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
 			if ( empty( $atts['caption'] ) ) 
-				$atts['caption'] = $ngfb->get_caption( $ngfb->options['twitter_caption'], $ngfb->options['twitter_cap_len'], $use_post );
+				$atts['caption'] = $this->ngfb->get_caption( $this->ngfb->options['twitter_caption'], $this->ngfb->options['twitter_cap_len'], $use_post );
 
 			$long_url = $atts['url'];
-			$atts['url'] = $this->get_short_url( $atts['url'], $ngfb->options['twitter_shorten'] );
-			$twitter_dnt = $ngfb->options['twitter_dnt'] ? 'true' : 'false';
-			$lang = empty( $ngfb->options['twitter_lang'] ) ? 'en' : $ngfb->options['twitter_lang'];
+			$atts['url'] = $this->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
+			$twitter_dnt = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
+			$lang = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
 
 			$html = '
 				<!-- Twitter Button -->
@@ -45,15 +60,15 @@ if ( ! class_exists( 'ngfbWebSiteTwitter' ) ) {
 						lang="'. $lang . '"
 						data-url="' . $atts['url'] . '" 
 						data-text="' . $atts['caption'] . '" 
-						data-count="' . $ngfb->options['twitter_count'] . '" 
-						data-size="' . $ngfb->options['twitter_size'] . '" 
+						data-count="' . $this->ngfb->options['twitter_count'] . '" 
+						data-size="' . $this->ngfb->options['twitter_size'] . '" 
 						data-dnt="' . $twitter_dnt . '">Tweet</a>
 				</div>' . "\n";
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		
-		function get_js( $pos = 'id' ) {
+		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="twitter-script-' . $pos . '">
 				ngfb_header_js( "twitter-script-' . $pos . '", "' . $this->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
 			</script>' . "\n";

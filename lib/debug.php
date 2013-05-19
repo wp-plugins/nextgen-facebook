@@ -20,13 +20,16 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 	class ngfbDebug {
 
-		var $on = 0;
-		var $log = array();
+		public $on = 0;
 
-		function __construct() {
+		private $log = array();
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
-		function push( $msg = '' ) {
+		public function push( $msg = '' ) {
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$from = '';
 				$stack = debug_backtrace();
@@ -44,7 +47,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			return;
 		}
 
-		function show( $data = null, $title = null, $from = null ) {
+		public function show( $data = null, $title = null, $from = null ) {
 			if ( empty( $from ) ) {
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['function'] ) )
@@ -53,7 +56,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			echo $this->get( $data, $title, $from );
 		}
 
-		function get( $data = null, $title = null, $from = null ) {
+		public function get( $data = null, $title = null, $from = null ) {
 			$html = null;
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$html .= "<!-- " . NGFB_ACRONYM . " debug";
@@ -90,7 +93,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			return $html;
 		}
 
-		function is_assoc( $arr ) {
+		private function is_assoc( $arr ) {
 			if ( ! is_array( $arr ) ) return false;
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}

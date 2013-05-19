@@ -20,18 +20,103 @@ if ( ! class_exists( 'ngfbWebSiteFacebook' ) ) {
 
 	class ngfbWebSiteFacebook extends ngfbButtons {
 
-		function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
-		function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+		public function get_lang() {
+			return array(
+				'af_ZA' => 'Afrikaans',
+				'sq_AL' => 'Albanian',
+				'ar_AR' => 'Arabic',
+				'hy_AM' => 'Armenian',
+				'az_AZ' => 'Azerbaijani',
+				'eu_ES' => 'Basque',
+				'be_BY' => 'Belarusian',
+				'bn_IN' => 'Bengali',
+				'bs_BA' => 'Bosnian',
+				'bg_BG' => 'Bulgarian',
+				'ca_ES' => 'Catalan',
+				'zh_HK' => 'Chinese (Hong Kong)',
+				'zh_CN' => 'Chinese (Simplified)',
+				'zh_TW' => 'Chinese (Traditional)',
+				'hr_HR' => 'Croatian',
+				'cs_CZ' => 'Czech',
+				'da_DK' => 'Danish',
+				'nl_NL' => 'Dutch',
+				'en_GB' => 'English (UK)',
+				'en_PI' => 'English (Pirate)',
+				'en_UD' => 'English (Upside Down)',
+				'en_US' => 'English (US)',
+				'eo_EO' => 'Esperanto',
+				'et_EE' => 'Estonian',
+				'fo_FO' => 'Faroese',
+				'tl_PH' => 'Filipino',
+				'fi_FI' => 'Finnish',
+				'fr_CA' => 'French (Canada)',
+				'fr_FR' => 'French (France)',
+				'fy_NL' => 'Frisian',
+				'gl_ES' => 'Galician',
+				'ka_GE' => 'Georgian',
+				'de_DE' => 'German',
+				'el_GR' => 'Greek',
+				'he_IL' => 'Hebrew',
+				'hi_IN' => 'Hindi',
+				'hu_HU' => 'Hungarian',
+				'is_IS' => 'Icelandic',
+				'id_ID' => 'Indonesian',
+				'ga_IE' => 'Irish',
+				'it_IT' => 'Italian',
+				'ja_JP' => 'Japanese',
+				'km_KH' => 'Khmer',
+				'ko_KR' => 'Korean',
+				'ku_TR' => 'Kurdish',
+				'la_VA' => 'Latin',
+				'lv_LV' => 'Latvian',
+				'fb_LT' => 'Leet Speak',
+				'lt_LT' => 'Lithuanian',
+				'mk_MK' => 'Macedonian',
+				'ms_MY' => 'Malay',
+				'ml_IN' => 'Malayalam',
+				'ne_NP' => 'Nepali',
+				'nb_NO' => 'Norwegian (Bokmal)',
+				'nn_NO' => 'Norwegian (Nynorsk)',
+				'ps_AF' => 'Pashto',
+				'fa_IR' => 'Persian',
+				'pl_PL' => 'Polish',
+				'pt_BR' => 'Portuguese (Brazil)',
+				'pt_PT' => 'Portuguese (Portugal)',
+				'pa_IN' => 'Punjabi',
+				'ro_RO' => 'Romanian',
+				'ru_RU' => 'Russian',
+				'sk_SK' => 'Slovak',
+				'sl_SI' => 'Slovenian',
+				'es_LA' => 'Spanish',
+				'es_ES' => 'Spanish (Spain)',
+				'sr_RS' => 'Serbian',
+				'sw_KE' => 'Swahili',
+				'sv_SE' => 'Swedish',
+				'ta_IN' => 'Tamil',
+				'te_IN' => 'Telugu',
+				'th_TH' => 'Thai',
+				'tr_TR' => 'Turkish',
+				'uk_UA' => 'Ukrainian',
+				'vi_VN' => 'Vietnamese',
+				'cy_GB' => 'Welsh',
+			);
+		}
+
+		public function get_html( $atts = array() ) {
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
-			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			$fb_send = $this->ngfb->options['fb_send'] ? 'true' : 'false';
+			$fb_show_faces = $this->ngfb->options['fb_show_faces'] ? 'true' : 'false';
 
-			switch ( $ngfb->options['fb_markup'] ) {
+			switch ( $this->ngfb->options['fb_markup'] ) {
 				case 'xfbml' :
 					// XFBML
 					$html = '
@@ -39,11 +124,11 @@ if ( ! class_exists( 'ngfbWebSiteFacebook' ) ) {
 					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
 						href="' . $atts['url'] . '" 
 						send="' . $fb_send . '" 
-						layout="' . $ngfb->options['fb_layout'] . '" 
+						layout="' . $this->ngfb->options['fb_layout'] . '" 
 						show_faces="' . $fb_show_faces . '" 
-						font="' . $ngfb->options['fb_font'] . '" 
-						action="' . $ngfb->options['fb_action'] . '" 
-						colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
+						font="' . $this->ngfb->options['fb_font'] . '" 
+						action="' . $this->ngfb->options['fb_action'] . '" 
+						colorscheme="' . $this->ngfb->options['fb_colorscheme'] . '"></fb:like></div>
 					';
 					break;
 				case 'html5' :
@@ -54,26 +139,26 @@ if ( ! class_exists( 'ngfbWebSiteFacebook' ) ) {
 					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
 						data-href="' . $atts['url'] . '"
 						data-send="' . $fb_send . '" 
-						data-layout="' . $ngfb->options['fb_layout'] . '" 
-						data-width="' . $ngfb->options['fb_width'] . '" 
+						data-layout="' . $this->ngfb->options['fb_layout'] . '" 
+						data-width="' . $this->ngfb->options['fb_width'] . '" 
 						data-show-faces="' . $fb_show_faces . '" 
-						data-font="' . $ngfb->options['fb_font'] . '" 
-						data-action="' . $ngfb->options['fb_action'] . '"
-						data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
+						data-font="' . $this->ngfb->options['fb_font'] . '" 
+						data-action="' . $this->ngfb->options['fb_action'] . '"
+						data-colorscheme="' . $this->ngfb->options['fb_colorscheme'] . '"></div>
 					';
 					break;
 			}
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		
-		function get_js( $pos = 'id' ) {
-			global $ngfb; 
-			$lang = empty( $ngfb->options['fb_lang'] ) ? 'en_US' : $ngfb->options['fb_lang'];
+		public function get_js( $pos = 'id' ) {
+			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
+			$app_id = empty( $this->ngfb->options['og_app_id'] ) ? '' : $this->ngfb->options['og_app_id'];
 			return '<script type="text/javascript" id="facebook-script-' . $pos . '">
 				ngfb_header_js( "facebook-script-' . $pos . '", "' . 
 					$this->get_cache_url( 'https://connect.facebook.net/' . 
-					$lang . '/all.js#xfbml=1&appId=' . $ngfb->options['og_app_id'] ) . '" );
+					$lang . '/all.js#xfbml=1&appId=' . $app_id ) . '" );
 			</script>' . "\n";
 		}
 
