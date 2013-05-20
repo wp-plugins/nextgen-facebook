@@ -24,7 +24,6 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function get_rows() {
-			global $ngfb;
 			$badge = '<style type="text/css">
 					.badge { 
 						display:block;
@@ -56,7 +55,7 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 				$badge .= '<input type="radio" 
 					name="' . NGFB_OPTIONS_NAME . '[stumble_badge]" 
 					value="' . $i . '" ' . 
-					checked( $i, $ngfb->options['stumble_badge'], false ) . '/>' . "\n";
+					checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
 				$badge .= '</div>' . "\n";
 				switch ( $i ) { 
 					case '6' : 
@@ -69,7 +68,7 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th colspan="2" class="social">StumbleUpon</th>',
 				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add Button to Content</th><td>' . $this->checkbox( 'stumble_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'stumble_order', range( 1, count( $ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->select( 'stumble_js_loc', $this->js_locations ) . '</td>',
 				'<th>StumbleUpon Badge</th><td>' . $badge . '</td>',
 			);
@@ -84,21 +83,22 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 
 		private $ngfb;
 
-		public function __construct() {
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
 		public function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
 			$html = '
 				<!-- StumbleUpon Button -->
 				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
 					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
 			';
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 

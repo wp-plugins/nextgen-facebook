@@ -84,21 +84,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'Women\'s',
 		);
 
-		private $ngfb;		// ngfbPlugin
-		private $form;		// ngfbForm
-		private $min_wp_version = '3.0';
-
-		var $js_locations = array(
+		public $js_locations = array(
 			'header' => 'Header',
 			'footer' => 'Footer',
 		);
 
-		var $captions = array(
+		public $captions = array(
 			'title' => 'Title Only',
 			'excerpt' => 'Excerpt Only',
 			'both' => 'Title and Excerpt',
 			'none' => 'None',
 		);
+
+		private $ngfb;		// ngfbPlugin
+		private $form;		// ngfbForm
+		private $min_wp_version = '3.0';
 
 		public function __construct( &$ngfb_plugin ) {
 

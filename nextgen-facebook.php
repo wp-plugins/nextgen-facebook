@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.dev2';	// only for display purposes
+		public $version = '5.0.dev3';	// only for display purposes
 		public $opts_version = '21';	// increment when adding/removing $default_options
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -393,13 +393,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->ngg_options = get_option( 'ngg_options' );
 
 			$this->debug = new ngfbDebug();
-			$this->cache = new ngfbCache();
+			$this->cache = new ngfbCache( $this );
 			$this->user = new ngfbUser();
 			$this->og = new ngfbOpenGraph( $this );
-			$this->social = new ngfbSocial();
+			$this->social = new ngfbSocial( $this );
 
 			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->shortcodes = new ngfbShortCodes();
+				$this->shortcodes = new ngfbShortCodes( $this );
 
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );

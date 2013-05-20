@@ -88,7 +88,6 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function get_rows() {
-			global $ngfb;
 			return array(
 				'<th colspan="2" class="social">GooglePlus</th>',
 				'<td colspan="2" style="height:5px;"></td>',
@@ -98,7 +97,7 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th colspan="2" class="social">GooglePlus</th>',
 				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add Button to Content</th><td>' . $this->checkbox( 'gp_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'gp_order', range( 1, count( $ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->select( 'gp_js_loc', $this->js_locations ) . '</td>',
 				'<th>Language</th><td>' . $this->select( 'gp_lang', $this->website['gplus']->lang ) . '</td>',
 				'<th>Button Type</th><td>' . $this->select( 'gp_action', 
@@ -133,24 +132,27 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 
 	class ngfbSocialGooglePlus extends ngfbSocial {
 
-		public function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
 		public function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			$gp_class = $this->ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			$html = '
 				<!-- GooglePlus Button -->
 				<div ' . $this->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
 					<span '. $gp_class . ' 
-						data-size="' . $ngfb->options['gp_size'] . '" 
-						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
+						data-size="' . $this->ngfb->options['gp_size'] . '" 
+						data-annotation="' . $this->ngfb->options['gp_annotation'] . '" 
 						data-href="' . $atts['url'] . '"></span>
 				</div>' . "\n";
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		

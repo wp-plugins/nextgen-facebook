@@ -100,11 +100,10 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 			'cy_GB' => 'Welsh',
 		);
 
-		public function __construct() {
+		public function __construct( ) {
 		}
 
 		public function get_rows() {
-			global $ngfb;
 			return array(
 				'<th colspan="2" class="social">Facebook</th>',
 				'<td colspan="2" style="height:5px;"></td>',
@@ -114,7 +113,7 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th colspan="2" class="social">Facebook</th>',
 				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add Button to Content</th><td>' . $this->checkbox( 'fb_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'fb_order', range( 1, count( $ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->select( 'fb_js_loc', $this->js_locations ) . '</td>',
 				'<th>Language</th><td>' . $this->select( 'fb_lang', $this->lang() ) . '</td>',
 				'<th>Markup Language</th><td>' . $this->select( 'fb_markup', 
@@ -165,18 +164,21 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialFacebook extends ngfbSocial {
 
-		public function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
 		public function get_html( $atts = array() ) {
-			global $ngfb, $post; 
+			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$fb_send = $ngfb->options['fb_send'] ? 'true' : 'false';
-			$fb_show_faces = $ngfb->options['fb_show_faces'] ? 'true' : 'false';
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			$fb_send = $this->ngfb->options['fb_send'] ? 'true' : 'false';
+			$fb_show_faces = $this->ngfb->options['fb_show_faces'] ? 'true' : 'false';
 
-			switch ( $ngfb->options['fb_markup'] ) {
+			switch ( $this->ngfb->options['fb_markup'] ) {
 				case 'xfbml' :
 					// XFBML
 					$html = '
@@ -184,11 +186,11 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
 						href="' . $atts['url'] . '" 
 						send="' . $fb_send . '" 
-						layout="' . $ngfb->options['fb_layout'] . '" 
+						layout="' . $this->ngfb->options['fb_layout'] . '" 
 						show_faces="' . $fb_show_faces . '" 
-						font="' . $ngfb->options['fb_font'] . '" 
-						action="' . $ngfb->options['fb_action'] . '" 
-						colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></fb:like></div>
+						font="' . $this->ngfb->options['fb_font'] . '" 
+						action="' . $this->ngfb->options['fb_action'] . '" 
+						colorscheme="' . $this->ngfb->options['fb_colorscheme'] . '"></fb:like></div>
 					';
 					break;
 				case 'html5' :
@@ -199,23 +201,22 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 					<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
 						data-href="' . $atts['url'] . '"
 						data-send="' . $fb_send . '" 
-						data-layout="' . $ngfb->options['fb_layout'] . '" 
-						data-width="' . $ngfb->options['fb_width'] . '" 
+						data-layout="' . $this->ngfb->options['fb_layout'] . '" 
+						data-width="' . $this->ngfb->options['fb_width'] . '" 
 						data-show-faces="' . $fb_show_faces . '" 
-						data-font="' . $ngfb->options['fb_font'] . '" 
-						data-action="' . $ngfb->options['fb_action'] . '"
-						data-colorscheme="' . $ngfb->options['fb_colorscheme'] . '"></div>
+						data-font="' . $this->ngfb->options['fb_font'] . '" 
+						data-action="' . $this->ngfb->options['fb_action'] . '"
+						data-colorscheme="' . $this->ngfb->options['fb_colorscheme'] . '"></div>
 					';
 					break;
 			}
-			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
-			global $ngfb;
-			$lang = empty( $ngfb->options['fb_lang'] ) ? 'en_US' : $ngfb->options['fb_lang'];
-			$app_id = empty( $ngfb->options['og_app_id'] ) ? '' : $ngfb->options['og_app_id'];
+			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
+			$app_id = empty( $this->ngfb->options['og_app_id'] ) ? '' : $this->ngfb->options['og_app_id'];
 			return '<script type="text/javascript" id="facebook-script-' . $pos . '">
 				ngfb_header_js( "facebook-script-' . $pos . '", "' . 
 					$this->get_cache_url( 'https://connect.facebook.net/' . 

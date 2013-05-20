@@ -22,15 +22,17 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public $website = array();
 
-		public function __construct() {
-			global $ngfb;
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
 			// extends the ngfbSocial() method
-			foreach ( $ngfb->social_class_names as $filename => $classname ) {
+			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
 				$classname = 'ngfbSocial' . $classname;
-				$this->website[$filename] = new $classname( &$this );
+				$this->website[$filename] = new $classname( $ngfb_plugin );
 			}
 
 		}
@@ -44,11 +46,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function get_html( $ids = array(), $atts = array() ) {
-			global $ngfb;
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );
-				$ngfb->debug->push( 'calling this->website[' . $id . ']->get_html()' );
+				$this->ngfb->debug->push( 'calling this->website[' . $id . ']->get_html()' );
 				if ( method_exists( &$this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
@@ -58,20 +59,19 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
-			global $ngfb;
 			if ( empty( $ids ) ) {
 
 				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-				if ( is_page() && $ngfb->is_excluded() ) return;
+				if ( is_page() && $this->ngfb->is_excluded() ) return;
 
 				$widget = new ngfbSocialWidget();
 		 		$widget_settings = $widget->get_settings();
 
-				foreach ( $ngfb->social_options_prefix as $id => $opt_prefix ) {
+				foreach ( $this->ngfb->social_options_prefix as $id => $opt_prefix ) {
 
 					// check for enabled buttons on settings page
-					if ( $ngfb->options[$opt_prefix.'_enable'] 
-						&& ( is_singular() || $ngfb->options['buttons_on_index'] ) )
+					if ( $this->ngfb->options[$opt_prefix.'_enable'] 
+						&& ( is_singular() || $this->ngfb->options['buttons_on_index'] ) )
 							$ids[] = $id;
 
 					// check for enabled buttons in widget
@@ -84,7 +84,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$ngfb->debug->push( $pos . ' ids = ' . implode( ', ', $ids ) );
+			$this->ngfb->debug->push( $pos . ' ids = ' . implode( ', ', $ids ) );
 			$js = "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript BEGIN -->\n";
 			$js .= $pos == 'header' ? $this->header_js() : '';
 
@@ -95,11 +95,11 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
-					$opt_name = $ngfb->social_options_prefix[$id] . '_js_loc';
-					$ngfb->debug->push( 'calling this->website[' . $id . ']->get_js()' );
+					$opt_name = $this->ngfb->social_options_prefix[$id] . '_js_loc';
+					$this->ngfb->debug->push( 'calling this->website[' . $id . ']->get_js()' );
 					if ( method_exists( &$this->website[$id], 'get_js' ) && 
-						! empty( $ngfb->options[ $opt_name ] ) && 
-						$ngfb->options[ $opt_name ] == $pos_section )
+						! empty( $this->ngfb->options[ $opt_name ] ) && 
+						$this->ngfb->options[ $opt_name ] == $pos_section )
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
@@ -109,8 +109,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function header_js( $pos = 'id' ) {
-			global $ngfb;
-			$lang = empty( $ngfb->options['gp_lang'] ) ? 'en-US' : $ngfb->options['gp_lang'];
+			$lang = empty( $this->ngfb->options['gp_lang'] ) ? 'en-US' : $this->ngfb->options['gp_lang'];
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "' .  $lang . '" };
 				function ngfb_header_js( script_id, url, async ) {
@@ -128,21 +127,19 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		protected function get_cache_url( $url ) {
-			global $ngfb;
 
 			// facebook javascript sdk doesn't work when hosted locally
 			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
 
 			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
+			if ( empty( $this->ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
 
-			return ( $ngfb->cdn_linker_rewrite( $ngfb->cache->get( $url ) ) );
+			return ( $this->ngfb->cdn_linker_rewrite( $this->ngfb->cache->get( $url ) ) );
 		}
 
 		protected function get_short_url( $url, $short = true ) {
-			global $ngfb;
 			if ( function_exists('curl_init') && ! empty( $short ) ) {
-				$api_key = empty( $ngfb->options['ngfb_googl_api_key'] ) ? '' : $ngfb->options['ngfb_googl_api_key'];
+				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
 				$goo = new ngfbGoogl( $api_key );
 				$url = $goo->shorten( $url );
 			}
