@@ -96,17 +96,17 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">GooglePlus</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->checkbox( 'gp_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->select( 'gp_js_loc', $this->js_locations ) . '</td>',
-				'<th>Language</th><td>' . $this->select( 'gp_lang', $this->website['gplus']->lang ) . '</td>',
-				'<th>Button Type</th><td>' . $this->select( 'gp_action', 
+				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'gp_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
+				'<th>Language</th><td>' . $this->form->get_select( 'gp_lang', $this->lang ) . '</td>',
+				'<th>Button Type</th><td>' . $this->form->get_select( 'gp_action', 
 					array( 
 						'plusone' => 'G +1', 
 						'share' => 'G+ Share',
 					) 
 				) . '</td>',
-				'<th>Button Size</th><td>' . $this->select( 'gp_size', 
+				'<th>Button Size</th><td>' . $this->form->get_select( 'gp_size', 
 					array( 
 						'small' => 'Small [ 15px ]',
 						'medium' => 'Medium [ 20px ]',
@@ -114,7 +114,7 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 						'tall' => 'Tall [ 60px ]',
 					) 
 				) . '</td>',
-				'<th>Annotation</th><td>' . $this->select( 'gp_annotation', 
+				'<th>Annotation</th><td>' . $this->form->get_select( 'gp_annotation', 
 					array( 
 						'inline' => 'Inline',
 						'bubble' => 'Bubble',

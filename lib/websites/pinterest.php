@@ -28,19 +28,19 @@ if ( ! class_exists( 'ngfbAdminPinterest' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th colspan="2" class="social">Pinterest</th>',
 				'<td colspan="2" style="height:5px;"></td>',
 				'<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>featured</em> or <em>attached</em> image.</p></td>',
-				'<th>Add Button to Content</th><td>' . $this->checkbox( 'pin_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'pin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->select( 'pin_js_loc', $this->js_locations ) . '</td>',
-				'<th>Pin Count Layout</th><td>' . $this->select( 'pin_count_layout', 
+				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'pin_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',
+				'<th>Pin Count Layout</th><td>' . $this->form->get_select( 'pin_count_layout', 
 					array( 
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
 						'none' => 'None',
 					)
 				) . '</td>',
-				'<th>Featured Image Size to Share</th><td>' . $this->select_img_size( 'pin_img_size' ) . '</td>',
-				'<th>Image Caption Text</th><td>' . $this->select( 'pin_caption', $this->captions ) . '</td>',
-				'<th>Maximum Caption Length</th><td>' . $this->input( 'pin_cap_len', 'short' ) . ' Characters</td>',
+				'<th>Featured Image Size to Share</th><td>' . $this->form->get_select_img_size( 'pin_img_size' ) . '</td>',
+				'<th>Image Caption Text</th><td>' . $this->form->get_select( 'pin_caption', $this->captions ) . '</td>',
+				'<th>Maximum Caption Length</th><td>' . $this->form->get_input( 'pin_cap_len', 'short' ) . ' Characters</td>',
 			);
 		}
 

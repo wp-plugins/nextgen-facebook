@@ -32,84 +32,81 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			$this->default_options =& $def_opts;
 		}
 
-		public function hidden( $name, $value = '' ) {
+		public function get_hidden( $name, $value = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			// hide the current options value, unless one is given as an argument to the method
 			$value = empty( $value ) && array_key_exists( $name, $this->options ) ? $this->options[$name] : $value;
-			echo '<input type="hidden" name="', $this->options_name, '[', $name, ']" value="', $value, '" />';
+			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />';
 		}
 
-		public function input( $name, $class = '', $id = '' ) {
+		public function get_input( $name, $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			echo '<input type="text" name="', $this->options_name, '[', $name, ']"',
-				( empty( $class ) ? '' : ' class="'.$class.'"' ),
-				( empty( $id ) ? '' : ' id="'.$id.'"' ),
-				' value="', ( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ), '" />';
+			return '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
+				' value="' . ( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ) . '" />';
 		}
 
-		public function checkbox( $name, $echo = true, $check = array( '1', '0' ) ) {
+		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
 			if ( empty( $name ) ) return;	// just in case
-			$input = '<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
+			return '<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
 				( array_key_exists( $name, $this->options ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="Default is ' .
 				( array_key_exists( $name, $this->options ) && 
 					$this->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
-			if ( $echo ) echo $input;
-			else return $input;
 		}
 
-		public function select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
+		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) ) return;	// just in case
-			if ( $is_assoc == false )
-				$is_assoc = $this->ngfb->is_assoc( $values );
-
-			echo '<select name="', $this->options_name, '[', $name, ']"',
-				( empty( $class ) ? '' : ' class="'.$class.'"' ),
-				( empty( $id ) ? '' : ' id="'.$id.'"' ), '>', "\n";
-
+			if ( $is_assoc == false ) $is_assoc = $this->ngfb->is_assoc( $values );
+			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
 			foreach ( (array) $values as $val => $desc ) {
 				if ( $is_assoc == false ) 
 					$val = $desc;
 
-				echo '<option value="', $val, '"';
+				$html .= '<option value="' . $val . '"';
 				if ( array_key_exists( $name, $this->options ) )
-					selected( $this->options[$name], $val );
-				echo '>', $desc;
-				if ( $desc === '' ) echo 'None';
+					$html .= selected( $this->options[$name], $val, false );
+				$html .= '>' . $desc;
+				if ( $desc === '' ) $html .= 'None';
 				if ( array_key_exists( $name, $this->options ) && 
 					$val == $this->default_options[$name] ) 
-						echo ' (default)';
-				echo '</option>', "\n";
+						$html .= ' (default)';
+				$html .= '</option>' . "\n";
 			}
-			echo '</select>';
+			$html .= '</select>';
+			return $html;
 		}
 
-		public function select_img_size( $name ) {
+		public function get_select_img_size( $name ) {
 			if ( empty( $name ) ) return;	// just in case
 			global $_wp_additional_image_sizes;
 			$size_names = get_intermediate_image_sizes();
 			natsort( $size_names );
-			echo '<select name="', $this->options_name, '[', $name, ']">', "\n";
+			$html = '<select name="' . $this->options_name . '[' . $name . ']">' . "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
 				$size = $this->ngfb->get_size_values( $size_name );
-				echo '<option value="', $size_name, '" ';
+				$html .= '<option value="' . $size_name . '" ';
 				if ( array_key_exists( $name, $this->options ) )
-					selected( $this->options[$name], $size_name );
-				echo '>', $size_name, ' [ ', $size['width'], 'x', $size['height'], $size['crop'] ? " cropped" : "", ' ]';
+					$html .= selected( $this->options[$name], $size_name, false );
+				$html .= '>' . $size_name . ' [ ' . $size['width'] . 'x' . $size['height'] . ( $size['crop'] ? " cropped" : "" ) . ' ]';
 				if ( $size_name == $this->default_options[$name] ) echo ' (default)';
-				echo '</option>', "\n";
+				$html .= '</option>' . "\n";
 			}
 			unset ( $size_name );
-			echo '</select>', "\n";
+			$html .= '</select>' . "\n";
+			return $html;
 		}
 
-		public function textarea( $name, $class = '', $id = '' ) {
+		public function get_textarea( $name, $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			echo '<textarea name="', $this->options_name, '[', $name, ']"',
-				( empty( $class ) ? '' : ' class="'.$class.'"' ),
-				( empty( $id ) ? '' : ' id="'.$id.'"' ), '>', 
-				( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ),
+			return '<textarea name="' . $this->options_name . '[' . $name . ']"' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . 
+				( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ) .
 				'</textarea>';
 		}
 

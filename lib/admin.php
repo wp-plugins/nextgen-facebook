@@ -275,7 +275,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<form name="ngfb" method="post" action="options.php" id="settings">
 			<?php 
 				settings_fields( 'ngfb_plugin_options' ); 
-				echo $this->form->hidden( 'ngfb_version', $this->ngfb->opts_version );
+				echo $this->form->get_hidden( 'ngfb_version', $this->ngfb->opts_version );
 			?>
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Settings</span></h3>
@@ -283,17 +283,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Website Topic</th>
-				<td><?php $this->form->select( 'og_art_section', array_merge( array( '' ), $this->website_topics ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'og_art_section', array_merge( array( '' ), $this->website_topics ) ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
 				<th>Article Author URL</th>
-				<td><?php $this->form->select( 'og_author_field', $this->author_fields() ); ?></td>
+				<td><?php echo $this->form->get_select( 'og_author_field', $this->author_fields() ); ?></td>
 				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the "Link Settings" section bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
-				<td><?php $this->form->checkbox( 'og_author_fallback' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_author_fallback' ); ?></td>
 				<td><p>If the value found in the Author URL field (and the Author Link URL in the "Link Settings" section bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
@@ -315,18 +315,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Default Author on Indexes</th>
-				<td><?php $this->form->checkbox( 'og_def_author_on_index' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_index' ); ?></td>
 				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). If the Default Author is <em>None</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author on Search Results</th>
-				<td><?php $this->form->checkbox( 'og_def_author_on_search' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_search' ); ?></td>
 				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. If the Default Author is <em>None</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Image Size Name</th>
 				<td><?php 
-					$this->form->select_img_size( 'og_img_size' ); 
+					echo $this->form->get_select_img_size( 'og_img_size' ); 
 					$size_info = $this->ngfb->get_size_values( $this->ngfb->default_options['og_img_size'] );
 					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				?></td>
@@ -335,7 +335,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Image ID</th>
 				<td><?php 
-					$this->input( 'og_def_img_id', 'short' );
+					echo $this->form->get_input( 'og_def_img_id', 'short' );
 					echo ' in the <select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
 					echo '<option value="wp" ';
 					selected( $this->ngfb->options['og_def_img_id_pre'], 'wp' );
@@ -352,91 +352,91 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Default Image URL</th>
-				<td colspan="2"><?php $this->input( 'og_def_img_url', 'wide' ); ?>
+				<td colspan="2"><?php echo $this->form->get_input( 'og_def_img_url', 'wide' ); ?>
 				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
 				</td>
 			</tr>
 			<tr>
 				<th>Default Image on Indexes</th>
-				<td><?php $this->form->checkbox( 'og_def_img_on_index' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_def_img_on_index' ); ?></td>
 				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, <?php echo NGFB_ACRONYM; ?> will attempt to use an image from the first entry on the webpage (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Image on Search Results</th>
-				<td><?php $this->form->checkbox( 'og_def_img_on_search' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_def_img_on_search' ); ?></td>
 				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
 			</tr>
 			<?php	if ( $this->ngfb->is_avail['ngg'] == true ) : ?>
 			<tr>
 				<th>Add Featured Image Tags</th>
-				<td><?php $this->form->checkbox( 'og_ngg_tags' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_ngg_tags' ); ?></td>
 				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery (NGG), then add that image's tags to the Open Graph tag list (default is unchecked).</p></td>
 			</tr>
-			<?php	else : echo $this->form->hidden( 'og_ngg_tags' ); endif; ?>
+			<?php	else : echo $this->form->get_hidden( 'og_ngg_tags' ); endif; ?>
 			<tr>
 				<th>Add Page Ancestor Tags</th>
-				<td><?php $this->form->checkbox( 'og_page_parent_tags' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_page_parent_tags' ); ?></td>
 				<td><p>Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.</p></td>
 			</tr>
 			<tr>
 				<th>Add Page Title as Tag</th>
-				<td><?php $this->form->checkbox( 'og_page_title_tag' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_page_title_tag' ); ?></td>
 				<td><p>Add the title of the Page to the Open Graph tag list as well. If the "Add Page Ancestor Tags" option is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Images</th>
-				<td><?php $this->form->select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short', null, true ); ?></td>
+				<td><?php echo $this->form->get_select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Number of Videos</th>
-				<td><?php $this->form->select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short', null, true ); ?></td>
+				<td><?php echo $this->form->get_select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Title Separator</th>
-				<td><?php $this->input( 'og_title_sep', 'short' ); ?></td>
+				<td><?php echo $this->form->get_input( 'og_title_sep', 'short' ); ?></td>
 				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $this->ngfb->default_options['og_title_sep']; ?>').</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Title Length</th>
-				<td><?php $this->input( 'og_title_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'og_title_len', 'short' ); ?> Characters</td>
 				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $this->ngfb->default_options['og_title_len']; ?> characters).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Description Length</th>
-				<td><?php $this->input( 'og_desc_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'og_desc_len', 'short' ); ?> Characters</td>
 				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->default_options['og_desc_len']; ?>).</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
-				<td><?php $this->form->checkbox( 'og_desc_strip' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_desc_strip' ); ?></td>
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
 			<?php	// hide WP-WikiBox option if not installed and activated
 				if ( $this->ngfb->is_avail['wikibox'] == true ) : ?>
 			<tr>
 				<th>Use WP-WikiBox for Pages</th>
-				<td><?php $this->form->checkbox( 'og_desc_wiki' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_desc_wiki' ); ?></td>
 				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. <?php echo NGFB_ACRONYM; ?> can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, then the original content of the Page will be used.</p></td>
 			</tr>
 			<tr>
 				<th>WP-WikiBox Tag Prefix</th>
-				<td><?php $this->input( 'og_wiki_tag' ); ?></td>
+				<td><?php echo $this->form->get_input( 'og_wiki_tag' ); ?></td>
 				<td><p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p></td>
 			</tr>
 			<?php	else : 
-					echo $this->form->hidden( 'og_desc_wiki' ); 
-					echo $this->form->hidden( 'og_wiki_tag' ); 
+					echo $this->form->get_hidden( 'og_desc_wiki' ); 
+					echo $this->form->get_hidden( 'og_wiki_tag' ); 
 				endif; ?>
 			<tr>
 				<th>Facebook Admin(s)</th>
-				<td><?php $this->input( 'og_admins' ); ?></td>
+				<td><?php echo $this->form->get_input( 'og_admins' ); ?></td>
 				<td><p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those accounts.</p></td>
 			</tr>
 			<tr>
 				<th>Facebook App ID</th>
-				<td><?php $this->input( 'og_app_id' ); ?></td>
+				<td><?php echo $this->form->get_input( 'og_app_id' ); ?></td>
 				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for accounts associated with the Application ID.</p></td>
 			</tr>
 			</table>
@@ -449,12 +449,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Author Link URL</th>
-				<td><?php $this->form->select( 'link_author_field', $this->author_fields() ); ?></td>
+				<td><?php echo $this->form->get_select( 'link_author_field', $this->author_fields() ); ?></td>
 				<td><p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>. The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p></td>
 			</tr>
 			<tr>
 				<th>Publisher Link URL</th>
-				<td colspan="2"><?php $this->input( 'link_publisher_url', 'wide' ); ?></td>
+				<td colspan="2"><?php echo $this->form->get_input( 'link_publisher_url', 'wide' ); ?></td>
 			</tr>
 			</table>
 			</div><!-- .inside -->
@@ -476,7 +476,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				foreach ( $this->ngfb->default_options as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
-							<td>'. $this->form->checkbox( $opt, false ) . '</td>';
+							<td>'. $this->form->get_checkbox( $opt ) . '</td>';
 				}
 				unset( $opt, $val );
 				$per_col = ceil( count( $cells ) / $og_cols );
@@ -488,7 +488,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<tr>
 				<th>Include Empty og:* Meta Tags</th>
-				<td><?php $this->form->checkbox( 'og_empty_tags' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'og_empty_tags' ); ?></td>
 				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is unchecked).</p></td>
 			</tr>
 			</table>
@@ -508,20 +508,20 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Include on Index Webpages</th>
-				<td><?php $this->form->checkbox( 'buttons_on_index' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'buttons_on_index' ); ?></td>
 				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
 				if ( $this->ngfb->is_avail['expages'] == true ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
-				<td><?php $this->form->checkbox( 'buttons_on_ex_pages' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'buttons_on_ex_pages' ); ?></td>
 				</td><td colspan="2"><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
 			</tr>
-			<?php	else : echo $this->form->hidden( 'buttons_on_ex_pages' ); endif; ?>
+			<?php	else : echo $this->form->get_hidden( 'buttons_on_ex_pages' ); endif; ?>
 			<tr>
 				<th>Location in Content Text</th>
-				<td><?php $this->form->select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 			</tr>
 			</table>
 
@@ -536,50 +536,50 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'fb_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'fb_enable' ); ?></td>
 				<!-- Google+ -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'gp_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'gp_enable' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 				<!-- Google+ -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'fb_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'fb_js_loc', $this->js_locations ); ?></td>
 				<!-- Google+ -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'gp_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'gp_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Language</th>
-				<td><?php $this->form->select( 'fb_lang', $this->website['facebook']->lang ); ?></td>
+				<td><?php echo $this->form->get_select( 'fb_lang', $this->website['facebook']->lang ); ?></td>
 				<!-- Google+ -->
 				<th>Language</th>
-				<td><?php $this->form->select( 'gp_lang', $this->website['gplus']->lang ); ?></td>
+				<td><?php echo $this->form->get_select( 'gp_lang', $this->website['gplus']->lang ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Markup Language</th>
-				<td><?php $this->form->select( 'fb_markup', array( 'html5' => 'HTML5', 'xfbml' => 'XFBML' ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'fb_markup', array( 'html5' => 'HTML5', 'xfbml' => 'XFBML' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Button Type</th>
-				<td><?php $this->form->select( 'gp_action', array( 'plusone' => 'G +1', 'share' => 'G+ Share' ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'gp_action', array( 'plusone' => 'G +1', 'share' => 'G+ Share' ) ); ?></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Include Send Button</th>
-				<td><?php $this->form->checkbox( 'fb_send' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'fb_send' ); ?></td>
 				<!-- Google+ -->
 				<th>Button Size</th>
-				<td><?php $this->form->select( 'gp_size', array( 
+				<td><?php echo $this->form->get_select( 'gp_size', array( 
 					'small' => 'Small [ 15px ]',
 					'medium' => 'Medium [ 20px ]',
 					'standard' => 'Standard [ 24px ]',
@@ -588,13 +588,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Button Layout</th>
-				<td><?php $this->form->select( 'fb_layout', array( 
+				<td><?php echo $this->form->get_select( 'fb_layout', array( 
 					'standard' => 'Standard',
 					'button_count' => 'Button Count',
 					'box_count' => 'Box Count' ) ); ?></td>
 				<!-- Google+ -->
 				<th>Annotation</th>
-				<td><?php $this->form->select( 'gp_annotation', array( 
+				<td><?php echo $this->form->get_select( 'gp_annotation', array( 
 					'inline' => 'Inline',
 					'bubble' => 'Bubble',
 					'vertical-bubble' => 'Vertical Bubble',
@@ -603,21 +603,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Default Width</th>
-				<td><?php $this->input( 'fb_width', 'short' ); ?></td>
+				<td><?php echo $this->form->get_input( 'fb_width', 'short' ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Show Faces</th>
-				<td><?php $this->form->checkbox( 'fb_show_faces' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'fb_show_faces' ); ?></td>
 				<!-- Google+ -->
 				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<!-- Facebook -->
 				<th>Button Font</th>
-				<td><?php $this->form->select( 'fb_font', array( 
+				<td><?php echo $this->form->get_select( 'fb_font', array( 
 					'arial' => 'Arial',
 					'lucida grande' => 'Lucida Grande',
 					'segoe ui' => 'Segoe UI',
@@ -630,7 +630,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Button Color Scheme</th>
-				<td><?php $this->form->select( 'fb_colorscheme', array( 
+				<td><?php echo $this->form->get_select( 'fb_colorscheme', array( 
 					'light' => 'Light',
 					'dark' => 'Dark' ) ); ?></td>
 				<!-- Google+ -->
@@ -639,7 +639,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Facebook -->
 				<th>Facebook Action Name</th>
-				<td><?php $this->form->select( 'fb_action', array( 
+				<td><?php echo $this->form->get_select( 'fb_action', array( 
 					'like' => 'Like',
 					'recommend' => 'Recommend' ) ); ?></td>
 				<!-- Google+ -->
@@ -656,45 +656,45 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- LinkedIn -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'linkedin_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'linkedin_enable' ); ?></td>
 				<!-- Twitter -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'twitter_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'twitter_enable' ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 				<!-- Twitter -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'twitter_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'linkedin_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'linkedin_js_loc', $this->js_locations ); ?></td>
 				<!-- Twitter -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'twitter_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'twitter_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<th>Counter Mode</th>
-				<td><?php $this->form->select( 'linkedin_counter', array( 
+				<td><?php echo $this->form->get_select( 'linkedin_counter', array( 
 					'right' => 'Horizontal',
 					'top' => 'Vertical',
 					'none' => 'None' ) ); ?></td>
 				<!-- Twitter -->
 				<th>Language</th>
-				<td><?php $this->form->select( 'twitter_lang', $this->website['twitter']->lang ); ?></td>
+				<td><?php echo $this->form->get_select( 'twitter_lang', $this->website['twitter']->lang ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<th>Show Zero in Counter</th>
-				<td><?php $this->form->checkbox( 'linkedin_showzero' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'linkedin_showzero' ); ?></td>
 				<!-- Twitter -->
 				<th>Count Box Position</th>
-				<td><?php $this->form->select( 'twitter_count', array( 
+				<td><?php echo $this->form->get_select( 'twitter_count', array( 
 					'horizontal' => 'Horizontal',
 					'vertical' => 'Vertical',
 					'none' => 'None' ) ); ?></td>
@@ -704,7 +704,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Button Size</th>
-				<td><?php $this->form->select( 'twitter_size', array( 
+				<td><?php echo $this->form->get_select( 'twitter_size', array( 
 					'medium' => 'Medium',
 					'large' => 'Large' ) ); ?></td>
 			</tr>
@@ -713,28 +713,28 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Tweet Text</th>
-				<td><?php $this->form->select( 'twitter_caption', $this->captions ); ?></td>
+				<td><?php echo $this->form->get_select( 'twitter_caption', $this->captions ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Maximum Text Length</th>
-				<td><?php $this->input( 'twitter_cap_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'twitter_cap_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Do Not Track</th>
-				<td><?php $this->form->checkbox( 'twitter_dnt' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'twitter_dnt' ); ?></td>
 			</tr>
 			<tr>
 				<!-- LinkedIn -->
 				<td colspan="2"></td>
 				<!-- Twitter -->
 				<th>Shorten URLs</th>
-				<td><?php $this->form->checkbox( 'twitter_shorten' ); ?><p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>
+				<td><?php echo $this->form->get_checkbox( 'twitter_shorten' ); ?><p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>
 			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
@@ -753,31 +753,31 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'pin_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'pin_enable' ); ?></td>
 				<!-- tumblr -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'tumblr_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'tumblr_enable' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'pin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 				<!-- tumblr -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'tumblr_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'pin_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'pin_js_loc', $this->js_locations ); ?></td>
 				<!-- tumblr -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'tumblr_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'tumblr_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<th>Pin Count Layout</th>
-				<td><?php $this->form->select( 'pin_count_layout', array( 
+				<td><?php echo $this->form->get_select( 'pin_count_layout', array( 
 					'horizontal' => 'Horizontal',
 					'vertical' => 'Vertical',
 					'none' => 'None' ) ); ?></td>
@@ -811,52 +811,52 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- Pinterest -->
 				<th>Featured Image Size to Share</th>
-				<td><?php $this->form->select_img_size( 'pin_img_size' ); ?></td>
+				<td><?php echo $this->form->get_select_img_size( 'pin_img_size' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<th>Image Caption Text</th>
-				<td><?php $this->form->select( 'pin_caption', $this->captions ); ?></td>
+				<td><?php echo $this->form->get_select( 'pin_caption', $this->captions ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<th>Maximum Caption Length</th>
-				<td><?php $this->input( 'pin_cap_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'pin_cap_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Maximum <u>Link</u> Description Length</th>
-				<td><?php $this->input( 'tumblr_desc_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'tumblr_desc_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Prioritize Featured Image</th>
-				<td><?php $this->form->checkbox( 'tumblr_photo' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'tumblr_photo' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Featured Image Size to Share</th>
-				<td><?php $this->form->select_img_size( 'tumblr_img_size' ); ?></td>
+				<td><?php echo $this->form->get_select_img_size( 'tumblr_img_size' ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Image and Video Caption Text</th>
-				<td><?php $this->form->select( 'tumblr_caption', $this->captions ); ?></td>
+				<td><?php echo $this->form->get_select( 'tumblr_caption', $this->captions ); ?></td>
 			</tr>
 			<tr>
 				<!-- Pinterest -->
 				<td colspan="2"></td>
 				<!-- tumblr -->
 				<th>Maximum Caption Length</th>
-				<td><?php $this->input( 'tumblr_cap_len', 'short' ); ?> Characters</td>
+				<td><?php echo $this->form->get_input( 'tumblr_cap_len', 'short' ); ?> Characters</td>
 			</tr>
 			<tr><td style="height:5px;"></td></tr>
 			<tr>
@@ -867,17 +867,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<!-- StumbleUpon -->
 				<th>Add Button to Content</th>
-				<td><?php $this->form->checkbox( 'stumble_enable' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'stumble_enable' ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumbleUpon -->
 				<th>Preferred Order</th>
-				<td><?php $this->form->select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
+				<td><?php echo $this->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumblrUpon -->
 				<th>JavaScript in</th>
-				<td><?php $this->form->select( 'stumble_js_loc', $this->js_locations ); ?></td>
+				<td><?php echo $this->form->get_select( 'stumble_js_loc', $this->js_locations ); ?></td>
 			</tr>
 			<tr>
 				<!-- StumbleUpon -->
@@ -924,68 +924,68 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Reset on Activate</th>
-				<td><?php $this->form->checkbox( 'ngfb_reset' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_reset' ); ?></td>
 				<td><p>Check this option if you would like to reset the <?php echo NGFB_ACRONYM; ?> settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>
-				<td><?php $this->form->checkbox( 'ngfb_debug' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_debug' ); ?></td>
 				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
 				<th>Enable Shortcode(s)</th>
-				<td><?php $this->form->checkbox( 'ngfb_enable_shortcode' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_enable_shortcode' ); ?></td>
 				<td><p>Enable the NGFB content shortcode(s) (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Ignore Small Images</th>
-				<td><?php $this->form->checkbox( 'ngfb_skip_small_img' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
 				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content (provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Apply Title Filters</th>
-				<td><?php $this->form->checkbox( 'ngfb_filter_title' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_title' ); ?></td>
 				<td><p>Apply the standard WordPress filters to the webpage title (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Content Filters</th>
-				<td><?php $this->form->checkbox( 'ngfb_filter_content' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_content' ); ?></td>
 				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the WordPress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the WordPress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Excerpt Filters</th>
-				<td><?php $this->form->checkbox( 'ngfb_filter_excerpt' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_excerpt' ); ?></td>
 				<td><p>There shouldn't be any need to filter excerpt text, but the option is here if you need it (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Verify SSL Certificates</th>
-				<td><?php $this->form->checkbox( 'ngfb_verify_certs' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_verify_certs' ); ?></td>
 				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
 			</tr>
 			<tr>
 				<th>File Cache Expiry</th>
-				<td nowrap><?php $this->form->select( 'ngfb_file_cache_hrs', range( 0, NGFB_MAX_CACHE ), 'short' ); ?> Hours</td>
+				<td nowrap><?php echo $this->form->get_select( 'ngfb_file_cache_hrs', range( 0, NGFB_MAX_CACHE ), 'short' ); ?> Hours</td>
 				<td><p>NGFB can save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. A value of "0" hours (the default) disables this feature. Caching should only be enabled if your infrastructure can provide these files faster and more reliably than the original websites. All possible images and javascript will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. The cached files will be provided from the <?php echo NGFB_CACHEURL; ?> folder.</p></td>
 			</tr>
 			<tr>
 				<th>Object Cache Expiry</th>
-				<td><?php $this->input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
+				<td><?php echo $this->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
 				<td><p>NGFB saves the rendered (filtered) content text to a non-presistant cache (wp_cache), and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and webpages will not be reflected in the Open Graph and NGFB social buttons until the object cache has expired. Decrease this value if your content is often revised after publishing, or increase it to improve performance. The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
 			</tr>
 			<tr>
 				<th>Goo.gl Simple API Access Key</th>
 				<td></td>
-				<td><?php $this->input( 'ngfb_googl_api_key', 'wide' ); ?>
+				<td><?php echo $this->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
 				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
 			<?php	// don't show option if pro version installed
 				if ( $this->ngfb->is_avail['ngfbpro'] == false ) : ?>
 			<tr>
 				<th>I Have Donated</th>
-				<td><?php $this->form->checkbox( 'ngfb_donated' ); ?></td>
+				<td><?php echo $this->form->get_checkbox( 'ngfb_donated' ); ?></td>
 				<td><p>Check this option if you have <a href="#top">donated a few dollars</a>, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewed and rated <?php echo NGFB_ACRONYM; ?></a>, or helped in the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank"><?php echo NGFB_ACRONYM; ?> support forum</a> (default is unchecked). I haven't received many donations yet (I can count them on one hand), so <u>your donation will certainly be appreciated</u>. Thank you.</p></td>
 			</tr>
-			<?php	else : echo $this->form->hidden( 'ngfb_donated' ); endif; ?>
+			<?php	else : echo $this->form->get_hidden( 'ngfb_donated' ); endif; ?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->

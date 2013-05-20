@@ -49,15 +49,15 @@ if ( ! class_exists( 'ngfbAdminTumblr' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th colspan="2" class="social">Tumblr</th>',
 				'<td colspan="2" style="height:5px;"></td>',
 				'<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when the option is checked), embedded video, <em>quote</em> Post format content, or link to the webpage.</p></td>',
-				'<th>Add Button to Content</th><td>' . $this->checkbox( 'tumblr_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'tumblr_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
+				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'tumblr_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
 				'<th rowspan="4">tumblr Button Style</th><td rowspan="4">' . $buttons . '</td>',
-				'<th>Maximum <u>Link</u> Description Length</th><td>' . $this->input( 'tumblr_desc_len', 'short' ) . ' Characters</td>',
-				'<th>Prioritize Featured Image</th><td>' . $this->checkbox( 'tumblr_photo' ) . '</td>',
-				'<th>Featured Image Size to Share</th><td>' . $this->select_img_size( 'tumblr_img_size' ) . '</td>',
-				'<th>Image and Video Caption Text</th><td>' . $this->select( 'tumblr_caption', $this->captions ) . '</td>',
-				'<th>Maximum Caption Length</th><td>' . $this->input( 'tumblr_cap_len', 'short' ) . ' Characters</td>',
+				'<th>Maximum <u>Link</u> Description Length</th><td>' . $this->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters</td>',
+				'<th>Prioritize Featured Image</th><td>' . $this->form->get_checkbox( 'tumblr_photo' ) . '</td>',
+				'<th>Featured Image Size to Share</th><td>' . $this->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
+				'<th>Image and Video Caption Text</th><td>' . $this->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
+				'<th>Maximum Caption Length</th><td>' . $this->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters</td>',
 			);
 		}
 

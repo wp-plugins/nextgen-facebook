@@ -27,17 +27,17 @@ if ( ! class_exists( 'ngfbAdminLinkedIn' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">LinkedIn</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->checkbox( 'linkedin_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
-				'<th>Counter Mode</th><td>' . $this->select( 'linkedin_counter', 
+				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'linkedin_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
+				'<th>Counter Mode</th><td>' . $this->form->get_select( 'linkedin_counter', 
 					array( 
 						'right' => 'Horizontal',
 						'top' => 'Vertical',
 						'none' => 'None',
 					)
 				) . '</td>',
-				'<th>Show Zero in Counter</th><td>' . $this->checkbox( 'linkedin_showzero' ) . '</td>',
+				'<th>Show Zero in Counter</th><td>' . $this->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
 			);
 		}
 
