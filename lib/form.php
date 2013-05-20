@@ -93,7 +93,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				if ( array_key_exists( $name, $this->options ) )
 					$html .= selected( $this->options[$name], $size_name, false );
 				$html .= '>' . $size_name . ' [ ' . $size['width'] . 'x' . $size['height'] . ( $size['crop'] ? " cropped" : "" ) . ' ]';
-				if ( $size_name == $this->default_options[$name] ) echo ' (default)';
+				if ( $size_name == $this->default_options[$name] ) 
+					$html .= ' (default)';
 				$html .= '</option>' . "\n";
 			}
 			unset ( $size_name );

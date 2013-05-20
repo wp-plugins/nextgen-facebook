@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.dev4
+Version: 5.0.dev5
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.dev4';	// only for display purposes
+		public $version = '5.0.dev5';	// only for display purposes
 		public $opts_version = '21';	// increment when adding/removing $default_options
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -404,12 +404,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
-
-				// extends the ngfbAdmin() method
-				foreach ( $this->social_class_names as $filename => $classname ) {
-					$classname = 'ngfbAdmin' . $classname;
-					$this->admin->website[$filename] = new $classname();
-				}
 			}
 
 			if ( $this->is_avail['ngfbpro'] == true )

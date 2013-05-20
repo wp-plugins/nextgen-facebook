@@ -23,7 +23,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public $plugin_name = '';
 		public $msg_inf = array();
 		public $msg_err = array();
-		public $website = array();
+		public $lang = array();
 
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		public $website_topics = array(
@@ -84,20 +84,22 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'Women\'s',
 		);
 
-		public $js_locations = array(
+		protected $js_locations = array(
 			'header' => 'Header',
 			'footer' => 'Footer',
 		);
 
-		public $captions = array(
+		protected $captions = array(
 			'title' => 'Title Only',
 			'excerpt' => 'Excerpt Only',
 			'both' => 'Title and Excerpt',
 			'none' => 'None',
 		);
 
+		protected $form;		// ngfbForm
+
 		private $ngfb;		// ngfbPlugin
-		private $form;		// ngfbForm
+		private $website = array();
 		private $min_wp_version = '3.0';
 
 		public function __construct( &$ngfb_plugin ) {
@@ -114,6 +116,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
+
+			// extends the ngfbAdmin() method
+			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
+				$classname = 'ngfbAdmin' . $classname;
+				$this->website[$filename] = new $classname( $ngfb_plugin );
+			}
 		}
 	
 		function check_wp_version() {
@@ -500,23 +508,26 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div class="inside">	
 			<table class="ngfb-settings">
 			<tr>
-				<td colspan="4">
+				<td>
 				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
 				
 				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_ACRONYM; ?> Social Sharing Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
 				</td>
 			</tr>
+			</table>
+
+			<table class="ngfb-settings">
 			<tr>
 				<th>Include on Index Webpages</th>
 				<td><?php echo $this->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td colspan="2"><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
+				<td><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
 				if ( $this->ngfb->is_avail['expages'] == true ) : ?>
 			<tr>
 				<th>Add to Excluded Pages</th>
 				<td><?php echo $this->form->get_checkbox( 'buttons_on_ex_pages' ); ?></td>
-				</td><td colspan="2"><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
+				<td><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
 			</tr>
 			<?php	else : echo $this->form->get_hidden( 'buttons_on_ex_pages' ); endif; ?>
 			<tr>
@@ -526,394 +537,26 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</table>
 
 			<table class="ngfb-settings">
-			<tr>
-				<!-- Facebook -->
-				<th colspan="2" class="social">Facebook</th>
-				<!-- Google+ -->
-				<th colspan="2" class="social">Google+</th>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'fb_enable' ); ?></td>
-				<!-- Google+ -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'gp_enable' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-				<!-- Google+ -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'fb_js_loc', $this->js_locations ); ?></td>
-				<!-- Google+ -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'gp_js_loc', $this->js_locations ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Language</th>
-				<td><?php echo $this->form->get_select( 'fb_lang', $this->website['facebook']->lang ); ?></td>
-				<!-- Google+ -->
-				<th>Language</th>
-				<td><?php echo $this->form->get_select( 'gp_lang', $this->website['gplus']->lang ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Markup Language</th>
-				<td><?php echo $this->form->get_select( 'fb_markup', array( 'html5' => 'HTML5', 'xfbml' => 'XFBML' ) ); ?></td>
-				<!-- Google+ -->
-				<th>Button Type</th>
-				<td><?php echo $this->form->get_select( 'gp_action', array( 'plusone' => 'G +1', 'share' => 'G+ Share' ) ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Include Send Button</th>
-				<td><?php echo $this->form->get_checkbox( 'fb_send' ); ?></td>
-				<!-- Google+ -->
-				<th>Button Size</th>
-				<td><?php echo $this->form->get_select( 'gp_size', array( 
-					'small' => 'Small [ 15px ]',
-					'medium' => 'Medium [ 20px ]',
-					'standard' => 'Standard [ 24px ]',
-					'tall' => 'Tall [ 60px ]' ) ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Button Layout</th>
-				<td><?php echo $this->form->get_select( 'fb_layout', array( 
-					'standard' => 'Standard',
-					'button_count' => 'Button Count',
-					'box_count' => 'Box Count' ) ); ?></td>
-				<!-- Google+ -->
-				<th>Annotation</th>
-				<td><?php echo $this->form->get_select( 'gp_annotation', array( 
-					'inline' => 'Inline',
-					'bubble' => 'Bubble',
-					'vertical-bubble' => 'Vertical Bubble',
-					'none' => 'None' ) ); ?></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Default Width</th>
-				<td><?php echo $this->form->get_input( 'fb_width', 'short' ); ?></td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Show Faces</th>
-				<td><?php echo $this->form->get_checkbox( 'fb_show_faces' ); ?></td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Button Font</th>
-				<td><?php echo $this->form->get_select( 'fb_font', array( 
-					'arial' => 'Arial',
-					'lucida grande' => 'Lucida Grande',
-					'segoe ui' => 'Segoe UI',
-					'tahoma' => 'Tahoma',
-					'trebuchet ms' => 'Trebuchet MS',
-					'verdana' => 'Verdana' ) ); ?></td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>				
-			<tr>
-				<!-- Facebook -->
-				<th>Button Color Scheme</th>
-				<td><?php echo $this->form->get_select( 'fb_colorscheme', array( 
-					'light' => 'Light',
-					'dark' => 'Dark' ) ); ?></td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr>
-				<!-- Facebook -->
-				<th>Facebook Action Name</th>
-				<td><?php echo $this->form->get_select( 'fb_action', array( 
-					'like' => 'Like',
-					'recommend' => 'Recommend' ) ); ?></td>
-				<!-- Google+ -->
-				<td colspan="2"></td>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th colspan="2" class="social">LinkedIn</th>
-				<!-- Twitter -->
-				<th colspan="2" class="social">Twitter</th>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'linkedin_enable' ); ?></td>
-				<!-- Twitter -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'twitter_enable' ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-				<!-- Twitter -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'linkedin_js_loc', $this->js_locations ); ?></td>
-				<!-- Twitter -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'twitter_js_loc', $this->js_locations ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th>Counter Mode</th>
-				<td><?php echo $this->form->get_select( 'linkedin_counter', array( 
-					'right' => 'Horizontal',
-					'top' => 'Vertical',
-					'none' => 'None' ) ); ?></td>
-				<!-- Twitter -->
-				<th>Language</th>
-				<td><?php echo $this->form->get_select( 'twitter_lang', $this->website['twitter']->lang ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<th>Show Zero in Counter</th>
-				<td><?php echo $this->form->get_checkbox( 'linkedin_showzero' ); ?></td>
-				<!-- Twitter -->
-				<th>Count Box Position</th>
-				<td><?php echo $this->form->get_select( 'twitter_count', array( 
-					'horizontal' => 'Horizontal',
-					'vertical' => 'Vertical',
-					'none' => 'None' ) ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th>Button Size</th>
-				<td><?php echo $this->form->get_select( 'twitter_size', array( 
-					'medium' => 'Medium',
-					'large' => 'Large' ) ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th>Tweet Text</th>
-				<td><?php echo $this->form->get_select( 'twitter_caption', $this->captions ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th>Maximum Text Length</th>
-				<td><?php echo $this->form->get_input( 'twitter_cap_len', 'short' ); ?> Characters</td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th>Do Not Track</th>
-				<td><?php echo $this->form->get_checkbox( 'twitter_dnt' ); ?></td>
-			</tr>
-			<tr>
-				<!-- LinkedIn -->
-				<td colspan="2"></td>
-				<!-- Twitter -->
-				<th>Shorten URLs</th>
-				<td><?php echo $this->form->get_checkbox( 'twitter_shorten' ); ?><p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- Pinterest -->
-				<th colspan="2" class="social">Pinterest</th>
-				<!-- tumblr -->
-				<th colspan="2" class="social">tumblr</th>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>featured</em> or <em>attached</em> image.</p></td>
-				<!-- tumblr -->
-				<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when the option is checked), embedded video, <em>quote</em> Post format content, or link to the webpage.</p></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'pin_enable' ); ?></td>
-				<!-- tumblr -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'tumblr_enable' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-				<!-- tumblr -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'pin_js_loc', $this->js_locations ); ?></td>
-				<!-- tumblr -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'tumblr_js_loc', $this->js_locations ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Pin Count Layout</th>
-				<td><?php echo $this->form->get_select( 'pin_count_layout', array( 
-					'horizontal' => 'Horizontal',
-					'vertical' => 'Vertical',
-					'none' => 'None' ) ); ?></td>
-				<!-- tumblr -->
-				<th rowspan="4">tumblr Button Style</th>
-				<td rowspan="4">
-					<div class="btn_wizard_row clearfix" id="button_styles">
-					<?php
-						foreach ( range( 1, 4 ) as $i ) {
-							echo '<div class="btn_wizard_column share_', $i, '">';
-							foreach ( array( '', 'T' ) as $t ) {
-								echo '
-									<div class="btn_wizard_example clearfix">
-										<label for="share_', $i, $t, '">
-											<input type="radio" id="share_', $i, $t, '" 
-												name="', NGFB_OPTIONS_NAME, '[tumblr_button_style]" 
-												value="share_', $i, $t, '" ', 
-												checked( 'share_'.$i.$t, $this->ngfb->options['tumblr_button_style'], false ), '/>
-											<img src="http://platform.tumblr.com/v1/share_', $i, $t, '.png" 
-												height="20" class="share_button_image"/>
-										</label>
-									</div>
-								';
-							}
-							echo '</div>';
-						}
-					?>
-					</div> 
-				</td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Featured Image Size to Share</th>
-				<td><?php echo $this->form->get_select_img_size( 'pin_img_size' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Image Caption Text</th>
-				<td><?php echo $this->form->get_select( 'pin_caption', $this->captions ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<th>Maximum Caption Length</th>
-				<td><?php echo $this->form->get_input( 'pin_cap_len', 'short' ); ?> Characters</td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"></td>
-				<!-- tumblr -->
-				<th>Maximum <u>Link</u> Description Length</th>
-				<td><?php echo $this->form->get_input( 'tumblr_desc_len', 'short' ); ?> Characters</td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"></td>
-				<!-- tumblr -->
-				<th>Prioritize Featured Image</th>
-				<td><?php echo $this->form->get_checkbox( 'tumblr_photo' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"></td>
-				<!-- tumblr -->
-				<th>Featured Image Size to Share</th>
-				<td><?php echo $this->form->get_select_img_size( 'tumblr_img_size' ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"></td>
-				<!-- tumblr -->
-				<th>Image and Video Caption Text</th>
-				<td><?php echo $this->form->get_select( 'tumblr_caption', $this->captions ); ?></td>
-			</tr>
-			<tr>
-				<!-- Pinterest -->
-				<td colspan="2"></td>
-				<!-- tumblr -->
-				<th>Maximum Caption Length</th>
-				<td><?php echo $this->form->get_input( 'tumblr_cap_len', 'short' ); ?> Characters</td>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- StumbleUpon -->
-				<th colspan="2" class="social">StumbleUpon</th>
-			</tr>
-			<tr><td style="height:5px;"></td></tr>
-			<tr>
-				<!-- StumbleUpon -->
-				<th>Add Button to Content</th>
-				<td><?php echo $this->form->get_checkbox( 'stumble_enable' ); ?></td>
-			</tr>
-			<tr>
-				<!-- StumbleUpon -->
-				<th>Preferred Order</th>
-				<td><?php echo $this->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ); ?></td>
-			</tr>
-			<tr>
-				<!-- StumblrUpon -->
-				<th>JavaScript in</th>
-				<td><?php echo $this->form->get_select( 'stumble_js_loc', $this->js_locations ); ?></td>
-			</tr>
-			<tr>
-				<!-- StumbleUpon -->
-				<th>StumbleUpon Badge</th>
-				<td>
-					<style type="text/css">
-						.badge { 
-							display:block;
-							background: url("http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g") no-repeat transparent; 
-							width:130px;
-							margin:0 0 10px 0;
-						}
-						.badge-col-left { display:inline-block; float:left; }
-						.badge-col-right { display:inline-block; }
-						#badge-1 { height:60px; background-position:50% 0px; }
-						#badge-2 { height:30px; background-position:50% -100px; }
-						#badge-3 { height:20px; background-position:50% -200px; }
-						#badge-4 { height:60px; background-position:50% -300px; }
-						#badge-5 { height:30px; background-position:50% -400px; }
-						#badge-6 { height:20px; background-position:50% -500px; }
-					</style>
-					<?php
-						foreach ( range( 1, 6 ) as $i ) {
-							switch ( $i ) {
-								case '1' : echo '<div class="badge-col-left">', "\n"; break;
-								case '4' : echo '</div><div class="badge-col-right">', "\n"; break;
-							}
-							echo '<div class="badge" id="badge-', $i, '">', "\n";
-							echo '<input type="radio" name="', NGFB_OPTIONS_NAME, '[stumble_badge]" value="', $i, '" ', 
-								checked( $i, $this->ngfb->options['stumble_badge'], false ), '/>', "\n";
-							echo '</div>', "\n";
-							switch ( $i ) { case '6' : echo '</div>', "\n"; break; }
-						}
-					?>
-				</td>
-			</tr>
+			<?php
+				$col = 0;
+				$box = -1;	// a "box" is a collection of rows from one website class
+				$section = -1;	// a "section" is a row of several boxes
+				$max_col = 2;
+				$rows = array();
+				foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
+					$box++;				// increment the website box number (first box is 0)
+					$col = $box % $max_col;		// determine column number based on the box number
+					if ( $col == 0 ) $section++;	// increment section if we're on column 0
+					foreach ( $this->website[$filename]->get_rows() as $num => $row ) {
+						$rows[$section][$num] .= $row;
+					}
+				}
+				foreach ( $rows as $section ) {
+					foreach ( $section as $row ) {
+						echo "<tr>", $row, "</tr>\n";
+					}
+				}
+			?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
@@ -1006,18 +649,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				table.ngfb-settings th { 
 					text-align:right;
 					white-space:nowrap; 
-					padding:2px 6px 2px 6px; 
-					min-width:180px;
+					padding:4 6px 0 4px; 
+					width:220px;
 				}
 				table.ngfb-settings th.social { 
 					font-weight:bold; 
 					text-align:left; 
+					padding:2px 10px 2px 10px; 
 					background-color:#eee; 
 					border:1px solid #ccc;
 					width:50%;
 				}
-				table.ngfb-settings th.metatag { width:220px; }
-				table.ngfb-settings td { padding:2px 6px 2px 6px; }
+				table.ngfb-settings td { padding:0 4px 0 4px; }
 				table.ngfb-settings td select,
 				table.ngfb-settings td input { margin:0 0 5px 0; }
 				table.ngfb-settings td input[type=text] { width:250px; }

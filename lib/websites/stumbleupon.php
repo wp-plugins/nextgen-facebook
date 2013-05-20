@@ -20,7 +20,10 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 
 	class ngfbAdminStumbleUpon extends ngfbAdmin {
 
-		public function __construct() {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
 		public function get_rows() {
@@ -67,10 +70,10 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">StumbleUpon</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'stumble_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
-				'<th>StumbleUpon Badge</th><td>' . $badge . '</td>',
+				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
+				'<th rowspan="5">StumbleUpon Badge</th><td rowspan="5">' . $badge . '</td>',
 			);
 		}
 

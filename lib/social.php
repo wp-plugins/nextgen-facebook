@@ -20,12 +20,13 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocial {
 
-		public $website = array();
-
 		private $ngfb;
+		private $website = array();
 
 		public function __construct( &$ngfb_plugin ) {
+
 			$this->ngfb =& $ngfb_plugin;
+
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 

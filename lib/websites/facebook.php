@@ -100,39 +100,37 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 			'cy_GB' => 'Welsh',
 		);
 
-		public function __construct( ) {
+		private $ngfb;
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
 		}
 
 		public function get_rows() {
 			return array(
 				'<th colspan="2" class="social">Facebook</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-			);
-		
-			return array(
-				'<th colspan="2" class="social">Facebook</th>',
-				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->form->get_checkbox( 'fb_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
-				'<th>Language</th><td>' . $this->form->get_select( 'fb_lang', $this->lang() ) . '</td>',
-				'<th>Markup Language</th><td>' . $this->form->get_select( 'fb_markup', 
+				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
+				'<th>Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',
+				'<th>Markup Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_markup', 
 					array( 
 						'html5' => 'HTML5', 
 						'xfbml' => 'XFBML',
 					) 
 				) . '</td>',
-				'<th>Include Send Button</th><td>' . $this->form->get_checkbox( 'fb_send' ) . '</td>',
-				'<th>Button Layout</th><td>' . $this->form->get_select( 'fb_layout', 
+				'<th>Include Send Button</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_send' ) . '</td>',
+				'<th>Button Layout</th><td>' . $this->ngfb->admin->form->get_select( 'fb_layout', 
 					array(
 						'standard' => 'Standard',
 						'button_count' => 'Button Count',
 						'box_count' => 'Box Count',
 					) 
 				) . '</td>',
-				'<th>Default Width</th><td>' . $this->form->get_input( 'fb_width', 'short' ) . '</td>',
-				'<th>Show Faces</th><td>' . $this->form->get_checkbox( 'fb_show_faces' ) . '</td>',
-				'<th>Button Font</th><td>' . $this->form->get_select( 'fb_font', 
+				'<th>Default Width</th><td>' . $this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
+				'<th>Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . '</td>',
+				'<th>Button Font</th><td>' . $this->ngfb->admin->form->get_select( 'fb_font', 
 					array( 
 						'arial' => 'Arial',
 						'lucida grande' => 'Lucida Grande',
@@ -142,13 +140,13 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 						'verdana' => 'Verdana',
 					) 
 				) . '</td>',
-				'<th>Button Color Scheme</th><td>' . $this->form->get_select( 'fb_colorscheme', 
+				'<th>Button Color Scheme</th><td>' . $this->ngfb->admin->form->get_select( 'fb_colorscheme', 
 					array( 
 						'light' => 'Light',
 						'dark' => 'Dark',
 					)
 				) . '</td>',
-				'<th>Facebook Action Name</th><td>' . $this->form->get_select( 'fb_action', 
+				'<th>Facebook Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
 					array( 
 						'like' => 'Like',
 						'recommend' => 'Recommend',
