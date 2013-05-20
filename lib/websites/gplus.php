@@ -16,97 +16,141 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbWebSiteGooglePlus' ) ) {
+if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbWebSiteGooglePlus extends ngfbButtons {
+	class ngfbAdminGooglePlus extends ngfbAdmin {
 
-		private $ngfb;
+		public $lang = array(
+			'af'	=> 'Afrikaans',
+			'am'	=> 'Amharic',
+			'ar'	=> 'Arabic',
+			'eu'	=> 'Basque',
+			'bn'	=> 'Bengali',
+			'bg'	=> 'Bulgarian',
+			'ca'	=> 'Catalan',
+			'zh-HK'	=> 'Chinese (Hong Kong)',
+			'zh-CN'	=> 'Chinese (Simplified)',
+			'zh-TW'	=> 'Chinese (Traditional)',
+			'hr'	=> 'Croatian',
+			'cs'	=> 'Czech',
+			'da'	=> 'Danish',
+			'nl'	=> 'Dutch',
+			'en-GB'	=> 'English (UK)',
+			'en-US'	=> 'English (US)',
+			'et'	=> 'Estonian',
+			'fil'	=> 'Filipino',
+			'fi'	=> 'Finnish',
+			'fr'	=> 'French',
+			'fr-CA'	=> 'French (Canadian)',
+			'gl'	=> 'Galician',
+			'de'	=> 'German',
+			'el'	=> 'Greek',
+			'gu'	=> 'Gujarati',
+			'iw'	=> 'Hebrew',
+			'hi'	=> 'Hindi',
+			'hu'	=> 'Hungarian',
+			'is'	=> 'Icelandic',
+			'id'	=> 'Indonesian',
+			'it'	=> 'Italian',
+			'ja'	=> 'Japanese',
+			'kn'	=> 'Kannada',
+			'ko'	=> 'Korean',
+			'lv'	=> 'Latvian',
+			'lt'	=> 'Lithuanian',
+			'ms'	=> 'Malay',
+			'ml'	=> 'Malayalam',
+			'mr'	=> 'Marathi',
+			'no'	=> 'Norwegian',
+			'fa'	=> 'Persian',
+			'pl'	=> 'Polish',
+			'pt-BR'	=> 'Portuguese (Brazil)',
+			'pt-PT'	=> 'Portuguese (Portugal)',
+			'ro'	=> 'Romanian',
+			'ru'	=> 'Russian',
+			'sr'	=> 'Serbian',
+			'sk'	=> 'Slovak',
+			'sl'	=> 'Slovenian',
+			'es'	=> 'Spanish',
+			'es-419'	=> 'Spanish (Latin America)',
+			'sw'	=> 'Swahili',
+			'sv'	=> 'Swedish',
+			'ta'	=> 'Tamil',
+			'te'	=> 'Telugu',
+			'th'	=> 'Thai',
+			'tr'	=> 'Turkish',
+			'uk'	=> 'Ukrainian',
+			'ur'	=> 'Urdu',
+			'vi'	=> 'Vietnamese',
+			'zu'	=> 'Zulu',
+		);
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
+		public function __construct() {
 		}
 
-		public function get_lang() {
+		public function get_rows() {
+			global $ngfb;
 			return array(
-				'af'	=> 'Afrikaans',
-				'am'	=> 'Amharic',
-				'ar'	=> 'Arabic',
-				'eu'	=> 'Basque',
-				'bn'	=> 'Bengali',
-				'bg'	=> 'Bulgarian',
-				'ca'	=> 'Catalan',
-				'zh-HK'	=> 'Chinese (Hong Kong)',
-				'zh-CN'	=> 'Chinese (Simplified)',
-				'zh-TW'	=> 'Chinese (Traditional)',
-				'hr'	=> 'Croatian',
-				'cs'	=> 'Czech',
-				'da'	=> 'Danish',
-				'nl'	=> 'Dutch',
-				'en-GB'	=> 'English (UK)',
-				'en-US'	=> 'English (US)',
-				'et'	=> 'Estonian',
-				'fil'	=> 'Filipino',
-				'fi'	=> 'Finnish',
-				'fr'	=> 'French',
-				'fr-CA'	=> 'French (Canadian)',
-				'gl'	=> 'Galician',
-				'de'	=> 'German',
-				'el'	=> 'Greek',
-				'gu'	=> 'Gujarati',
-				'iw'	=> 'Hebrew',
-				'hi'	=> 'Hindi',
-				'hu'	=> 'Hungarian',
-				'is'	=> 'Icelandic',
-				'id'	=> 'Indonesian',
-				'it'	=> 'Italian',
-				'ja'	=> 'Japanese',
-				'kn'	=> 'Kannada',
-				'ko'	=> 'Korean',
-				'lv'	=> 'Latvian',
-				'lt'	=> 'Lithuanian',
-				'ms'	=> 'Malay',
-				'ml'	=> 'Malayalam',
-				'mr'	=> 'Marathi',
-				'no'	=> 'Norwegian',
-				'fa'	=> 'Persian',
-				'pl'	=> 'Polish',
-				'pt-BR'	=> 'Portuguese (Brazil)',
-				'pt-PT'	=> 'Portuguese (Portugal)',
-				'ro'	=> 'Romanian',
-				'ru'	=> 'Russian',
-				'sr'	=> 'Serbian',
-				'sk'	=> 'Slovak',
-				'sl'	=> 'Slovenian',
-				'es'	=> 'Spanish',
-				'es-419'	=> 'Spanish (Latin America)',
-				'sw'	=> 'Swahili',
-				'sv'	=> 'Swedish',
-				'ta'	=> 'Tamil',
-				'te'	=> 'Telugu',
-				'th'	=> 'Thai',
-				'tr'	=> 'Turkish',
-				'uk'	=> 'Ukrainian',
-				'ur'	=> 'Urdu',
-				'vi'	=> 'Vietnamese',
-				'zu'	=> 'Zulu',
+				'<th colspan="2" class="social">GooglePlus</th>',
+				'<td colspan="2" style="height:5px;"></td>',
+			);
+
+			return array(
+				'<th colspan="2" class="social">GooglePlus</th>',
+				'<td colspan="2" style="height:5px;"></td>',
+				'<th>Add Button to Content</th><td>' . $this->checkbox( 'gp_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->select( 'gp_order', range( 1, count( $ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->select( 'gp_js_loc', $this->js_locations ) . '</td>',
+				'<th>Language</th><td>' . $this->select( 'gp_lang', $this->website['gplus']->lang ) . '</td>',
+				'<th>Button Type</th><td>' . $this->select( 'gp_action', 
+					array( 
+						'plusone' => 'G +1', 
+						'share' => 'G+ Share',
+					) 
+				) . '</td>',
+				'<th>Button Size</th><td>' . $this->select( 'gp_size', 
+					array( 
+						'small' => 'Small [ 15px ]',
+						'medium' => 'Medium [ 20px ]',
+						'standard' => 'Standard [ 24px ]',
+						'tall' => 'Tall [ 60px ]',
+					) 
+				) . '</td>',
+				'<th>Annotation</th><td>' . $this->select( 'gp_annotation', 
+					array( 
+						'inline' => 'Inline',
+						'bubble' => 'Bubble',
+						'vertical-bubble' => 'Vertical Bubble',
+						'none' => 'None',
+					)
+				) . '</td>',
 			);
 		}
 
+	}
+}
+
+if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) {
+
+	class ngfbSocialGooglePlus extends ngfbSocial {
+
+		public function __construct() {
+		}
+
 		public function get_html( $atts = array() ) {
-			global $post; 
+			global $ngfb, $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
-			$gp_class = $this->ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			$gp_class = $ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			$html = '
 				<!-- GooglePlus Button -->
 				<div ' . $this->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
 					<span '. $gp_class . ' 
-						data-size="' . $this->ngfb->options['gp_size'] . '" 
-						data-annotation="' . $this->ngfb->options['gp_annotation'] . '" 
+						data-size="' . $ngfb->options['gp_size'] . '" 
+						data-annotation="' . $ngfb->options['gp_annotation'] . '" 
 						data-href="' . $atts['url'] . '"></span>
 				</div>' . "\n";
-			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		

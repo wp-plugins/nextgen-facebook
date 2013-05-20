@@ -16,32 +16,89 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbWebSiteStumbleUpon' ) ) {
+if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbWebSiteStumbleUpon extends ngfbButtons {
+	class ngfbAdminStumbleUpon extends ngfbAdmin {
+
+		public function __construct() {
+		}
+
+		public function get_rows() {
+			global $ngfb;
+			$badge = '<style type="text/css">
+					.badge { 
+						display:block;
+						background: url("http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g") no-repeat transparent; 
+						width:130px;
+						margin:0 0 10px 0;
+					}
+					.badge-col-left { display:inline-block; float:left; }
+					.badge-col-right { display:inline-block; }
+					#badge-1 { height:60px; background-position:50% 0px; }
+					#badge-2 { height:30px; background-position:50% -100px; }
+					#badge-3 { height:20px; background-position:50% -200px; }
+					#badge-4 { height:60px; background-position:50% -300px; }
+					#badge-5 { height:30px; background-position:50% -400px; }
+					#badge-6 { height:20px; background-position:50% -500px; }
+				</style>
+			';
+
+			foreach ( range( 1, 6 ) as $i ) {
+				switch ( $i ) {
+					case '1' : 
+						$badge .= '<div class="badge-col-left">' . "\n"; 
+						break;
+					case '4' : 
+						$badge .= '</div><div class="badge-col-right">' . "\n"; 
+						break;
+				}
+				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
+				$badge .= '<input type="radio" 
+					name="' . NGFB_OPTIONS_NAME . '[stumble_badge]" 
+					value="' . $i . '" ' . 
+					checked( $i, $ngfb->options['stumble_badge'], false ) . '/>' . "\n";
+				$badge .= '</div>' . "\n";
+				switch ( $i ) { 
+					case '6' : 
+						$badge .= '</div>' . "\n"; 
+						break;
+				}
+			}
+
+			return array(
+				'<th colspan="2" class="social">StumbleUpon</th>',
+				'<td colspan="2" style="height:5px;"></td>',
+				'<th>Add Button to Content</th><td>' . $this->checkbox( 'stumble_enable' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->select( 'stumble_order', range( 1, count( $ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>JavaScript in</th><td>' . $this->select( 'stumble_js_loc', $this->js_locations ) . '</td>',
+				'<th>StumbleUpon Badge</th><td>' . $badge . '</td>',
+			);
+		}
+
+	}
+}
+
+if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) ) {
+
+	class ngfbSocialStumbleUpon extends ngfbSocial {
 
 		private $ngfb;
 
-		public function __construct( &$ngfb ) {
-			$this->ngfb =& $ngfb;
-		}
-
-		public function get_lang() {
-			return array();
+		public function __construct() {
 		}
 
 		public function get_html( $atts = array() ) {
-			global $post; 
+			global $ngfb, $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
-			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
+			if ( empty( $atts['url'] ) ) $atts['url'] = $ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $ngfb->options['stumble_badge'];
 			$html = '
 				<!-- StumbleUpon Button -->
 				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
 					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
 			';
-			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 

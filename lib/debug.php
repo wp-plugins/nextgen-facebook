@@ -23,10 +23,8 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		public $on = 0;
 
 		private $log = array();
-		private $ngfb;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
+		public function __construct() {
 		}
 
 		public function push( $msg = '' ) {

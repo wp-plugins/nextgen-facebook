@@ -20,10 +20,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 	class ngfbUser {
 
-		private $ngfb;
-
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
+		public function __construct() {
 			add_filter( 'user_contactmethods', array( &$this, 'contactmethods' ), 20, 1 );
 		}
 

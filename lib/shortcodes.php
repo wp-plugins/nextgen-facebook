@@ -27,6 +27,7 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
         		add_shortcode( 'ngfb', array( &$this, 'ngfb_shortcode' ) );
 		}
 
+		// [ngfb] shortcode filter
 		function ngfb_shortcode( $atts, $content = null ) { 
 			// using extract method here turns each key in the merged array into its own variable
 			// $atts or the default array will not be modified after the call to shortcode_atts()
@@ -52,10 +53,10 @@ if ( ! class_exists( 'ngfbShortCodes' ) ) {
 					$this->ngfb->debug->push( $cache_type . ' : shortcode_html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					$shortcode_html .= "\n<!-- " . NGFB_LONGNAME . " shortcode BEGIN -->\n";
-					$shortcode_html .= $this->ngfb->buttons->get_js( 'pre-shortcode', $ids );
+					$shortcode_html .= $this->ngfb->social->get_js( 'pre-shortcode', $ids );
 					$shortcode_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
-						$this->ngfb->buttons->get_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
-					$shortcode_html .= $this->ngfb->buttons->get_js( 'post-shortcode', $ids );
+						$this->ngfb->social->get_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
+					$shortcode_html .= $this->ngfb->social->get_js( 'post-shortcode', $ids );
 					$shortcode_html .= "<!-- " . NGFB_LONGNAME . " shortcode END -->\n";
 
 					set_transient( $cache_id, $shortcode_html, $this->ngfb->cache->object_expire );

@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.dev1
+Version: 5.0.dev2
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,14 +27,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		var $version = '5.0.dev1';	// only for display purposes
-		var $opts_version = '21';	// increment when adding/removing $default_options
-		var $is_avail = array();	// assoc array for function/class/method/etc. checks
-		var $options = array();
-		var $ngg_options = array();
-		var $urls_found = array();
+		public $version = '5.0.dev2';	// only for display purposes
+		public $opts_version = '21';	// increment when adding/removing $default_options
+		public $is_avail = array();	// assoc array for function/class/method/etc. checks
+		public $options = array();
+		public $ngg_options = array();
+		public $urls_found = array();
 
-		var $default_options = array(
+		public $debug;		// ngfbDebug
+		public $cache;		// ngfbCache
+		public $user;		// ngfbUser
+		public $og;		// ngfbOpenGraph
+		public $social;		// ngfbSocial
+		public $shortcodes;	// ngfbShortCodes
+		public $pro;		// ngfbPro
+		public $admin;		// ngfbAdmin
+
+		public $default_options = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
@@ -154,17 +163,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb_object_cache_exp' => 60,
 			'ngfb_googl_api_key' => '' );
 
-		var $renamed_options = array(
-			'add_meta_desc' => 'inc_description',
-			'og_def_img' => 'og_def_img_url',
-			'og_def_home' => 'og_def_img_on_index',
-			'og_def_on_home' => 'og_def_img_on_index',
-			'og_def_on_search' => 'og_def_img_on_search',
-			'buttons_on_home' => 'buttons_on_index',
-			'buttons_lang' => 'gp_lang',
-			'ngfb_cache_hours' => 'ngfb_file_cache_hrs' );
-
-		var $social_options_prefix = array(
+		public $social_options_prefix = array(
 			'facebook' => 'fb', 
 			'gplus' => 'gp',
 			'twitter' => 'twitter',
@@ -173,14 +172,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
 
-		var $social_class_names = array(
+		public $social_class_names = array(
 			'facebook' => 'Facebook', 
 			'gplus' => 'GooglePlus',
 			'twitter' => 'Twitter',
-			'linkedin' => 'Linkedin',
+			'linkedin' => 'LinkedIn',
 			'pinterest' => 'Pinterest',
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr' );
+
+		private $renamed_options = array(
+			'add_meta_desc' => 'inc_description',
+			'og_def_img' => 'og_def_img_url',
+			'og_def_home' => 'og_def_img_on_index',
+			'og_def_on_home' => 'og_def_img_on_index',
+			'og_def_on_search' => 'og_def_img_on_search',
+			'buttons_on_home' => 'buttons_on_index',
+			'buttons_lang' => 'gp_lang',
+			'ngfb_cache_hours' => 'ngfb_file_cache_hrs' );
 
 		function __construct() {
 
@@ -303,14 +312,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/buttons.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/social.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/user.php' );
 
-			if ( is_admin() )
+			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
+				require_once ( dirname ( __FILE__ ) . '/lib/form.php' );
+			}
+
+			foreach ( $this->social_class_names as $filename => $classname )
+				require_once ( dirname ( __FILE__ ) . '/lib/websites/' . $filename . '.php' );
 
 			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) )
 				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
@@ -372,23 +386,34 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		function set_vars() {
 
+			// load options first for use in __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
-			$this->debug = new ngfbDebug( &$this );
-			$this->cache = new ngfbCache( &$this );
-			$this->og = new ngfbOpenGraph( &$this );
-			$this->buttons = new ngfbButtons( &$this );
-			$this->user = new ngfbUser( &$this );
+			$this->debug = new ngfbDebug();
+			$this->cache = new ngfbCache();
+			$this->user = new ngfbUser();
+			$this->og = new ngfbOpenGraph( $this );
+			$this->social = new ngfbSocial();
+
+			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
+				$this->shortcodes = new ngfbShortCodes();
 
 			if ( is_admin() ) {
-				$this->admin = new ngfbAdmin( &$this );
+				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
+
+				// extends the ngfbAdmin() method
+				foreach ( $this->social_class_names as $filename => $classname ) {
+					$classname = 'ngfbAdmin' . $classname;
+					$this->admin->website[$filename] = new $classname();
+				}
 			}
+
 			if ( $this->is_avail['ngfbpro'] == true )
-				$this->pro = new ngfbPro( &$this );
+				$this->pro = new ngfbPro( $this );
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
@@ -403,9 +428,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options = $this->default_options;
 			}
 
-			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->shortcodes = new ngfbShortCodes( &$this );
-
+			// set caching properties
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->cache->pem_file = NGFB_PEM_FILE;
@@ -700,8 +723,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							$sorted_ids[$this->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 					ksort( $sorted_ids );
 	
-					$this->debug->push( 'calling this->buttons->get_html()' );
-					$button_html = $this->buttons->get_html( $sorted_ids );
+					$this->debug->push( 'calling this->social->get_html()' );
+					$button_html = $this->social->get_html( $sorted_ids );
 	
 					if ( ! empty( $button_html ) ) {
 						$button_html = "\n<!-- " . NGFB_FULLNAME . " content buttons BEGIN -->\n" .
@@ -1044,7 +1067,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			return $meta_html;
 		}
 
-		function get_filtered_content( $filter_content = true ) {
+		public function get_filtered_content( $filter_content = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$this->debug->push( 'using content from post id ' . $post->ID );
@@ -1068,8 +1091,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $filter_content == true ) {
 
 				// temporarily remove add_content_buttons() to prevent recursion
-				$filter_removed = remove_filter( 'the_content', 
-					array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+				$filter_removed = remove_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 				$this->debug->push( 'add_content_buttons() filter removed = ' . ( $filter_removed  ? 'true' : 'false' ) );
 
 				// temporarily remove ngfb shortcode to prevent recursion
@@ -1086,8 +1108,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				unset ( $GLOBALS['nggShowGallery'] );
 
 				if ( ! empty( $filter_removed ) ) {
-					add_filter( 'the_content', 
-						array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
+					add_filter( 'the_content', array( &$this, 'add_content_buttons' ), NGFB_CONTENT_PRIORITY );
 					$this->debug->push( 'add_content_buttons() filter re-added' );
 				}
 

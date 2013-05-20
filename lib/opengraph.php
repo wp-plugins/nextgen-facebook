@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 	class ngfbOpenGraph {
-	
+
 		private $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
@@ -97,7 +97,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		function get_ngg_query_images( $num = 0, $size_name = 'thumbnail' ) {
-
 			$og_ret = array();
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
@@ -167,7 +166,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		function get_ngg_shortcode_images( $num = 0, $size_name = 'thumbnail' ) {
-
 			$og_ret = array();
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
@@ -435,7 +433,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		private function push_to_max( &$dst, &$src, $num = 0 ) {
-
 			if ( ! is_array( $dst ) || ! is_array( $src ) ) 
 				return false;
 
