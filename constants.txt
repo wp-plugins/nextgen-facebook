@@ -39,13 +39,8 @@ NGFB_OPTIONS_NAME
 NGFB_HEAD_PRIORITY
 
 	Change the execution priority for the add_header() method, which adds
-	JavaScript to the head section. The default value is 10.
-
-NGFB_OG_PRIORITY
-
-	Change the execution priority for the add_open_graph() method, which
-	adds Open Graph meta tags to the head section. The default value is
-	20.
+	JavaScript and Open Graph meta tags to the head section. The default
+	value is 20.
 
 NGFB_CONTENT_PRIORITY
 

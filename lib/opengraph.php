@@ -26,7 +26,101 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 		}
 	
-		function get_all_images( $num = 0, $size_name = 'thumbnail' ) {
+		public function get() {
+
+			$og = array();
+
+			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
+				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
+
+				echo "\n<!-- ", NGFB_FULLNAME, " meta tags DISABLED -->\n\n";
+				return $og;
+			}
+
+			$sharing_url = $this->ngfb->get_sharing_url( 'notrack' );
+			$cache_salt = __METHOD__ . '(sharing_url:' . $sharing_url . ')';
+			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+			$cache_type = 'object cache';
+			$og = get_transient( $cache_id );
+			$this->ngfb->debug->push( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
+
+			if ( $og !== false ) {
+				$this->ngfb->debug->push( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
+				return $og;
+			}
+
+			global $post;
+			$has_video_image = '';
+			$og['og:url'] = $sharing_url;
+			$og['fb:admins'] = $this->ngfb->options['og_admins'];
+			$og['fb:app_id'] = $this->ngfb->options['og_app_id'];
+			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+			$og['og:title'] = $this->ngfb->get_title( $this->ngfb->options['og_title_len'], '...' );
+			$og['og:description'] = $this->ngfb->get_description( $this->ngfb->options['og_desc_len'], '...' );
+
+			if ( $this->ngfb->options['og_vid_max'] > 0 ) {
+				$this->ngfb->debug->push( 'calling this->get_content_videos(' . $this->ngfb->options['og_vid_max'] . ')' );
+				$og['og:video'] = $this->get_content_videos( $this->ngfb->options['og_vid_max'] );
+				if ( is_array( $og['og:video'] ) ) {
+					foreach ( $og['og:video'] as $val ) {
+						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
+							$this->ngfb->debug->push( 'og:image found in og:video array (no default image required)' );
+							$has_video_image = 1;
+						}
+					}
+					unset ( $vid );
+				}
+			}
+
+			if ( $this->ngfb->options['og_img_max'] > 0 ) {
+				$this->ngfb->debug->push( 'calling this->get_all_images(' . $this->ngfb->options['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
+				$og['og:image'] = $this->get_all_images( $this->ngfb->options['og_img_max'], $this->ngfb->options['og_img_size'] );
+
+				// if we didn't find any images, then use the default image
+				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
+					$this->ngfb->debug->push( 'calling this->get_default_image(' . $this->ngfb->options['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
+					$og['og:image'] = $this->get_default_image( $this->ngfb->options['og_img_max'], $this->ngfb->options['og_img_size'] );
+				}
+			}
+
+			// any singular page is type 'article'
+			if ( is_singular() ) {
+				$og['og:type'] = 'article';
+
+				if ( ! empty( $post ) && $post->post_author )
+					$og['article:author'] = $this->ngfb->get_author_url( $post->post_author, 
+						$this->ngfb->options['og_author_field'] );
+
+				elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
+					$og['article:author'] = $this->ngfb->get_author_url( $this->ngfb->options['og_def_author_id'], 
+						$this->ngfb->options['og_author_field'] );
+
+			// check for default author info on indexes and searches
+			} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_author_on_index'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) )
+				|| ( is_search() && ! empty( $this->ngfb->options['og_def_author_on_search'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) ) ) {
+
+				$og['og:type'] = "article";
+				$og['article:author'] = $this->ngfb->get_author_url( $this->ngfb->options['og_def_author_id'], 
+					$this->ngfb->options['og_author_field'] );
+
+			// default
+			} else $og['og:type'] = 'website';
+
+			// if the page is an article, then define the other article meta tags
+			if ( $og['og:type'] == 'article' ) {
+				$og['article:tag'] = $this->ngfb->get_tags();
+				$og['article:section'] = $this->ngfb->options['og_art_section'];
+				$og['article:modified_time'] = get_the_modified_date('c');
+				$og['article:published_time'] = get_the_date('c');
+			}
+		
+			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
+			$this->ngfb->debug->push( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+
+			return $og;
+		}
+
+		private function get_all_images( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
 			$og_ret = array();
 
@@ -96,7 +190,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_ngg_query_images( $num = 0, $size_name = 'thumbnail' ) {
+		private function get_ngg_query_images( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
@@ -165,7 +259,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_ngg_shortcode_images( $num = 0, $size_name = 'thumbnail' ) {
+		private function get_ngg_shortcode_images( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
@@ -239,7 +333,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_content_images( $num = 0, $size_name = 'thumbnail' ) {
+		private function get_content_images( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
 			$og_ret = array();
 			$size_info = $this->ngfb->get_size_values( $size_name );
@@ -276,7 +370,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->ngfb->get_ngg_image_src( 'ngg-' . $match[1], $size_name );
 
-					} elseif ( $this->ngfb->url_is_good( $og_image['og:image'] ) ) {
+					} elseif ( $this->ngfb->is_good_url( $og_image['og:image'] ) ) {
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:height'] = $match[1];
 
@@ -305,7 +399,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_content_videos( $num = 0 ) {
+		// called from the Tumblr class
+		public function get_content_videos( $num = 0 ) {
 			global $post;
 			$og_ret = array();
 			$this->ngfb->debug->push( 'calling this->ngfb->get_filtered_content()' );
@@ -323,7 +418,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
 					);
-					if ( $this->ngfb->url_is_good( $og_video['og:video'] ) ) {
+					if ( $this->ngfb->is_good_url( $og_video['og:video'] ) ) {
 
 						// set the height and width based on the iframe/embed attributes
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];
@@ -359,7 +454,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_ngg_images( $num = 0, $size_name = 'thumbnail', $ngg_images = array() ) {
+		// called from the view/gallery-meta.php template
+		public function get_ngg_images( $num = 0, $size_name = 'thumbnail', $ngg_images = array() ) {
 			$og_ret = array();
 			if ( is_array( $ngg_images ) ) {
 				foreach ( $ngg_images as $image ) {
@@ -374,7 +470,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
+		private function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
@@ -391,7 +487,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_featured( $num = 0, $size_name = 'thumbnail', $post_id ) {
+		private function get_featured( $num = 0, $size_name = 'thumbnail', $post_id ) {
 			$og_ret = array();
 			$og_image = array();
 			if ( ! empty( $post_id ) && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
@@ -409,7 +505,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		function get_default_image( $num = 0, $size_name = 'thumbnail' ) {
+		private function get_default_image( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			$og_image = array();
 			if ( $this->ngfb->options['og_def_img_id'] > 0 ) {
