@@ -1134,7 +1134,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$size_info = $this->get_size_values( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
 			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->debug->push( 'image for post:' . $pid . ' size:' . $size_name . ' = ' . 
+			$this->debug->push( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
 			$image_url = $this->fix_relative_url( $image_url );
 			if ( $this->url_is_good( $image_url ) )
