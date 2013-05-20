@@ -422,6 +422,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 5.0 =
+
+* Improved object-oriented design with several new classes.
+
 = Version 4.3 =
 
 * Many small code improvements to enhance duplicate image detection between various sources (featured, attached, shorcode, content, etc.).

@@ -548,6 +548,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$col = $box % $max_col;		// determine column number based on the box number
 					if ( $col == 0 ) $section++;	// increment section if we're on column 0
 					foreach ( $this->website[$filename]->get_rows() as $num => $row ) {
+						// avoids undefined offset error
+						if ( empty( $rows[$section][$num] ) )
+							$rows[$section][$num] = '';
 						$rows[$section][$num] .= $row;
 					}
 				}
