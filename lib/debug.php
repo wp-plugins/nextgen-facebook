@@ -35,7 +35,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 					$from .= sprintf( '%-22s:: ', $stack[1]['class'] );
 
 				if ( ! empty( $stack[1]['function'] ) ) 
-					$from .= sprintf( '%-22s : ', $stack[1]['function'] );
+					$from .= sprintf( '%-24s : ', $stack[1]['function'] );
 
 				if ( ! empty( $from ) ) 
 					$msg = $from . $msg;

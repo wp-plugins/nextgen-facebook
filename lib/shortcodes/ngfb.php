@@ -53,31 +53,31 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 
 			global $post;
 			$ids = array();
-			$shortcode_html = '';
+			$html = '';
 
 			if ( ! empty( $buttons ) ) {
 				$ids = array_map( 'trim', explode( ',', $buttons ) );	// trim white spaces during explode
 				$cache_salt = __METHOD__ . '(post:' . $post->ID . '_buttons:' . ( implode( '_', $ids ) ) . '_css:' . $css_class . '_' . $css_id . ')';
 				$cache_id = 'ngfb_' . md5( $cache_salt );
 				$cache_type = 'object cache';
-				$shortcode_html = get_transient( $cache_id );
+				$html = get_transient( $cache_id );
 				$this->ngfb->debug->push( $cache_type . ' : shortcode transient id salt "' . $cache_salt . '"' );
 
-				if ( $shortcode_html !== false ) {
-					$this->ngfb->debug->push( $cache_type . ' : shortcode_html retrieved from transient for id "' . $cache_id . '"' );
+				if ( $html !== false ) {
+					$this->ngfb->debug->push( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
-					$shortcode_html .= "\n<!-- " . NGFB_LONGNAME . " shortcode BEGIN -->\n";
-					$shortcode_html .= $this->ngfb->social->get_js( 'pre-shortcode', $ids );
-					$shortcode_html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
+					$html .= "\n<!-- " . NGFB_LONGNAME . " shortcode BEGIN -->\n";
+					$html .= $this->ngfb->social->get_js( 'pre-shortcode', $ids );
+					$html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
 						$this->ngfb->social->get_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
-					$shortcode_html .= $this->ngfb->social->get_js( 'post-shortcode', $ids );
-					$shortcode_html .= "<!-- " . NGFB_LONGNAME . " shortcode END -->\n";
+					$html .= $this->ngfb->social->get_js( 'post-shortcode', $ids );
+					$html .= "<!-- " . NGFB_LONGNAME . " shortcode END -->\n";
 
-					set_transient( $cache_id, $shortcode_html, $this->ngfb->cache->object_expire );
-					$this->ngfb->debug->push( $cache_type . ' : shortcode_html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
+					$this->ngfb->debug->push( $cache_type . ' : html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 				}
 			}
-			return $this->ngfb->debug->get() . $shortcode_html;
+			return $this->ngfb->debug->get() . $html;
 		}
 	}
 }

@@ -138,7 +138,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				// if this is an attachment webpage, and we have an attachment, then stop here 
 				// and return the image array (even if max num hasn't been reached yet)
 				if ( ! empty( $og_image['og:image'] ) ) {
-					$this->push_to_max( $og_ret, $og_image, $num );
+					$this->push_max( $og_ret, $og_image, $num );
 					return $og_ret;
 				};
 			}
@@ -187,12 +187,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og_ret = array_merge( $og_ret, $this->get_content_images( $num, $size_name ) );
 			}
 
-			// if we have a limit, and we're over, then slice the array
-			if ( $this->is_maxed( $og_ret, $num ) ) {
-				$this->ngfb->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
-
+			$this->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -229,7 +224,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$this->ngfb->debug->push( 'getting image for ngg query pid:' . $ngg_pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $ngg_pid, $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 
 				} elseif ( $ngg_gallery > 0 ) {
 					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
@@ -239,7 +234,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							if ( ! empty( $row->previewpic ) ) {
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 							}
 						}
 					}
@@ -251,17 +246,14 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							if ( ! empty( $row->previewpic ) ) {
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 							}
 						}
 					}
 				}
 			} else $this->ngfb->debug->push( 'ngg query without [nggalbum|album|nggallery] shortcode' );
 
-			if ( $num > 0 && count( $og_ret ) > $num ) {
-				$this->ngfb->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
+			$this->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -294,7 +286,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							if ( ! empty( $row->previewpic ) ) {
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 							}
 						}
 					}
@@ -313,7 +305,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							if ( ! empty( $row->previewpic ) ) {
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 							}
 						}
 					}
@@ -328,14 +320,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$this->ngfb->debug->push( 'getting image for singlepic:' . $pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $pid, $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 				}
 			} else $this->ngfb->debug->push( 'no [singlepic] shortcode found' );
 
-			if ( $num > 0 && count( $og_ret ) > $num ) {
-				$this->ngfb->debug->push( 'slicing array from ' . count( $og_ret ) . ' to ' . $num . ' elements' );
-				$og_ret = array_slice( $og_ret, 0, $num );
-			}
+			$this->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -354,7 +343,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
-					if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 				}
 			} else $this->ngfb->debug->push( 'no <div id="ngg-image-#"> html tag found' );
 
@@ -396,7 +385,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 
-						if ( $this->push_to_max( $og_ret, $og_image, $num ) ) return $og_ret;
+						if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 
 					} else $this->ngfb->debug->push( $src_name . ' image rejected: width and height attributes missing or too small' );
 				}
@@ -452,7 +441,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$this->ngfb->debug->push( 'video = ' . $og_video['og:video'] . 
 							' (' . $og_video['og:video:width'] .  ' x ' . $og_video['og:video:height'] . ')' );
 
-						if ( $this->push_to_max( $og_ret, $og_video, $num ) ) return $og_ret;
+						if ( $this->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 					}
 				}
 			} else $this->ngfb->debug->push( 'no <iframe|embed/> html tag(s) found' );
@@ -469,7 +458,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$og_image = array();
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
-						$this->push_to_max( $og_ret, $og_image, $num );
+						$this->push_max( $og_ret, $og_image, $num );
 					}
 				}
 			}
@@ -486,7 +475,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							$og_image = array();
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 								$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $attachment->ID, $size_name );
-							$this->push_to_max( $og_ret, $og_image, $num );
+							$this->push_max( $og_ret, $og_image, $num );
 						}
 					}
 			}
@@ -507,7 +496,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				}
 			}
 			// returned array must be two-dimensional
-			$this->push_to_max( $og_ret, $og_image, $num );
+			$this->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
@@ -530,27 +519,35 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$this->ngfb->debug->push( 'using default img url = ' . $og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
-			$this->push_to_max( $og_ret, $og_image, $num );
+			$this->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
-		private function push_to_max( &$dst, &$src, $num = 0 ) {
-			if ( ! is_array( $dst ) || ! is_array( $src ) ) 
-				return false;
+		private function push_max( &$dst, &$src, $num = 0 ) {
+			if ( ! is_array( $dst ) || ! is_array( $src ) ) return false;
+			if ( ! empty( $src ) ) array_push( $dst, $src );
+			return $this->slice_max( $dst, $num );
+		}
 
-			if ( ! empty( $src ) ) 
-				array_push( $dst, $src );
-
-			if ( $this->is_maxed( $dst, $num ) ) {
-				$this->ngfb->debug->push( 'max values reached (' . count( $dst ) . ' >= ' . $num . ') - slicing array' );
-				$dst = array_slice( $dst, 0, $num );
-				return true;
+		private function slice_max( &$arr, $num = 0 ) {
+			if ( ! is_array( $arr ) ) return false;
+			$has = count( $arr );
+			if ( $num > 0 ) {
+				if ( $has == $num ) {
+					$this->ngfb->debug->push( 'max values reached (' . $has . ' == ' . $num . ')' );
+					return true;
+				} elseif ( $has > $num ) {
+					$this->ngfb->debug->push( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
+					$arr = array_slice( $arr, 0, $num );
+					return true;
+				}
 			}
 			return false;
 		}
 
 		private function is_maxed( &$arr, $num = 0 ) {
-			if ( is_array( $arr ) && $num > 0 && count( $arr ) >= $num ) return true;
+			if ( ! is_array( $arr ) ) return false;
+			if ( $num > 0 && count( $arr ) >= $num ) return true;
 			return false;
 		}
 
