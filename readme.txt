@@ -424,7 +424,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 5.0 =
 
-Complete code review, with an improved object-oriented design, and several new classes.
+Complete code review with an improved object-oriented design and several new classes.
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
@@ -786,7 +786,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 5.0 =
 
-Complete code review, with an improved object-oriented design, and several new classes.
+Complete code review with an improved object-oriented design and several new classes.
 
 = 4.3 =
 

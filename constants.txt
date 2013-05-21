@@ -28,7 +28,7 @@ NGFB_MIN_IMG_SIZE_DISABLE
 	Set this contant to 'true' to disable the minimum width and height
 	checks for the <img/> attributes in the content. All images, no matter
 	their size, will be added to the Open Graph meta tags. See "Why does
-	NGFB ignore the &lt;img/&gt; HTML tags in my content?" on the FAQ page
+	NGFB ignore the <img/> HTML tags in my content?" on the FAQ page
 	for additional information.
 
 NGFB_OPTIONS_NAME
@@ -38,19 +38,18 @@ NGFB_OPTIONS_NAME
 
 NGFB_HEAD_PRIORITY
 
-	Change the execution priority for the add_header() method, which adds
-	JavaScript and Open Graph meta tags to the head section. The default
-	value is 20.
+	Change the execution priority of the method that adds JavaScript and
+	Open Graph meta tags to the head section. The default value is 5.
 
-NGFB_CONTENT_PRIORITY
+NGFB_SOCIAL_PRIORITY
 
-	Change the execution priority for the add_content() method, which adds
-	social buttons to the content. The default value is 20.
+	Change the execution priority for the method that adds social buttons
+	to the content. The default value is 100.
 
 NGFB_FOOTER_PRIORITY
 
-	Change the execution priority for the add_footer() method, which adds
-	JavaScript to the footer section. The default value is 10.
+	Change the execution priority for the method that adds JavaScript to
+	the footer section. The default value is 10.
 
 NGFB_MIN_DESC_LEN
 
