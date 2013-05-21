@@ -28,15 +28,27 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 
 			// extends the ngfbSocial() method
-			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
-				$classname = 'ngfbSocial' . $classname;
-				$this->website[$filename] = new $classname( $ngfb_plugin );
+			foreach ( $this->ngfb->social_class_names as $id => $name ) {
+				$classname = 'ngfbSocial' . $name;
+				$this->website[$id] = new $classname( $ngfb_plugin );
 			}
+			unset ( $id, $name );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
-			add_filter( 'the_content', array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
+			$this->add_filter( 'the_content' );
+		}
+
+		public function add_filter( $type = 'the_content' ) {
+			add_filter( $type, array( &$this, 'filter_' . $type ), NGFB_SOCIAL_PRIORITY );
+			$this->ngfb->debug->push( 'this->filter_' . $type . '() added' );
+		}
+
+		public function remove_filter( $type = 'the_content' ) {
+			$rc = remove_filter( $type, array( &$this, 'filter_'. $type ), NGFB_SOCIAL_PRIORITY );
+			$this->ngfb->debug->push( 'this->filter_' . $type . '() removed = ' . ( $rc  ? 'true' : 'false' ) );
+			return $rc;
 		}
 
 		public function add_header() {
@@ -49,23 +61,30 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->show( null, 'Debug Log' );
 		}
 
-		// called by WP the_content filter
-		public function add_content( $content ) {
+		public function filter_the_content( $text ) {
+			return $this->filter( $text, 'the_content' );
+		}
+
+		public function filter_the_excerpt( $text ) {
+			return $this->filter( $text, 'the_excerpt' );
+		}
+
+		public function filter( &$text, $type = 'the_content' ) {
 
 			// if using the Exclude Pages plugin, skip social buttons on those pages
-			if ( is_page() && $this->ngfb->is_excluded() ) return $content;
+			if ( is_page() && $this->ngfb->webpage->is_excluded() ) return $text;
 
 			if ( is_singular() || $this->ngfb->options['buttons_on_index'] ) {
 				global $post;
-				// we should always have a unique post ID for each content
-				$cache_salt = __METHOD__ . '(post:' . $post->ID . ')';
+				// we should always have a unique post ID
+				$cache_salt = __METHOD__ . '(post:' . $post->ID . '_type:' . $type . ')';
 				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 				$cache_type = 'object cache';
-				$button_html = get_transient( $cache_id );
-				$this->ngfb->debug->push( $cache_type . ': button_html transient id salt "' . $cache_salt . '"' );
+				$html = get_transient( $cache_id );
+				$this->ngfb->debug->push( $cache_type . ': html transient id salt "' . $cache_salt . '"' );
 
-				if ( $button_html !== false ) {
-					$this->ngfb->debug->push( $cache_type . ': button_html retrieved from transient for id "' . $cache_id . '"' );
+				if ( $html !== false ) {
+					$this->ngfb->debug->push( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					$sorted_ids = array();
 					foreach ( $this->ngfb->social_options_prefix as $id => $opt_prefix )
@@ -74,22 +93,22 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					ksort( $sorted_ids );
 	
 					$this->ngfb->debug->push( 'calling this->get_html()' );
-					$button_html = $this->get_html( $sorted_ids );
+					$html = $this->get_html( $sorted_ids );
 	
-					if ( ! empty( $button_html ) ) {
-						$button_html = "\n<!-- " . NGFB_FULLNAME . " content buttons BEGIN -->\n" .
-							"<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n" .
-							"<!-- " . NGFB_FULLNAME . " content buttons END -->\n";
+					if ( ! empty( $html ) ) {
+						$html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
+							"<div class=\"" . NGFB_SHORTNAME . "-social-buttons\">\n" . $html . "</div>\n" .
+							"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
 
-						set_transient( $cache_id, $button_html, $this->ngfb->cache->object_expire );
-						$this->ngfb->debug->push( $cache_type . ': button_html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+						set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
+						$this->ngfb->debug->push( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 					}
 				}
 				if ( $this->ngfb->options['buttons_location'] == "top" )
-					$content = $this->ngfb->debug->get() . $button_html . $content;
-				else $content .= $this->ngfb->debug->get() . $button_html;
+					$text = $this->ngfb->debug->get() . $html . $text;
+				else $text .= $this->ngfb->debug->get() . $html;
 			}
-			return $content;
+			return $text;
 		}
 
 		public function get_html( $ids = array(), $atts = array() ) {
@@ -109,7 +128,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $ids ) ) {
 
 				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-				if ( is_page() && $this->ngfb->is_excluded() ) return;
+				if ( is_page() && $this->ngfb->webpage->is_excluded() ) return;
 
 				$widget = new ngfbSocialWidget();
 		 		$widget_settings = $widget->get_settings();

@@ -53,12 +53,66 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			}
 		}
 
+		// $use_post = false when used for Open Graph meta tags and buttons in widget
+		// $use_post = true when buttons are added to individual posts on an index webpage
+		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
+
+			if ( ! empty( $url ) )  {
+				$url = $this->fix_relative_url( $url );
+			} else {
+				global $post;
+				$is_nggalbum = false;
+
+				// check for album/gallery query strings and an [nggalbum] shortcode
+				if ( is_singular() ) {
+
+					global $wp_query;
+
+					// sanitize query values
+					$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
+					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
+
+					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
+						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
+
+						$this->ngfb->debug->push( 'is_singular with nggalbum shortcode and query' );
+						$is_nggalbum = true;
+						$strip_query = 'notrack';	// keep the album/gallery query values
+					}
+				}
+
+				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
+				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
+
+					$url = get_permalink( $post->ID );
+					$strip_query = 'none';	// don't modify the permalinks
+				} else {
+					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+					$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+				}
+			}
+
+			switch ( $strip_query ) {
+				case 'noquery' :
+					if ( strpos( $url, '?' ) !== false ) $url = reset( explode( '?', $url ) );
+					break;
+				case 'notrack' :
+					// strip out tracking query arguments by facebook, google, etc.
+					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
+					break;
+				// leave url as-is
+				default :
+					break;
+			}
+			return $url;
+		}
+
 		public function fix_relative_url( $url = '' ) {
 			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
 				$this->ngfb->debug->push( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
-				else $url = trailingslashit( $this->ngfb->get_sharing_url( 'noquery' ), false ) . $url;
+				else $url = trailingslashit( $this->ngfb->util->get_sharing_url( 'noquery' ), false ) . $url;
 				$this->ngfb->debug->push( 'relative url fixed = ' . $url );
 			}
 			return $url;

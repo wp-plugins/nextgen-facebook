@@ -20,11 +20,14 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 	class ngfbHead {
 
+		public $og;
+
 		private $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 
 			$this->ngfb =& $ngfb_plugin;
+			$this->og = new ngfbOpenGraph( $ngfb_plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
@@ -44,7 +47,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				$this->ngfb->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
 				$this->ngfb->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 			}
-			$this->html( $this->ngfb->og->get() );
+			$this->html( $this->og->get() );
 			$this->ngfb->debug->show( null, 'Debug Log' );
 		}
 

@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.dev7
+Version: 5.0.dev8
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,20 +27,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.dev7';	// only for display purposes
+		public $version = '5.0.dev8';	// only for display purposes
 		public $opts_version = '21';	// increment when adding/removing $default_options
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
 
 		public $debug;		// ngfbDebug
-		public $cache;		// ngfbCache
-		public $user;		// ngfbUser
-		public $og;		// ngfbOpenGraph
+		public $util;		// ngfbUtil
+		public $head;		// ngfbHead
 		public $social;		// ngfbSocial
-		public $shortcodes;	// ngfbShortCodes
-		public $pro;		// ngfbPro
+		public $user;		// ngfbUser
+		public $tags;		// ngfbTags
+		public $media;		// ngfbMedia
+		public $webpage;	// ngfbWebPage
 		public $admin;		// ngfbAdmin
+		public $pro;		// ngfbPro
+		public $cache;		// ngfbCache
 
 		public $default_options = array(
 			'link_author_field' => 'gplus',
@@ -180,6 +183,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr' );
 
+		public $shortcode_class_names = array(
+			'ngfb' => 'NGFB' );
+
 		private $renamed_options = array(
 			'add_meta_desc' => 'inc_description',
 			'og_def_img' => 'og_def_img_url',
@@ -199,16 +205,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
 
 			add_action( 'init', array( &$this, 'init_plugin' ) );
-
-			add_filter( 'language_attributes', array( &$this, 'add_og_doctype' ) );
 		}
 
 		// called by WP init action
 		public function init_plugin() {
 
-			// run check_deps() before set_vars() to get ngg options (if the plugin is installed)
+			// run check_deps() before setup() to get ngg options (if the plugin is installed)
 			$this->check_deps();
-			$this->set_vars();
+			$this->setup();
 
 			// add_action() tests and debug output
 			if ( $this->debug->on ) {
@@ -246,8 +250,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
 				define( 'NGFB_HEAD_PRIORITY', 20 );
 
-			if ( ! defined( 'NGFB_CONTENT_PRIORITY' ) )
-				define( 'NGFB_CONTENT_PRIORITY', 100 );
+			if ( ! defined( 'NGFB_SOCIAL_PRIORITY' ) )
+				define( 'NGFB_SOCIAL_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
 				define( 'NGFB_FOOTER_PRIORITY', 10 );
@@ -281,37 +285,44 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_USER_AGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
 
 			if ( ! defined( 'NGFB_PEM_FILE' ) )
-				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'lib/curl/cacert.pem' );
+				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'share/curl/cacert.pem' );
 		}
 
 		private function load_libs() {
 
-			require_once ( dirname ( __FILE__ ) . '/lib/util.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/debug.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/util.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/head.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/social.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/shortcodes.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/user.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/tags.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/media.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/webpage.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				require_once ( dirname ( __FILE__ ) . '/lib/form.php' );
 			}
 
-			foreach ( $this->social_class_names as $filename => $classname )
-				require_once ( dirname ( __FILE__ ) . '/lib/websites/' . $filename . '.php' );
+			foreach ( $this->social_class_names as $id => $name )
+				require_once ( dirname ( __FILE__ ) . '/lib/websites/' . $id . '.php' );
+			unset ( $id, $name );
+
+			foreach ( $this->shortcode_class_names as $id => $name )
+				require_once ( dirname ( __FILE__ ) . '/lib/shortcodes/' . $id . '.php' );
+			unset ( $id, $name );
 
 			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) )
 				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
-		private function set_vars() {
+		private function setup() {
 
 			// load options first for use in __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
@@ -322,12 +333,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->debug = new ngfbDebug();
 			$this->util = new ngfbUtil( &$this );
 			$this->head = new ngfbHead( $this );
-			$this->og = new ngfbOpenGraph( $this );
 			$this->social = new ngfbSocial( $this );
 			$this->user = new ngfbUser( &$this );
-
-			if ( ! empty( $this->options['ngfb_enable_shortcode'] ) )
-				$this->shortcodes = new ngfbShortCodes( $this );
+			$this->tags = new ngfbTags( &$this );
+			$this->media = new ngfbMedia( &$this );
+			$this->webpage = new ngfbWebPage( &$this );
 
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );
@@ -369,12 +379,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
-		}
-
-		// called by WP language_attributes filter
-		// it would be better to use '<head prefix="">' but WP doesn't offer hooks into <head>
-		public function add_og_doctype( $output ) {
-			return $output . ' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
 		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
@@ -576,448 +580,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 			}
 			return $opts;
-		}
-
-		// called from Tumblr class
-		public function get_quote() {
-			global $post;
-			if ( empty( $post ) ) return;
-			if ( has_excerpt( $post->ID ) ) $content = get_the_excerpt( $post->ID );
-			else $content = $post->post_content;				// fallback to regular content
-			$content = $this->util->cleanup_html_tags( $content, false );	// remove shortcodes, etc., but don't strip html tags
-			return $content;
-		}
-
-		// called from Tumblr, Pinterest, and Twitter classes
-		public function get_caption( $type = 'title', $length = 300, $use_post = true ) {
-			$caption = '';
-			switch( strtolower( $type ) ) {
-				case 'title' :
-					$caption = $this->get_title( $length, '...', $use_post );
-					break;
-				case 'excerpt' :
-					$caption = $this->get_description( $length, '...', $use_post );
-					break;
-				case 'both' :
-					$title = $this->get_title( null, null, $use_post);
-					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
-					break;
-			}
-			return $caption;
-		}
-
-		public function get_title( $textlen = 100, $trailing = '', $use_post = false ) {
-			global $post, $page, $paged;
-			$title = '';
-			$page_num = '';
-			$parent_title = '';
-
-			if ( is_category() ) { 
-
-				$title = single_cat_title( '', false );
-				$this->debug->push( 'single_cat_title() = "' . $title . '"' );
-				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->options['og_title_sep'] . ' ', false );
-
-				// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
-				if ( is_wp_error( $cat_parents ) ) {
-					$this->debug->push( 'get_category_parents() returned WP_Error object.' );
-				} else {
-					$this->debug->push( 'get_category_parents() = "' . $cat_parents . '"' );
-					if ( ! empty( $cat_parents ) ) {
-						$title = trim( $cat_parents, ' ' . $this->options['og_title_sep'] );
-						// beautify title with category names that end with three dots
-						$title = preg_replace( '/\.\.\. \\' . $this->options['og_title_sep'] . ' /', '... ', $title );
-					}
-				}
-				unset ( $cat_parents );
-
-			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
-
-				$this->debug->push( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
-				$title = get_the_title();
-				$this->debug->push( 'get_the_title() = "' . $title . '"' );
-				if ( $post->post_parent ) {
-					$parent_title = get_the_title( $post->post_parent );
-					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
-				}
-
-			} else {
-				/* The title text depends on the query:
-				 *	Single post = the title of the post 
-				 *	Date-based archive = the date (e.g., "2006", "2006 - January") 
-				 *	Category = the name of the category 
-				 *	Author page = the public name of the user 
-				 */
-				$title = trim( wp_title( $this->options['og_title_sep'], false, 'right' ), ' ' . $this->options['og_title_sep'] );
-				$this->debug->push( 'wp_title() = "' . $title . '"' );
-			}
-
-			// just in case
-			if ( ! $title ) {
-				$title = get_bloginfo( 'name', 'display' );
-				$this->debug->push( 'get_bloginfo() = "' . $title . '"' );
-			}
-
-			// add a page number if necessary
-			if ( $paged >= 2 || $page >= 2 ) {
-				$page_num = ' ' . $this->options['og_title_sep'] . ' ' . sprintf( 'Page %s', max( $paged, $page ) );
-				$textlen = $textlen - strlen( $page_num );	// make room for the page number
-			}
-
-			$title = $this->util->decode( $title );
-
-			if ( ! empty( $this->options['ngfb_filter_title'] ) ) {
-				$title = apply_filters( 'the_title', $title );
-				$this->debug->push( 'apply_filters() = "' . $title . '"' );
-			}
-
-			$title = $this->util->cleanup_html_tags( $title );
-			$this->debug->push( 'this->util->cleanup_html_tags() = "' . $title . '"' );
-
-			// append the text number after the trailing character string
-			if ( $textlen > 0 ) $title = $this->util->limit_text_length( $title, $textlen, $trailing );
-
-			return $title . $page_num;
-		}
-
-		// called from the view/gallery-uwf.php template
-		public function get_wiki_summary() {
-			global $post;
-			$desc = '';
-			if ( $this->is_avail['wikibox'] !== true ) return $desc;
-			$tag_prefix = $this->options['og_wiki_tag'];
-			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-			$this->debug->push( 'post tags = ' . implode( ', ', $tags ) );
-			foreach ( $tags as $tag_name ) {
-				if ( $tag_prefix ) {
-					if ( preg_match( "/^$tag_prefix/", $tag_name ) ) {
-						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
-						if ( $tag_name == 'NoWikiText' ) return $desc;
-					}
-					else continue;	// skip tags that don't have the prefix
-				}
-				$desc .= wikibox_summary( $tag_name, 'en', false ); 
-				$this->debug->push( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
-			}
-			if ( empty( $desc ) ) {
-				$title = the_title( '', '', false );
-				$desc .= wikibox_summary( $title, 'en', false );
-				$this->debug->push( 'wikibox_summary("' . $title . '") = ' . $desc );
-			}
-			return $desc;
-		}
-
-		public function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
-			global $post;
-			$desc = '';
-			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-
-				$this->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-				$this->debug->push( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
-
-				// use the excerpt, if we have one
-				if ( has_excerpt( $post->ID ) ) {
-					$this->debug->push( 'has_excerpt() = true' );
-					$desc = $post->post_excerpt;
-					if ( ! empty( $this->options['ngfb_filter_excerpt'] ) )
-						$desc = apply_filters( 'the_excerpt', $desc );
-		
-				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
-				} elseif ( is_page() && ! empty( $this->options['og_desc_wiki'] ) && $this->is_avail['wikibox'] == true ) {
-					$this->debug->push( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
-					$desc = $this->get_wiki_summary();
-				} 
-		
-				if ( empty( $desc ) ) {
-					$this->debug->push( 'calling this->get_content_filtered()' );
-					$desc = $this->get_content_filtered( $this->options['ngfb_filter_content'] );
-				}
-		
-				// ignore everything until the first paragraph tag if $this->options['og_desc_strip'] is true
-				if ( $this->options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
-		
-			} elseif ( is_author() ) { 
-		
-				$this->debug->push( 'is_author() = true' );
-				the_post();
-				$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
-				$author_desc = preg_replace( '/[\r\n\t ]+/s', ' ', get_the_author_meta( 'description' ) );	// put everything on one line
-				if ( $author_desc ) $desc .= ' : '.$author_desc;		// add the author's profile description, if there is one
-		
-			} elseif ( is_tag() ) {
-		
-				$this->debug->push( 'is_tag() = true' );
-				$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
-				$tag_desc = preg_replace( '/[\r\n\t ]+/s', ' ', tag_description() );	// put everything on one line
-				if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
-		
-			} elseif ( is_category() ) { 
-		
-				$this->debug->push( 'is_category() = true' );
-				$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
-				$cat_desc = preg_replace( '/[\r\n\t ]+/', ' ', category_description() );	// put everything on one line
-				if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
-			}
-			elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
-			elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
-			elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
-			else $desc = get_bloginfo( 'description', 'display' );
-
-			$desc = $this->util->cleanup_html_tags( $desc );
-
-			if ( $textlen > 0 ) 
-				$desc = $this->util->limit_text_length( $desc, $textlen, '...' );
-
-			return $desc;
-		}
-
-		public function get_tags() {
-			$tags = array();
-			if ( is_singular() ) {
-				global $post;
-				$tags = array_merge( $tags, $this->get_wp_tags( $post->ID ) );
-				if ( $this->options['og_ngg_tags'] && $this->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
-					$pid = get_post_thumbnail_id( $post->ID );
-					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
-						$tags = array_merge( $tags, $this->get_ngg_tags( $pid ) );
-				}
-			} elseif ( is_search() )
-				$tags = preg_split( '/ *, */', get_search_query( false ) );
-		
-			return array_unique( array_map( 'strtolower', $tags ) );	// filter for duplicate (lowercase) element values - just in case
-		}
-
-		private function get_wp_tags( $post_id ) {
-			$tags = array();
-			$post_ids = array ( $post_id );	// array of one
-			if ( $this->options['og_page_parent_tags'] && is_page( $post_id ) )
-				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
-			$tag_prefix = empty( $this->options['og_wiki_tag'] ) ? '' : $this->options['og_wiki_tag'];
-			foreach ( $post_ids as $id ) {
-				if ( $this->options['og_page_title_tag'] && is_page( $id ) )
-					$tags[] = get_the_title( $id );
-				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name ) {
-					if ( $this->options['og_desc_wiki'] && $tag_prefix ) 
-						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
-					$tags[] = $tag_name;
-				}
-			}
-			return $tags;
-		}
-
-		// called from the view/gallery-meta.php template
-		public function get_ngg_tags( $pid ) {
-			$tags = array();
-			if ( $this->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
-			}
-			return array_map( 'strtolower', $tags );
-		}
-
-		public function get_content_filtered( $filter_content = true ) {
-			global $post;
-			if ( empty( $post ) ) return;
-			$this->debug->push( 'using content from post id ' . $post->ID );
-			$cache_salt = __METHOD__ . '(post:' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' ) . ')';
-			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
-			$cache_type = 'object cache';
-			$content = wp_cache_get( $cache_id, __METHOD__ );
-			$this->debug->push( $cache_type . ': filtered content wp_cache id salt "' . $cache_salt . '"' );
-
-			if ( $content !== false ) {
-				$this->debug->push( $cache_type . ': filtered content retrieved from wp_cache for id "' . $cache_id . '"' );
-				return $content;
-			} 
-			$content = $post->post_content;
-			$content_strlen_before = strlen( $content );
-
-			// remove singlepics, which we detect and use before-hand 
-			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
-			if ( $count > 0 ) $this->debug->push( $count . ' [singlepic] shortcode(s) removed from content' );
-
-			if ( $filter_content == true ) {
-
-				// temporarily remove this->social->add_content() to prevent recursion
-				$filter_removed = remove_filter( 'the_content', array( &$this->social, 'add_content' ), NGFB_CONTENT_PRIORITY );
-				$this->debug->push( 'this->social->add_content() filter removed = ' . ( $filter_removed  ? 'true' : 'false' ) );
-
-				// temporarily remove ngfb shortcode to prevent recursion
-				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
-					remove_shortcode( NGFB_SHORTNAME );
-					$this->debug->push( NGFB_SHORTNAME . ' shortcode removed' );
-				}
-
-				$this->debug->push( 'calling apply_filters()' );
-				$content = apply_filters( 'the_content', $content );
-
-				// cleanup for NGG album shortcode
-				unset ( $GLOBALS['subalbum'] );
-				unset ( $GLOBALS['nggShowGallery'] );
-
-				if ( ! empty( $filter_removed ) ) {
-					add_filter( 'the_content', array( &$this->social, 'add_content' ), NGFB_CONTENT_PRIORITY );
-					$this->debug->push( 'this->social->add_content() filter re-added' );
-				}
-
-				if ( ! empty( $this->options['ngfb_enable_shortcode'] ) ) {
-					add_shortcode( NGFB_SHORTNAME, array( &$this->shortcodes, 'ngfb_shortcode' ) );
-					$this->debug->push( NGFB_SHORTNAME . ' shortcode re-added' );
-				}
-			}
-			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
-			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
-			$content = str_replace( ']]>', ']]&gt;', $content );
-			$content_strlen_after = strlen( $content );
-			$this->debug->push( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
-
-			wp_cache_set( $cache_id, $content, __METHOD__, $this->cache->object_expire );
-			$this->debug->push( $cache_type . ': filtered content saved to wp_cache for id "' . $cache_id . '" (' . $this->cache->object_expire . ' seconds)');
-
-			return $content;
-		}
-
-		public function get_attachment_image_src( $pid, $size_name = 'thumbnail' ) {
-			$image_url = '';
-			$size_info = $this->get_size_info( $size_name );
-			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->debug->push( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
-				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
-			$image_url = $this->util->fix_relative_url( $image_url );
-			if ( $this->util->is_uniq_url( $image_url ) )
-				return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
-			else return array( null, null, null, null );
-		}
-
-		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
-		public function get_ngg_image_src( $pid, $size_name = 'thumbnail' ) {
-
-			if ( $this->is_avail['ngg'] != true ) return;
-
-			$image_url = '';
-			$size_info = array( 'width' => '', 'height' => '', 'crop' => '' );
-			$cropped = '';
-
-			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-				global $nggdb;
-				$pid = substr( $pid, 4 );
-				$image = $nggdb->find_image( $pid );	// returns an nggImage object
-				if ( ! empty( $image ) ) {
-					$size_info = $this->get_size_info( $size_name );
-					$crop = ( $size_info['crop'] == 1 ? 'crop' : '' );
-					$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-					$image_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop ); 
-					
-					if ( empty( $image_url ) )	// if the image file doesn't exist, use the dynamic image url
-						$image_url = trailingslashit( site_url() ) . 
-							'index.php?callback=image&amp;pid=' . $pid .
-							'&amp;width=' . $size_info['width'] . 
-							'&amp;height=' . $size_info['height'] . 
-							'&amp;mode=' . $crop;
-					else {
-						// get the REAL image width and height
-						$cachename = $image->pid . '_' . $crop . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
-						$cachefolder = WINABSPATH . $this->ngg_options['gallerypath'] . 'cache/';
-						$cached_url = site_url() . '/' . $this->ngg_options['gallerypath'] . 'cache/' . $cachename;
-						$cached_file = $cachefolder . $cachename;
-						$file_info =  getimagesize( $cached_file );
-						if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
-							$size_info['width'] = $file_info[0];
-							$size_info['height'] = $file_info[1];
-						}
-					}
-				}
-			}
-			$this->debug->push( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
-				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
-			$image_url = $this->util->fix_relative_url( $image_url );
-			if ( $this->util->is_uniq_url( $image_url ) )
-				return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
-			else return array( null, null, null, null );
-		}
-
-		public function is_excluded() {
-			global $post;
-			if ( is_page() && $post->ID && $this->is_avail['expages'] == true && empty( $this->options['buttons_on_ex_pages'] ) ) {
-				$excluded_ids = ep_get_excluded_ids();
-				$delete_ids = array_unique( $excluded_ids );
-				if ( in_array( $post->ID, $delete_ids ) ) return true;
-			}
-			return false;
-		}
-
-		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
-
-			// $use_post = false when used for Open Graph meta tags and buttons in widget
-			// $use_post = true when buttons are added to individual posts on an index webpage
-
-			if ( ! empty( $url ) ) 
-				$url = $this->util->fix_relative_url( $url );
-			else {
-				global $post;
-				$is_nggalbum = false;
-
-				// check for album/gallery query strings and an [nggalbum] shortcode
-				if ( is_singular() ) {
-					global $wp_query;
-					// sanitize query values
-					$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
-					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
-
-					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
-						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
-
-						$this->debug->push( 'is_singular with nggalbum shortcode and query' );
-						$is_nggalbum = true;
-						$strip_query = 'notrack';	// keep the album/gallery query values
-					}
-				}
-
-				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
-				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
-					$url = get_permalink( $post->ID );
-					$strip_query = 'none';	// don't modify the permalinks
-					//$this->debug->push( 'using permalink url = ' . $url );
-				} else {
-					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-					$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-					//$this->debug->push( 'using php server url = ' . $url );
-				}
-			}
-			switch ( $strip_query ) {
-				case 'noquery' :
-					if ( strpos( $url, '?' ) !== false ) $url = reset( explode( '?', $url ) );
-					break;
-				case 'notrack' :
-					// strip out tracking query arguments by Facebook, Google, etc.
-					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
-					break;
-				// leave url as-is
-				default :
-					break;
-			}
-			return $url;
-		}
-
-		public function get_size_info( $size_name = 'thumbnail' ) {
-
-			global $_wp_additional_image_sizes;
-
-			if ( is_integer( $size_name ) ) return;
-	
-			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
-				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
-			else $width = get_option( "{$size_name}_size_w" );
-		
-			if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
-				$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
-			else $height = get_option( "{$size_name}_size_h" );
-		
-			if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
-				$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
-			else $crop = get_option( "{$size_name}_crop" );
-
-			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
 	}

@@ -82,7 +82,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$query = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->get_sharing_url( 'notrack', null, $use_post );
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $this->ngfb->options['tumblr_button_style'];
 			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['tumblr_img_size'];
 
@@ -100,10 +100,10 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
 						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->ngfb->get_ngg_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'] );
 					} else {
 						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $this->ngfb->get_attachment_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'] );
 					}
 				}
 			}
@@ -113,7 +113,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( $use_post == true ) {
 					if ( ! empty( $post ) && ! empty( $post->post_content ) ) {
 						$videos = array();
-						$videos = $this->ngfb->og->get_content_videos( 1 );	// get the first video, if any
+						$videos = $this->ngfb->head->og->get_content_videos( 1 );	// get the first video, if any
 						if ( ! empty( $videos[0]['og:video'] ) ) 
 							$atts['embed'] = $videos[0]['og:video'];
 					}
@@ -124,19 +124,19 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				// allow on index pages only if in content (not a widget)
 				if ( $use_post == true ) {
 					if ( ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) 
-						$atts['quote'] = $this->ngfb->get_quote();
+						$atts['quote'] = $this->ngfb->webpage->get_quote();
 				}
 			}
 
 			// we only need the caption / title / description for some cases
 			if ( ! empty( $atts['photo'] ) || ! empty( $atts['embed'] ) ) {
 				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $this->ngfb->get_caption( $this->ngfb->options['tumblr_caption'], $this->ngfb->options['tumblr_cap_len'], $use_post );
+					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], $this->ngfb->options['tumblr_cap_len'], $use_post );
 			} else {
 				if ( empty( $atts['title'] ) ) 
-					$atts['title'] = $this->ngfb->get_title( null, null, $use_post);
+					$atts['title'] = $this->ngfb->webpage->get_title( null, null, $use_post);
 				if ( empty( $atts['description'] ) ) 
-					$atts['description'] = $this->ngfb->get_description( $this->ngfb->options['tumblr_desc_len'], '...', $use_post );
+					$atts['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['tumblr_desc_len'], '...', $use_post );
 			}
 
 			// define the button, based on what we have

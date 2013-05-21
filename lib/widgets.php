@@ -32,11 +32,11 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 			global $ngfb;
 
 			// if using the Exclude Pages plugin, skip social buttons on those pages
-			if ( is_page() && $ngfb->is_excluded() ) return;
+			if ( is_page() && $ngfb->webpage->is_excluded() ) return;
 	
 			extract( $args );
 
-			$sharing_url = $ngfb->get_sharing_url( 'notrack' );
+			$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__ . '(widget:' . $this->id . '_sharing_url:' . $sharing_url . ')';
 			$cache_id = 'ngfb_' . md5( $cache_salt );
 			$cache_type = 'object cache';

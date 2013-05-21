@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			$html = '<select name="' . $this->options_name . '[' . $name . ']">' . "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
-				$size = $this->ngfb->get_size_info( $size_name );
+				$size = $this->ngfb->media->get_size_info( $size_name );
 				$html .= '<option value="' . $size_name . '" ';
 				if ( array_key_exists( $name, $this->options ) )
 					$html .= selected( $this->options[$name], $size_name, false );

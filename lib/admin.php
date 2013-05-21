@@ -108,10 +108,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->default_options );
 
 			// extends the ngfbAdmin() method
-			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
-				$classname = 'ngfbAdmin' . $classname;
-				$this->website[$filename] = new $classname( $ngfb_plugin );
+			foreach ( $this->ngfb->social_class_names as $id => $name ) {
+				$classname = 'ngfbAdmin' . $name;
+				$this->website[$id] = new $classname( $ngfb_plugin );
 			}
+			unset ( $id, $name );
 
 			natsort ( $this->website_topics );
 
@@ -135,7 +136,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function check_options() {
-			$size_info = $this->ngfb->get_size_info( $this->ngfb->options['og_img_size'] );
+			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				$this->msg_inf[] = 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $this->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
@@ -335,7 +336,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Image Size Name</th>
 				<td><?php 
 					echo $this->form->get_select_img_size( 'og_img_size' ); 
-					$size_info = $this->ngfb->get_size_info( $this->ngfb->default_options['og_img_size'] );
+					$size_info = $this->ngfb->media->get_size_info( $this->ngfb->default_options['og_img_size'] );
 					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				?></td>
 				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
@@ -543,17 +544,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$section = -1;	// a "section" is a row of several boxes
 				$max_col = 2;
 				$rows = array();
-				foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
+				foreach ( $this->ngfb->social_class_names as $id => $name ) {
 					$box++;				// increment the website box number (first box is 0)
 					$col = $box % $max_col;		// determine column number based on the box number
 					if ( $col == 0 ) $section++;	// increment section if we're on column 0
-					foreach ( $this->website[$filename]->get_rows() as $num => $row ) {
+					foreach ( $this->website[$id]->get_rows() as $num => $row ) {
 						// avoids undefined offset error
 						if ( empty( $rows[$section][$num] ) )
 							$rows[$section][$num] = '';
 						$rows[$section][$num] .= $row;
 					}
 				}
+				unset ( $id, $name );
 				foreach ( $rows as $section ) {
 					foreach ( $section as $row ) {
 						echo "<tr>", $row, "</tr>\n";

@@ -378,9 +378,9 @@ You can also use the `ngfb_get_social_buttons()` function *outside* of a loop, p
 
 `
 if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
-	$url = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+	$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr'),
+	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr' ),
 		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
 }
 `

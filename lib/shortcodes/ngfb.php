@@ -16,19 +16,33 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbShortCodes' ) ) {
+if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 
-	class ngfbShortCodes {
+	class ngfbShortCodeNGFB {
 
 		private $ngfb;
+		private $name = 'ngfb';
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-        		add_shortcode( 'ngfb', array( &$this, 'ngfb_shortcode' ) );
+			$this->add();
 		}
 
-		// [ngfb] shortcode filter
-		function ngfb_shortcode( $atts, $content = null ) { 
+		public function add() {
+			if ( ! empty( $this->ngfb->options[$this->name . '_enable_shortcode'] ) ) {
+        			add_shortcode( $this->name, array( &$this, 'shortcode' ) );
+				$this->ngfb->debug->push( '[' . $this->name . '] shortcode added' );
+			}
+		}
+
+		public function remove() {
+			if ( ! empty( $this->ngfb->options[$this->name . '_enable_shortcode'] ) ) {
+				remove_shortcode( $this->name );
+				$this->ngfb->debug->push( '[' . $this->name . '] shortcode removed' );
+			}
+		}
+
+		function shortcode( $atts, $content = null ) { 
 			// using extract method here turns each key in the merged array into its own variable
 			// $atts or the default array will not be modified after the call to shortcode_atts()
 			extract( shortcode_atts( array( 
