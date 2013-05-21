@@ -98,8 +98,8 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['caption'] ) ) $atts['caption'] = $this->ngfb->get_caption( $this->ngfb->options['pin_caption'], $this->ngfb->options['pin_cap_len'], $use_post );
 
 			$query .= 'url=' . urlencode( $atts['url'] );
-			$query .= '&amp;media='. urlencode( $this->ngfb->cdn_linker_rewrite( $atts['photo'] ) );
-			$query .= '&amp;description=' . urlencode( $this->ngfb->str_decode( $atts['caption'] ) );
+			$query .= '&amp;media='. urlencode( $this->ngfb->util->cdn_rewrite( $atts['photo'] ) );
+			$query .= '&amp;description=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 
 			$html = '
 				<!-- Pinterest Button -->

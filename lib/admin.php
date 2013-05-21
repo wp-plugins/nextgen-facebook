@@ -107,6 +107,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->default_options );
 
+			// extends the ngfbAdmin() method
+			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
+				$classname = 'ngfbAdmin' . $classname;
+				$this->website[$filename] = new $classname( $ngfb_plugin );
+			}
+
 			natsort ( $this->website_topics );
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
@@ -116,12 +122,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
-
-			// extends the ngfbAdmin() method
-			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
-				$classname = 'ngfbAdmin' . $classname;
-				$this->website[$filename] = new $classname( $ngfb_plugin );
-			}
 		}
 	
 		function check_wp_version() {
@@ -135,7 +135,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function check_options() {
-			$size_info = $this->ngfb->get_size_values( $this->ngfb->options['og_img_size'] );
+			$size_info = $this->ngfb->get_size_info( $this->ngfb->options['og_img_size'] );
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				$this->msg_inf[] = 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. <a href="' . $this->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.';
@@ -174,7 +174,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		function sanitize_options( $opts ) {
-			return $this->ngfb->sanitize_options( $opts );
+			return $this->ngfb->sanitize_options( $opts, $this->ngfb->default_options );
 		}
 
 		// display a settings link on the main plugins page
@@ -335,7 +335,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Image Size Name</th>
 				<td><?php 
 					echo $this->form->get_select_img_size( 'og_img_size' ); 
-					$size_info = $this->ngfb->get_size_values( $this->ngfb->default_options['og_img_size'] );
+					$size_info = $this->ngfb->get_size_info( $this->ngfb->default_options['og_img_size'] );
 					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				?></td>
 				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>

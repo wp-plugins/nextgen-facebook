@@ -32,10 +32,10 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$from = '';
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[1]['class'] ) ) 
-					$from .= sprintf( '%-24s:: ', $stack[1]['class'] );
+					$from .= sprintf( '%-22s:: ', $stack[1]['class'] );
 
 				if ( ! empty( $stack[1]['function'] ) ) 
-					$from .= sprintf( '%-24s : ', $stack[1]['function'] );
+					$from .= sprintf( '%-22s : ', $stack[1]['function'] );
 
 				if ( ! empty( $from ) ) 
 					$msg = $from . $msg;
@@ -48,8 +48,10 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		public function show( $data = null, $title = null, $from = null ) {
 			if ( empty( $from ) ) {
 				$stack = debug_backtrace();
+				if ( ! empty( $stack[1]['class'] ) ) 
+					$from .= $stack[1]['class'] . '::';
 				if ( ! empty( $stack[1]['function'] ) )
-					$from = $stack[1]['function'];
+					$from .= $stack[1]['function'];
 			}
 			echo $this->get( $data, $title, $from );
 		}
@@ -60,8 +62,10 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$html .= "<!-- " . NGFB_ACRONYM . " debug";
 				if ( empty( $from ) ) {
 					$stack = debug_backtrace();
+					if ( ! empty( $stack[1]['class'] ) ) 
+						$from .= $stack[1]['class'] . '::';
 					if ( ! empty( $stack[1]['function'] ) )
-						$from = $stack[1]['function'];
+						$from .= $stack[1]['function'];
 				}
 				if ( empty( $data ) ) {
 					$this->push( 'truncating debug log' );
@@ -99,4 +103,5 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 	}
 }
+
 ?>

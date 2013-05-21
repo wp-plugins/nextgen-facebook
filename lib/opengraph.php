@@ -88,11 +88,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['og:type'] = 'article';
 
 				if ( ! empty( $post ) && $post->post_author )
-					$og['article:author'] = $this->ngfb->get_author_url( $post->post_author, 
+					$og['article:author'] = $this->ngfb->user->get_author_url( $post->post_author, 
 						$this->ngfb->options['og_author_field'] );
 
 				elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
-					$og['article:author'] = $this->ngfb->get_author_url( $this->ngfb->options['og_def_author_id'], 
+					$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
 						$this->ngfb->options['og_author_field'] );
 
 			// check for default author info on indexes and searches
@@ -100,7 +100,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				|| ( is_search() && ! empty( $this->ngfb->options['og_def_author_on_search'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) ) ) {
 
 				$og['og:type'] = "article";
-				$og['article:author'] = $this->ngfb->get_author_url( $this->ngfb->options['og_def_author_id'], 
+				$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
 					$this->ngfb->options['og_author_field'] );
 
 			// default
@@ -195,7 +195,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
 			global $post, $wpdb, $wp_query;
-			$size_info = $this->ngfb->get_size_values( $size_name );
+			$size_info = $this->ngfb->get_size_info( $size_name );
 
 			if ( empty( $post ) ) {
 				$this->ngfb->debug->push( 'exiting early for: empty post object' ); return $og_ret;
@@ -263,7 +263,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_ret = array();
 			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
-			$size_info = $this->ngfb->get_size_values( $size_name );
+			$size_info = $this->ngfb->get_size_info( $size_name );
 			global $post, $wpdb;
 
 			if ( empty( $post ) ) {
@@ -336,9 +336,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		private function get_content_images( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
 			$og_ret = array();
-			$size_info = $this->ngfb->get_size_values( $size_name );
-			$this->ngfb->debug->push( 'calling this->ngfb->get_filtered_content()' );
-			$content = $this->ngfb->get_filtered_content( $this->ngfb->options['ngfb_filter_content'] );
+			$size_info = $this->ngfb->get_size_info( $size_name );
+			$this->ngfb->debug->push( 'calling this->ngfb->get_content_filtered()' );
+			$content = $this->ngfb->get_content_filtered( $this->ngfb->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { $this->ngfb->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
 
 			// check for ngg image ids
@@ -370,7 +370,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->ngfb->get_ngg_image_src( 'ngg-' . $match[1], $size_name );
 
-					} elseif ( $this->ngfb->is_good_url( $og_image['og:image'] ) ) {
+					} elseif ( $this->ngfb->util->is_uniq_url( $og_image['og:image'] ) ) {
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:height'] = $match[1];
 
@@ -403,8 +403,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		public function get_content_videos( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-			$this->ngfb->debug->push( 'calling this->ngfb->get_filtered_content()' );
-			$content = $this->ngfb->get_filtered_content( $this->ngfb->options['ngfb_filter_content'] );
+			$this->ngfb->debug->push( 'calling this->ngfb->get_content_filtered()' );
+			$content = $this->ngfb->get_content_filtered( $this->ngfb->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { $this->ngfb->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
@@ -418,7 +418,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						'og:video:height' => '',
 						'og:video:type' => 'application/x-shockwave-flash'
 					);
-					if ( $this->ngfb->is_good_url( $og_video['og:video'] ) ) {
+					if ( $this->ngfb->util->is_uniq_url( $og_video['og:video'] ) ) {
 
 						// set the height and width based on the iframe/embed attributes
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) $og_video['og:video:width'] = $match[1];

@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) ) return;	// just in case
-			if ( $is_assoc == false ) $is_assoc = $this->ngfb->is_assoc( $values );
+			if ( $is_assoc == false ) $is_assoc = $this->ngfb->util->is_assoc( $values );
 			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			$html = '<select name="' . $this->options_name . '[' . $name . ']">' . "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
-				$size = $this->ngfb->get_size_values( $size_name );
+				$size = $this->ngfb->get_size_info( $size_name );
 				$html .= '<option value="' . $size_name . '" ';
 				if ( array_key_exists( $name, $this->options ) )
 					$html .= selected( $this->options[$name], $size_name, false );

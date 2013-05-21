@@ -141,19 +141,19 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
 			// define the button, based on what we have
 			if ( ! empty( $atts['photo'] ) ) {
-				$query .= 'photo?source='. urlencode( $this->ngfb->cdn_linker_rewrite( $atts['photo'] ) );
+				$query .= 'photo?source='. urlencode( $this->ngfb->util->cdn_rewrite( $atts['photo'] ) );
 				$query .= '&amp;clickthru=' . urlencode( $atts['url'] );
-				$query .= '&amp;caption=' . urlencode( $this->ngfb->str_decode( $atts['caption'] ) );
+				$query .= '&amp;caption=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['embed'] ) ) {
 				$query .= 'video?embed=' . urlencode( $atts['embed'] );
-				$query .= '&amp;caption=' . urlencode( $this->ngfb->str_decode( $atts['caption'] ) );
+				$query .= '&amp;caption=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['quote'] ) ) {
 				$query .= 'quote?quote=' . urlencode( $atts['quote'] );
-				$query .= '&amp;source=' . urlencode( $this->ngfb->str_decode( $atts['title'] ) );
+				$query .= '&amp;source=' . urlencode( $this->ngfb->util->decode( $atts['title'] ) );
 			} elseif ( ! empty( $atts['url'] ) ) {
 				$query .= 'link?url=' . urlencode( $atts['url'] );
-				$query .= '&amp;name=' . urlencode( $this->ngfb->str_decode( $atts['title'] ) );
-				$query .= '&amp;description=' . urlencode( $this->ngfb->str_decode( $atts['description'] ) );
+				$query .= '&amp;name=' . urlencode( $this->ngfb->util->decode( $atts['title'] ) );
+				$query .= '&amp;description=' . urlencode( $this->ngfb->util->decode( $atts['description'] ) );
 			}
 			if ( empty( $query ) ) return;
 

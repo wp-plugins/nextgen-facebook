@@ -27,23 +27,69 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 			$this->ngfb =& $ngfb_plugin;
 
-			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
-			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
-
 			// extends the ngfbSocial() method
 			foreach ( $this->ngfb->social_class_names as $filename => $classname ) {
 				$classname = 'ngfbSocial' . $classname;
 				$this->website[$filename] = new $classname( $ngfb_plugin );
 			}
 
+			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
+			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
+
+			add_filter( 'the_content', array( &$this, 'add_content' ), NGFB_CONTENT_PRIORITY );
 		}
 
 		public function add_header() {
 			echo $this->get_js( 'header' );
+			$this->ngfb->debug->show( null, 'Debug Log' );
 		}
 
 		public function add_footer() {
 			echo $this->get_js( 'footer' );
+			$this->ngfb->debug->show( null, 'Debug Log' );
+		}
+
+		// called by WP the_content filter
+		public function add_content( $content ) {
+
+			// if using the Exclude Pages plugin, skip social buttons on those pages
+			if ( is_page() && $this->ngfb->is_excluded() ) return $content;
+
+			if ( is_singular() || $this->ngfb->options['buttons_on_index'] ) {
+				global $post;
+				// we should always have a unique post ID for each content
+				$cache_salt = __METHOD__ . '(post:' . $post->ID . ')';
+				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+				$cache_type = 'object cache';
+				$button_html = get_transient( $cache_id );
+				$this->ngfb->debug->push( $cache_type . ': button_html transient id salt "' . $cache_salt . '"' );
+
+				if ( $button_html !== false ) {
+					$this->ngfb->debug->push( $cache_type . ': button_html retrieved from transient for id "' . $cache_id . '"' );
+				} else {
+					$sorted_ids = array();
+					foreach ( $this->ngfb->social_options_prefix as $id => $opt_prefix )
+						if ( $this->ngfb->options[$opt_prefix.'_enable'] )
+							$sorted_ids[$this->ngfb->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
+					ksort( $sorted_ids );
+	
+					$this->ngfb->debug->push( 'calling this->get_html()' );
+					$button_html = $this->get_html( $sorted_ids );
+	
+					if ( ! empty( $button_html ) ) {
+						$button_html = "\n<!-- " . NGFB_FULLNAME . " content buttons BEGIN -->\n" .
+							"<div class=\"" . NGFB_SHORTNAME . "-content-buttons\">\n" . $button_html . "</div>\n" .
+							"<!-- " . NGFB_FULLNAME . " content buttons END -->\n";
+
+						set_transient( $cache_id, $button_html, $this->ngfb->cache->object_expire );
+						$this->ngfb->debug->push( $cache_type . ': button_html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+					}
+				}
+				if ( $this->ngfb->options['buttons_location'] == "top" )
+					$content = $this->ngfb->debug->get() . $button_html . $content;
+				else $content .= $this->ngfb->debug->get() . $button_html;
+			}
+			return $content;
 		}
 
 		public function get_html( $ids = array(), $atts = array() ) {
@@ -135,7 +181,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			// make sure the cache expiration is greater than 0 hours
 			if ( empty( $this->ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
 
-			return ( $this->ngfb->cdn_linker_rewrite( $this->ngfb->cache->get( $url ) ) );
+			return ( $this->ngfb->util->cdn_rewrite( $this->ngfb->cache->get( $url ) ) );
 		}
 
 		protected function get_short_url( $url, $short = true ) {
