@@ -426,8 +426,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 Complete code review, with an improved object-oriented design, and several new classes.
 
+`
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
 Version 5.0 : 4763 lines in 26 files, with 31 classes and 156 functions.
+`
 
 = Version 4.3 =
 
