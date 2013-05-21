@@ -161,7 +161,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return $links;
 		}
 
-		function options_page() {
+		public function options_page() {
 			$this->admin_style();
 			?><style type="text/css">
 				.wrap { 

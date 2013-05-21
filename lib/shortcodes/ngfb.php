@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 			}
 		}
 
-		function shortcode( $atts, $content = null ) { 
+		public function shortcode( $atts, $content = null ) { 
 			// using extract method here turns each key in the merged array into its own variable
 			// $atts or the default array will not be modified after the call to shortcode_atts()
 			extract( shortcode_atts( array( 
@@ -81,4 +81,5 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 		}
 	}
 }
+
 ?>

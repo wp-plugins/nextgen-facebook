@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 			$this->WP_Widget( 'ngfb-widget-buttons', NGFB_ACRONYM . ' Social Sharing', $widget_ops );
 		}
 	
-		function widget( $args, $instance ) {
+		public function widget( $args, $instance ) {
 			global $ngfb;
 
 			// if using the Exclude Pages plugin, skip social buttons on those pages
@@ -68,7 +68,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 			echo $widget_html;
 		}
 	
-		function update( $new_instance, $old_instance ) {
+		public function update( $new_instance, $old_instance ) {
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
@@ -79,7 +79,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 			return $instance;
 		}
 	
-		function form( $instance ) {
+		public function form( $instance ) {
 			$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : 'Share It';
 			echo "\n", '<p><label for="', $this->get_field_id( 'title' ), '">Title (Leave Blank for No Title):</label>',
 				'<input class="widefat" id="', $this->get_field_id( 'title' ), 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 		}
 	}
 	
-	add_action( 'widgets_init', 
-		create_function( '', 'return register_widget( "ngfbSocialWidget" );' ) );
-}	
+	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbSocialWidget" );' ) );
+}
+
 ?>

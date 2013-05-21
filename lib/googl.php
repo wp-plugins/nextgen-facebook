@@ -31,7 +31,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 		private $apiKey;
 		private $ch;
 	
-		function __construct( $apiKey = null ) {
+		public function __construct( $apiKey = null ) {
 			# Extended output mode
 			$extended = false;
 	
@@ -80,7 +80,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 			}
 		}
 	
-		function __destruct() {
+		public function __destruct() {
 			# Close the curl handle
 			curl_close($this->ch);
 			# Nulling the curl handle
