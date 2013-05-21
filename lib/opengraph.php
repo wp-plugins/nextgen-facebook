@@ -343,8 +343,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			global $post;
 			$og_ret = array();
 			$size_info = $this->ngfb->media->get_size_info( $size_name );
-			$this->ngfb->debug->push( 'calling this->ngfb->webpage->get_content_filtered()' );
-			$content = $this->ngfb->webpage->get_content_filtered( $this->ngfb->options['ngfb_filter_content'] );
+			$this->ngfb->debug->push( 'calling this->ngfb->webpage->get_content()' );
+			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { $this->ngfb->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
 
 			// check for ngg image ids
@@ -409,8 +409,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		public function get_content_videos( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-			$this->ngfb->debug->push( 'calling this->ngfb->webpage->get_content_filtered()' );
-			$content = $this->ngfb->webpage->get_content_filtered( $this->ngfb->options['ngfb_filter_content'] );
+			$this->ngfb->debug->push( 'calling this->ngfb->webpage->get_content()' );
+			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { $this->ngfb->debug->push( 'exiting early for: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {

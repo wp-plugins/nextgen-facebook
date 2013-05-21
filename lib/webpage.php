@@ -158,8 +158,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->ngfb->debug->push( 'calling this->get_content_filtered()' );
-					$desc = $this->get_content_filtered( $this->ngfb->options['ngfb_filter_content'] );
+					$this->ngfb->debug->push( 'calling this->get_content()' );
+					$desc = $this->get_content( $this->ngfb->options['ngfb_filter_content'] );
 				}
 		
 				// ignore everything until the first paragraph tag if $this->ngfb->options['og_desc_strip'] is true
@@ -200,18 +200,19 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			return $desc;
 		}
 
-		public function get_content_filtered( $filter_content = true ) {
+		public function get_content( $filter_content = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
+			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 			$this->ngfb->debug->push( 'using content from post id ' . $post->ID );
-			$cache_salt = __METHOD__ . '(post:' . $post->ID . ( $filter_content  ? '_filtered' : '_unfiltered' ) . ')';
+			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
 			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$content = wp_cache_get( $cache_id, __METHOD__ );
-			$this->ngfb->debug->push( $cache_type . ': filtered content wp_cache id salt "' . $cache_salt . '"' );
+			$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
 
 			if ( $content !== false ) {
-				$this->ngfb->debug->push( $cache_type . ': filtered content retrieved from wp_cache for id "' . $cache_id . '"' );
+				$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
 				return $content;
 			} 
 			$content = $post->post_content;
@@ -248,7 +249,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$this->ngfb->debug->push( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->ngfb->cache->object_expire );
-			$this->ngfb->debug->push( $cache_type . ': filtered content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+			$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 
 			return $content;
 		}
