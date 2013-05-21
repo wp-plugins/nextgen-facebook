@@ -31,14 +31,14 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 		public function add() {
 			if ( ! empty( $this->ngfb->options[$this->name . '_enable_shortcode'] ) ) {
         			add_shortcode( $this->name, array( &$this, 'shortcode' ) );
-				$this->ngfb->debug->push( '[' . $this->name . '] shortcode added' );
+				$this->ngfb->debug->log( '[' . $this->name . '] shortcode added' );
 			}
 		}
 
 		public function remove() {
 			if ( ! empty( $this->ngfb->options[$this->name . '_enable_shortcode'] ) ) {
 				remove_shortcode( $this->name );
-				$this->ngfb->debug->push( '[' . $this->name . '] shortcode removed' );
+				$this->ngfb->debug->log( '[' . $this->name . '] shortcode removed' );
 			}
 		}
 
@@ -61,10 +61,10 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 				$cache_id = 'ngfb_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
-				$this->ngfb->debug->push( $cache_type . ' : shortcode transient id salt "' . $cache_salt . '"' );
+				$this->ngfb->debug->log( $cache_type . ' : shortcode transient id salt "' . $cache_salt . '"' );
 
 				if ( $html !== false ) {
-					$this->ngfb->debug->push( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
+					$this->ngfb->debug->log( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					$html .= "\n<!-- " . NGFB_LONGNAME . " shortcode BEGIN -->\n";
 					$html .= $this->ngfb->social->get_js( 'pre-shortcode', $ids );
@@ -74,7 +74,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 					$html .= "<!-- " . NGFB_LONGNAME . " shortcode END -->\n";
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
-					$this->ngfb->debug->push( $cache_type . ' : html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+					$this->ngfb->debug->log( $cache_type . ' : html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 				}
 			}
 			return $this->ngfb->debug->get() . $html;

@@ -42,13 +42,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			if ( empty( $url ) ) return false;
 
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
-				$this->ngfb->debug->push( 'incomplete url given: ' . $url );
+				$this->ngfb->debug->log( 'incomplete url given: ' . $url );
 
 			if ( empty( $this->urls_found[$url] ) ) {
 				$this->urls_found[$url] = 1;
 				return true;
 			} else {
-				$this->ngfb->debug->push( 'duplicate image rejected: ' . $url ); 
+				$this->ngfb->debug->log( 'duplicate image rejected: ' . $url ); 
 				return false;
 			}
 		}
@@ -75,7 +75,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
 						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
 
-						$this->ngfb->debug->push( 'is_singular with nggalbum shortcode and query' );
+						$this->ngfb->debug->log( 'is_singular with nggalbum shortcode and query' );
 						$is_nggalbum = true;
 						$strip_query = 'notrack';	// keep the album/gallery query values
 					}
@@ -109,11 +109,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function fix_relative_url( $url = '' ) {
 			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
-				$this->ngfb->debug->push( 'relative url found = ' . $url );
+				$this->ngfb->debug->log( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
 				else $url = trailingslashit( $this->ngfb->util->get_sharing_url( 'noquery' ), false ) . $url;
-				$this->ngfb->debug->push( 'relative url fixed = ' . $url );
+				$this->ngfb->debug->log( 'relative url fixed = ' . $url );
 			}
 			return $url;
 		}

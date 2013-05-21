@@ -71,14 +71,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( is_category() ) { 
 
 				$title = single_cat_title( '', false );
-				$this->ngfb->debug->push( 'single_cat_title() = "' . $title . '"' );
+				$this->ngfb->debug->log( 'single_cat_title() = "' . $title . '"' );
 				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->ngfb->options['og_title_sep'] . ' ', false );
 
 				// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
 				if ( is_wp_error( $cat_parents ) ) {
-					$this->ngfb->debug->push( 'get_category_parents() returned WP_Error object.' );
+					$this->ngfb->debug->log( 'get_category_parents() returned WP_Error object.' );
 				} else {
-					$this->ngfb->debug->push( 'get_category_parents() = "' . $cat_parents . '"' );
+					$this->ngfb->debug->log( 'get_category_parents() = "' . $cat_parents . '"' );
 					if ( ! empty( $cat_parents ) ) {
 						$title = trim( $cat_parents, ' ' . $this->ngfb->options['og_title_sep'] );
 						// beautify title with category names that end with three dots
@@ -89,9 +89,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
-				$this->ngfb->debug->push( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
 				$title = get_the_title();
-				$this->ngfb->debug->push( 'get_the_title() = "' . $title . '"' );
+				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
 					$parent_title = get_the_title( $post->post_parent );
 					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
@@ -105,13 +105,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				 *	Author page = the public name of the user 
 				 */
 				$title = trim( wp_title( $this->ngfb->options['og_title_sep'], false, 'right' ), ' ' . $this->ngfb->options['og_title_sep'] );
-				$this->ngfb->debug->push( 'wp_title() = "' . $title . '"' );
+				$this->ngfb->debug->log( 'wp_title() = "' . $title . '"' );
 			}
 
 			// just in case
 			if ( ! $title ) {
 				$title = get_bloginfo( 'name', 'display' );
-				$this->ngfb->debug->push( 'get_bloginfo() = "' . $title . '"' );
+				$this->ngfb->debug->log( 'get_bloginfo() = "' . $title . '"' );
 			}
 
 			// add a page number if necessary
@@ -124,11 +124,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			if ( ! empty( $this->ngfb->options['ngfb_filter_title'] ) ) {
 				$title = apply_filters( 'the_title', $title );
-				$this->ngfb->debug->push( 'apply_filters() = "' . $title . '"' );
+				$this->ngfb->debug->log( 'apply_filters() = "' . $title . '"' );
 			}
 
 			$title = $this->ngfb->util->cleanup_html_tags( $title );
-			$this->ngfb->debug->push( 'this->ngfb->util->cleanup_html_tags() = "' . $title . '"' );
+			$this->ngfb->debug->log( 'this->ngfb->util->cleanup_html_tags() = "' . $title . '"' );
 
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
@@ -141,24 +141,24 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$desc = '';
 			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
-				$this->ngfb->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
 
 				// use the excerpt, if we have one
 				if ( has_excerpt( $post->ID ) ) {
-					$this->ngfb->debug->push( 'has_excerpt() = true' );
+					$this->ngfb->debug->log( 'has_excerpt() = true' );
 					$desc = $post->post_excerpt;
 					if ( ! empty( $this->ngfb->options['ngfb_filter_excerpt'] ) )
 						$desc = apply_filters( 'the_excerpt', $desc );
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
 				} elseif ( is_page() && ! empty( $this->ngfb->options['og_desc_wiki'] ) && $this->ngfb->is_avail['wikibox'] == true ) {
-					$this->ngfb->debug->push( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
+					$this->ngfb->debug->log( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
 					$desc = $this->get_wiki_summary();
 				} 
 		
 				if ( empty( $desc ) ) {
-					$this->ngfb->debug->push( 'calling this->get_content()' );
+					$this->ngfb->debug->log( 'calling this->get_content()' );
 					$desc = $this->get_content( $this->ngfb->options['ngfb_filter_content'] );
 				}
 		
@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		
 			} elseif ( is_author() ) { 
 		
-				$this->ngfb->debug->push( 'is_author() = true' );
+				$this->ngfb->debug->log( 'is_author() = true' );
 				the_post();
 				$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 				$author_desc = preg_replace( '/[\r\n\t ]+/s', ' ', get_the_author_meta( 'description' ) );	// put everything on one line
@@ -175,14 +175,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		
 			} elseif ( is_tag() ) {
 		
-				$this->ngfb->debug->push( 'is_tag() = true' );
+				$this->ngfb->debug->log( 'is_tag() = true' );
 				$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
 				$tag_desc = preg_replace( '/[\r\n\t ]+/s', ' ', tag_description() );	// put everything on one line
 				if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
 		
 			} elseif ( is_category() ) { 
 		
-				$this->ngfb->debug->push( 'is_category() = true' );
+				$this->ngfb->debug->log( 'is_category() = true' );
 				$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 				$cat_desc = preg_replace( '/[\r\n\t ]+/', ' ', category_description() );	// put everything on one line
 				if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
@@ -204,15 +204,15 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
-			$this->ngfb->debug->push( 'using content from post id ' . $post->ID );
+			$this->ngfb->debug->log( 'using content from post id ' . $post->ID );
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
 			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$content = wp_cache_get( $cache_id, __METHOD__ );
-			$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
+			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
 
 			if ( $content !== false ) {
-				$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
+				$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
 				return $content;
 			} 
 			$content = $post->post_content;
@@ -220,7 +220,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			// remove singlepics, which we detect and use before-hand 
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
-			if ( $count > 0 ) $this->ngfb->debug->push( $count . ' [singlepic] shortcode(s) removed from content' );
+			if ( $count > 0 ) $this->ngfb->debug->log( $count . ' [singlepic] shortcode(s) removed from content' );
 
 			if ( $filter_content == true ) {
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				foreach ( $this->ngfb->shortcode_class_names as $id => $name )
 					$this->shortcode[$id]->remove();
 
-				$this->ngfb->debug->push( 'calling apply_filters()' );
+				$this->ngfb->debug->log( 'calling apply_filters()' );
 				$content = apply_filters( 'the_content', $content );
 
 				// cleanup for NGG album shortcode
@@ -246,10 +246,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = str_replace( ']]>', ']]&gt;', $content );
 			$content_strlen_after = strlen( $content );
-			$this->ngfb->debug->push( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
+			$this->ngfb->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->ngfb->cache->object_expire );
-			$this->ngfb->debug->push( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 
 			return $content;
 		}
@@ -271,7 +271,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( $this->is_avail['wikibox'] !== true ) return $desc;
 			$tag_prefix = $this->options['og_wiki_tag'];
 			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-			$this->debug->push( 'post tags = ' . implode( ', ', $tags ) );
+			$this->debug->log( 'post tags = ' . implode( ', ', $tags ) );
 			foreach ( $tags as $tag_name ) {
 				if ( $tag_prefix ) {
 					if ( preg_match( "/^$tag_prefix/", $tag_name ) ) {
@@ -281,12 +281,12 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					else continue;	// skip tags that don't have the prefix
 				}
 				$desc .= wikibox_summary( $tag_name, 'en', false ); 
-				$this->debug->push( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
+				$this->debug->log( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
 			}
 			if ( empty( $desc ) ) {
 				$title = the_title( '', '', false );
 				$desc .= wikibox_summary( $title, 'en', false );
-				$this->debug->push( 'wikibox_summary("' . $title . '") = ' . $desc );
+				$this->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
 			}
 			return $desc;
 		}

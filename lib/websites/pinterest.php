@@ -73,21 +73,21 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 					if ( $use_post == true ) {
 						if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-							$this->ngfb->debug->push( 'get_post_thumbnail_id() = ' . $atts['pid'] );
+							$this->ngfb->debug->log( 'get_post_thumbnail_id() = ' . $atts['pid'] );
 						} else {
 							$atts['pid'] = $this->get_first_attached_image_id( $post->ID );
-							$this->ngfb->debug->push( 'get_first_attached_image_id() = ' . $atts['pid'] );
+							$this->ngfb->debug->log( 'get_first_attached_image_id() = ' . $atts['pid'] );
 						}
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						$this->ngfb->debug->push( 'calling ngfb->media->get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$this->ngfb->debug->log( 'calling ngfb->media->get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
 						list( $atts['photo'], $atts['width'], $atts['height'], 
 							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'] );
 					} else {
-						$this->ngfb->debug->push( 'calling ngfb->media->get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$this->ngfb->debug->log( 'calling ngfb->media->get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
 						list( $atts['photo'], $atts['width'], $atts['height'],
 							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'] );
 					}
@@ -109,7 +109,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 					title="Share on Pinterest"><img border="0" alt="Pin It"
 					src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
 			';
-			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 

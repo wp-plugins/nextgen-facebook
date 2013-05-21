@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.dev10
+Version: 5.0.dev11
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,13 +27,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.dev10';	// only for display purposes
+		public $version = '5.0.dev11';	// only for display purposes
 		public $opts_version = '21';	// increment when adding/removing $default_options
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
 
 		public $debug;		// ngfbDebug
+		public $notices;	// ngfbNotices
 		public $util;		// ngfbUtil
 		public $head;		// ngfbHead
 		public $social;		// ngfbSocial
@@ -312,6 +313,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function load_libs() {
 
 			require_once ( dirname ( __FILE__ ) . '/lib/debug.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/notices.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/util.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/head.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
@@ -364,11 +366,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// exclude pages plugin
 			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? true : false;
-
-			if ( $this->is_avail['mbdecnum'] != true )
-				$this->admin->msg_err[] = 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
-					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.';
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -380,7 +377,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
-			$this->debug = new ngfbDebug();
+			$this->debug = new ngfbDebug( &$this );
+			$this->notices = new ngfbNotices( &$this );
 			$this->util = new ngfbUtil( &$this );
 			$this->head = new ngfbHead( $this );
 			$this->social = new ngfbSocial( $this );
@@ -397,16 +395,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['ngfbpro'] == true )
 				$this->pro = new ngfbPro( $this );
 
+			if ( $this->is_avail['mbdecnum'] != true )
+				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
+					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
+					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
+
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
 				if ( empty( $this->options['ngfb_version'] ) 
 					|| $this->options['ngfb_version'] !== $this->opts_version )
-					$this->options = $this->upgrade_options( $this->options );
+						$this->options = $this->upgrade_options( $this->options );
 			} else {
-				$this->admin->msg_err[] = 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
+				$this->notices->err( 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database). 
-					<a href="' . $this->admin->get_options_url() . '">Please visit the settings page to review and change the default values</a>.';
-				$this->debug->show( print_r( get_option( NGFB_OPTIONS_NAME ) ), 'get_option("' . NGFB_OPTIONS_NAME . '")' );
+					<a href="' . $this->get_options_url() . '">Please visit the settings page to review and change the default values</a>.' );
 				$this->options = $this->default_options;
 			}
 
@@ -423,10 +425,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				$this->debug->on = $this->options['ngfb_debug'];
 				$this->cache->object_expire = 1;
-				$this->debug->push( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
-				$this->admin->msg_inf[] = 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
+				$this->debug->log( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
+				$this->notices->inf( 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
 					WP object cache expiration time has been temporarily set to ' . $this->cache->object_expire . ' second 
-					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
+					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).' );
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}
@@ -436,14 +438,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->admin->msg_inf[] = 'Option settings from the database have been read and updated in memory. 
+				$this->notices->inf( 'Option settings from the database have been read and updated in memory. 
 					These updates have NOT been saved back to the database. 
-					<a href="' . $this->admin->get_options_url() . '">Please review and save these new settings</a>.';
+					<a href="' . $this->get_options_url() . '">Please review and save these new settings</a>.' );
 	
 				// move old option values to new option names
 				foreach ( $this->renamed_options as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
-						$this->admin->msg_inf[] = 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.';
+						$this->notices->inf( 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.' );
 						$opts[$new] = $opts[$old];
 					}
 				unset ( $old, $new );
@@ -458,7 +460,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// add missing options and set to defaults
 				foreach ( $this->default_options as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						$this->admin->msg_inf[] = 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.';
+						$this->notices->inf( 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.' );
 						$opts[$key] = $def_val;
 					}
 				}
@@ -468,9 +470,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				// don't show message if already donated, or pro version installed
 				if ( empty( $opts['ngfb_donated'] ) && $this->is_avail['ngfbpro'] == false )
-					$this->admin->msg_inf[] = '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. 
-						Please suppport us by <a href="' . $this->admin->get_options_url() . '">donating</a> and 
-						<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>';
+					$this->notices->inf( '<b>' . NGFB_LONGNAME . ' has taken many, many months to develop and fine-tune. 
+						Please suppport us by <a href="' . $this->get_options_url() . '">donating</a> and 
+						<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>' );
 			}
 			return $opts;
 		}
@@ -580,6 +582,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 			}
 			return $opts;
+		}
+
+		public function get_options_url() {
+			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
 		}
 
 	}

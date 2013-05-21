@@ -42,12 +42,12 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function add_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'filter_' . $type ), NGFB_SOCIAL_PRIORITY );
-			$this->ngfb->debug->push( 'this->filter_' . $type . '() added' );
+			$this->ngfb->debug->log( 'this->filter_' . $type . '() added' );
 		}
 
 		public function remove_filter( $type = 'the_content' ) {
 			$rc = remove_filter( $type, array( &$this, 'filter_'. $type ), NGFB_SOCIAL_PRIORITY );
-			$this->ngfb->debug->push( 'this->filter_' . $type . '() removed = ' . ( $rc  ? 'true' : 'false' ) );
+			$this->ngfb->debug->log( 'this->filter_' . $type . '() removed = ' . ( $rc  ? 'true' : 'false' ) );
 			return $rc;
 		}
 
@@ -81,10 +81,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
-				$this->ngfb->debug->push( $cache_type . ': html transient id salt "' . $cache_salt . '"' );
+				$this->ngfb->debug->log( $cache_type . ': html transient id salt "' . $cache_salt . '"' );
 
 				if ( $html !== false ) {
-					$this->ngfb->debug->push( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
+					$this->ngfb->debug->log( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					$sorted_ids = array();
 					foreach ( $this->ngfb->social_options_prefix as $id => $opt_prefix )
@@ -92,7 +92,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$sorted_ids[$this->ngfb->options[$opt_prefix.'_order'] . '-' . $id] = $id;	// sort by number, then by name
 					ksort( $sorted_ids );
 	
-					$this->ngfb->debug->push( 'calling this->get_html()' );
+					$this->ngfb->debug->log( 'calling this->get_html()' );
 					$html = $this->get_html( $sorted_ids );
 	
 					if ( ! empty( $html ) ) {
@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
 
 						set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
-						$this->ngfb->debug->push( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+						$this->ngfb->debug->log( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 					}
 				}
 				if ( $this->ngfb->options['buttons_location'] == "top" )
@@ -115,7 +115,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );
-				$this->ngfb->debug->push( 'calling this->website[' . $id . ']->get_html()' );
+				$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_html()' );
 				if ( method_exists( &$this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
@@ -150,7 +150,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$this->ngfb->debug->push( $pos . ' ids = ' . implode( ', ', $ids ) );
+			$this->ngfb->debug->log( $pos . ' ids = ' . implode( ', ', $ids ) );
 			$js = "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript BEGIN -->\n";
 			$js .= $pos == 'header' ? $this->header_js() : '';
 
@@ -162,7 +162,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
 					$opt_name = $this->ngfb->social_options_prefix[$id] . '_js_loc';
-					$this->ngfb->debug->push( 'calling this->website[' . $id . ']->get_js()' );
+					$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_js()' );
 					if ( method_exists( &$this->website[$id], 'get_js' ) && 
 						! empty( $this->ngfb->options[ $opt_name ] ) && 
 						$this->ngfb->options[ $opt_name ] == $pos_section )

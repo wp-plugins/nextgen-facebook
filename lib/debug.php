@@ -22,12 +22,15 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 		public $on = 0;
 
-		private $log = array();
+		private $ngfb;		// ngfbPlugin
+		private $msgs = array();
 
 		public function __construct() {
+
+			$this->ngfb =& $ngfb_plugin;
 		}
 
-		public function push( $msg = '' ) {
+		public function log( $msg = '' ) {
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$from = '';
 				$stack = debug_backtrace();
@@ -40,7 +43,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				if ( ! empty( $from ) ) 
 					$msg = $from . $msg;
 
-				$this->log[] = $msg;
+				$this->msgs[] = $msg;
 			}
 			return;
 		}
@@ -68,14 +71,12 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 						$from .= $stack[1]['function'];
 				}
 				if ( empty( $data ) ) {
-					$this->push( 'truncating debug log' );
-					$data = $this->log;
-					$this->log = array();
+					$this->log( 'truncating debug log' );
+					$data = $this->msgs;
+					$this->msgs = array();
 				}
-				if ( ! empty( $from ) ) 
-					$html .= ' from ' . $from . '()';
-				if ( ! empty( $title ) ) 
-					$html .= ' ' . $title;
+				if ( ! empty( $from ) ) $html .= ' from ' . $from . '()';
+				if ( ! empty( $title ) ) $html .= ' ' . $title;
 				if ( ! empty( $data ) ) {
 					$html .= ' : ';
 					if ( is_array( $data ) ) {

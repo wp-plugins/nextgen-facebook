@@ -53,7 +53,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
 			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->ngfb->debug->push( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
+			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
 			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
 			if ( $this->ngfb->util->is_uniq_url( $image_url ) )
@@ -100,7 +100,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					}
 				}
 			}
-			$this->ngfb->debug->push( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
+			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
 			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
 			if ( $this->ngfb->util->is_uniq_url( $image_url ) )

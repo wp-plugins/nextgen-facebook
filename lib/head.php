@@ -40,12 +40,12 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				$this->ngfb->debug->show( $this->ngfb->options, 'NGFB Settings' );
 				$this->ngfb->debug->show( $this->ngfb->is_avail, 'Available Features' );
 
-				$this->ngfb->debug->push( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'is_attachment() = ' . ( is_attachment() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
-				$this->ngfb->debug->push( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_attachment() = ' . ( is_attachment() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 			}
 			$this->html( $this->og->get() );
 			$this->ngfb->debug->show( null, 'Debug Log' );

@@ -155,7 +155,7 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 						data-annotation="' . $this->ngfb->options['gp_annotation'] . '" 
 						data-href="' . $atts['url'] . '"></span>
 				</div>' . "\n";
-			$this->ngfb->debug->push( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}
 		
