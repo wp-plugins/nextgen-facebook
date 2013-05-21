@@ -3,7 +3,7 @@
 Plugin Name: NextGEN Facebook Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.dev8
+Version: 5.0.dev99
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.dev8';	// only for display purposes
+		public $version = '5.0.dev9';	// only for display purposes
 		public $opts_version = '21';	// increment when adding/removing $default_options
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -207,12 +207,33 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_action( 'init', array( &$this, 'init_plugin' ) );
 		}
 
+		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
+		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
+		public function activate() {
+			if ( ! empty( $this->options['ngfb_reset'] ) 
+				|| ( defined( 'NGFB_RESET' ) && NGFB_RESET ) 
+				|| ! is_array( $this->options ) 
+				|| empty( $this->options ) ) {
+
+				$opts = $this->default_options;
+				$opts['ngfb_version'] = $this->opts_version;
+
+				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
+				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
+			}
+		}
+
+		// delete options table entries only when plugin deactivated and deleted
+		public function uninstall() {
+			delete_option( NGFB_OPTIONS_NAME );
+		}
+
 		// called by WP init action
 		public function init_plugin() {
 
-			// run check_deps() before setup() to get ngg options (if the plugin is installed)
+			// run check_deps() before setup_vars() to get ngg options (if the plugin is installed)
 			$this->check_deps();
-			$this->setup();
+			$this->setup_vars();
 
 			// add_action() tests and debug output
 			if ( $this->debug->on ) {
@@ -321,8 +342,37 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
 		}
 
+		private function check_deps() {
+		
+			// ngfb pro
+			$this->is_avail['ngfbpro'] = class_exists( 'ngfbPro' ) ? true : false;
+
+			// php v4.0.6+
+			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
+
+			// post thumbnail feature is supported by wp theme
+			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
+
+			// nextgen gallery plugin
+			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
+
+			// cdn linker plugin
+			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
+
+			// wikibox plugin
+			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? true : false;
+
+			// exclude pages plugin
+			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? true : false;
+
+			if ( $this->is_avail['mbdecnum'] != true )
+				$this->admin->msg_err[] = 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
+					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
+					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.';
+		}
+
 		// get the options, upgrade the option names (if necessary), and validate their values
-		private function setup() {
+		private function setup_vars() {
 
 			// load options first for use in __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
@@ -379,56 +429,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).';
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
-		}
-
-		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
-		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
-		public function activate() {
-			if ( ! empty( $this->options['ngfb_reset'] ) 
-				|| ( defined( 'NGFB_RESET' ) && NGFB_RESET ) 
-				|| ! is_array( $this->options ) 
-				|| empty( $this->options ) ) {
-
-				$opts = $this->default_options;
-				$opts['ngfb_version'] = $this->opts_version;
-
-				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
-				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
-			}
-		}
-
-		// delete options table entries only when plugin deactivated and deleted
-		public function uninstall() {
-			delete_option( NGFB_OPTIONS_NAME );
-		}
-
-		private function check_deps() {
-		
-			// ngfb pro
-			$this->is_avail['ngfbpro'] = class_exists( 'ngfbPro' ) ? true : false;
-
-			// php v4.0.6+
-			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
-			// post thumbnail feature is supported by wp theme
-			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			// nextgen gallery plugin
-			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
-
-			// cdn linker plugin
-			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
-
-			// wikibox plugin
-			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? true : false;
-
-			// exclude pages plugin
-			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? true : false;
-
-			if ( $this->is_avail['mbdecnum'] != true )
-				$this->admin->msg_err[] = 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
-					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.';
 		}
 
 		private function upgrade_options( &$opts = array() ) {
