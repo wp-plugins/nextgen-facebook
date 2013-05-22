@@ -64,7 +64,6 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			foreach ( (array) $values as $val => $desc ) {
 				if ( $is_assoc == false ) 
 					$val = $desc;
-
 				$html .= '<option value="' . $val . '"';
 				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $val, false );

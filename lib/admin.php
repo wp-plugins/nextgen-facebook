@@ -339,17 +339,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Image ID</th>
 				<td><?php 
 					echo $this->form->get_input( 'og_def_img_id', 'short' );
-					echo ' in the <select name="', NGFB_OPTIONS_NAME, '[og_def_img_id_pre]" style="width:160px;">', "\n";
-					echo '<option value="wp" ';
-					selected( $this->ngfb->options['og_def_img_id_pre'], 'wp' );
-					echo '>Media Library</option>', "\n";
-
-					if ( $this->ngfb->is_avail['ngg'] == true ) {
-						echo '<option value="ngg" '; 
-						selected( $this->ngfb->options['og_def_img_id_pre'], 'ngg' );
-						echo '>NextGEN Gallery</option>', "\n";
-					}
-					echo '</select>', "\n";
+					echo ' in the ';
+					$id_pre = array( 'wp' => 'Media Library' );
+					if ( $this->ngfb->is_avail['ngg'] == true )
+						$id_pre['ngg'] = 'NextGEN Gallery';
+					echo $this->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' );
 				?></td>
 				<td><p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
 			</tr>
@@ -678,6 +672,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				table.ngfb-settings td textarea.wide { width:100%; height:5em; }
 				table.ngfb-settings td select { width:250px; }
 				table.ngfb-settings td select.short { width:100px; }
+				table.ngfb-settings td select.medium { width:160px; }
 			</style>
 			<?php
 		}

@@ -205,7 +205,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_img_url' :
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :
-						case 'og_def_img_url' :
 							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
@@ -214,6 +213,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_desc_len' : 
 						case 'og_img_max' :
 						case 'og_vid_max' :
+						case 'og_img_id' :
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
 						case 'ngfb_file_cache_hrs' :
@@ -243,6 +243,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						// options that cannot be blank
 						case 'link_author_field' :
 						case 'og_img_size' : 
+						case 'og_img_id_pre' : 
+						case 'og_def_img_id_pre' : 
 						case 'og_author_field' :
 						case 'buttons_location_the_excerpt' : 
 						case 'buttons_location_the_content' : 
