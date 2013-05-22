@@ -132,6 +132,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
+			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 
 			// allow some constants to be pre-defined in wp-config.php
 

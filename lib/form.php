@@ -35,7 +35,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 		public function get_hidden( $name, $value = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			// hide the current options value, unless one is given as an argument to the method
-			$value = empty( $value ) && array_key_exists( $name, $this->options ) ? $this->options[$name] : $value;
+			$value = empty( $value ) && $this->in_options( $name ) ? $this->options[$name] : $value;
 			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />';
 		}
 
@@ -44,16 +44,15 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
-				' value="' . ( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ) . '" />';
+				' value="' . ( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />';
 		}
 
 		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
 			if ( empty( $name ) ) return;	// just in case
 			return '<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
-				( array_key_exists( $name, $this->options ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
+				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="Default is ' .
-				( array_key_exists( $name, $this->options ) && 
-					$this->defaults[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
+				( $this->in_options( $name ) && $this->defaults[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
@@ -67,13 +66,12 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 					$val = $desc;
 
 				$html .= '<option value="' . $val . '"';
-				if ( array_key_exists( $name, $this->options ) )
+				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $val, false );
 				$html .= '>' . $desc;
 				if ( $desc === '' ) $html .= 'None';
-				if ( array_key_exists( $name, $this->options ) && 
-					$val == $this->defaults[$name] ) 
-						$html .= ' (default)';
+				if ( $this->in_options( $name ) && $val == $this->defaults[$name] ) 
+					$html .= ' (default)';
 				$html .= '</option>' . "\n";
 			}
 			$html .= '</select>';
@@ -90,7 +88,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				if ( is_integer( $size_name ) ) continue;
 				$size = $this->ngfb->media->get_size_info( $size_name );
 				$html .= '<option value="' . $size_name . '" ';
-				if ( array_key_exists( $name, $this->options ) )
+				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $size_name, false );
 				$html .= '>' . $size_name . ' [ ' . $size['width'] . 'x' . $size['height'] . ( $size['crop'] ? " cropped" : "" ) . ' ]';
 				if ( $size_name == $this->defaults[$name] ) 
@@ -107,10 +105,13 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return '<textarea name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . 
-				( array_key_exists( $name, $this->options ) ? $this->options[$name] : '' ) .
+				( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>';
 		}
 
+		private function in_options( $name ) {
+			return is_array( $this->options ) && array_key_exists( $name, $this->options ) ? true : false;
+		}
 	}
 }
 

@@ -127,7 +127,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
 				if( is_plugin_active( $this->plugin_name ) ) {
 					deactivate_plugins( $this->plugin_name );
-					wp_die( '"' . NGFB_FULLNAME . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
+					wp_die( '"' . NGFB_FULLNAME . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
+						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
 				}
 			}
 		}
@@ -147,7 +148,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	
 		public function admin_menu() {
-			add_options_page( NGFB_FULLNAME . ' Plugin', 'NextGEN Facebook', 'manage_options', NGFB_SHORTNAME, array( &$this, 'options_page' ) );
+			add_options_page( NGFB_FULLNAME . ' Plugin', NGFB_ACRONYM . ' Open Graph', 'manage_options', NGFB_SHORTNAME, array( &$this, 'options_page' ) );
 		}
 
 		public function sanitize_options( $opts ) {
@@ -244,9 +245,29 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 			</form>
 			</div>
-			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, search results, and include links to images and videos. You can also add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a function from your templates. All plugin settings are optional -- though you may want to enable some social sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, a default image defined in the NGFB plugin settings. <?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags.</p>
-			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> <a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
+			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, 
+			including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know 
+			in handling various archive-type webpages. It will create appropriate title and description meta tags for 
+			category, tag, date based archive (day, month, or year), author webpages, search results. You can also 
+			add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a 
+			function from your templates. All plugin settings are optional -- though you may want to enable some social 
+			sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
+
+			<p>The images listed in the Open Graph image property tags are chosen in this sequence: 
+				a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, 
+				an image from the NextGEN Gallery <em>ImageBrowser</em>,
+				images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, 
+				images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, 
+				a default image defined in the NGFB plugin settings. 
+			<?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- 
+			and includes one or more of each in your Open Graph property tags.</p>
+
+			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. 
+			You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> 
+			and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
+			pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> 
+			<a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
+
 			<div style="clear:both;"></div>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
@@ -255,7 +276,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			<form name="ngfb" method="post" action="options.php" id="settings">
 			<?php 
-				settings_fields( 'ngfb_plugin_options' ); 
+				wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
+				settings_fields( NGFB_SHORTNAME . '_plugin_options' ); 
 				echo $this->form->get_hidden( 'ngfb_version', $this->ngfb->opts_version );
 			?>
 			<div class="postbox">
@@ -547,7 +569,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .postbox -->
 		
 			<div class="postbox">
-			<h3 class="hndle"><span>Plugin Settings</span></h3>
+			<h3 class="hndle"><span>Advanced Settings</span></h3>
 			<div class="inside">	
 			<table class="ngfb-settings">
 			<tr>

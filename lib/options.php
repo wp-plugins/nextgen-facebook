@@ -181,7 +181,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function sanitize( $opts = array(), $def_opts = array() ) {
 
 			// make sure we have something to work with
-			if ( ! empty( $opts ) && is_array( $opts ) ) {
+			if ( ! empty( $def_opts ) && is_array( $def_opts ) ) {
 
 				// loop through all the known option keys
 				foreach ( $def_opts as $key => $def_val ) {
@@ -189,7 +189,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					switch ( $key ) {
 
 						// remove HTML
-						case 'og_def_img_url' :
+						case 'og_title' :
+						case 'og_desc' :
 						case 'og_app_id' :
 							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
 							break;
@@ -201,6 +202,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							break;
 
 						// must be a URL
+						case 'og_img_url' :
+						case 'og_def_img_url' :
 						case 'link_publisher_url' :
 						case 'og_def_img_url' :
 							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
@@ -278,7 +281,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				}
 				unset ( $key, $def_val );
 
-				if ( $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
+				if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
 					$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
 	
 			}
