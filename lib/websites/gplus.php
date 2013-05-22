@@ -92,10 +92,11 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function get_rows() {
 			return array(
-				'<th colspan="2" class="social">GooglePlus</th>',
+				'<th colspan="2" class="social">Google+</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'gp_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . '</td>',
+				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'gp_on_the_content' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
 				'<th>Language</th><td>' . $this->ngfb->admin->form->get_select( 'gp_lang', $this->lang ) . '</td>',
 				'<th>Button Type</th><td>' . $this->ngfb->admin->form->get_select( 'gp_action', 

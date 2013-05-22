@@ -431,6 +431,8 @@ Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
 Version 5.0 : 4763 lines in 26 files, with 31 classes and 156 functions.
 `
 
+* Added the ability to include social sharing buttons in the excerpt text as well.
+
 = Version 4.3 =
 
 * Many small code improvements to enhance duplicate image detection between various sources (featured, attached, shorcode, content, etc.).

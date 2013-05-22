@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 
-	class ngfbShortCodeNGFB {
+	class ngfbShortCodeNgfb {
 
 		private $ngfb;
 		private $name = 'ngfb';

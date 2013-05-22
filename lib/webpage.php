@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$this->ngfb =& $ngfb_plugin;
 
-			foreach ( $this->ngfb->shortcode_class_names as $id => $name ) {
+			foreach ( $this->ngfb->shortcode_names as $id => $name ) {
 				$classname = 'ngfbShortCode' . $name;
 				$this->shortcode[$id] = new $classname( $ngfb_plugin );
 			}
@@ -225,7 +225,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( $filter_content == true ) {
 
 				$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
-				foreach ( $this->ngfb->shortcode_class_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_names as $id => $name )
 					$this->shortcode[$id]->remove();
 
 				$this->ngfb->debug->log( 'calling apply_filters()' );
@@ -238,7 +238,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				if ( ! empty( $filter_removed ) )
 					$this->ngfb->social->add_filter( 'the_content' );
 
-				foreach ( $this->ngfb->shortcode_class_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_names as $id => $name )
 					$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}

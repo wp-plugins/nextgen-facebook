@@ -70,10 +70,11 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">StumbleUpon</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . '</td>',
+				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_on_the_content' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
-				'<th rowspan="5">StumbleUpon Badge</th><td rowspan="5">' . $badge . '</td>',
+				'<th rowspan="5">Button Style</th><td rowspan="5">' . $badge . '</td>',
 			);
 		}
 
