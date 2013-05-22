@@ -53,6 +53,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			}
 		}
 
+		public function get_options_url() {
+			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
+		}
+
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
 		// $use_post = true when buttons are added to individual posts on an index webpage
 		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
@@ -112,7 +116,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->ngfb->debug->log( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
-				else $url = trailingslashit( $this->ngfb->util->get_sharing_url( 'noquery' ), false ) . $url;
+				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $url;
 				$this->ngfb->debug->log( 'relative url fixed = ' . $url );
 			}
 			return $url;

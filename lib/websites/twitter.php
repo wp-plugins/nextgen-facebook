@@ -40,8 +40,9 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">Twitter</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . '</td>',
+				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>',
 				'<th>Language</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_lang', $this->lang ) . '</td>',
 				'<th>Count Box Position</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_count', 
@@ -58,7 +59,7 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 					)
 				) . '</td>',
 				'<th>Tweet Text</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>',
-				'<th>Maximum Text Length</th><td>' . $this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters</td>',
+				'<th>Text Length</th><td>' . $this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>',
 				'<th>Do Not Track</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
 				'<th>Shorten URLs</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '<p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>',
 			);

@@ -23,13 +23,13 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 		private $ngfb;
 		private $options_name;
 		private $options = array();
-		private $default_options = array();
+		private $defaults = array();
 
 		public function __construct( &$ngfb_plugin, $opts_name, &$opts, &$def_opts ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->options_name =& $opts_name;
 			$this->options =& $opts;
-			$this->default_options =& $def_opts;
+			$this->defaults =& $def_opts;
 		}
 
 		public function get_hidden( $name, $value = '' ) {
@@ -53,7 +53,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( array_key_exists( $name, $this->options ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="Default is ' .
 				( array_key_exists( $name, $this->options ) && 
-					$this->default_options[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
+					$this->defaults[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				$html .= '>' . $desc;
 				if ( $desc === '' ) $html .= 'None';
 				if ( array_key_exists( $name, $this->options ) && 
-					$val == $this->default_options[$name] ) 
+					$val == $this->defaults[$name] ) 
 						$html .= ' (default)';
 				$html .= '</option>' . "\n";
 			}
@@ -93,7 +93,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				if ( array_key_exists( $name, $this->options ) )
 					$html .= selected( $this->options[$name], $size_name, false );
 				$html .= '>' . $size_name . ' [ ' . $size['width'] . 'x' . $size['height'] . ( $size['crop'] ? " cropped" : "" ) . ' ]';
-				if ( $size_name == $this->default_options[$name] ) 
+				if ( $size_name == $this->defaults[$name] ) 
 					$html .= ' (default)';
 				$html .= '</option>' . "\n";
 			}

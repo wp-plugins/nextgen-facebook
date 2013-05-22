@@ -30,8 +30,9 @@ if ( ! class_exists( 'ngfbAdminLinkedIn' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th colspan="2" class="social">LinkedIn</th>',
 				'<td colspan="2" style="height:5px;"></td>',
-				'<th>Add Button to Content</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_enable' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_options_prefix ) ), 'short' ) . '</td>',
+				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . '</td>',
+				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . '</td>',
+				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
 				'<th>Counter Mode</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_counter', 
 					array( 
