@@ -103,10 +103,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 
 			$this->ngfb =& $ngfb_plugin;
-			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->default_options );
+			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->opt->get_defaults() );
 
 			// extends the ngfbAdmin() method
-			foreach ( $this->ngfb->social_class_names as $id => $name ) {
+			foreach ( $this->ngfb->social_names as $id => $name ) {
 				$classname = 'ngfbAdmin' . $name;
 				$this->website[$id] = new $classname( $ngfb_plugin );
 			}
@@ -138,7 +138,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, 
 					is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
-					<a href="' . $this->ngfb->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
+					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
 		}
 
@@ -151,13 +151,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function sanitize_options( $opts ) {
-			return $this->ngfb->sanitize_options( $opts, $this->ngfb->default_options );
+			return $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
 		}
 
 		// display a settings link on the main plugins page
 		public function plugin_action_links( $links, $file ) {
 			if ( $file == plugin_basename( __FILE__ ) )
-				array_push( $links, '<a href="' . $this->ngfb->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
 			return $links;
 		}
 
@@ -308,10 +308,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<th>Image Size Name</th>
 				<td><?php 
 					echo $this->form->get_select_img_size( 'og_img_size' ); 
-					$size_info = $this->ngfb->media->get_size_info( $this->ngfb->default_options['og_img_size'] );
+					$size_info = $this->ngfb->media->get_size_info( $this->ngfb->opt->get_defaults( 'og_img_size' ) );
 					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->default_options['og_img_size']; ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
+				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->opt->get_defaults( 'og_img_size' ); ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image ID</th>
@@ -377,17 +377,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Title Separator</th>
 				<td><?php echo $this->form->get_input( 'og_title_sep', 'short' ); ?></td>
-				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $this->ngfb->default_options['og_title_sep']; ?>').</p></td>
+				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $this->ngfb->opt->get_defaults( 'og_title_sep' ); ?>').</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Title Length</th>
 				<td><?php echo $this->form->get_input( 'og_title_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $this->ngfb->default_options['og_title_len']; ?> characters).</p></td>
+				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $this->ngfb->opt->get_defaults( 'og_title_len' ); ?> characters).</p></td>
 			</tr>
 			<tr>
 				<th>Maximum Description Length</th>
 				<td><?php echo $this->form->get_input( 'og_desc_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->default_options['og_desc_len']; ?>).</p></td>
+				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->opt->get_defaults( 'og_desc_len' ); ?>).</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
@@ -454,17 +454,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 				$cells = array();
 				$rows = array();
-				foreach ( $this->ngfb->default_options as $opt => $val ) {
+				foreach ( $this->ngfb->opt->get_defaults() as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
 						$cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
 							<td>'. $this->form->get_checkbox( $opt ) . '</td>';
 				}
 				unset( $opt, $val );
 				$per_col = ceil( count( $cells ) / $og_cols );
-				foreach ( $cells as $num => $cell ) $rows[ $num % $per_col ] = '';	// initialize the array
-				foreach ( $cells as $num => $cell ) $rows[ $num % $per_col ] .= $cell;	// create the html for each row
+				foreach ( $cells as $num => $cell ) {
+					if ( empty( $rows[ $num % $per_col ] ) )
+						$rows[ $num % $per_col ] = '';	// initialize the array
+					$rows[ $num % $per_col ] .= $cell;	// create the html for each row
+				}
 				unset( $num, $cell );
-				foreach ( $rows as $num => $row ) echo '<tr>', $row, '</tr>', "\n";
+				foreach ( $rows as $num => $row ) 
+					echo '<tr>', $row, '</tr>', "\n";
 				unset( $num, $row );
 			?>
 			<tr>
@@ -477,12 +481,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</div><!-- .postbox -->
 		
 			<div class="postbox">
-			<h3 class="hndle"><span>Social Button Settings</span></h3>
+			<h3 class="hndle"><span>Social Sharing Settings</span></h3>
 			<div class="inside">	
 			<table class="ngfb-settings">
 			<tr>
 				<td>
-				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
+				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
 				
 				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_ACRONYM; ?> Social Sharing Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
 				</td>
@@ -493,7 +497,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Include on Index Webpages</th>
 				<td><?php echo $this->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td><p>Add the social buttons enabled bellow, to each entry's content on index webpages (index, archives, author, etc.).</p></td>
+				<td><p>Add the social sharing buttons (that are enabled) to each entry on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<?php	// hide Add to Excluded Pages option if not installed and activated
 				if ( $this->ngfb->is_avail['expages'] == true ) : ?>
@@ -504,8 +508,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<?php	else : echo $this->form->get_hidden( 'buttons_on_ex_pages' ); endif; ?>
 			<tr>
+				<th>Location in Excerpt Text</th>
+				<td><?php echo $this->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
+			</tr>
+			<tr>
 				<th>Location in Content Text</th>
-				<td><?php echo $this->form->get_select( 'buttons_location', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
 			</tr>
 			</table>
 
@@ -516,7 +526,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$section = -1;	// a "section" is a row of several boxes
 				$max_col = 2;
 				$rows = array();
-				foreach ( $this->ngfb->social_class_names as $id => $name ) {
+				foreach ( $this->ngfb->social_names as $id => $name ) {
 					$box++;				// increment the website box number (first box is 0)
 					$col = $box % $max_col;		// determine column number based on the box number
 					if ( $col == 0 ) $section++;	// increment section if we're on column 0
@@ -528,11 +538,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					}
 				}
 				unset ( $id, $name );
-				foreach ( $rows as $section ) {
-					foreach ( $section as $row ) {
+				foreach ( $rows as $section )
+					foreach ( $section as $row )
 						echo "<tr>", $row, "</tr>\n";
-					}
-				}
 			?>
 			</table>
 			</div><!-- .inside -->

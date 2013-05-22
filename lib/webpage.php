@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$this->ngfb =& $ngfb_plugin;
 
-			foreach ( $this->ngfb->shortcode_class_names as $id => $name ) {
+			foreach ( $this->ngfb->shortcode_names as $id => $name ) {
 				$classname = 'ngfbShortCode' . $name;
 				$this->shortcode[$id] = new $classname( $ngfb_plugin );
 			}
@@ -225,7 +225,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( $filter_content == true ) {
 
 				$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
-				foreach ( $this->ngfb->shortcode_class_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_names as $id => $name )
 					$this->shortcode[$id]->remove();
 
 				$this->ngfb->debug->log( 'calling apply_filters()' );
@@ -238,7 +238,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				if ( ! empty( $filter_removed ) )
 					$this->ngfb->social->add_filter( 'the_content' );
 
-				foreach ( $this->ngfb->shortcode_class_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_names as $id => $name )
 					$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
@@ -268,10 +268,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		public function get_wiki_summary() {
 			global $post;
 			$desc = '';
-			if ( $this->is_avail['wikibox'] !== true ) return $desc;
-			$tag_prefix = $this->options['og_wiki_tag'];
+			if ( $this->ngfb->is_avail['wikibox'] !== true ) return $desc;
+			$tag_prefix = $this->ngfb->options['og_wiki_tag'];
 			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-			$this->debug->log( 'post tags = ' . implode( ', ', $tags ) );
+			$this->ngfb->debug->log( 'post tags = ' . implode( ', ', $tags ) );
 			foreach ( $tags as $tag_name ) {
 				if ( $tag_prefix ) {
 					if ( preg_match( "/^$tag_prefix/", $tag_name ) ) {
@@ -281,12 +281,12 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					else continue;	// skip tags that don't have the prefix
 				}
 				$desc .= wikibox_summary( $tag_name, 'en', false ); 
-				$this->debug->log( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
+				$this->ngfb->debug->log( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
 			}
 			if ( empty( $desc ) ) {
 				$title = the_title( '', '', false );
 				$desc .= wikibox_summary( $title, 'en', false );
-				$this->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
+				$this->ngfb->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
 			}
 			return $desc;
 		}

@@ -32,7 +32,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			global $_wp_additional_image_sizes;
 
 			if ( is_integer( $size_name ) ) return;
-	
+			if ( is_array( $size_name ) ) return;
+
 			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
 				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
 			else $width = get_option( "{$size_name}_size_w" );

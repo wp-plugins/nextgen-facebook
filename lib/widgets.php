@@ -49,7 +49,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 				$widget_html = '';
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				$sorted_ids = array();
-				foreach ( $ngfb->social_options_prefix as $id => $prefix )
+				foreach ( $ngfb->social_prefix as $id => $prefix )
 					if ( (int) $instance[$id] )
 						$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
 				ksort( $sorted_ids );
@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $ngfb->social_class_names as $id => $name ) {
+			foreach ( $ngfb->social_names as $id => $name ) {
 				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
 			}
 			unset( $name, $id );
@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $ngfb->social_class_names as $id => $name ) {
+			foreach ( $ngfb->social_names as $id => $name ) {
 				echo '<p><label for="', $this->get_field_id( $id ), '">', 
 					'<input id="', $this->get_field_id( $id ), 
 					'" name="', $this->get_field_name( $id ), 
