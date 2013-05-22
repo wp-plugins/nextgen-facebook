@@ -68,6 +68,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $shortcode_names = array(
 			'ngfb' => 'Ngfb' );
 
+		public $widget_names = array(
+			'social' => 'Social' );
+
 		public function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
@@ -196,7 +199,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/webpage.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/widgets.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
 
 			if ( is_admin() ) {
@@ -210,6 +212,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			foreach ( $this->shortcode_names as $id => $name )
 				require_once ( dirname ( __FILE__ ) . '/lib/shortcodes/' . $id . '.php' );
+			unset ( $id, $name );
+
+			foreach ( $this->widget_names as $id => $name )
+				require_once ( dirname ( __FILE__ ) . '/lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
 			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) )

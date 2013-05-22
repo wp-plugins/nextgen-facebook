@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
+if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 
-	class ngfbSocialWidget extends WP_Widget {
+	class ngfbWidgetSocial extends WP_Widget {
 	
 		public function __construct() {
 			$widget_ops = array( 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'ngfbSocialWidget' ) && class_exists( 'WP_Widget' ) ) {
 		}
 	}
 	
-	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbSocialWidget" );' ) );
+	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbWidgetSocial" );' ) );
 }
 
 ?>

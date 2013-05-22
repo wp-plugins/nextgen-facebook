@@ -150,7 +150,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
 				if ( is_page() && $this->ngfb->webpage->is_excluded() ) return;
 
-				$widget = new ngfbSocialWidget();
+				$widget = new ngfbWidgetSocial();
 		 		$widget_settings = $widget->get_settings();
 
 				// determine which (if any) social buttons are enabled
