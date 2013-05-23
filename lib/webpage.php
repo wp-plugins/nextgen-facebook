@@ -68,7 +68,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$page_num = '';
 			$parent_title = '';
 
-			if ( is_category() ) { 
+			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
+				$title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
+
+			if ( ! empty( $title ) ) 
+				$this->ngfb->debug->log( 'custom meta title = "' . $title . '"' );
+
+			elseif ( is_category() ) { 
 
 				$title = single_cat_title( '', false );
 				$this->ngfb->debug->log( 'single_cat_title() = "' . $title . '"' );
@@ -87,9 +93,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				}
 				unset ( $cat_parents );
 
+			// we are on an index page, but need individual titles from the posts
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
 
-				$this->ngfb->debug->log( '$use_post = ' . ( $use_post ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'use_post = ' . ( $use_post ? 'true' : 'false' ) );
 				$title = get_the_title();
 				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
@@ -99,10 +106,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			} else {
 				/* The title text depends on the query:
-				 *	Single post = the title of the post 
-				 *	Date-based archive = the date (e.g., "2006", "2006 - January") 
-				 *	Category = the name of the category 
-				 *	Author page = the public name of the user 
+				 *	single post = the title of the post 
+				 *	date-based archive = the date (e.g., "2006", "2006 - January") 
+				 *	category = the name of the category 
+				 *	author page = the public name of the user 
 				 */
 				$title = trim( wp_title( $this->ngfb->options['og_title_sep'], false, 'right' ), ' ' . $this->ngfb->options['og_title_sep'] );
 				$this->ngfb->debug->log( 'wp_title() = "' . $title . '"' );
@@ -139,7 +146,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		public function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
 			global $post;
 			$desc = '';
-			if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+
+			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
+					$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
+
+			if ( ! empty( $desc ) )
+				$this->ngfb->debug->log( 'custom meta description = "' . $desc . '"' );
+
+			elseif ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
 				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 				$this->ngfb->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
@@ -148,8 +162,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				if ( has_excerpt( $post->ID ) ) {
 					$this->ngfb->debug->log( 'has_excerpt() = true' );
 					$desc = $post->post_excerpt;
-					if ( ! empty( $this->ngfb->options['ngfb_filter_excerpt'] ) )
+					if ( ! empty( $this->ngfb->options['ngfb_filter_excerpt'] ) ) {
+						$filter_removed = $this->ngfb->social->remove_filter( 'the_excerpt' );
+						$this->ngfb->debug->log( 'calling apply_filters()' );
 						$desc = apply_filters( 'the_excerpt', $desc );
+						if ( ! empty( $filter_removed ) )
+							$this->ngfb->social->add_filter( 'the_excerpt' );
+					}
 		
 				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
 				} elseif ( is_page() && ! empty( $this->ngfb->options['og_desc_wiki'] ) && $this->ngfb->is_avail['wikibox'] == true ) {
@@ -194,8 +213,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$desc = $this->ngfb->util->cleanup_html_tags( $desc );
 
-			if ( $textlen > 0 ) 
-				$desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
+			if ( $textlen > 0 ) $desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
 
 			return $desc;
 		}
@@ -227,6 +245,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
 				foreach ( $this->ngfb->shortcode_names as $id => $name )
 					$this->shortcode[$id]->remove();
+				unset ( $id, $name );
 
 				$this->ngfb->debug->log( 'calling apply_filters()' );
 				$content = apply_filters( 'the_content', $content );
@@ -254,14 +273,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			return $content;
 		}
 
-		public function is_excluded() {
+		public function get_section() {
 			global $post;
-			if ( is_page() && $post->ID && $this->ngfb->is_avail['expages'] == true && empty( $this->ngfb->options['buttons_on_ex_pages'] ) ) {
-				$excluded_ids = ep_get_excluded_ids();
-				$delete_ids = array_unique( $excluded_ids );
-				if ( in_array( $post->ID, $delete_ids ) ) return true;
-			}
-			return false;
+			$section = '';
+			if ( is_singular() && ! empty( $post ) )
+				$section = $this->ngfb->meta->get_options( $post->ID, 'og_art_section' );
+			if ( ! empty( $section ) ) $this->ngfb->debug->log( 'custom meta section = "' . $section . '"' );
+			else $section = $this->ngfb->options['og_art_section'];
+			return $section;
 		}
 
 		// called from the view/gallery-uwf.php template
@@ -289,6 +308,16 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
 			}
 			return $desc;
+		}
+
+		public function is_excluded() {
+			global $post;
+			if ( is_page() && $post->ID && $this->ngfb->is_avail['expages'] == true && empty( $this->ngfb->options['buttons_on_ex_pages'] ) ) {
+				$excluded_ids = ep_get_excluded_ids();
+				$delete_ids = array_unique( $excluded_ids );
+				if ( in_array( $post->ID, $delete_ids ) ) return true;
+			}
+			return false;
 		}
 
 	}

@@ -43,8 +43,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $tags;		// ngfbTags
 		public $media;		// ngfbMedia
 		public $webpage;	// ngfbWebPage
+		public $meta;		// ngfbMeta
 		public $admin;		// ngfbAdmin
-		public $pro;		// ngfbPro
 		public $cache;		// ngfbCache
 
 		public $social_prefix = array(
@@ -198,6 +198,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( dirname ( __FILE__ ) . '/lib/tags.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/media.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/webpage.php' );
+			require_once ( dirname ( __FILE__ ) . '/lib/meta.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
 			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
@@ -266,12 +267,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->tags = new ngfbTags( &$this );
 			$this->media = new ngfbMedia( &$this );
 			$this->webpage = new ngfbWebPage( &$this );
+			$this->meta = new ngfbMeta( &$this );
+			$this->cache = new ngfbCache( $this );
 
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
 			}
 
+			// create this object last since it may modify others
 			if ( $this->is_avail['ngfbpro'] == true )
 				$this->pro = new ngfbPro( $this );
 
@@ -293,7 +297,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// set caching properties
-			$this->cache = new ngfbCache( $this );
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->cache->pem_file = NGFB_PEM_FILE;
@@ -303,7 +306,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 
-				$this->debug->on = $this->options['ngfb_debug'];
+				$this->debug->on = true;
 				$this->cache->object_expire = 1;
 				$this->debug->log( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
 				$this->notices->inf( 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 

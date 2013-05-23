@@ -115,7 +115,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			// if the page is an article, then define the other article meta tags
 			if ( $og['og:type'] == 'article' ) {
 				$og['article:tag'] = $this->ngfb->tags->get();
-				$og['article:section'] = $this->ngfb->options['og_art_section'];
+				$og['article:section'] = $this->ngfb->webpage->get_section();
 				$og['article:modified_time'] = get_the_modified_date('c');
 				$og['article:published_time'] = get_the_date('c');
 			}

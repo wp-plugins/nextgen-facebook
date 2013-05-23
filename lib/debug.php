@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 	class ngfbDebug {
 
-		public $on = 0;
+		public $on = false;
 
 		private $ngfb;		// ngfbPlugin
 		private $msgs = array();

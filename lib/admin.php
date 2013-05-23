@@ -653,6 +653,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					padding:4 6px 0 4px; 
 					width:220px;
 				}
+				table.ngfb-settings th.short { 
+					width:120px;
+				}
 				table.ngfb-settings th.social { 
 					font-weight:bold; 
 					text-align:left; 
