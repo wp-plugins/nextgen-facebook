@@ -62,9 +62,12 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
 			$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
 
-			if ( $this->ngfb->options['og_vid_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_content_videos(' . $this->ngfb->options['og_vid_max'] . ')' );
-				$og['og:video'] = $this->get_content_videos( $this->ngfb->options['og_vid_max'] );
+			$vid_max = $this->ngfb->options['og_vid_max'];
+			$img_max = $this->ngfb->options['og_img_max'];
+
+			if ( $vid_max > 0 ) {
+				$this->ngfb->debug->log( 'calling this->get_content_videos(' . $vid_max . ')' );
+				$og['og:video'] = $this->get_content_videos( $vid_max );
 				if ( is_array( $og['og:video'] ) ) {
 					foreach ( $og['og:video'] as $val ) {
 						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -76,14 +79,14 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				}
 			}
 
-			if ( $this->ngfb->options['og_img_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_images(' . $this->ngfb->options['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
-				$og['og:image'] = $this->get_all_images( $this->ngfb->options['og_img_max'], $this->ngfb->options['og_img_size'] );
+			if ( $img_max > 0 ) {
+				$this->ngfb->debug->log( 'calling this->get_all_images(' . $img_max . ', "' . $this->ngfb->options['og_img_size'] . '")' );
+				$og['og:image'] = $this->get_all_images( $img_max, $this->ngfb->options['og_img_size'] );
 
 				// if we didn't find any images, then use the default image
 				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->ngfb->debug->log( 'calling this->get_default_image(' . $this->ngfb->options['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
-					$og['og:image'] = $this->get_default_image( $this->ngfb->options['og_img_max'], $this->ngfb->options['og_img_size'] );
+					$this->ngfb->debug->log( 'calling this->get_default_image(' . $img_max . ', "' . $this->ngfb->options['og_img_size'] . '")' );
+					$og['og:image'] = $this->get_default_image( $img_max, $this->ngfb->options['og_img_size'] );
 				}
 			}
 

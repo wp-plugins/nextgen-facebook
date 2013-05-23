@@ -278,8 +278,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$section = '';
 			if ( is_singular() && ! empty( $post ) )
 				$section = $this->ngfb->meta->get_options( $post->ID, 'og_art_section' );
-			if ( ! empty( $section ) ) $this->ngfb->debug->log( 'custom meta section = "' . $section . '"' );
+			if ( ! empty( $section ) ) 
+				$this->ngfb->debug->log( 'custom meta section = "' . $section . '"' );
 			else $section = $this->ngfb->options['og_art_section'];
+			if ( $section == 'none' ) $section = '';
 			return $section;
 		}
 

@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: NextGEN Facebook Open Graph
+Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 Version: 5.0rc3
@@ -125,8 +125,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			define( 'NGFB_SHORTNAME', 'ngfb' );
 			define( 'NGFB_ACRONYM', 'NGFB' );
-			define( 'NGFB_FULLNAME', 'NextGEN Facebook Open Graph' );
-			define( 'NGFB_LONGNAME', 'NextGEN Facebook Open Graph (NGFB)' );
+			define( 'NGFB_FULLNAME', 'NGFB Open Graph' );
 			define( 'NGFB_URL', 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/' );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );

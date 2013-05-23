@@ -25,6 +25,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		public $website_topics = array(
+			'[none]',
 			'Animation',
 			'Architecture',
 			'Art',
@@ -112,8 +113,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			unset ( $id, $name );
 
-			$this->website_topics[] = '';
-			natsort ( $this->website_topics );
+			natsort( $this->website_topics );
+			// after sorting the array, put 'none' first
+			$this->website_topics = array_merge( array( 'none' ), $this->website_topics );
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'admin_init' ) );
@@ -246,7 +248,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 			</form>
 			</div>
-			<p>The <?php echo NGFB_LONGNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, 
+			<p>The <?php echo NGFB_FULLNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, 
 			including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know 
 			in handling various archive-type webpages. It will create appropriate title and description meta tags for 
 			category, tag, date based archive (day, month, or year), author webpages, search results. You can also 
@@ -458,7 +460,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<?php $og_cols = 4; ?>
 				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p><?php echo NGFB_LONGNAME; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
+				<p><?php echo NGFB_FULLNAME; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
 				</td>
 			</tr>
 			<?php
@@ -496,7 +498,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<td>
-				<p><?php echo NGFB_LONGNAME; ?> uses the "ngfb-buttons" class to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
+				<p><?php echo NGFB_FULLNAME; ?> uses the "ngfb-buttons" class to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
 				
 				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_ACRONYM; ?> Social Sharing Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
 				</td>

@@ -81,7 +81,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 								$desc .= ' (no videos)';
 							break;
 						default:
-							if ( $desc == '' ) 
+							if ( $desc == '' || $desc == 'none' ) 
 								$desc = '[none]';
 							break;
 					}
