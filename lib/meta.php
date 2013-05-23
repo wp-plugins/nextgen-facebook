@@ -72,12 +72,14 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 
 		public function get_defaults( $idx = '' ) {
 			$defs = array(
-				'og_art_section' => '',
+				'og_art_section' => -1,
 				'og_title' => '',
 				'og_desc' => '',
 				'og_img_id' => '',
 				'og_img_id_pre' => ( empty( $this->ngfb->options['og_def_img_id_pre'] ) ? '' : $this->ngfb->options['og_def_img_id_pre'] ),
 				'og_img_url' => '',
+				'og_img_max' => -1,
+				'og_vid_max' => -1,
 			);
 			if ( ! empty( $idx ) ) return $defs[$idx];
 			else return $defs;

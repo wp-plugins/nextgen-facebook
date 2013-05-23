@@ -47,9 +47,9 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>Language</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_lang', $this->lang ) . '</td>',
 				'<th>Count Box Position</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_count', 
 					array( 
+						'none' => '',
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
-						'none' => 'None',
 					) 
 				) . '</td>',
 				'<th>Button Size</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_size', 

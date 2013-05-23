@@ -115,10 +115,10 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 				) . '</td>',
 				'<th>Annotation</th><td>' . $this->ngfb->admin->form->get_select( 'gp_annotation', 
 					array( 
+						'none' => '',
 						'inline' => 'Inline',
 						'bubble' => 'Bubble',
 						'vertical-bubble' => 'Vertical Bubble',
-						'none' => 'None',
 					)
 				) . '</td>',
 				'<td colspan="2"></td>',

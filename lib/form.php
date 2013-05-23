@@ -56,22 +56,42 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
-			if ( empty( $name ) ) return;	// just in case
+			if ( empty( $name ) || ! is_array( $values ) ) return;
 			if ( $is_assoc == false ) $is_assoc = $this->ngfb->util->is_assoc( $values );
+
 			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
-			foreach ( (array) $values as $val => $desc ) {
-				if ( $is_assoc == false ) 
-					$val = $desc;
+
+			foreach ( $values as $val => $desc ) {
+				// if the array is NOT associative (so regular numered array), 
+				// then the description is used as the saved value as well
+				if ( $is_assoc == false ) $val = $desc;
+
+				if ( $val == -1 ) 
+					$desc = '(settings value)';
+				else {
+					switch ( $name ) {
+						case 'og_img_max' :
+							if ( $desc == 0 ) 
+								$desc .= ' (no images)';
+							break;
+						case 'og_vid_max' :
+							if ( $desc == 0 ) 
+								$desc .= ' (no videos)';
+							break;
+						default:
+							if ( $desc == '' ) 
+								$desc = '[none]';
+							break;
+					}
+					if ( $this->in_options( $name ) && $val == $this->defaults[$name] ) 
+						$desc .= ' (default)';
+				}
 				$html .= '<option value="' . $val . '"';
 				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $val, false );
-				$html .= '>' . $desc;
-				if ( $desc === '' ) $html .= 'None';
-				if ( $this->in_options( $name ) && $val == $this->defaults[$name] ) 
-					$html .= ' (default)';
-				$html .= '</option>' . "\n";
+				$html .= '>' . $desc . '</option>' . "\n";
 			}
 			$html .= '</select>';
 			return $html;

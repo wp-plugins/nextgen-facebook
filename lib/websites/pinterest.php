@@ -37,9 +37,9 @@ if ( ! class_exists( 'ngfbAdminPinterest' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',
 				'<th>Pin Count Layout</th><td>' . $this->ngfb->admin->form->get_select( 'pin_count_layout', 
 					array( 
+						'none' => '',
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
-						'none' => 'None',
 					)
 				) . '</td>',
 				'<th>Image Size to Share</th><td>' . $this->ngfb->admin->form->get_select_img_size( 'pin_img_size' ) . '</td>',

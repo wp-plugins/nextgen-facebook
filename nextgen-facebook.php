@@ -144,6 +144,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
 
+			if ( ! defined( 'NGFB_META_NAME' ) )
+				define( 'NGFB_META_NAME', 'ngfb_meta' );
+
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
 				define( 'NGFB_HEAD_PRIORITY', 5 );
 

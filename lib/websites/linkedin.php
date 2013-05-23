@@ -36,9 +36,9 @@ if ( ! class_exists( 'ngfbAdminLinkedIn' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
 				'<th>Counter Mode</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_counter', 
 					array( 
+						'none' => '',
 						'right' => 'Horizontal',
 						'top' => 'Vertical',
-						'none' => 'None',
 					)
 				) . '</td>',
 				'<th>Show Zero in Counter</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',

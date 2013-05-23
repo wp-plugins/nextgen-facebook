@@ -88,10 +88,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		);
 
 		protected $captions = array(
+			'none' => '',
 			'title' => 'Title Only',
 			'excerpt' => 'Excerpt Only',
 			'both' => 'Title and Excerpt',
-			'none' => 'None',
 		);
 
 		protected $form;		// ngfbForm
@@ -112,6 +112,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			unset ( $id, $name );
 
+			$this->website_topics[] = '';
 			natsort ( $this->website_topics );
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
@@ -286,7 +287,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Website Topic</th>
-				<td><?php echo $this->form->get_select( 'og_art_section', array_merge( array( '' ), $this->website_topics ) ); ?></td>
+				<td><?php echo $this->form->get_select( 'og_art_section', $this->website_topics ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
@@ -302,29 +303,22 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Author</th>
 				<td><?php
-					echo '<select name="', NGFB_OPTIONS_NAME, '[og_def_author_id]">', "\n";
-					echo '<option value="0" ';
-					selected( $this->ngfb->options['og_def_author_id'], 0 );
-					echo '>None (default)</option>', "\n";
-
-					foreach ( get_users() as $user ) {
-						echo '<option value="', $user->ID, '"';
-						selected( $this->ngfb->options['og_def_author_id'], $user->ID );
-						echo '>', $user->display_name, '</option>', "\n";
-					}
-					echo '</select>', "\n";
+					$user_ids = array( 0 );
+					foreach ( get_users() as $user )
+						$user_ids[$user->ID] = $user->display_name;
+					echo $this->form->get_select( 'og_def_author_id', $user_ids, null, null, true );
 				?></td>
-				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to <em>None</em> (the default).</p></td>
+				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to <em>[none]</em> (the default).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author on Indexes</th>
 				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_index' ); ?></td>
-				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). If the Default Author is <em>None</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
+				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). If the Default Author is <em>[none]</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author on Search Results</th>
 				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_search' ); ?></td>
-				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. If the Default Author is <em>None</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
+				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. If the Default Author is <em>[none]</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Image Size Name</th>
@@ -381,13 +375,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Add the title of the Page to the Open Graph tag list as well. If the "Add Page Ancestor Tags" option is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
 			</tr>
 			<tr>
-				<th>Maximum Number of Images</th>
-				<td><?php echo $this->form->get_select( 'og_img_max', array_merge( array( 0 => '0 (no images)' ), range( 1, NGFB_MAX_IMG_OG ) ), 'short', null, true ); ?></td>
+				<th>Maximum Images</th>
+				<td><?php echo $this->form->get_select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
-				<th>Maximum Number of Videos</th>
-				<td><?php echo $this->form->get_select( 'og_vid_max', array_merge( array( 0 => '0 (no videos)' ), range( 1, NGFB_MAX_VID_OG ) ), 'short', null, true ); ?></td>
+				<th>Maximum Videos</th>
+				<td><?php echo $this->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ); ?></td>
 				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
 			<tr>
@@ -682,7 +676,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		private function author_fields() {
 			return $this->ngfb->user->contactmethods( 
-				array( 'none' => 'None', 'author' => 'Author Index', 'url' => 'Website' ) 
+				array( 'none' => '', 'author' => 'Author Index', 'url' => 'Website' ) 
 			);
 		}
 

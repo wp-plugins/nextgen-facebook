@@ -241,6 +241,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							break;
 
 						// options that cannot be blank
+						case 'og_art_section' :
 						case 'link_author_field' :
 						case 'og_img_size' : 
 						case 'og_img_id_pre' : 
