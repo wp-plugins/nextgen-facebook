@@ -33,12 +33,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		public function get() {
-
 			$og = array();
 
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-
 				echo "\n<!-- ", NGFB_FULLNAME, " meta tags DISABLED -->\n\n";
 				return $og;
 			}
@@ -129,6 +127,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		private function get_all_images( $num = 0, $size_name = 'thumbnail' ) {
 			global $post;
 			$og_ret = array();
+
+			if ( ! empty( $post ) ) {
+				$this->ngfb->debug->log( 'calling this->get_meta_image(' . $num . ', "' . $size_name . '", ' . $post->ID . ')' );
+				$og_ret = array_merge( $og_ret, $this->get_meta_image( $num, $size_name, $post->ID ) );
+			}
 
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
@@ -503,20 +506,45 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		private function get_default_image( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
 			$og_image = array();
-			if ( $this->ngfb->options['og_def_img_id'] > 0 ) {
-				if ( $this->ngfb->options['og_def_img_id_pre'] == 'ngg' ) {
-					$pid = $this->ngfb->options['og_def_img_id_pre'] . '-' . $this->ngfb->options['og_def_img_id'];
+			$pid = empty( $this->ngfb->options['og_def_img_id'] ) ? '' : $this->ngfb->options['og_def_img_id'];
+			$pre = empty( $this->ngfb->options['og_def_img_id_pre'] ) ? '' : $this->ngfb->options['og_def_img_id_pre'];
+			$url = empty( $this->ngfb->options['og_def_img_url'] ) ? '' : $this->ngfb->options['og_def_img_url'];
+			if ( $pid > 0 ) {
+				if ( $pre == 'ngg' )
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( $pid, $size_name );
-				} else {
+						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( $pre . '-' . $pid, $size_name );
+				else
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $this->ngfb->options['og_def_img_id'], $size_name );
-				}
+						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $pid, $size_name );
 			}
-			// if still empty, use the default url (if one is defined, empty string otherwise)
-			if ( empty( $og_image['og:image'] ) ) {
-				$og_image['og:image'] = empty( $this->ngfb->options['og_def_img_url'] ) ? '' : $this->ngfb->options['og_def_img_url'];
+			if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
+				$og_image['og:image'] = $url;
 				$this->ngfb->debug->log( 'using default img url = ' . $og_image['og:image'] );
+			}
+			// returned array must be two-dimensional
+			$this->push_max( $og_ret, $og_image, $num );
+			return $og_ret;
+		}
+
+		private function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
+			$og_ret = array();
+			$og_image = array();
+			if ( ! empty( $post_id ) ) {
+				$pid = $this->ngfb->meta->get_options( $post_id, 'og_img_id' );
+				$pre = $this->ngfb->meta->get_options( $post_id, 'og_img_id_pre' );
+				$url = $this->ngfb->meta->get_options( $post_id, 'og_img_url' );
+				if ( $pid > 0 ) {
+					if ( $pre == 'ngg' )
+						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( $pre . '-' . $pid, $size_name );
+					else
+						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $pid, $size_name );
+				}
+				if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
+					$og_image['og:image'] = $url;
+					$this->ngfb->debug->log( 'using img url = ' . $og_image['og:image'] );
+				}
 			}
 			// returned array must be two-dimensional
 			$this->push_max( $og_ret, $og_image, $num );
