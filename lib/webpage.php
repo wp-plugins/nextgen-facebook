@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$this->ngfb =& $ngfb_plugin;
 
-			foreach ( $this->ngfb->shortcode_names as $id => $name ) {
+			foreach ( $this->ngfb->shortcode_libs as $id => $name ) {
 				$classname = 'ngfbShortCode' . $name;
 				$this->shortcode[$id] = new $classname( $ngfb_plugin );
 			}
@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
 
 			if ( ! empty( $title ) ) 
-				$this->ngfb->debug->log( 'custom meta title = "' . $title . '"' );
+				$this->ngfb->debug->log( 'found custom meta title = "' . $title . '"' );
 
 			elseif ( is_category() ) { 
 
@@ -151,7 +151,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
 
 			if ( ! empty( $desc ) )
-				$this->ngfb->debug->log( 'custom meta description = "' . $desc . '"' );
+				$this->ngfb->debug->log( 'found custom meta description = "' . $desc . '"' );
 
 			elseif ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 
@@ -243,7 +243,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( $filter_content == true ) {
 
 				$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
-				foreach ( $this->ngfb->shortcode_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_libs as $id => $name )
 					$this->shortcode[$id]->remove();
 				unset ( $id, $name );
 
@@ -257,7 +257,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				if ( ! empty( $filter_removed ) )
 					$this->ngfb->social->add_filter( 'the_content' );
 
-				foreach ( $this->ngfb->shortcode_names as $id => $name )
+				foreach ( $this->ngfb->shortcode_libs as $id => $name )
 					$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
@@ -279,7 +279,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( is_singular() && ! empty( $post ) )
 				$section = $this->ngfb->meta->get_options( $post->ID, 'og_art_section' );
 			if ( ! empty( $section ) ) 
-				$this->ngfb->debug->log( 'custom meta section = "' . $section . '"' );
+				$this->ngfb->debug->log( 'found custom meta section = "' . $section . '"' );
 			else $section = $this->ngfb->options['og_art_section'];
 			if ( $section == 'none' ) $section = '';
 			return $section;
@@ -310,16 +310,6 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
 			}
 			return $desc;
-		}
-
-		public function is_excluded() {
-			global $post;
-			if ( is_page() && $post->ID && $this->ngfb->is_avail['expages'] == true && empty( $this->ngfb->options['buttons_on_ex_pages'] ) ) {
-				$excluded_ids = ep_get_excluded_ids();
-				$delete_ids = array_unique( $excluded_ids );
-				if ( in_array( $post->ID, $delete_ids ) ) return true;
-			}
-			return false;
 		}
 
 	}

@@ -100,7 +100,7 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 			'cy_GB' => 'Welsh',
 		);
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

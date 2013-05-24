@@ -84,7 +84,7 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 			'zu'	=> 'Zulu',
 		);
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

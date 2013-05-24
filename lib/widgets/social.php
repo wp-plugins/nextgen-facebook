@@ -31,8 +31,7 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 		public function widget( $args, $instance ) {
 			global $ngfb;
 
-			// if using the Exclude Pages plugin, skip social buttons on those pages
-			if ( is_page() && $ngfb->webpage->is_excluded() ) return;
+			if ( $ngfb->social->is_disabled() ) return;
 	
 			extract( $args );
 
@@ -72,7 +71,7 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $ngfb->social_names as $id => $name ) {
+			foreach ( $ngfb->website_libs as $id => $name ) {
 				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
 			}
 			unset( $name, $id );
@@ -86,7 +85,7 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $ngfb->social_names as $id => $name ) {
+			foreach ( $ngfb->website_libs as $id => $name ) {
 				echo '<p><label for="', $this->get_field_id( $id ), '">', 
 					'<input id="', $this->get_field_id( $id ), 
 					'" name="', $this->get_field_name( $id ), 
@@ -104,7 +103,7 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 				}
 				echo '</label></p>', "\n";
 			}
-			unset( $name, $id );
+			unset( $id, $name );
 		}
 	}
 	

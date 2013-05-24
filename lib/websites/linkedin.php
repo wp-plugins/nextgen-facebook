@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbAdminLinkedIn' ) && class_exists( 'ngfbAdmin' ) ) {
 
 	class ngfbAdminLinkedIn extends ngfbAdmin {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

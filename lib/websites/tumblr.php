@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbAdminTumblr' ) && class_exists( 'ngfbAdmin' ) ) {
 
 	class ngfbAdminTumblr extends ngfbAdmin {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

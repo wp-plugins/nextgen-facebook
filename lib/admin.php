@@ -22,6 +22,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		public $plugin_name = '';
 		public $lang = array();
+		public $settings = array();	// allow ngfbPro() to extend
 
 		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
 		public $website_topics = array(
@@ -95,9 +96,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'both' => 'Title and Excerpt',
 		);
 
-		protected $form;		// ngfbForm
+		protected $ngfb;	// ngfbPlugin
+		protected $form;	// ngfbForm
 
-		private $ngfb;		// ngfbPlugin
 		private $website = array();
 		private $min_wp_version = '3.0';
 
@@ -107,9 +108,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->opt->get_defaults() );
 
 			// extends the ngfbAdmin() method
-			foreach ( $this->ngfb->social_names as $id => $name ) {
+			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbAdmin' . $name;
 				$this->website[$id] = new $classname( $ngfb_plugin );
+			}
+			unset ( $id, $name );
+
+			foreach ( $this->ngfb->setting_libs as $id => $name ) {
+				$classname = 'ngfbSettings' . $name;
+				$this->settings[$id] = new $classname( $ngfb_plugin );
 			}
 			unset ( $id, $name );
 
@@ -227,44 +234,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<a name="top"></a>
 			<div class="metabox-holder">
 
-			<?php	// don't show donation box if already donated, or pro version installed
-				if ( empty( $this->ngfb->options['ngfb_donated'] ) && $this->ngfb->is_avail['ngfbpro'] == false ) : ?>
+			<?php if ( $this->ngfb->is_avail['ngfbpro'] !== true ) : ?>
 			<div class="postbox">
 			<div class="inside">	
-			<div class="donatebox">
-			<p>The NextGEN Facebook Open Graph plugin has taken many, many months to develop and fine-tune. Please say thank you by donating a few dollars and / or <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">writing a positive review on wordpress.org</a>.</p>
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate">
-			<input type="hidden" name="cmd" value="_s-xclick">
-			<table align="center">
-			<tr><td><input type="hidden" name="on0" value="Choose Your Support">Choose Your Support Level :</td></tr><tr><td><select name="os0">
-				<option value="Thank You!">Thank You! ($10)</option>
-				<option value="Great Job!">Great Job! ($20)</option>
-				<option value="Keep Going!">Keep Going! ($30)</option>
-			</select> </td></tr>
-			</table>
-			<input type="hidden" name="currency_code" value="USD">
-			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-			</form>
-			</div>
-			<p>The <?php echo NGFB_FULLNAME; ?> plugin adds Open Graph meta property tags to all webpage headers, 
-			including the artical object type for Posts and Pages. This plugin goes well beyond other plugins I know 
-			in handling various archive-type webpages. It will create appropriate title and description meta tags for 
-			category, tag, date based archive (day, month, or year), author webpages, search results. You can also 
-			add multilingual social sharing buttons above or bellow content, as a widget, shortcode, or even use a 
-			function from your templates. All plugin settings are optional -- though you may want to enable some social 
-			sharing buttons and define a default image for your index webpages (home webpage, category webpage, etc.).</p>
-
-			<p>The images listed in the Open Graph image property tags are chosen in this sequence: 
-				a <em>featured</em> or <em>attached</em> image from a NextGEN Gallery or WordPress Media Library, 
-				an image from the NextGEN Gallery <em>ImageBrowser</em>,
-				images from NextGEN Gallery <code>[singlepic]</code>, <code>[nggallery]</code> or <code>[nggtags]</code> shortcodes, 
-				images from <code>&lt;img/&gt;</code> HTML tags in the Post or Page content text, 
-				a default image defined in the NGFB plugin settings. 
-			<?php echo NGFB_ACRONYM; ?> detects images of varying sizes and embedded videos -- 
-			and includes one or more of each in your Open Graph property tags.</p>
-
 			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. 
 			You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> 
 			and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
@@ -274,14 +246,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<div style="clear:both;"></div>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
-			<?php	// end of donation box 
-				endif; ?>
+			<?php endif; ?>
 
 			<form name="ngfb" method="post" action="options.php" id="settings">
 			<?php 
 				wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
 				settings_fields( NGFB_SHORTNAME . '_plugin_options' ); 
-				echo $this->form->get_hidden( 'ngfb_version', $this->ngfb->opts_version );
+				echo $this->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
 			?>
 			<div class="postbox">
 			<h3 class="hndle"><span>Meta Settings</span></h3>
@@ -511,14 +482,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				<td><?php echo $this->form->get_checkbox( 'buttons_on_index' ); ?></td>
 				<td><p>Add the social sharing buttons (that are enabled) to each entry on index webpages (index, archives, author, etc.).</p></td>
 			</tr>
-			<?php	// hide Add to Excluded Pages option if not installed and activated
-				if ( $this->ngfb->is_avail['expages'] == true ) : ?>
-			<tr>
-				<th>Add to Excluded Pages</th>
-				<td><?php echo $this->form->get_checkbox( 'buttons_on_ex_pages' ); ?></td>
-				<td><p>The <a href="http://wordpress.org/extend/plugins/exclude-pages/" target="_blank">Exclude Pages</a> plugin has been detected. By default, social buttons are not added to excluded Pages. You can over-ride the default and add social buttons to excluded Page content by selecting this option.</p></td>
-			</tr>
-			<?php	else : echo $this->form->get_hidden( 'buttons_on_ex_pages' ); endif; ?>
 			<tr>
 				<th>Location in Excerpt Text</th>
 				<td><?php echo $this->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
@@ -538,7 +501,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$section = -1;	// a "section" is a row of several boxes
 				$max_col = 2;
 				$rows = array();
-				foreach ( $this->ngfb->social_names as $id => $name ) {
+				foreach ( $this->ngfb->website_libs as $id => $name ) {
 					$box++;				// increment the website box number (first box is 0)
 					$col = $box % $max_col;		// determine column number based on the box number
 					if ( $col == 0 ) $section++;	// increment section if we're on column 0
@@ -557,78 +520,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
-		
-			<div class="postbox">
-			<h3 class="hndle"><span>Advanced Settings</span></h3>
-			<div class="inside">	
-			<table class="ngfb-settings">
-			<tr>
-				<th>Reset on Activate</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_reset' ); ?></td>
-				<td><p>Check this option if you would like to reset the <?php echo NGFB_ACRONYM; ?> settings to their default values <u>when you deactivate, and then reactivate the plugin</u>.</p></td>
-			</tr>
-			<tr>
-				<th>Add Hidden Debug Info</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_debug' ); ?></td>
-				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
-			</tr>
-			<tr>
-				<th>Enable Shortcode(s)</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_enable_shortcode' ); ?></td>
-				<td><p>Enable the NGFB content shortcode(s) (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Ignore Small Images</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p><?php echo NGFB_ACRONYM; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content (provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo NGFB_ACRONYM; ?> FAQ</a> webpage for additional solutions.</p></td>
-			</tr>
-			<tr>
-				<th>Apply Title Filters</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_title' ); ?></td>
-				<td><p>Apply the standard WordPress filters to the webpage title (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Apply Content Filters</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>When <?php echo NGFB_ACRONYM; ?> generates the Open Graph meta tags, it applies the WordPress filters on the content text to expand shortcodes etc. In most cases this is fine, even desirable, but in a few rare cases it may break another plugin. You can prevent <?php echo NGFB_ACRONYM; ?> from applying the WordPress filters by unchecking this option. If you do, <?php echo NGFB_ACRONYM; ?> may not have access to the complete content text (if your content includes some shortcodes, for example), and may generate inaccurate Open Graph description or image meta property tags (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Apply Excerpt Filters</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_filter_excerpt' ); ?></td>
-				<td><p>There shouldn't be any need to filter excerpt text, but the option is here if you need it (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Verify SSL Certificates</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_verify_certs' ); ?></td>
-				<td><p>Verify the peer SSL certificate when fetching cache content by HTTPS. Note: PHP curl will use the <?php echo NGFB_PEM_FILE; ?> certificate file by default. You may want define the NGFB_PEM_FILE constant in your wp-config.php file to use an alternate certificate file.</p></td>
-			</tr>
-			<tr>
-				<th>File Cache Expiry</th>
-				<td nowrap><?php echo $this->form->get_select( 'ngfb_file_cache_hrs', range( 0, NGFB_MAX_CACHE ), 'short' ); ?> Hours</td>
-				<td><p>NGFB can save social button images and JavaScript to a cache folder, and provide URLs to these cached files instead of the originals. A value of "0" hours (the default) disables this feature. Caching should only be enabled if your infrastructure can provide these files faster and more reliably than the original websites. All possible images and javascript will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. The cached files will be provided from the <?php echo NGFB_CACHEURL; ?> folder.</p></td>
-			</tr>
-			<tr>
-				<th>Object Cache Expiry</th>
-				<td><?php echo $this->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
-				<td><p>NGFB saves the rendered (filtered) content text to a non-presistant cache (wp_cache), and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and webpages will not be reflected in the Open Graph and NGFB social buttons until the object cache has expired. Decrease this value if your content is often revised after publishing, or increase it to improve performance. The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
-			</tr>
-			<tr>
-				<th>Goo.gl Simple API Access Key</th>
-				<td></td>
-				<td><?php echo $this->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The "Google URL Shortener API Key" for this website / project (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
-			</tr>
-			<?php	// don't show option if pro version installed
-				if ( $this->ngfb->is_avail['ngfbpro'] == false ) : ?>
-			<tr>
-				<th>I Have Donated</th>
-				<td><?php echo $this->form->get_checkbox( 'ngfb_donated' ); ?></td>
-				<td><p>Check this option if you have <a href="#top">donated a few dollars</a>, <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewed and rated <?php echo NGFB_ACRONYM; ?></a>, or helped in the <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank"><?php echo NGFB_ACRONYM; ?> support forum</a> (default is unchecked). I haven't received many donations yet (I can count them on one hand), so <u>your donation will certainly be appreciated</u>. Thank you.</p></td>
-			</tr>
-			<?php	else : echo $this->form->get_hidden( 'ngfb_donated' ); endif; ?>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
+	
+			<?php $this->settings['advanced']->show(); ?>
+
 			<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>
 			</form>
 			</div><!-- .metabox-holder -->
@@ -639,6 +533,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function admin_style() {
 			?>
 			<style type="text/css">
+				table.ngfb-settings .pro_msg {
+					font-size:0.9em;
+					font-style:italic;
+				}
 				table.ngfb-settings { 
 					width:100%;
 				}
@@ -646,7 +544,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				table.ngfb-settings th { 
 					text-align:right;
 					white-space:nowrap; 
-					padding:4 6px 0 4px; 
+					padding:0 10px 0 4px; 
 					width:220px;
 				}
 				table.ngfb-settings th.short { 

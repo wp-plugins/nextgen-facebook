@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 			'ja'	=> 'Japanese',
 		);
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

@@ -20,13 +20,20 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 
 	class ngfbMeta {
 
-		private $ngfb;		// ngfbPlugin
-		private $form;		// ngfbForm
-		private $defaults = array();
+		protected $ngfb;		// ngfbPlugin
+		protected $form;		// ngfbForm
 
 		public function __construct( &$ngfb_plugin ) {
 
 			$this->ngfb =& $ngfb_plugin;
+			$this->enable();
+		}
+
+		public function enable() {
+			if ( is_admin() ) {
+				add_action( 'add_meta_boxes', array( &$this, 'add_metabox' ) );
+				add_action( 'save_post', array( &$this, 'save_options' ) );
+			}
 		}
 
 		public function add_metabox() {
@@ -37,36 +44,28 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 		}
 
 		public function show_metabox( $post ) {
-
 			$this->ngfb->admin->admin_style();
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<th class="short">Topic</th>
-				<td>(not available in the basic version)</td>
-			</tr>
-			<tr>
-				<th class="short">Title</th>
-				<td>(not available in the basic version)</td>
-			</tr>
-			<tr>
-				<th class="short">Description</th>
-				<td>(not available in the basic version)</td>
-			</tr>
-			<tr>
-				<th class="short">Image ID</th>
-				<td>(not available in the basic version)</td>
-			</tr>
-			<tr>
-				<th class="short">Image URL</th>
-				<td>(not available in the basic version)</td>
-			</tr>
-			</table>
-			<?php
+			echo '<table class="ngfb-settings">';
+			foreach ( $this->get_rows() as $row )
+				echo '<tr>' . $row . '</tr>';
+			echo '</table>';
+		}
+
+		protected function get_rows() {
+			return array(
+				'<th>Topic</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Title</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Description</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Image ID</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Image URL</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Maximum Images</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Maximum Videos</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Disable Social Buttons</th><td>' . $this->ngfb->pro_msg . '</td>',
+			);
 		}
 
 		public function get_options( $post_id, $idx = '' ) {
-			if ( ! empty( $idx ) ) return '';
+			if ( ! empty( $idx ) ) return false;
 			else return array();
 		}
 

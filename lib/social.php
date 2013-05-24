@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 
 			// extends the ngfbSocial() method
-			foreach ( $this->ngfb->social_names as $id => $name ) {
+			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbSocial' . $name;
 				$this->website[$id] = new $classname( $ngfb_plugin );
 			}
@@ -72,62 +72,60 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function filter( &$text, $type = 'the_content' ) {
 
-			// if using the Exclude Pages plugin, skip social buttons on those pages
-			if ( is_page() && $this->ngfb->webpage->is_excluded() ) {
-				$this->ngfb->debug->log( 'exiting early for: page is excluded' );
+			// don't add social buttons on index pages, unless buttons_on_index option is checked
+			if ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) )
+				return $text;
+
+			if ( $this->is_disabled() ) 
+				return $text;
+
+			$enabled = false;
+			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
+				if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) ) {
+					$enabled = true;
+					break;
+			}
+			if ( $enabled == false ) {
+				$this->ngfb->debug->log( 'exiting early for: no buttons enabled for ' . $type );
 				return $text;
 			}
 
-			if ( is_singular() || $this->ngfb->options['buttons_on_index'] ) {
+			// we should always have a unique post ID
+			global $post;
+			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_type:' . $type . ')';
+			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+			$cache_type = 'object cache';
+			$html = get_transient( $cache_id );
+			$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html transient id salt "' . $cache_salt . '"' );
 
-				$enabled = false;
+			if ( $html !== false ) {
+				$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html retrieved from transient for id "' . $cache_id . '"' );
+			} else {
+				$sorted_ids = array();
 				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
-					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) ) {
-						$enabled = true;
-						break;
-				}
-				if ( $enabled == false ) {
-					$this->ngfb->debug->log( 'exiting early for: no buttons enabled for ' . $type );
-					return $text;
-				}
+					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) )
+						$sorted_ids[ $this->ngfb->options[ $opt_prefix.'_order' ] . '-' . $id ] = $id;	// sort by number, then by name
+				unset ( $id, $opt_prefix );
+				ksort( $sorted_ids );
 
-				global $post;
-				// we should always have a unique post ID
-				$cache_salt = __METHOD__ . '(post:' . $post->ID . '_type:' . $type . ')';
-				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
-				$cache_type = 'object cache';
-				$html = get_transient( $cache_id );
-				$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html transient id salt "' . $cache_salt . '"' );
+				$this->ngfb->debug->log( 'calling this->get_html()' );
+				$html = $this->get_html( $sorted_ids );
 
-				if ( $html !== false ) {
-					$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html retrieved from transient for id "' . $cache_id . '"' );
-				} else {
-					$sorted_ids = array();
-					foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
-						if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) )
-							$sorted_ids[ $this->ngfb->options[ $opt_prefix.'_order' ] . '-' . $id ] = $id;	// sort by number, then by name
-					unset ( $id, $opt_prefix );
-					ksort( $sorted_ids );
-	
-					$this->ngfb->debug->log( 'calling this->get_html()' );
-					$html = $this->get_html( $sorted_ids );
-	
-					if ( ! empty( $html ) ) {
-						$css_type = preg_replace( '/^(the_)/', '', $type );
-						$html = "\n<!-- " . NGFB_FULLNAME . ' ' . $css_type . " buttons BEGIN -->\n" .
-							'<div class="' . NGFB_SHORTNAME . '-' . $css_type . "-buttons\">\n" . $html . "</div>\n" .
-							'<!-- ' . NGFB_FULLNAME . ' ' . $css_type . " buttons END -->\n";
+				if ( ! empty( $html ) ) {
+					$css_type = preg_replace( '/^(the_)/', '', $type );
+					$html = "\n<!-- " . NGFB_FULLNAME . ' ' . $css_type . " buttons BEGIN -->\n" .
+						'<div class="' . NGFB_SHORTNAME . '-' . $css_type . "-buttons\">\n" . $html . "</div>\n" .
+						'<!-- ' . NGFB_FULLNAME . ' ' . $css_type . " buttons END -->\n";
 
-						set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
-						$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html saved to transient for id "' . 
-							$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
-					}
+					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
+					$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html saved to transient for id "' . 
+						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 				}
-				if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) &&
-					$this->ngfb->options[ 'buttons_location_' . $type ] == "top" )
-						$text = $this->ngfb->debug->get() . $html . $text;
-				else $text .= $this->ngfb->debug->get() . $html;
 			}
+			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) &&
+				$this->ngfb->options[ 'buttons_location_' . $type ] == "top" )
+					$text = $this->ngfb->debug->get() . $html . $text;
+			else $text .= $this->ngfb->debug->get() . $html;
 			return $text;
 		}
 
@@ -147,8 +145,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'footer', $ids = array() ) {
 			if ( empty( $ids ) ) {
 
-				// if using the Exclude Pages from Navigation plugin, skip social buttons on those pages
-				if ( is_page() && $this->ngfb->webpage->is_excluded() ) return;
+				if ( $this->ngfb->social->is_disabled() ) return;
 
 				$widget = new ngfbWidgetSocial();
 		 		$widget_settings = $widget->get_settings();
@@ -213,14 +210,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		protected function get_cache_url( $url ) {
-
-			// facebook javascript sdk doesn't work when hosted locally
-			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
-
-			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $this->ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
-
-			return ( $this->ngfb->util->cdn_rewrite( $this->ngfb->cache->get( $url ) ) );
+			return $url;
 		}
 
 		protected function get_short_url( $url, $short = true ) {
@@ -257,6 +247,14 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			return;
 		}
 
+		public function is_disabled() {
+			global $post;
+			if ( ! empty( $post ) && $this->ngfb->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
+				$this->ngfb->debug->log( 'found custom meta buttons disabled = true' );
+				return true;
+			}
+			return false;
+		}
 	}
 
 }

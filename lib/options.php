@@ -20,6 +20,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
+		public $version = '23';	// increment when adding/removing default options
+
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
 			'link_author_field' => 'gplus',
@@ -51,7 +53,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_app_id' => '',
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
-			'buttons_on_ex_pages' => 0,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
 			'fb_on_the_excerpt' => 0,

@@ -3,7 +3,7 @@
 Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0rc3
+Version: 5.0rc4
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 
@@ -27,8 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0rc3';	// only for display purposes
-		public $opts_version = '23';	// increment when adding/removing default options
+		public $version = '5.0rc4';	// only for display purposes
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
@@ -56,7 +55,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr' );
 
-		public $social_names = array(
+		public $website_libs = array(
 			'facebook' => 'Facebook', 
 			'gplus' => 'GooglePlus',
 			'twitter' => 'Twitter',
@@ -65,16 +64,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr' );
 
-		public $shortcode_names = array(
+		public $shortcode_libs = array(
 			'ngfb' => 'Ngfb' );
 
-		public $widget_names = array(
+		public $widget_libs = array(
 			'social' => 'Social' );
+
+		public $setting_libs = array(
+			'advanced' => 'Advanced' );
+
+		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
 
 		public function __construct() {
 
 			$this->define_constants();	// define constants first for option defaults
-			$this->load_libs();
+			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
@@ -85,13 +89,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
 		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		public function activate() {
+
+			$this->init_plugin();	// check deps and setup vars
+
 			if ( ! empty( $this->options['ngfb_reset'] ) 
 				|| ( defined( 'NGFB_RESET' ) && NGFB_RESET ) 
 				|| ! is_array( $this->options ) 
 				|| empty( $this->options ) ) {
 
 				$opts = $this->opt->get_defaults();
-				$opts['ngfb_version'] = $this->opts_version;
+				$opts['ngfb_version'] = $this->opt->version;
 
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
 				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
@@ -106,8 +113,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// called by WP init action
 		public function init_plugin() {
 
-			// run check_deps() before setup_vars() to get ngg options (if the plugin is installed)
-			$this->check_deps();
+			$this->check_deps();		// run before setup_vars() to check if ngg is active
 			$this->setup_vars();
 
 			// add_action() tests and debug output
@@ -208,17 +214,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
 				require_once ( dirname ( __FILE__ ) . '/lib/form.php' );
+				foreach ( $this->setting_libs as $id => $name )
+					require_once ( dirname ( __FILE__ ) . '/lib/settings/' . $id . '.php' );
+				unset ( $id, $name );
 			}
 
-			foreach ( $this->social_names as $id => $name )
+			foreach ( $this->website_libs as $id => $name )
 				require_once ( dirname ( __FILE__ ) . '/lib/websites/' . $id . '.php' );
 			unset ( $id, $name );
 
-			foreach ( $this->shortcode_names as $id => $name )
+			foreach ( $this->shortcode_libs as $id => $name )
 				require_once ( dirname ( __FILE__ ) . '/lib/shortcodes/' . $id . '.php' );
 			unset ( $id, $name );
 
-			foreach ( $this->widget_names as $id => $name )
+			foreach ( $this->widget_libs as $id => $name )
 				require_once ( dirname ( __FILE__ ) . '/lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
@@ -245,9 +254,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// wikibox plugin
 			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? true : false;
-
-			// exclude pages plugin
-			$this->is_avail['expages'] = function_exists( 'ep_get_excluded_ids' ) ? true : false;
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -263,23 +269,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->util = new ngfbUtil( &$this );
 			$this->notices = new ngfbNotices( &$this );
 			$this->opt = new ngfbOptions( &$this );
-			$this->head = new ngfbHead( $this );
-			$this->social = new ngfbSocial( $this );
+			$this->head = new ngfbHead( &$this );
+			$this->social = new ngfbSocial( &$this );
 			$this->user = new ngfbUser( &$this );
 			$this->tags = new ngfbTags( &$this );
 			$this->media = new ngfbMedia( &$this );
 			$this->webpage = new ngfbWebPage( &$this );
 			$this->meta = new ngfbMeta( &$this );
-			$this->cache = new ngfbCache( $this );
+			$this->cache = new ngfbCache( &$this );
 
 			if ( is_admin() ) {
-				$this->admin = new ngfbAdmin( $this );
+				$this->admin = new ngfbAdmin( &$this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
 			}
 
 			// create this object last since it may modify others
 			if ( $this->is_avail['ngfbpro'] == true )
-				$this->pro = new ngfbPro( $this );
+				$this->pro = new ngfbPro( &$this );
 
 			if ( $this->is_avail['mbdecnum'] != true )
 				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
@@ -289,7 +295,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
 				if ( empty( $this->options['ngfb_version'] ) 
-					|| $this->options['ngfb_version'] !== $this->opts_version )
+					|| $this->options['ngfb_version'] !== $this->opt->version )
 						$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
 			} else {
 				$this->notices->err( 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
