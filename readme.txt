@@ -426,7 +426,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 4856 lines in 27 files, with 32 classes and 158 functions.
+Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
