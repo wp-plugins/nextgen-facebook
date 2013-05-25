@@ -341,8 +341,6 @@ NextGEN Facebook Open Graph (NGFB) can detect and use the following plugins:
 
 * [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the *featured* image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
 
-* [Exclude Pages](http://wordpress.org/extend/plugins/exclude-pages/) : If the Exclude Pages plugin is active, social buttons will not be added to excluded pages. An additional option will be available on the settings page to toggle this default behavior on/off.
-
 * [WP-WikiBox](http://wordpress.org/extend/plugins/wp-wikibox/) : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).
 
 == Performance Tuning ==
@@ -428,10 +426,12 @@ Complete code review with an improved object-oriented design and several new cla
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 4856 lines in 27 files, with 32 classes and 158 functions.
+Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
 `
 
-* Added the ability to include social sharing buttons in the excerpt text as well.
+* Added the ability to include social sharing buttons in the excerpt as well.
+* Added a new "Custom Post/Page Settings" options box for each Post and Page (enabled by purchasing the Pro version).
+* Removed support for the "Exclude Pages" plugin (social sharing buttons were not added to excluded pages). Social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
 
 = Version 4.3 =
 
