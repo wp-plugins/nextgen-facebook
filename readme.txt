@@ -239,10 +239,10 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Shortcodes ==
 
-You can add one or more social sharing buttons to your content by using the `[ngfb]` shortcode. For example:
+You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. For example:
 
 `
-[ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"]
+&#91;ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"&#93;
 `
 
 Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a *featured* or *attached* image**.
