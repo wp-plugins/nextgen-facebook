@@ -20,8 +20,9 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 	class ngfbForm {
 	
+		public $options_name;
+
 		private $ngfb;
-		private $options_name;
 		private $options = array();
 		private $defaults = array();
 

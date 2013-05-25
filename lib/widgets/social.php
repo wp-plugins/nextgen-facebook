@@ -16,16 +16,19 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
+if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) ) {
 
-	class ngfbWidgetSocial extends WP_Widget {
-	
+	class ngfbWidgetSocialSharing extends WP_Widget {
+
+		public static $fullname = 'NGFB Social Sharing';
+
 		public function __construct() {
+			global $ngfb;
 			$widget_ops = array( 
 				'classname' => 'ngfb-widget-buttons',
-				'description' => 'The ' . NGFB_FULLNAME . ' social sharing buttons widget.'
+				'description' => 'The ' . $ngfb->fullname . ' social sharing buttons widget.'
 			);
-			$this->WP_Widget( 'ngfb-widget-buttons', NGFB_ACRONYM . ' Social Sharing', $widget_ops );
+			$this->WP_Widget( 'ngfb-widget-buttons', self::$fullname, $widget_ops );
 		}
 	
 		public function widget( $args, $instance ) {
@@ -50,12 +53,12 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 						$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
 				ksort( $sorted_ids );
 	
-				$widget_html .= "\n<!-- " . NGFB_FULLNAME . " widget BEGIN -->\n";
+				$widget_html .= "\n<!-- " . $ngfb->fullname . " widget BEGIN -->\n";
 				$widget_html .= $before_widget . "\n";
 				if ( $title ) $widget_html .= $before_title . $title . $after_title . "\n";
 				$widget_html .= $ngfb->social->get_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
 				$widget_html .= $after_widget . "\n";
-				$widget_html .= "<!-- " . NGFB_FULLNAME . " widget END -->\n";
+				$widget_html .= "<!-- " . $ngfb->fullname . " widget END -->\n";
 	
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type . ' : widget_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
@@ -104,7 +107,7 @@ if ( ! class_exists( 'ngfbWidgetSocial' ) && class_exists( 'WP_Widget' ) ) {
 		}
 	}
 	
-	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbWidgetSocial" );' ) );
+	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbWidgetSocialSharing" );' ) );
 }
 
 ?>

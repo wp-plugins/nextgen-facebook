@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		private $ngfb;		// ngfbPlugin
 		private $msgs = array();
 
-		public function __construct() {
+		public function __construct( $ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->lognew();
 		}
@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		public function get( $data = null, $title = null, $from = null ) {
 			$html = null;
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-				$html .= "<!-- " . NGFB_ACRONYM . " debug";
+				$html .= "<!-- " . $this->ngfb->fullname . " debug";
 				if ( empty( $from ) ) {
 					$stack = debug_backtrace();
 					if ( ! empty( $stack[1]['class'] ) ) 

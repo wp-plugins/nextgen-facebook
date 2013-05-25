@@ -23,13 +23,15 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 		protected $ngfb;		// ngfbPlugin
 		protected $form;	// ngfbForm
 
+		// executed by ngfbMetaPro() as well
+		// children executing this __construct() should have an empty add_actions() method
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->lognew();
-			$this->enable();
+			$this->add_actions();
 		}
 
-		public function enable() {
+		protected function add_actions() {
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metabox' ) );
 				add_action( 'save_post', array( &$this, 'save_options' ) );
@@ -38,13 +40,13 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 
 		public function add_metabox() {
 			foreach ( array( 'post' => 'Post', 'page' => 'Page' ) as $id => $name ) 
-				add_meta_box( NGFB_SHORTNAME . '_meta', 
-					NGFB_FULLNAME . ' - Custom ' . $name . ' Settings', 
+				add_meta_box( NGFB_META_NAME, 
+					$this->ngfb->fullname . ' - Custom ' . $name . ' Settings', 
 					array( &$this, 'show_metabox' ), $id, 'advanced', 'low' );
 		}
 
 		public function show_metabox( $post ) {
-			$this->ngfb->admin->admin_style();
+			$this->ngfb->admin->settings_style();
 			echo '<table class="ngfb-settings">';
 			foreach ( $this->get_rows() as $row )
 				echo '<tr>' . $row . '</tr>';

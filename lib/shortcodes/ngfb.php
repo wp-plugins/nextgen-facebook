@@ -67,12 +67,12 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 				if ( $html !== false ) {
 					$this->ngfb->debug->log( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
-					$html .= "\n<!-- " . NGFB_FULLNAME . " shortcode BEGIN -->\n";
+					$html .= "\n<!-- " . $this->ngfb->fullname . " shortcode BEGIN -->\n";
 					$html .= $this->ngfb->social->get_js( 'pre-shortcode', $ids );
-					$html .= "<div class=\"" . NGFB_SHORTNAME . "-shortcode-buttons\">\n" . 
+					$html .= "<div class=\"" . $this->ngfb->acronym . "-shortcode-buttons\">\n" . 
 						$this->ngfb->social->get_html( $ids, array( 'css_class' => $css_class, 'css_id' => $css_id ) ) . "</div>\n";
 					$html .= $this->ngfb->social->get_js( 'post-shortcode', $ids );
-					$html .= "<!-- " . NGFB_FULLNAME . " shortcode END -->\n";
+					$html .= "<!-- " . $this->ngfb->fullname . " shortcode END -->\n";
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ' : html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');

@@ -24,66 +24,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public $lang = array();
 		public $settings = array();	// allow ngfbPro() to extend
 
-		// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
-		public $website_topics = array(
-			'[none]',
-			'Animation',
-			'Architecture',
-			'Art',
-			'Automotive',
-			'Aviation',
-			'Chat',
-			'Children\'s',
-			'Comics',
-			'Commerce',
-			'Community',
-			'Dance',
-			'Dating',
-			'Digital Media',
-			'Documentary',
-			'Download',
-			'Economics',
-			'Educational',
-			'Employment',
-			'Entertainment',
-			'Environmental',
-			'Erotica and Pornography',
-			'Fashion',
-			'File Sharing',
-			'Food and Drink',
-			'Fundraising',
-			'Genealogy',
-			'Health',
-			'History',
-			'Humor',
-			'Law Enforcement',
-			'Legal',
-			'Literature',
-			'Medical',
-			'Military',
-			'News',
-			'Nostalgia',
-			'Parenting',
-			'Photography',
-			'Political',
-			'Religious',
-			'Review',
-			'Reward',
-			'Route Planning',
-			'Satirical',
-			'Science Fiction',
-			'Science',
-			'Shock',
-			'Social Networking',
-			'Spiritual',
-			'Sport',
-			'Technology',
-			'Travel',
-			'Vegetarian',
-			'Webmail',
-			'Women\'s',
-		);
-
 		protected $js_locations = array(
 			'header' => 'Header',
 			'footer' => 'Footer',
@@ -96,74 +36,98 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'both' => 'Title and Excerpt',
 		);
 
+		protected $ngfb;	// ngfbPlugin
 		protected $form;	// ngfbForm
+		protected $menu_id;
+		protected $menu_name;
+		protected $pagehook;
 
-		private $ngfb;		// ngfbPlugin
-		private $website = array();
 		private $min_wp_version = '3.0';
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->lognew();
-			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->opt->get_defaults() );
-
-			// extends the ngfbAdmin() method
-			foreach ( $this->ngfb->website_libs as $id => $name ) {
-				$classname = 'ngfbAdmin' . $name;
-				$this->website[$id] = new $classname( $ngfb_plugin );
-			}
-			unset ( $id, $name );
-
-			foreach ( $this->ngfb->setting_libs as $id => $name ) {
-				$classname = 'ngfbSettings' . $name;
-				$this->settings[$id] = new $classname( $ngfb_plugin );
-			}
-			unset ( $id, $name );
-
-			natsort( $this->website_topics );
-			// after sorting the array, put 'none' first
-			$this->website_topics = array_merge( array( 'none' ), $this->website_topics );
+			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->get_defaults() );
+			$this->do_extend();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
-			add_action( 'admin_init', array( &$this, 'admin_init' ) );
-			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+			add_action( 'admin_init', array( &$this, 'register_settings' ) );
+			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
 			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 		}
-	
+
+		private function do_extend() {
+			foreach ( $this->ngfb->setting_libs as $id => $name ) {
+				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+				$this->settings[$id] = new $classname( &$this->ngfb, $id, $name );
+			}
+			unset ( $id, $name );
+		}
+
 		public function check_wp_version() {
 			global $wp_version;
 			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
 				if( is_plugin_active( $this->plugin_name ) ) {
 					deactivate_plugins( $this->plugin_name );
-					wp_die( '"' . NGFB_FULLNAME . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
+					wp_die( '"' . $this->ngfb->fullname . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
 						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
 				}
 			}
 		}
 
+		public function add_admin_menus() {
+
+			reset( $this->ngfb->setting_libs );
+			$this->menu_id = key( $this->ngfb->setting_libs );
+			$this->menu_name = $this->ngfb->setting_libs[$this->menu_id];
+			$this->settings[$this->menu_id]->add_menu( $this->menu_id );
+
+			foreach ( $this->ngfb->setting_libs as $id => $name )
+				$this->settings[$id]->add_submenu( $this->menu_id );
+			unset ( $id, $name );
+		}
+
+		protected function add_menu( $parent_id ) {
+			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+			$this->pagehook = add_menu_page( 
+				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$this->ngfb->menuname, 
+				'manage_options', 
+				$this->ngfb->acronym . '-' . $parent_id, 
+				array( &$this, 'show_page' ) 
+			);
+			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+		}
+
+		protected function add_submenu( $parent_id ) {
+			// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
+			$this->pagehook = add_submenu_page( 
+				$this->ngfb->acronym . '-' . $parent_id, 
+				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$this->menu_name, 
+				'manage_options', 
+				$this->ngfb->acronym . '-' . $this->menu_id, 
+				array( &$this, 'show_page' ) 
+			);
+			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+		}
+
+		protected function add_meta_boxes() {
+		}
+
 		public function check_options() {
 			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
+
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
+
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
+
 				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, 
 					is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
-		}
-
-		public function admin_init() {
-			register_setting( NGFB_SHORTNAME . '_plugin_options', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
-		}
-	
-		public function admin_menu() {
-			add_options_page( NGFB_FULLNAME . ' Plugin', NGFB_ACRONYM . ' Open Graph', 'manage_options', NGFB_SHORTNAME, array( &$this, 'options_page' ) );
-		}
-
-		public function sanitize_options( $opts ) {
-			return $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
 		}
 
 		// display a settings link on the main plugins page
@@ -173,9 +137,90 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return $links;
 		}
 
-		public function options_page() {
-			$this->admin_style();
-			?><style type="text/css">
+		public function register_settings() {
+			register_setting( $this->ngfb->acronym . '_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+		} 
+
+		// this method receives only a partial options array
+		public function sanitize_options( $opts ) {
+			if ( is_array( $opts ) ) {
+				$opts = array_merge( $this->ngfb->options, $opts );
+				$opts = $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
+			}
+			return $opts;
+		}
+
+		public function load_page() {
+			wp_enqueue_script( 'common' );
+			wp_enqueue_script( 'wp-lists' );
+			wp_enqueue_script( 'postbox' );
+
+			foreach ( $this->ngfb->setting_libs as $id => $name )
+				$this->ngfb->admin->settings[$id]->add_meta_boxes();
+		}
+
+		public function show_page() {
+			$this->page_style();
+			$this->settings_style();
+			add_meta_box( 'ngfb_purchase', 'Purchase', array( &$this, 'show_purchase' ), $this->pagehook, 'side' );
+			?>
+			<div class="wrap" id="ngfb">
+				<?php screen_icon('options-general'); ?>
+				<h2><?php echo $this->ngfb->fullname, ' (', $this->ngfb->version, ')'; ?></h2>
+				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
+					<div id="side-info-column" class="inner-sidebar">
+						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
+					</div><!-- .inner-sidebar -->
+					<div id="post-body" class="has-sidebar">
+						<div id="post-body-content" class="has-sidebar-content">
+							<?php $this->show_form( 'normal' ); ?>
+						</div><!-- .has-sidebar-content -->
+					</div><!-- .has-sidebar -->
+				</div><!-- .metabox-holder -->
+			</div><!-- .wrap -->
+			<script type="text/javascript">
+				//<![CDATA[
+					jQuery(document).ready( 
+						function($) {
+							// close postboxes that should be closed
+							$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+							// postboxes setup
+							postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
+						}
+					);
+				//]]>
+			</script>
+			<?php
+		}
+
+		protected function show_form( $context = 'normal' ) {
+			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
+			settings_fields( $this->ngfb->acronym . '_settings' ); 
+			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
+			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+
+			// always include the version number of the options
+			echo $this->ngfb->admin->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
+
+			do_meta_boxes( $this->pagehook, 'normal', null ); 
+
+			echo '</form>', "\n";
+		}
+
+		protected function show_save_button() {
+			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
+		}
+
+		public function show_purchase() {
+			?>
+			<p>Purchase this plugin.</p>
+			<?php
+		}
+
+		public function page_style() {
+			?>
+			<style type="text/css">
 				.wrap { 
 					font-size:1em; 
 					line-height:1.3em; 
@@ -228,310 +273,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				#donate { text-align:center; }
 			</style>
-		
-			<div class="wrap" id="ngfb">
-			<div class="icon32" id="icon-options-general"><br></div>
-			<h2><?php echo NGFB_FULLNAME, " Plugin v", $this->ngfb->version; if ( $this->ngfb->is_avail['ngfbpro'] == true ) echo ' (Pro)'; ?></h2>
-			<a name="top"></a>
-			<div class="metabox-holder">
-
-			<?php if ( $this->ngfb->is_avail['ngfbpro'] !== true ) : ?>
-			<div class="postbox">
-			<div class="inside">	
-			<p><?php echo NGFB_FULLNAME; ?> is being actively developed and supported. 
-			You can review the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/" target="_blank">FAQ</a> 
-			and <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
-			pages for additional setup information. If you have questions or suggestions, post them on the <?php echo NGFB_ACRONYM; ?> 
-			<a href="http://wordpress.org/support/plugin/nextgen-facebook">Support Page</a>.</p>
-
-			<div style="clear:both;"></div>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-			<?php endif; ?>
-
-			<form name="ngfb" method="post" action="options.php" id="settings">
-			<?php 
-				wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
-				settings_fields( NGFB_SHORTNAME . '_plugin_options' ); 
-				echo $this->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
-			?>
-			<div class="postbox">
-			<h3 class="hndle"><span>Meta Settings</span></h3>
-			<div class="inside">	
-			<table class="ngfb-settings">
-			<tr>
-				<th>Website Topic</th>
-				<td><?php echo $this->form->get_select( 'og_art_section', $this->website_topics ); ?></td>
-				<td><p>The topic name that best describes the Posts and Pages on your website. This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
-			</tr>
-			<tr>
-				<th>Article Author URL</th>
-				<td><?php echo $this->form->get_select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. The URL should point to an author's <em>personal</em> website or social page. This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. See the "Link Settings" section bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
-			</tr>
-			<tr>
-				<th>Fallback to Author Index</th>
-				<td><?php echo $this->form->get_checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the "Link Settings" section bellow) is not a valid URL, NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). Uncheck this option to disable this fallback feature (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Default Author</th>
-				<td><?php
-					$user_ids = array( '' );
-					foreach ( get_users() as $user )
-						$user_ids[$user->ID] = $user->display_name;
-					echo $this->form->get_select( 'og_def_author_id', $user_ids, null, null, true );
-				?></td>
-				<td><p>A default author for webpages missing authorship information (for example, an index webpage without posts). If you have several authors on your website, you should probably leave this option to <em>[none]</em> (the default).</p></td>
-			</tr>
-			<tr>
-				<th>Default Author on Indexes</th>
-				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_index' ); ?></td>
-				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). If the Default Author is <em>[none]</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Default Author on Search Results</th>
-				<td><?php echo $this->form->get_checkbox( 'og_def_author_on_search' ); ?></td>
-				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. If the Default Author is <em>[none]</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Image Size Name</th>
-				<td><?php 
-					echo $this->form->get_select_img_size( 'og_img_size' ); 
-					$size_info = $this->ngfb->media->get_size_info( $this->ngfb->opt->get_defaults( 'og_img_size' ) );
-					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-				?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. The default size name is "<?php echo $this->ngfb->opt->get_defaults( 'og_img_size' ); ?>" (currently defined as <?php echo $size_desc; ?>). Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height, and preferably cropped. You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
-			</tr>
-			<tr>
-				<th>Default Image ID</th>
-				<td><?php 
-					echo $this->form->get_input( 'og_def_img_id', 'short' );
-					echo ' in the ';
-					$id_pre = array( 'wp' => 'Media Library' );
-					if ( $this->ngfb->is_avail['ngg'] == true )
-						$id_pre['ngg'] = 'NextGEN Gallery';
-					echo $this->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' );
-				?></td>
-				<td><p>The ID number and location of your default image (example: 123). The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
-			</tr>
-			<tr>
-				<th>Default Image URL</th>
-				<td colspan="2"><?php echo $this->form->get_input( 'og_def_img_url', 'wide' ); ?>
-				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). The image should be at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height. If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
-				</td>
-			</tr>
-			<tr>
-				<th>Default Image on Indexes</th>
-				<td><?php echo $this->form->get_checkbox( 'og_def_img_on_index' ); ?></td>
-				<td><p>Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). If you leave this unchecked, <?php echo NGFB_ACRONYM; ?> will attempt to use an image from the first entry on the webpage (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Default Image on Search Results</th>
-				<td><?php echo $this->form->get_checkbox( 'og_def_img_on_search' ); ?></td>
-				<td><p>Check this option if you would like to use the default image on search result webpages as well (default is checked).</p></td>
-			</tr>
-			<?php	if ( $this->ngfb->is_avail['ngg'] == true ) : ?>
-			<tr>
-				<th>Add Featured Image Tags</th>
-				<td><?php echo $this->form->get_checkbox( 'og_ngg_tags' ); ?></td>
-				<td><p>If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery (NGG), then add that image's tags to the Open Graph tag list (default is unchecked).</p></td>
-			</tr>
-			<?php	else : echo $this->form->get_hidden( 'og_ngg_tags' ); endif; ?>
-			<tr>
-				<th>Add Page Ancestor Tags</th>
-				<td><?php echo $this->form->get_checkbox( 'og_page_parent_tags' ); ?></td>
-				<td><p>Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.</p></td>
-			</tr>
-			<tr>
-				<th>Add Page Title as Tag</th>
-				<td><?php echo $this->form->get_checkbox( 'og_page_title_tag' ); ?></td>
-				<td><p>Add the title of the Page to the Open Graph tag list as well. If the "Add Page Ancestor Tags" option is checked, the titles of ancestor Pages will be added as well. This option works well if the title of your Pages are short and subject-oriented.</p></td>
-			</tr>
-			<tr>
-				<th>Maximum Images</th>
-				<td><?php echo $this->form->get_select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short', null, true ); ?></td>
-				<td><p>The maximum number of images to list in the Open Graph meta property tags -- this includes the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. If you select "0", no images will be listed in the Open Graph meta tags.</p></td>
-			</tr>
-			<tr>
-				<th>Maximum Videos</th>
-				<td><?php echo $this->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ); ?></td>
-				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
-			</tr>
-			<tr>
-				<th>Title Separator</th>
-				<td><?php echo $this->form->get_input( 'og_title_sep', 'short' ); ?></td>
-				<td><p>One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string (default is '<?php echo $this->ngfb->opt->get_defaults( 'og_title_sep' ); ?>').</p></td>
-			</tr>
-			<tr>
-				<th>Maximum Title Length</th>
-				<td><?php echo $this->form->get_input( 'og_title_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text used in the Open Graph title tag (default is <?php echo $this->ngfb->opt->get_defaults( 'og_title_len' ); ?> characters).</p></td>
-			</tr>
-			<tr>
-				<th>Maximum Description Length</th>
-				<td><?php echo $this->form->get_input( 'og_desc_len', 'short' ); ?> Characters</td>
-				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->opt->get_defaults( 'og_desc_len' ); ?>).</p></td>
-			</tr>
-			<tr>
-				<th>Content Begins at First Paragraph</th>
-				<td><?php echo $this->form->get_checkbox( 'og_desc_strip' ); ?></td>
-				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. If an excerpt exists, then the complete excerpt text is used instead.</p></td>
-			</tr>
-			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( $this->ngfb->is_avail['wikibox'] == true ) : ?>
-			<tr>
-				<th>Use WP-WikiBox for Pages</th>
-				<td><?php echo $this->form->get_checkbox( 'og_desc_wiki' ); ?></td>
-				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. <?php echo NGFB_ACRONYM; ?> can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, then the original content of the Page will be used.</p></td>
-			</tr>
-			<tr>
-				<th>WP-WikiBox Tag Prefix</th>
-				<td><?php echo $this->form->get_input( 'og_wiki_tag' ); ?></td>
-				<td><p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p></td>
-			</tr>
-			<?php	else : 
-					echo $this->form->get_hidden( 'og_desc_wiki' ); 
-					echo $this->form->get_hidden( 'og_wiki_tag' ); 
-				endif; ?>
-			<tr>
-				<th>Facebook Admin(s)</th>
-				<td><?php echo $this->form->get_input( 'og_admins' ); ?></td>
-				<td><p>One or more Facebook account names (generally your own) separated with a comma. When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those accounts.</p></td>
-			</tr>
-			<tr>
-				<th>Facebook App ID</th>
-				<td><?php echo $this->form->get_input( 'og_app_id' ); ?></td>
-				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for accounts associated with the Application ID.</p></td>
-			</tr>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-		
-			<div class="postbox">
-			<h3 class="hndle"><span>Link Settings</span></h3>
-			<div class="inside">	
-			<table class="ngfb-settings">
-			<tr>
-				<th>Author Link URL</th>
-				<td><?php echo $this->form->get_select( 'link_author_field', $this->author_fields() ); ?></td>
-				<td><p><?php echo NGFB_ACRONYM; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers. These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>. The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p></td>
-			</tr>
-			<tr>
-				<th>Publisher Link URL</th>
-				<td colspan="2"><?php echo $this->form->get_input( 'link_publisher_url', 'wide' ); ?></td>
-			</tr>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-
-			<div class="postbox">
-			<h3 class="hndle"><span>Meta Tag List</span></h3>
-			<div class="inside">	
-			<table class="ngfb-settings">
-			<tr>
-				<?php $og_cols = 4; ?>
-				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
-				<p><?php echo NGFB_FULLNAME; ?> will add the following Facebook and Open Graph meta tags to your webpages. If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent <?php echo NGFB_ACRONYM; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
-				</td>
-			</tr>
 			<?php
-				$cells = array();
-				$rows = array();
-				foreach ( $this->ngfb->opt->get_defaults() as $opt => $val ) {
-					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
-						$cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
-							<td>'. $this->form->get_checkbox( $opt ) . '</td>';
-				}
-				unset( $opt, $val );
-				$per_col = ceil( count( $cells ) / $og_cols );
-				foreach ( $cells as $num => $cell ) {
-					if ( empty( $rows[ $num % $per_col ] ) )
-						$rows[ $num % $per_col ] = '';	// initialize the array
-					$rows[ $num % $per_col ] .= $cell;	// create the html for each row
-				}
-				unset( $num, $cell );
-				foreach ( $rows as $num => $row ) 
-					echo '<tr>', $row, '</tr>', "\n";
-				unset( $num, $row );
-			?>
-			<tr>
-				<th>Include Empty og:* Meta Tags</th>
-				<td><?php echo $this->form->get_checkbox( 'og_empty_tags' ); ?></td>
-				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is unchecked).</p></td>
-			</tr>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-		
-			<div class="postbox">
-			<h3 class="hndle"><span>Social Sharing Settings</span></h3>
-			<div class="inside">	
-			<table class="ngfb-settings">
-			<tr>
-				<td>
-				<p><?php echo NGFB_FULLNAME; ?> uses the "ngfb-buttons" class to wrap all social buttons, and each button has it's own individual class name as well. <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Refer to the <?php echo NGFB_ACRONYM; ?> Other Notes page for stylesheet examples</a></b> -- including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. <b><?php echo NGFB_ACRONYM; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
-				
-				<p>Each of the following social buttons can also be enabled via the "<?php echo NGFB_ACRONYM; ?> Social Sharing Buttons" widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p>
-				</td>
-			</tr>
-			</table>
-
-			<table class="ngfb-settings">
-			<tr>
-				<th>Include on Index Webpages</th>
-				<td><?php echo $this->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td><p>Add the social sharing buttons (that are enabled) to each entry on index webpages (index, archives, author, etc.).</p></td>
-			</tr>
-			<tr>
-				<th>Location in Excerpt Text</th>
-				<td><?php echo $this->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
-			</tr>
-			<tr>
-				<th>Location in Content Text</th>
-				<td><?php echo $this->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
-			</tr>
-			</table>
-
-			<table class="ngfb-settings">
-			<?php
-				$col = 0;
-				$box = -1;	// a "box" is a collection of rows from one website class
-				$section = -1;	// a "section" is a row of several boxes
-				$max_col = 2;
-				$rows = array();
-				foreach ( $this->ngfb->website_libs as $id => $name ) {
-					$box++;				// increment the website box number (first box is 0)
-					$col = $box % $max_col;		// determine column number based on the box number
-					if ( $col == 0 ) $section++;	// increment section if we're on column 0
-					foreach ( $this->website[$id]->get_rows() as $num => $row ) {
-						// avoids undefined offset error
-						if ( empty( $rows[$section][$num] ) )
-							$rows[$section][$num] = '';
-						$rows[$section][$num] .= $row;
-					}
-				}
-				unset ( $id, $name );
-				foreach ( $rows as $section )
-					foreach ( $section as $row )
-						echo "<tr>", $row, "</tr>\n";
-			?>
-			</table>
-			</div><!-- .inside -->
-			</div><!-- .postbox -->
-	
-			<?php $this->settings['advanced']->show(); ?>
-
-			<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>
-			</form>
-			</div><!-- .metabox-holder -->
-			</div><!-- .wrap -->
-			<?php	
 		}
-	
-		public function admin_style() {
+
+		public function settings_style() {
 			?>
 			<style type="text/css">
 				table.ngfb-settings .pro_msg {
@@ -575,12 +320,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		private function author_fields() {
-			return $this->ngfb->user->contactmethods( 
-				array( 'none' => '', 'author' => 'Author Index', 'url' => 'Website' ) 
-			);
-		}
-
 	}
 }
+
 ?>

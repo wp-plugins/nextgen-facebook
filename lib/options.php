@@ -329,7 +329,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				// don't show message if already donated, or pro version installed
 				if ( empty( $opts['ngfb_donated'] ) && $this->ngfb->is_avail['ngfbpro'] == false )
-					$this->ngfb->notices->inf( '<b>' . NGFB_FULLNAME . ' has taken many, many months to develop and fine-tune. 
+					$this->ngfb->notices->inf( '<b>' . $this->ngfb->fullname . ' has taken many, many months to develop and fine-tune. 
 						Please suppport us by <a href="' . $this->ngfb->util->get_options_url() . '">donating</a> and 
 						<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>' );
 			}

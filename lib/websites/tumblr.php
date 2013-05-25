@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbAdminTumblr' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocialSharing' ) ) {
 
-	class ngfbAdminTumblr extends ngfbAdmin {
+	class ngfbSettingsTumblr extends ngfbSettingsSocialSharing {
 
 		protected $ngfb;
 
@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbAdminTumblr' ) && class_exists( 'ngfbAdmin' ) ) {
 						<div class="btn_wizard_example clearfix">
 							<label for="share_' . $i . $t . '">
 								<input type="radio" id="share_' . $i . $t . '" 
-									name="' . NGFB_OPTIONS_NAME . '[tumblr_button_style]" 
+									name="' . $this->ngfb->admin->form->options_name . '[tumblr_button_style]" 
 									value="share_' . $i . $t . '" ' . 
 									checked( 'share_' . $i . $t, $this->ngfb->options['tumblr_button_style'], false ) . '/>
 								<img src="http://platform.tumblr.com/v1/share_' . $i . $t . '.png" 

@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		private $urls_found = array();
 
+		// executed by ngfbUtilPro() as well
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->lognew();
@@ -55,7 +56,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function get_options_url() {
-			return get_admin_url( null, 'options-general.php?page=' . NGFB_SHORTNAME );
+			return get_admin_url( null, 'options-general.php?page=' . $this->ngfb->acronym . '-general' );
 		}
 
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
@@ -119,7 +120,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_short_url( $url, $shorten = true ) {
 			if ( function_exists('curl_init') && ! empty( $shorten ) ) {
 				$cache_salt = __METHOD__ . '(url:' . $url . ')';
-				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+				$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$short_url = get_transient( $cache_id );
 				$this->ngfb->debug->log( $cache_type . ': short_url transient id salt "' . $cache_salt . '"' );
@@ -205,6 +206,84 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $url;
 		}
 
+		public function get_topics() {
+			// list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
+			$website_topics = array(
+				'Animation',
+				'Architecture',
+				'Art',
+				'Automotive',
+				'Aviation',
+				'Chat',
+				'Children\'s',
+				'Comics',
+				'Commerce',
+				'Community',
+				'Dance',
+				'Dating',
+				'Digital Media',
+				'Documentary',
+				'Download',
+				'Economics',
+				'Educational',
+				'Employment',
+				'Entertainment',
+				'Environmental',
+				'Erotica and Pornography',
+				'Fashion',
+				'File Sharing',
+				'Food and Drink',
+				'Fundraising',
+				'Genealogy',
+				'Health',
+				'History',
+				'Humor',
+				'Law Enforcement',
+				'Legal',
+				'Literature',
+				'Medical',
+				'Military',
+				'News',
+				'Nostalgia',
+				'Parenting',
+				'Photography',
+				'Political',
+				'Religious',
+				'Review',
+				'Reward',
+				'Route Planning',
+				'Satirical',
+				'Science Fiction',
+				'Science',
+				'Shock',
+				'Social Networking',
+				'Spiritual',
+				'Sport',
+				'Technology',
+				'Travel',
+				'Vegetarian',
+				'Webmail',
+				'Women\'s',
+			);
+			natsort( $website_topics );
+
+			// after sorting the array, put 'none' first
+			$website_topics = array_merge( array( 'none' ), $website_topics );
+
+			return $website_topics;
+		}
+
+		public function get_readme_txt( $url = NGFB_READMEURL ) {
+			$this->ngfb->debug->log( 'fetching readme from ' . $url );
+			return $this->ngfb->cache->get( $url, 'raw', 'file' );
+		}
+
+		public function parse_readme( $url = NGFB_READMEURL ) {
+			$Automattic_Readme = new Automattic_Readme();
+			$readme = $this->get_readme_txt();
+			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
+			return $plugin_info;
+		}
 	}
 
 }

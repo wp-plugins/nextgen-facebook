@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsSocialSharing' ) ) {
 
-	class ngfbAdminStumbleUpon extends ngfbAdmin {
+	class ngfbSettingsStumbleUpon extends ngfbSettingsSocialSharing {
 
 		protected $ngfb;
 
@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbAdminStumbleUpon' ) && class_exists( 'ngfbAdmin' ) ) {
 				}
 				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
 				$badge .= '<input type="radio" 
-					name="' . NGFB_OPTIONS_NAME . '[stumble_badge]" 
+					name="' . $this->ngfb->admin->form->options_name . '[stumble_badge]" 
 					value="' . $i . '" ' . 
 					checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
 				$badge .= '</div>' . "\n";

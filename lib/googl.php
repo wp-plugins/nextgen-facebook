@@ -70,10 +70,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data_string);
 			curl_setopt($this->ch, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
 
+			$decoded = json_decode(curl_exec($this->ch));
 			if ( $extended || $this->extended) {
-				return json_decode(curl_exec($this->ch));
-			} else {
-				$ret = json_decode(curl_exec($this->ch))->id;
+				return decoded;
+			} elseif ( ! empty( $decode->id ) ) {
+				$ret = $decode->id;
 				self::$buffer[$url] = $ret;
 				return $ret;
 			}

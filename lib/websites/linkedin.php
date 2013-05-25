@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbAdminLinkedIn' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSocialSharing' ) ) {
 
-	class ngfbAdminLinkedIn extends ngfbAdmin {
+	class ngfbSettingsLinkedIn extends ngfbSettingsSocialSharing {
 
 		protected $ngfb;
 

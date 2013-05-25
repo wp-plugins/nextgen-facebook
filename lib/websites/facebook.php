@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSocialSharing' ) ) {
 
-	class ngfbAdminFacebook extends ngfbAdmin {
+	class ngfbSettingsFacebook extends ngfbSettingsSocialSharing {
 
 		public $lang = array(
 			'af_ZA' => 'Afrikaans',

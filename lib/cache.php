@@ -102,7 +102,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'wp_cache' :
 				case 'transient' :
 					$cache_type = 'object cache';
-					$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );	// add a prefix to the object cache id
+					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
 						$cache_data = wp_cache_get( $cache_id, __METHOD__ );
@@ -140,7 +140,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'wp_cache' :
 				case 'transient' :
 					$cache_type = 'object cache';
-					$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );	// add a prefix to the object cache id
+					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
 						wp_cache_set( $cache_id, $cache_data, __METHOD__, $this->object_expire );

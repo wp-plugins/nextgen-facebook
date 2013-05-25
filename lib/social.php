@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->lognew();
 
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
-				$classname = 'ngfbSocial' . $name;
+				$classname = 'ngfbSocial' . preg_replace( '/ /', '', $name );
 				$this->website[$id] = new $classname( $ngfb_plugin );
 			}
 			unset ( $id, $name );
@@ -92,7 +92,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			// we should always have a unique post ID
 			global $post;
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_type:' . $type . ')';
-			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$html = get_transient( $cache_id );
 			$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html transient id salt "' . $cache_salt . '"' );
@@ -112,9 +112,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 				if ( ! empty( $html ) ) {
 					$css_type = preg_replace( '/^(the_)/', '', $type );
-					$html = "\n<!-- " . NGFB_FULLNAME . ' ' . $css_type . " buttons BEGIN -->\n" .
-						'<div class="' . NGFB_SHORTNAME . '-' . $css_type . "-buttons\">\n" . $html . "</div>\n" .
-						'<!-- ' . NGFB_FULLNAME . ' ' . $css_type . " buttons END -->\n";
+					$html = "\n<!-- " . $this->ngfb->fullname . ' ' . $css_type . " buttons BEGIN -->\n" .
+						'<div class="' . $this->ngfb->acronym . '-' . $css_type . "-buttons\">\n" . $html . "</div>\n" .
+						'<!-- ' . $this->ngfb->fullname . ' ' . $css_type . " buttons END -->\n";
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html saved to transient for id "' . 
@@ -136,7 +136,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				if ( method_exists( &$this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
-			if ( $html ) $html = "<div class=\"" . NGFB_SHORTNAME . "-buttons\">$html</div>\n";
+			if ( $html ) $html = "<div class=\"" . $this->ngfb->acronym . "-buttons\">$html</div>\n";
 			return $html;
 		}
 
@@ -146,7 +146,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 				if ( $this->ngfb->social->is_disabled() ) return;
 
-				$widget = new ngfbWidgetSocial();
+				$widget = new ngfbWidgetSocialSharing();
 		 		$widget_settings = $widget->get_settings();
 
 				// determine which (if any) social buttons are enabled
@@ -168,7 +168,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->ngfb->debug->log( $pos . ' ids = ' . implode( ', ', $ids ) );
-			$js = "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript BEGIN -->\n";
+			$js = "<!-- " . $this->ngfb->fullname . " " . $pos . " javascript BEGIN -->\n";
 			$js .= $pos == 'header' ? $this->header_js() : '';	// always add the ngfb_header_js() javascript function
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
@@ -186,7 +186,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= "<!-- " . NGFB_FULLNAME . " " . $pos . " javascript END -->\n";
+			$js .= "<!-- " . $this->ngfb->fullname . " " . $pos . " javascript END -->\n";
 			return $js;
 		}
 

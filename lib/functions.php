@@ -29,11 +29,11 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 		if ( $html !== false ) {
 			$ngfb->debug->log( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
 		} else {
-			$html = "\n<!-- " . NGFB_FULLNAME . " social buttons BEGIN -->\n" .
+			$html = "\n<!-- " . $ngfb->fullname . " social buttons BEGIN -->\n" .
 				$ngfb->social->get_js( 'pre-social-buttons', $ids ) .
 				$ngfb->social->get_html( $ids, $atts ) .
 				$ngfb->social->get_js( 'post-social-buttons', $ids ) .
-				"<!-- " . NGFB_FULLNAME . " social buttons END -->\n";
+				"<!-- " . $ngfb->fullname . " social buttons END -->\n";
 
 			set_transient( $cache_id, $html, $ngfb->cache->object_expire );
 			$ngfb->debug->log( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');

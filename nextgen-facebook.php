@@ -28,9 +28,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	class ngfbPlugin {
 
 		public $version = '5.0rc4';	// only for display purposes
-		public $is_avail = array();	// assoc array for function/class/method/etc. checks
-		public $options = array();
-		public $ngg_options = array();
+		public $acronym = 'ngfb';
+		public $menuname = 'Open Graph';
+		public $fullname = 'NGFB Open Graph';
+		public $plugin_url = 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/';
+		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -45,6 +47,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $meta;		// ngfbMeta
 		public $admin;		// ngfbAdmin
 		public $cache;		// ngfbCache
+
+		public $is_avail = array();	// assoc array for function/class/method/etc. checks
+		public $options = array();
+		public $ngg_options = array();
 
 		public $social_prefix = array(
 			'facebook' => 'fb', 
@@ -68,12 +74,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'ngfb' => 'Ngfb' );
 
 		public $widget_libs = array(
-			'social' => 'Social' );
+			'social' => 'SocialSharing' );
 
 		public $setting_libs = array(
+			'about' => 'About',
+			'general' => 'General',
+			'social' => 'Social Sharing',
 			'advanced' => 'Advanced' );
-
-		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
 
 		public function __construct() {
 
@@ -121,7 +128,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- " . NGFB_ACRONYM . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
+							"echo '<!-- " . $this->fullname . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 			}
 
@@ -129,14 +136,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private function define_constants() { 
 
-			define( 'NGFB_SHORTNAME', 'ngfb' );
-			define( 'NGFB_ACRONYM', 'NGFB' );
-			define( 'NGFB_FULLNAME', 'NGFB Open Graph' );
-			define( 'NGFB_URL', 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/' );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
+			define( 'NGFB_READMEURL', 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt' );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 
 			// allow some constants to be pre-defined in wp-config.php

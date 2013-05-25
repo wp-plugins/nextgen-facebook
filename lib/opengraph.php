@@ -38,13 +38,13 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-				echo "\n<!-- ", NGFB_FULLNAME, " meta tags DISABLED -->\n\n";
+				echo "\n<!-- ", $this->ngfb->fullname, " meta tags DISABLED -->\n\n";
 				return $og;
 			}
 
 			$sharing_url = $this->ngfb->util->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__ . '(sharing_url:' . $sharing_url . ')';
-			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$og = get_transient( $cache_id );
 			$this->ngfb->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
@@ -301,9 +301,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				foreach ( $match as $album ) {
 					$this->ngfb->debug->log( '[' . $album[1] . '] shortcode found' );
 					$og_image = array();
-					if ( $album[3] == '' ) {
+					if ( empty( $album[3] ) ) {
 						$ngg_album = 0;
-						$this->ngfb->debug->log( 'album id not found - setting album id to 0 (all)' );
+						$this->ngfb->debug->log( 'album id zero or not found - setting album id to 0 (all)' );
 					} else $ngg_album = $album[3];
 					if ( $ngg_album > 0 ) $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
 					else $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum, OBJECT_K );

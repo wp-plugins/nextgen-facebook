@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$this->ngfb->debug->lognew();
 
 			foreach ( $this->ngfb->shortcode_libs as $id => $name ) {
-				$classname = 'ngfbShortCode' . $name;
+				$classname = 'ngfbShortCode' . preg_replace( '/ /', '', $name );
 				$this->shortcode[$id] = new $classname( $ngfb_plugin );
 			}
 			unset ( $id, $name );
@@ -224,7 +224,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 			$this->ngfb->debug->log( 'using content from post id ' . $post->ID );
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
-			$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$content = wp_cache_get( $cache_id, __METHOD__ );
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );

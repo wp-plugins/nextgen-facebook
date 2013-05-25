@@ -56,13 +56,13 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", NGFB_FULLNAME, " meta tags BEGIN -->\n";
+			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
 			$this->ngfb->debug->show( print_r( $arr, true ), 'Open Graph Array' );
 			$this->ngfb->debug->show( print_r( $this->ngfb->util->get_urls_found(), true ), 'URLs Found' );
 
-			echo '<meta name="generator" content="', NGFB_FULLNAME, ' ', $this->ngfb->version, '" />', "\n";
+			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
 
 			// echo the publisher link
 			if ( ! empty( $arr['link:publisher'] ) )
@@ -107,7 +107,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			}
 			unset ( $d_name, $d_val );
 
-			echo "<!-- ", NGFB_FULLNAME, " meta tags END -->\n";
+			echo "<!-- ", $this->ngfb->fullname, " meta tags END -->\n";
 		}
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
