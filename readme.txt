@@ -431,6 +431,8 @@ Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
 
 * Added the ability to include social sharing buttons in the excerpt as well.
 * Added a new "Custom Post/Page Settings" options box for each Post and Page (enabled by purchasing the Pro version).
+* Added transient caching to the url shortening method.
+* Modified the image discovery methods to improve performance.
 * Removed support for the "Exclude Pages" plugin (social sharing buttons were not added to excluded pages). Social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
 
 = Version 4.3 =
