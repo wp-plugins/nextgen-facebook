@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		protected function show() {
@@ -76,19 +77,19 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				<th>Goo.gl Simple API Access Key</th>
 				<td></td>
 				<td><?php echo $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The "Google URL Shortener API Key" for this website (currently optional). If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
+				<p>The "Google URL Shortener API Key" for this website. If you don't already have one, visit Google's <a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
 			</tr>
-			<?php foreach ( $this->get_rows() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			<?php foreach ( $this->get_pro_rows() as $row ) echo '<tr>' . $row . '</tr>'; ?>
 			</table>
 			</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<?php
 		}
 
-		protected function get_rows() {
+		protected function get_pro_rows() {
 			return array(
-				'<th>File Cache Expiry</th><td></td><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Verify SSL Certificates</th><td></td><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>File Cache Expiry</th><td></td><td>' . $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . $this->ngfb->pro_msg . '</td>',
+				'<th>Verify SSL Certificates</th><td></td><td>' . $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . $this->ngfb->pro_msg . '</td>',
 			);
 		}
 	}

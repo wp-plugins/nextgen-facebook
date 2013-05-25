@@ -88,6 +88,7 @@ if ( ! class_exists( 'ngfbAdminGooglePlus' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_rows() {
@@ -136,10 +137,11 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 
 	class ngfbSocialGooglePlus extends ngfbSocial {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_html( $atts = array() ) {
@@ -162,7 +164,7 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 		
 		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="gplus-script-' . $pos . '">
-				ngfb_header_js( "gplus-script-' . $pos . '", "' . $this->get_cache_url( 'https://apis.google.com/js/plusone.js' ) . '" );
+				ngfb_header_js( "gplus-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( 'https://apis.google.com/js/plusone.js' ) . '" );
 			</script>' . "\n";
 		}
 		

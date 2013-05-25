@@ -96,15 +96,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'both' => 'Title and Excerpt',
 		);
 
-		protected $ngfb;	// ngfbPlugin
 		protected $form;	// ngfbForm
 
+		private $ngfb;		// ngfbPlugin
 		private $website = array();
 		private $min_wp_version = '3.0';
 
 		public function __construct( &$ngfb_plugin ) {
 
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 			$this->form = new ngfbForm( $ngfb_plugin, NGFB_OPTIONS_NAME, $ngfb_plugin->options, $ngfb_plugin->opt->get_defaults() );
 
 			// extends the ngfbAdmin() method
@@ -276,7 +277,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Default Author</th>
 				<td><?php
-					$user_ids = array( 0 );
+					$user_ids = array( '' );
 					foreach ( get_users() as $user )
 						$user_ids[$user->ID] = $user->display_name;
 					echo $this->form->get_select( 'og_def_author_id', $user_ids, null, null, true );

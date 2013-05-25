@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbAdminTumblr' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_rows() {
@@ -72,10 +73,11 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialTumblr extends ngfbSocial {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_html( $atts = array() ) {
@@ -162,7 +164,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				<!-- Tumblr Button -->
 				<div ' . $this->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $query . '" 
 					title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
-					src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>
+					src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>
 			';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
@@ -171,7 +173,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="tumblr-script-' . $pos . '"
-				src="' . $this->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ) . '"></script>' . "\n";
+				src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ) . '"></script>' . "\n";
 		}
 		
 	}

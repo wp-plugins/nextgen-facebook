@@ -169,8 +169,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_location' => 'buttons_location_the_content' );
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_defaults( $idx = '' ) {
@@ -218,7 +218,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
 						case 'ngfb_file_cache_hrs' :
-							if ( $opts[$key] && ! is_numeric( $opts[$key] ) ) 
+							if ( ! empty( $opts[$key] ) && ! is_numeric( $opts[$key] ) )
 								$opts[$key] = $def_val;
 							break;
 

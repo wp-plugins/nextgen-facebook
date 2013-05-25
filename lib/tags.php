@@ -23,8 +23,8 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		private $ngfb;		// ngfbPlugin
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get() {

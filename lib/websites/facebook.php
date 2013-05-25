@@ -104,6 +104,7 @@ if ( ! class_exists( 'ngfbAdminFacebook' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_rows() {
@@ -163,10 +164,11 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialFacebook extends ngfbSocial {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_html( $atts = array() ) {
@@ -218,7 +220,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$app_id = empty( $this->ngfb->options['og_app_id'] ) ? '' : $this->ngfb->options['og_app_id'];
 			return '<script type="text/javascript" id="facebook-script-' . $pos . '">
 				ngfb_header_js( "facebook-script-' . $pos . '", "' . 
-					$this->get_cache_url( 'https://connect.facebook.net/' . 
+					$this->ngfb->util->get_cache_url( 'https://connect.facebook.net/' . 
 					$lang . '/all.js#xfbml=1&appId=' . $app_id ) . '" );
 			</script>' . "\n";
 		}

@@ -20,12 +20,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 	class ngfbUtil {
 
-		private $ngfb;		// ngfbPlugin
+		protected $ngfb;
+
 		private $urls_found = array();
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function is_assoc( $arr ) {
@@ -107,6 +108,36 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				// leave url as-is
 				default :
 					break;
+			}
+			return $url;
+		}
+
+		public function get_cache_url( $url ) {
+			return $url;
+		}
+
+		public function get_short_url( $url, $shorten = true ) {
+			if ( function_exists('curl_init') && ! empty( $shorten ) ) {
+				$cache_salt = __METHOD__ . '(url:' . $url . ')';
+				$cache_id = NGFB_SHORTNAME . '_' . md5( $cache_salt );
+				$cache_type = 'object cache';
+				$short_url = get_transient( $cache_id );
+				$this->ngfb->debug->log( $cache_type . ': short_url transient id salt "' . $cache_salt . '"' );
+				if ( $short_url !== false ) {
+					$this->ngfb->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
+					$url = $short_url;
+				} else {
+					$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
+					$goo = new ngfbGoogl( $api_key );
+					$short_url = $goo->shorten( $url );
+					if ( ! empty( $short_url ) ) {
+						$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
+						set_transient( $cache_id, $short_url, $this->ngfb->cache->object_expire );
+						$this->ngfb->debug->log( $cache_type . ': short_url saved to transient for id "' . 
+							$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
+						$url = $short_url;
+					}
+				}
 			}
 			return $url;
 		}

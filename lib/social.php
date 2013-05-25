@@ -20,14 +20,13 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocial {
 
-		private $ngfb;
-		private $website = array();
+		protected $ngfb;
+		protected $website = array();
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 
-			// extends the ngfbSocial() method
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbSocial' . $name;
 				$this->website[$id] = new $classname( $ngfb_plugin );
@@ -119,7 +118,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html saved to transient for id "' . 
-						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
 				}
 			}
 			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) &&
@@ -207,19 +206,6 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					js.src = url;
 					script_pos.parentNode.insertBefore( js, script_pos );
 				};' . "\n</script>\n";
-		}
-
-		protected function get_cache_url( $url ) {
-			return $url;
-		}
-
-		protected function get_short_url( $url, $short = true ) {
-			if ( function_exists('curl_init') && ! empty( $short ) ) {
-				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
-				$goo = new ngfbGoogl( $api_key );
-				$url = $goo->shorten( $url );
-			}
-			return $url;
 		}
 
 		protected function get_css( $css_name, $atts = array(), $css_class_other = '' ) {

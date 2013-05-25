@@ -26,26 +26,33 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		private $msgs = array();
 
 		public function __construct() {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->lognew();
 		}
 
-		public function log( $msg = '' ) {
+		public function status() {
+			return $this->on;
+		}
+
+		public function lognew() {
+			$this->log( 'object created', 2 );
+		}
+
+		public function log( $msg = '', $back = 1 ) {
 			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$from = '';
 				$stack = debug_backtrace();
-				if ( ! empty( $stack[1]['class'] ) ) 
-					$from .= sprintf( '%-22s:: ', $stack[1]['class'] );
+				if ( ! empty( $stack[$back]['class'] ) ) 
+					$from .= sprintf( '%-22s:: ', $stack[$back]['class'] );
 
-				if ( ! empty( $stack[1]['function'] ) ) 
-					$from .= sprintf( '%-24s : ', $stack[1]['function'] );
+				if ( ! empty( $stack[$back]['function'] ) ) 
+					$from .= sprintf( '%-24s : ', $stack[$back]['function'] );
 
 				if ( ! empty( $from ) ) 
 					$msg = $from . $msg;
 
 				$this->msgs[] = $msg;
 			}
-			return;
 		}
 
 		public function show( $data = null, $title = null, $from = null ) {

@@ -24,8 +24,8 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		private $msgs = array();
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
 		}

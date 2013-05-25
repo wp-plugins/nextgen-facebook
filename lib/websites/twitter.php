@@ -34,6 +34,7 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_rows() {
@@ -61,7 +62,7 @@ if ( ! class_exists( 'ngfbAdminTwitter' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>Tweet Text</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>',
 				'<th>Text Length</th><td>' . $this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>',
 				'<th>Do Not Track</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
-				'<th>Shorten URLs</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '<p class="inline">See the Goo.gl API Key option in the Plugin Settings.</p></td>',
+				'<th>Shorten URLs</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '<p class="inline">See the <em>Goo.gl Simple API Access Key</em> setting bellow.</p></td>',
 			);
 		}
 
@@ -72,10 +73,11 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialTwitter extends ngfbSocial {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_html( $atts = array() ) {
@@ -87,7 +89,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $this->ngfb->options['twitter_cap_len'], $use_post );
 
 			$long_url = $atts['url'];
-			$atts['url'] = $this->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
+			$atts['url'] = $this->ngfb->util->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
 			$twitter_dnt = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
 
@@ -110,7 +112,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 		
 		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="twitter-script-' . $pos . '">
-				ngfb_header_js( "twitter-script-' . $pos . '", "' . $this->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
+				ngfb_header_js( "twitter-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
 			</script>' . "\n";
 		}
 

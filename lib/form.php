@@ -27,6 +27,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function __construct( &$ngfb_plugin, $opts_name, &$opts, &$def_opts ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 			$this->options_name =& $opts_name;
 			$this->options =& $opts;
 			$this->defaults =& $def_opts;
@@ -73,15 +74,15 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				else {
 					switch ( $name ) {
 						case 'og_img_max' :
-							if ( $desc == 0 ) 
+							if ( $desc === 0 ) 
 								$desc .= ' (no images)';
 							break;
 						case 'og_vid_max' :
-							if ( $desc == 0 ) 
+							if ( $desc === 0 ) 
 								$desc .= ' (no videos)';
 							break;
 						default:
-							if ( $desc == '' || $desc == 'none' ) 
+							if ( $desc === '' || $desc === 'none' ) 
 								$desc = '[none]';
 							break;
 					}

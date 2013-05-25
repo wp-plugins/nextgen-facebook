@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbAdminPinterest' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_rows() {
@@ -55,10 +56,11 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialPinterest extends ngfbSocial {
 
-		private $ngfb;
+		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 		}
 
 		public function get_html( $atts = array() ) {
@@ -108,7 +110,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 					href="http://pinterest.com/pin/create/button/?' . $query . '" 
 					class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
 					title="Share on Pinterest"><img border="0" alt="Pin It"
-					src="' . $this->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
+					src="' . $this->ngfb->util->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
 			';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
@@ -116,7 +118,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 
 		public function get_js( $pos = 'id' ) {
 			return '<script type="text/javascript" id="pinterest-script-' . $pos . '">
-				ngfb_header_js( "pinterest-script-' . $pos . '", "' . $this->get_cache_url( 'https://assets.pinterest.com/js/pinit.js' ) . '" );
+				ngfb_header_js( "pinterest-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( 'https://assets.pinterest.com/js/pinit.js' ) . '" );
 			</script>' . "\n";
 		}
 		

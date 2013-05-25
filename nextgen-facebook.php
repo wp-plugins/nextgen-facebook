@@ -266,6 +266,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->ngg_options = get_option( 'ngg_options' );
 
 			$this->debug = new ngfbDebug( &$this );
+			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+				$this->debug->on = true;
+			}
+
 			$this->util = new ngfbUtil( &$this );
 			$this->notices = new ngfbNotices( &$this );
 			$this->opt = new ngfbOptions( &$this );
@@ -308,13 +312,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->cache->pem_file = NGFB_PEM_FILE;
-			$this->cache->verify_cert = $this->options['ngfb_verify_certs'];
+			$this->cache->verify_cert = ! empty( $this->options['ngfb_verify_certs'] ) ? $this->options['ngfb_verify_certs'] : 0;
 			$this->cache->user_agent = NGFB_USER_AGENT;
-			$this->cache->file_expire = $this->options['ngfb_file_cache_hrs'] * 60 * 60;
+			$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 
-			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-
-				$this->debug->on = true;
+			if ( $this->debug->status() == true ) {
 				$this->cache->object_expire = 1;
 				$this->debug->log( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
 				$this->notices->inf( 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 

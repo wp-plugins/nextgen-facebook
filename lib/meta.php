@@ -21,11 +21,11 @@ if ( ! class_exists( 'ngfbMeta' ) ) {
 	class ngfbMeta {
 
 		protected $ngfb;		// ngfbPlugin
-		protected $form;		// ngfbForm
+		protected $form;	// ngfbForm
 
 		public function __construct( &$ngfb_plugin ) {
-
 			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
 			$this->enable();
 		}
 
