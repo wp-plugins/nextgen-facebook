@@ -1,10 +1,11 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
+Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
+License: GPLv3 or later
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 4.3
-License: GPLv3 or later
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 
