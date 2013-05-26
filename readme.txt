@@ -10,11 +10,11 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature rich objects in a social setting. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
+[Open Graph](http://ogp.me/) meta tags are embeded in the head section of webpages to better describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will all be presented properly. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
 
-**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow content, as a widget, shortcode, or even as a function from your template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -426,14 +426,16 @@ Complete code review with an improved object-oriented design and several new cla
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
+Version 5.0 : 8784 lines in 34 files, with 40 classes and 312 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
-* Added a new "Custom Post/Page Settings" options box for each Post and Page (enabled by purchasing the Pro version).
-* Added transient caching to the url shortening method.
-* Modified the image discovery methods to improve performance.
-* Removed support for the "Exclude Pages" plugin (social sharing buttons were not added to excluded pages). Social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
+* Added a new "Custom Post/Page Settings" metabox for each Post and Page (enabled by purchasing the Pro version).
+* Added transient caching to the url shortening method (reducing the number of requests to goo.gl).
+* Streamlined the image discovery methods to improve performance (methods check the Maximum Images limit more often).
+* Removed support for the "Exclude Pages" plugin (in the past, social sharing buttons were not added to excluded pages) -- social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
+* Complete over-haul of the (too long) settings page, breaking it up into several pages under the new "Open Graph" menu item.
+* This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version.
 
 = Version 4.3 =
 

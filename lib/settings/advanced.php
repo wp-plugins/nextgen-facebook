@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Object Cache Expiry</th>
-				<td><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
+				<td nowrap><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
 				<td><p><?php echo $this->ngfb->fullname; ?> saves the rendered (filtered) content text to a non-presistant cache (wp_cache), 
 				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and 
 				webpages will not be reflected in the Open Graph and NGFB social sharing buttons until the object cache has expired. 

@@ -144,6 +144,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// this method receives only a partial options array
 		public function sanitize_options( $opts ) {
 			if ( is_array( $opts ) ) {
+				// if the input arrays have the same string keys, then the later value for that key will overwrite the previous one
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
 			}
@@ -162,11 +163,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_page() {
 			$this->page_style();
 			$this->settings_style();
-			add_meta_box( 'ngfb_purchase', 'Purchase', array( &$this, 'show_purchase' ), $this->pagehook, 'side' );
+			add_meta_box( 'ngfb_pro_info', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
 			?>
 			<div class="wrap" id="ngfb">
 				<?php screen_icon('options-general'); ?>
-				<h2><?php echo $this->ngfb->fullname, ' (', $this->ngfb->version, ')'; ?></h2>
+				<h2><?php echo $this->ngfb->fullname, ' v', $this->ngfb->version; ?></h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
 					<div id="side-info-column" class="inner-sidebar">
 						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
@@ -205,6 +206,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
 
+			$this->show_save_button();
 			echo '</form>', "\n";
 		}
 
@@ -212,7 +214,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
 		}
 
-		public function show_purchase() {
+		public function show_pro_info() {
 			?>
 			<p>Purchase this plugin.</p>
 			<?php
@@ -280,11 +282,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<style type="text/css">
 				table.ngfb-settings .pro_msg {
-					font-size:0.9em;
 					font-style:italic;
 				}
 				table.ngfb-settings { 
 					width:100%;
+				}
+				table.ngfb-settings h3 { 
+					padding:0		!important;
+					margin:20px 0 10px 0	!important;
+					background:none;
+				}
+				table.ngfb-settings pre {
+					white-space:pre;
+					overflow:auto;
 				}
 				table.ngfb-settings tr { vertical-align:top; }
 				table.ngfb-settings th { 

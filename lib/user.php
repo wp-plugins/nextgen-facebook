@@ -58,6 +58,18 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			return $url;
 		}
 
+		public function collapse_metabox( $page, $metabox_id ) {
+			$user_id = get_current_user_id();
+			$option_name = 'closedpostboxes_' . $page;
+			$option_arr = get_user_option( $option_name, $user_id );
+			if ( is_array( $option_arr ) )
+				$option_arr[] = $metabox_id;
+			else
+				$option_arr = array( $metabox_id );
+			$option_arr = array_unique( $option_arr );
+			update_user_option( $user_id, $option_name, $option_arr, true );
+		}
+
 	}
 
 }

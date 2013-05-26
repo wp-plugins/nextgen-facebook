@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
+		protected $readme;
 
 		// executed by ngfbSettingsAbout() as well
 		public function __construct( &$ngfb_plugin, $id, $name ) {
@@ -37,23 +38,59 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook, 'Description', array( &$this, 'show_metabox_description' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_description', 'Description', array( &$this, 'show_metabox_description' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_faq', 'FAQ', array( &$this, 'show_metabox_faq' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
+
+			$this->readme = $this->ngfb->util->parse_readme();
+			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_faq' );
+			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_remaining' );
+			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_changelog' );
 		}
 
 		protected function show_save_button() {
 		}
 
 		public function show_metabox_description() {
-			$plugin_info = $this->ngfb->util->parse_readme();
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><?php echo $plugin_info['sections']['description']; ?></td>
+				<td><?php echo $this->readme['sections']['description']; ?></td>
 			</tr>
 			</table>
 			<?php
 		}
 		
+		public function show_metabox_faq() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<td><?php echo $this->readme['sections']['frequently_asked_questions']; ?></td>
+			</tr>
+			</table>
+			<?php
+		}
+
+		public function show_metabox_remaining() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<td><?php echo $this->readme['remaining_content']; ?></td>
+			</tr>
+			</table>
+			<?php
+		}
+
+		public function show_metabox_changelog() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<td><?php echo $this->readme['sections']['changelog']; ?></td>
+			</tr>
+			</table>
+			<?php
+		}
 	}
 }
 
