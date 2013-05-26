@@ -20,8 +20,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 	class ngfbPostMeta {
 
-		protected $ngfb;		// ngfbPlugin
-		protected $form;	// ngfbForm
+		protected $ngfb;	// ngfbPlugin
 
 		// executed by ngfbPostMetaPro() as well
 		// children executing this __construct() should have an empty add_actions() method
@@ -31,18 +30,18 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$this->add_actions();
 		}
 
-		protected function add_actions() {
+		private function add_actions() {
 			if ( is_admin() ) {
-				add_action( 'add_meta_boxes', array( &$this, 'add_metabox' ) );
+				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
 				add_action( 'save_post', array( &$this, 'save_options' ) );
 			}
 		}
 
-		public function add_metabox() {
+		public function add_metaboxes() {
 			foreach ( array( 'post' => 'Post', 'page' => 'Page' ) as $id => $name ) 
 				add_meta_box( NGFB_META_NAME, 
 					$this->ngfb->fullname . ' - Custom ' . $name . ' Settings', 
-					array( &$this, 'show_metabox' ), $id, 'advanced', 'low' );
+					array( &$this->ngfb->meta, 'show_metabox' ), $id, 'advanced', 'low' );
 		}
 
 		public function show_metabox( $post ) {
@@ -87,7 +86,6 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		public function save_options( $post_id ) {
-			return;
 		}
 	}
 }
