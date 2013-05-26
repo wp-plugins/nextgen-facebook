@@ -44,7 +44,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $tags;		// ngfbTags
 		public $media;		// ngfbMedia
 		public $webpage;	// ngfbWebPage
-		public $meta;		// ngfbMeta
+		public $meta;		// ngfbPostMeta
 		public $admin;		// ngfbAdmin
 		public $cache;		// ngfbCache
 
@@ -286,7 +286,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->tags = new ngfbTags( &$this );
 			$this->media = new ngfbMedia( &$this );
 			$this->webpage = new ngfbWebPage( &$this );
-			$this->meta = new ngfbMeta( &$this );
+			$this->meta = new ngfbPostMeta( &$this );
 			$this->cache = new ngfbCache( &$this );
 
 			if ( is_admin() ) {

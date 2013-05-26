@@ -156,8 +156,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
 
-			foreach ( $this->ngfb->setting_libs as $id => $name )
+			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
+				add_meta_box( 'show_rss_feed', 'NGFB News Feed', array( &$this, 'show_rss_feed' ), $this->pagehook, 'side' );
+			}
 		}
 
 		public function show_page() {
@@ -213,6 +215,36 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		protected function show_save_button() {
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
+		}
+
+		public function show_rss_feed() {
+
+			include_once( ABSPATH . WPINC . '/feed.php' );
+
+			$max_items = 3;
+			$have_items = 0;
+			$rss_items = array();
+			$rss = fetch_feed( NGFB_FEEDURL );
+
+			if ( ! is_wp_error( $rss ) ) {
+				$have_items = $rss->get_item_quantity( $max_items ); 
+				$rss_items = $rss->get_items( 0, $have_items );
+			}
+
+			echo '<ul>', "\n";
+			if ( $have_items == 0 ) {
+				echo '<li>No items.</li>', "\n";
+			} else {
+				foreach ( $rss_items as $item ) {
+					$desc = $item->get_description();
+					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );	// remove the inline styling
+					$desc = preg_replace( '/ cellspacing=["\'][^"\]*["\']/im', '', $desc );	// remove the inline styling
+					echo '<li><a href="', esc_url( $item->get_permalink() ), '" title="', 
+						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
+						esc_html( $item->get_title() ), '</a>', $desc, '</li>', "\n";
+				}
+			}
+			echo '</ul>', "\n";
 		}
 
 		public function show_pro_info() {
@@ -287,6 +319,27 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				#toplevel_page_ngfb-about table {
 					table-layout:fixed;
+				}
+				.rss-manager table {
+				}
+				.rss-manager p {
+					text-align:justify;
+					margin:7px 0 14px 0;
+				}
+				.rss-manager p.tags,
+				.rss-manager p.categories {
+					font-size:0.8em;
+					font-style:italic;
+					margin:5px 0 5px 0;
+				}
+				.rss-manager p.tags,
+				.rss-manager p.categories {
+					display:none;
+				}
+				.rss-manager img {
+					border:1px solid #ddd;
+					background-color:#ffffff;
+					padding:4px;
 				}
 			</style>
 			<?php
