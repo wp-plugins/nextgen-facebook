@@ -10,11 +10,11 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature rich objects in a social setting. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
+[Open Graph](http://ogp.me/) meta tags are embeded in the head section of webpages to better describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will all be presented properly. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
 
-**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**, including the article object type for Posts and Pages. This plugin goes well beyond other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images of varying sizes and embedded videos -- and includes one or more of each in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow content, as a widget, shortcode, or even as a function from your template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -27,9 +27,9 @@ The [Open Graph](http://ogp.me/) protocol allows your webpages to become feature
 **NextGEN Facebook Open Graph (NGFB) was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well without it. Images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
-1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `[nggalbum]` or `[nggallery]` shortcode).
-1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
-1. Image(s) from expanded NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
+1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
+1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;` or `&#91;nggtags&#93;` shortcodes.
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
@@ -204,9 +204,9 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 **A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
-1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `[nggalbum]` or `[nggallery]` shortcode).
-1. A *preview* image from a NextGEN Gallery `[nggalbum]` or `[nggallery]` shortcode.
-1. Image(s) from expanded NextGEN Gallery `[singlepic]`, `[nggallery]` or `[nggtags]` shortcodes.
+1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
+1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
+1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;` or `&#91;nggtags&#93;` shortcodes.
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
@@ -231,7 +231,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Q. How can I share a single NextGEN Gallery image? =
 
-**A.** You could create a Page with the `[singlepic]` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
+**A.** You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
 
 = Q. How can I exclude certain parts of the content text? =
 
@@ -253,7 +253,7 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `[ngfb]` shortcode.
+Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
 
 <pre>
 /* make sure the Facebook flyout does not get clipped */
@@ -353,7 +353,7 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
 
-* If you don't use the `[ngfb]` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
+* If you don't use the `&#91;ngfb&#93;` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
 
 * If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option to several hours (the default of "0" hours disables this option).
 
@@ -426,14 +426,16 @@ Complete code review with an improved object-oriented design and several new cla
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
+Version 5.0 : 8784 lines in 34 files, with 40 classes and 312 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
-* Added a new "Custom Post/Page Settings" options box for each Post and Page (enabled by purchasing the Pro version).
-* Added transient caching to the url shortening method.
-* Modified the image discovery methods to improve performance.
-* Removed support for the "Exclude Pages" plugin (social sharing buttons were not added to excluded pages). Social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
+* Added a new "Custom Post/Page Settings" metabox for each Post and Page (enabled by purchasing the Pro version).
+* Added transient caching to the url shortening method (reducing the number of requests to goo.gl).
+* Streamlined the image discovery methods to improve performance (methods check the Maximum Images limit more often).
+* Removed support for the "Exclude Pages" plugin (in the past, social sharing buttons were not added to excluded pages) -- social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
+* Complete over-haul of the (too long) settings page, breaking it up into several pages under the new "Open Graph" menu item.
+* This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version.
 
 = Version 4.3 =
 
@@ -447,7 +449,7 @@ Version 5.0 : 5153 lines in 29 files, with 34 classes and 176 functions.
 
 Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
 
-* Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `[nggalbum]` (aka `[album]`) and `[nggallery]` shortcode(s), to determine the correct preview image(s).
+* Added a check for NextGEN Gallery "album", "gallery", and "pid" URL query strings, in combination with the `&#91;nggalbum&#93;` (aka `&#91;album&#93;`) and `&#91;nggallery&#93;` shortcode(s), to determine the correct preview image(s).
 * Added a `ngfbPlugin::get_attachment_image_src()` method to wrap the `wp_get_attachment_image_src()` function, and return an additional array element (cropped or not).
 * Added a class variable and `ngfbPlugin::og_img_url_check()` method, to track and filter duplicate image URLs from shortcodes, content, etc.
 * Added a filter to remove text between the `<!--no-text-->` and `<!--/no-text-->` comment tags for Open Graph title, description, etc. meta property tags.
@@ -458,7 +460,7 @@ Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
 
 = Version 4.1 =
 
-* Added support for NextGEN Gallery preview images for `[nggallery]` and `[nggalbum]` (aka `[album]`) shortcodes.
+* Added support for NextGEN Gallery preview images for `&#91;nggallery&#93;` and `&#91;nggalbum&#93;` (aka `&#91;album&#93;`) shortcodes.
 * Added an `ngfbPlugin::fix_relative_url()` method to filter and fix relative URLs in all `og:image` property tags, not just those from content text (as relative URLs may also come from unexpected sources, like the `wp_get_attachment_image_src()` function).
 
 = Version 4.0.5 =
@@ -502,7 +504,7 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
 * **Fixed** the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
-* Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `[ngfb]` shortcode.
+* Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `&#91;ngfb&#93;` shortcode.
 * Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
 
 = Version 3.6.2 =
@@ -514,11 +516,11 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 = Version 3.6.1 =
 
 * **Fixed** JavaScript for enabled widget buttons on index webpages. That section of code still contained a check for `is_singular()`.
-* Added "Enable Shortcode" option to enable/disable the `[ngfb]` shortcode filter (default is unchecked).
+* Added "Enable Shortcode" option to enable/disable the `&#91;ngfb&#93;` shortcode filter (default is unchecked).
 
 = Version 3.6 =
 
-* Added an `[ngfb]` shortcode that can be used to add one or more social buttons to content text. For example, `[ngfb buttons="facebook, gplus"]`.
+* Added an `&#91;ngfb&#93;` shortcode that can be used to add one or more social buttons to content text. For example, `&#91;ngfb buttons="facebook, gplus"&#93;`.
 * Added missing Open Graph `og:image` tags for *attachment* template webpages.
 * Added the first *attached* image to the Pinterest and Tumblr buttons (if no *featured* image is present).
 * Added the list of *attached* images to the Open Graph `og:image` tags.
@@ -806,7 +808,7 @@ Improved support for NextGEN Gallery shortcodes and its ImageBrowser option.
 
 = 4.1 =
 
-Added support for NGG preview images for `[nggallery]` and `[nggalbum]` (aka `[album]`) shortcodes, and added a new method to filter and fix relative URLs in all `og:image` property tags.
+Added support for NGG preview images for `&#91;nggallery&#93;` and `&#91;nggalbum&#93;` (aka `&#91;album&#93;`) shortcodes, and added a new method to filter and fix relative URLs in all `og:image` property tags.
 
 = 4.0.5 =
 
@@ -846,7 +848,7 @@ Improved the sharing URL for index webpages and YouTube embeded videos.
 
 = 3.6 =
 
-Added an `[ngfb]` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
+Added an `&#91;ngfb&#93;` shortcode to add social buttons to content text, better support for *attached* images, and improved widget code for index webpages.
 
 = 3.5.3 =
 
