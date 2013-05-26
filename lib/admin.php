@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
-			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
+			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
 		private function do_extend() {
@@ -137,9 +137,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		// display a settings link on the main plugins page
-		public function plugin_action_links( $links, $file ) {
-			if ( $file == plugin_basename( __FILE__ ) )
-				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
+		public function add_plugin_links( $links, $file ) {
+			// only add links when filter is called for this plugin
+			if ( $file == $this->plugin_name ) {
+				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->support_url . '">' . __( 'Support' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->contribute_url . '">' . __( 'Contribute' ) . '</a>' );
+			}
 			return $links;
 		}
 

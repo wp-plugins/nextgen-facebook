@@ -2,10 +2,11 @@
 /*
 Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
-Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0rc6
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
+Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/
+Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
+Version: 5.0rc6
 
 Copyright 2012 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -32,6 +33,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $plugin_url = 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/';
+		public $contribute_url = 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/';
+		public $support_url = 'http://wordpress.org/support/plugin/nextgen-facebook';
 		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
 
 		public $debug;		// ngfbDebug

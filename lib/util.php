@@ -55,8 +55,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			}
 		}
 
-		public function get_options_url() {
-			return get_admin_url( null, 'options-general.php?page=' . $this->ngfb->acronym . '-general' );
+		public function get_options_url( $submenu = 'general' ) {
+			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
 		}
 
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
