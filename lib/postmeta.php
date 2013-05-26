@@ -16,14 +16,14 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbMeta' ) ) {
+if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
-	class ngfbMeta {
+	class ngfbPostMeta {
 
 		protected $ngfb;		// ngfbPlugin
 		protected $form;	// ngfbForm
 
-		// executed by ngfbMetaPro() as well
+		// executed by ngfbPostMetaPro() as well
 		// children executing this __construct() should have an empty add_actions() method
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;

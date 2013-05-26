@@ -161,11 +161,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_page() {
-			$this->page_style();
+			$this->ngfb->debug->show( null, 'Debug Log' );
+			$this->admin_page_style();
 			$this->settings_style();
 			add_meta_box( 'ngfb_pro_info', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
 			?>
-			<div class="wrap" id="ngfb">
+			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
 				<h2><?php echo $this->ngfb->fullname, ' v', $this->ngfb->version; ?></h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
@@ -220,7 +221,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		public function page_style() {
+		public function admin_page_style() {
 			?>
 			<style type="text/css">
 				.wrap { 
@@ -233,19 +234,27 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				.wrap p { 
 					text-align:justify; 
 					line-height:1.2em; 
-					margin:0 0 10px 0;
+					margin:10px 0 10px 0;
 				}
 				.wrap p.inline { 
 					display:inline-block;
 					margin:0 0 10px 10px;
 				}
-				.btn_wizard_column { white-space:nowrap; }
-				.btn_wizard_example { display:inline-block; width:155px; }
+				.btn_wizard_column { 
+					white-space:nowrap;
+				}
+				.btn_wizard_example { 
+					display:inline-block; 
+					width:155px; 
+				}
 				.postbox {
 					-webkit-border-radius:5px;
 					border-radius:5px;
 					border:1px solid transparent;
 					margin:0 0 10px 0;
+				}
+				.inside {
+					padding:2px 14px 2px 12px	!important;
 				}
 				.save_button { 
 					text-align:center;
@@ -273,7 +282,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					margin:5px 0 5px 0;
 					text-align:center;
 				}
-				#donate { text-align:center; }
+				#donate { 
+					text-align:center;
+				}
+				#toplevel_page_ngfb-about table {
+					table-layout:fixed;
+				}
 			</style>
 			<?php
 		}
@@ -296,6 +310,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					white-space:pre;
 					overflow:auto;
 				}
+				table.ngfb-settings ul { 
+					margin-left:20px;
+					list-style-type:circle;
+				}
 				table.ngfb-settings tr { vertical-align:top; }
 				table.ngfb-settings th { 
 					text-align:right;
@@ -314,7 +332,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border:1px solid #ccc;
 					width:50%;
 				}
-				table.ngfb-settings td { padding:0 4px 0 4px; }
+				table.ngfb-settings td { 
+					padding:0 4px 0 4px;
+				}
 				table.ngfb-settings td select,
 				table.ngfb-settings td input { margin:0 0 5px 0; }
 				table.ngfb-settings td input[type=text] { width:250px; }

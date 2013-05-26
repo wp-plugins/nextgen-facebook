@@ -49,13 +49,13 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			if ( ! empty( $this->msgs['err'] ) ) {
 				echo '<div id="message" class="error">';
 				foreach ( $this->msgs['err'] as $msg ) echo $p_start, ' Warning : ', $msg, $p_end;
-				echo '</div>';
+				echo '</div>', "\n";
 			}
 
 			if ( ! empty( $this->msgs['inf'] ) ) {
 				echo '<div id="message" class="updated fade">';
 				foreach ( $this->msgs['inf'] as $msg ) echo $p_start, ' Notice : ', $msg, $p_end;
-				echo '</div>';
+				echo '</div>', "\n";
 			}
 		}
 

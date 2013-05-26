@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 		}
 
-		public function get( $url, $want_this = 'url', $cache_name = 'file' ) {
+		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false ) {
 			if ( ! function_exists('curl_init') ) return $url;
 
 			// if we're not using https on the current page, then no need to make our requests using https
@@ -56,13 +56,14 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$cache_data = '';
 
 			if ( $want_this == 'raw' ) {
-				$cache_data = $this->get_cache_data( $cache_salt, $cache_name, $url_ext );
+				$cache_data = $this->get_cache_data( $cache_salt, $cache_name, $url_ext, $expire_secs );
 				if ( ! empty( $cache_data ) ) {
 					$this->ngfb->debug->log( 'cache_data is present - returning ' . strlen( $cache_data ) . ' chars' );
 					return $cache_data;
 				}
 			} elseif ( $want_this == 'url' ) {
-				if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $this->file_expire ) {
+				$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
+				if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
 					$this->ngfb->debug->log( 'cache_file is current - returning cache url "' . $cache_url . '"' );
 					return $cache_url;
 				} else $this->ngfb->debug->log( 'cache_file is too old or doesn\'t exist - fetching a new copy' );
@@ -87,7 +88,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 			if ( empty( $cache_data ) ) 
 				$this->ngfb->debug->log( 'curl: cache_data returned from "' . $get_url . '" is empty' );
-			elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext ) == true ) {
+			elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true ) {
 				$this->ngfb->debug->log( 'cache_data sucessfully saved' );
 				if ( $want_this == 'url' ) return $cache_url;
 			}
@@ -96,7 +97,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			else return $url;
 		}
 
-		private function get_cache_data( $cache_salt, $cache_name = 'file', $url_ext = '' ) {
+		private function get_cache_data( $cache_salt, $cache_name = 'file', $url_ext = '', $expire_secs = false ) {
 			$cache_data = '';
 			switch ( $cache_name ) {
 				case 'wp_cache' :
@@ -117,7 +118,8 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_id = md5( $cache_salt );
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
-					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $this->file_expire ) {
+					$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
+					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
 						$fh = fopen( $cache_file, 'rb' );
 						$cache_data = fread( $fh, filesize( $cache_file ) );
 						fclose( $fh );
@@ -133,7 +135,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			return $cache_data;	// return data or empty string
 		}
 
-		private function save_cache_data( $cache_salt, $cache_data = '', $cache_name = 'file', $url_ext = '' ) {
+		private function save_cache_data( $cache_salt, $cache_data = '', $cache_name = 'file', $url_ext = '', $expire_secs = false ) {
 			if ( empty( $cache_data ) ) return false;
 			$ret_status = false;
 			switch ( $cache_name ) {
@@ -142,11 +144,12 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_type = 'object cache';
 					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
+					$object_expire = $expire_secs == false ? $this->object_expire : $expire_secs;
 					if ( $cache_name == 'wp_cache' ) 
-						wp_cache_set( $cache_id, $cache_data, __METHOD__, $this->object_expire );
+						wp_cache_set( $cache_id, $cache_data, __METHOD__, $object_expire );
 					elseif ( $cache_name == 'transient' ) 
-						set_transient( $cache_id, $cache_data, $this->object_expire );
-					$this->ngfb->debug->log( $cache_type . ': cache_data saved to ' . $cache_name . ' for id "' . $cache_id . '" (' . $this->object_expire . ' seconds)' );
+						set_transient( $cache_id, $cache_data, $object_expire );
+					$this->ngfb->debug->log( $cache_type . ': cache_data saved to ' . $cache_name . ' for id "' . $cache_id . '" (' . $object_expire . ' seconds)' );
 					$ret_status = true;	// success
 					break;
 				case 'file' :

@@ -32,8 +32,6 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb->debug->lognew();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
-			
-			require_once ( NGFB_PLUGINDIR . 'lib/parse-readme.php' );
 		}
 
 		protected function add_meta_boxes() {

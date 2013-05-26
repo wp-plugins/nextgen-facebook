@@ -141,7 +141,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
 			define( 'NGFB_READMEURL', 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt' );
+			define( 'NGFB_FEEDURL', 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/' );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
+			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR . 'lib/ext/markdown.php' );
 
 			// allow some constants to be pre-defined in wp-config.php
 
@@ -199,44 +201,45 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private function load_libs() {
 
-			require_once ( dirname ( __FILE__ ) . '/lib/debug.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/notices.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/options.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/util.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/head.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/opengraph.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/social.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/user.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/tags.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/media.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/webpage.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/meta.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/cache.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/googl.php' );
-			require_once ( dirname ( __FILE__ ) . '/lib/functions.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/debug.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/notices.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/options.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/util.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/user.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/googl.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
 
 			if ( is_admin() ) {
-				require_once ( dirname ( __FILE__ ) . '/lib/admin.php' );
-				require_once ( dirname ( __FILE__ ) . '/lib/form.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
 				foreach ( $this->setting_libs as $id => $name )
-					require_once ( dirname ( __FILE__ ) . '/lib/settings/' . $id . '.php' );
+					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
 				unset ( $id, $name );
+				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
 			}
 
 			foreach ( $this->website_libs as $id => $name )
-				require_once ( dirname ( __FILE__ ) . '/lib/websites/' . $id . '.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/websites/' . $id . '.php' );
 			unset ( $id, $name );
 
 			foreach ( $this->shortcode_libs as $id => $name )
-				require_once ( dirname ( __FILE__ ) . '/lib/shortcodes/' . $id . '.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
 			unset ( $id, $name );
 
 			foreach ( $this->widget_libs as $id => $name )
-				require_once ( dirname ( __FILE__ ) . '/lib/widgets/' . $id . '.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
-			if ( file_exists( dirname ( __FILE__ ) . '/lib/pro.php' ) )
-				require_once ( dirname ( __FILE__ ) . '/lib/pro.php' );
+			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro.php' ) )
+				require_once ( NGFB_PLUGINDIR . 'lib/pro.php' );
 		}
 
 		private function check_deps() {
@@ -318,7 +321,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->pem_file = NGFB_PEM_FILE;
 			$this->cache->verify_cert = ! empty( $this->options['ngfb_verify_certs'] ) ? $this->options['ngfb_verify_certs'] : 0;
 			$this->cache->user_agent = NGFB_USER_AGENT;
-			$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
+			
+			if ( $this->is_avail['ngfbpro'] == true )
+				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
+			elseif ( is_admin() )
+				$this->cache->file_expire = 3 * 60 * 60;	// allow three hour file cache for admin interface
+			else
+				$this->cache->file_expire = 0;
 
 			if ( $this->debug->status() == true ) {
 				$this->cache->object_expire = 1;
