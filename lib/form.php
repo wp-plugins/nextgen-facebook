@@ -71,7 +71,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				if ( $is_assoc == false ) $val = $desc;
 
 				if ( $val == -1 ) 
-					$desc = '(settings value)';
+					$desc = '(value from settings)';
 				else {
 					switch ( $name ) {
 						case 'og_img_max' :
