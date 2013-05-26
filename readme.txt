@@ -420,13 +420,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 5.0 =
+= Version 5.0rc5 (DEV) =
 
 Complete code review with an improved object-oriented design and several new classes.
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 8784 lines in 34 files, with 40 classes and 312 functions.
+Version 5.0 : 5537 lines in 32 files, with 37 classes and 206 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
@@ -435,7 +435,7 @@ Version 5.0 : 8784 lines in 34 files, with 40 classes and 312 functions.
 * Streamlined the image discovery methods to improve performance (methods check the Maximum Images limit more often).
 * Removed support for the "Exclude Pages" plugin (in the past, social sharing buttons were not added to excluded pages) -- social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
 * Complete over-haul of the (too long) settings page, breaking it up into several pages under the new "Open Graph" menu item.
-* This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version.
+* This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 = Version 4.3 =
 
@@ -790,9 +790,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= 5.0 =
+= 5.0rc5 (DEV) =
 
-Complete code review with an improved object-oriented design and several new classes.
+Complete code review with an improved object-oriented design and several new classes. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page (moved to a new "Open Graph" menu), and a Pro version with support for individual Post and Page settings.
 
 = 4.3 =
 
