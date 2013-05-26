@@ -1,0 +1,336 @@
+<?php
+/*
+Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
+
+This script is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+This script is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details at
+http://www.gnu.org/licenses/.
+*/
+
+if ( ! defined( 'ABSPATH' ) ) 
+	die( 'Sorry, you cannot call this webpage directly.' );
+
+if ( ! class_exists( 'ngfbAdmin' ) ) {
+
+	class ngfbAdmin {
+	
+		public $plugin_name = '';
+		public $lang = array();
+		public $settings = array();	// allow ngfbPro() to extend
+
+		protected $js_locations = array(
+			'header' => 'Header',
+			'footer' => 'Footer',
+		);
+
+		protected $captions = array(
+			'none' => '',
+			'title' => 'Title Only',
+			'excerpt' => 'Excerpt Only',
+			'both' => 'Title and Excerpt',
+		);
+
+		protected $ngfb;	// ngfbPlugin
+		protected $form;	// ngfbForm
+		protected $menu_id;
+		protected $menu_name;
+		protected $pagehook;
+
+		private $min_wp_version = '3.0';
+
+		public function __construct( &$ngfb_plugin ) {
+			$this->ngfb =& $ngfb_plugin;
+			$this->ngfb->debug->lognew();
+			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->get_defaults() );
+			$this->do_extend();
+
+			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
+			add_action( 'admin_init', array( &$this, 'register_settings' ) );
+			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
+			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
+
+			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
+		}
+
+		private function do_extend() {
+			foreach ( $this->ngfb->setting_libs as $id => $name ) {
+				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+				$this->settings[$id] = new $classname( &$this->ngfb, $id, $name );
+			}
+			unset ( $id, $name );
+		}
+
+		public function check_wp_version() {
+			global $wp_version;
+			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
+				if( is_plugin_active( $this->plugin_name ) ) {
+					deactivate_plugins( $this->plugin_name );
+					wp_die( '"' . $this->ngfb->fullname . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
+						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
+				}
+			}
+		}
+
+		public function add_admin_menus() {
+
+			reset( $this->ngfb->setting_libs );
+			$this->menu_id = key( $this->ngfb->setting_libs );
+			$this->menu_name = $this->ngfb->setting_libs[$this->menu_id];
+			$this->settings[$this->menu_id]->add_menu( $this->menu_id );
+
+			foreach ( $this->ngfb->setting_libs as $id => $name )
+				$this->settings[$id]->add_submenu( $this->menu_id );
+			unset ( $id, $name );
+		}
+
+		protected function add_menu( $parent_id ) {
+			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+			$this->pagehook = add_menu_page( 
+				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$this->ngfb->menuname, 
+				'manage_options', 
+				$this->ngfb->acronym . '-' . $parent_id, 
+				array( &$this, 'show_page' ) 
+			);
+			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+		}
+
+		protected function add_submenu( $parent_id ) {
+			// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
+			$this->pagehook = add_submenu_page( 
+				$this->ngfb->acronym . '-' . $parent_id, 
+				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$this->menu_name, 
+				'manage_options', 
+				$this->ngfb->acronym . '-' . $this->menu_id, 
+				array( &$this, 'show_page' ) 
+			);
+			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+		}
+
+		protected function add_meta_boxes() {
+		}
+
+		public function check_options() {
+			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
+
+			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
+
+				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
+
+				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, 
+					is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
+					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
+			}
+		}
+
+		// display a settings link on the main plugins page
+		public function plugin_action_links( $links, $file ) {
+			if ( $file == plugin_basename( __FILE__ ) )
+				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url() . '">' . __( 'Settings' ) . '</a>' );
+			return $links;
+		}
+
+		public function register_settings() {
+			register_setting( $this->ngfb->acronym . '_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+		} 
+
+		// this method receives only a partial options array
+		public function sanitize_options( $opts ) {
+			if ( is_array( $opts ) ) {
+				// if the input arrays have the same string keys, then the later value for that key will overwrite the previous one
+				$opts = array_merge( $this->ngfb->options, $opts );
+				$opts = $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
+			}
+			return $opts;
+		}
+
+		public function load_page() {
+			wp_enqueue_script( 'common' );
+			wp_enqueue_script( 'wp-lists' );
+			wp_enqueue_script( 'postbox' );
+
+			foreach ( $this->ngfb->setting_libs as $id => $name )
+				$this->ngfb->admin->settings[$id]->add_meta_boxes();
+		}
+
+		public function show_page() {
+			$this->page_style();
+			$this->settings_style();
+			add_meta_box( 'ngfb_pro_info', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
+			?>
+			<div class="wrap" id="ngfb">
+				<?php screen_icon('options-general'); ?>
+				<h2><?php echo $this->ngfb->fullname, ' v', $this->ngfb->version; ?></h2>
+				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
+					<div id="side-info-column" class="inner-sidebar">
+						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
+					</div><!-- .inner-sidebar -->
+					<div id="post-body" class="has-sidebar">
+						<div id="post-body-content" class="has-sidebar-content">
+							<?php $this->show_form( 'normal' ); ?>
+						</div><!-- .has-sidebar-content -->
+					</div><!-- .has-sidebar -->
+				</div><!-- .metabox-holder -->
+			</div><!-- .wrap -->
+			<script type="text/javascript">
+				//<![CDATA[
+					jQuery(document).ready( 
+						function($) {
+							// close postboxes that should be closed
+							$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+							// postboxes setup
+							postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
+						}
+					);
+				//]]>
+			</script>
+			<?php
+		}
+
+		protected function show_form( $context = 'normal' ) {
+			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
+			settings_fields( $this->ngfb->acronym . '_settings' ); 
+			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
+			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+
+			// always include the version number of the options
+			echo $this->ngfb->admin->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
+
+			do_meta_boxes( $this->pagehook, 'normal', null ); 
+
+			$this->show_save_button();
+			echo '</form>', "\n";
+		}
+
+		protected function show_save_button() {
+			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
+		}
+
+		public function show_pro_info() {
+			?>
+			<p>Purchase this plugin.</p>
+			<?php
+		}
+
+		public function page_style() {
+			?>
+			<style type="text/css">
+				.wrap { 
+					font-size:1em; 
+					line-height:1.3em; 
+				}
+				.wrap h2 { 
+					margin:0 0 10px 0; 
+				}
+				.wrap p { 
+					text-align:justify; 
+					line-height:1.2em; 
+					margin:0 0 10px 0;
+				}
+				.wrap p.inline { 
+					display:inline-block;
+					margin:0 0 10px 10px;
+				}
+				.btn_wizard_column { white-space:nowrap; }
+				.btn_wizard_example { display:inline-block; width:155px; }
+				.postbox {
+					-webkit-border-radius:5px;
+					border-radius:5px;
+					border:1px solid transparent;
+					margin:0 0 10px 0;
+				}
+				.save_button { 
+					text-align:center;
+					margin:15px 0 0 0;
+				}
+				.donatebox {
+					float:left;
+					display:block;
+					width:350px;
+					margin:0 20px 5px 0;
+					padding:10px;
+					color:#333;
+					background:#eeeeff;
+					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
+					background-image: -webkit-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
+					-webkit-border-radius:5px;
+					border-radius:5px;
+					border:1px solid #b4b4b4;
+				}
+				.donatebox p { 
+					line-height:1.25em;
+					margin:5px 0 5px 0;
+					text-align:center;
+				}
+				#donate { text-align:center; }
+			</style>
+			<?php
+		}
+
+		public function settings_style() {
+			?>
+			<style type="text/css">
+				table.ngfb-settings .pro_msg {
+					font-style:italic;
+				}
+				table.ngfb-settings { 
+					width:100%;
+				}
+				table.ngfb-settings h3 { 
+					padding:0		!important;
+					margin:20px 0 10px 0	!important;
+					background:none;
+				}
+				table.ngfb-settings pre {
+					white-space:pre;
+					overflow:auto;
+				}
+				table.ngfb-settings tr { vertical-align:top; }
+				table.ngfb-settings th { 
+					text-align:right;
+					white-space:nowrap; 
+					padding:0 10px 0 4px; 
+					width:220px;
+				}
+				table.ngfb-settings th.short { 
+					width:120px;
+				}
+				table.ngfb-settings th.social { 
+					font-weight:bold; 
+					text-align:left; 
+					padding:2px 10px 2px 10px; 
+					background-color:#eee; 
+					border:1px solid #ccc;
+					width:50%;
+				}
+				table.ngfb-settings td { padding:0 4px 0 4px; }
+				table.ngfb-settings td select,
+				table.ngfb-settings td input { margin:0 0 5px 0; }
+				table.ngfb-settings td input[type=text] { width:250px; }
+				table.ngfb-settings td input[type=text].short { width:50px; }
+				table.ngfb-settings td input[type=text].wide { width:100%; }
+				table.ngfb-settings td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
+				table.ngfb-settings td textarea { padding:2px; }
+				table.ngfb-settings td textarea.wide { width:100%; height:5em; }
+				table.ngfb-settings td select { width:250px; }
+				table.ngfb-settings td select.short { width:100px; }
+				table.ngfb-settings td select.medium { width:160px; }
+			</style>
+			<?php
+		}
+
+	}
+}
+
+?>
