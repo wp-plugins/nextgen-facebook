@@ -47,7 +47,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><?php echo $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. 
 				This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. 
-				You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
+				You can leave the topic name blank if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
 			<tr>
 				<th>Article Author URL</th>
@@ -55,12 +55,12 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. 
 				The URL should point to an author's <em>personal</em> website or social page. 
 				This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. 
-				See the "Link Settings" section bellow for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				See the "Link Settings" section below for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL field (and the Author Link URL in the "Link Settings" section bellow) is not a valid URL, 
+				<td><p>If the value found in the Author URL profile field (and the Author Link URL in the "Link Settings" section below) is not a valid URL, 
 				NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). 
 				Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
@@ -79,7 +79,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<th>Default Author on Indexes</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_index' ); ?></td>
 				<td><p>Check this option if you would like to force the Default Author on index webpages (homepage, archives, categories, author, etc.). 
-				If the Default Author is <em>[none]</em>, then the index webpages will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
+				If the Default Author is <em>[none]</em> (the default value), then the index webpages will be labeled as a 'webpage'. If the option is checked, 
+				index webpages will be labeled as a an 'article' with authorship attributed to the Default Author (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Default Author on Search Results</th>
@@ -99,7 +100,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height - preferably cropped.
 				You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) 
 				to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. 
-				I suggest creating an "opengraph-thumbnail" image size, to manage the Open Graph image size independently from those of your theme.</p></td>
+				I suggest creating an "opengraph-thumbnail" image size to manage the Open Graph image sizes independently from those of your theme.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image ID</th>

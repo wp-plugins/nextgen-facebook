@@ -65,7 +65,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			$og_max = array();
 			foreach ( array( 'og_vid_max', 'og_img_max' ) as $max_name ) {
-				$num_meta = '';
+				$num_meta = false;
 				if ( ! empty( $post ) )
 					$num_meta = $this->ngfb->meta->get_options( $post->ID, $max_name );
 				if ( $num_meta !== false ) {
@@ -87,7 +87,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					}
 					unset ( $vid );
 				}
-			}
+			} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
 
 			if ( $og_max['og_img_max'] > 0 ) {
 				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
@@ -98,7 +98,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$this->ngfb->debug->log( 'calling this->get_default_image(' . $og_max['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
 					$og['og:image'] = $this->get_default_image( $og_max['og_img_max'], $this->ngfb->options['og_img_size'] );
 				}
-			}
+			} else $this->ngfb->debug->log( 'images disabled: maximum videos = 0' );
 
 			// any singular page is type 'article'
 			if ( is_singular() ) {

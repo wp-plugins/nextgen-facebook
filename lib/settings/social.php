@@ -70,12 +70,12 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			<tr>
 				<th>Location in Excerpt Text</th>
 				<td><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
+				<td><p>The social sharing button(s) must also be enabled below.</p></td>
 			</tr>
 			<tr>
 				<th>Location in Content Text</th>
 				<td><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled bellow.</p></td>
+				<td><p>The social sharing button(s) must also be enabled below.</p></td>
 			</tr>
 			</table>
 			<table class="ngfb-settings">

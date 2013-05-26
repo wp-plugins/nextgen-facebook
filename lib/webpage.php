@@ -148,7 +148,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$desc = '';
 
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
-					$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
+				$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
 
 			if ( ! empty( $desc ) )
 				$this->ngfb->debug->log( 'found custom meta description = "' . $desc . '"' );

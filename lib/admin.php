@@ -162,18 +162,28 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
 
-			foreach ( $this->ngfb->setting_libs as $id => $name ) {
+			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
-				add_meta_box( $this->pagehook . '_feed', 'NGFB News Feed', array( &$this, 'show_rss_feed' ), $this->pagehook, 'side' );
-				add_meta_box( $this->pagehook . '_version', 'NGFB Version Info', array( &$this, 'show_version_info' ), $this->pagehook, 'side' );
-			}
+
+			add_meta_box( $this->pagehook . '_feed', 'News Feed', array( &$this, 'show_feed_side' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_version_side' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_consult', 'Consulting Services', array( &$this, 'show_consult_side' ), $this->pagehook, 'side' );
+
+			if ( $this->ngfb->is_avail['ngfbpro'] == true )
+				add_meta_box( $this->pagehook . '_thankyou', 'Thank You', array( &$this, 'show_thankyou_side' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
 			$this->ngfb->debug->show( null, 'Debug Log' );
 			$this->admin_page_style();
 			$this->settings_style();
-			add_meta_box( $this->pagehook . '_pro', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
+
+			// add meta box here (after wp_enqueue_script()) to prevent removal
+			if ( $this->ngfb->is_avail['ngfbpro'] !== true ) {
+				add_meta_box( $this->pagehook . '_pro', 'Pro Version', array( &$this, 'show_pro_side' ), $this->pagehook, 'side' );
+				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_pro', array( &$this, 'add_class_postbox_pro_side' ) );
+			}
+
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
@@ -204,6 +214,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
+		public function add_class_postbox_pro_side( $classes ) {
+			array_push( $classes, 'postbox_pro_side' );
+			return $classes;
+		}
+
 		protected function show_form( $context = 'normal' ) {
 			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
 			settings_fields( $this->ngfb->acronym . '_settings' ); 
@@ -224,7 +239,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
 		}
 
-		public function show_rss_feed() {
+		public function show_feed_side() {
 
 			include_once( ABSPATH . WPINC . '/feed.php' );
 
@@ -254,7 +269,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</ul>', "\n";
 		}
 
-		public function show_version_info() {
+		public function show_version_side() {
 			$latest_version = '';
 			$latest_notice = '';
 			if ( ! empty( $this->ngfb->admin->readme['stable_tag'] ) ) {
@@ -270,20 +285,41 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['ngfbpro'] ? ' (Pro)' : ''; ?></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $this->ngfb->admin->readme['stable_tag']; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
-			<tr><th class="side"></th><td><p><?php echo $latest_notice; ?></p></tr>
+			<tr><td colspan="2"><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
 		}
 
-		public function show_pro_info() {
+		public function show_pro_side() {
 			?>
-			<p>Purchase this plugin.</p>
+			<p>The NGFB Open Graph plugin has taken several months to develop and fine-tune. 
+			Please show your support and appreciation by purchasing the Pro version and 
+			<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">recommending this great plugin</a>.</p>
+			<p class="sig">Thank you.</p>
+			<?php
+		}
+
+		public function show_thankyou_side() {
+			?>
+			<p>Thank you for your support and appreciation.</p>
+			<?php
+		}
+
+		public function show_consult_side() {
+			?>
+			<p>Need some UNIX or WordPress related help? Have a look at my freelance consulting 
+			<a href="http://surniaulula.com/contact-me/services/" target="blank">services</a> 
+			and <a href="http://surniaulula.com/contact-me/rates/">rates</a>.</p>
 			<?php
 		}
 
 		public function admin_page_style() {
 			?>
 			<style type="text/css">
+				.sig {
+					font-family:cursive;
+					font-size:1.2em;
+				}
 				.wrap { 
 					font-size:1em; 
 					line-height:1.3em; 
@@ -320,12 +356,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:center;
 					margin:15px 0 0 0;
 				}
-				.donatebox {
-					float:left;
-					display:block;
-					width:350px;
-					margin:0 20px 5px 0;
-					padding:10px;
+				.postbox_pro_side {
 					color:#333;
 					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -333,17 +364,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
-					-webkit-border-radius:5px;
-					border-radius:5px;
 					border:1px solid #b4b4b4;
-				}
-				.donatebox p { 
-					line-height:1.25em;
-					margin:5px 0 5px 0;
-					text-align:center;
-				}
-				#donate { 
-					text-align:center;
 				}
 				#toplevel_page_ngfb-readme table {
 					table-layout:fixed;
@@ -414,6 +435,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				table.ngfb-settings td { 
 					padding:0 4px 0 4px;
+				}
+				table.ngfb-settings td p { 
+					margin:0 0 10px 0;
 				}
 				table.ngfb-settings td select,
 				table.ngfb-settings td input { margin:0 0 5px 0; }

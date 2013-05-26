@@ -10,11 +10,11 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Description ==
 
-[Open Graph](http://ogp.me/) meta tags are embeded in the head section of webpages to better describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will all be presented properly. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
+[Open Graph](http://ogp.me/) meta tags are embedded in the head section of webpages to better describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will all be presented properly. **The Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**.
 
 **NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or bellow your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or below your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -509,7 +509,7 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 
 = Version 3.6.2 =
 
-* **Fixed** YouTube embeded URLs to make them more compatible with Facebook.
+* **Fixed** YouTube embedded URLs to make them more compatible with Facebook.
 * Changed the behavior used to determine the sharing URL for index (non-singular) type webpages, from stripping only tracking query arguments to stripping all query arguments.
 * Added the Facebook "Markup Language" option to select between HTML5 or XFBML (defaults to XFBML).
 
@@ -840,7 +840,7 @@ Added persistent and non-persistent caching code to improve speed (especially fo
 
 = 3.6.2 =
 
-Improved the sharing URL for index webpages and YouTube embeded videos.
+Improved the sharing URL for index webpages and YouTube embedded videos.
 
 = 3.6.1 =
 
