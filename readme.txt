@@ -792,7 +792,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 5.0rc5 (DEV) =
 
-Complete code review with an improved object-oriented design and several new classes. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page (moved to a new "Open Graph" menu), and a Pro version with support for individual Post and Page settings.
+Complete code review with an improved object-oriented design. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page, and a Pro version with support for individual Post and Page settings.
 
 = 4.3 =
 
