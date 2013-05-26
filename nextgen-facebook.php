@@ -322,10 +322,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->verify_cert = ! empty( $this->options['ngfb_verify_certs'] ) ? $this->options['ngfb_verify_certs'] : 0;
 			$this->cache->user_agent = NGFB_USER_AGENT;
 			
-			if ( $this->is_avail['ngfbpro'] == true )
+			if ( is_admin() )
+				$this->cache->file_expire = 12 * 60 * 60;	// force twelve hour file cache for admin interface
+			elseif ( $this->is_avail['ngfbpro'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
-			elseif ( is_admin() )
-				$this->cache->file_expire = 12 * 60 * 60;	// allow twelve hour file cache for admin interface
 			else
 				$this->cache->file_expire = 0;
 

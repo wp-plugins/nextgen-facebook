@@ -270,7 +270,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['ngfbpro'] ? ' (Pro)' : ''; ?></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $this->ngfb->admin->readme['stable_tag']; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
-			<tr><th class="side"></th><td><?php echo $latest_notice; ?></tr>
+			<tr><th class="side"></th><td><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
 		}
