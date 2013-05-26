@@ -325,7 +325,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['ngfbpro'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			elseif ( is_admin() )
-				$this->cache->file_expire = 3 * 60 * 60;	// allow three hour file cache for admin interface
+				$this->cache->file_expire = 12 * 60 * 60;	// allow twelve hour file cache for admin interface
 			else
 				$this->cache->file_expire = 0;
 

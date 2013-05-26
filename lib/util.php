@@ -273,14 +273,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $website_topics;
 		}
 
-		public function get_readme_txt( $url = NGFB_READMEURL ) {
-			$this->ngfb->debug->log( 'fetching readme from ' . $url );
-			return $this->ngfb->cache->get( $url, 'raw', 'file' );
-		}
-
 		public function parse_readme( $url = NGFB_READMEURL ) {
 			$Automattic_Readme = new Automattic_Readme();
-			$readme = $this->get_readme_txt();
+			$this->ngfb->debug->log( 'fetching readme from ' . $url );
+			$readme = $this->ngfb->cache->get( $url, 'raw', 'file' );
 			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
 			return $plugin_info;
 		}

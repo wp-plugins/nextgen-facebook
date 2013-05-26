@@ -24,7 +24,6 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
-		protected $readme;
 
 		// executed by ngfbSettingsAbout() as well
 		public function __construct( &$ngfb_plugin, $id, $name ) {
@@ -41,7 +40,6 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
 
-			$this->readme = $this->ngfb->util->parse_readme();
 			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_faq' );
 			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_remaining' );
 			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_changelog' );
@@ -54,7 +52,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><?php echo $this->readme['sections']['description']; ?></td>
+				<td><?php echo $this->ngfb->admin->readme['sections']['description']; ?></td>
 			</tr>
 			</table>
 			<?php
@@ -64,7 +62,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><?php echo $this->readme['sections']['frequently_asked_questions']; ?></td>
+				<td><?php echo $this->ngfb->admin->readme['sections']['frequently_asked_questions']; ?></td>
 			</tr>
 			</table>
 			<?php
@@ -74,7 +72,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><?php echo $this->readme['remaining_content']; ?></td>
+				<td><?php echo $this->ngfb->admin->readme['remaining_content']; ?></td>
 			</tr>
 			</table>
 			<?php
@@ -84,7 +82,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><?php echo $this->readme['sections']['changelog']; ?></td>
+				<td><?php echo $this->ngfb->admin->readme['sections']['changelog']; ?></td>
 			</tr>
 			</table>
 			<?php

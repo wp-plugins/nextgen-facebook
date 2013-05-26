@@ -420,7 +420,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 5.0 =
+= Version 5.0rc5 (DEV) =
 
 Complete code review with an improved object-oriented design and several new classes.
 
@@ -790,9 +790,9 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= 5.0 =
+= 5.0rc5 (DEV) =
 
-Complete code review with an improved object-oriented design and several new classes.
+Complete code review with an improved object-oriented design and several new classes. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page (moved to a new "Open Graph" menu), and a Pro version with support for individual Post and Page settings.
 
 = 4.3 =
 

@@ -41,6 +41,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
+		protected $readme;
 
 		private $min_wp_version = '3.0';
 
@@ -52,6 +53,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
+			add_action( 'admin_init', array( &$this, 'set_readme' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
@@ -64,6 +66,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->settings[$id] = new $classname( &$this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
+		}
+
+		public function set_readme() {
+			$this->readme = $this->ngfb->util->parse_readme();
 		}
 
 		public function check_wp_version() {
@@ -158,7 +164,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
-				add_meta_box( 'show_rss_feed', 'NGFB News Feed', array( &$this, 'show_rss_feed' ), $this->pagehook, 'side' );
+				add_meta_box( $this->pagehook . '_feed', 'NGFB News Feed', array( &$this, 'show_rss_feed' ), $this->pagehook, 'side' );
+				add_meta_box( $this->pagehook . '_version', 'NGFB Version Info', array( &$this, 'show_version_info' ), $this->pagehook, 'side' );
 			}
 		}
 
@@ -166,11 +173,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb->debug->show( null, 'Debug Log' );
 			$this->admin_page_style();
 			$this->settings_style();
-			add_meta_box( 'ngfb_pro_info', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_pro', 'Pro Version', array( &$this, 'show_pro_info' ), $this->pagehook, 'side' );
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
-				<h2><?php echo $this->ngfb->fullname, ' v', $this->ngfb->version; ?></h2>
+				<h2><?php echo $this->ngfb->fullname; ?></h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
 					<div id="side-info-column" class="inner-sidebar">
 						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
@@ -247,6 +254,27 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</ul>', "\n";
 		}
 
+		public function show_version_info() {
+			$latest_version = '';
+			$latest_notice = '';
+			if ( ! empty( $this->ngfb->admin->readme['stable_tag'] ) ) {
+				$upgrade_notice = $this->ngfb->admin->readme['upgrade_notice'];
+				if ( is_array( $upgrade_notice ) ) {
+					reset( $upgrade_notice );
+					$latest_version = key( $upgrade_notice );
+					$latest_notice = $upgrade_notice[$latest_version];
+				}
+			}
+			?>
+			<table class="ngfb-settings">
+			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['ngfbpro'] ? ' (Pro)' : ''; ?></tr>
+			<tr><th class="side">Stable:</th><td><?php echo $this->ngfb->admin->readme['stable_tag']; ?></tr>
+			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
+			<tr><th class="side"></th><td><?php echo $latest_notice; ?></tr>
+			</table>
+			<?php
+		}
+
 		public function show_pro_info() {
 			?>
 			<p>Purchase this plugin.</p>
@@ -317,7 +345,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				#donate { 
 					text-align:center;
 				}
-				#toplevel_page_ngfb-about table {
+				#toplevel_page_ngfb-readme table {
 					table-layout:fixed;
 				}
 				.rss-manager table {
@@ -374,9 +402,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					padding:0 10px 0 4px; 
 					width:220px;
 				}
-				table.ngfb-settings th.short { 
-					width:120px;
-				}
+				table.ngfb-settings th.short { width:120px; }
+				table.ngfb-settings th.side { width:50px; }
 				table.ngfb-settings th.social { 
 					font-weight:bold; 
 					text-align:left; 
