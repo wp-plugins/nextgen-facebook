@@ -271,7 +271,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Q. PCLZIP_ERR_BAD_FORMAT error when uploading the zip file? =
 
-**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough disk space left to upload and install plugins.
+**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough disk space left to upload and install plugins. This may also be related to a WordPress bug in certain versions. Instead of uploading the zip file to install the plugin, you may want to use the *Manual Install* method documented in the FAQ.
 
 == Shortcodes ==
 
