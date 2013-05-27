@@ -36,6 +36,11 @@ NGFB_OPTIONS_NAME
 	The options field name in the database for NGFB. The default value is
 	'ngfb_options'.
 
+NGFB_MENU_PRIORITY
+
+	Adjust the location of the "Open Graph" menu. The default value is
+	"99.10".
+
 NGFB_HEAD_PRIORITY
 
 	Change the execution priority of the method that adds JavaScript and
