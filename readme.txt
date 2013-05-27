@@ -238,6 +238,10 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 **A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
 
+= Q. PCLZIP_ERR_BAD_FORMAT error when uploading the zip file? =
+
+**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough disk space left to upload and install plugins.
+
 == Shortcodes ==
 
 You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. For example:
