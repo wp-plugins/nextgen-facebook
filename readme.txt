@@ -271,7 +271,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Q. PCLZIP_ERR_BAD_FORMAT error when uploading the zip file? =
 
-**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough disk space left to upload and install plugins. This may also be related to a WordPress bug in certain versions. Instead of uploading the zip file to install the plugin, you may want to use the *Manual Install* method documented in the FAQ.
+**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough available disk space, and you have not exceeded a disk space quota, to upload and install the plugin. This error may also be related to a WordPress bug in certain versions. Instead of uploading the zip file using the WordPress admin interface, you may have to use the *Manual Install* method documented in the [Installation instructions](http://wordpress.org/plugins/nextgen-facebook/installation/).
 
 == Shortcodes ==
 
