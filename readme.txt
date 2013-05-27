@@ -60,9 +60,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 1. Upload the entire nextgen-facebook/ folder to the /wp-content/plugins/ directory
 1. Activate the plugin through the Plugins menu in WordPress
 
-Once activated, you don't have to configure any settings for NGFB to automatically start adding Open Graph meta tags to your pages.
+Once activated, you don't have to configure any settings for NGFB to start adding Open Graph meta tags to your webpages.
 
-Some plugin options are available under the *Settings / NextGEN Facebook* admin menu to select a default image, include social buttons in your content, change the shared thumbnail image size, etc.
+The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much more.
 
 == Frequently Asked Questions ==
 
