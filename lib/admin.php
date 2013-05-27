@@ -135,9 +135,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
 
-			if ( $this->ngfb->is_avail['ngfbpro'] == false ) {
-				$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
-			} elseif ( empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+			if ( $this->ngfb->is_avail['ngfbpro'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$url = $this->ngfb->util->get_options_url( 'advanced' );
 				$this->ngfb->notices->inf( '<b>Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
 					please enter the transaction ID you received by email on the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
@@ -244,13 +242,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// always include the version number of the options
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
 
-			do_meta_boxes( $this->pagehook, 'normal', null ); 
+			do_meta_boxes( $this->pagehook, $context, null ); 
 
-			$this->show_submit_button();
+			$this->show_submit_button( $context );
 			echo '</form>', "\n";
 		}
 
-		protected function show_submit_button( $text = 'Save All Changes' ) {
+		protected function show_submit_button( $context, $text = 'Save All Changes' ) {
+
+			if ( $this->pagehook == 'toplevel_page_ngfb-about' && $context == 'normal' )
+				return;
+
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
 		}
 
@@ -318,11 +320,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_consult() {
-			?>
-			<p>Need some UNIX or WordPress related help? Have a look at my freelance consulting 
-			<a href="http://surniaulula.com/contact-me/services/" target="blank">services</a> 
-			and <a href="http://surniaulula.com/contact-me/rates/">rates</a>.</p>
-			<?php
+			echo '<p>', $this->ngfb->msgs['promo'], '</p>', "\n";
 		}
 
 		public function admin_page_style() {

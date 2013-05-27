@@ -309,7 +309,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $opts as $key => $val )
 					// check that the key is not empty, and doesn't exist in the default options
 					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-						$this->ngfb->notices->inf( 'Removing deprecated option \'' . $key . '\' with the default of \'' . $val . '\'.' );
+						$this->ngfb->notices->inf( 'Removing deprecated option \'' . $key . '\' with a value of \'' . $val . '\'.' );
 						unset( $opts[$key] );
 					}
 				unset ( $key, $val );
@@ -325,11 +325,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated in memory (only). 
-					These updates have not been saved back to the database. 
-					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save these new settings</a> 
+				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated in memory (only) --
+					these updates have not been saved back to the database yet. 
+					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
 					to make these updates permanent.' );
 	
+				if ( $this->ngfb->is_avail['ngfbpro'] == false )
+					$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
+
 			}
 			return $opts;
 		}

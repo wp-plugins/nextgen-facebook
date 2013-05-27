@@ -44,9 +44,6 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array( '_faq', '_remaining', '_changelog' ) );
 		}
 
-		protected function show_save_button() {
-		}
-
 		public function show_metabox_support() {
 			$this->show_feed( $this->ngfb->urls['support_feed'], 5, 'support_feed' );
 		}
@@ -54,9 +51,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_description() {
 			?>
 			<table class="ngfb-settings">
-			<tr>
-				<td><?php echo $this->ngfb->admin->readme['sections']['description']; ?></td>
-			</tr>
+			<tr><td><?php echo $this->ngfb->admin->readme['sections']['description']; ?></td></tr>
 			</table>
 			<?php
 		}
@@ -64,9 +59,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_faq() {
 			?>
 			<table class="ngfb-settings">
-			<tr>
-				<td><?php echo $this->ngfb->admin->readme['sections']['frequently_asked_questions']; ?></td>
-			</tr>
+			<tr><td><?php echo $this->ngfb->admin->readme['sections']['frequently_asked_questions']; ?></td></tr>
 			</table>
 			<?php
 		}
@@ -74,9 +67,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_remaining() {
 			?>
 			<table class="ngfb-settings">
-			<tr>
-				<td><?php echo $this->ngfb->admin->readme['remaining_content']; ?></td>
-			</tr>
+			<tr><td><?php echo $this->ngfb->admin->readme['remaining_content']; ?></td></tr>
 			</table>
 			<?php
 		}
@@ -84,9 +75,7 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_changelog() {
 			?>
 			<table class="ngfb-settings">
-			<tr>
-				<td><?php echo $this->ngfb->admin->readme['sections']['changelog']; ?></td>
-			</tr>
+			<tr><td><?php echo $this->ngfb->admin->readme['sections']['changelog']; ?></td></tr>
 			</table>
 			<?php
 		}
