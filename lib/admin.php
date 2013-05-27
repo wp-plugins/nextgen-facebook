@@ -134,6 +134,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
+
+			if ( $this->ngfb->is_avail['ngfbpro'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+				$url = $this->ngfb->util->get_options_url( 'advanced' );
+				$this->ngfb->notices->inf( '<b>In order for the plugin to authenticate itself for future updates, 
+					please enter the transaction ID you received by email in the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
+			}
 		}
 
 		// display a settings link on the main plugins page
@@ -235,12 +241,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
 
-			$this->show_save_button();
+			$this->show_submit_button();
 			echo '</form>', "\n";
 		}
 
-		protected function show_save_button() {
-			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
+		protected function show_submit_button( $text = 'Save All Changes' ) {
+			echo '<div class="save_button"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
 		}
 
 		public function show_metabox_news() {
@@ -294,18 +300,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_purchase() {
-			?>
-			<p>The NGFB Open Graph plugin has taken several months to develop, test, and fine-tune. 
-			Please show your support and appreciation by purchasing the Pro version and 
-			<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">recommending this great plugin</a>.</p>
-			<p class="sig">Thank you.</p>
-			<?php
+			echo '<form name="ngfb" method="get" action="' . $this->ngfb->urls['plugin'] . '" target="_blank">', "\n";
+			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
+			echo '<p class="sig">Thank you.</p>', "\n";
+			echo '<p>'; $this->show_submit_button( 'Download the Pro Version' ); echo '</p>';
+			echo '</form>', "\n";
 		}
 
 		public function show_metabox_thankyou() {
-			?>
-			<p>Thank you for your support and appreciation.</p>
-			<?php
+			echo '<p>Thank you for your support and appreciation.</p>', "\n";
 		}
 
 		public function show_metabox_consult() {
@@ -369,7 +373,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
 					border:1px solid #b4b4b4;
 				}
-				#toplevel_page_ngfb-readme table {
+				#toplevel_page_ngfb-about table {
 					table-layout:fixed;
 				}
 				.rss-manager table {
@@ -406,7 +410,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function settings_style() {
 			?>
 			<style type="text/css">
-				table.ngfb-settings .pro_msg {
+				table.ngfb-settings .pro_feature {
 					font-style:italic;
 				}
 				table.ngfb-settings { 

@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '23';	// increment when adding/removing default options
+		public $version = '24';	// increment when adding/removing default options
 
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
@@ -137,7 +137,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_article:section' => 1,
 			'inc_article:tag' => 1,
 			'ngfb_version' => '',
-			'ngfb_donated' => 0,
+			'ngfb_pro_tid' => '',
 			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
 			'ngfb_enable_shortcode' => 0,
@@ -312,8 +312,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// unset options that no longer exist
 				foreach ( $opts as $key => $val )
 					// check that the key is not empty, and doesn't exist in the default options
-					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
+					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
+						$this->ngfb->notices->inf( 'Removing deprecated option \'' . $key . '\' with the default of \'' . $val . '\'.' );
 						unset( $opts[$key] );
+					}
 				unset ( $key, $val );
 	
 				// add missing options and set to defaults
@@ -327,11 +329,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				// don't show message if already donated, or pro version installed
-				if ( empty( $opts['ngfb_donated'] ) && $this->ngfb->is_avail['ngfbpro'] == false )
-					$this->ngfb->notices->inf( '<b>' . $this->ngfb->fullname . ' has taken many, many months to develop and fine-tune. 
-						Please suppport us by <a href="' . $this->ngfb->util->get_options_url() . '">donating</a> and 
-						<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">rating it on wordpress.org</a>.</b>' );
+				if ( $this->ngfb->is_avail['ngfbpro'] == false )
+					$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
 			}
 			return $opts;
 		}

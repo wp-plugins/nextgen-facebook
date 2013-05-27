@@ -54,14 +54,14 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		protected function get_rows() {
 			return array(
-				'<th>Topic</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Title</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Description</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Image ID</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Image URL</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Maximum Images</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Maximum Videos</th><td>' . $this->ngfb->pro_msg . '</td>',
-				'<th>Disable Social Buttons</th><td>' . $this->ngfb->pro_msg . '</td>',
+				'<th>Topic</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Title</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Description</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Image ID</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Image URL</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Maximum Images</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Maximum Videos</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Disable Social Buttons</th><td>' . $this->ngfb->msgs['pro_feature'] . '</td>',
 			);
 		}
 
