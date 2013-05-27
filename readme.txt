@@ -417,7 +417,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Screenshots ==
 
-1. An Example Settings Page from [Underwater Focus (Underwater Photography by Jean-Sebastien Morisset)](http://underwaterfocus.com/).
+1. About Page
+2. General Settings Page
+3. Social Sharing Settings Page
+4. Settings Pagedvanced
 
 == Changelog ==
 
