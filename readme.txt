@@ -5,7 +5,7 @@ Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, shar
 License: GPLv3 or later
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 4.3
+Stable tag: 5.0
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 
@@ -417,11 +417,11 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Screenshots ==
 
-1. v5.0 About Page
-2. v5.0 General Settings Page
-3. v5.0 Social Sharing Settings Page
-4. v5.0 Advanced Settings Page
-5. v5.0 Custom Page Settings (Pro Version)
+1. Version 5.0 About Page
+2. Version 5.0 General Settings Page
+3. Version 5.0 Social Sharing Settings Page
+4. Version 5.0 Advanced Settings Page
+5. Version 5.0 Custom Page Settings (Pro Version)
 
 == Changelog ==
 
@@ -431,7 +431,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 5690 lines in 32 files, with 37 classes and 212 functions.
+Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
