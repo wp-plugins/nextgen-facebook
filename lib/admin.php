@@ -102,7 +102,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->ngfb->menuname, 
 				'manage_options', 
 				$this->ngfb->acronym . '-' . $parent_id, 
-				array( &$this, 'show_page' ) 
+				array( &$this, 'show_page' ),
+				null,
+				NGFB_MENU_PRIORITY
 			);
 			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
 		}
