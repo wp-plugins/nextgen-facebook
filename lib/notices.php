@@ -43,7 +43,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		}
 
 		public function admin_notices() {
-			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->ngfb->util->get_options_url() . '">' . $this->ngfb->fullname . '</a>';
+			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->ngfb->util->get_options_url() . '">' . $this->ngfb->menuname . '</a>';
 			$p_end = '</p>';
 
 			if ( ! empty( $this->msgs['err'] ) ) {

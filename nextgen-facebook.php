@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: NGFB Open Graph
-Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/
+Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
-Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/
+Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook/contribution-form/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 Version: 5.0rc7
 
@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
-		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
+		public $slug = 'nextgen-facebook';
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -51,11 +51,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
+		public $msgs = array();
 
 		public $urls = array(
-			'contribute' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/',
+			'contribute' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook/contribution-form/',
 			'news_feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-			'plugin' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/',
+			'plugin' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
@@ -145,6 +146,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private function define_constants() { 
 
+			define( 'NGFB_FILEPATH', __FILE__ );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
@@ -272,6 +274,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// get the options, upgrade the option names (if necessary), and validate their values
 		private function setup_vars() {
+
+			$this->msgs = array(
+				'pro_feature' => '<span class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
+					target="_blank">Upgrade to the Pro version to enable this feature</a>.</span>',
+				'purchase' => 'The ' . $this->fullname . ' plugin has taken many months to develop and fine-tune. 
+					Please show your support and appreciation by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version for just a few dollars</a>.',
+				'review' => 'And you can also help by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
+					target="_blank">recommending this plugin</a> to other WordPress users.',
+			);
 
 			// load options first for use in __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
