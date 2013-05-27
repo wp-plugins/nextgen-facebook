@@ -313,7 +313,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
 			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
 			echo '<p class="sig">Thank you.</p>', "\n";
-			echo '<p>'; $this->show_submit_button( 'Download the Pro Version' ); echo '</p>';
+			echo '<p>'; $this->show_submit_button( 'side', 'Download the Pro Version' ); echo '</p>';
 			echo '</form>', "\n";
 		}
 
