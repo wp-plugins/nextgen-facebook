@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/
+Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
 License: GPLv3 or later
 Requires at least: 3.0
@@ -421,13 +421,13 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
-= Version 5.0rc6 (DEV) =
+= Version 5.0 =
 
 Complete code review with an improved object-oriented design and several new classes.
 
 `
 Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 5537 lines in 32 files, with 37 classes and 206 functions.
+Version 5.0 : 5690 lines in 32 files, with 37 classes and 212 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
@@ -791,7 +791,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 == Upgrade Notice ==
 
-= 5.0rc6 (DEV) =
+= 5.0 =
 
 Complete code review with an improved object-oriented design. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page, and a Pro version with support for individual Post and Page settings.
 
