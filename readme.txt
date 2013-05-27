@@ -44,7 +44,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Installation ==
 
-If you [download and install the Pro version][http://surniaulula.com/wordpress-plugins/nextgen-facebook/], follow the *Manual Removal* method (to remove the old plugin while keeping its settings), and the *Semi-Automated Install* method to upload and activate the new plugin.
+If you [download and install the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/), follow the *Manual Removal* method (to remove the old plugin while keeping its settings), and the *Semi-Automated Install* method to upload and activate the new plugin.
 
 **Automated Install**
 
