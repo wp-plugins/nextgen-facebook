@@ -4,7 +4,6 @@ Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
-Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook/contribution-form/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 Version: 5.0rc7
 
@@ -54,7 +53,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $msgs = array();
 
 		public $urls = array(
-			'contribute' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook/contribution-form/',
 			'news_feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
 			'plugin' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
@@ -281,8 +279,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'purchase' => 'The ' . $this->fullname . ' plugin has taken many months to develop and fine-tune. 
 					Please show your support and appreciation by <a href="' . $this->urls['plugin'] . '" 
 					target="_blank">purchasing the Pro version for just a few dollars</a>.',
-				'review' => 'And you can also help by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
-					target="_blank">recommending this plugin</a> to other WordPress users.',
+				'review' => 'Help other WordPress users by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
+					target="_blank">recommending this plugin</a>.',
 			);
 
 			// load options first for use in __construct() methods

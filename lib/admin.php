@@ -130,15 +130,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 
-				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images in the Open Graph meta tags, 
-					is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
+				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images 
+					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
 
-			if ( $this->ngfb->is_avail['ngfbpro'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+			if ( $this->ngfb->is_avail['ngfbpro'] == false ) {
+				$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
+			} elseif ( empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$url = $this->ngfb->util->get_options_url( 'advanced' );
-				$this->ngfb->notices->inf( '<b>In order for the plugin to authenticate itself for future updates, 
-					please enter the transaction ID you received by email in the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
+				$this->ngfb->notices->inf( '<b>Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
+					please enter the transaction ID you received by email on the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
 			}
 		}
 
@@ -148,7 +150,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( $file == $this->plugin_name ) {
 				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
 				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
-				array_push( $links, '<a href="' . $this->ngfb->urls['contribute'] . '">' . __( 'Contribute' ) . '</a>' );
+				if ( $this->ngfb->is_avail['ngfbpro'] == false ) 
+					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
+				else
+					array_push( $links, 'Pro Installed' );
 			}
 			return $links;
 		}

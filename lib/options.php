@@ -297,10 +297,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			// make sure we have something to work with
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
-				$this->ngfb->notices->inf( 'Option settings from the database have been read and updated in memory. 
-					These updates have NOT been saved back to the database. 
-					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save these new settings</a>.' );
-	
 				// move old option values to new option names
 				foreach ( $this->renamed as $old => $new )
 					if ( empty( $opts[$new] ) && ! empty( $opts[$old] ) ) {
@@ -329,8 +325,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				if ( $this->ngfb->is_avail['ngfbpro'] == false )
-					$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
+				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated in memory (only). 
+					These updates have not been saved back to the database. 
+					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save these new settings</a> 
+					to make these updates permanent.' );
+	
 			}
 			return $opts;
 		}

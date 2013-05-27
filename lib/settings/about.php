@@ -39,11 +39,9 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_faq', 'FAQ', array( &$this, 'show_metabox_faq' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_support', 'Support Posts', array( &$this, 'show_metabox_support' ), $this->pagehook, 'normal' );
+			//add_meta_box( $this->pagehook . '_support', 'Support Posts', array( &$this, 'show_metabox_support' ), $this->pagehook, 'normal' );
 
-			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_faq' );
-			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_remaining' );
-			$this->ngfb->user->collapse_metabox( $this->pagehook, $this->pagehook . '_changelog' );
+			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array( '_faq', '_remaining', '_changelog' ) );
 		}
 
 		protected function show_save_button() {
