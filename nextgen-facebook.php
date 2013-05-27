@@ -6,7 +6,7 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0rc6
+Version: 5.0rc7
 
 Copyright 2012 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -28,13 +28,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0rc6';	// only for display purposes
+		public $version = '5.0rc7';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
-		public $plugin_url = 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/';
-		public $contribute_url = 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/';
-		public $support_url = 'http://wordpress.org/support/plugin/nextgen-facebook';
 		public $pro_msg = '<span class="pro_msg">Upgrade to the pro version to enable this feature.</span>';
 
 		public $debug;		// ngfbDebug
@@ -54,6 +51,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
+
+		public $urls = array(
+			'contribute' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/contribution-form/',
+			'news_feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+			'plugin' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook-open-graph/',
+			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
+			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
+		);
 
 		public $social_prefix = array(
 			'facebook' => 'fb', 
@@ -143,8 +149,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
-			define( 'NGFB_READMEURL', 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt' );
-			define( 'NGFB_FEEDURL', 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/' );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR . 'lib/ext/markdown.php' );
 

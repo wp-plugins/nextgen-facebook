@@ -273,7 +273,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $website_topics;
 		}
 
-		public function parse_readme( $url = NGFB_READMEURL ) {
+		public function parse_readme( $url ) {
 			$Automattic_Readme = new Automattic_Readme();
 			$this->ngfb->debug->log( 'fetching readme from ' . $url );
 			$readme = $this->ngfb->cache->get( $url, 'raw', 'file' );

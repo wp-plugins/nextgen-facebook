@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function set_readme() {
-			$this->readme = $this->ngfb->util->parse_readme();
+			$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'] );
 		}
 
 		public function check_wp_version() {
@@ -141,8 +141,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// only add links when filter is called for this plugin
 			if ( $file == $this->plugin_name ) {
 				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
-				array_push( $links, '<a href="' . $this->ngfb->support_url . '">' . __( 'Support' ) . '</a>' );
-				array_push( $links, '<a href="' . $this->ngfb->contribute_url . '">' . __( 'Contribute' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->urls['contribute'] . '">' . __( 'Contribute' ) . '</a>' );
 			}
 			return $links;
 		}
@@ -169,12 +169,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
 
-			add_meta_box( $this->pagehook . '_feed', 'News Feed', array( &$this, 'show_feed_side' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_version_side' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_consult', 'Consulting Services', array( &$this, 'show_consult_side' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_metabox_version' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_consult', 'Consulting Services', array( &$this, 'show_metabox_consult' ), $this->pagehook, 'side' );
 
 			if ( $this->ngfb->is_avail['ngfbpro'] == true )
-				add_meta_box( $this->pagehook . '_thankyou', 'Thank You', array( &$this, 'show_thankyou_side' ), $this->pagehook, 'side' );
+				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
@@ -184,8 +184,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			// add meta box here (after wp_enqueue_script()) to prevent removal
 			if ( $this->ngfb->is_avail['ngfbpro'] !== true ) {
-				add_meta_box( $this->pagehook . '_pro', 'Pro Version', array( &$this, 'show_pro_side' ), $this->pagehook, 'side' );
-				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_pro', array( &$this, 'add_class_postbox_pro_side' ) );
+				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
+				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_purchase_side' ) );
 			}
 
 			?>
@@ -218,8 +218,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		public function add_class_postbox_pro_side( $classes ) {
-			array_push( $classes, 'postbox_pro_side' );
+		public function add_class_postbox_purchase_side( $classes ) {
+			array_push( $classes, 'postbox_purchase_side' );
 			return $classes;
 		}
 
@@ -243,37 +243,36 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="Save All Changes" /></div>', "\n";
 		}
 
-		public function show_feed_side() {
+		public function show_metabox_news() {
+			$this->show_feed( $this->ngfb->urls['news_feed'], 3, 'news_feed' );
+		}
 
+		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
 			include_once( ABSPATH . WPINC . '/feed.php' );
-
-			$max_items = 3;
 			$have_items = 0;
 			$rss_items = array();
-			$rss = fetch_feed( NGFB_FEEDURL );
-
-			if ( ! is_wp_error( $rss ) ) {
-				$have_items = $rss->get_item_quantity( $max_items ); 
-				$rss_items = $rss->get_items( 0, $have_items );
+			$rss_feed = fetch_feed( $url );
+			if ( ! is_wp_error( $rss_feed ) ) {
+				$have_items = $rss_feed->get_item_quantity( $max_num ); 
+				$rss_items = $rss_feed->get_items( 0, $have_items );
 			}
-
-			echo '<ul>', "\n";
+			echo '<div class="', $class, '"><ul>', "\n";
 			if ( $have_items == 0 ) {
-				echo '<li>No items.</li>', "\n";
+				echo '<li>No items found.</li>', "\n";
 			} else {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
 					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );	// remove the inline styling
 					$desc = preg_replace( '/ cellspacing=["\'][^"\]*["\']/im', '', $desc );	// remove the inline styling
-					echo '<li><a href="', esc_url( $item->get_permalink() ), '" title="', 
+					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
-						esc_html( $item->get_title() ), '</a>', $desc, '</li>', "\n";
+						esc_html( $item->get_title() ), '</a></div><div class="description">', $desc, '</div></li>', "\n";
 				}
 			}
-			echo '</ul>', "\n";
+			echo '</ul></div>', "\n";
 		}
 
-		public function show_version_side() {
+		public function show_metabox_version() {
 			$latest_version = '';
 			$latest_notice = '';
 			if ( ! empty( $this->ngfb->admin->readme['stable_tag'] ) ) {
@@ -294,22 +293,22 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		public function show_pro_side() {
+		public function show_metabox_purchase() {
 			?>
-			<p>The NGFB Open Graph plugin has taken several months to develop and fine-tune. 
+			<p>The NGFB Open Graph plugin has taken several months to develop, test, and fine-tune. 
 			Please show your support and appreciation by purchasing the Pro version and 
 			<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">recommending this great plugin</a>.</p>
 			<p class="sig">Thank you.</p>
 			<?php
 		}
 
-		public function show_thankyou_side() {
+		public function show_metabox_thankyou() {
 			?>
 			<p>Thank you for your support and appreciation.</p>
 			<?php
 		}
 
-		public function show_consult_side() {
+		public function show_metabox_consult() {
 			?>
 			<p>Need some UNIX or WordPress related help? Have a look at my freelance consulting 
 			<a href="http://surniaulula.com/contact-me/services/" target="blank">services</a> 
@@ -360,7 +359,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:center;
 					margin:15px 0 0 0;
 				}
-				.postbox_pro_side {
+				.postbox_purchase_side {
 					color:#333;
 					background:#eeeeff;
 					background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -393,6 +392,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					border:1px solid #ddd;
 					background-color:#ffffff;
 					padding:4px;
+				}
+				.support_feed .description {
+					font-size:0.9em;
+				}
+				.support_feed .description p {
+					margin:5px 0 5px 20px;
 				}
 			</style>
 			<?php
