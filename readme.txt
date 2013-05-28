@@ -452,11 +452,11 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Screenshots ==
 
-1. Version 5.0 About Page
-2. Version 5.0 General Settings Page
-3. Version 5.0 Social Sharing Settings Page
-4. Version 5.0 Advanced Settings Page
-5. Version 5.0 Custom Page Settings (Pro Version)
+1. About Page
+2. General Settings Page
+3. Social Sharing Settings Page
+4. Advanced Settings Page
+5. Custom Page Settings (Pro Version)
 
 == Changelog ==
 
