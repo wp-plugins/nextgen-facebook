@@ -46,7 +46,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 = Install Methods =
 
-If you already have NextGEN Facebook Open Graph installed in WordPress and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves the existing option settings in the database.
+If you already have NextGEN Facebook Open Graph installed in WordPress and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves existing option settings in the database.
 
 **Automated Install**
 
