@@ -159,13 +159,17 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
-					$fh = fopen( $cache_file, 'wb' );
-					if ( ! empty( $fh ) ) {
-						if ( fwrite( $fh, $cache_data ) ) {
-							$this->ngfb->debug->log( $cache_type . ': cache_data saved to "' . $cache_file . '"' );
-							$ret_status = true;	// success
+					if ( ! is_writable( $this->base_dir ) )
+						$this->ngfb->notices->err( $this->base_dir . ' is not writable' );
+					else {
+						$fh = fopen( $cache_file, 'wb' );
+						if ( ! empty( $fh ) ) {
+							if ( fwrite( $fh, $cache_data ) ) {
+								$this->ngfb->debug->log( $cache_type . ': cache_data saved to "' . $cache_file . '"' );
+								$ret_status = true;	// success
+							}
+							fclose( $fh );
 						}
-						fclose( $fh );
 					}
 					break;
 				default :

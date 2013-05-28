@@ -460,6 +460,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 == Changelog ==
 
+= Version 5.0.1 =
+
+* Added a check to verify that cache directory is writable, preempting a possible PHP write error.
+
 = Version 5.0 =
 
 Complete code review with an improved object-oriented design and several new classes.
