@@ -44,7 +44,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Installation ==
 
-If you [download and install the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/), follow the *Manual Removal* method (to remove the old plugin while keeping its settings), and the *Semi-Automated Install* method to upload and activate the new plugin. If you get a PCLZIP_ERR_BAD_FORMAT error, [see the FAQ for possible solutions](http://wordpress.org/plugins/nextgen-facebook/faq/).
+If you download [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) (or [another free version](http://wordpress.org/plugins/nextgen-facebook/developers/), follow the *Manual Removal* method (to remove the old plugin while keeping its settings), and the *Semi-Automated Install* method to upload and activate the new plugin. If you get a PCLZIP_ERR_BAD_FORMAT error, [see the FAQ for possible solutions](http://wordpress.org/plugins/nextgen-facebook/faq/).
 
 **Automated Install**
 
@@ -459,6 +459,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 5. Version 5.0 Custom Page Settings (Pro Version)
 
 == Changelog ==
+
+= Version 5.0.1 =
+
+* Added a check to verify that the cache directory/files is writable/readable, preempting a possible PHP write/read error.
 
 = Version 5.0 =
 

@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		private $ngfb;		// ngfbPlugin
 		private $msgs = array();
 
-		public function __construct( $ngfb_plugin ) {
+		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->lognew();
 		}
