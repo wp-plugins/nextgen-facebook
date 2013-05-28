@@ -119,10 +119,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
-					if ( ! is_readable( $cache_file ) )
-						$this->ngfb->notices->err( $cache_file . ' is not readable.' );
-					else {
-						if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
+					if ( file_exists( $cache_file ) ) {
+						if ( ! is_readable( $cache_file ) )
+							$this->ngfb->notices->err( $cache_file . ' is not readable.' );
+						elseif ( filemtime( $cache_file ) > time() - $file_expire ) {
 							if ( ! $fh = @fopen( $cache_file, 'rb' ) )
 								$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for reading.' );
 							else {
