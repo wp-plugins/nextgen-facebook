@@ -173,7 +173,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					unset ( $opts['is_checkbox_'.$key] );
 				}
 				$opts = array_merge( $this->ngfb->options, $opts );
-				$opts = $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
+				$opts = $this->ngfb->opt->sanitize( $opts, $this->ngfb->opt->get_defaults() );
 			}
 			return $opts;
 		}
