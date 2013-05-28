@@ -162,7 +162,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			register_setting( $this->ngfb->acronym . '_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		} 
 
-		// this method receives only a partial options array
+		// this method receives only a partial options array, so re-create a full one
 		public function sanitize_options( $opts ) {
 			if ( is_array( $opts ) ) {
 				// un-checked checkboxes are not given, so re-create them here based on hidden values
