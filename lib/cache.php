@@ -119,12 +119,18 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
-					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
-						$fh = fopen( $cache_file, 'rb' );
-						$cache_data = fread( $fh, filesize( $cache_file ) );
-						fclose( $fh );
-						if ( ! empty( $cache_data ) ) {
-							$this->ngfb->debug->log( $cache_type . ': cache_data retrieved from "' . $cache_file . '"' );
+					if ( ! is_readable( $cache_file ) )
+						$this->ngfb->notices->err( $cache_file . ' is not readable.' );
+					else {
+						if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
+							if ( ! $fh = @fopen( $cache_file, 'rb' ) )
+								$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for reading.' );
+							else {
+								$cache_data = fread( $fh, filesize( $cache_file ) );
+								fclose( $fh );
+								if ( ! empty( $cache_data ) )
+									$this->ngfb->debug->log( $cache_type . ': cache_data retrieved from "' . $cache_file . '"' );
+							}
 						}
 					}
 					break;
@@ -160,10 +166,11 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
 					if ( ! is_writable( $this->base_dir ) )
-						$this->ngfb->notices->err( $this->base_dir . ' is not writable' );
+						$this->ngfb->notices->err( $this->base_dir . ' is not writable.' );
 					else {
-						$fh = fopen( $cache_file, 'wb' );
-						if ( ! empty( $fh ) ) {
+						if ( ! $fh = @fopen( $cache_file, 'wb' ) )
+							$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for writing.' );
+						else {
 							if ( fwrite( $fh, $cache_data ) ) {
 								$this->ngfb->debug->log( $cache_type . ': cache_data saved to "' . $cache_file . '"' );
 								$ret_status = true;	// success
