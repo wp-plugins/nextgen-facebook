@@ -44,7 +44,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 == Installation ==
 
-If you download the NGFB plugin as an archive file (either [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) or [one from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/)), follow the *Manual Removal* method (to remove the old plugin while keeping its settings), and the *Semi-Automated Install* method to upload and activate the new plugin. If you get a PCLZIP_ERR_BAD_FORMAT error, [see the FAQ for possible solutions](http://wordpress.org/plugins/nextgen-facebook/faq/).
+If you download the NGFB plugin as an archive file (either [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/)), follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin (the *Manual Removal* method does not remove plugin settings). 
+
+= Install Methods =
 
 **Automated Install**
 
@@ -77,6 +79,8 @@ Once activated, you don't have to configure any settings for NGFB to start addin
 
 The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much more.
 
+= Uninstall Methods =
+
 **Automated Removal**
 
 1. Login to your website
@@ -85,15 +89,15 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Click the Deactivate link under *NGFB Open Graph*
 1. Click the Delete link under *NGFB Open Graph*
 
-Note that deleting the plugin in this way will also remove all its configuration settings from the database.
+Note that deleting the plugin this way will also remove all of its option settings from the database.
 
 **Manual Removal**
 
 1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder
 
-Note that removing the plugin folder manually will NOT remove its configuration settings from the database.
+Note that removing the plugin folder manually will not remove its option settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
 
-If you need to roll-back and re-install an older version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) tab.
+If you need to roll-back and re-install an older version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
 == Frequently Asked Questions ==
 
