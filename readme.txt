@@ -462,7 +462,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 5.0.1 =
 
-* Added a check to verify that cache directory is writable, preempting a possible PHP write error.
+* Added a check to verify that the cache directory/files is writable/readable, preempting a possible PHP write/read error.
 
 = Version 5.0 =
 
