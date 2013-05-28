@@ -63,7 +63,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		private function do_extend() {
 			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
-				$this->settings[$id] = new $classname( &$this->ngfb, $id, $name );
+				$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
 		}
