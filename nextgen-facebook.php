@@ -295,30 +295,30 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
-			$this->debug = new ngfbDebug( &$this );
+			$this->debug = new ngfbDebug( $this );
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
 				$this->debug->on = true;
 
-			$this->util = new ngfbUtil( &$this );
-			$this->notices = new ngfbNotices( &$this );
-			$this->opt = new ngfbOptions( &$this );
-			$this->head = new ngfbHead( &$this );
-			$this->social = new ngfbSocial( &$this );
-			$this->user = new ngfbUser( &$this );
-			$this->tags = new ngfbTags( &$this );
-			$this->media = new ngfbMedia( &$this );
-			$this->webpage = new ngfbWebPage( &$this );
-			$this->meta = new ngfbPostMeta( &$this );
-			$this->cache = new ngfbCache( &$this );
+			$this->util = new ngfbUtil( $this );
+			$this->notices = new ngfbNotices( $this );
+			$this->opt = new ngfbOptions( $this );
+			$this->head = new ngfbHead( $this );
+			$this->social = new ngfbSocial( $this );
+			$this->user = new ngfbUser( $this );
+			$this->tags = new ngfbTags( $this );
+			$this->media = new ngfbMedia( $this );
+			$this->webpage = new ngfbWebPage( $this );
+			$this->meta = new ngfbPostMeta( $this );
+			$this->cache = new ngfbCache( $this );
 
 			if ( is_admin() ) {
-				$this->admin = new ngfbAdmin( &$this );
+				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
 			}
 
 			// create this object last since it may modify others
 			if ( $this->is_avail['ngfbpro'] == true )
-				$this->pro = new ngfbPro( &$this );
+				$this->pro = new ngfbPro( $this );
 
 			if ( $this->is_avail['mbdecnum'] != true )
 				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
