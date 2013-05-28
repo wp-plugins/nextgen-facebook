@@ -463,6 +463,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 = Version 5.0.1 =
 
 * Added a check to verify that the cache directory/files is writable/readable, preempting a possible PHP write/read error.
+* Improved the option sanitation method to re-create missing checkbox options (checkboxes are not submitted by HTML forms when un-checked). This should fix the problem where checked options could not be unchecked.
 
 = Version 5.0 =
 
@@ -833,6 +834,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 5.0.1 =
+
+Fixed problem where checked options could not be unchecked. Added verification for directory/file permissions when caching content.
 
 = 5.0 =
 

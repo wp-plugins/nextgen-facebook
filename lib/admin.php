@@ -440,7 +440,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					margin-left:20px;
 					list-style-type:circle;
 				}
-				table.ngfb-settings tr { vertical-align:top; }
+				table.ngfb-settings tr { 
+					vertical-align:top;
+				}
 				table.ngfb-settings th { 
 					text-align:right;
 					white-space:nowrap; 
@@ -454,7 +456,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:left; 
 					padding:2px 10px 2px 10px; 
 					background-color:#eee; 
-					border:1px solid #ccc;
+					border:1px solid #ddd;
 					width:50%;
 				}
 				table.ngfb-settings td { 
