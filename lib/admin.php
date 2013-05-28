@@ -165,7 +165,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// this method receives only a partial options array
 		public function sanitize_options( $opts ) {
 			if ( is_array( $opts ) ) {
-				// if the input arrays have the same string keys, then the later value for that key will overwrite the previous one
+				// un-checked checkboxes are not given, so re-create them here based on hidden values
+				$checkbox = $this->ngfb->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
+				foreach ( $checkbox as $key => $val ) {
+					if ( ! array_key_exists( $key, $opts ) )
+						$opts[$key] = 0;	// add missing checkbox as empty
+					unset ( $opts['is_checkbox_'.$key] );
+				}
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( &$opts, $this->ngfb->opt->get_defaults() );
 			}
@@ -439,7 +445,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					text-align:right;
 					white-space:nowrap; 
 					padding:0 10px 0 4px; 
-					width:220px;
+					width:200px;
 				}
 				table.ngfb-settings th.short { width:120px; }
 				table.ngfb-settings th.side { width:50px; }

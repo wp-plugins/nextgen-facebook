@@ -51,7 +51,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
 			if ( empty( $name ) ) return;	// just in case
-			return '<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
+			return $this->get_hidden( 'is_checkbox_' . $name, 1 ) .
+				'<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="Default is ' .
 				( $this->in_options( $name ) && $this->defaults[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />';

@@ -35,6 +35,20 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
+		public function preg_grep_keys( $pattern, $source, $invert = false, $trunc = false, $rep = '' ) {
+			if ( ! is_array( $source ) ) return false;
+			$invert = $invert == false ? null : PREG_GREP_INVERT;
+			$match = preg_grep( $pattern, array_keys( $source ), $invert );
+			$found = array();
+			foreach ( $match as $key ) {
+				if ( $trunc == true ) {
+					$fixed = preg_replace( $pattern, $rep, $key );
+					$found[$fixed] = $source[$key]; 
+				} else $found[$key] = $source[$key]; 
+			}
+			return $found;
+		}
+
 		public function get_urls_found() {
 			return $this->urls_found;
 		}

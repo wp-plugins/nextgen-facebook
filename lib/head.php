@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			if ( $this->ngfb->debug->on ) {
 				$defined_constants = get_defined_constants( true );
 				//$this->ngfb->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ), 'NGFB and WP Constants' );
-				$this->ngfb->debug->show( $this->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				$this->ngfb->debug->show( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 				$this->ngfb->debug->show( $this->ngfb->options, 'NGFB Settings' );
 				$this->ngfb->debug->show( $this->ngfb->is_avail, 'Available Features' );
 
@@ -126,13 +126,6 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 			}
 			return $meta_html;
-		}
-
-		private function preg_grep_keys( $pattern, $input, $flags = 0 ) {
-			$keys = preg_grep( $pattern, array_keys( $input ), $flags );
-			$vals = array();
-			foreach ( $keys as $key ) $vals[$key] = $input[$key]; 
-			return $vals;
 		}
 
 	}
