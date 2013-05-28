@@ -133,7 +133,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );
 				$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_html()' );
-				if ( method_exists( &$this->website[$id], 'get_html' ) )
+				if ( method_exists( $this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
 			if ( $html ) $html = "<div class=\"" . $this->ngfb->acronym . "-buttons\">$html</div>\n";
@@ -180,7 +180,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
 					$opt_name = $this->ngfb->social_prefix[$id] . '_js_loc';
 					$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_js()' );
-					if ( method_exists( &$this->website[$id], 'get_js' ) && 
+					if ( method_exists( $this->website[$id], 'get_js' ) && 
 						! empty( $this->ngfb->options[ $opt_name ] ) && 
 						$this->ngfb->options[ $opt_name ] == $pos_section )
 							$js .= $this->website[$id]->get_js( $pos );
