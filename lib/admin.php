@@ -473,6 +473,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					background-color:#eee; 
 					border:1px dashed #ccc;
 				}
+				table.ngfb-settings td.textarea { 
+					height:42px;
+				}
 				table.ngfb-settings td p { 
 					margin:0 0 10px 0;
 				}
