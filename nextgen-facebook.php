@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.0.1
+Version: 5.1
 
 Copyright 2012 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.0.1';	// only for display purposes
+		public $version = '5.1';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
@@ -45,6 +45,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $webpage;	// ngfbWebPage
 		public $meta;		// ngfbPostMeta
 		public $admin;		// ngfbAdmin
+		public $style;		// ngfbStyle
 		public $cache;		// ngfbCache
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
@@ -223,6 +224,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/googl.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
@@ -309,6 +311,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->media = new ngfbMedia( $this );
 			$this->webpage = new ngfbWebPage( $this );
 			$this->meta = new ngfbPostMeta( $this );
+			$this->style = new ngfbStyle( $this );
 			$this->cache = new ngfbCache( $this );
 
 			if ( is_admin() ) {

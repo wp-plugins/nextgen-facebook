@@ -291,6 +291,10 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 **A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
 
+== Plugin News ==
+
+You can follow [this RSS feed from my weblog for news about the NGFB Open Graph plugin](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/).
+
 == Shortcodes ==
 
 You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. For example:
