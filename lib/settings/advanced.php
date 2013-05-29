@@ -105,9 +105,10 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_rows() {
 			return array(
-				'<th>File Cache Expiry</th><td></td><td>' . $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . $this->ngfb->msgs['pro_feature'] . '</td>',
-				'<th>Verify SSL Certificates</th><td></td><td>' . $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . $this->ngfb->msgs['pro_feature'] . '</td>',
-				'<th>Purchase Transaction ID</th><td></td><td>' . $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>',
+				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>',
+				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '</td>',
 			);
 		}
 	}
