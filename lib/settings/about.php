@@ -40,7 +40,11 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
 
-			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array( '_faq', '_remaining', '_changelog' ) );
+			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array( 'faq', 'remaining', 'changelog' ) );
+		}
+
+		protected function show_form() {
+			do_meta_boxes( $this->pagehook, 'normal', null ); 
 		}
 
 		public function show_metabox_description() {

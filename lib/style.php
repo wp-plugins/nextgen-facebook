@@ -46,10 +46,6 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					line-height:1.2em; 
 					margin:10px 0 10px 0;
 				}
-				.wrap p.inline { 
-					display:inline-block;
-					margin:0 0 10px 10px;
-				}
 				.btn_wizard_column { 
 					white-space:nowrap;
 				}
@@ -83,6 +79,13 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				#toplevel_page_ngfb-about table {
 					table-layout:fixed;
 				}
+				.postbox_website {
+					height:440px;
+					overflow-y:auto;
+				}
+				.closed {
+					height:auto;
+				}
 				.rss-manager table {
 				}
 				.rss-manager p {
@@ -109,6 +112,14 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				}
 				.support_feed .description p {
 					margin:5px 0 5px 20px;
+				}
+				.website-col-1 {
+					float:left;
+					width:50%;
+				}
+				.website-col-2 {
+					float:right;
+					width:50%;
 				}
 			</style>
 			<?php

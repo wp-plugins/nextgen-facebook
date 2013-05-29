@@ -69,9 +69,6 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 			}
 
 			return array(
-				'<th colspan="2" class="social">StumbleUpon</th>',
-				'<td colspan="2" style="height:5px;"></td>',
-				'<td colspan="2"></td>',
 				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_on_the_content' ) . '</td>',
 				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . '</td>',
 				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',

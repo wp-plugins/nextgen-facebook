@@ -29,8 +29,6 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th colspan="2" class="social">LinkedIn</th>',
-				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . '</td>',
 				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . '</td>',
 				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
@@ -43,11 +41,6 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 					)
 				) . '</td>',
 				'<th>Show Zero in Counter</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
 			);
 		}
 

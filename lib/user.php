@@ -59,7 +59,6 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function collapse_metaboxes( $page, $ids = array(), $force = false ) {
-
 			$user_id = get_current_user_id();
 			$option_name = 'closedpostboxes_' . $page;
 			$option_arr = get_user_option( $option_name, $user_id );
@@ -68,7 +67,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 				$option_arr = array();
 
 			if ( empty( $option_arr ) || $force == true )
-				foreach ( $ids as $id ) $option_arr[] = $page . $id;
+				foreach ( $ids as $id ) $option_arr[] = $page . '_' . $id;
 
 			update_user_option( $user_id, $option_name, array_unique( $option_arr ), true );
 		}

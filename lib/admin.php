@@ -102,10 +102,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->ngfb->menuname, 
 				'manage_options', 
 				$this->ngfb->acronym . '-' . $parent_id, 
-				array( &$this, 'show_page' ),
-				null,
-				NGFB_MENU_PRIORITY
-			);
+				array( &$this, 'show_page' ), null, NGFB_MENU_PRIORITY);
 			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
 		}
 
@@ -215,7 +212,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					</div><!-- .inner-sidebar -->
 					<div id="post-body" class="has-sidebar">
 						<div id="post-body-content" class="has-sidebar-content">
-							<?php $this->show_form( 'normal' ); ?>
+							<?php $this->show_form(); ?>
 						</div><!-- .has-sidebar-content -->
 					</div><!-- .has-sidebar -->
 				</div><!-- .metabox-holder -->
@@ -240,7 +237,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return $classes;
 		}
 
-		protected function show_form( $context = 'normal' ) {
+		protected function show_form() {
 			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
 			settings_fields( $this->ngfb->acronym . '_settings' ); 
 			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
@@ -250,17 +247,26 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// always include the version number of the options
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
 
-			do_meta_boxes( $this->pagehook, $context, null ); 
+			do_meta_boxes( $this->pagehook, 'normal', null ); 
 
-			$this->show_submit_button( $context );
+			foreach ( range( 1, ceil( count( $this->ngfb->website_libs ) / 2 ) ) as $row ) {
+				echo '<div class="website-row">', "\n";
+				foreach ( range( 1, 2 ) as $col ) {
+					$pos_id = 'website-row-' . $row . '-col-' . $col;
+					echo '<div class="website-col-', $col, '" id="', $pos_id, '" >';
+					do_meta_boxes( $this->pagehook, $pos_id, null ); 
+					echo '</div>', "\n";
+				}
+				echo '</div>';
+			}
+			echo '<div style="clear:both;"></div>';
+
+			$this->show_submit_button();
+
 			echo '</form>', "\n";
 		}
 
-		protected function show_submit_button( $context, $text = 'Save All Changes' ) {
-
-			if ( $this->pagehook == 'toplevel_page_ngfb-about' && $context == 'normal' )
-				return;
-
+		protected function show_submit_button( $text = 'Save All Changes' ) {
 			echo '<div class="save_button"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
 		}
 
@@ -319,7 +325,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
 			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
 			echo '<p class="sig">Thank you.</p>', "\n";
-			echo '<p>'; $this->show_submit_button( 'side', 'Download the Pro Version' ); echo '</p>';
+			echo '<p>'; $this->show_submit_button( 'Download the Pro Version' ); echo '</p>';
 			echo '</form>', "\n";
 		}
 

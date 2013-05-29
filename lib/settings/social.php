@@ -45,6 +45,29 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook, 'Social Sharing Settings', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
+
+			$col = 0;
+			$row = 0;
+			foreach ( $this->ngfb->website_libs as $id => $name ) {
+				$col = $col == 1 ? 2 : 1;
+				$row = $col == 1 ? $row + 1 : $row;
+				$pos_id = 'website-row-' . $row . '-col-' . $col;
+				$name = $name == 'GooglePlus' ? 'Google+' : $name;
+				add_meta_box( $this->pagehook . '_' . $id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
+				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
+			}
+			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array_keys( $this->ngfb->website_libs ) );
+		}
+
+		public function add_class_postbox_website( $classes ) {
+			array_push( $classes, 'postbox_website' );
+			return $classes;
+		}
+
+		public function show_metabox_website() {
+			echo '<table class="ngfb-settings">', "\n";
+			foreach ( $this->get_rows() as $row ) echo '<tr>', $row, '</tr>';
+			echo '</table>', "\n";
 		}
 
 		public function show_metabox_social() {
@@ -65,7 +88,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			<tr>
 				<th>Include on Index Webpages</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td><p>Add the social sharing buttons (that are enabled) to each entry on index webpages (index, archives, author, etc.).</p></td>
+				<td><p>Include social sharing buttons (that are enabled) on each entry of index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<tr>
 				<th>Location in Excerpt Text</th>
@@ -77,30 +100,6 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				<td><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 				<td><p>The social sharing button(s) must also be enabled below.</p></td>
 			</tr>
-			</table>
-			<table class="ngfb-settings">
-			<?php
-				$col = 0;
-				$box = -1;	// a "box" is a collection of rows from one website class
-				$section = -1;	// a "section" is a row of several boxes
-				$max_col = 2;
-				$rows = array();
-				foreach ( $this->ngfb->website_libs as $id => $name ) {
-					$box++;				// increment the website box number (first box is 0)
-					$col = $box % $max_col;		// determine column number based on the box number
-					if ( $col == 0 ) $section++;	// increment section if we're on column 0
-					foreach ( $this->website[$id]->get_rows() as $num => $row ) {
-						// avoids undefined offset error
-						if ( empty( $rows[$section][$num] ) )
-							$rows[$section][$num] = '';
-						$rows[$section][$num] .= $row;
-					}
-				}
-				unset ( $id, $name );
-				foreach ( $rows as $section )
-					foreach ( $section as $row )
-						echo "<tr>", $row, "</tr>\n";
-			?>
 			</table>
 			<?php
 		}

@@ -93,8 +93,6 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 
 		public function get_rows() {
 			return array(
-				'<th colspan="2" class="social">Google+</th>',
-				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'gp_on_the_content' ) . '</td>',
 				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . '</td>',
 				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
@@ -122,11 +120,6 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 						'vertical-bubble' => 'Vertical Bubble',
 					)
 				) . '</td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
-				'<td colspan="2"></td>',
 			);
 		}
 

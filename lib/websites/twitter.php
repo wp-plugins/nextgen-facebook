@@ -39,8 +39,6 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 
 		public function get_rows() {
 			return array(
-				'<th colspan="2" class="social">Twitter</th>',
-				'<td colspan="2" style="height:5px;"></td>',
 				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . '</td>',
 				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . '</td>',
 				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
@@ -62,7 +60,9 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 				'<th>Tweet Text</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>',
 				'<th>Text Length</th><td>' . $this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>',
 				'<th>Do Not Track</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
-				'<th>Shorten URLs</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '<p class="inline">See the <em>Goo.gl Simple API Access Key</em> setting bellow.</p></td>',
+				'<th>Shorten URLs</th><td><div style="float:left;margin-right:10px;">' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . 
+					'</div><div><p>Review the <em>Goo.gl Simple API Access Key</em> option on the <a href="' . 
+						$this->ngfb->util->get_options_url( 'advanced' ) . '">Advanced settings</a> page.</p></div></td>',
 			);
 		}
 
