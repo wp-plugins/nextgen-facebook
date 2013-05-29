@@ -1,6 +1,6 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Donate link: http://surniaulula.com/wordpress-plugins/nextgen-facebook/
+Donate link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
 License: GPLv3 or later
 Requires at least: 3.0
@@ -42,11 +42,19 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 **NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
+**[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos used, and enable/disable social buttons for each Page and Post. You can also enable a local file cache to save social sharing images and JavaScript, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
+
+**The *Free* version of NextGEN Facebook Open Graph (NGFB) has taken months of long days to code, test, and fine-tune**. You'll find that it's a complete, stable, and feature rich plugin. If you appreciate the time and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/).
+
+Thank you,
+
+js.
+
 == Installation ==
 
 = Install Methods =
 
-If you already have NextGEN Facebook Open Graph installed in WordPress and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/wordpress-plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves existing option settings in the database.
+If you already have NextGEN Facebook Open Graph installed, and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves existing option settings in the database.
 
 **Automated Install**
 
@@ -272,10 +280,6 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 = Q. How can I exclude certain parts of the content text? =
 
 **A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
-
-= Q. PCLZIP_ERR_BAD_FORMAT error when uploading the zip file? =
-
-**A.** This is a known error condition when WordPress runs out of disk space. Make sure your web server has enough available disk space, and you have not exceeded a disk space quota, to upload and install the plugin. This error may also be related to a WordPress bug in certain versions. Instead of uploading the zip file using the WordPress admin interface, you may have to use the *Manual Install* method documented in the [Installation instructions](http://wordpress.org/plugins/nextgen-facebook/installation/).
 
 == Shortcodes ==
 
