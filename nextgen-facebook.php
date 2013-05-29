@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: NGFB Open Graph
-Plugin URI: http://surniaulula.com/wordpress-plugins/nextgen-facebook/
+Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
@@ -54,7 +54,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $urls = array(
 			'news_feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-			'plugin' => 'http://surniaulula.com/wordpress-plugins/nextgen-facebook/',
+			'plugin' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
@@ -277,8 +277,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function setup_vars() {
 
 			$this->msgs = array(
-				'pro_feature' => '<span class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
-					target="_blank">Upgrade to the Pro version to enable this feature</a>.</span>',
+				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
+					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
 				'purchase' => 'The ' . $this->fullname . ' plugin has taken many months to develop and fine-tune. 
 					Please show your support and appreciation by <a href="' . $this->urls['plugin'] . '" 
 					target="_blank">purchasing the Pro version for just a few dollars</a>.',

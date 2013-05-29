@@ -422,7 +422,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<style type="text/css">
 				table.ngfb-settings .pro_feature {
-					font-style:italic;
+					font-style:normal;
+					margin:6px;
 				}
 				table.ngfb-settings { 
 					width:100%;
@@ -466,6 +467,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				table.ngfb-settings td { 
 					padding:0 4px 0 4px;
+				}
+				table.ngfb-settings td.blank { 
+					height:18px;
+					background-color:#eee; 
+					border:1px dashed #ccc;
 				}
 				table.ngfb-settings td p { 
 					margin:0 0 10px 0;
