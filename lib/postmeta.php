@@ -56,7 +56,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 				'<th>Topic</th><td class="blank" width="100%"></td>',
 				'<th>Title</th><td class="blank"></td>',
-				'<th>Description</th><td class="blank"></td>',
+				'<th>Description</th><td class="blank textarea"></td>',
 				'<th>Image ID</th><td class="blank"></td>',
 				'<th>Image URL</th><td class="blank"></td>',
 				'<th>Maximum Images</th><td class="blank"></td>',
