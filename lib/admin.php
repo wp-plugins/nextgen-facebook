@@ -382,7 +382,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
 					background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
-					border:1px solid #b4b4b4;
+					border:1px dashed #ccc;
 				}
 				#toplevel_page_ngfb-about table {
 					table-layout:fixed;
