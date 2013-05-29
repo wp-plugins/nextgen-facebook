@@ -131,7 +131,7 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 					) 
 				) . '</td>',
 				'<th>Default Width</th><td>' . $this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
-				'<th>Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . '</td>',
+				'<th>Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . ' (standard layout only)</td>',
 				'<th>Font</th><td>' . $this->ngfb->admin->form->get_select( 'fb_font', 
 					array( 
 						'arial' => 'Arial',
