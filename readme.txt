@@ -42,7 +42,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 **NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them on the NGFB [Support Page](http://wordpress.org/support/plugin/nextgen-facebook).
 
-**[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each Page and Post. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
+**[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
 
 **The *Free* version of NextGEN Facebook Open Graph (NGFB) has taken months of long days and weeks to code, test, and fine-tune**. It's a complete, stable, well supported, and feature rich plugin. If you appreciate the time and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/).
 
@@ -109,9 +109,15 @@ If you need to roll-back and re-install an older version, you can find them all 
 
 == Frequently Asked Questions ==
 
+= Q. What is the difference between the Pro and *Free* versions? =
+
+**A.** [The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
+
+The *Free* version of NextGEN Facebook Open Graph (NGFB) has taken months of long days and weeks to code, test, and fine-tune. It's a complete, stable, well supported, and feature rich plugin. If you appreciate the time and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/).
+
 = Q. What do the Open Graph property tags look like? =
 
-[Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+**A.** [Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NextGEN Facebook Open Graph meta tags BEGIN -->
@@ -379,6 +385,8 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
+[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) also allows you to enable/disable social buttons for each individual Post and Page.
+
 == Other Plugins ==
 
 NextGEN Facebook Open Graph (NGFB) can detect and use the following plugins:
@@ -483,7 +491,7 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 `
 
 * Added the ability to include social sharing buttons in the excerpt as well.
-* Added a new "Custom Post/Page Settings" metabox for each Post and Page (enabled by purchasing the Pro version).
+* Added a new "Custom Post/Page Settings" metabox for each individual Post and Page (enabled by purchasing the Pro version).
 * Added transient caching to the url shortening method (reducing the number of requests to goo.gl).
 * Streamlined the image discovery methods to improve performance (methods check the Maximum Images limit more often).
 * Removed support for the "Exclude Pages" plugin (in the past, social sharing buttons were not added to excluded pages) -- social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
