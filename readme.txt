@@ -293,7 +293,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Plugin News ==
 
-You can follow [this RSS feed from Surnia Ulula for news about the NGFB Open Graph plugin](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/).
+You can [follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
 
 == Shortcodes ==
 
