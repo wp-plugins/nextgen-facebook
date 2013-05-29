@@ -109,11 +109,15 @@ If you need to roll-back and re-install an older version, you can find them all 
 
 == Frequently Asked Questions ==
 
-= Q. What is the difference between the Pro and *Free* versions? =
+= Q. What is the difference between the Pro and <i>Free</i> versions? =
 
 **A.** [The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
 
 The *Free* version of NextGEN Facebook Open Graph (NGFB) has taken months of long days and weeks to code, test, and fine-tune. It's a complete, stable, well supported, and feature rich plugin. If you appreciate the time and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/).
+
+Thank you,
+
+js.
 
 = Q. What do the Open Graph property tags look like? =
 
