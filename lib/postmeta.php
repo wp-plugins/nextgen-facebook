@@ -44,7 +44,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		public function show_metabox( $post ) {
-			$this->ngfb->admin->settings_style();
+			$this->ngfb->style->settings();
 			echo '<table class="ngfb-settings">';
 			foreach ( $this->get_rows() as $row )
 				echo '<tr>' . $row . '</tr>';

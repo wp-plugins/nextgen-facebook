@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 Version: 5.1
 
-Copyright 2012 - Jean-Sebastien Morisset - http://surniaulula.com/
+Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
 This script is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -119,6 +119,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
 				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
 			}
+
+			if ( $this->is_avail['ngfbpro'] == false )
+				$this->notices->inf( $this->msgs['purchase'] );
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
@@ -226,8 +229,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/googl.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
+
+			require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
@@ -281,17 +285,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-				'purchase' => 'The ' . $this->fullname . ' plugin has taken many months to develop and fine-tune. 
-					Please show your support and appreciation by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version for just a few dollars</a>.',
-				'review' => 'Help other WordPress users by <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
-					target="_blank">recommending this plugin</a>.',
-				'promo' => 'Need some UNIX or WordPress related help?  Have a look at my freelance consulting 
-					<a href="http://surniaulula.com/contact-me/services/" target="blank">services</a> and 
-					<a href="http://surniaulula.com/contact-me/rates/">rates</a>.',
+				'purchase' => 'This plugin has taken many months of long work days to develop, test, fine-tune, and support. 
+					If you appreciate the work and effort I\'ve put into this plugin, please help continue that work by 
+					<a href="' . $this->urls['plugin'] . '" target="_blank">purchasing the Pro version</a>.',
+				'review' => 'You can also help other WordPress users by 
+					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
+					target="_blank">recommending this plugin on WordPress.org</a>.',
+				'promo' => 'Do you need help with Linux / UNIX or WordPress related issues? 
+					I have 20+ years experience in UNIX SysAdmin, scripting (Bash, Perl, PHP) and integration work. 
+					Have a look at my freelance <a href="http://surniaulula.com/contact-me/rates/">consulting rates</a> 
+					and <a href="http://surniaulula.com/contact-me/services/" target="blank">services</a>.',
 			);
 
-			// load options first for use in __construct() methods
+			// load option values first for use in __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
@@ -330,9 +336,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// make sure we have something to work with
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
-				if ( empty( $this->options['ngfb_version'] ) 
-					|| $this->options['ngfb_version'] !== $this->opt->version )
-						$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
+				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opt->version )
+					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
 			} else {
 				$this->notices->err( 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database). 
@@ -360,6 +365,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->notices->inf( 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
 					WP object cache expiration time has been temporarily set to ' . $this->cache->object_expire . ' second 
 					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).' );
+				if ( $this->is_avail['ngfbpro'] == false )
+					$this->notices->inf( $this->msgs['purchase'] );
 
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}

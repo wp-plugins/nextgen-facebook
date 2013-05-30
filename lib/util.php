@@ -143,7 +143,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = $short_url;
 				} else {
 					$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
-					$goo = new ngfbGoogl( $api_key );
+					$goo = new sebiGoogl( $api_key );
 					$short_url = $goo->shorten( $url );
 					if ( ! empty( $short_url ) ) {
 						$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );

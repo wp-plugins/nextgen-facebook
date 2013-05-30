@@ -21,7 +21,10 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 	class ngfbNotices {
 
 		private $ngfb;		// ngfbPlugin
-		private $msgs = array();
+		private $msgs = array(
+			'err' => array(),
+			'inf' => array(),
+		);
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
@@ -39,7 +42,8 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		}
 
 		public function log( $type, $msg = '' ) {
-			if ( ! empty( $msg ) ) $this->msgs[$type][] = $msg;
+			if ( ! empty( $msg ) && ! in_array( $msg, $this->msgs[$type] ) ) 
+				$this->msgs[$type][] = $msg;
 		}
 
 		public function admin_notices() {

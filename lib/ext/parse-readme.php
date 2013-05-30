@@ -254,7 +254,7 @@ Class Automattic_Readme {
 
 		if ( $markdown ) { // Parse markdown.
 			if ( !function_exists('Markdown') )
-				require( AUTOMATTIC_README_MARKDOWN );
+				require_once( AUTOMATTIC_README_MARKDOWN );
 			$text = Markdown($text);
 		}
 
@@ -262,7 +262,8 @@ Class Automattic_Readme {
 			'a' => array(
 				'href' => array(),
 				'title' => array(),
-				'rel' => array()),
+				'rel' => array()
+			),
 			'blockquote' => array('cite' => array()),
 			'br' => array(),
 			'p' => array(),

@@ -333,7 +333,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					to make these updates permanent.' );
 	
 				if ( $this->ngfb->is_avail['ngfbpro'] == false )
-					$this->ngfb->notices->inf( '<b>' . $this->ngfb->msgs['purchase'] . '</b>' );
+					$this->ngfb->notices->inf( $this->ngfb->msgs['purchase'] );
 
 			}
 			return $opts;

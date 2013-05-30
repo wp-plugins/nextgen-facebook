@@ -1,5 +1,4 @@
 <?php
-
 /**
 * This file is part of googl-php
 *
@@ -16,15 +15,15 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'sebiGoogl' ) ) {
 
-	class ngfbGoogl
+	class sebiGoogl
 	{
 		public $extended;
 		private $target;
@@ -70,6 +69,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data_string);
 			curl_setopt($this->ch, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
 
+			// modified by Jean-Sebastien Morisset - http://surniaulula.com/
 			$decoded = json_decode(curl_exec($this->ch));
 			if ( $extended || $this->extended) {
 				return decoded;
@@ -100,4 +100,5 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 	}
 }
+
 ?>
