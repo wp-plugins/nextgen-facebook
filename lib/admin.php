@@ -261,9 +261,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo '</div>';
 			}
 			echo '<div style="clear:both;"></div>';
-
 			$this->show_submit_button();
-
 			echo '</form>', "\n";
 		}
 
@@ -336,7 +334,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_metabox_help() {
 			?>
-			<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>
+			<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
+				moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>
 			<p>Need help? Visit the WordPress <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB Open Graph Support Forum</a>.</p>
 			<?php
 		}

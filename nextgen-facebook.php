@@ -286,12 +286,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-				'purchase' => 'This plugin has taken many months of long work days to develop, test, fine-tune, and support. 
-					If you appreciate the work and effort I\'ve put into this plugin, please help continue that work by 
+				'purchase' => 'This plugin has taken many months to develop, test, fine-tune and support. 
+					If you appreciate the result of those efforts, please support us by 
 					<a href="' . $this->urls['plugin'] . '" target="_blank">purchasing the Pro version</a>.',
-				'review' => 'You can also help other WordPress users by 
+				'review' => 'You can also contribute by 
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
-					target="_blank">recommending this plugin on WordPress.org</a>.',
+					target="_blank">rating the plugin</a> on WordPress.org.',
 			);
 
 			// load option values first for use in __construct() methods
