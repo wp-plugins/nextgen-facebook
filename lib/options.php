@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '24';	// increment when adding/removing default options
+		public $version = '25';	// increment when adding/removing default options
 
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
@@ -139,6 +139,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_version' => '',
 			'ngfb_pro_tid' => '',
 			'ngfb_reset' => 0,
+			'ngfb_preserve' => 0,
 			'ngfb_debug' => 0,
 			'ngfb_enable_shortcode' => 0,
 			'ngfb_filter_title' => 1,

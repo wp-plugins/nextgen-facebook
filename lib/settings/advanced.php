@@ -44,8 +44,15 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Reset on Activate</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ); ?></td>
-				<td><p>Check this option if you would like to reset the <?php echo $this->ngfb->fullname; ?> settings to their default values 
-				<u>when you deactivate, and then reactivate the plugin</u>.</p></td>
+				<td><p>Check this option if you would like to reset the <?php echo $this->ngfb->fullname; ?> 
+					settings to their default values when you <em>deactivate</em>, and then 
+					<em>re-activate</em> the plugin.</p></td>
+			</tr>
+			<tr>
+				<th>Preserve on Uninstall</th>
+				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ); ?></td>
+				<td><p>Check this option if you would like to preserve all <?php echo $this->ngfb->fullname; ?> 
+					settings when you <em>uninstall</em> the plugin.</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>

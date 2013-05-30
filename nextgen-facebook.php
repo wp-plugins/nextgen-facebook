@@ -126,7 +126,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// delete options table entries only when plugin deactivated and deleted
 		public function uninstall() {
-			delete_option( NGFB_OPTIONS_NAME );
+			if ( empty( $this->options['ngfb_preserve'] ) )
+				delete_option( NGFB_OPTIONS_NAME );
 		}
 
 		// called by WP init action

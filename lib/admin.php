@@ -185,10 +185,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_metabox_version' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->ngfb->is_avail['ngfbpro'] == true )
 				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
+
+			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
@@ -330,11 +331,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_thankyou() {
-			echo '<p>Thank you for your support and appreciation.</p>', "\n";
+			echo '<p>Thank you for your purchase! I hope the ' . $this->ngfb->fullname . ' plugin will meet and exceed your expectations.</p>', "\n";
 		}
 
 		public function show_metabox_help() {
-			echo '<p>WordPress <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB Open Graph Support Forum</a>.</p>', "\n";
+			?>
+			<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>
+			<p>Need help? Visit the WordPress <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB Open Graph Support Forum</a>.</p>
+			<?php
 		}
 
 	}
