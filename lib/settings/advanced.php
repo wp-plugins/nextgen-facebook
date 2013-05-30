@@ -46,18 +46,18 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ); ?></td>
 				<td><p>Check this option if you would like to reset the <?php echo $this->ngfb->fullname; ?> 
 					settings to their default values when you <em>deactivate</em>, and then 
-					<em>re-activate</em> the plugin.</p></td>
+					<em>re-activate</em> the plugin (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Preserve on Uninstall</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ); ?></td>
 				<td><p>Check this option if you would like to preserve all <?php echo $this->ngfb->fullname; ?> 
-					settings when you <em>uninstall</em> the plugin.</p></td>
+					settings when you <em>uninstall</em> the plugin (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ); ?></td>
-				<td><p>Include hidden debug information with the Open Graph meta tags.</p></td>
+				<td><p>Include hidden debug information with the Open Graph meta tags (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Enable Shortcode(s)</th>

@@ -331,7 +331,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_thankyou() {
-			echo '<p>Thank you for your purchase! I hope the ' . $this->ngfb->fullname . ' plugin will meet and exceed your expectations.</p>', "\n";
+			echo '<p>Thank you for your purchase! I hope the ' . $this->ngfb->fullname . ' plugin will exceed your expectations.</p>', "\n";
 		}
 
 		public function show_metabox_help() {

@@ -395,14 +395,6 @@ You could use any of these class names to hide one or more NGFB social buttons e
 
 [The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) also allows you to enable/disable social buttons for each individual Post and Page.
 
-== Other Plugins ==
-
-NextGEN Facebook Open Graph (NGFB) can detect and use the following plugins:
-
-* [CDN Linker](https://github.com/wmark/CDN-Linker/downloads) : If the CDN Linker plugin is active, the *featured* image URL will be rewritten by CDN Linker before it's encoded into the sharing URLs for Pinterest and Tumblr.
-
-* [WP-WikiBox](http://wordpress.org/extend/plugins/wp-wikibox/) : If the WP-WikiBox plugin is active, an option will be added to the settings page to use WP-WikiBox for the Open Graph description field (for pages, not posts).
-
 == Performance Tuning ==
 
 The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
@@ -483,6 +475,10 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 5. Custom Page Settings (Pro Version)
 
 == Changelog ==
+
+= Version 5.1 =
+
+* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph Pro settings when uninstalling the plugin.  
 
 = Version 5.0.1 =
 
