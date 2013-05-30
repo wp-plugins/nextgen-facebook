@@ -283,6 +283,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		private function setup_vars() {
 
+			if ( $this->is_avail['ngfbpro'] == true )
+				$this->fullname .= ' Pro';
+
+			// load option values first for use in __construct() methods
+			$this->options = get_option( NGFB_OPTIONS_NAME );
+
+			if ( $this->is_avail['ngg'] == true )
+				$this->ngg_options = get_option( 'ngg_options' );
+
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
@@ -292,13 +301,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'review' => 'You can also contribute by 
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
 					target="_blank">rating the plugin</a> on WordPress.org.',
+				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . 
+					' plugin will exceed all your expectations.',
+				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
+					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
+				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
+					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
 			);
-
-			// load option values first for use in __construct() methods
-			$this->options = get_option( NGFB_OPTIONS_NAME );
-
-			if ( $this->is_avail['ngg'] == true )
-				$this->ngg_options = get_option( 'ngg_options' );
 
 			$this->debug = new ngfbDebug( $this );
 			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )

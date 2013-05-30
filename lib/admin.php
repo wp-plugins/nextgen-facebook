@@ -329,15 +329,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_thankyou() {
-			echo '<p>Thank you for your purchase! I hope the ' . $this->ngfb->fullname . ' plugin will exceed your expectations.</p>', "\n";
+			echo '<p>', $this->ngfb->msgs['thankyou'], '</p>', "\n";
 		}
 
 		public function show_metabox_help() {
-			?>
-			<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
-				moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>
-			<p>Need help? Visit the WordPress <a href="http://wordpress.org/support/plugin/nextgen-facebook" target="_blank">NGFB Open Graph Support Forum</a>.</p>
-			<?php
+			echo '<p>', $this->ngfb->msgs['help_boxes'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msgs['help_forum'], '</p>', "\n";
 		}
 
 	}
