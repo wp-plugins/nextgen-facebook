@@ -291,10 +291,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'review' => 'You can also help other WordPress users by 
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
 					target="_blank">recommending this plugin on WordPress.org</a>.',
-				'promo' => 'Do you need help with Linux / UNIX or WordPress related issues? 
-					I have 20+ years experience in UNIX SysAdmin, scripting (Bash, Perl, PHP) and integration work. 
-					Have a look at my freelance <a href="http://surniaulula.com/contact-me/rates/">consulting rates</a> 
-					and <a href="http://surniaulula.com/contact-me/services/" target="blank">services</a>.',
 			);
 
 			// load option values first for use in __construct() methods
