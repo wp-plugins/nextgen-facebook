@@ -22,7 +22,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 	
 		public $plugin_name = '';
 		public $lang = array();
-		public $settings = array();	// allow ngfbPro() to extend
+		public $settings = array();
 
 		protected $js_locations = array(
 			'header' => 'Header',
@@ -134,7 +134,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
 			}
 
-			if ( $this->ngfb->is_avail['ngfbpro'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+			if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$url = $this->ngfb->util->get_options_url( 'advanced' );
 				$this->ngfb->notices->inf( '<b>Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
 					please enter the transaction ID you received by email on the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
@@ -147,7 +147,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( $file == $this->plugin_name ) {
 				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
 				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
-				if ( $this->ngfb->is_avail['ngfbpro'] == false ) 
+				if ( $this->ngfb->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
 				else
 					array_push( $links, 'Pro Installed' );
@@ -186,7 +186,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_metabox_version' ), $this->pagehook, 'side' );
 
-			if ( $this->ngfb->is_avail['ngfbpro'] == true )
+			if ( $this->ngfb->is_avail['aop'] == true )
 				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
@@ -198,7 +198,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb->style->settings();
 
 			// add meta box here (after wp_enqueue_script()) to prevent removal
-			if ( $this->ngfb->is_avail['ngfbpro'] !== true ) {
+			if ( $this->ngfb->is_avail['aop'] !== true ) {
 				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_purchase_side' ) );
 			}
@@ -311,10 +311,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			?>
 			<table class="ngfb-settings">
-			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['ngfbpro'] ? ' (Pro)' : ''; ?></tr>
+			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ''; ?></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $this->ngfb->admin->readme['stable_tag']; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
-			<tr><td colspan="2"><p><?php echo $latest_notice; ?></p></tr>
+			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
 		}

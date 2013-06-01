@@ -131,7 +131,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['article:published_time'] = get_the_date('c');
 			}
 		
-			if ( $this->ngfb->is_avail['ngfbpro'] ) $og = apply_filters( 'ngfb_og', $og );
+			if ( $this->ngfb->is_avail['aop'] ) $og = apply_filters( 'ngfb_og', $og );
 			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $og;
@@ -172,8 +172,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( ! empty( $post ) ) {
 
 				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->get_meta_image(' . $num_remains . ', "' . $size_name . '", ' . $post->ID . ')' );
-				$og_ret = array_merge( $og_ret, $this->get_meta_image( $num_remains, $size_name, $post->ID ) );
+				$this->ngfb->debug->log( 'calling this->get_meta_images(' . $num_remains . ', "' . $size_name . '", ' . $post->ID . ')' );
+				$og_ret = array_merge( $og_ret, $this->get_meta_images( $num_remains, $size_name, $post->ID ) );
 
 				$num_remains = $this->num_remains( $og_ret, $num );
 				$this->ngfb->debug->log( 'calling this->get_featured(' . $num_remains . ', "' . $size_name . '", ' . $post->ID . ')' );
@@ -555,6 +555,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $pid, $size_name );
 			}
 			if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
+				$og_image = array();	// clear all array values
 				$og_image['og:image'] = $url;
 				$this->ngfb->debug->log( 'using default img url = ' . $og_image['og:image'] );
 			}
@@ -563,7 +564,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			return $og_ret;
 		}
 
-		private function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
+		private function get_meta_images( $num = 0, $size_name = 'thumbnail', $post_id = '' ) {
 			$og_ret = array();
 			$og_image = array();
 			if ( ! empty( $post_id ) ) {
@@ -580,14 +581,15 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $pid, $size_name );
 					}
+					$this->push_max( $og_ret, $og_image, $num );
 				}
-				if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
+				if ( ! empty( $url ) ) {
+					$og_image = array();	// clear all array values
 					$this->ngfb->debug->log( 'found custom meta image url = ' . $url );
 					$og_image['og:image'] = $url;
+					$this->push_max( $og_ret, $og_image, $num );
 				}
 			}
-			// returned array must be two-dimensional
-			$this->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 

@@ -120,7 +120,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
 			}
 
-			if ( $this->is_avail['ngfbpro'] == false )
+			if ( $this->is_avail['aop'] == false )
 				$this->notices->inf( $this->msgs['purchase'] );
 		}
 
@@ -255,14 +255,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
-			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro.php' ) )
-				require_once ( NGFB_PLUGINDIR . 'lib/pro.php' );
+			if ( file_exists( NGFB_PLUGINDIR . 'lib/addon.php' ) )
+				require_once ( NGFB_PLUGINDIR . 'lib/addon.php' );
 		}
 
 		private function check_deps() {
 		
 			// ngfb pro
-			$this->is_avail['ngfbpro'] = class_exists( 'ngfbPro' ) ? true : false;
+			$this->is_avail['aop'] = class_exists( 'ngfbAddOnPro' ) ? true : false;
 
 			// php v4.0.6+
 			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
@@ -280,7 +280,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the option names (if necessary), and validate their values
 		private function setup_vars() {
 
-			if ( $this->is_avail['ngfbpro'] == true )
+			if ( $this->is_avail['aop'] == true )
 				$this->fullname .= ' Pro';
 
 			// load option values first for use in __construct() methods
@@ -331,8 +331,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// create this object last since it may modify others
-			if ( $this->is_avail['ngfbpro'] == true )
-				$this->pro = new ngfbPro( $this );
+			if ( $this->is_avail['aop'] == true )
+				$this->pro = new ngfbAddOnPro( $this );
 
 			if ( $this->is_avail['mbdecnum'] != true )
 				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
@@ -359,7 +359,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			
 			if ( is_admin() )
 				$this->cache->file_expire = 24 * 60 * 60;	// force twelve hour file cache for admin interface
-			elseif ( $this->is_avail['ngfbpro'] == true )
+			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
 
@@ -367,7 +367,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->object_expire = 1;
 				$this->notices->inf( 'Debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
 					WP object cache expiration <em>temporarily</em> set at 1 second.' );
-				if ( $this->is_avail['ngfbpro'] == false )
+				if ( $this->is_avail['aop'] == false )
 					$this->notices->inf( $this->msgs['purchase'] );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}

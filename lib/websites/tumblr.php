@@ -100,11 +100,15 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
+						$this->ngfb->debug->log( 'calling ngfb->media->get_ngg_image_src("' . 
+							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
 						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'], false );
 					} else {
+						$this->ngfb->debug->log( 'calling ngfb->media->get_attachment_image_src("' . 
+							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
 						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
 					}
 				}
 			}
@@ -142,7 +146,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
 			// define the button, based on what we have
 			if ( ! empty( $atts['photo'] ) ) {
-				$query .= 'photo?source='. urlencode( $this->ngfb->util->cdn_rewrite( $atts['photo'] ) );
+				$query .= 'photo?source='. urlencode( $this->ngfb->util->rewrite( $atts['photo'] ) );
 				$query .= '&amp;clickthru=' . urlencode( $atts['url'] );
 				$query .= '&amp;caption=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['embed'] ) ) {

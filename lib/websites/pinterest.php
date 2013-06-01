@@ -84,13 +84,15 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form ngg- then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						$this->ngfb->debug->log( 'calling ngfb->media->get_ngg_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$this->ngfb->debug->log( 'calling ngfb->media->get_ngg_image_src("' . 
+							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
 						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'], false );
 					} else {
-						$this->ngfb->debug->log( 'calling ngfb->media->get_attachment_image_src("' . $atts['pid'] . '", "' . $atts['size'] . '")' );
+						$this->ngfb->debug->log( 'calling ngfb->media->get_attachment_image_src("' . 
+							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
 						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'] );
+							$atts['cropped'] ) = $this->ngfb->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
 					}
 				}
 			}
@@ -99,7 +101,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['caption'] ) ) $atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], $this->ngfb->options['pin_cap_len'], $use_post );
 
 			$query .= 'url=' . urlencode( $atts['url'] );
-			$query .= '&amp;media='. urlencode( $this->ngfb->util->cdn_rewrite( $atts['photo'] ) );
+			$query .= '&amp;media='. urlencode( $this->ngfb->util->rewrite( $atts['photo'] ) );
 			$query .= '&amp;description=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 
 			$html = '

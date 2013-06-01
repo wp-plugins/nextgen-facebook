@@ -123,7 +123,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						if ( ! is_readable( $cache_file ) )
 							$this->ngfb->notices->err( $cache_file . ' is not readable.' );
 						elseif ( filemtime( $cache_file ) > time() - $file_expire && 
-							( $this->ngfb->is_avail['ngfbpro'] == true || is_admin() ) ) {
+							( $this->ngfb->is_avail['aop'] == true || is_admin() ) ) {
 							if ( ! $fh = @fopen( $cache_file, 'rb' ) )
 								$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for reading.' );
 							else {
@@ -168,7 +168,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						mkdir( $this->base_dir );
 					if ( ! is_writable( $this->base_dir ) )
 						$this->ngfb->notices->err( $this->base_dir . ' is not writable.' );
-					elseif ( $this->ngfb->is_avail['ngfbpro'] == true || is_admin() ) {
+					elseif ( $this->ngfb->is_avail['aop'] == true || is_admin() ) {
 						if ( ! $fh = @fopen( $cache_file, 'wb' ) )
 							$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for writing.' );
 						else {

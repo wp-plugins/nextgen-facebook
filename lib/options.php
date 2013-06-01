@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '26';	// increment when adding/removing default options
+		public $version = '27';	// increment when adding/removing default options
 
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
@@ -147,7 +147,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_verify_certs' => 0,
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 60,
-			'ngfb_googl_api_key' => '' );
+			'ngfb_googl_api_key' => '',
+			'ngfb_cdn_urls' => '',
+			'ngfb_cdn_folders' => 'wp-content, wp-includes',
+			'ngfb_cdn_excl' => '',
+			'ngfb_cdn_not_https' => 1,
+			'ngfb_cdn_www_opt' => 1,
+		);
 
 		private $renamed = array(
 			'add_meta_desc' => 'inc_description',
@@ -205,6 +211,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_img_url' :
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :
+						case 'ngfb_cdn_urls' :
 							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
@@ -221,7 +228,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 								$opts[$key] = $def_val;
 							break;
 
-						// integer options that cannot be zero
+						// integer options that must me 1 or more (not zero)
 						case 'og_title_len' : 
 						case 'fb_order' : 
 						case 'fb_width' : 
@@ -331,7 +338,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
 					to make these updates permanent.' );
 	
-				if ( $this->ngfb->is_avail['ngfbpro'] == false )
+				if ( $this->ngfb->is_avail['aop'] == false )
 					$this->ngfb->notices->inf( $this->ngfb->msgs['purchase'] );
 
 			}

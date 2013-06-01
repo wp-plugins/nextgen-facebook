@@ -79,6 +79,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 		}
 	
 		public function form( $instance ) {
+			global $ngfb;
 			$title = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : 'Share It';
 			echo "\n", '<p><label for="', $this->get_field_id( 'title' ), '">Title (Leave Blank for No Title):</label>',
 				'<input class="widefat" id="', $this->get_field_id( 'title' ), 

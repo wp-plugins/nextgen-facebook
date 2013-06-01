@@ -113,8 +113,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					echo $this->ngfb->admin->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' );
 				?></td>
 				<td><p>The ID number and location of your default image (example: 123). 
-				The ID number in the Media Library can be found from the URL when editing the media (post=123 in the URL, for example). 
-				The ID number for an image in a NextGEN Gallery is easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
+				The Image ID number, for an image in the Media Library, can be determined from the URL when editing an image in the Media Library (post=123 in the URL, for example). 
+				The NextGEN Gallery Image IDs are easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image URL</th>

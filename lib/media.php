@@ -49,7 +49,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
-		public function get_attachment_image_src( $pid, $size_name = 'thumbnail' ) {
+		public function get_attachment_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
 			$image_url = '';
 			$size_info = $this->get_size_info( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
@@ -57,13 +57,14 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
 			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
-			if ( $this->ngfb->util->is_uniq_url( $image_url ) )
-				return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
+			if ( ( $check_dupes == false && ! empty( $image_url ) ) || $this->ngfb->util->is_uniq_url( $image_url ) )
+				return array( $this->ngfb->util->rewrite( $image_url ), 
+					$size_info['width'], $size_info['height'], $cropped );
 			else return array( null, null, null, null );
 		}
 
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
-		public function get_ngg_image_src( $pid, $size_name = 'thumbnail' ) {
+		public function get_ngg_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
 
 			if ( $this->ngfb->is_avail['ngg'] != true ) return;
 
@@ -104,8 +105,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
 			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
-			if ( $this->ngfb->util->is_uniq_url( $image_url ) )
-				return array( $image_url, $size_info['width'], $size_info['height'], $cropped );
+			if ( ( $check_dupes == false && ! empty( $image_url ) ) || $this->ngfb->util->is_uniq_url( $image_url ) )
+				return array( $this->ngfb->util->rewrite( $image_url ), 
+					$size_info['width'], $size_info['height'], $cropped );
 			else return array( null, null, null, null );
 		}
 

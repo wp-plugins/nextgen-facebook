@@ -131,7 +131,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function get_html( $ids = array(), $atts = array() ) {
 			$html = '';
 			foreach ( $ids as $id ) {
-				$id = preg_replace( '/[^a-z]/', '', $id );
+				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize
 				$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_html()' );
 				if ( method_exists( $this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );

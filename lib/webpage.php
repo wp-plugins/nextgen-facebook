@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );
 			else $quote = $post->post_content;					// fallback to regular content
 			$quote = $this->ngfb->util->cleanup_html_tags( $quote, false );		// remove shortcodes, etc., but don't strip html tags
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_quote', $quote );
 			else return $quote;
 		}
@@ -62,7 +62,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
 					break;
 			}
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_caption', $caption );
 			else return $caption;
 		}
@@ -145,7 +145,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
 
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_title', $title . $page_num );
 			else return $title . $page_num;
 		}
@@ -217,7 +217,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			if ( $textlen > 0 ) $desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
 
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_description', $desc );
 			else return $desc;
 		}
@@ -271,7 +271,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$content_strlen_after = strlen( $content );
 			$this->ngfb->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
-			if ( $this->ngfb->is_avail['ngfbpro'] ) $content = apply_filters( 'ngfb_content', $content );
+			if ( $this->ngfb->is_avail['aop'] ) $content = apply_filters( 'ngfb_content', $content );
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $content;
@@ -286,7 +286,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'found custom meta section = "' . $section . '"' );
 			else $section = $this->ngfb->options['og_art_section'];
 			if ( $section == 'none' ) $section = '';
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_section', $section );
 			else return $section;
 		}

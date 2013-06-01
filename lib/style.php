@@ -59,6 +59,9 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					border:1px solid transparent;
 					margin:0 0 10px 0;
 				}
+				.postbox p {
+					color:#333;
+				}
 				.inside {
 					padding:2px 14px 2px 12px	!important;
 				}
@@ -175,20 +178,26 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				table.ngfb-settings td { 
 					padding:0 4px 0 4px;
 				}
-				table.ngfb-settings td.second { 
-					min-width:100px;
-				}
-				table.ngfb-settings td.blank { 
-					height:18px;
-					min-width:100px;
-					background-color:#eee; 
-					border:1px dashed #ccc;
+				table.ngfb-settings td p { 
+					color:#666;
+					margin:0 0 10px 0;
 				}
 				table.ngfb-settings td.textarea { 
 					height:42px;
 				}
-				table.ngfb-settings td p { 
-					margin:0 0 10px 0;
+				table.ngfb-settings td.second { 
+					width:140px;
+				}
+				table.ngfb-settings td.blank { 
+					min-width:100px;
+					background-color:#eee; 
+					border:1px dashed #ccc;
+				}
+				table.ngfb-settings td.blank p { 
+					margin:8px;
+				}
+				table.ngfb-settings td#latest_notice p { 
+					margin:10px 0 5px 0;
 				}
 				table.ngfb-settings td select,
 				table.ngfb-settings td input { margin:0 0 5px 0; }

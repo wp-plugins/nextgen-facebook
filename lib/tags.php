@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		
 			// filter for duplicate (lowercase) element values - just in case
 			$tags = array_unique( array_map( 'strtolower', $tags ) );
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_tags', $tags );
 			else return $tags;
 		}
@@ -60,7 +60,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 				}
 			}
 			$tags = array_map( 'strtolower', $tags );
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_wp_tags', $tags );
 			else return $tags;
 		}
@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			}
 			$tags = array_map( 'strtolower', $tags );
-			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_ngg_tags', $tags );
 			else return $tags;
 		}

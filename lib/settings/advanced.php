@@ -36,8 +36,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_plugin', 'Plugin Settings', array( &$this, 'show_metabox_plugin' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_rewrite', 'Rewrite Settings', array( &$this, 'show_metabox_rewrite' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_cache', 'Cache Settings', array( &$this, 'show_metabox_cache' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_rewrite', 'Rewrite Settings', array( &$this, 'show_metabox_rewrite' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_plugin() {
@@ -98,7 +98,10 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_more_plugin() {
 			return array(
 				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
-				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '</td>',
+				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '
+				<p>In order for the ' . $this->ngfb->fullname . ' plugin to authenticate itself for future updates, enter the transaction ID 
+				you receive by email after your purchase.</p>
+				</td>',
 			);
 		}
 
@@ -119,16 +122,36 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_rewrite() {
 			return array(
-				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
-				'<th>CDN URL</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_url' ) . '</td>',
-				'<td></td><td colspan="2"><p>Rewrite image URLs in the Open Graph meta tags and shared from social buttons (like Pinterest and Tumblr), 
-				to use alternate CDN URLs.</p></td>',
+				'<th>Static Content URL(s)</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . '
+				<p>Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 
+				and cached social media files (see the "File Cache Expiry" option above).</p>
+				<p>As an example, <u>http://mydomain.com/wp-content/gallery/test/image.jpg</u> could be rewritten as 
+				<u>http://static.mydomain.com/wp-content/gallery/test/image.jpg</u>. The Static Content URL setting for this example would be 
+				<em>http://static.mydomain.com/</em>. You can enter multiple comma-delimited Static Content URLs, use numbered wildcards like 
+				<em>http://cdn%3%.static.mydomain.com/</em> for example (which expands to cdn1, cdn2, and cdn3), or 
+				<em>http://cdn%4-6%.static.mydomain.com/</em> (which expands to cdn4, cdn5, and cdn6). 
+				If wildcards or multiple Static Content URLs are entered, one URL in the range is chosen at random for each rewrite.</p>
+				</td>',
 
-				'<th>Not when HTTPS</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_https' ) . '</td>',
-				'<th>www is Optional</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_wwwopt' ) . '</td>',
-				'<th>Rewrite Folders</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '</td>',
-				'<th>Exclude Pattern</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '</td>',
+				'<th>Include Folders</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '
+				<p>A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
+				(the default value is "<em>wp-content, wp-includes</em>").</p>
+				</td>',
+
+				'<th>Exclude Patterns</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '
+				<p>A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
+				(the default value is blank). If you are caching social website images and JavaScript (see File Cache Expiry option above), 
+				the URLs to this cached content will be rewritten as well. To exclude the NGFB cache folder from being rewritten, 
+				use "<em>/nextgen-facebook/cache/</em>" as a value here.</p>
+				</td>',
+
+				'<th>Not when Using HTTPS</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . '
+				<p>Do not rewrite URLs when using HTTPS.</p></td>',
+
+				'<th>www is Optional</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '
+				<p>Any www hostname prefix in the WordPress site URL is optional (default is checked).</p></td>',
 			);
 		}
 
@@ -153,11 +176,13 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
-				'<th>File Cache Expiry</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>
-				<td><p>NGFB can save social button images and JavaScript to a cache folder and provide URLs to these files instead of the originals.</p></td>',
+				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '
+				<p>NGFB can save social website button images and JavaScript to a cache folder, and provide URLs to these files instead of the originals.</p>
+				</td>',
 
-				'<th>Verify SSL Certificates</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>
-				<td><p>Verify the peer SSL certificate when fetching content to be cached by HTTPS.</p></td>',
+				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '
+				<p>Verify the peer SSL certificate when fetching content to be cached by HTTPS.</p>
+				</td>',
 			);
 		}
 

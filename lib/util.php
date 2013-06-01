@@ -22,12 +22,15 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		protected $ngfb;
 
+		private $rewrite;
 		private $urls_found = array();
 
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->lognew();
+			if ( $this->ngfb->is_avail['aop'] == true )
+				$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
 		}
 
 		public function is_assoc( $arr ) {
@@ -211,11 +214,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return trim( $text );
 		}
 
-		public function cdn_rewrite( $url = '' ) {
-			if ( $this->ngfb->is_avail['cdnlink'] == true ) {
-				$rewriter = new CDNLinksRewriterWordpress();
-				$url = '"'.$url.'"';	// rewrite function uses var reference, so pad here first
-				$url = trim( $rewriter->rewrite( $url ), "\"" );
+		public function rewrite( $url = '' ) {
+			if ( $this->ngfb->is_avail['aop'] == true ) {
+				$matches = array( $url );	// use the preg_replace callback directly
+				$url = $this->rewrite->replace_url( $matches );
 			}
 			return $url;
 		}

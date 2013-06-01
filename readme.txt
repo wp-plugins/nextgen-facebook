@@ -13,9 +13,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 **Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**. The [Open Graph](http://ogp.me/) meta tags are embedded in the head section of webpages and describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will be presented properly to the social website. 
 
-**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=faq) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or below your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or below your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -40,7 +40,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 
-**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://wordpress.org/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=faq) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
 
 **[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
 
@@ -54,9 +54,9 @@ js.
 
 = Install Methods =
 
-If you already have NextGEN Facebook Open Graph installed, and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves existing option settings in the database.
+If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Take care to check the "Preserve on Uninstall" option before removing the plugin.
 
-**Automated Install**
+**Automated Install** (*Free* version)
 
 1. Login to your website
 1. Go to Plugins
@@ -66,7 +66,9 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 1. Select Install Now
 1. Click the Activate Plugin link
 
-**Semi-Automated Install**
+**Semi-Automated Install** (*Free* and *Pro* versions)
+
+Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
 
 1. Download the plugin zip file
 1. Login to your website
@@ -77,7 +79,7 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 1. Click on the Install Now button
 1. Click the Activate Plugin link
 
-**Manual Install**
+**Manual Install** (*Free* and *Pro* versions)
 
 1. Download and unzip the plugin
 1. Upload the entire nextgen-facebook/ folder to the wordpress/wp-content/plugins/ directory
@@ -85,27 +87,28 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 
 Once activated, you don't have to configure any settings for NGFB to start adding Open Graph meta tags to your webpages.
 
-The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much more.
+The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
 
 = Uninstall Methods =
 
 **Automated Removal**
 
 1. Login to your website
+1. In the NGFB Advanced settings, check "Preserve on Uninstall" if you would like to keep NGFB settings in the database
 1. Go to Plugins
 1. Select Installed Plugins
 1. Click the Deactivate link under *NGFB Open Graph*
 1. Click the Delete link under *NGFB Open Graph*
 
-Note that deleting the plugin this way will also remove all of its option settings from the database.
+Unless you check the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
 
 **Manual Removal**
 
 1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder
 
-Note that removing the plugin folder manually will not remove its option settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
+Removing the plugin folder manually will not remove its settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
 
-If you need to roll-back and re-install an older version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
+If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
 == Frequently Asked Questions ==
 
@@ -251,7 +254,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) tab for additional information.
 
 = Q. How does NGFB find images to include in the Open Graph meta tags? =
 
@@ -291,9 +294,13 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 **A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
 
-== Plugin News ==
+== Resources ==
 
-You can [follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
+The <em>Other Notes</em> tab on WordPress.org is limited in length. You can access the complete [Other Notes on Surnia Ulula](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes).
+
+[Follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
+
+Need help? See the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=faq), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
 == Shortcodes ==
 
@@ -333,7 +340,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page (among other customizable values like title, description, image(s), etc.).
+[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
@@ -422,7 +429,7 @@ The complete list of NGFB filters can be found in the `filters.txt` file located
 
 = PHP Constants =
 
-**To address very specific needs**, some PHP constants for NGFB may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call). The complete list of constants, and a description of their intended use, can be found in the `constants.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
+To address very specific needs, some PHP constants for NGFB may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call). The complete list of constants, and a description of their intended use, can be found in the `constants.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
 
 == Screenshots ==
 
@@ -436,9 +443,11 @@ The complete list of NGFB filters can be found in the `filters.txt` file located
 
 = Version 5.1 =
 
-* The website configuration sections on the "Social Sharing" settings page have been moved into their own individual boxes. The new layout is quite slick -- social website boxes can now be moved, re-arranged, removed, etc.
-* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph Pro settings when uninstalling the plugin.  
-* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by using the new 'ngfb_description' and 'ngfb_tags' filters (among many others). See the [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) for more details.
+* The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
+* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin.  
+* Added new static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allowed you to enter CDN URLs, choose folders to include / exclude, etc.
+* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) for more information on NGFB filter hooks.
+* Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
 
 = Version 5.0.1 =
 
@@ -814,6 +823,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 5.1 =
+
+Improved the social website configuration layout, added a new "Preserver on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and tags (Pro version).
 
 = 5.0.1 =
 
