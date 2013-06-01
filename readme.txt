@@ -826,7 +826,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 
 = 5.1 =
 
-Improved the social website configuration layout, added a new "Preserver on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and tags (Pro version).
+Improved the social website configuration layout, added a new "Preserver on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and meta tags (Pro version).
 
 = 5.0.1 =
 
