@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
 Donate link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, wp-wikibox, wikipedia, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, exclude pages, pinterest, tumblr, stumbleupon, widget, cdn linker, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object, cache, transient, wp_cache, nggalbum, nggallery, singlepic, imagebrowser
 License: GPLv3 or later
 Requires at least: 3.0
 Tested up to: 3.5.1
@@ -56,7 +56,7 @@ js.
 
 If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Take care to check the "Preserve on Uninstall" option before removing the plugin.
 
-**Automated Install** (*Free* version)
+**Automated Install**
 
 1. Login to your website
 1. Go to Plugins
@@ -66,7 +66,7 @@ If you already have NGFB Open Graph installed, and subsequently download the NGF
 1. Select Install Now
 1. Click the Activate Plugin link
 
-**Semi-Automated Install** (*Free* and *Pro* versions)
+**Semi-Automated Install**
 
 Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
 
@@ -79,7 +79,7 @@ Note that if you already have NGFB Open Graph installed, you will have to remove
 1. Click on the Install Now button
 1. Click the Activate Plugin link
 
-**Manual Install** (*Free* and *Pro* versions)
+**Manual Install**
 
 1. Download and unzip the plugin
 1. Upload the entire nextgen-facebook/ folder to the wordpress/wp-content/plugins/ directory
