@@ -311,89 +311,29 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-Here's a fairly complete example of CSS styling for the NGFB social buttons. Note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
-
-<pre>
-/* make sure the Facebook flyout does not get clipped */
-#page { overflow:visible; }
-
-/* buttons in content: create a shadowed box for the buttons */
-.ngfb-content-buttons { 
-	display:block;
-	padding:2px;
-	margin:20px auto 20px auto;
-	text-align:center;
-	background-color:#eee;
-	-moz-box-shadow:0 0 5px #aaa;
-	-webkit-box-shadow:0 0 5px #aaa;
-	box-shadow:0 0 5px #aaa;
-}
-
-/* buttons in widget: align vertically in 150px columns */
-.ngfb-widget-buttons { text-align:left; }
-.ngfb-widget-buttons .ngfb-buttons > div { width:150px; }
-
-/* buttons in shortcode: display inline with the text */
-.ngfb-shortcode-buttons { 
-	display:inline-block;
-	text-align:left;
-}
-
-/* defaults for the block of buttons */
-.ngfb-buttons { }
-.ngfb-buttons img { border:none; }
-.ngfb-buttons img:hover { border:none; }
-
-/* fix the FB "Like" flyout width on 2012 based themes */
-.ngfb-buttons iframe { max-width:none; }
-
-/* defaults for each button */
-.ngfb-buttons > div { 
-	display:inline-block;
-	vertical-align:bottom;
-	text-align:left;
-	width:100px;	/* default */
-	height:20px;
-	padding:0;
-	margin:2px;
-}
-
-div.facebook-button { width:149px; }
-div.gplus-button { width:75px; }
-div.twitter-button { width:89px; }
-div.linkedin-button { width:109px; }
-div.pinterest-button { width:80px; }
-div.stumbleupon-button { width:84px; }
-div.tumblr-button { width:80px; }
-</pre>
-
-You can also create a subtle "highlighting" effect using the <em>opacity</em> CSS property.
-
-<pre>
-.ngfb-buttons > div { opacity:0.9; }
-.ngfb-buttons > div:hover { opacity:1.0; }
-</pre>
+The `example.css` file, located in the `wp-content/plugins/nextgen-facebook/` folder, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
 You can also hide the social buttons (or pretty much any object) in a webpage or post by using `display:none` in your stylesheet. As an example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the webpage's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
 
 `
-<div class="postid-123 post type-post status-publish format-standard hentry category-test category-wordpress tag-css tag-html">
-	The Post Content Text...
+<div class="postid-123 post type-post status-publish format-standard 
+	hentry category-test category-wordpress tag-css tag-html">
+		The Post Content Text...
 </div>
 `
 
-You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on post #123, any page in category "test", and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on Post <em>123</em>, any page in category <em>test</em>, and posts using the Aside and Status formats:
 
 `
-.postid-123 .ngfb-buttons,
+.post-123 .ngfb-buttons,
 .category-test .ngfb-buttons,
 .format-aside .ngfb-buttons,
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) also allows you to enable/disable social buttons for each individual Post and Page.
+[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page (among other customizable values like title, description, image(s), etc.).
 
 == Performance Tuning ==
 
@@ -462,9 +402,27 @@ A comma separates the the different fields, and a colon seperates each field nam
 
 If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NGFB settings page.
 
+= NGFB Filter Hooks =
+
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it can transform and return.
+
+`
+add_filter( 'ngfb_tags', 'uwf_filter_ngfb_tags', 10, 1 );
+
+function uwf_filter_ngfb_tags( $tags = array() ) {
+        foreach ( $tags as $num => $tag_name ) {
+                $tag_name = preg_replace( "/^wiki-/", '', $tag_name );
+                $tags[$num] = $tag_name;
+        }
+        return $tags;
+}
+`
+
+The complete list of NGFB filters can be found in the `filters.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
+
 = PHP Constants =
 
-**To address very specific needs**, some PHP constants for NGFB may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call). The complete list of constants, and a description of their intended use, can be found in the `constants.txt` file located in the `nextgen-facebook` plugin folder.
+**To address very specific needs**, some PHP constants for NGFB may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call). The complete list of constants, and a description of their intended use, can be found in the `constants.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
 
 == Screenshots ==
 
@@ -478,7 +436,9 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = Version 5.1 =
 
+* The website configuration sections on the "Social Sharing" settings page have been moved into their own individual boxes. The new layout is quite slick -- social website boxes can now be moved, re-arranged, removed, etc.
 * Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph Pro settings when uninstalling the plugin.  
+* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by using the new 'ngfb_description' and 'ngfb_tags' filters (among many others). See the [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) for more details.
 
 = Version 5.0.1 =
 
