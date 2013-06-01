@@ -171,7 +171,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( $opts, $this->ngfb->opt->get_defaults() );
-			}
+				add_settings_error( NGFB_OPTIONS_NAME, 'updated', $this->ngfb->fullname . ' settings updated.', 'updated' );
+			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', $this->ngfb->fullname . ' submitted settings are not an array.', 'error' );
 			return $opts;
 		}
 
@@ -193,6 +194,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_page() {
+			settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
+
 			$this->ngfb->debug->show( null, 'Debug Log' );
 			$this->ngfb->style->admin_page();
 			$this->ngfb->style->settings();
