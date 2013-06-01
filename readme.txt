@@ -333,7 +333,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page (among other customizable values like title, description, image(s), etc.).
+[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
