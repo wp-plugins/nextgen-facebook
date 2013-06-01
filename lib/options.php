@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '25';	// increment when adding/removing default options
+		public $version = '26';	// increment when adding/removing default options
 
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
@@ -47,8 +47,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_title_len' => 100,
 			'og_desc_len' => 280,
 			'og_desc_strip' => 0,
-			'og_desc_wiki' => 0,
-			'og_wiki_tag' => 'Wiki-',
 			'og_admins' => '',
 			'og_app_id' => '',
 			'og_empty_tags' => 0,
@@ -328,8 +326,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated in memory (only) --
-					these updates have not been saved back to the database yet. 
+				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
+					the updated settings have not been saved back to the database yet.
 					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
 					to make these updates permanent.' );
 	

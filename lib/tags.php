@@ -40,7 +40,11 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			} elseif ( is_search() )
 				$tags = preg_split( '/ *, */', get_search_query( false ) );
 		
-			return array_unique( array_map( 'strtolower', $tags ) );	// filter for duplicate (lowercase) element values - just in case
+			// filter for duplicate (lowercase) element values - just in case
+			$tags = array_unique( array_map( 'strtolower', $tags ) );
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_tags', $tags );
+			else return $tags;
 		}
 
 		public function get_wp( $post_id ) {
@@ -48,17 +52,17 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			$post_ids = array ( $post_id );	// array of one
 			if ( $this->ngfb->options['og_page_parent_tags'] && is_page( $post_id ) )
 				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
-			$tag_prefix = empty( $this->ngfb->options['og_wiki_tag'] ) ? '' : $this->ngfb->options['og_wiki_tag'];
 			foreach ( $post_ids as $id ) {
 				if ( $this->ngfb->options['og_page_title_tag'] && is_page( $id ) )
 					$tags[] = get_the_title( $id );
 				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name ) {
-					if ( $this->ngfb->options['og_desc_wiki'] && $tag_prefix ) 
-						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
 					$tags[] = $tag_name;
 				}
 			}
-			return $tags;
+			$tags = array_map( 'strtolower', $tags );
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_wp_tags', $tags );
+			else return $tags;
 		}
 
 		// called from the view/gallery-meta.php template
@@ -67,7 +71,10 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			}
-			return array_map( 'strtolower', $tags );
+			$tags = array_map( 'strtolower', $tags );
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_ngg_tags', $tags );
+			else return $tags;
 		}
 
 	}

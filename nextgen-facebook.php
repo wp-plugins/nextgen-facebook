@@ -275,9 +275,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// cdn linker plugin
 			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
-
-			// wikibox plugin
-			$this->is_avail['wikibox'] = function_exists( 'wikibox_summary' ) ? true : false;
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
@@ -310,8 +307,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 
 			$this->debug = new ngfbDebug( $this );
-			if ( ! empty( $this->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
-				$this->debug->on = true;
+
+			if ( ! empty( $this->options['ngfb_debug'] ) || 
+				( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
+					$this->debug->on = true;
 
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
@@ -359,21 +358,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->user_agent = NGFB_USER_AGENT;
 			
 			if ( is_admin() )
-				$this->cache->file_expire = 12 * 60 * 60;	// force twelve hour file cache for admin interface
+				$this->cache->file_expire = 24 * 60 * 60;	// force twelve hour file cache for admin interface
 			elseif ( $this->is_avail['ngfbpro'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
-			else
-				$this->cache->file_expire = 0;
+			else $this->cache->file_expire = 0;
 
-			if ( $this->debug->status() == true ) {
+			if ( $this->debug->on == true ) {
 				$this->cache->object_expire = 1;
-				$this->debug->log( 'debug mode active - setting ngfb_object_cache_exp = ' . $this->cache->object_expire . ' seconds' );
-				$this->notices->inf( 'Debug mode is turned ON. Debugging information is being generated and added to webpages as hidden HTML comments. 
-					WP object cache expiration time has been temporarily set to ' . $this->cache->object_expire . ' second 
-					(instead of ' . $this->options['ngfb_object_cache_exp'] . ' seconds).' );
+				$this->notices->inf( 'Debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
+					WP object cache expiration <em>temporarily</em> set at 1 second.' );
 				if ( $this->is_avail['ngfbpro'] == false )
 					$this->notices->inf( $this->msgs['purchase'] );
-
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 		}
 

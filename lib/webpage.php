@@ -37,11 +37,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		// called from Tumblr class
 		public function get_quote() {
 			global $post;
-			if ( empty( $post ) ) return;
-			if ( has_excerpt( $post->ID ) ) $content = get_the_excerpt( $post->ID );
-			else $content = $post->post_content;					// fallback to regular content
-			$content = $this->ngfb->util->cleanup_html_tags( $content, false );	// remove shortcodes, etc., but don't strip html tags
-			return $content;
+			$quote = '';
+			if ( empty( $post ) ) return $quote;
+			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );
+			else $quote = $post->post_content;					// fallback to regular content
+			$quote = $this->ngfb->util->cleanup_html_tags( $quote, false );		// remove shortcodes, etc., but don't strip html tags
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_quote', $quote );
+			else return $quote;
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
@@ -59,7 +62,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
 					break;
 			}
-			return $caption;
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_caption', $caption );
+			else return $caption;
 		}
 
 		public function get_title( $textlen = 100, $trailing = '', $use_post = false ) {
@@ -140,7 +145,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// append the text number after the trailing character string
 			if ( $textlen > 0 ) $title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
 
-			return $title . $page_num;
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_title', $title . $page_num );
+			else return $title . $page_num;
 		}
 
 		public function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
@@ -169,11 +176,6 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 						if ( ! empty( $filter_removed ) )
 							$this->ngfb->social->add_filter( 'the_excerpt' );
 					}
-		
-				// if there's no excerpt, then use WP-WikiBox for page content (if wikibox is active and og_desc_wiki option is true)
-				} elseif ( is_page() && ! empty( $this->ngfb->options['og_desc_wiki'] ) && $this->ngfb->is_avail['wikibox'] == true ) {
-					$this->ngfb->debug->log( 'is_page() && options["og_desc_wiki"] = 1 && is_avail["wikibox"] = true' );
-					$desc = $this->get_wiki_summary();
 				} 
 		
 				if ( empty( $desc ) ) {
@@ -215,7 +217,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			if ( $textlen > 0 ) $desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
 
-			return $desc;
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_description', $desc );
+			else return $desc;
 		}
 
 		public function get_content( $filter_content = true ) {
@@ -267,9 +271,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$content_strlen_after = strlen( $content );
 			$this->ngfb->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
+			if ( $this->ngfb->is_avail['ngfbpro'] ) $content = apply_filters( 'ngfb_content', $content );
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
-
 			return $content;
 		}
 
@@ -282,34 +286,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'found custom meta section = "' . $section . '"' );
 			else $section = $this->ngfb->options['og_art_section'];
 			if ( $section == 'none' ) $section = '';
-			return $section;
-		}
-
-		// called from the view/gallery-uwf.php template
-		public function get_wiki_summary() {
-			global $post;
-			$desc = '';
-			if ( $this->ngfb->is_avail['wikibox'] !== true ) return $desc;
-			$tag_prefix = $this->ngfb->options['og_wiki_tag'];
-			$tags = wp_get_post_tags( $post->ID, array( 'fields' => 'names') );
-			$this->ngfb->debug->log( 'post tags = ' . implode( ', ', $tags ) );
-			foreach ( $tags as $tag_name ) {
-				if ( $tag_prefix ) {
-					if ( preg_match( "/^$tag_prefix/", $tag_name ) ) {
-						$tag_name = preg_replace( "/^$tag_prefix/", '', $tag_name );
-						if ( $tag_name == 'NoWikiText' ) return $desc;
-					}
-					else continue;	// skip tags that don't have the prefix
-				}
-				$desc .= wikibox_summary( $tag_name, 'en', false ); 
-				$this->ngfb->debug->log( 'wikibox_summary("' . $tag_name . '") = ' . $desc );
-			}
-			if ( empty( $desc ) ) {
-				$title = the_title( '', '', false );
-				$desc .= wikibox_summary( $title, 'en', false );
-				$this->ngfb->debug->log( 'wikibox_summary("' . $title . '") = ' . $desc );
-			}
-			return $desc;
+			if ( $this->ngfb->is_avail['ngfbpro'] ) 
+				return apply_filters( 'ngfb_section', $section );
+			else return $section;
 		}
 
 	}

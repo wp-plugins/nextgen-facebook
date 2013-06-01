@@ -35,38 +35,40 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook, 'Advanced Settings', array( &$this, 'show_metabox_advanced' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_plugin', 'Plugin Settings', array( &$this, 'show_metabox_plugin' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_rewrite', 'Rewrite Settings', array( &$this, 'show_metabox_rewrite' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_cache', 'Cache Settings', array( &$this, 'show_metabox_cache' ), $this->pagehook, 'normal' );
 		}
 
-		public function show_metabox_advanced() {
+		public function show_metabox_plugin() {
 			?>
 			<table class="ngfb-settings">
 			<tr>
 				<th>Reset on Activate</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ); ?></td>
 				<td><p>Check this option if you would like to reset the <?php echo $this->ngfb->fullname; ?> 
 					settings to their default values when you <em>deactivate</em>, and then 
 					<em>re-activate</em> the plugin (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Preserve on Uninstall</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ); ?></td>
 				<td><p>Check this option if you would like to preserve all <?php echo $this->ngfb->fullname; ?> 
 					settings when you <em>uninstall</em> the plugin (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Add Hidden Debug Info</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ); ?></td>
 				<td><p>Include hidden debug information with the Open Graph meta tags (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Enable Shortcode(s)</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_enable_shortcode' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_enable_shortcode' ); ?></td>
 				<td><p>Enable the <?php echo $this->ngfb->fullname; ?> content shortcode(s) (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Ignore Small Images</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
 				<td><p><?php echo $this->ngfb->fullname; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content 
 				(provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, 
 				and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, 
@@ -74,20 +76,65 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Apply Title Filters</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_title' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_title' ); ?></td>
 				<td><p>Apply the standard WordPress filters to render the title (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Content Filters</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ); ?></td>
 				<td><p>Apply the standard WordPress filters to render the content (default is checked).</p></td>
 			</tr>
 			<tr>
 				<th>Apply Excerpt Filters</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ); ?></td>
 				<td><p>Apply the standard WordPress filters to render the excerpt (default is unchecked).
 				Check this option if you use shortcodes in your excerpt, for example.</p></td>
 			</tr>
+			<?php foreach ( $this->get_more_plugin() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			</table>
+			<?php
+		}
+
+		protected function get_more_plugin() {
+			return array(
+				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '</td>',
+			);
+		}
+
+		public function show_metabox_rewrite() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<th>Goo.gl Simple API Access Key</th>
+				<td colspan="2"><?php echo $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
+				<p>The "Google URL Shortener API Key" for this website. If you don't already have one, visit Google's 
+				<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, 
+				and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
+			</tr>
+			<?php foreach ( $this->get_more_rewrite() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			</table>
+			<?php
+		}
+
+		protected function get_more_rewrite() {
+			return array(
+				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+
+				'<th>CDN URL</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_url' ) . '</td>',
+				'<td></td><td colspan="2"><p>Rewrite image URLs in the Open Graph meta tags and shared from social buttons (like Pinterest and Tumblr), 
+				to use alternate CDN URLs.</p></td>',
+
+				'<th>Not when HTTPS</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_https' ) . '</td>',
+				'<th>www is Optional</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_wwwopt' ) . '</td>',
+				'<th>Rewrite Folders</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '</td>',
+				'<th>Exclude Pattern</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '</td>',
+			);
+		}
+
+		public function show_metabox_cache() {
+			?>
+			<table class="ngfb-settings">
 			<tr>
 				<th>Object Cache Expiry</th>
 				<td nowrap><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
@@ -97,27 +144,23 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				Decrease this value if your content is often revised after publishing, or increase it to improve performance. 
 				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
 			</tr>
-			<tr>
-				<th>Goo.gl Simple API Access Key</th>
-				<td></td>
-				<td><?php echo $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The "Google URL Shortener API Key" for this website. If you don't already have one, visit Google's 
-				<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, 
-				and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
-			</tr>
-			<?php foreach ( $this->get_more_rows() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			<?php foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>'; ?>
 			</table>
 			<?php
 		}
 
-		protected function get_more_rows() {
+		protected function get_more_cache() {
 			return array(
 				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
-				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>',
-				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>',
-				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '</td>',
+
+				'<th>File Cache Expiry</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>
+				<td><p>NGFB can save social button images and JavaScript to a cache folder and provide URLs to these files instead of the originals.</p></td>',
+
+				'<th>Verify SSL Certificates</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>
+				<td><p>Verify the peer SSL certificate when fetching content to be cached by HTTPS.</p></td>',
 			);
 		}
+
 	}
 }
 

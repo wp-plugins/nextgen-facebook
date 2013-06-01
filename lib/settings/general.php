@@ -189,27 +189,6 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. 
 				If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
-			<?php	// hide WP-WikiBox option if not installed and activated
-				if ( $this->ngfb->is_avail['wikibox'] == true ) : ?>
-			<tr>
-				<th>Use WP-WikiBox for Pages</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_desc_wiki' ); ?></td>
-				<td><p>The <a href="http://wordpress.org/extend/plugins/wp-wikibox/" target="_blank">WP-WikiBox</a> plugin has been detected. 
-				<?php echo $this->ngfb->fullname; ?> can ignore the content of your Pages when creating the Open Graph description property tag, and retrieve it from Wikipedia instead. 
-				This only aplies to Pages - not Posts. Here's how it works: The plugin will check for the Page's tags and use their names to retrieve content from Wikipedia. 
-				If no tags are defined, then the Page title will be used to retrieve content. If Wikipedia does not return a summary for the tags or title, 
-				then the original content of the Page will be used.</p></td>
-			</tr>
-			<tr>
-				<th>WP-WikiBox Tag Prefix</th>
-				<td><?php echo $this->ngfb->admin->form->get_input( 'og_wiki_tag' ); ?></td>
-				<td><p>A prefix to identify WordPress tag names used to retrieve Wikipedia content. 
-				Leave this option blank to use all tags associated to a post, or choose a prefix (like "Wiki-") to use only tag names starting with that prefix.</p></td>
-			</tr>
-			<?php	else : 
-					echo $this->ngfb->admin->form->get_hidden( 'og_desc_wiki' ); 
-					echo $this->ngfb->admin->form->get_hidden( 'og_wiki_tag' ); 
-				endif; ?>
 			<tr>
 				<th>Facebook Admin(s)</th>
 				<td><?php echo $this->ngfb->admin->form->get_input( 'og_admins' ); ?></td>

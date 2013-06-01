@@ -30,10 +30,6 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			$this->lognew();
 		}
 
-		public function status() {
-			return $this->on;
-		}
-
 		public function lognew() {
 			$this->log( 'object created', 2 );
 		}

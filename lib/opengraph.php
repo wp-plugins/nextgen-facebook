@@ -131,9 +131,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['article:published_time'] = get_the_date('c');
 			}
 		
+			if ( $this->ngfb->is_avail['ngfbpro'] ) $og = apply_filters( 'ngfb_og', $og );
 			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
-
 			return $og;
 		}
 

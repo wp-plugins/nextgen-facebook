@@ -175,8 +175,12 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				table.ngfb-settings td { 
 					padding:0 4px 0 4px;
 				}
+				table.ngfb-settings td.second { 
+					min-width:100px;
+				}
 				table.ngfb-settings td.blank { 
 					height:18px;
+					min-width:100px;
 					background-color:#eee; 
 					border:1px dashed #ccc;
 				}
