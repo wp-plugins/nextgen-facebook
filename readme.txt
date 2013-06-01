@@ -54,9 +54,9 @@ js.
 
 = Install Methods =
 
-If you already have NextGEN Facebook Open Graph installed, and subsequently download the NGFB plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Manual Removal* and *Semi-Automated Install* methods to install and activate the new plugin. The *Manual Removal* method preserves existing option settings in the database.
+If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Take care to check the "Preserve on Uninstall" option before removing the plugin.
 
-**Automated Install**
+**Automated Install** (*Free* version)
 
 1. Login to your website
 1. Go to Plugins
@@ -66,7 +66,9 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 1. Select Install Now
 1. Click the Activate Plugin link
 
-**Semi-Automated Install**
+**Semi-Automated Install** (*Free* and *Pro* versions)
+
+Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
 
 1. Download the plugin zip file
 1. Login to your website
@@ -77,7 +79,7 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 1. Click on the Install Now button
 1. Click the Activate Plugin link
 
-**Manual Install**
+**Manual Install** (*Free* and *Pro* versions)
 
 1. Download and unzip the plugin
 1. Upload the entire nextgen-facebook/ folder to the wordpress/wp-content/plugins/ directory
@@ -85,27 +87,28 @@ If you already have NextGEN Facebook Open Graph installed, and subsequently down
 
 Once activated, you don't have to configure any settings for NGFB to start adding Open Graph meta tags to your webpages.
 
-The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much more.
+The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
 
 = Uninstall Methods =
 
 **Automated Removal**
 
 1. Login to your website
+1. In the NGFB Advanced settings, check "Preserve on Uninstall" if you would like to keep NGFB settings in the database
 1. Go to Plugins
 1. Select Installed Plugins
 1. Click the Deactivate link under *NGFB Open Graph*
 1. Click the Delete link under *NGFB Open Graph*
 
-Note that deleting the plugin this way will also remove all of its option settings from the database.
+Unless you check the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
 
 **Manual Removal**
 
 1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder
 
-Note that removing the plugin folder manually will not remove its option settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
+Removing the plugin folder manually will not remove its settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
 
-If you need to roll-back and re-install an older version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
+If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
 == Frequently Asked Questions ==
 
@@ -440,9 +443,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 5.1 =
 
-* The website configuration sections on the "Social Sharing" settings page have been moved into their own individual boxes. The new layout is quite slick -- social website boxes can now be moved, re-arranged, removed, etc.
-* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph Pro settings when uninstalling the plugin.  
-* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by using the new 'ngfb_description' and 'ngfb_tags' filters (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) for more details.
+* The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
+* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin.  
+* Added new static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allowed you to enter CDN URLs, choose folders to include / exclude, etc.
+* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/?section=other_notes) for more information on NGFB filter hooks.
+* Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
 
 = Version 5.0.1 =
 
@@ -818,6 +823,10 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Initial release.
 
 == Upgrade Notice ==
+
+= 5.1 =
+
+Improved the social website configuration layout, added a new "Preserver on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and tags (Pro version).
 
 = 5.0.1 =
 
