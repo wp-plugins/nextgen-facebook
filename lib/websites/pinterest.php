@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['caption'] ) ) $atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], $this->ngfb->options['pin_cap_len'], $use_post );
 
 			$query .= 'url=' . urlencode( $atts['url'] );
-			$query .= '&amp;media='. urlencode( $this->ngfb->util->rewrite( $atts['photo'] ) );
+			$query .= '&amp;media='. urlencode( $atts['photo'] );
 			$query .= '&amp;description=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 
 			$html = '

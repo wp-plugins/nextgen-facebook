@@ -146,7 +146,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
 			// define the button, based on what we have
 			if ( ! empty( $atts['photo'] ) ) {
-				$query .= 'photo?source='. urlencode( $this->ngfb->util->rewrite( $atts['photo'] ) );
+				$query .= 'photo?source='. urlencode( $atts['photo'] );
 				$query .= '&amp;clickthru=' . urlencode( $atts['url'] );
 				$query .= '&amp;caption=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['embed'] ) ) {

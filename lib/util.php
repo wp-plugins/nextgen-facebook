@@ -216,8 +216,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function rewrite( $url = '' ) {
 			if ( $this->ngfb->is_avail['aop'] == true ) {
-				$matches = array( $url );	// use the preg_replace callback directly
-				$url = $this->rewrite->replace_url( $matches );
+				$url = '"' . $url . '"';	// rewrite function uses var reference
+				$url = trim( $this->rewrite->html( $url ), '"' );
 			}
 			return $url;
 		}
