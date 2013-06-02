@@ -425,7 +425,23 @@ function uwf_filter_ngfb_tags( $tags = array() ) {
 }
 `
 
-The complete list of NGFB filters can be found in the `filters.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
+Filter functions in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the $accepted_args parameter should always be "1" for NGFB filters.
+
+The following list of NGFB filters receive, and should return, a standard text string.
+
+* ngfb_section : The section text string used in the article:section meta tag.
+* ngfb_title : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers will be included in the title text string.
+* ngfb_description : The description string used in the og:description meta tag.
+* ngfb_content : The filtered (shortcode resolved, etc.) or un-filtered (depending on settings) content of the Post or Page.
+* ngfb_caption : The caption used by Tumblr, Pinterest, and Twitter sharing buttons.
+* ngfb_quote : The quote text used by the Tumblr sharing button.
+
+The following list of NGFB filters receive an array, and should return an array.
+
+* ngfb_tags : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
+* ngfb_wp_tags : An array of WordPress Post and Page tags used in the article:tag meta tags.
+* ngfb_ngg_tags : An array of NextGEN Gallery image tags used in the article:tag meta tags.
+* ngfb_og : A complete, multi-dimensional array of all Open Graph meta tags.
 
 = PHP Constants =
 
