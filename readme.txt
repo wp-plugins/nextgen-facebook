@@ -13,9 +13,9 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 **Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**. The [Open Graph](http://ogp.me/) meta tags are embedded in the head section of webpages and describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will be presented properly to the social website. 
 
-**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://wordpress.org/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+**NextGEN Facebook Open Graph (NGFB) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or below your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
+**NextGEN Facebook Open Graph (NGFB) also comes with multilingual social sharing buttons that you can add above or below your content, as a widget, shortcode, or even as a function from a template(s)**. NGFB includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -40,7 +40,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 
-**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://wordpress.org/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
 
 **[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases).
 
@@ -56,7 +56,7 @@ js.
 
 If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Take care to check the "Preserve on Uninstall" option before removing the plugin.
 
-**Automated Install**
+**Automated Install** (*Free* version)
 
 1. Login to your website
 1. Go to Plugins
@@ -66,7 +66,7 @@ If you already have NGFB Open Graph installed, and subsequently download the NGF
 1. Select Install Now
 1. Click the Activate Plugin link
 
-**Semi-Automated Install**
+**Semi-Automated Install** (*Free* and *Pro* versions)
 
 Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
 
@@ -79,7 +79,7 @@ Note that if you already have NGFB Open Graph installed, you will have to remove
 1. Click on the Install Now button
 1. Click the Activate Plugin link
 
-**Manual Install**
+**Manual Install** (*Free* and *Pro* versions)
 
 1. Download and unzip the plugin
 1. Upload the entire nextgen-facebook/ folder to the wordpress/wp-content/plugins/ directory
@@ -254,7 +254,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) tab for additional information.
+**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
 = Q. How does NGFB find images to include in the Open Graph meta tags? =
 
@@ -296,11 +296,11 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Resources ==
 
-The <em>Other Notes</em> tab on WordPress.org is limited in length. You can access the complete [Other Notes on Surnia Ulula](http://wordpress.org/plugins/nextgen-facebook/other_notes/).
+The <em>Other Notes</em> tab on WordPress.org is limited in length. You can access the complete [Other Notes on Surnia Ulula](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/).
 
 [Follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
 
-Need help? See the [FAQ](http://wordpress.org/plugins/nextgen-facebook/faq/), [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
+Need help? See the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
 == Shortcodes ==
 
@@ -446,7 +446,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
 * Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin.  
 * Added new static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allowed you to enter CDN URLs, choose folders to include / exclude, etc.
-* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) for more information on NGFB filter hooks.
+* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information on NGFB filter hooks.
 * Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
 
 = Version 5.0.1 =
@@ -539,7 +539,7 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Removed the general "Buttons Language" option and replaced it with three additional language options for Facebook, Google+ and Twitter. Each social button supports a very different set of languages (and language acronyms), so combining them into a single option wasn't very functional.
 * **Fixed** the missing "ngfb-content-buttons" CSS class for social buttons enabled on the settings page.
 * Added a "ngfb-shortcode-buttons" CSS class for social buttons included using the `&#91;ngfb&#93;` shortcode.
-* Improved the "Social Buttons Style" example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) section.
+* Improved the "Social Buttons Style" example in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) section.
 
 = Version 3.6.2 =
 
@@ -601,7 +601,7 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 * Changed the `NGFB_CONTENT_PRIORITY` from 20 to 100 for the Crayon plugin (a priority less than 100 breaks it's rendering).
 * Slight improvements to the async JavaScript function used to retrieve social button JavaScript files.
 * Changed Facebook like/send button from XFBML to HTML5 code.
-* Improved the social button CSS stylesheet example in the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
+* Improved the social button CSS stylesheet example in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for faster rendering speed.
 
 = Version 3.4 =
 
@@ -741,10 +741,10 @@ Version 4.0 includes many changes to use the WordPress [Object Cache](http://cod
 
 * The NextGEN Facebook Open Graph options page has been re-worked to make it more compact.
 * Added the Tumblr social sharing button, including support for posting *featured* images, embedded video, or links to posts and pages.
-* Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the FAQ for additional information on it's use.
+* Added a `ngfb_get_social_buttons()` function to use in your theme templates. See the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for additional information on it's use.
 * Added an optional "NGFB Social Buttons" widget to include social buttons in any post or page widget area.
 
-You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/) tab for additional information).
+You can enable social buttons in the content, use the social buttons widget, and call the `ngfb_get_social_buttons()` function from your template(s) -- all at the same time -- but all social buttons share the same settings from the admin options page (the layout of each can differ by using the available CSS class names - see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information).
 
 = Version 1.7.2 =
 
@@ -778,7 +778,7 @@ You can enable social buttons in the content, use the social buttons widget, and
 * Added the "Default Image on Search Page" option.
 * Added the "WP-WikiBox Tag Prefix" option to identify the WordPress tag names used to retrieve Wikipedia content.
 * The two WP-WikiBox options ("Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix") will not appear on the settings page unless the WP-WikiBox plugin is installed and activated.
-* Updated the readme's Description and FAQ sections with more information on Open Graph and it's use by Google and LinkedIn.
+* Updated the readme's Description and [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) sections with more information on Open Graph and it's use by Google and LinkedIn.
 
 = Version 1.5 =
 
@@ -934,7 +934,7 @@ Added JavaScript function to load button JavaScript files asynchronously. Added 
 
 = 3.0 =
 
-Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/).
+Major revision and several new features. List several images/videos and add Page ancestor tags in the OG meta tags. Head Link options for Google Search. "Performance Tuning" section in [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/).
 
 = 2.4 =
 
