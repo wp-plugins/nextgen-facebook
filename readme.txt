@@ -296,11 +296,9 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Resources ==
 
-The <em>Other Notes</em> tab on WordPress.org is limited in length. You can access the complete [Other Notes on Surnia Ulula](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/).
-
 [Follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
 
-Need help? See the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
+Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
 == Shortcodes ==
 
