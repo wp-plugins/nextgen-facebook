@@ -425,7 +425,11 @@ function uwf_filter_ngfb_tags( $tags = array() ) {
 }
 `
 
-Filter functions in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the $accepted_args parameter should always be "1" for NGFB filters.
+Filter functions in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter should always be "1" for NGFB filters.
+
+`
+<?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?> 
+`
 
 The following list of NGFB filters receive, and should return, a standard text string.
 
