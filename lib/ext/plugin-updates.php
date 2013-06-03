@@ -25,6 +25,7 @@ class plugin_check_for_updates {
 	public $slug = '';
 	public $time_period = 12;
 	public $update_info_option = '';
+	public $sched_name = 'every12hours';
 
 
 	#----------------------------------------------------------------------
@@ -39,6 +40,7 @@ class plugin_check_for_updates {
 		$this->file_name = plugin_basename($file_name);
 		$this->slug = $slug;
 		$this->time_period = $time_period;
+		$this->sched_name = 'every' . $this->time_period . 'hours';
 		$this->update_info_option = $update_info_option;
 		$this->install_hooks();
 	}
@@ -50,15 +52,14 @@ class plugin_check_for_updates {
 	# A function to Install the Cron Hooks
 	#----------------------------------------------------------------------
 	function install_hooks() {
+		$cron_hook = 'pcfu_updates-' . $this->slug;
 		add_filter('plugins_api', array(&$this, 'inject_data'), 10, 3);
 		add_filter('site_transient_update_plugins', array(&$this,'inject_update'));
-		$cron_hook = 'pcfu_updates-' . $this->slug;
 		if ($this->time_period > 0) {
 			add_filter('cron_schedules', array(&$this, 'pcfu_custom_schedule'));
-			if (!wp_next_scheduled($cron_hook) && !defined('WP_INSTALLING')) {
-				wp_schedule_event(time(), 'hourly', $cron_hook);	
-			}
 			add_action($cron_hook, array(&$this, 'check_for_updates'));
+			if (!wp_next_scheduled($cron_hook) && !defined('WP_INSTALLING'))
+				wp_schedule_event(time(), $this->sched_name, $cron_hook);	
 		} else { wp_clear_scheduled_hook($cron_hook); }
 	}
 
@@ -84,7 +85,7 @@ class plugin_check_for_updates {
 	#----------------------------------------------------------------------
 	function inject_update($updates) {
 
-		// remove WP entry (if any) - added by jsm@surniaulula.com 2013/06/03
+		// remove existing WP entry - added by jsm@surniaulula.com 2013/06/03
 		if ( ! empty( $updates->response[$this->file_name] ) )
 			unset( $updates->response[$this->file_name] );
 
@@ -105,8 +106,7 @@ class plugin_check_for_updates {
 	#----------------------------------------------------------------------
 	function pcfu_custom_schedule($schedule) {
 		if ($this->time_period && ($this->time_period > 0)) {
-			$schedule_name = 'every' . $this->time_period . 'hours';
-			$schedule[$schedule_name] = array(
+			$schedule[$this->sched_name] = array(
 				'interval' => $this->time_period * 3600,
 				'display' => sprintf('Every %d hours', $this->time_period)
 			);
