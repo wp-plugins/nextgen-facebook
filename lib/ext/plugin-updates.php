@@ -23,7 +23,7 @@ class plugin_check_for_updates {
 	public $json_url = '';
 	public $file_name = '';
 	public $slug = '';
-	public $time_period = 6;
+	public $time_period = 12;
 	public $update_info_option = '';
 
 
@@ -83,7 +83,11 @@ class plugin_check_for_updates {
 	# A filter to inject our update data into WP
 	#----------------------------------------------------------------------
 	function inject_update($updates) {
-		unset( $updates->response[$this->file_name] );	// remove WP entry (if any) - added by 2013/06/03 jsm@surniaulula.com
+
+		// remove WP entry (if any) - added by jsm@surniaulula.com 2013/06/03
+		if ( ! empty( $updates->response[$this->file_name] ) )
+			unset( $updates->response[$this->file_name] );
+
 		$option_data = get_site_option($this->update_info_option);
 		if (!empty($option_data) && isset($option_data->update) && !empty($option_data->update)) {
 			if (version_compare($option_data->update->version, $this->get_installed_version(), '>')) {
