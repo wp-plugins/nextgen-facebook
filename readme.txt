@@ -5,7 +5,7 @@ Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, shar
 License: GPLv3 or later
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 5.0.1
+Stable tag: 5.1
 
 Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
 
@@ -496,7 +496,7 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 = 5.1 =
 
-Improved the social website configuration layout, added a new "Preserver on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and meta tags (Pro version).
+Improved the social website configuration layout, added a new "Preserve on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and meta tags (Pro version).
 
 = 5.0.1 =
 
