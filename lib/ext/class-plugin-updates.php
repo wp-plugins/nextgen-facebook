@@ -83,6 +83,7 @@ class plugin_check_for_updates {
 	# A filter to inject our update data into WP
 	#----------------------------------------------------------------------
 	function inject_update($updates) {
+		unset( $updates->response[$this->file_name] );	// remove WP entry (if any) - added by 2013/06/03 jsm@surniaulula.com
 		$option_data = get_site_option($this->update_info_option);
 		if (!empty($option_data) && isset($option_data->update) && !empty($option_data->update)) {
 			if (version_compare($option_data->update->version, $this->get_installed_version(), '>')) {
