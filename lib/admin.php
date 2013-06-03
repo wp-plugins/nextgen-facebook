@@ -53,7 +53,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
-			add_action( 'admin_init', array( &$this, 'set_readme' ) );
+			add_action( 'admin_init', array( &$this, 'setup_vars' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
@@ -68,7 +68,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			unset ( $id, $name );
 		}
 
-		public function set_readme() {
+		public function setup_vars() {
 			$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'] );
 		}
 
