@@ -465,8 +465,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 5.1 =
 
 * The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
-* Added a new "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin.  
-* Added new static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allowed you to enter CDN URLs, choose folders to include / exclude, etc.
+* Added a "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin (useful when upgrading to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/)).  
+* Added static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allow you to enter CDN URLs, choose folders to include / exclude, etc.
 * Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information on NGFB filter hooks.
 * Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
 
