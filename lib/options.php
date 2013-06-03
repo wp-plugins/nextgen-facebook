@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '27';	// increment when adding/removing default options
+		public $version = '28';	// increment when adding/removing default options
 
 		private $ngfb;		// ngfbPlugin
 		private $defaults = array(
@@ -307,7 +307,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $this->renamed as $old => $new )
 					// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 					if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-						$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . $new . '\' with a value of \'' . $opts[$old] . '\'.' );
+						if ( $this->ngfb->debug->on == true )
+							$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
+								$new . '\' with a value of \'' . $opts[$old] . '\'.' );
 						$opts[$new] = $opts[$old];
 						unset( $opts[$old] );
 					}
@@ -317,7 +319,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $opts as $key => $val )
 					// check that the key doesn't exist in the default options (which is a complete list of the current options used)
 					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-						$this->ngfb->notices->inf( 'Removing deprecated option \'' . $key . '\' with a value of \'' . $val . '\'.' );
+						if ( $this->ngfb->debug->on == true )
+							$this->ngfb->notices->inf( 'Removing deprecated option \'' . 
+								$key . '\' with a value of \'' . $val . '\'.' );
 						unset( $opts[$key] );
 					}
 				unset ( $key, $val );
@@ -325,7 +329,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// add missing options and set to defaults
 				foreach ( $def_opts as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						$this->ngfb->notices->inf( 'Adding missing \'' . $key . '\' option with the default value of \'' . $def_val . '\'.' );
+						if ( $this->ngfb->debug->on == true )
+							$this->ngfb->notices->inf( 'Adding missing \'' . $key . 
+								'\' option with the default value of \'' . $def_val . '\'.' );
 						$opts[$key] = $def_val;
 					}
 				}
@@ -334,9 +340,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$opts = $this->sanitize( $opts, $def_opts );
 
 				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
-					the updated settings have not been saved back to the database yet.
-					<a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
-					to make these updates permanent.' );
+					<em>the updated settings have not been saved back to the database yet</em>.
+					<strong><a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
+					to make these changes permanent.</strong>' );
 	
 				if ( $this->ngfb->is_avail['aop'] == false )
 					$this->ngfb->notices->inf( $this->ngfb->msgs['purchase'] );
