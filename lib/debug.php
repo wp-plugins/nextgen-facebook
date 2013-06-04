@@ -31,14 +31,18 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 
-			if ( ! empty( $this->ngfb->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-				$this->on = true;
+			if ( ! empty( $this->ngfb->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
 				$this->logs['html'] = true;
-			}
 
 			// to enable logging in WP's debug log, WP_DEBUG must be true, WP_DEBUG_LOG true, and WP_DEBUG_DISPLAY false.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'WP_DEBUG_DISPLAY' ) && ! WP_DEBUG_DISPLAY )
+			if ( defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG )
 				$this->logs['wp'] = true;
+
+			foreach ( $this->logs as $val )
+				if ( $val == true ) {
+					$this->on = true;
+					break;
+				}
 
 			$this->mark();
 		}

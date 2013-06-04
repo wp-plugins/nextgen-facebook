@@ -147,6 +147,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// allow some constants to be pre-defined in wp-config.php
 
 			// NGFB_DEBUG
+			// NGFB_WP_DEBUG
 			// NGFB_RESET
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
@@ -161,13 +162,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_MENU_PRIORITY', '99.10' );
 
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
-				define( 'NGFB_HEAD_PRIORITY', 5 );
+				define( 'NGFB_HEAD_PRIORITY', 10 );
 
 			if ( ! defined( 'NGFB_SOCIAL_PRIORITY' ) )
 				define( 'NGFB_SOCIAL_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
-				define( 'NGFB_FOOTER_PRIORITY', 10 );
+				define( 'NGFB_FOOTER_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 160 );
@@ -367,9 +368,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
 
-			if ( $this->debug->on == true ) {
+			if ( $this->debug->logs['html'] == true ) {
 				$this->cache->object_expire = 1;
-				$this->notices->inf( 'Debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
+				$this->debug->log( 'WP object cache expiration set to 1 second for new objects' );
+				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
 					WP object cache expiration <em>temporarily</em> set at 1 second.' );
 				if ( $this->is_avail['aop'] == false )
 					$this->notices->inf( $this->msgs['purchase'] );
