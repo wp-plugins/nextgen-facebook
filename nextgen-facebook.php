@@ -113,7 +113,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) || 
 				! is_array( $this->options ) || empty( $this->options ) ) {
 
-				$this->notices->inf( 'Default plugin options have loaded. <a href="' . $this->util->get_options_url() . '">Please visit the settings page to review and and save the options</a>.' );
+				//$this->notices->inf( 'Default plugin options have loaded. <a href="' . $this->util->get_options_url() . '">Please visit the settings page to review and and save the options</a>.' );
 
 				$opts = $this->opt->get_defaults();
 				$opts['ngfb_version'] = $this->opt->version;
