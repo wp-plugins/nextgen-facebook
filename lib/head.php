@@ -36,7 +36,6 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function add_header() {
 			if ( $this->ngfb->debug->on ) {
 				$defined_constants = get_defined_constants( true );
-				//$this->ngfb->debug->show( $this->preg_grep_keys( '/^(NGFB_|WP)/', $defined_constants['user'] ), 'NGFB and WP Constants' );
 				$this->ngfb->debug->show( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 				$this->ngfb->debug->show( $this->ngfb->options, 'NGFB Settings' );
 				$this->ngfb->debug->show( $this->ngfb->is_avail, 'Available Features' );
