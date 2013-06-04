@@ -98,6 +98,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
+			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
 
 			add_action( 'init', array( &$this, 'init_plugin' ) );
@@ -120,9 +121,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
 				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
 			}
-
 			if ( $this->is_avail['aop'] == false )
 				$this->notices->inf( $this->msgs['purchase'] );
+		}
+
+		public function deactivate() {
+			wp_clear_scheduled_hook('pcfu_updates-' . $this->slug);
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
