@@ -103,6 +103,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 				'og_img_url' => '',
 				'og_img_max' => -1,
 				'og_vid_max' => -1,
+				'buttons_disabled' => 0,
 			);
 			if ( ! empty( $idx ) ) return $defs[$idx];
 			else return $defs;
