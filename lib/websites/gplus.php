@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_rows() {
@@ -134,7 +134,7 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_html( $atts = array() ) {

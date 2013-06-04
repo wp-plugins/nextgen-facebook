@@ -26,7 +26,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			$this->og = new ngfbOpenGraph( $ngfb_plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );

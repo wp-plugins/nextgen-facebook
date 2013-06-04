@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_rows() {
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_html( $atts = array() ) {

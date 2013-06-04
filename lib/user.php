@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 
 			add_filter( 'user_contactmethods', array( &$this, 'contactmethods' ), 20, 1 );
 		}

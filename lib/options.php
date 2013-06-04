@@ -175,7 +175,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_defaults( $idx = '' ) {

@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function __construct( &$ngfb_plugin, $opts_name, &$opts, &$def_opts ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			$this->options_name =& $opts_name;
 			$this->options =& $opts;
 			$this->defaults =& $def_opts;

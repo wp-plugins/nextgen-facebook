@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 
 			add_filter( 'language_attributes', array( &$this, 'add_doctype' ) );
 		}

@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			if ( $this->ngfb->is_avail['aop'] == true )
 				$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
 		}
@@ -290,6 +290,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url ) {
+			$this->ngfb->debug->log( 'creating Automattic_Readme() class object' );
 			$Automattic_Readme = new Automattic_Readme();
 			$this->ngfb->debug->log( 'fetching readme from ' . $url );
 			$readme = $this->ngfb->cache->get( $url, 'raw', 'file' );

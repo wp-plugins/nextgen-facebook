@@ -26,7 +26,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		// children executing this __construct() should have an empty add_actions() method
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			$this->add_actions();
 		}
 

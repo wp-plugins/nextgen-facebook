@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbSocial' . preg_replace( '/ /', '', $name );

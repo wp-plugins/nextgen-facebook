@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			$this->base_dir = dirname ( __FILE__ ) . '/cache/';
 			$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
 		}

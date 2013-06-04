@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.1
+Version: 5.1.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.1';	// only for display purposes
+		public $version = '5.1.1';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
@@ -131,7 +131,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// delete options table entries only when plugin deactivated and deleted
 		public function uninstall() {
-			if ( empty( $this->options['ngfb_preserve'] ) )
+			$options = get_option( NGFB_OPTIONS_NAME );
+			if ( empty( $options['ngfb_preserve'] ) )
 				delete_option( NGFB_OPTIONS_NAME );
 		}
 
@@ -288,7 +289,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['aop'] == true )
 				$this->fullname .= ' Pro';
 
-			// load option values first for use in __construct() methods
+			// load option values first for use in the following class __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
@@ -312,11 +313,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 
 			$this->debug = new ngfbDebug( $this );
-
-			if ( ! empty( $this->options['ngfb_debug'] ) || 
-				( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
-					$this->debug->on = true;
-
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );

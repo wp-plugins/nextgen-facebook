@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 
 			foreach ( $this->ngfb->shortcode_libs as $id => $name ) {
 				$classname = 'ngfbShortCode' . preg_replace( '/ /', '', $name );

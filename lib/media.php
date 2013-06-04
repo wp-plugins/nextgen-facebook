@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 		}
 
 		public function get_size_info( $size_name = 'thumbnail' ) {

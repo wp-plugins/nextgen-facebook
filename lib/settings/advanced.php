@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		// executed by ngfbSettingsAdvancedPro() as well
 		public function __construct( &$ngfb_plugin, $id, $name ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->lognew();
+			$this->ngfb->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
 		}

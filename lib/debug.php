@@ -21,33 +21,53 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 	class ngfbDebug {
 
 		public $on = false;
-
+		public $logs = array(
+			'html' => false,
+			'wp' => false,
+		);
 		private $ngfb;		// ngfbPlugin
 		private $msgs = array();
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->lognew();
+			$this->mark();
+
+			if ( ! empty( $this->ngfb->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
+				$this->on = true;
+				$this->logs['html'] = true;
+			}
+
+			// to enable logging in WP's debug log, WP_DEBUG must be true, WP_DEBUG_LOG true, and WP_DEBUG_DISPLAY false.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'WP_DEBUG_DISPLAY' ) && ! WP_DEBUG_DISPLAY )
+				$this->logs['wp'] = true;
+
 		}
 
-		public function lognew() {
-			$this->log( 'object created', 2 );
+		public function mark() {
+			$this->log( 'MARK', 2 );
 		}
 
-		public function log( $msg = '', $back = 1 ) {
-			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-				$from = '';
+		public function log( $var = '', $back = 1 ) {
+
+			if ( $this->on == true ) {
+
+				$log_msg = '';
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[$back]['class'] ) ) 
-					$from .= sprintf( '%-25s:: ', $stack[$back]['class'] );
+					$log_msg .= sprintf( '%-25s:: ', $stack[$back]['class'] );
 
 				if ( ! empty( $stack[$back]['function'] ) ) 
-					$from .= sprintf( '%-24s : ', $stack[$back]['function'] );
+					$log_msg .= sprintf( '%-24s : ', $stack[$back]['function'] );
 
-				if ( ! empty( $from ) ) 
-					$msg = $from . $msg;
+				if ( is_array( $var ) || is_object( $var ) )
+					$log_msg .= print_r( $var, true );
+				else $log_msg .= $var;
 
-				$this->msgs[] = $msg;
+				if ( $this->logs['html'] == true )
+					$this->msgs[] = $log_msg;
+
+				if ( $this->logs['wp'] == true )
+					error_log( 'NGFB ' . $log_msg );
 			}
 		}
 
