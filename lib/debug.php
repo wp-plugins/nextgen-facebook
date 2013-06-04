@@ -30,7 +30,6 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
-			$this->mark();
 
 			if ( ! empty( $this->ngfb->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
 				$this->on = true;
@@ -41,6 +40,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG && defined( 'WP_DEBUG_DISPLAY' ) && ! WP_DEBUG_DISPLAY )
 				$this->logs['wp'] = true;
 
+			$this->mark();
 		}
 
 		public function mark() {
@@ -48,9 +48,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		public function log( $var = '', $back = 1 ) {
-
 			if ( $this->on == true ) {
-
 				$log_msg = '';
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[$back]['class'] ) ) 

@@ -29,8 +29,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			if ( $this->ngfb->is_avail['aop'] == true )
-				$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
+			if ( ! empty( $this->ngfb->is_avail['aop'] ) && 
+				$this->ngfb->is_avail['aop'] == true )
+					$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
 		}
 
 		public function is_assoc( $arr ) {

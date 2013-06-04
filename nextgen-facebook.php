@@ -104,28 +104,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_action( 'init', array( &$this, 'init_plugin' ) );
 		}
 
-		// create new default options on plugin activation if ngfb_reset = 1, NGFB_RESET is true,
-		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		public function activate() {
-
-			$opts = get_option( NGFB_OPTIONS_NAME );
-
-			if ( ! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) || 
-				! is_array( $this->options ) || empty( $this->options ) ) {
-
-				//$this->notices->inf( 'Default plugin options have loaded. <a href="' . $this->util->get_options_url() . '">Please visit the settings page to review and and save the options</a>.' );
-
-				$opts = $this->opt->get_defaults();
-				$opts['ngfb_version'] = $this->opt->version;
-
-				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
-				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
-			}
-
-			$this->init_plugin();	// check deps and setup vars
-
-			if ( $this->is_avail['aop'] == false )
-				$this->notices->inf( $this->msgs['purchase'] );
+			$this->check_deps();
+			$this->setup_vars( true );
 		}
 
 		public function deactivate() {
@@ -141,11 +122,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
-
-			$this->check_deps();		// run before setup_vars() to check if ngg is active
+			$this->check_deps();
 			$this->setup_vars();
-
-			// add_action() tests and debug output
 			if ( $this->debug->on ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -287,17 +265,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// get the options, upgrade the option names (if necessary), and validate their values
-		private function setup_vars() {
+		private function setup_vars( $activate = false ) {
 
-			if ( $this->is_avail['aop'] == true )
-				$this->fullname .= ' Pro';
-
-			// load option values first for use in the following class __construct() methods
+			// load options 
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
 				$this->ngg_options = get_option( 'ngg_options' );
 
+			if ( $this->is_avail['aop'] == true )
+				$this->fullname .= ' Pro';
+
+			// define some re-usable text strings
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
@@ -315,10 +294,31 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
 			);
 
+			// create essential object classes
 			$this->debug = new ngfbDebug( $this );
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
+
+			// plugin is being activated - create default options
+			if ( $activate == true ) {
+				$this->debug->log( 'plugin activated' );
+				if ( ! is_array( $this->options ) || empty( $this->options ) ||
+					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
+	
+					$this->options = $this->opt->get_defaults();
+					$this->options['ngfb_version'] = $this->opt->version;
+
+					delete_option( NGFB_OPTIONS_NAME );
+					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
+			
+					$this->debug->log( 'default options have been added to the database' );
+				}
+				$this->debug->log( 'exiting early for: init_plugin() to follow' );
+				return;	// no need to continue, init_plugin() will handle the rest
+			}
+
+			// continue creating object classes
 			$this->head = new ngfbHead( $this );
 			$this->social = new ngfbSocial( $this );
 			$this->user = new ngfbUser( $this );
@@ -334,16 +334,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
 			}
 
-			// create this object last since it may modify others
 			if ( $this->is_avail['aop'] == true )
-				$this->pro = new ngfbAddOnPro( $this );
+				$this->pro = new ngfbAddOnPro( $this );	// create pro last since it extends previous
 
+			// error checks / messages
 			if ( $this->is_avail['mbdecnum'] != true )
 				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
 					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
 					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
 
-			// make sure we have something to work with
+			// make sure we have something to work with - upgrade options if necessary
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
 				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opt->version )
 					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
