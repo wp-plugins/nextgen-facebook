@@ -462,6 +462,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.1.1 =
+
+* Added debug messages to WP's debug log when certain conditions exist (NGFB debug must be turned on, WP_DEBUG = true, WP_DEBUG_LOG = true, and WP_DEBUG_DISPLAY = false).
+
 = Version 5.1 =
 
 * The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
