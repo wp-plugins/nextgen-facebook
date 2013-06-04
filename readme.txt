@@ -464,6 +464,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 5.1.1 =
 
+* Fixed the `uninstall()` method to read plugin options as a stand-alone method.
+* Improved the plugin `activate()` method to terminate sooner (and hand-off to the `init_plugin()` method that follows it).
+* Added a `deactivate()` method to remove the Pro version "update check" cronjob (if any) upon deactivation.
 * Added debug messages to WP's debug log when certain conditions exist (NGFB debug must be turned on, WP_DEBUG = true, WP_DEBUG_LOG = true, and WP_DEBUG_DISPLAY = false).
 
 = Version 5.1 =
