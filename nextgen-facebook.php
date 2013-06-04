@@ -336,8 +336,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
+			// create pro last since it extends previous classes (util / meta / admin->settings)
 			if ( $this->is_avail['aop'] == true )
-				$this->pro = new ngfbAddOnPro( $this );	// create pro last since it extends previous
+				$this->pro = new ngfbAddOnPro( $this );
 
 			// error checks / messages
 			if ( $this->is_avail['mbdecnum'] != true )
