@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.1
+Version: 5.1.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.1';	// only for display purposes
+		public $version = '5.1.1';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
@@ -108,12 +108,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// NGFB_OPTIONS_NAME is not an array, or NGFB_OPTIONS_NAME is an empty array
 		public function activate() {
 
-			$this->init_plugin();	// check deps and setup vars
+			$opts = get_option( NGFB_OPTIONS_NAME );
 
-			if ( ! empty( $this->options['ngfb_reset'] ) 
-				|| ( defined( 'NGFB_RESET' ) && NGFB_RESET ) 
-				|| ! is_array( $this->options ) 
-				|| empty( $this->options ) ) {
+			if ( ! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) || 
+				! is_array( $this->options ) || empty( $this->options ) ) {
+
+				$this->notices->inf( 'Default plugin options have loaded. <a href="' . $this->util->get_options_url() . '">Please visit the settings page to review and and save the options</a>.' );
 
 				$opts = $this->opt->get_defaults();
 				$opts['ngfb_version'] = $this->opt->version;
@@ -121,6 +121,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				delete_option( NGFB_OPTIONS_NAME );	// remove old options, if any
 				add_option( NGFB_OPTIONS_NAME, $opts, null, 'yes' );
 			}
+
+			$this->init_plugin();	// check deps and setup vars
+
 			if ( $this->is_avail['aop'] == false )
 				$this->notices->inf( $this->msgs['purchase'] );
 		}
@@ -289,7 +292,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['aop'] == true )
 				$this->fullname .= ' Pro';
 
-			// load option values first for use in __construct() methods
+			// load option values first for use in the following class __construct() methods
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 
 			if ( $this->is_avail['ngg'] == true )
@@ -313,11 +316,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 
 			$this->debug = new ngfbDebug( $this );
-
-			if ( ! empty( $this->options['ngfb_debug'] ) || 
-				( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
-					$this->debug->on = true;
-
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
@@ -351,8 +349,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
 			} else {
 				$this->notices->err( 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
-					All plugin settings have been returned to their default values (though nothing has been saved back to the database). 
-					<a href="' . $this->util->get_options_url() . '">Please visit the settings page to review and change the default values</a>.' );
+					All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
+					<a href="' . $this->util->get_options_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
 				$this->options = $this->opt->get_defaults();
 			}
 
