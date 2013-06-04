@@ -53,7 +53,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
-			add_action( 'admin_init', array( &$this, 'setup_vars' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
@@ -68,8 +67,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			unset ( $id, $name );
 		}
 
-		public function setup_vars() {
-			$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'] );
+		public function set_readme() {
+			if ( empty( $this->readme ) )
+				$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'] );
 		}
 
 		public function check_wp_version() {
@@ -180,6 +180,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			wp_enqueue_script( 'common' );
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
+
+			$this->ngfb->admin->set_readme();	// version info on all pages needs this
 
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
