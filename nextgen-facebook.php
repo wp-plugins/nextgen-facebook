@@ -320,12 +320,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// continue creating object classes
-			$this->head = new ngfbHead( $this );
-			$this->social = new ngfbSocial( $this );
 			$this->user = new ngfbUser( $this );
-			$this->tags = new ngfbTags( $this );
 			$this->media = new ngfbMedia( $this );
-			$this->webpage = new ngfbWebPage( $this );
 			$this->meta = new ngfbPostMeta( $this );
 			$this->style = new ngfbStyle( $this );
 			$this->cache = new ngfbCache( $this );
@@ -333,6 +329,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );
+			} else {
+				$this->head = new ngfbHead( $this );		// wp_head / opengraph
+				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
+				$this->webpage = new ngfbWebPage( $this );	// title, desc, etc., plus shortcodes
+				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
 			if ( $this->is_avail['aop'] == true )
