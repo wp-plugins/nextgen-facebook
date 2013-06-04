@@ -501,6 +501,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 == Upgrade Notice ==
 
+= 5.1.1 =
+
+Minor fix for the `uninstall()` method, minor improvement to the `activate()` method, added a new `deactivate()` method, and added support for WP's debug log. See the [Changelog](http://surniaulula.com/extend/plugins/nextgen-facebook/changelog/) for more details.
+
 = 5.1 =
 
 Improved the social website configuration layout, added a new "Preserve on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and meta tags (Pro version).
