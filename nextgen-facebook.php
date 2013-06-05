@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.1.1
+Version: 5.1.2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.1.1';	// only for display purposes
+		public $version = '5.1.2';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
@@ -124,7 +124,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function init_plugin() {
 			$this->check_deps();
 			$this->setup_vars();
-			if ( $this->debug->on ) {
+			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
@@ -296,7 +296,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 
 			// create essential object classes
-			$this->debug = new ngfbDebug( $this );
+			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 
+					'html' => ( ! empty( $this->options['ngfb_debug'] ) || 
+						( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false ),
+					'wp' => ( defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false ),
+				)
+			);
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
@@ -370,7 +375,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
 
-			if ( $this->debug->logs['html'] == true ) {
+			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = 1;
 				$this->debug->log( 'WP object cache expiration set to 1 second for new objects' );
 				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 

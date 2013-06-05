@@ -20,85 +20,84 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 	class ngfbDebug {
 
-		public $on = false;
-		public $logs = array(
-			'html' => false,
-			'wp' => false,
-		);
-		private $ngfb;		// ngfbPlugin
-		private $msgs = array();
+		private $longname = '';
+		private $shortname = '';
+		private $active = false;	// true if at least one subsys is true
+		private $buffer = array();	// accumulate text strings going to html output
+		private $subsys = array();	// associative array to enable various outputs 
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
+		public function __construct( $longname, $shortname, 
+			$subsys = array( 'html' => false, 'wp' => false ) ) {
 
-			if ( ! empty( $this->ngfb->options['ngfb_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) )
-				$this->logs['html'] = true;
-
-			// to enable logging in WP's debug log, WP_DEBUG must be true, WP_DEBUG_LOG true, and WP_DEBUG_DISPLAY false.
-			if ( defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG )
-				$this->logs['wp'] = true;
-
-			foreach ( $this->logs as $val )
-				if ( $val == true ) {
-					$this->on = true;
-					break;
-				}
-
+			$this->longname = $longname;
+			$this->shortname = $shortname;
+			$this->subsys = $subsys;
+			$this->check();
 			$this->mark();
 		}
 
-		public function mark() {
-			$this->log( 'MARK', 2 );
+		public function is_on( $subsys_name = '' ) {
+			if ( ! empty( $subsys_name ) )
+				// returns the subsys value, or false if not found
+				return array_key_exists( $subsys_name, $this->subsys ) ? 
+					$this->subsys[$subsys_name] : false;
+			else return $this->active;
 		}
 
-		public function log( $var = '', $back = 1 ) {
-			if ( $this->on == true ) {
+		public function turn_on( $subsys_name ) {
+			// sets and returns $this->active (which is always true here)
+			return $this->turn_to( $subsys_name, true );
+		}
+
+		public function turn_off( $subsys_name ) {
+			// sets and returns $this->active (which is true, until all subsys are false)
+			return $this->turn_to( $subsys_name, false );
+		}
+
+		public function mark() {
+			$this->log( 'mark', 2 );
+		}
+
+		public function log( $input = '', $backtrace = 1 ) {
+			if ( $this->active == true ) {
 				$log_msg = '';
 				$stack = debug_backtrace();
-				if ( ! empty( $stack[$back]['class'] ) ) 
-					$log_msg .= sprintf( '%-25s:: ', $stack[$back]['class'] );
+				if ( ! empty( $stack[$backtrace]['class'] ) ) 
+					$log_msg .= sprintf( '%-25s:: ', $stack[$backtrace]['class'] );
 
-				if ( ! empty( $stack[$back]['function'] ) ) 
-					$log_msg .= sprintf( '%-24s : ', $stack[$back]['function'] );
+				if ( ! empty( $stack[$backtrace]['function'] ) ) 
+					$log_msg .= sprintf( '%-24s : ', $stack[$backtrace]['function'] );
 
-				if ( is_array( $var ) || is_object( $var ) )
-					$log_msg .= print_r( $var, true );
-				else $log_msg .= $var;
+				if ( is_array( $input ) || is_object( $input ) )
+					$log_msg .= print_r( $input, true );
+				else $log_msg .= $input;
 
-				if ( $this->logs['html'] == true )
-					$this->msgs[] = $log_msg;
+				if ( $this->subsys['html'] == true )
+					$this->buffer[] = $log_msg;
 
-				if ( $this->logs['wp'] == true )
-					error_log( 'NGFB ' . $log_msg );
+				if ( $this->subsys['wp'] == true )
+					error_log( $this->shortname . ' ' . $log_msg );
 			}
 		}
 
-		public function show( $data = null, $title = null, $from = null ) {
-			if ( empty( $from ) ) {
+		public function show( $data = null, $title = null ) {
+			echo $this->get( $data, $title, 2 );
+		}
+
+		public function get( $data = null, $title = null, $backtrace = 1 ) {
+			$html = '';
+			$from = '';
+			if ( $this->active ) {
+				$html .= "<!-- " . $this->longname . " debug";
 				$stack = debug_backtrace();
-				if ( ! empty( $stack[1]['class'] ) ) 
-					$from .= $stack[1]['class'] . '::';
-				if ( ! empty( $stack[1]['function'] ) )
-					$from .= $stack[1]['function'];
-			}
-			echo $this->get( $data, $title, $from );
-		}
-
-		public function get( $data = null, $title = null, $from = null ) {
-			$html = null;
-			if ( $this->on || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ) {
-				$html .= "<!-- " . $this->ngfb->fullname . " debug";
-				if ( empty( $from ) ) {
-					$stack = debug_backtrace();
-					if ( ! empty( $stack[1]['class'] ) ) 
-						$from .= $stack[1]['class'] . '::';
-					if ( ! empty( $stack[1]['function'] ) )
-						$from .= $stack[1]['function'];
-				}
+				if ( ! empty( $stack[$backtrace]['class'] ) ) 
+					$from .= $stack[$backtrace]['class'] . '::';
+				if ( ! empty( $stack[$backtrace]['function'] ) )
+					$from .= $stack[$backtrace]['function'];
 				if ( empty( $data ) ) {
 					$this->log( 'truncating debug log' );
-					$data = $this->msgs;
-					$this->msgs = array();
+					$data = $this->buffer;
+					$this->buffer = array();
 				}
 				if ( ! empty( $from ) ) $html .= ' from ' . $from . '()';
 				if ( ! empty( $title ) ) $html .= ' ' . $title;
@@ -119,6 +118,17 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$html .= ' -->' . "\n";
 			}
 			return $html;
+		}
+
+		private function set_to( $subsys_name, $turn_to ) {
+			if ( ! empty( $subsys_name ) )
+				$this->subsys[$subsys_name] = $turn_to;
+			return $this->check();
+		}
+
+		private function check() {
+			$this->active = in_array( true, $this->subsys, true ) ? true : false;
+			return $this->active;
 		}
 
 		private function is_assoc( $arr ) {

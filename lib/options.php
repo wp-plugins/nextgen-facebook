@@ -307,7 +307,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $this->renamed as $old => $new )
 					// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 					if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-						if ( $this->ngfb->debug->on == true )
+						if ( $this->ngfb->debug->is_on() == true )
 							$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
 								$new . '\' with a value of \'' . $opts[$old] . '\'.' );
 						$opts[$new] = $opts[$old];
@@ -319,7 +319,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $opts as $key => $val )
 					// check that the key doesn't exist in the default options (which is a complete list of the current options used)
 					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-						if ( $this->ngfb->debug->on == true )
+						if ( $this->ngfb->debug->is_on() == true )
 							$this->ngfb->notices->inf( 'Removing deprecated option \'' . 
 								$key . '\' with a value of \'' . $val . '\'.' );
 						unset( $opts[$key] );
@@ -329,7 +329,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// add missing options and set to defaults
 				foreach ( $def_opts as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						if ( $this->ngfb->debug->on == true )
+						if ( $this->ngfb->debug->is_on() == true )
 							$this->ngfb->notices->inf( 'Adding missing \'' . $key . 
 								'\' option with the default value of \'' . $def_val . '\'.' );
 						$opts[$key] = $def_val;

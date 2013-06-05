@@ -34,7 +34,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 		// called by WP wp_head action
 		public function add_header() {
-			if ( $this->ngfb->debug->on ) {
+			if ( $this->ngfb->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
 				$this->ngfb->debug->show( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 				$this->ngfb->debug->show( $this->ngfb->options, 'NGFB Settings' );
