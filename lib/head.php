@@ -36,9 +36,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function add_header() {
 			if ( $this->ngfb->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
-				$this->ngfb->debug->show( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
-				$this->ngfb->debug->show( $this->ngfb->options, 'NGFB Settings' );
-				$this->ngfb->debug->show( $this->ngfb->is_avail, 'Available Features' );
+				$this->ngfb->debug->show_html( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				$this->ngfb->debug->show_html( $this->ngfb->options, 'NGFB Settings' );
+				$this->ngfb->debug->show_html( $this->ngfb->is_avail, 'Available Features' );
 
 				$this->ngfb->debug->log( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
 				$this->ngfb->debug->log( 'is_attachment() = ' . ( is_attachment() ? 'true' : 'false' ) );
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 			}
 			$this->html( $this->og->get() );
-			$this->ngfb->debug->show( null, 'Debug Log' );
+			$this->ngfb->debug->show_html( null, 'Debug Log' );
 		}
 
 		// called from the work/header.php template
@@ -59,8 +59,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
-			$this->ngfb->debug->show( print_r( $arr, true ), 'Open Graph Array' );
-			$this->ngfb->debug->show( print_r( $this->ngfb->util->get_urls_found(), true ), 'URLs Found' );
+			$this->ngfb->debug->show_html( print_r( $arr, true ), 'Open Graph Array' );
+			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'URLs Found' );
 
 			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
 

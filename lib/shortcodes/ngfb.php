@@ -78,7 +78,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 					$this->ngfb->debug->log( $cache_type . ' : html saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 				}
 			}
-			return $this->ngfb->debug->get() . $html;
+			return $this->ngfb->debug->get_html() . $html;
 		}
 	}
 }

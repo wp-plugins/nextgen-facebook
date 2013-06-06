@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function add_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'filter_' . $type ), NGFB_SOCIAL_PRIORITY );
-			$this->ngfb->debug->log( 'this->filter_' . $type . '() added' );
+			//$this->ngfb->debug->log( 'this->filter_' . $type . '() added' );
 		}
 
 		public function remove_filter( $type = 'the_content' ) {
@@ -53,12 +53,12 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function add_header() {
 			echo $this->get_js( 'header' );
-			$this->ngfb->debug->show( null, 'Debug Log' );
+			$this->ngfb->debug->show_html( null, 'Debug Log' );
 		}
 
 		public function add_footer() {
 			echo $this->get_js( 'footer' );
-			$this->ngfb->debug->show( null, 'Debug Log' );
+			$this->ngfb->debug->show_html( null, 'Debug Log' );
 		}
 
 		public function filter_the_excerpt( $text ) {
@@ -123,8 +123,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) &&
 				$this->ngfb->options[ 'buttons_location_' . $type ] == "top" )
-					$text = $this->ngfb->debug->get() . $html . $text;
-			else $text .= $this->ngfb->debug->get() . $html;
+					$text = $this->ngfb->debug->get_html() . $html . $text;
+			else $text .= $this->ngfb->debug->get_html() . $html;
 			return $text;
 		}
 

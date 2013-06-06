@@ -64,7 +64,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type . ' : widget_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
 			}
-			$ngfb->debug->show();
+			$ngfb->debug->show_html();
 			echo $widget_html;
 		}
 	

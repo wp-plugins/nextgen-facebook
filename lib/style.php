@@ -204,9 +204,15 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				table.ngfb-settings td input[type=text] { width:250px; }
 				table.ngfb-settings td input[type=text].short { width:50px; }
 				table.ngfb-settings td input[type=text].wide { width:100%; }
-				table.ngfb-settings td input[type=radio] { vertical-align:top; margin:4px 4px 4px 0; }
+				table.ngfb-settings td input[type=radio] { 
+					vertical-align:top; 
+					margin:4px 4px 4px 0;
+				}
 				table.ngfb-settings td textarea { padding:2px; }
-				table.ngfb-settings td textarea.wide { width:100%; height:5em; }
+				table.ngfb-settings td textarea.wide { 
+					width:100%; 
+					height:5em; 
+				}
 				table.ngfb-settings td select { width:250px; }
 				table.ngfb-settings td select.short { width:100px; }
 				table.ngfb-settings td select.medium { width:160px; }

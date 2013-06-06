@@ -198,7 +198,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_page() {
 			settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
 
-			$this->ngfb->debug->show( null, 'Debug Log' );
+			$this->ngfb->debug->show_html( null, 'Debug Log' );
 			$this->ngfb->style->admin_page();
 			$this->ngfb->style->settings();
 

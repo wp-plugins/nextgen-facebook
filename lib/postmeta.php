@@ -47,12 +47,12 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$this->ngfb->style->settings();
 			$name = $post->post_type == page ? 'Page' : 'Post';
 			echo '<table class="ngfb-settings">';
-			foreach ( $this->get_rows( $name ) as $row )
+			foreach ( $this->get_rows( $post, $name ) as $row )
 				echo '<tr>' . $row . '</tr>';
 			echo '</table>';
 		}
 
-		protected function get_rows( $name ) {
+		protected function get_rows( $post, $name ) {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 

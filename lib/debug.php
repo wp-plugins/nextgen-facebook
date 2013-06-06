@@ -26,13 +26,13 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		private $buffer = array();	// accumulate text strings going to html output
 		private $subsys = array();	// associative array to enable various outputs 
 
-		public function __construct( $longname, $shortname, 
+		public function __construct( $longname = '', $shortname = '', 
 			$subsys = array( 'html' => false, 'wp' => false ) ) {
 
 			$this->longname = $longname;
 			$this->shortname = $shortname;
 			$this->subsys = $subsys;
-			$this->check();
+			$this->set_active();
 			$this->mark();
 		}
 
@@ -44,14 +44,14 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			else return $this->active;
 		}
 
-		public function turn_on( $subsys_name ) {
+		public function switch_on( $subsys_name ) {
 			// sets and returns $this->active (which is always true here)
-			return $this->turn_to( $subsys_name, true );
+			return $this->switch_to( $subsys_name, true );
 		}
 
-		public function turn_off( $subsys_name ) {
+		public function switch_off( $subsys_name ) {
 			// sets and returns $this->active (which is true, until all subsys are false)
-			return $this->turn_to( $subsys_name, false );
+			return $this->switch_to( $subsys_name, false );
 		}
 
 		public function mark() {
@@ -80,11 +80,11 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			}
 		}
 
-		public function show( $data = null, $title = null ) {
-			echo $this->get( $data, $title, 2 );
+		public function show_html( $data = null, $title = null ) {
+			echo $this->get_html( $data, $title, 2 );
 		}
 
-		public function get( $data = null, $title = null, $backtrace = 1 ) {
+		public function get_html( $data = null, $title = null, $backtrace = 1 ) {
 			$html = '';
 			$from = '';
 			if ( $this->active ) {
@@ -120,13 +120,13 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			return $html;
 		}
 
-		private function set_to( $subsys_name, $turn_to ) {
+		private function switch_to( $subsys_name, $switch_to ) {
 			if ( ! empty( $subsys_name ) )
-				$this->subsys[$subsys_name] = $turn_to;
-			return $this->check();
+				$this->subsys[$subsys_name] = $switch_to;
+			return $this->set_active();
 		}
 
-		private function check() {
+		private function set_active() {
 			$this->active = in_array( true, $this->subsys, true ) ? true : false;
 			return $this->active;
 		}

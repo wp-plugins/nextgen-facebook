@@ -37,16 +37,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $util;		// ngfbUtil
 		public $notices;	// ngfbNotices
 		public $opt;		// ngfbOptions
-		public $head;		// ngfbHead
-		public $social;		// ngfbSocial
 		public $user;		// ngfbUser
-		public $tags;		// ngfbTags
 		public $media;		// ngfbMedia
-		public $webpage;	// ngfbWebPage
 		public $meta;		// ngfbPostMeta
-		public $admin;		// ngfbAdmin
 		public $style;		// ngfbStyle
 		public $cache;		// ngfbCache
+		// only required / created when in admin
+		public $admin;		// ngfbAdmin
+		// only required / created when NOT in admin
+		public $head;		// ngfbHead
+		public $tags;		// ngfbTags
+		public $webpage;	// ngfbWebPage
+		public $social;		// ngfbSocial
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -205,22 +207,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function load_libs() {
 
 			require_once ( NGFB_PLUGINDIR . 'lib/debug.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/util.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/notices.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/options.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/util.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/user.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
-
-			require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
@@ -229,14 +223,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
 				unset ( $id, $name );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
+			} else {
+				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
+				foreach ( $this->shortcode_libs as $id => $name )
+					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
+				unset ( $id, $name );
 			}
 
 			foreach ( $this->website_libs as $id => $name )
 				require_once ( NGFB_PLUGINDIR . 'lib/websites/' . $id . '.php' );
-			unset ( $id, $name );
-
-			foreach ( $this->shortcode_libs as $id => $name )
-				require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
 			unset ( $id, $name );
 
 			foreach ( $this->widget_libs as $id => $name )
@@ -265,18 +266,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
 		}
 
-		// get the options, upgrade the option names (if necessary), and validate their values
-		private function setup_vars( $activate = false ) {
-
-			// load options 
-			$this->options = get_option( NGFB_OPTIONS_NAME );
-
-			if ( $this->is_avail['ngg'] == true )
-				$this->ngg_options = get_option( 'ngg_options' );
-
-			if ( $this->is_avail['aop'] == true )
-				$this->fullname .= ' Pro';
-
+		private function setup_msgs() {
 			// define some re-usable text strings
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
@@ -294,7 +284,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
 					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
 			);
+		}
 
+		// get the options, upgrade the options (if necessary), and validate their values
+		private function setup_vars( $activate = false ) {
+
+			// load options 
+			$this->options = get_option( NGFB_OPTIONS_NAME );
+			if ( $this->is_avail['ngg'] == true ) $this->ngg_options = get_option( 'ngg_options' );
+			if ( $this->is_avail['aop'] == true ) $this->fullname .= ' Pro';
+			$this->setup_msgs();
+	
 			// create essential object classes
 			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 
 					'html' => ( ! empty( $this->options['ngfb_debug'] ) || 
@@ -314,10 +314,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	
 					$this->options = $this->opt->get_defaults();
 					$this->options['ngfb_version'] = $this->opt->version;
-
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
-			
 					$this->debug->log( 'default options have been added to the database' );
 				}
 				$this->debug->log( 'exiting early for: init_plugin() to follow' );
@@ -341,7 +339,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
-			// create pro last since it extends previous classes (util / meta / admin->settings)
+			// create pro class object last since it extends previous classes (util, meta, and admin->settings)
 			if ( $this->is_avail['aop'] == true )
 				$this->pro = new ngfbAddOnPro( $this );
 
@@ -356,7 +354,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opt->version )
 					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
 			} else {
-				$this->notices->err( 'WordPress returned an error when reading the "' . NGFB_OPTIONS_NAME . '" array from the options database table. 
+				if ( $this->options === false )
+					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
+				elseif ( ! is_array( $this->options ) )
+					$err_msg = 'returned a non-array value when reading "' . NGFB_OPTIONS_NAME . '" from';
+				elseif ( empty( $this->options ) )
+					$err_msg = 'returned an empty array when reading "' . NGFB_OPTIONS_NAME . '" from';
+				else 
+					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
+
+				$this->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 					<a href="' . $this->util->get_options_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
 				$this->options = $this->opt->get_defaults();
@@ -377,6 +384,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = 1;
+				$this->debug->log( 'NGFB HTML debug mode is ON' );
 				$this->debug->log( 'WP object cache expiration set to 1 second for new objects' );
 				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
 					WP object cache expiration <em>temporarily</em> set at 1 second.' );

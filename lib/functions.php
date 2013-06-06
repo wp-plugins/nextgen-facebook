@@ -38,7 +38,7 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 			set_transient( $cache_id, $html, $ngfb->cache->object_expire );
 			$ngfb->debug->log( $cache_type . ': html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
 		}
-		return $ngfb->debug->get() . $html;
+		return $ngfb->debug->get_html() . $html;
 	}
 }
 
