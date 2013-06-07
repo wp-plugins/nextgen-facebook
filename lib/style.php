@@ -30,21 +30,28 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		public function admin_page() {
 			?>
 			<style type="text/css">
-				.sig {
-					font-family:cursive;
-					font-size:1.2em;
+				.wrap div.updated, 
+				.wrap div.error { 
+					padding:0 5px 0 5px; 
+					margin:5px 0 10px 0; 
 				}
+				.wrap div.updated p, 
+				.wrap div.error p { margin:5px; }
+				.wrap div.updated p strong { font-weight:normal; }
 				.wrap { 
 					font-size:1em; 
 					line-height:1.3em; 
 				}
 				.wrap h2 { 
-					margin:0 0 10px 0; 
+					margin:0 0 15px 0; 
 				}
 				.wrap p { 
 					text-align:justify; 
 					line-height:1.2em; 
 					margin:10px 0 10px 0;
+				}
+				#wpbody-content .metabox-holder {
+					padding:0;
 				}
 				.btn_wizard_column { 
 					white-space:nowrap;
@@ -68,6 +75,10 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				.save_button { 
 					text-align:center;
 					margin:15px 0 0 0;
+				}
+				.updates_button { 
+					text-align:center;
+					margin:5px 0 10px 0;
 				}
 				.postbox_purchase_side {
 					color:#333;
@@ -123,6 +134,10 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				.website-col-2 {
 					float:right;
 					width:50%;
+				}
+				.sig {
+					font-family:cursive;
+					font-size:1.2em;
 				}
 			</style>
 			<?php

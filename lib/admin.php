@@ -67,9 +67,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			unset ( $id, $name );
 		}
 
-		public function set_readme() {
+		public function set_readme( $expire_secs = false ) {
 			if ( empty( $this->readme ) )
-				$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'] );
+				$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'], $expire_secs );
 		}
 
 		public function check_wp_version() {
@@ -145,12 +145,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function add_plugin_links( $links, $file ) {
 			// only add links when filter is called for this plugin
 			if ( $file == $this->plugin_name ) {
+				foreach ( $links as $num => $val )
+					if ( preg_match( '/>Edit</', $val ) )
+						unset ( $links[$num] );
 				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
 				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
 				if ( $this->ngfb->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
-				else
-					array_push( $links, 'Pro Installed' );
+				else array_push( $links, 'Pro Installed' );
 			}
 			return $links;
 		}
@@ -171,16 +173,24 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( $opts, $this->ngfb->opt->get_defaults() );
-				add_settings_error( NGFB_OPTIONS_NAME, 'updated', $this->ngfb->fullname . ' settings updated.', 'updated' );
-			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', $this->ngfb->fullname . ' submitted settings are not an array.', 'error' );
+				add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . '</b> : Settings updated.', 'updated' );
+			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : Submitted settings are not an array.', 'error' );
 			return $opts;
 		}
 
 		public function load_page() {
-			wp_enqueue_script( 'common' );
-			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
 
+			if ( ! empty( $_GET['action'] ) )
+				switch ( $_GET['action'] ) {
+					case 'check_for_updates' : 
+						if ( $this->ngfb->is_avail['aop'] == true ) {
+							$this->ngfb->pro->update_plugin->check_for_updates();
+							$this->ngfb->admin->set_readme( 0 );
+							$this->ngfb->notices->inf( 'Version information checked and updated.' );
+						}
+						break;
+				}
 			$this->ngfb->admin->set_readme();	// version info on all pages needs this
 
 			foreach ( $this->ngfb->setting_libs as $id => $name )
@@ -270,8 +280,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</form>', "\n";
 		}
 
-		protected function show_submit_button( $text = 'Save All Changes' ) {
-			echo '<div class="save_button"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
+		protected function show_submit_button( $text = 'Save All Changes', $class = 'save_button' ) {
+			echo '<div class="' . $class . '"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
 		}
 
 		public function show_metabox_news() {
@@ -294,7 +304,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
 					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );	// remove the inline styling
-					$desc = preg_replace( '/ cellspacing=["\'][^"\]*["\']/im', '', $desc );	// remove the inline styling
+					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove the inline styling
 					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
 						esc_html( $item->get_title() ), '</a></div><div class="description">', $desc, '</div></li>', "\n";
@@ -322,6 +332,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
+			if ( $this->ngfb->is_avail['aop'] == true ) {
+				$q = '&action=check_for_updates'; 
+				echo '<div class="updates_button"><input type="button" class="button-primary" 
+					value="Check for Updates Now" onClick="location.href=\'';
+				echo preg_replace( '/' . $q . '/', '', $_SERVER['REQUEST_URI'] ), $q;
+				echo '\'" /></div>', "\n";
+			}
 		}
 
 		public function show_metabox_purchase() {

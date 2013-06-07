@@ -118,7 +118,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_id = md5( $cache_salt );
 					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
-					$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
+					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
 					if ( file_exists( $cache_file ) ) {
 						if ( ! is_readable( $cache_file ) )
 							$this->ngfb->notices->err( $cache_file . ' is not readable.' );
@@ -151,7 +151,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_type = 'object cache';
 					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
-					$object_expire = $expire_secs == false ? $this->object_expire : $expire_secs;
+					$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 					if ( $cache_name == 'wp_cache' ) 
 						wp_cache_set( $cache_id, $cache_data, __METHOD__, $object_expire );
 					elseif ( $cache_name == 'transient' ) 

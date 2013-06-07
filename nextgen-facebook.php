@@ -29,6 +29,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $version = '5.1.2';	// only for display purposes
 		public $acronym = 'ngfb';
+		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $slug = 'nextgen-facebook';

@@ -290,11 +290,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $website_topics;
 		}
 
-		public function parse_readme( $url ) {
+		public function parse_readme( $url, $expire_secs = false ) {
 			$this->ngfb->debug->log( 'creating Automattic_Readme() class object' );
 			$Automattic_Readme = new Automattic_Readme();
 			$this->ngfb->debug->log( 'fetching readme from ' . $url );
-			$readme = $this->ngfb->cache->get( $url, 'raw', 'file' );
+			$readme = $this->ngfb->cache->get( $url, 'raw', 'file', $expire_secs );
 			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
 			return $plugin_info;
 		}

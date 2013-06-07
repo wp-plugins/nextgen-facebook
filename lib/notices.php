@@ -47,7 +47,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		}
 
 		public function admin_notices() {
-			$p_start = '<p style="padding:0;margin:5px;"><a href="' . $this->ngfb->util->get_options_url() . '">' . $this->ngfb->menuname . '</a>';
+			$p_start = '<p><b>' . $this->ngfb->acronym_uc . '</b>';
 			$p_end = '</p>';
 
 			if ( ! empty( $this->msgs['err'] ) ) {
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 
 			if ( ! empty( $this->msgs['inf'] ) ) {
 				echo '<div id="message" class="updated fade">';
-				foreach ( $this->msgs['inf'] as $msg ) echo $p_start, ' Notice : ', $msg, $p_end;
+				foreach ( $this->msgs['inf'] as $msg ) echo $p_start, ' : ', $msg, $p_end;
 				echo '</div>', "\n";
 			}
 		}
