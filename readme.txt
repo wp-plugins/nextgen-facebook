@@ -462,6 +462,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.2-RC1 =
+
+* Added a "Clear All Cache" button on the *Plugin Information* metabox.
+* Added a "Check for Updates" button on the *Plugin Information* metabox in the Pro version.
+* Added a daily schedule (as part of 'wp_scheduled_delete') to remove expired cached files and transient object cache items.
+* The Pro version update check schedule is adjusted (if necessary) to match the desired frequency (every 12 hours).
+* Optimized the library class requirements and class object creation for admin and non-admin webpages.
+
 = Version 5.1.1 =
 
 * Fixed the `uninstall()` method to read plugin options as a stand-alone method.
@@ -500,6 +508,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.2-RC1 =
+
+Added a "Clear All Cache" and "Check for Updates" button on the NGFB settings pages, a daily scheduled job to remove expired transient cache objects, and optimized the library class requirements / class object creation.
 
 = 5.1.1 =
 
