@@ -462,6 +462,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.1.2 =
+
+* Added a "Check for Updates Now" button on the Pro version.
+* The update check schedule is modified (if necessary) to match the desired configured frequency.
+* Streamlined library class inclusions, and obbject creation, for admin and non-admin webpages.
+
 = Version 5.1.1 =
 
 * Fixed the `uninstall()` method to read plugin options as a stand-alone method.
