@@ -126,18 +126,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
 
 			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
-
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-
 				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images 
 					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
-					<a href="' . $this->ngfb->util->get_options_url() . '">Please select a larger Image Size Name from the settings page</a>.' );
+					<a href="' . $this->ngfb->util->get_admin_url( 'general' ) . '">Please select a larger Image Size Name from the 
+					General Settings page</a>.' );
 			}
 
 			if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-				$url = $this->ngfb->util->get_options_url( 'advanced' );
-				$this->ngfb->notices->inf( '<b>Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
-					please enter the transaction ID you received by email on the <a href="' . $url . '">Advanced Settings</a> page.</b>' );
+				$url = $this->ngfb->util->get_admin_url( 'advanced' );
+				$this->ngfb->notices->inf( 'Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
+					<a href="' . $url . '">please enter the transaction ID you received by email on the Advanced Settings page.' );
 			}
 		}
 
@@ -148,7 +147,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				foreach ( $links as $num => $val )
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
-				array_push( $links, '<a href="' . $this->ngfb->util->get_options_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->util->get_admin_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
 				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
 				if ( $this->ngfb->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
@@ -190,6 +189,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 							$this->ngfb->notices->inf( 'Version information checked and updated.' );
 						}
 						break;
+					case 'clear_all_cache' : 
+						$this->ngfb->notices->inf( ( $this->ngfb->util->delete_expired_cache( true ) ) . ' cache file(s) and ' . 
+							( $this->ngfb->util->delete_expired_transients( true ) ) . ' transient cache object(s) cleared.' );
+						break;
 				}
 			$this->ngfb->admin->set_readme();	// version info on all pages needs this
 
@@ -197,12 +200,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
 
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_version', 'Version Info', array( &$this, 'show_metabox_version' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->ngfb->is_avail['aop'] == true )
 				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
-			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
@@ -313,7 +316,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</ul></div>', "\n";
 		}
 
-		public function show_metabox_version() {
+		public function show_metabox_info() {
 			$latest_version = '';
 			$latest_notice = '';
 			if ( ! empty( $this->ngfb->admin->readme['stable_tag'] ) ) {
@@ -332,13 +335,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
+			echo '<div class="updates_button">';
 			if ( $this->ngfb->is_avail['aop'] == true ) {
-				$q = '&action=check_for_updates'; 
-				echo '<div class="updates_button"><input type="button" class="button-primary" 
-					value="Check for Updates Now" onClick="location.href=\'';
-				echo preg_replace( '/' . $q . '/', '', $_SERVER['REQUEST_URI'] ), $q;
-				echo '\'" /></div>', "\n";
+				$q = '&amp;action=check_for_updates'; 
+				echo '<input type="button" class="button-primary" value="Check for Updates" onClick="location.href=\'';
+				echo $this->ngfb->util->get_admin_url(), $q;
+				echo '\'" /> ';
 			}
+			$q = '&amp;action=clear_all_cache'; 
+			echo '<input type="button" class="button-primary" 
+				value="Clear All Cache" onClick="location.href=\'';
+			echo $this->ngfb->util->get_admin_url(), $q;
+			echo '\'" />', "\n";
+			echo '</div>', "\n";
 		}
 
 		public function show_metabox_purchase() {

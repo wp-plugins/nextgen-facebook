@@ -462,11 +462,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 5.1.2 =
+= Version 5.2 =
 
-* Added a "Check for Updates Now" button on the Pro version.
-* The update check schedule is modified (if necessary) to match the desired configured frequency.
-* Streamlined library class inclusions, and obbject creation, for admin and non-admin webpages.
+* Added a "Clear All Cache" button on the Plugin Information metabox.
+* Added a "Check for Updates Now" button on the Plugin Information metabox in the Pro version.
+* Added a daily schedule (as part of 'wp_scheduled_delete') to remove expired cached files and transient object cache items.
+* The Pro version update check schedule is adjusted (if necessary) to match the desired frequency (every 12 hours).
+* Streamlined the library class inclusions and object creation for admin and non-admin webpages.
 
 = Version 5.1.1 =
 

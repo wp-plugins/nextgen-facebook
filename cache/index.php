@@ -1,3 +1,3 @@
 <?php
-// Silence is golden.
+// These aren't the droids you're looking for...
 ?>

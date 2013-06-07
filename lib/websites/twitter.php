@@ -62,7 +62,7 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 				'<th>Do Not Track</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
 				'<th>Shorten URLs</th><td><div style="float:left;margin-right:10px;">' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . 
 					'</div><div><p>Review the <em>Goo.gl Simple API Access Key</em> option on the <a href="' . 
-						$this->ngfb->util->get_options_url( 'advanced' ) . '">Advanced settings</a> page.</p></div></td>',
+						$this->ngfb->util->get_admin_url( 'advanced' ) . '">Advanced settings</a> page.</p></div></td>',
 			);
 		}
 

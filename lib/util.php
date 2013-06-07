@@ -29,9 +29,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
+
 			if ( ! empty( $this->ngfb->is_avail['aop'] ) && 
 				$this->ngfb->is_avail['aop'] == true )
 					$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
+
+			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_transients' ) );
+			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_cache' ) );
 		}
 
 		public function is_assoc( $arr ) {
@@ -71,10 +75,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->ngfb->debug->log( 'duplicate image rejected: ' . $url ); 
 				return false;
 			}
-		}
-
-		public function get_options_url( $submenu = 'general' ) {
-			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
 		}
 
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
@@ -298,6 +298,54 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
 			return $plugin_info;
 		}
+
+		public function get_admin_url( $submenu = '' ) {
+			if ( $submenu == '' ) {
+				$current = $_SERVER['REQUEST_URI'];
+				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
+					$submenu = $match[1];
+				else $submenu = 'general';
+			} else {
+				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
+					$submenu = 'general';
+			}
+			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+		}
+
+		public function delete_expired_transients( $clear_all = false ) { 
+			global $wpdb, $_wp_using_ext_object_cache;
+			$deleted = 0;
+			if ( $_wp_using_ext_object_cache ) return; 
+			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
+		
+			$dbquery = 'SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'_transient_timeout_' . $this->ngfb->acronym . '_%\'';
+			$dbquery .= $clear_all === true ? ';' : ' AND option_value < ' . $time . ';'; 
+			$expired = $wpdb->get_col( $dbquery ); 
+			
+			foreach( $expired as $transient ) { 
+				$key = str_replace('_transient_timeout_', '', $transient);
+				delete_transient( $key );
+				$deleted++;
+			}
+			return $deleted;
+		}
+
+		public function delete_expired_cache( $clear_all = false ) {
+			$deleted = 0;
+			if ( $dh = opendir( NGFB_CACHEDIR ) ) {
+				while ( $fn = readdir( $dh ) ) {
+					if ( ! preg_match( '/^(\.|index\.php)/', $fn ) && is_file( NGFB_CACHEDIR . $fn ) && 
+						( $clear_all === true || filemtime( NGFB_CACHEDIR . $fn ) < time() - $this->ngfb->cache->file_expire ) ) {
+
+						unlink( NGFB_CACHEDIR . $fn );
+						$deleted++;
+					}
+				}
+				closedir( $dh );
+			}
+			return $deleted;
+		}
+
 	}
 
 }

@@ -341,7 +341,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
 					<em>the updated settings have not been saved back to the database yet</em>.
-					<strong><a href="' . $this->ngfb->util->get_options_url() . '">Please review and save the settings</a> 
+					<strong><a href="' . $this->ngfb->util->get_admin_url() . '">Please review and save the settings</a> 
 					to make these changes permanent.</strong>' );
 	
 				if ( $this->ngfb->is_avail['aop'] == false )

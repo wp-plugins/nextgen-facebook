@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.1.2
+Version: 5.2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.1.2';	// only for display purposes
+		public $version = '5.2';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
@@ -279,7 +279,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
 					target="_blank">rating the plugin</a> on WordPress.org.',
 				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . 
-					' plugin will exceed all your expectations.',
+					' plugin will exceed all of your expectations.',
 				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
 					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
 				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
@@ -378,7 +378,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->user_agent = NGFB_USER_AGENT;
 			
 			if ( is_admin() )
-				$this->cache->file_expire = 24 * 60 * 60;	// force twelve hour file cache for admin interface
+				$this->cache->file_expire = 12 * 60 * 60;	// force twelve hour file cache for admin interface
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
