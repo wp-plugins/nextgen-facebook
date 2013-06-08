@@ -173,7 +173,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					text-align:right;
 					white-space:nowrap; 
 					padding:0 10px 0 4px; 
-					width:200px;
+					width:190px;
 				}
 				table.ngfb-settings th.short { 
 					width:120px;
