@@ -13,7 +13,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 = Open Graph =
 
-**Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn**. The [Open Graph](http://ogp.me/) meta tags are embedded in the head section of webpages and describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc., will be presented properly to the social website. 
+[Open Graph](http://ogp.me/) meta property tags are embedded in the head section of webpages and describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
 
 **NextGEN Facebook Open Graph (aka NGFB Open Graph) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
