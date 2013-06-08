@@ -462,7 +462,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 5.2-RC1 =
+= Version 5.2 =
 
 * Added a "Clear All Cache" button on the *Plugin Information* metabox.
 * Added a "Check for Updates" button on the *Plugin Information* metabox in the Pro version.
@@ -509,7 +509,7 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 == Upgrade Notice ==
 
-= 5.2-RC1 =
+= 5.2 =
 
 Added a "Clear All Cache" and "Check for Updates" button on the NGFB settings pages, a daily scheduled job to remove expired transient cache objects, and optimized the library class requirements / class object creation.
 
