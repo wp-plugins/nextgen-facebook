@@ -74,7 +74,7 @@ js.
 
 = Install Methods =
 
-If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option before removing the plugin (as explained in the *Automated Removal* procedure).
+If you have NGFB Open Graph already installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option before removing the plugin (as explained in the *Automated Removal* procedure).
 
 If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
