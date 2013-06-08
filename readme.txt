@@ -83,9 +83,9 @@ If you need to roll-back and re-install an older *Free* version, you can find th
 1. Go to the wp-admin/ section of your website
 1. Select the *Plugins* menu item
 1. Select the *Add New* sub-menu item
-1. In the *Search* box, enter *NextGEN Facebook Open Graph*
+1. In the *Search* box, enter "NextGEN Facebook Open Graph"
 1. Click the *Search Plugins* button
-1. Click the *Install Now* link for *NextGEN Facebook Open Graph*
+1. Click the *Install Now* link for "NextGEN Facebook Open Graph"
 1. Click the *Activate Plugin* link
 
 **Semi-Automated Install** (*Free* and *Pro* versions)
