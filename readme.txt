@@ -23,7 +23,7 @@ Once installed and activated, the NGFB Open Graph plugin will start adding all t
 
 = Social Sharing =
 
-**NGFB Open Graph also comes with multilingual social sharing buttons, that you can add above or below your content, as a widget, shortcode, or even call as a function from your theme template(s)**. NGFB Open Graph includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
+NGFB Open Graph also comes with multilingual social sharing buttons, that you can add above or below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). NGFB Open Graph includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -33,9 +33,9 @@ Once installed and activated, the NGFB Open Graph plugin will start adding all t
 * Tumblr
 * Twitter
 
-= Image Sources =
+= Media =
 
-**NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library**. *The NextGEN Gallery plugin is not required to use this plugin* -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+References to images and videos associated with the webpage may be included in the Open Graph meta property tags, and these will be used by the social websites in a variety of ways. NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library. *The NextGEN Gallery plugin is not required to use NGFB Open Graph* -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags (for Posts and Pages) are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
 1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
@@ -44,27 +44,25 @@ Once installed and activated, the NGFB Open Graph plugin will start adding all t
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
-= Video Sources =
-
-**NGFB Open Graph also detects and uses embedded videos in your content from YouTube and Vimeo**, including their preview images.
+NGFB Open Graph also detects and uses embedded videos from YouTube and Video in your content, including their preview images.
 
 = Performance =
 
-**NextGEN Facebook Open Graph (NGFB) is tuned for performance and makes full use of various caching techniques**:
+NGFB Open Graph is tuned for performance and makes full use of various caching techniques:
 
-* Using optional file / disk based caching for javascript and images from social websites (Pro version).
+* Using an optional file / disk based cache for javascript and images from social websites (Pro version).
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 
 = Support =
 
-**NextGEN Facebook Open Graph (NGFB) is being actively developed and supported**. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+NGFB Open Graph is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
 
 = Pro Version =
 
-**[A Pro version of NextGEN Facebook Open Graph (NGFB) is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+**[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-The *Free* version of NGFB Open Graph is not really "Free" -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
+**The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 
 <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also very much appreciated. ;-)
 
@@ -78,36 +76,42 @@ js.
 
 If you already have NGFB Open Graph installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option before removing the plugin (as explained in the *Automated Removal* procedure).
 
+If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
+
 **Automated Install** (*Free* version)
 
-1. Login to your website
-1. Go to Plugins
-1. Select Add New
-1. Search for *NextGEN Facebook Open Graph*
-1. Select Install
-1. Select Install Now
-1. Click the Activate Plugin link
+1. Go to the wp-admin/ section of your website
+1. Select the *Plugins* menu item
+1. Select the *Add New* sub-menu item
+1. In the *Search* box, enter *NextGEN Facebook Open Graph*
+1. Click the *Search Plugins* button
+1. Click the *Install Now* link for *NextGEN Facebook Open Graph*
+1. Click the *Activate Plugin* link
 
 **Semi-Automated Install** (*Free* and *Pro* versions)
 
 Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
 
-1. Download the plugin zip file
-1. Login to your website
-1. Go to Plugins
-1. Select Add New
-1. Click on Upload
-1. Browse for the zip file you downloaded
-1. Click on the Install Now button
-1. Click the Activate Plugin link
+1. Download the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
+1. Go to the wp-admin/ section of your website
+1. Select the *Plugins* menu item
+1. Select the *Add New* sub-menu item
+1. Click on *Upload* link (just under the Install Plugins page title)
+1. Click the *Browser...* button
+1. Navigate your local folders / directories and choose the zip file you downloaded previously
+1. Click on the *Install Now* button
+1. Click the *Activate Plugin* link
 
 **Manual Install** (*Free* and *Pro* versions)
 
-1. Download and unzip the plugin
-1. Upload the entire nextgen-facebook/ folder to the wordpress/wp-content/plugins/ directory
-1. Activate the plugin through the Plugins menu in WordPress
+1. Download and unzip the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
+1. Upload the entire nextgen-facebook/ folder to your website's wordpress/wp-content/plugins/ directory
+1. Go to the wp-admin/ section of your website
+1. Select the *Plugins* menu item
+1. Select the *Installed Plugins* sub-menu
+1. Scroll down to the *NGFB Open Graph* plugin, and click its *Activate* link
 
-Once activated, you don't have to configure any settings for NGFB to start adding Open Graph meta tags to your webpages.
+Once installed and activated, the NGFB Open Graph plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
 
 The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
 
@@ -115,22 +119,23 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 
 **Automated Removal**
 
-1. Login to your website
-1. In the NGFB Advanced settings, check "Preserve on Uninstall" if you would like to keep NGFB settings in the database
-1. Go to Plugins
-1. Select Installed Plugins
-1. Click the Deactivate link under *NGFB Open Graph*
-1. Click the Delete link under *NGFB Open Graph*
+1. Go to the wp-admin/ section of your website
+1. Select the *Open Graph* menu item
+1. Select the *Advanced* sub-menu item
+1. Check the "Preserve on Uninstall" option if you would like to keep NGFB settings in the database
+1. Select the *Plugins* menu item
+1. Select the *Installed Plugins* sub-menu
+1. Scroll down to the *NGFB Open Graph* plugin, and click its *Deactivate* link
+1. Scroll down to the *NGFB Open Graph* plugin, and click its *Delete* link
+1. Click on the *Yes, Delete these files and data* button
 
-Unless you check the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
+Note: Unless you checked the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
 
 **Manual Removal**
 
-1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder
+1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder from your website
 
-Removing the plugin folder manually will not remove its settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing its existing options.
-
-If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
+Note: Removing the plugin folder manually will not remove its settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing the existing settings.
 
 == Frequently Asked Questions ==
 
@@ -151,7 +156,7 @@ js.
 **A.** [Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
-<!-- NextGEN Facebook Open Graph meta tags BEGIN -->
+<!-- NGFB Open Graph meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/100429778043098222378/100429778043098222378/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta property="article:author" content="https://plus.google.com/104808665690163182693/posts" />
@@ -177,13 +182,13 @@ js.
 <meta property="og:title" content="WordPress Caching and Plugins for Performance" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/" />
-<!-- NextGEN Facebook Open Graph meta tags END -->
+<!-- NGFB Open Graph meta tags END -->
 `
 
 And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/).
 
 `
-<!-- NextGEN Facebook Open Graph meta tags BEGIN -->
+<!-- NGFB Open Graph meta tags BEGIN -->
 <link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Curaçao it forms a group referred to..." />
@@ -229,7 +234,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 <meta property="og:title" content="Bonaire" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
-<!-- NextGEN Facebook Open Graph meta tags END -->
+<!-- NGFB Open Graph meta tags END -->
 `
 
 = Q. Why doesn't Facebook show my (current) Open Graph image? =
@@ -242,7 +247,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
-**A.** The NextGEN Facebook Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
+**A.** The NGFB Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
@@ -278,7 +283,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP Twen
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NextGEN Facebook Open Graph (NGFB) adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+**A.** NGFB Open Graph adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
 = Q. How does NGFB find images to include in the Open Graph meta tags? =
 
@@ -338,7 +343,7 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 = Social Buttons Style =
 
-NextGEN Facebook Open Graph (NGFB) uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
+NGFB Open Graph uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
 The `example.css` file, located in the `wp-content/plugins/nextgen-facebook/` folder, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
 
@@ -362,7 +367,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NextGEN Facebook Open Graph (NGFB)](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page without the use of CSS.
+[The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
