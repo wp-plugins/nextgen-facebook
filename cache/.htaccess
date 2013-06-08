@@ -1,3 +1,0 @@
-# prevent execution of php files from the cache folder
-php_flag engine off
-AddType text/plain .php .pl .cgi .sh .shtml
