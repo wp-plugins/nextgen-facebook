@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.2
+Version: 5.3-DEV
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,12 +27,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.2';	// only for display purposes
+		public $version = '5.3-DEV';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $slug = 'nextgen-facebook';
+		public $update_hours = 12;
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -378,7 +379,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->user_agent = NGFB_USER_AGENT;
 			
 			if ( is_admin() )
-				$this->cache->file_expire = 12 * 60 * 60;	// force twelve hour file cache for admin interface
+				$this->cache->file_expire = $this->update_hours * 60 * 60;	// force twelve hour file cache for admin interface
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
