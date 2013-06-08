@@ -17,7 +17,7 @@ Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc
 
 **NextGEN Facebook Open Graph (aka NGFB Open Graph) adds [Open Graph](http://ogp.me/) meta property tags to all webpage headers**. This plugin goes well beyond any other plugins I know in handling various media and archive-type webpages. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
-Once installed and activated, the NGFB Open Graph plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
+**Once installed and activated, the NGFB Open Graph plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
 
 <!--more-->
 
