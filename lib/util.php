@@ -147,7 +147,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = $short_url;
 				} else {
 					$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
-					$goo = new sebiGoogl( $api_key );
+					$goo = new ngfb_googl( $api_key, $this->ngfb->debug );
 					$short_url = $goo->shorten( $url );
 					if ( ! empty( $short_url ) ) {
 						$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
@@ -291,11 +291,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$this->ngfb->debug->log( 'creating Automattic_Readme() class object' );
-			$Automattic_Readme = new Automattic_Readme();
-			$this->ngfb->debug->log( 'fetching readme from ' . $url );
+			$parser = new ngfb_parse_readme( $this->ngfb->debug );
 			$readme = $this->ngfb->cache->get( $url, 'raw', 'file', $expire_secs );
-			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
+			$plugin_info = $parser->parse_readme_contents( $readme );
 			return $plugin_info;
 		}
 

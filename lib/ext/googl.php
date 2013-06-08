@@ -21,18 +21,24 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'sebiGoogl' ) ) {
+if ( ! class_exists( 'ngfb_googl' ) ) {
 
-	class sebiGoogl
-	{
+	class ngfb_googl {
+
 		public $extended;
 		private $target;
 		private $apiKey;
 		private $ch;
-		
+		private $logger;
+
 		private static $buffer = array();
 	
-		function __construct($apiKey = null) {
+		function __construct( $apiKey = null, &$logger = '' ) {
+
+			// check for logging object with mark() method
+			$this->logger = method_exists( $logger, 'mark' ) ? $logger : $this;
+			$this->logger->mark();
+
 			# Extended output mode
 			$extended = false;
 	
@@ -53,6 +59,8 @@ if ( ! class_exists( 'sebiGoogl' ) ) {
 			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		}
 	
+		private function mark() { return; }
+
 		public function shorten($url, $extended = false) {
 			
 			# Check buffer
