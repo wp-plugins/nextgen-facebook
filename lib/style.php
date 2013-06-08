@@ -100,11 +100,14 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				.closed {
 					height:auto;
 				}
-				.rss-manager table {
+				.rss-manager table,
+				.rss-manager table td {
+					margin:0;
+					padding:0;
 				}
 				.rss-manager p {
 					text-align:justify;
-					margin:7px 0 14px 0;
+					margin:5px 0 5px 0;
 				}
 				.rss-manager p.tags,
 				.rss-manager p.categories {
@@ -210,6 +213,9 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				}
 				table.ngfb-settings td.blank p { 
 					margin:8px;
+				}
+				table.ngfb-settings td#latest_notice { 
+					padding:0;
 				}
 				table.ngfb-settings td#latest_notice p { 
 					margin:10px 0 5px 0;

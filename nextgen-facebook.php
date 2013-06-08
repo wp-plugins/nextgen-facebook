@@ -33,6 +33,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $slug = 'nextgen-facebook';
+		public $update_hours = 12;
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -378,7 +379,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache->user_agent = NGFB_USER_AGENT;
 			
 			if ( is_admin() )
-				$this->cache->file_expire = 12 * 60 * 60;	// force twelve hour file cache for admin interface
+				$this->cache->file_expire = $this->update_hours * 60 * 60;	// force twelve hour file cache for admin interface
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;

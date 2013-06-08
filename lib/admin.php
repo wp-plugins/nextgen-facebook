@@ -295,7 +295,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			include_once( ABSPATH . WPINC . '/feed.php' );
 			$have_items = 0;
 			$rss_items = array();
+
+			add_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
 			$rss_feed = fetch_feed( $url );
+			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
+
 			if ( ! is_wp_error( $rss_feed ) ) {
 				$have_items = $rss_feed->get_item_quantity( $max_num ); 
 				$rss_items = $rss_feed->get_items( 0, $have_items );
@@ -318,6 +322,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 			}
 			echo '</ul></div>', "\n";
+		}
+
+		public function feed_cache_expire( $seconds ) {
+			return $this->ngfb->update_hours * 60 * 60;
 		}
 
 		public function show_metabox_info() {
