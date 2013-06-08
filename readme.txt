@@ -109,7 +109,7 @@ Note that if you already have NGFB Open Graph installed, you will have to remove
 1. Go to the wp-admin/ section of your website
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the *NGFB Open Graph* plugin, and click its *Activate* link
+1. Scroll down to the "NGFB Open Graph" plugin, and click its *Activate* link
 
 Once installed and activated, the NGFB Open Graph plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
 
@@ -125,8 +125,8 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Check the "Preserve on Uninstall" option if you would like to keep NGFB settings in the database
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the *NGFB Open Graph* plugin, and click its *Deactivate* link
-1. Scroll down to the *NGFB Open Graph* plugin, and click its *Delete* link
+1. Scroll down to the "NGFB Open Graph" plugin, and click its *Deactivate* link
+1. Scroll down to the "NGFB Open Graph" plugin, and click its *Delete* link
 1. Click on the *Yes, Delete these files and data* button
 
 Note: Unless you checked the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
