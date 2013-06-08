@@ -99,8 +99,39 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '
-				<p>In order for the ' . $this->ngfb->fullname . ' plugin to authenticate itself for future updates, enter the transaction ID 
-				you receive by email after your purchase.</p>
+				<p>After your purchase of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter the unique Transaction ID here to allow <a href="' . $this->ngfb->urls['plugin'] . '" target="_blank">' . $this->ngfb->fullname . ' Pro</a> to authenticate itself for future updates.</p>
+				</td>',
+			);
+		}
+
+		public function show_metabox_cache() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<th>Object Cache Expiry</th>
+				<td nowrap><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
+				<td><p><?php echo $this->ngfb->fullname; ?> saves the rendered (filtered) content text to a non-presistant cache (wp_cache), 
+				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and 
+				webpages will not be reflected in the Open Graph and NGFB social sharing buttons until the object cache has expired. 
+				Decrease this value if your content is often revised after publishing, or increase it to improve performance. 
+				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
+			</tr>
+			<?php foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			</table>
+			<?php
+		}
+
+		protected function get_more_cache() {
+			return array(
+				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+
+				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '
+				<p>NGFB can save social sharing images and JavaScript to a cache folder, providing URLs to these files instead of the originals. 
+				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.</p>
+				</td>',
+
+				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '
+				<p>An option to enable verification of peer SSL certificates when fetching content to be cached using HTTPS.</p>
 				</td>',
 			);
 		}
@@ -127,12 +158,6 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>Static Content URL(s)</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . '
 				<p>Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 
 				and cached social media files (see the "File Cache Expiry" option above).</p>
-				<p>As an example, <u>http://mydomain.com/wp-content/gallery/test/image.jpg</u> could be rewritten as 
-				<u>http://static.mydomain.com/wp-content/gallery/test/image.jpg</u>. The Static Content URL setting for this example would be 
-				<em>http://static.mydomain.com/</em>. You can enter multiple comma-delimited Static Content URLs, use numbered wildcards like 
-				<em>http://cdn%3%.static.mydomain.com/</em> for example (which expands to cdn1, cdn2, and cdn3), or 
-				<em>http://cdn%4-6%.static.mydomain.com/</em> (which expands to cdn4, cdn5, and cdn6). 
-				If wildcards or multiple Static Content URLs are entered, one URL in the range is chosen at random for each rewrite.</p>
 				</td>',
 
 				'<th>Include Folders</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '
@@ -142,47 +167,14 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 				'<th>Exclude Patterns</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '
 				<p>A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
-				(the default value is blank). If you are caching social website images and JavaScript (see File Cache Expiry option above), 
-				the URLs to this cached content will be rewritten as well. To exclude the NGFB cache folder from being rewritten, 
-				use "<em>/nextgen-facebook/cache/</em>" as a value here.</p>
+				(the default value is blank).</p>
 				</td>',
 
 				'<th>Not when Using HTTPS</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . '
-				<p>Do not rewrite URLs when using HTTPS.</p></td>',
+				<p>Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).</p></td>',
 
 				'<th>www is Optional</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '
-				<p>Any www hostname prefix in the WordPress site URL is optional (default is checked).</p></td>',
-			);
-		}
-
-		public function show_metabox_cache() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<th>Object Cache Expiry</th>
-				<td nowrap><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
-				<td><p><?php echo $this->ngfb->fullname; ?> saves the rendered (filtered) content text to a non-presistant cache (wp_cache), 
-				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and 
-				webpages will not be reflected in the Open Graph and NGFB social sharing buttons until the object cache has expired. 
-				Decrease this value if your content is often revised after publishing, or increase it to improve performance. 
-				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
-			</tr>
-			<?php foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>'; ?>
-			</table>
-			<?php
-		}
-
-		protected function get_more_cache() {
-			return array(
-				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
-
-				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '
-				<p>NGFB can save social website button images and JavaScript to a cache folder, and provide URLs to these files instead of the originals.</p>
-				</td>',
-
-				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '
-				<p>Verify the peer SSL certificate when fetching content to be cached by HTTPS.</p>
-				</td>',
+				<p>The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).</p></td>',
 			);
 		}
 
