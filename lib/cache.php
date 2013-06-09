@@ -27,6 +27,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 		public $user_agent = '';
 		public $file_expire = 0;
 		public $object_expire = 300;
+		public $connect_timeout = 30;
 
 		private $ngfb;		// ngfbPlugin
 
@@ -74,6 +75,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $get_url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout );
 			curl_setopt( $ch, CURLOPT_USERAGENT, $this->user_agent );
 
 			if ( empty( $this->verify_cert) ) {
