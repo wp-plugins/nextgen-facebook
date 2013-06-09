@@ -162,8 +162,13 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					background:none;
 				}
 				table.ngfb-settings pre {
+					padding:5px;
+					background-color:#eee;
 					white-space:pre;
 					overflow:auto;
+				}
+				table.ngfb-settings pre code {
+					background-color:#eee;
 				}
 				table.ngfb-settings ul { 
 					margin-left:20px;

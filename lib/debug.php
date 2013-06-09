@@ -59,25 +59,26 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		public function log( $input = '', $backtrace = 1 ) {
-			if ( $this->active == true ) {
-				$log_msg = '';
-				$stack = debug_backtrace();
-				if ( ! empty( $stack[$backtrace]['class'] ) ) 
-					$log_msg .= sprintf( '%-25s:: ', $stack[$backtrace]['class'] );
+			if ( $this->active !== true ) return;
 
-				if ( ! empty( $stack[$backtrace]['function'] ) ) 
-					$log_msg .= sprintf( '%-24s : ', $stack[$backtrace]['function'] );
+			$log_msg = '';
+			$stack = debug_backtrace();
 
-				if ( is_array( $input ) || is_object( $input ) )
-					$log_msg .= print_r( $input, true );
-				else $log_msg .= $input;
+			if ( ! empty( $stack[$backtrace]['class'] ) ) 
+				$log_msg .= sprintf( '%-26s:: ', $stack[$backtrace]['class'] );
 
-				if ( $this->subsys['html'] == true )
-					$this->buffer[] = $log_msg;
+			if ( ! empty( $stack[$backtrace]['function'] ) ) 
+				$log_msg .= sprintf( '%-24s : ', $stack[$backtrace]['function'] );
 
-				if ( $this->subsys['wp'] == true )
-					error_log( $this->shortname . ' ' . $log_msg );
-			}
+			if ( is_array( $input ) || is_object( $input ) )
+				$log_msg .= print_r( $input, true );
+			else $log_msg .= $input;
+
+			if ( $this->subsys['html'] == true )
+				$this->buffer[] = $log_msg;
+
+			if ( $this->subsys['wp'] == true )
+				error_log( $this->shortname . ' ' . $log_msg );
 		}
 
 		public function show_html( $data = null, $title = null ) {

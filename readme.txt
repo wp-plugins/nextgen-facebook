@@ -488,6 +488,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.2.1 =
+
+* Fixed a small typo in the goo.gl URL shortening class.
+* Removed a few un-used functions in the third-party markdown class.
+
 = Version 5.2 =
 
 * Added a "Clear All Cache" button on the *Plugin Information* metabox.
@@ -534,6 +539,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.2.1 =
+
+Fixed a small typo in the goo.gl URL shortening class and removed a few un-used functions in the third-party markdown class.
 
 = 5.2 =
 
