@@ -34,6 +34,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->ngfb->is_avail['aop'] == true )
 					$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
 
+			$this->add_actions();
+		}
+
+		protected function add_actions() {
 			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_transients' ) );
 			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_cache' ) );
 		}
