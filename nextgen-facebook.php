@@ -4,7 +4,7 @@ Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
-Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
+Description: Improve content presentation on Google Search results, and when webpages are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
 Version: 5.2.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
