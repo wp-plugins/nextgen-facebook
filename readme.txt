@@ -13,9 +13,11 @@ Improve content presentation on Google Search results, and when webpages are sha
 
 = An essential plugin for every WordPress website! =
 
+<br/>
+
 = Adds SEO and Open Graph Tags =
 
-Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags will be added to the head section of your webpages, to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
+Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags are added to the head section of your webpages to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
 
 NextGEN Facebook Open Graph (aka NGFB Open Graph) goes well beyond others in handling various media and archive-types. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
