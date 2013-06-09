@@ -149,7 +149,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
 					$goo = new ngfb_googl( $api_key, $this->ngfb->debug );
 					$short_url = $goo->shorten( $url );
-					if ( ! empty( $short_url ) ) {
+					if ( empty( $short_url ) ) {
+						$this->ngfb->debug->log( 'failed to shorten url = ' . $url );
+					} else {
 						$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
 						set_transient( $cache_id, $short_url, $this->ngfb->cache->object_expire );
 						$this->ngfb->debug->log( $cache_type . ': short_url saved to transient for id "' . 
