@@ -7,7 +7,7 @@ Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 5.2.1
 
-Improve content presentation on Google Search results, and when webpages are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
+Improve content presentation on Google Search results and when URLs are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
 
 == Description ==
 
@@ -15,7 +15,7 @@ Improve content presentation on Google Search results, and when webpages are sha
 
 = Adds SEO and Open Graph Tags =
 
-Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags are added to the head section of your webpages to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
+Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags are added to the head section of your webpages to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, author profiles, etc. will be presented properly to social websites. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
 
 NextGEN Facebook Open Graph (aka NGFB Open Graph) goes well beyond others in handling various media and archive-types. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
@@ -62,11 +62,11 @@ NGFB Open Graph is being actively developed and supported. You can review the [F
 
 = Developer Friendly =
 
-NGFB Open Graph offers a wide variety of filter hooks and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a comlete list).
+NGFB Open Graph offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a complete list).
 
 = Pro Version =
 
-**[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+**[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [contribute a small amount](http://surniaulula.com/extend/plugins/contribution-form/), as a way to help with the continued development and support of NGFB Open Graph.
 
@@ -147,7 +147,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable/disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+**A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 
@@ -260,7 +260,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). *Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
@@ -268,11 +268,12 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 
 = Q. The W3C Markup Validation Service says "there is no attribute '<em>property</em>'". =
 
-**A.** The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the header.php file of your theme.
+**A.** The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the `header.php` file of your theme.
 
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
+
 = Q. Why does the Facebook "Like" button flyout get clipped? =
 
 **A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
@@ -281,7 +282,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 #page { overflow:visible; }
 </pre>
 
-There is also a known issue with Facebook's "Like" button flyout and the WP Twenty Eleven and Twenty Twelve based themes. Including the following CSS in your stylesheet should fix the problem:
+There is also a known issue with Facebook's "Like" button flyout and the WP *Twenty Eleven* and *Twenty Twelve* based themes. Including the following CSS in your stylesheet should fix the problem:
 
 `
 .ngfb-buttons iframe { max-width:none; }
@@ -464,7 +465,7 @@ Filter functions in NGFB are called with a single argument. Using the WordPress 
 <?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?> 
 `
 
-The following list of NGFB filters receive, and should return, a standard text string.
+The following list of NGFB filters receive, and must return, a standard text string.
 
 * ngfb_section : The section text string used in the article:section meta tag.
 * ngfb_title : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers will be included in the title text string.
@@ -473,7 +474,7 @@ The following list of NGFB filters receive, and should return, a standard text s
 * ngfb_caption : The caption used by Tumblr, Pinterest, and Twitter sharing buttons.
 * ngfb_quote : The quote text used by the Tumblr sharing button.
 
-The following list of NGFB filters receive an array, and should return an array.
+The following list of NGFB filters receive an array, and must return an array.
 
 * ngfb_tags : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
 * ngfb_wp_tags : An array of WordPress Post and Page tags used in the article:tag meta tags.
