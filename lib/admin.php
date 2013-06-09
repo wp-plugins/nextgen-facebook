@@ -310,10 +310,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			} else {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
-					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );		// remove the inline styling
-					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove table cellspacing
+					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );	// remove the inline styling
+					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', 
+						' class="ngfb-settings"', $desc );			// remove table cellspacing
 					$desc = preg_replace( '/%TransactionID%/', 
-						$this->ngfb->options['ngfb_pro_tid'], $desc );			// substitute transaction ID
+						$this->ngfb->options['ngfb_pro_tid'], $desc );		// substitute transaction ID
 
 					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
