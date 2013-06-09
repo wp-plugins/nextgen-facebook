@@ -11,13 +11,13 @@ Improve content presentation on Google Search results, and when webpages are sha
 
 == Description ==
 
-**An essential plugin for every WordPress website!**
+= An essential plugin for every WordPress website! =
 
-= Adds Open Graph Tags =
+= Adds SEO and Open Graph Tags =
 
-[Open Graph](http://ogp.me/) meta property tags are embedded in the head section of webpages, and describe the content for Facebook and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
+Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags will be added to the head section of your webpages, to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, etc. will be presented properly to the social website. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
 
-**NextGEN Facebook Open Graph (aka NGFB Open Graph) adds Open Graph meta property tags to all webpage headers**. This plugin goes well beyond others in handling various media and archive-types. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+NextGEN Facebook Open Graph (aka NGFB Open Graph) goes well beyond others in handling various media and archive-types. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
 **Once installed and activated, NGFB Open Graph adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although if you have at least one image in your Media Library (or NextGEN Gallery) that represents your website, you may want to select it as your Default Image on the General Settings page.
 
@@ -25,7 +25,7 @@ Improve content presentation on Google Search results, and when webpages are sha
 
 = Provides Social Sharing =
 
-NGFB Open Graph also comes with several multilingual social sharing buttons, that you can add above or below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). NGFB Open Graph includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
+NGFB Open Graph also comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). NGFB Open Graph includes the following social sharing buttons (see [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for shortcode and CSS styling examples):
 
 * Facebook
 * Google+
@@ -59,6 +59,10 @@ NGFB Open Graph is tuned for performance and makes full use of available caching
 = Great Support =
 
 NGFB Open Graph is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+
+= Developer Friendly =
+
+NGFB Open Graph offers a wide variety of filter hooks and constants to customize the behavior and output from the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a comlete list).
 
 = Pro Version =
 
