@@ -138,7 +138,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_cache_url( $url ) {
 
 			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $this->ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
+			if ( empty( $this->ngfb->cache->file_expire ) ) return $url;
 
 			// facebook javascript sdk doesn't work when hosted locally
 			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
