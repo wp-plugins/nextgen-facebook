@@ -48,7 +48,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->get_defaults() );
+			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->defaults );
 			$this->do_extend();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
@@ -129,14 +129,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images 
 					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
-					<a href="' . $this->ngfb->util->get_admin_url( 'general' ) . '">Please select a larger Image Size Name from the 
+					<a href="' . $this->ngfb->util->get_admin_url( 'webpage' ) . '">Please select a larger Image Size Name from the 
 					General Settings page</a>.' );
 			}
 
 			if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$url = $this->ngfb->util->get_admin_url( 'advanced' );
 				$this->ngfb->notices->inf( 'Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
-					<a href="' . $url . '">please enter the transaction ID you received by email on the Advanced Settings page.' );
+					<a href="' . $url . '">please enter the transaction ID you received by email on the Advanced Settings page</a>.' );
 			}
 		}
 

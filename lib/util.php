@@ -308,10 +308,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
-				else $submenu = 'general';
+				else $submenu = 'webpage';
 			} else {
 				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
-					$submenu = 'general';
+					$submenu = 'webpage';
 			}
 			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
 		}
