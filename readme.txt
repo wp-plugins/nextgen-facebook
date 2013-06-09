@@ -64,7 +64,7 @@ NGFB Open Graph is being actively developed and supported. You can review the [F
 
 = Developer Friendly =
 
-NGFB Open Graph offers a wide variety of filter hooks and constants to customize the behavior and output from the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a comlete list).
+NGFB Open Graph offers a wide variety of filter hooks and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a comlete list).
 
 = Pro Version =
 
