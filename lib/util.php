@@ -136,7 +136,14 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function get_cache_url( $url ) {
-			return $url;
+
+			// make sure the cache expiration is greater than 0 hours
+			if ( empty( $this->ngfb->options['ngfb_file_cache_hrs'] ) ) return $url;
+
+			// facebook javascript sdk doesn't work when hosted locally
+			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
+
+			return ( $this->ngfb->util->rewrite( $this->ngfb->cache->get( $url ) ) );
 		}
 
 		public function get_short_url( $url, $shorten = true ) {
