@@ -492,6 +492,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Fixed a small typo in the goo.gl URL shortening class.
 * Removed a few un-used functions in the third-party markdown class.
+* Added file caching to Tumblr and StumbleUpon images on the Social Sharing settings page.
 
 = Version 5.2 =
 

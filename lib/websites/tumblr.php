@@ -34,14 +34,14 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 				foreach ( array( '', 'T' ) as $t ) {
 					$buttons .= '
 						<div class="btn_wizard_example clearfix">
-							<label for="share_' . $i . $t . '">
-								<input type="radio" id="share_' . $i . $t . '" 
-									name="' . $this->ngfb->admin->form->options_name . '[tumblr_button_style]" 
-									value="share_' . $i . $t . '" ' . 
-									checked( 'share_' . $i . $t, $this->ngfb->options['tumblr_button_style'], false ) . '/>
-								<img src="http://platform.tumblr.com/v1/share_' . $i . $t . '.png" 
-									height="20" class="share_button_image"/>
-							</label>
+						<label for="share_' . $i . $t . '">
+						<input type="radio" id="share_' . $i . $t . '" 
+							name="' . $this->ngfb->admin->form->options_name . '[tumblr_button_style]" 
+							value="share_' . $i . $t . '" ' . 
+							checked( 'share_' . $i . $t, $this->ngfb->options['tumblr_button_style'], false ) . '/>
+						<img src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/share_' . $i . $t . '.png' ) . '" 
+							height="20" class="share_button_image"/>
+						</label>
 						</div>
 					';
 				}
@@ -59,7 +59,7 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 				'<th><u>Link</u> Description Length</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters or less</td>',
 				'<th>Prioritize Images</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
 				'<th>Image Size to Share</th><td>' . $this->ngfb->admin->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
-				'<th>Image and Video Caption Text</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
+				'<th>Image and Video Caption</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
 				'<th>Caption Length</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters or less</td>',
 			);
 		}

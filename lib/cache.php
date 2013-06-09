@@ -43,16 +43,18 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			// if we're not using https on the current page, then no need to make our requests using https
 			$get_url = empty( $_SERVER['HTTPS'] ) ? preg_replace( '/^https:/', 'http:', $url ) : $url;
 			$get_url = preg_replace( '/#.*$/', '', $get_url );
-
 			$url_path = parse_url( $get_url, PHP_URL_PATH );
+
 			$url_ext = pathinfo( $url_path, PATHINFO_EXTENSION );
+			if ( ! empty( $url_ext ) ) $url_ext = '.' . $url_ext;
+
 			$url_frag = parse_url( $url, PHP_URL_FRAGMENT );
 			if ( ! empty( $url_frag ) ) $url_frag = '#' . $url_frag;
 
 			$cache_salt = __METHOD__ . '(get_url:' . $get_url . ')';
 			$cache_id = md5( $cache_salt );
-			$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
-			$cache_url = $this->base_url . $cache_id . '.' . $url_ext . $url_frag;
+			$cache_file = $this->base_dir . $cache_id . $url_ext;
+			$cache_url = $this->base_url . $cache_id . $url_ext . $url_frag;
 			$cache_data = '';
 
 			if ( $want_this == 'raw' ) {
@@ -116,7 +118,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'file' :
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );
-					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
+					$cache_file = $this->base_dir . $cache_id . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
 					if ( file_exists( $cache_file ) ) {
@@ -162,7 +164,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'file' :
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );
-					$cache_file = $this->base_dir . $cache_id . '.' . $url_ext;
+					$cache_file = $this->base_dir . $cache_id . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );

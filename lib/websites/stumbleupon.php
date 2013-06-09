@@ -28,32 +28,30 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 		}
 
 		public function get_rows() {
-			$badge = '<style type="text/css">
+			$badge = '
+				<style type="text/css">
 					.badge { 
 						display:block;
-						background: url("http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g") no-repeat transparent; 
-						width:130px;
+						background: url("' . $this->ngfb->util->get_cache_url( 
+							'http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ) . '") no-repeat transparent; 
+						width:110px;
 						margin:0 0 10px 0;
 					}
-					.badge-col-left { display:inline-block; float:left; }
+					.badge-col-left { display:inline-block; float:left; margin-right:20px; }
 					.badge-col-right { display:inline-block; }
-					#badge-1 { height:60px; background-position:50% 0px; }
-					#badge-2 { height:30px; background-position:50% -100px; }
-					#badge-3 { height:20px; background-position:50% -200px; }
-					#badge-4 { height:60px; background-position:50% -300px; }
-					#badge-5 { height:30px; background-position:50% -400px; }
-					#badge-6 { height:20px; background-position:50% -500px; }
+					#badge-1 { height:60px; background-position:25px 0px; }
+					#badge-2 { height:30px; background-position:25px -100px; }
+					#badge-3 { height:20px; background-position:25px -200px; }
+					#badge-4 { height:60px; background-position:25px -300px; }
+					#badge-5 { height:30px; background-position:25px -400px; }
+					#badge-6 { height:20px; background-position:25px -500px; }
 				</style>
 			';
 
 			foreach ( range( 1, 6 ) as $i ) {
 				switch ( $i ) {
-					case '1' : 
-						$badge .= '<div class="badge-col-left">' . "\n"; 
-						break;
-					case '4' : 
-						$badge .= '</div><div class="badge-col-right">' . "\n"; 
-						break;
+					case '1' : $badge .= '<div class="badge-col-left">' . "\n"; break;
+					case '4' : $badge .= '</div><div class="badge-col-right">' . "\n"; break;
 				}
 				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
 				$badge .= '<input type="radio" 
@@ -62,9 +60,7 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 					checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
 				$badge .= '</div>' . "\n";
 				switch ( $i ) { 
-					case '6' : 
-						$badge .= '</div>' . "\n"; 
-						break;
+					case '6' : $badge .= '</div>' . "\n"; break;
 				}
 			}
 
@@ -73,7 +69,7 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . '</td>',
 				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
-				'<th rowspan="5">Button Style</th><td rowspan="5">' . $badge . '</td>',
+				'<th>Button Style</th><td>' . $badge . '</td>',
 			);
 		}
 
