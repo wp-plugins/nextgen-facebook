@@ -92,7 +92,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $setting_libs = array(
 			'about' => 'About',
-			'general' => 'General',
+			'webpage' => 'Webpage',
 			'social' => 'Social Sharing',
 			'advanced' => 'Advanced' );
 
@@ -367,7 +367,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				$this->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
-					<a href="' . $this->util->get_options_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
+					<a href="' . $this->util->get_admin_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
+
 				$this->options = $this->opt->get_defaults();
 			}
 

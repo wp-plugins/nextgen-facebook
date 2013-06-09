@@ -22,8 +22,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 		public $version = '28';	// increment when adding/removing default options
 
-		private $ngfb;		// ngfbPlugin
-		private $defaults = array(
+		public $defaults = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
@@ -172,6 +171,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'stumble_enable' => 'stumble_on_the_content',
 			'tumblr_enable' => 'tumblr_on_the_content',
 			'buttons_location' => 'buttons_location_the_content' );
+
+		private $ngfb;		// ngfbPlugin
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
