@@ -11,9 +11,7 @@ Improve content presentation on Google Search results, and when webpages are sha
 
 == Description ==
 
-= An essential plugin for every WordPress website! =
-
-<br/>
+**An essential plugin for every WordPress website!**
 
 = Adds SEO and Open Graph Tags =
 
