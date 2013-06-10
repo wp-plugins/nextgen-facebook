@@ -12,6 +12,10 @@ NGFB_DEBUG
 	informational message box will also be displayed in admin pages as
 	reminder that debug mode is on.
 
+NGFB_WP_DEBUG
+
+	Send debug messages to PHP's error_log() as well.
+
 NGFB_RESET
 
 	Set this contant to 'true' to reset all options to their defaults when
