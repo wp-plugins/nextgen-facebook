@@ -11,7 +11,7 @@ Improve content presentation on Google Search results and when URLs are shared w
 
 == Description ==
 
-**An Essential Plugin for Every WordPress Website.**
+**An essential plugin for *every* WordPress website.**
 
 = Adds SEO and Open Graph =
 
