@@ -493,6 +493,15 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.2.2 =
+
+* Fixed caching method to return no data when URL has failed (instead of returning the error message).
+* Improved caching method to ignore failed URLs for 300 seconds.
+* Improved readme.txt parsing to use the (older) local copy, if the readme.txt from WordPress.org is not available.
+* Added the NGFB_CURL_DISABLE, NGFB_CURL_PROXY, and NGFB_CURL_PROXYUSERPWD constants.
+* Renamed the NGFB_USER_AGENT constant to NGFB_CURL_USERAGENT.
+* Renamed the NGFB_PEM_FILE constant to NGFB_CURL_CAINFO.
+
 = Version 5.2.1 =
 
 * Fixed a small typo in the goo.gl URL shortening class.
@@ -545,6 +554,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.2.2 =
+
+Improved caching method to ignore failed URLs for 300 seconds, added PHP curl related constants, and added local fallback for readme.txt.
 
 = 5.2.1 =
 

@@ -304,9 +304,24 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$parser = new ngfb_parse_readme( $this->ngfb->debug );
-			$readme = $this->ngfb->cache->get( $url, 'raw', 'file', $expire_secs );
-			$plugin_info = $parser->parse_readme_contents( $readme );
+			$plugin_info;
+			$using_local = false;
+			$readme = $this->ngfb->cache->get( $this->ngfb->urls['readme'], 'raw', 'file', $expire_secs );
+			// fallback to local readme.txt file
+			if ( empty( $readme ) && $fh = @fopen( NGFB_PLUGINDIR . 'readme.txt', 'rb' ) ) {
+				$using_local = true;
+				$readme = fread( $fh, filesize( NGFB_PLUGINDIR . 'readme.txt' ) );
+				fclose( $fh );
+			}
+			if ( ! empty( $readme ) ) {
+				$parser = new ngfb_parse_readme( $this->ngfb->debug );
+				$plugin_info = $parser->parse_readme_contents( $readme );
+				if ( $using_local == true ) {
+					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
+						if ( array_key_exists( $key, $plugin_info ) )
+							unset( $plugin_info[$key] );
+				}
+			}
 			return $plugin_info;
 		}
 

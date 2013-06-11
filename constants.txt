@@ -99,19 +99,24 @@ NGFB_CONTACT_FIELDS
 	"Rename or Add Profile URL Fields" section in the readme for
 	additional information.
 
-NGFB_USER_AGENT
+NGFB_CURL_DISABLE
+
+	Disable all use of PHP's curl functions (all NGFB file caching
+	features will be disabled).
+
+NGFB_CURL_USERAGENT
 
 	Used by the remote content caching feature for social button images
 	and JavaScript. The Google+ JavaScript is different for (what Google
 	considers) invalid user agents. Since crawlers and robots might
-	refresh the cached files, the NGFB_USER_AGENT defines a default user
-	agent string. You may define a NGFB_USER_AGENT constant in your
-	wp-config.php file to change the default NGFB uses.
+	refresh the cached files, the NGFB_CURL_USERAGENT defines a default
+	user agent string. You may define a NGFB_CURL_USERAGENT constant in
+	your wp-config.php file to change the default NGFB uses.
 
-NGFB_PEM_FILE
+NGFB_CURL_CAINFO
 
 	When the "Verify SSL Certificates" option is checked, PHP's curl
-	function needs a certificate authority file. Define the NGFB_PEM_FILE
-	constant in your wp-config.php file to change the default location
-	used by NGFB.
+	function needs a certificate authority file. Define the
+	NGFB_CURL_CAINFO constant in your wp-config.php file to change the
+	default location used by NGFB.
 

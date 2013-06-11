@@ -22,24 +22,31 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 		public $base_dir = '';
 		public $base_url = '/cache/';
-		public $pem_file = '';
-		public $verify_cert = false;
-		public $user_agent = '';
+		public $verify_certs = false;
 		public $file_expire = 0;
-		public $object_expire = 300;
-		public $connect_timeout = 30;
+		public $object_expire = 60;
+		public $connect_timeout = 5;
+		public $ignore_time = 300;
+		public $ignore_urls = array();		// offline some URLs for a period of time
 
 		private $ngfb;		// ngfbPlugin
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			$this->base_dir = dirname ( __FILE__ ) . '/cache/';
-			$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+			$this->base_dir = trailingslashit( NGFB_CACHEDIR );
+			$this->base_url = trailingslashit( NGFB_CACHEURL );
+			$this->verify_certs = empty( $this->ngfb->options['ngfb_verify_certs'] ) ? 
+				false : $this->ngfb->options['ngfb_verify_certs'];
+			$this->ignore_urls = get_transient( $this->ngfb->acronym . '_' . md5( 'ignore_urls' ) );
+			if ( $this->ignore_urls == false ) $this->ignore_urls = array();
 		}
 
 		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false ) {
-			if ( ! function_exists('curl_init') ) return $url;
+
+			if ( ! function_exists('curl_init') || 
+				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
+					return $want_this == 'url' ? $url : '';
 
 			// if we're not using https on the current page, then no need to make our requests using https
 			$get_url = empty( $_SERVER['HTTPS'] ) ? preg_replace( '/^https:/', 'http:', $url ) : $url;
@@ -52,7 +59,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$url_frag = parse_url( $url, PHP_URL_FRAGMENT );
 			if ( ! empty( $url_frag ) ) $url_frag = '#' . $url_frag;
 
-			$cache_salt = __METHOD__ . '(get_url:' . $get_url . ')';
+			$cache_salt = __CLASS__ . '(get:' . $get_url . ')';
 			$cache_id = md5( $cache_salt );
 			$cache_file = $this->base_dir . $cache_id . $url_ext;
 			$cache_url = $this->base_url . $cache_id . $url_ext . $url_frag;
@@ -72,33 +79,67 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				} else $this->ngfb->debug->log( 'cache_file is too old or doesn\'t exist - fetching a new copy' );
 			}
 
+			// broken URLs are ignored for $ignore_time seconds
+			if ( ! empty( $this->ignore_urls ) && array_key_exists( $get_url, $this->ignore_urls ) ) {
+				$time_remaining = $this->ignore_time - ( time() - $this->ignore_urls[$get_url] );
+				if ( $time_remaining > 0 ) {
+					$this->ngfb->debug->log( 'ignoring URL ' . $get_url . ' for another ' . $time_remaining . ' second(s). ' );
+					return $want_this == 'url' ? $url : '';
+				} else {
+					unset( $this->ignore_urls[$get_url] );
+					set_transient( $this->ngfb->acronym . '_' . md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
+				}
+			}
+
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $get_url );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout );
-			curl_setopt( $ch, CURLOPT_USERAGENT, $this->user_agent );
+			curl_setopt( $ch, CURLOPT_USERAGENT, NGFB_CURL_USERAGENT );
 
-			if ( empty( $this->verify_cert) ) {
+			if ( defined( 'NGFB_CURL_PROXY' ) && NGFB_CURL_PROXY ) 
+				curl_setopt( $ch, CURLOPT_PROXY, NGFB_CURL_PROXY );
+
+			if ( defined( 'NGFB_CURL_PROXYUSERPWD' ) && NGFB_CURL_PROXYUSERPWD ) 
+				curl_setopt( $ch, CURLOPT_PROXYUSERPWD, NGFB_CURL_PROXYUSERPWD );
+
+			if ( empty( $this->verify_certs) ) {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
-				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
+				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
 			} else {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
-				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, TRUE );
-				curl_setopt( $ch, CURLOPT_CAINFO, $this->pem_file );
+				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 1 );
+				curl_setopt( $ch, CURLOPT_CAINFO, NGFB_CURL_CAINFO );
 			}
 			$this->ngfb->debug->log( 'curl: fetching cache_data from ' . $get_url );
 			$cache_data = curl_exec( $ch );
+			$http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
 			curl_close( $ch );
 
-			if ( empty( $cache_data ) ) 
-				$this->ngfb->debug->log( 'curl: cache_data returned from "' . $get_url . '" is empty' );
-			elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true ) {
-				$this->ngfb->debug->log( 'cache_data sucessfully saved' );
-				if ( $want_this == 'url' ) return $cache_url;
+			$this->ngfb->debug->log( 'curl: http return code = ' . $http_code );
+			if ( $http_code == 200 ) {
+				if ( empty( $cache_data ) )
+					$this->ngfb->debug->log( 'cache_data returned from "' . $get_url . '" is empty' );
+				elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true ) {
+					$this->ngfb->debug->log( 'cache_data sucessfully saved' );
+
+					// return url or data immediately on success
+					return $want_this == 'url' ? $cache_url : $cache_data;
+				}
+			} else {
+				if ( is_admin() )
+					$this->ngfb->notices->err( 'Error connecting to URL ' . $get_url . ' for caching. 
+						Ignoring requests to cache this URL for ' . $this->ignore_time . ' second(s)' );
+
+				$this->ngfb->debug->log( 'error connecting to URL ' . $get_url . ' for caching. ' );
+				$this->ngfb->debug->log( 'ignoring requests to cache this URL for ' . $this->ignore_time . ' second(s)' );
+				$this->ignore_urls[$get_url] = time();
+				set_transient( $this->ngfb->acronym . '_' . md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
 			}
 
-			if ( $want_this == 'raw' ) return $cache_data;
-			else return $url;
+			// return original url or empty data on failure
+			return $want_this == 'url' ? $url : '';
 		}
 
 		private function get_cache_data( $cache_salt, $cache_name = 'file', $url_ext = '', $expire_secs = false ) {
@@ -110,7 +151,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
-						$cache_data = wp_cache_get( $cache_id, __METHOD__ );
+						$cache_data = wp_cache_get( $cache_id, __CLASS__ );
 					elseif ( $cache_name == 'transient' ) 
 						$cache_data = get_transient( $cache_id );
 					if ( $cache_data !== false ) {
@@ -157,7 +198,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 					if ( $cache_name == 'wp_cache' ) 
-						wp_cache_set( $cache_id, $cache_data, __METHOD__, $object_expire );
+						wp_cache_set( $cache_id, $cache_data, __CLASS__, $object_expire );
 					elseif ( $cache_name == 'transient' ) 
 						set_transient( $cache_id, $cache_data, $object_expire );
 					$this->ngfb->debug->log( $cache_type . ': cache_data saved to ' . $cache_name . ' for id "' . $cache_id . '" (' . $object_expire . ' seconds)' );

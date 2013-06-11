@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function set_readme( $expire_secs = false ) {
 			if ( empty( $this->readme ) )
-				$this->readme = $this->ngfb->util->parse_readme( $this->ngfb->urls['readme'], $expire_secs );
+				$this->readme = $this->ngfb->util->parse_readme( $expire_secs );
 		}
 
 		public function check_wp_version() {
@@ -184,6 +184,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
 						if ( $this->ngfb->is_avail['aop'] == true ) {
+							delete_option( 'external_updates-nextgen-facebook' );
 							$this->ngfb->pro->update->check_for_updates();
 							$this->ngfb->admin->set_readme( 0 );
 							$this->ngfb->notices->inf( 'Version information checked and updated.' );
@@ -330,9 +331,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_info() {
-			$latest_version = '';
+			$stable_tag = 'N/A';
+			$latest_version = 'N/A';
 			$latest_notice = '';
 			if ( ! empty( $this->ngfb->admin->readme['stable_tag'] ) ) {
+				$stable_tag = $this->ngfb->admin->readme['stable_tag'];
 				$upgrade_notice = $this->ngfb->admin->readme['upgrade_notice'];
 				if ( is_array( $upgrade_notice ) ) {
 					reset( $upgrade_notice );
@@ -343,7 +346,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<table class="ngfb-settings">
 			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ''; ?></tr>
-			<tr><th class="side">Stable:</th><td><?php echo $this->ngfb->admin->readme['stable_tag']; ?></tr>
+			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
 			</table>

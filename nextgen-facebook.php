@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Improve content presentation on Google Search results and when URLs are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
-Version: 5.2.1
+Version: 5.2.2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,13 +27,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.2.1';	// only for display purposes
+		public $version = '5.2.2';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $slug = 'nextgen-facebook';
-		public $update_hours = 12;
+		public $update_hours = 1;
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -44,9 +44,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $meta;		// ngfbPostMeta
 		public $style;		// ngfbStyle
 		public $cache;		// ngfbCache
-		// only required / created when in admin
 		public $admin;		// ngfbAdmin
-		// only required / created when NOT in admin
 		public $head;		// ngfbHead
 		public $tags;		// ngfbTags
 		public $webpage;	// ngfbWebPage
@@ -114,7 +112,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function deactivate() {
-			wp_clear_scheduled_hook('pcfu_updates-' . $this->slug);
+			wp_clear_scheduled_hook( 'pcfu_updates-' . $this->slug );
+			delete_option( 'external_updates-nextgen-facebook' );
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
@@ -153,8 +152,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_DEBUG
 			// NGFB_WP_DEBUG
 			// NGFB_RESET
-			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
+			// NGFB_CURL_DISABLE
+			// NGFB_CURL_PROXY
+			// NGFB_CURL_PROXYUSERPWD
+			// NGFB_OPEN_GRAPH_DISABLE
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
@@ -195,15 +197,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
 
-			// NGFB_USER_AGENT is used by the ngfbCache class
-			// Google Plus javascript is different for (what it considers) invalid user agents
-			// visiting crawlers might cause a refresh of the Google Plus javascript, so make
-			// sure all requests we make have a valid user agent string (which one doesn't matter)
-			if ( ! defined( 'NGFB_USER_AGENT' ) )
-				define( 'NGFB_USER_AGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
+			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
+				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
 
-			if ( ! defined( 'NGFB_PEM_FILE' ) )
-				define( 'NGFB_PEM_FILE', NGFB_PLUGINDIR . 'share/curl/cacert.pem' );
+			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
+				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR . 'share/curl/cacert.pem' );
+
 		}
 
 		private function load_libs() {
@@ -372,13 +371,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options = $this->opt->get_defaults();
 			}
 
-			// set caching properties
-			$this->cache->base_dir = trailingslashit( NGFB_CACHEDIR );
-			$this->cache->base_url = trailingslashit( NGFB_CACHEURL );
-			$this->cache->pem_file = NGFB_PEM_FILE;
-			$this->cache->verify_cert = ! empty( $this->options['ngfb_verify_certs'] ) ? $this->options['ngfb_verify_certs'] : 0;
-			$this->cache->user_agent = NGFB_USER_AGENT;
-			
 			if ( is_admin() )
 				$this->cache->file_expire = $this->update_hours * 60 * 60;	// force twelve hour file cache for admin interface
 			elseif ( $this->is_avail['aop'] == true )
