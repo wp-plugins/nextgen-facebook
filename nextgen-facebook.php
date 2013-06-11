@@ -33,7 +33,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
 		public $slug = 'nextgen-facebook';
-		public $update_hours = 1;
+		public $update_hours = 12;
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
