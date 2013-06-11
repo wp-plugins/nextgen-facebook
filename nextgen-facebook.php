@@ -113,14 +113,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public function deactivate() {
 			wp_clear_scheduled_hook( 'pcfu_updates-' . $this->slug );
-			delete_option( 'external_updates-nextgen-facebook' );
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
 		public function uninstall() {
 			$options = get_option( NGFB_OPTIONS_NAME );
-			if ( empty( $options['ngfb_preserve'] ) )
+			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
+				delete_option( 'external_updates-nextgen-facebook' );
+			}
 		}
 
 		// called by WP init action
