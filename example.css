@@ -1,0 +1,53 @@
+
+/* make sure the Facebook flyout does not get clipped */
+#page { overflow:visible; }
+
+/* buttons in content: create a shadowed box for the buttons */
+.ngfb-content-buttons { 
+	display:block;
+	padding:2px;
+	margin:20px auto 20px auto;
+	text-align:center;
+	background-color:#eee;
+	-moz-box-shadow:0 0 5px #aaa;
+	-webkit-box-shadow:0 0 5px #aaa;
+	box-shadow:0 0 5px #aaa;
+}
+
+/* buttons in widget: align vertically in 150px columns */
+.ngfb-widget-buttons { text-align:left; }
+.ngfb-widget-buttons .ngfb-buttons > div { width:150px; }
+
+/* buttons in shortcode: display inline with the text */
+.ngfb-shortcode-buttons { 
+	display:inline-block;
+	text-align:left;
+}
+
+/* defaults for the block of buttons */
+.ngfb-buttons { }
+.ngfb-buttons img { border:none; }
+.ngfb-buttons img:hover { border:none; }
+
+/* fix the FB "Like" flyout width on 2012 based themes */
+.ngfb-buttons iframe { max-width:none; }
+
+/* defaults for each button */
+.ngfb-buttons > div { 
+	display:inline-block;
+	vertical-align:bottom;
+	text-align:left;
+	width:100px;	/* default */
+	height:20px;
+	padding:0;
+	margin:2px;
+}
+
+div.facebook-button { width:149px; }
+div.gplus-button { width:75px; }
+div.twitter-button { width:89px; }
+div.linkedin-button { width:109px; }
+div.pinterest-button { width:80px; }
+div.stumbleupon-button { width:84px; }
+div.tumblr-button { width:80px; }
+
