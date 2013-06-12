@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_general', 'General Settings', array( &$this, 'show_metabox_general' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_facebook', 'Facebook Settings', array( &$this, 'show_metabox_facebook' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_link', 'Link Settings', array( &$this, 'show_metabox_link' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_google', 'Google Settings', array( &$this, 'show_metabox_google' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
@@ -56,12 +56,12 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. 
 				The URL should point to an author's <em>personal</em> website or social page. 
 				This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. 
-				See the "Link Settings" section below for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
+				See the "Google Settings" section below for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
 				<th>Fallback to Author Index</th>
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL profile field (and the Author Link URL in the "Link Settings" section below) is not a valid URL, 
+				<td><p>If the value found in the Author URL profile field (and the Author Link URL in the "Google Settings" section below) is not a valid URL, 
 				NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). 
 				Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
@@ -216,7 +216,7 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		public function show_metabox_link() {
+		public function show_metabox_google() {
 			?>
 			<table class="ngfb-settings">
 			<tr>
@@ -224,8 +224,8 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><?php echo $this->ngfb->admin->form->get_select( 'link_author_field', $this->author_fields() ); ?></td>
 				<td><p><?php echo $this->ngfb->fullname; ?> can also include an <em>author</em> and <em>publisher</em> link in your webpage headers.
 				These are not Open Graph meta property tags - they are used primarily by Google's search engine to associate Google+ profiles with their search results. 
-				If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link - 
-				for example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is 
+				If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, you may use it's URL as the Publisher Link. 
+				For example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> (one of my websites) is 
 				<a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>.
 				The Publisher Link URL takes precedence over the Author Link URL in Google's search results.</p></td>
 			</tr>

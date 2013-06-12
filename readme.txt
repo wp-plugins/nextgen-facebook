@@ -7,7 +7,7 @@ Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 5.2.2
 
-Improve display and ranking on Google Search, and enhance social sharing with Facebook, Google+, Twitter, LinkedIn, and many more.
+Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
 
 == Description ==
 
