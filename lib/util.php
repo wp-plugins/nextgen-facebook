@@ -34,6 +34,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->ngfb->is_avail['aop'] == true )
 					$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
 
+			$this->add_actions();
+		}
+
+		protected function add_actions() {
 			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_transients' ) );
 			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_cache' ) );
 		}
@@ -132,7 +136,14 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function get_cache_url( $url ) {
-			return $url;
+
+			// make sure the cache expiration is greater than 0 hours
+			if ( empty( $this->ngfb->cache->file_expire ) ) return $url;
+
+			// facebook javascript sdk doesn't work when hosted locally
+			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
+
+			return ( $this->ngfb->util->rewrite( $this->ngfb->cache->get( $url ) ) );
 		}
 
 		public function get_short_url( $url, $shorten = true ) {
@@ -147,9 +158,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = $short_url;
 				} else {
 					$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? '' : $this->ngfb->options['ngfb_googl_api_key'];
-					$goo = new sebiGoogl( $api_key );
+					$goo = new ngfb_googl( $api_key, $this->ngfb->debug );
 					$short_url = $goo->shorten( $url );
-					if ( ! empty( $short_url ) ) {
+					if ( empty( $short_url ) ) {
+						$this->ngfb->debug->log( 'failed to shorten url = ' . $url );
+					} else {
 						$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
 						set_transient( $cache_id, $short_url, $this->ngfb->cache->object_expire );
 						$this->ngfb->debug->log( $cache_type . ': short_url saved to transient for id "' . 
@@ -291,11 +304,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$this->ngfb->debug->log( 'creating Automattic_Readme() class object' );
-			$Automattic_Readme = new Automattic_Readme();
-			$this->ngfb->debug->log( 'fetching readme from ' . $url );
+			$parser = new ngfb_parse_readme( $this->ngfb->debug );
 			$readme = $this->ngfb->cache->get( $url, 'raw', 'file', $expire_secs );
-			$plugin_info = $Automattic_Readme->parse_readme_contents( $readme );
+			$plugin_info = $parser->parse_readme_contents( $readme );
 			return $plugin_info;
 		}
 
@@ -304,10 +315,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
-				else $submenu = 'general';
+				else $submenu = 'webpage';
 			} else {
 				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
-					$submenu = 'general';
+					$submenu = 'webpage';
 			}
 			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
 		}

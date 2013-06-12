@@ -1,18 +1,25 @@
 <?php
 // This is the path to markdown.php
-if ( !defined('AUTOMATTIC_README_MARKDOWN') )
-	define('AUTOMATTIC_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
+if ( !defined('NGFB_README_MARKDOWN') )
+	define('NGFB_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
 
 if ( ! defined( 'ABSPATH' ) )
         die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'Automattic_Readme' ) ) {
+if ( ! class_exists( 'ngfb_parse_readme' ) ) {
 
-Class Automattic_Readme {
+class ngfb_parse_readme {
 
-	function Automattic_Readme() {
-		// This space intentially blank
+	private $logger;
+
+	function __construct( &$logger = '' ) {
+
+		// check for logging object with mark() method
+		$this->logger = method_exists( $logger, 'mark' ) ? $logger : $this;
+		$this->logger->mark();
 	}
+
+	private function mark() { return; }
 
 	function parse_readme( $file ) {
 		$file_contents = @implode('', @file($file));
@@ -247,14 +254,14 @@ Class Automattic_Readme {
 		return $text;
 	}
 
-	function filter_text( $text, $markdown = false ) { // fancy, Markdown
+	function filter_text( $text, $markdown = false ) {
 		$text = trim($text);
 
-	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown ); // A better parser than Markdown's for: backticks -> CODE
+	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown );
 
-		if ( $markdown ) { // Parse markdown.
+		if ( $markdown ) {
 			if ( !function_exists('Markdown') )
-				require_once( AUTOMATTIC_README_MARKDOWN );
+				require_once( NGFB_README_MARKDOWN );
 			$text = Markdown($text);
 		}
 
@@ -285,7 +292,7 @@ Class Automattic_Readme {
 		return $text;
 	}
 
-	function code_trick( $text, $markdown ) { // Don't use bbPress native function - it's incompatible with Markdown
+	function code_trick( $text, $markdown ) {
 		// If doing markdown, first take any user formatted code blocks and turn them into backticks so that
 		// markdown will preserve things like underscores in code blocks
 		if ( $markdown )

@@ -21,60 +21,59 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'sebiGoogl' ) ) {
+if ( ! class_exists( 'ngfb_googl' ) ) {
 
-	class sebiGoogl
-	{
+	class ngfb_googl {
+
 		public $extended;
 		private $target;
 		private $apiKey;
 		private $ch;
-		
+		private $logger;
+
 		private static $buffer = array();
 	
-		function __construct($apiKey = null) {
-			# Extended output mode
+		function __construct( $apiKey = null, &$logger = '' ) {
+
+			// check for logging object with mark() method
+			$this->logger = method_exists( $logger, 'mark' ) && 
+				method_exists( $logger, 'log' ) ? $logger : $this;
+			$this->logger->mark();
+
 			$extended = false;
-	
-			# Set Google Shortener API target
 			$this->target = 'https://www.googleapis.com/urlshortener/v1/url?';
 	
-			# Set API key if available
 			if ( $apiKey != null ) {
 				$this->apiKey = $apiKey;
 				$this->target .= 'key='.$apiKey.'&';
 			}
 	
-			# Initialize cURL
 			$this->ch = curl_init();
-			# Set our default target URL
 			curl_setopt($this->ch, CURLOPT_URL, $this->target);
-			# We don't want the return data to be directly outputted, so set RETURNTRANSFER to true
 			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		}
 	
+		private function mark() { return; }
+
+		private function log() { return; }
+
 		public function shorten($url, $extended = false) {
 			
-			# Check buffer
-			if ( !$extended && !$this->extended && !empty(self::$buffer[$url]) ) {
+			if ( !$extended && !$this->extended && !empty(self::$buffer[$url]) )
 				return self::$buffer[$url];
-			}
 			
-			# Payload
 			$data = array( 'longUrl' => $url );
 			$data_string = '{ "longUrl": "'.$url.'" }';
 	
-			# Set cURL options
 			curl_setopt($this->ch, CURLOPT_POST, count($data));
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data_string);
 			curl_setopt($this->ch, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
 
-			// modified by Jean-Sebastien Morisset - http://surniaulula.com/
 			$decoded = json_decode(curl_exec($this->ch));
 			if ( $extended || $this->extended) {
 				return decoded;
-			} elseif ( ! empty( $decode->id ) ) {
-				$ret = $decode->id;
+			} elseif ( ! empty( $decoded->id ) ) {
+				$ret = $decoded->id;
 				self::$buffer[$url] = $ret;
 				return $ret;
 			}
@@ -93,9 +92,7 @@ if ( ! class_exists( 'sebiGoogl' ) ) {
 		}
 	
 		function __destruct() {
-			# Close the curl handle
 			curl_close($this->ch);
-			# Nulling the curl handle
 			$this->ch = null;
 		}
 	}
