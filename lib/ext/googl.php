@@ -80,15 +80,13 @@ if ( ! class_exists( 'ngfb_googl' ) ) {
 		}
 	
 		public function expand($url, $extended = false) {
-			# Set cURL options
 			curl_setopt($this->ch, CURLOPT_HTTPGET, true);
 			curl_setopt($this->ch, CURLOPT_URL, $this->target.'shortUrl='.$url);
 			
-			if ( $extended || $this->extended ) {
+			if ( $extended || $this->extended )
 				return json_decode(curl_exec($this->ch));
-			} else {
+			else
 				return json_decode(curl_exec($this->ch))->longUrl;
-			}
 		}
 	
 		function __destruct() {

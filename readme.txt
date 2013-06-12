@@ -493,6 +493,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.2.3 =
+
+* Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION (which is not compatible with these PHP options).
+* Added a check for NGFB_CURL_DISABLE before using PHP's curl to shorten URLs for Twitter.
+
 = Version 5.2.2 =
 
 * Fixed caching method to return no data when URL has failed (instead of returning the error message).
@@ -505,7 +510,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 5.2.1 =
 
 * Fixed a small typo in the goo.gl URL shortening class.
-* Removed a few un-used functions in the third-party markdown class.
+* Removed a few unused functions in the third-party markdown class.
 * Added file caching to Tumblr and StumbleUpon images on the Social Sharing settings page.
 
 = Version 5.2 =
@@ -554,6 +559,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.2.3 =
+
+Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION, and added a check for NGFB_CURL_DISABLE before using PHP's curl to shorten URLs for Twitter.
 
 = 5.2.2 =
 

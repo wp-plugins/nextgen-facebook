@@ -93,10 +93,16 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $get_url );
-			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout );
 			curl_setopt( $ch, CURLOPT_USERAGENT, NGFB_CURL_USERAGENT );
+			
+			if( ini_get('safe_mode') || ini_get('open_basedir') )
+				$this->ngfb->debug->log( 'PHP safe_mode or open_basedir defined, cannot use CURLOPT_FOLLOWLOCATION' );
+			else {
+				curl_setopt( $ch, CURLOPT_MAXREDIRS, 3 );
+				curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
+			}
 
 			if ( defined( 'NGFB_CURL_PROXY' ) && NGFB_CURL_PROXY ) 
 				curl_setopt( $ch, CURLOPT_PROXY, NGFB_CURL_PROXY );
@@ -112,6 +118,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 1 );
 				curl_setopt( $ch, CURLOPT_CAINFO, NGFB_CURL_CAINFO );
 			}
+
 			$this->ngfb->debug->log( 'curl: fetching cache_data from ' . $get_url );
 			$cache_data = curl_exec( $ch );
 			$http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
