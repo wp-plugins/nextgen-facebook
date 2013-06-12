@@ -16,9 +16,9 @@ http://www.gnu.org/licenses/.
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbSettingsGeneral extends ngfbAdmin {
+	class ngfbSettingsWebpage extends ngfbAdmin {
 
 		protected $ngfb;
 		protected $menu_id;
@@ -35,6 +35,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_general', 'General Settings', array( &$this, 'show_metabox_general' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_facebook', 'Facebook Settings', array( &$this, 'show_metabox_facebook' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_link', 'Link Settings', array( &$this, 'show_metabox_link' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
@@ -189,6 +190,13 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>For a Page or Post <em>without</em> an excerpt, if this option is checked, the plugin will ignore all text until the first &lt;p&gt; paragraph in the content. 
 				If an excerpt exists, then the complete excerpt text is used instead.</p></td>
 			</tr>
+			</table>
+			<?php
+		}
+
+		public function show_metabox_facebook() {
+			?>
+			<table class="ngfb-settings">
 			<tr>
 				<th>Facebook Admin(s)</th>
 				<td><?php echo $this->ngfb->admin->form->get_input( 'og_admins' ); ?></td>

@@ -4,8 +4,8 @@ Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
-Description: Adds complete Open Graph meta tags for Facebook, Google+, Twitter, LinkedIn, etc., plus optional social sharing buttons in content or widget.
-Version: 5.2
+Description: Improve content presentation on Google Search results and when URLs are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
+Version: 5.2.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.2';	// only for display purposes
+		public $version = '5.2.1';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
@@ -92,7 +92,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $setting_libs = array(
 			'about' => 'About',
-			'general' => 'General',
+			'webpage' => 'Webpage',
 			'social' => 'Social Sharing',
 			'advanced' => 'Advanced' );
 
@@ -367,7 +367,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				$this->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
 					All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
-					<a href="' . $this->util->get_options_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
+					<a href="' . $this->util->get_admin_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
+
 				$this->options = $this->opt->get_defaults();
 			}
 
