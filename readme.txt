@@ -5,7 +5,7 @@ Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, shar
 License: GPLv3 or later
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 5.2.2
+Stable tag: 5.2.3
 
 Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
 
