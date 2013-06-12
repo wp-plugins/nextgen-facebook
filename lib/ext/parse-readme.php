@@ -32,15 +32,12 @@ class ngfb_parse_readme {
 		if ( 0 === strpos( $file_contents, "\xEF\xBB\xBF" ) )
 			$file_contents = substr( $file_contents, 3 );
 
-		// === Plugin Name ===
-		// Must be the very first thing.
 		if ( !preg_match('|^===(.*)===|', $file_contents, $_name) )
 			return array(); // require a name
+
 		$name = trim($_name[1], '=');
 		$name = $this->sanitize_text( $name );
-
 		$file_contents = $this->chop_string( $file_contents, $_name[0] );
-
 
 		// Requires at least: 1.5
 		if ( preg_match('|Requires at least:(.*)|i', $file_contents, $_requires_at_least) )
@@ -48,20 +45,17 @@ class ngfb_parse_readme {
 		else
 			$requires_at_least = NULL;
 
-
 		// Tested up to: 2.1
 		if ( preg_match('|Tested up to:(.*)|i', $file_contents, $_tested_up_to) )
 			$tested_up_to = $this->sanitize_text( $_tested_up_to[1] );
 		else
 			$tested_up_to = NULL;
 
-
 		// Stable tag: 10.4-ride-the-fire-eagle-danger-day
 		if ( preg_match('|Stable tag:(.*)|i', $file_contents, $_stable_tag) )
 			$stable_tag = $this->sanitize_text( $_stable_tag[1] );
 		else
 			$stable_tag = NULL; // we assume trunk, but don't set it here to tell the difference between specified trunk and default trunk
-
 
 		// Tags: some tag, another tag, we like tags
 		if ( preg_match('|Tags:(.*)|i', $file_contents, $_tags) ) {
@@ -71,7 +65,6 @@ class ngfb_parse_readme {
 		} else {
 			$tags = array();
 		}
-
 
 		// Contributors: markjaquith, mdawaffe, zefrank
 		$contributors = array();
@@ -85,7 +78,6 @@ class ngfb_parse_readme {
 			}
 		}
 
-
 		// Donate Link: URL
 		if ( preg_match('|Donate link:(.*)|i', $file_contents, $_donate_link) )
 			//$donate_link = clean_url( $_donate_link[1] ); depreciated since 3.0
@@ -93,20 +85,17 @@ class ngfb_parse_readme {
 		else
 			$donate_link = NULL;
 
-
 		// License: Type
 		if ( preg_match('|License:(.*)|i', $file_contents, $_license) )
 			$license = $this->sanitize_text( $_license[1] );
 		else
 			$license = NULL;
 
-
 		// License URI: URL
 		if ( preg_match('|License URI:(.*)|i', $file_contents, $_license_uri) )
 			$license_uri = esc_url( $_license_uri[1] );
 		else
 			$license_uri = NULL;
-
 
 		// togs, conts, etc are optional and order shouldn't matter.  So we chop them only after we've grabbed their values.
 		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'license', 'license_uri') as $chop ) {
@@ -117,7 +106,6 @@ class ngfb_parse_readme {
 		}
 
 		$file_contents = trim($file_contents);
-
 
 		// short-description fu
 		if ( !preg_match('/(^(.*?))^[\s]*=+?[\s]*.+?[\s]*=+?/ms', $file_contents, $_short_description) )
@@ -146,7 +134,6 @@ class ngfb_parse_readme {
 			$sections[str_replace(' ', '_', strtolower($title))] = array('title' => $title, 'content' => $_sections[$i]);
 		}
 
-
 		// Special sections
 		// This is where we nab our special sections, so we can enforce their order and treat them differently, if needed
 		// upgrade_notice is not a section, but parse it like it is for now
@@ -159,7 +146,6 @@ class ngfb_parse_readme {
 		}
 		if ( isset($final_sections['change_log']) && empty($final_sections['changelog']) )
 			$final_sections['changelog'] = $final_sections['change_log'];
-
 
 		$final_screenshots = array();
 		if ( isset($final_sections['screenshots']) ) {
@@ -189,7 +175,6 @@ class ngfb_parse_readme {
 			$excerpt = true;
 		}
 
-
 		// dump the non-special sections into $remaining_content
 		// their order will be determined by their original order in the readme.txt
 		$remaining_content = '';
@@ -197,7 +182,6 @@ class ngfb_parse_readme {
 			$remaining_content .= "\n<h3>{$s_data['title']}</h3>\n{$s_data['content']}";
 		}
 		$remaining_content = trim($remaining_content);
-
 
 		// All done!
 		// $r['tags'] and $r['contributors'] are simple arrays

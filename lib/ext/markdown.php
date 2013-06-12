@@ -1,35 +1,22 @@
 <?php
 
-define( 'MARKDOWN_VERSION',  "1.0.1n" ); # Sat 10 Oct 2009
-define( 'MARKDOWNEXTRA_VERSION',  "1.2.4" ); # Sat 10 Oct 2009
-
-#
-# Global default settings:
-#
-
-@define( 'MARKDOWN_EMPTY_ELEMENT_SUFFIX', " />");
-@define( 'MARKDOWN_TAB_WIDTH', 4 );
-@define( 'MARKDOWN_FN_LINK_TITLE', "" );
-@define( 'MARKDOWN_FN_BACKLINK_TITLE', "" );
-@define( 'MARKDOWN_FN_LINK_CLASS', "" );
-@define( 'MARKDOWN_FN_BACKLINK_CLASS', "" );
-@define( 'MARKDOWN_PARSER_CLASS',  'ngfb_markdown_extra_parser' );
+@define( 'NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX', " />");
+@define( 'NGFB_MARKDOWN_TAB_WIDTH', 4 );
+@define( 'NGFB_MARKDOWN_FN_LINK_TITLE', "" );
+@define( 'NGFB_MARKDOWN_FN_BACKLINK_TITLE', "" );
+@define( 'NGFB_MARKDOWN_FN_LINK_CLASS', "" );
+@define( 'NGFB_MARKDOWN_FN_BACKLINK_CLASS', "" );
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
 if ( ! function_exists( 'ngfb_markdown' ) ) {
-
-function ngfb_markdown( $text, &$logger = '' ) {
-	static $parser;
-	if (!isset($parser)) {
-		$parser_class = MARKDOWN_PARSER_CLASS;
-		$parser = new $parser_class( $logger );
+	function ngfb_markdown( $text, &$logger = '' ) {
+		static $parser;
+		if (!isset($parser))
+			$parser = new ngfb_markdown_extra_parser( $logger );
+		return $parser->transform( $text );
 	}
-	# Transform text using parser.
-	return $parser->transform($text);
-}
-
 }
 
 if ( ! class_exists( 'ngfb_markdown_parser' ) ) {
@@ -53,8 +40,8 @@ class ngfb_markdown_parser {
 	var $escape_chars_re;
 
 	# Change to ">" for HTML output.
-	var $empty_element_suffix = MARKDOWN_EMPTY_ELEMENT_SUFFIX;
-	var $tab_width = MARKDOWN_TAB_WIDTH;
+	var $empty_element_suffix = NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX;
+	var $tab_width = NGFB_MARKDOWN_TAB_WIDTH;
 	
 	# Change to `true` to disallow markup or entities.
 	var $no_markup = false;
@@ -168,7 +155,6 @@ class ngfb_markdown_parser {
 	var $document_gamut = array(
 		# Strip link definitions, store in hashes.
 		"stripLinkDefinitions" => 20,
-		
 		"runBasicBlockGamut"   => 30,
 		);
 
@@ -398,7 +384,6 @@ class ngfb_markdown_parser {
 	#
 		"doHeaders"         => 10,
 		"doHorizontalRules" => 20,
-		
 		"doLists"           => 40,
 		"doCodeBlocks"      => 50,
 		"doBlockQuotes"     => 60,
@@ -1478,12 +1463,12 @@ class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
 	var $fn_id_prefix = "";
 	
 	# Optional title attribute for footnote links and backlinks.
-	var $fn_link_title = MARKDOWN_FN_LINK_TITLE;
-	var $fn_backlink_title = MARKDOWN_FN_BACKLINK_TITLE;
+	var $fn_link_title = NGFB_MARKDOWN_FN_LINK_TITLE;
+	var $fn_backlink_title = NGFB_MARKDOWN_FN_BACKLINK_TITLE;
 	
 	# Optional class attribute for footnote links and backlinks.
-	var $fn_link_class = MARKDOWN_FN_LINK_CLASS;
-	var $fn_backlink_class = MARKDOWN_FN_BACKLINK_CLASS;
+	var $fn_link_class = NGFB_MARKDOWN_FN_LINK_CLASS;
+	var $fn_backlink_class = NGFB_MARKDOWN_FN_BACKLINK_CLASS;
 	
 	# Predefined abbreviations.
 	var $predef_abbr = array();
@@ -1517,7 +1502,7 @@ class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
 			"doAbbreviations"    => 70,
 			);
 		
-		parent::__construct();
+		parent::__construct( $logger );
 	}
 	
 	
