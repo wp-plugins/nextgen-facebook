@@ -69,6 +69,14 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				.postbox p {
 					color:#333;
 				}
+				.postbox_website {
+					height:440px;
+					min-width:505px;
+					overflow-y:auto;
+				}
+				.closed {
+					height:auto;
+				}
 				.inside {
 					padding:2px 14px 2px 12px	!important;
 				}
@@ -93,19 +101,12 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				#toplevel_page_ngfb-about table {
 					table-layout:fixed;
 				}
-				.postbox_website {
-					height:440px;
-					overflow-y:auto;
-				}
-				.closed {
-					height:auto;
-				}
-				.rss-manager table,
-				.rss-manager table td {
+				.rss-manager table.ngfb-settings,
+				.rss-manager table.ngfb-settings td {
 					margin:0;
 					padding:0;
 				}
-				.rss-manager p {
+				.rss-manager table.ngfb-settings p {
 					text-align:justify;
 					margin:5px 0 5px 0;
 				}
@@ -162,8 +163,13 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					background:none;
 				}
 				table.ngfb-settings pre {
+					padding:5px;
+					background-color:#eee;
 					white-space:pre;
 					overflow:auto;
+				}
+				table.ngfb-settings pre code {
+					background-color:#eee;
 				}
 				table.ngfb-settings ul { 
 					margin-left:20px;
@@ -176,13 +182,14 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					text-align:right;
 					white-space:nowrap; 
 					padding:0 10px 0 4px; 
-					width:190px;
+					min-width:150px;
 				}
 				table.ngfb-settings th.short { 
-					width:120px;
+					min-width:120px;
 				}
 				table.ngfb-settings th.side { 
 					padding:0 2px 0 2px; 
+					min-width:60px;
 					width:60px;
 				}
 				table.ngfb-settings th.social { 
