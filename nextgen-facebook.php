@@ -4,7 +4,7 @@ Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
-Description: Improve content presentation on Google Search results and when URLs are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
+Description: Improve display and ranking on Google Search, and enhance social sharing with Facebook, Google+, Twitter, LinkedIn, and many more.
 Version: 5.2.2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
