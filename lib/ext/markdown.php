@@ -1,11 +1,11 @@
 <?php
 
-@define( 'NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX', " />");
+@define( 'NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX', ' />');
 @define( 'NGFB_MARKDOWN_TAB_WIDTH', 4 );
-@define( 'NGFB_MARKDOWN_FN_LINK_TITLE', "" );
-@define( 'NGFB_MARKDOWN_FN_BACKLINK_TITLE', "" );
-@define( 'NGFB_MARKDOWN_FN_LINK_CLASS', "" );
-@define( 'NGFB_MARKDOWN_FN_BACKLINK_CLASS', "" );
+@define( 'NGFB_MARKDOWN_FN_LINK_TITLE', '' );
+@define( 'NGFB_MARKDOWN_FN_BACKLINK_TITLE', '' );
+@define( 'NGFB_MARKDOWN_FN_LINK_CLASS', '' );
+@define( 'NGFB_MARKDOWN_FN_BACKLINK_CLASS', '' );
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
