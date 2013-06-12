@@ -7,7 +7,7 @@ Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 5.2.2
 
-Improve content presentation on Google Search results and when URLs are shared with Facebook, Google+, Twitter, LinkedIn, and many more.
+Improve display and ranking on Google Search, and enhance social sharing with Facebook, Google+, Twitter, LinkedIn, and many more.
 
 == Description ==
 
