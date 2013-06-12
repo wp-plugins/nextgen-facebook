@@ -497,7 +497,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION (which is not compatible with these PHP options).
 * Added a check for NGFB_CURL_DISABLE before using PHP's curl to shorten URLs for Twitter.
-* Modified the markdown class to avoid a 503 error in at least one case.
+* Minor changes to the markdown class (used to parses the readme.txt) to avoid a 503 error reported by some people.
 
 = Version 5.2.2 =
 
@@ -563,7 +563,7 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 = 5.2.3 =
 
-Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION, and added a check for NGFB_CURL_DISABLE before using PHP's curl to shorten URLs for Twitter.
+Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION, and added a check for NGFB_CURL_DISABLE constant before using PHP's curl to shorten URLs, minor fixes to markdown class to avoid a 503 error.
 
 = 5.2.2 =
 
