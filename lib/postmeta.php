@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$this->add_actions();
 		}
 
-		private function add_actions() {
+		protected function add_actions() {
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
 				add_action( 'save_post', array( &$this, 'save_options' ) );
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 				'<th>Topic</th><td class="blank">
 				<p>A custom Topic for this ' . $name . ', different from the default Website Topic chosen in the <a href="' . 
-				$this->ngfb->util->get_admin_url( 'general' ) . '">General Settings</a> 
+				$this->ngfb->util->get_admin_url( 'webpage' ) . '">General Settings</a> 
 				(currently set at "' . $this->ngfb->options['og_art_section'] . '").</p></td>',
 
 				'<th>Title</th><td class="blank">
