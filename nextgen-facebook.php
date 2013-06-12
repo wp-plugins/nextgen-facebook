@@ -5,7 +5,7 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 Description: Improve display and ranking on Google Search, and enhance social sharing with Facebook, Google+, Twitter, LinkedIn, and many more.
-Version: 5.2.2
+Version: 5.2.3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.2.2';	// only for display purposes
+		public $version = '5.2.3';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
@@ -112,7 +112,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function deactivate() {
-			wp_clear_scheduled_hook( 'pcfu_updates-' . $this->slug );
+			wp_clear_scheduled_hook( 'plugin_updates-' . $this->slug );
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
@@ -373,17 +373,26 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			if ( is_admin() )
-				$this->cache->file_expire = $this->update_hours * 60 * 60;	// force twelve hour file cache for admin interface
+				if ( $this->debug->is_on( 'wp' ) == true ) 
+					$this->cache->file_expire = 0;
+				else 
+					$this->cache->file_expire = $this->update_hours * 60 * 60;
 			elseif ( $this->is_avail['aop'] == true )
-				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? $this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
+				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? 
+					$this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
+
+			if ( $this->debug->is_on( 'wp' ) == true ) {
+				$this->debug->log( 'NGFB WP debug mode is ON' );
+				$this->debug->log( 'File cache expiration set to ' . $this->cache->file_expire . ' second(s)' );
+			}
 
 			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = 1;
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
-				$this->debug->log( 'WP object cache expiration set to 1 second for new objects' );
+				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
 				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
-					WP object cache expiration <em>temporarily</em> set at 1 second.' );
+					WP object cache expiration <em>temporarily</em> set at ' . $this->cache->object_expire . ' second(s).' );
 				if ( $this->is_avail['aop'] == false )
 					$this->notices->inf( $this->msgs['purchase'] );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
