@@ -33,7 +33,6 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		protected function add_actions() {
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
-				add_action( 'save_post', array( &$this, 'save_options' ) );
 			}
 		}
 
