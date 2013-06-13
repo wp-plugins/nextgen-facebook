@@ -80,9 +80,11 @@ js.
 
 = Install Methods =
 
-After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+To install the *Free* version from WordPress.org, follow the *Automated Install* method described bellow.
 
-If you download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page, before removing the plugin (as explained in the *Automated Removal* procedure).
+If you have purchased the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+
+If you downloaded the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page, before removing the plugin (as explained in the *Automated Removal* procedure).
 
 If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
