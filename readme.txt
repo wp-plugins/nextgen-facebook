@@ -66,6 +66,8 @@ NGFB Open Graph offers a wide variety of filter hooks, functions, methods and co
 
 **[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
+Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and install the new Pro version.
+
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [contribute a small amount](http://surniaulula.com/extend/plugins/contribution-form/), as a way to help with the continued development and support of NGFB Open Graph.
 
 <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also very much appreciated. ;-)
@@ -78,7 +80,9 @@ js.
 
 = Install Methods =
 
-If you have NGFB Open Graph already installed, and subsequently download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* and *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option before removing the plugin (as explained in the *Automated Removal* procedure).
+After purchasing NGFB Open Graph Pro, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and install the new Pro version.
+
+If you download the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page, before removing the plugin (as explained in the *Automated Removal* procedure).
 
 If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
@@ -94,7 +98,7 @@ If you need to roll-back and re-install an older *Free* version, you can find th
 
 **Semi-Automated Install** (*Free* and *Pro* versions)
 
-Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it.
+Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it using this method.
 
 1. Download the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
 1. Go to the wp-admin/ section of your website
@@ -133,7 +137,7 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Scroll down to the "NGFB Open Graph" plugin, and click its *Delete* link
 1. Click on the *Yes, Delete these files and data* button
 
-Note: Unless you checked the "Preserve on Uninstall" option, deleting the plugin will also remove all of its settings from the database.
+Note: Unless you checked the "Preserve on Uninstall" option on the Advanced settings page, deleting the plugin will also remove all of its settings from the database.
 
 **Manual Removal**
 
@@ -146,6 +150,8 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
 **A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+
+Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and install the new Pro version.
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 
@@ -485,18 +491,18 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Screenshots ==
 
-1. Screenshot 1 : About Page (Pro Version 5.2)
-2. Screenshot 2 : General Settings Page (Pro Version 5.2)
-3. Screenshot 3 : Social Sharing Settings Page (Pro Version 5.2)
-4. Screenshot 4 : Advanced Settings Page (Pro Version 5.2)
-6. Screenshot 5 : Custom Post and Page Settings (Pro Version 5.2)
+1. Screenshot 1 : About Page (Pro Version 5.3)
+2. Screenshot 2 : General Settings Page (Pro Version 5.3)
+3. Screenshot 3 : Social Sharing Settings Page (Pro Version 5.3)
+4. Screenshot 4 : Advanced Settings Page (Pro Version 5.3)
+6. Screenshot 5 : Custom Post and Page Settings (Pro Version 5.3)
 
 == Changelog ==
 
 = Version 5.3 =
 
 * Fixed saving of custom Post and Page settings in the Pro version.
-* 
+* Added the ability for the *Free* version to self-update to the Pro version, after entering a valid Transaction ID on the Advanced settings page. 
 
 = Version 5.2.3 =
 

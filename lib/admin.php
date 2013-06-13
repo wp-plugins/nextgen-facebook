@@ -212,7 +212,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
 						if ( $this->ngfb->is_avail['aop'] == true ) {
-							$this->ngfb->pro->update->check_for_updates();
+							$this->ngfb->admin->update->check_for_updates();
 							$this->ngfb->admin->set_readme( 0 );
 							$this->ngfb->notices->inf( 'Version information checked and updated.' );
 						}
