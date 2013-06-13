@@ -97,10 +97,11 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_plugin() {
 			return array(
-				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
-				'<th>Purchase Transaction ID</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_pro_tid' ) . '
-				<p>After your purchase of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter the unique Transaction ID here to allow <a href="' . $this->ngfb->urls['plugin'] . '" target="_blank">' . $this->ngfb->fullname . ' Pro</a> to authenticate itself for future updates.</p>
-				</td>',
+				'<th>Purchase Transaction ID</th><td class="second">' . $this->ngfb->admin->form->get_input( 'ngfb_pro_tid' ) . '</td><td class="blank">
+				<p><strong>After purchasing of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. 
+				Enter your unique Transaction ID here, and after saving the changes, an update for "' . $this->ngfb->fullname . '" will appear on the 
+				<a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
+				Update the "' . $this->ngfb->fullname . '" plugin to download and install the new Pro version.</strong></p></td>',
 			);
 		}
 

@@ -109,28 +109,28 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th>Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . '</td>',
-				'<th>Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . '</td>',
-				'<th>Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th>JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
-				'<th>Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',
-				'<th>Markup Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_markup', 
+				'<th class="short">Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . '</td>',
+				'<th class="short">Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . '</td>',
+				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
+				'<th class="short">Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',
+				'<th class="short">Markup Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_markup', 
 					array( 
 						'html5' => 'HTML5', 
 						'xfbml' => 'XFBML',
 					) 
 				) . '</td>',
-				'<th>Include Send</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_send' ) . '</td>',
-				'<th>Layout</th><td>' . $this->ngfb->admin->form->get_select( 'fb_layout', 
+				'<th class="short">Include Send</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_send' ) . '</td>',
+				'<th class="short">Layout</th><td>' . $this->ngfb->admin->form->get_select( 'fb_layout', 
 					array(
 						'standard' => 'Standard',
 						'button_count' => 'Button Count',
 						'box_count' => 'Box Count',
 					) 
 				) . '</td>',
-				'<th>Default Width</th><td>' . $this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
-				'<th>Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . ' (standard layout only)</td>',
-				'<th>Font</th><td>' . $this->ngfb->admin->form->get_select( 'fb_font', 
+				'<th class="short">Default Width</th><td>' . $this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
+				'<th class="short">Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . ' (standard layout only)</td>',
+				'<th class="short">Font</th><td>' . $this->ngfb->admin->form->get_select( 'fb_font', 
 					array( 
 						'arial' => 'Arial',
 						'lucida grande' => 'Lucida Grande',
@@ -140,13 +140,13 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 						'verdana' => 'Verdana',
 					) 
 				) . '</td>',
-				'<th>Color Scheme</th><td>' . $this->ngfb->admin->form->get_select( 'fb_colorscheme', 
+				'<th class="short">Color Scheme</th><td>' . $this->ngfb->admin->form->get_select( 'fb_colorscheme', 
 					array( 
 						'light' => 'Light',
 						'dark' => 'Dark',
 					)
 				) . '</td>',
-				'<th>Facebook Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
+				'<th class="short">Facebook Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
 					array( 
 						'like' => 'Like',
 						'recommend' => 'Recommend',

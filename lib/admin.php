@@ -36,6 +36,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'both' => 'Title and Excerpt',
 		);
 
+		public $update;
+
 		protected $ngfb;	// ngfbPlugin
 		protected $form;	// ngfbForm
 		protected $menu_id;
@@ -49,7 +51,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
 			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->defaults );
-			$this->do_extend();
+			$this->load_libs();
+			$this->setup_vars();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
@@ -59,12 +62,31 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
-		private function do_extend() {
+		private function load_libs() {
+			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
+				require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
+		}
+
+		private function setup_vars() {
 			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
 				$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
+
+			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+				$tid = $this->ngfb->options['ngfb_pro_tid'];
+				$this->update = new ngfb_check_for_updates( $this->ngfb->urls['update'] . '?transaction=' . $tid, 
+					NGFB_FILEPATH, $this->ngfb->slug, $this->ngfb->update_hours, null, $this->ngfb->debug );
+				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
+			}
+		}
+
+		public function filter_version_number( $version ) {
+			if ( $this->ngfb->is_avail['aop'] == true )
+				return $version . '-pro';
+			else
+				return '0.0-' . $version . '-free';
 		}
 
 		public function set_readme( $expire_secs = false ) {
@@ -180,6 +202,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function load_page() {
 			wp_enqueue_script( 'postbox' );
 
+			if ( ! empty( $_GET['settings-updated'] ) ) {
+				// we have a transaction ID, but we are not using the pro version (yet) - force an update
+				if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) && $this->ngfb->is_avail['aop'] == false )
+					$this->ngfb->admin->update->check_for_updates();
+			}
+
 			if ( ! empty( $_GET['action'] ) )
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
@@ -279,12 +307,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo '</div>';
 			}
 			echo '<div style="clear:both;"></div>';
-			$this->show_submit_button();
+			echo $this->get_submit_button();
 			echo '</form>', "\n";
 		}
 
-		protected function show_submit_button( $text = 'Save All Changes', $class = 'save_button' ) {
-			echo '<div class="' . $class . '"><input type="submit" class="button-primary" value="', $text, '" /></div>', "\n";
+		protected function get_submit_button( $text = 'Save All Changes', $class = 'save-all-button' ) {
+			return '<div class="' . $class . '"><input type="submit" class="button-primary" value="' . $text . '" /></div>' . "\n";
 		}
 
 		public function show_metabox_news() {
@@ -350,7 +378,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
 			</table>
 			<?php
-			echo '<div class="updates_button">';
+			echo '<div class="check-updates-button">';
 			if ( $this->ngfb->is_avail['aop'] == true ) {
 				$q = '&amp;action=check_for_updates'; 
 				echo '<input type="button" class="button-primary" value="Check for Updates" onClick="location.href=\'';
@@ -370,7 +398,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
 			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
 			echo '<p class="sig">Thank you.</p>', "\n";
-			echo '<p>'; $this->show_submit_button( 'Download the Pro Version' ); echo '</p>';
+			echo '<p>', $this->get_submit_button( 'Purchase the Pro Version' ), '</p>';
 			echo '</form>', "\n";
 		}
 

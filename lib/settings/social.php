@@ -31,10 +31,10 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			$this->ngfb->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
-			$this->do_extend();
+			$this->setup_vars();
 		}
 
-		private function do_extend() {
+		private function setup_vars() {
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
 				$this->website[$id] = new $classname( $this->ngfb );
@@ -87,17 +87,17 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			<table class="ngfb-settings">
 			<tr>
 				<th>Include on Index Webpages</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ); ?></td>
 				<td><p>Include social sharing buttons (that are enabled) on each entry of index webpages (index, archives, author, etc.).</p></td>
 			</tr>
 			<tr>
 				<th>Location in Excerpt Text</th>
-				<td><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 				<td><p>The social sharing button(s) must also be enabled below.</p></td>
 			</tr>
 			<tr>
 				<th>Location in Content Text</th>
-				<td><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 				<td><p>The social sharing button(s) must also be enabled below.</p></td>
 			</tr>
 			</table>

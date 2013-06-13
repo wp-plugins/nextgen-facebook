@@ -493,6 +493,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.3 =
+
+* Fixed saving of custom Post and Page settings in the Pro version.
+* 
+
 = Version 5.2.3 =
 
 * Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION (which is not compatible with these PHP options).

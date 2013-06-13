@@ -71,7 +71,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				}
 				.postbox_website {
 					height:440px;
-					min-width:505px;
+					min-width:500px;
 					overflow-y:auto;
 				}
 				.closed {
@@ -80,13 +80,17 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				.inside {
 					padding:2px 14px 2px 12px	!important;
 				}
-				.save_button { 
+				.save-all-button { 
 					text-align:center;
 					margin:15px 0 0 0;
 				}
-				.updates_button { 
+				.check-updates-button { 
 					text-align:center;
 					margin:5px 0 10px 0;
+				}
+				.install-now-button { 
+					text-align:center;
+					margin:0 0 5px 0;
 				}
 				.postbox_purchase_side {
 					color:#333;
@@ -182,7 +186,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					text-align:right;
 					white-space:nowrap; 
 					padding:0 10px 0 4px; 
-					min-width:150px;
+					min-width:190px;
 				}
 				table.ngfb-settings th.short { 
 					min-width:120px;
@@ -211,7 +215,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 					height:42px;
 				}
 				table.ngfb-settings td.second { 
-					width:140px;
+					width:250px;
 				}
 				table.ngfb-settings td.blank { 
 					min-width:100px;
