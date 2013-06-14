@@ -37,7 +37,7 @@ NGFB Open Graph also comes with several multilingual social sharing buttons, tha
 
 = Images and Videos =
 
-All references to images and videos, associated or included in the webpage content, can be used in the Open Graph meta property tags -- and are used by the social websites in a variety of ways. NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with just the built-in WordPress Media Library. *The NextGEN Gallery plugin is not required to use NGFB Open Graph* -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags (for Posts and Pages) are chosen in this sequence:
+All references to images and videos, associated or included in the webpage content, can be used in the Open Graph meta property tags -- and are used by the social websites in a variety of ways. NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with just the built-in WordPress Media Library. **The NextGEN Gallery plugin is not required to use NGFB Open Graph** -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags (for Posts and Pages) are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
 1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
