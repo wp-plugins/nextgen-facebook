@@ -32,6 +32,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
 		public $fullname = 'NGFB Open Graph';
+		public $fullname_pro = 'NGFB Open Graph Pro';
 		public $slug = 'nextgen-facebook';
 		public $update_hours = 12;
 
@@ -294,7 +295,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// load options 
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 			if ( $this->is_avail['ngg'] == true ) $this->ngg_options = get_option( 'ngg_options' );
-			if ( $this->is_avail['aop'] == true ) $this->fullname .= ' Pro';
+			if ( $this->is_avail['aop'] == true ) $this->fullname = $this->fullname_pro;
 			$this->setup_msgs();
 	
 			// create essential object classes
