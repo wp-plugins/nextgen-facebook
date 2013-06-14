@@ -84,9 +84,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function filter_version_number( $version ) {
 			if ( $this->ngfb->is_avail['aop'] == true )
-				return $version . '-pro';
+				return $version . '-Pro';
 			else
-				return '0.0-' . $version . '-free';
+				return '0.0-' . $version . '-Free';
 		}
 
 		public function set_readme( $expire_secs = false ) {
