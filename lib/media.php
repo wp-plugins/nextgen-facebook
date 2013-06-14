@@ -53,6 +53,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$image_url = '';
 			$size_info = $this->get_size_info( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
+			// since wp 2.5.0
 			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
 			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );

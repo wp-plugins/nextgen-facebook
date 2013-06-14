@@ -47,7 +47,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 					$url = get_author_posts_url( $author_id );
 					break;
 				default :
-					$url = get_the_author_meta( $field_name, $author_id );
+					$url = get_the_author_meta( $field_name, $author_id );	// since wp 2.8.0 
 
 					// if empty or not a URL, then fallback to the author index page
 					if ( $this->ngfb->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
@@ -59,9 +59,9 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function collapse_metaboxes( $page, $ids = array(), $force = false ) {
-			$user_id = get_current_user_id();
+			$user_id = get_current_user_id();				// since wp 3.0
 			$option_name = 'closedpostboxes_' . $page;
-			$option_arr = get_user_option( $option_name, $user_id );
+			$option_arr = get_user_option( $option_name, $user_id );	// since wp 2.0.0 
 
 			if ( ! is_array( $option_arr ) )
 				$option_arr = array();
@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			if ( empty( $option_arr ) || $force == true )
 				foreach ( $ids as $id ) $option_arr[] = $page . '_' . $id;
 
-			update_user_option( $user_id, $option_name, array_unique( $option_arr ), true );
+			update_user_option( $user_id, $option_name, array_unique( $option_arr ), true );	// since wp 2.0
 		}
 
 	}

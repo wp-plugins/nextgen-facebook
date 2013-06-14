@@ -38,6 +38,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		public function add_metaboxes() {
 			foreach ( array( 'post' => 'Post', 'page' => 'Page' ) as $id => $name ) 
+				// since wp 2.5
 				add_meta_box( NGFB_META_NAME, $this->ngfb->fullname . ' - Custom ' . $name . ' Settings', 
 					array( &$this->ngfb->meta, 'show_metabox' ), $id, 'advanced', 'high' );
 		}

@@ -142,6 +142,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_ret = array();
 
 			// check for attachment page
+			// since wp 2.0.0 
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
 				$num_remains = $this->num_remains( $og_ret, $num );
@@ -495,6 +496,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		private function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '' ) {
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {
+				// since wp 2.1.0 
 				if ( wp_attachment_is_image( $attach_id ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],

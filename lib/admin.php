@@ -325,7 +325,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$rss_items = array();
 
 			add_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
-			$rss_feed = fetch_feed( $url );
+			$rss_feed = fetch_feed( $url );		// since wp 2.8
 			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
 
 			if ( ! is_wp_error( $rss_feed ) ) {
