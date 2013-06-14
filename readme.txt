@@ -15,11 +15,13 @@ Improve webpage HTML for better Google Search results, ranking, social shares wi
 
 = Adds SEO and Open Graph =
 
-Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags are added to the head section of your webpages to describe the content for Google Search, Facebook, and other social websites. When someone shares one of your webpages, the title, description, images, videos, author profiles, etc. will be presented properly to social websites. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
+Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) meta property tags are added to the head section of your webpages, to describe the content for Google Search, Google+, Facebook, and many other social websites. When someone shares your webpages, the title, description, images, videos, author profiles, etc. will be presented properly to the social websites. Open Graph meta property tags are read by almost all social websites, including Facebook, Google (Search and Google+), Twitter and LinkedIn. 
 
-NextGEN Facebook Open Graph (aka NGFB Open Graph) goes well beyond others in handling various media and archive-types. It will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. NGFB Open Graph also detects images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- and includes one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+NextGEN Facebook Open Graph (aka NGFB Open Graph) goes beyond other plugins, offering a mature, stable, high-performance platform, with support for various media sources and archive-types. NGFB Open Graph will create appropriate title and description meta tags for category, tag, date based archive (day, month, or year), author webpages, and search results. It also detects and uses images from a variety of sources (featured, attached, preview, shortcodes, etc.), and embedded videos in the content -- including one or more in your Open Graph property tags (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
 
 **Once installed and activated, NGFB Open Graph adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although if you have at least one image in your Media Library (or NextGEN Gallery) that represents your website, you may want to select it as your Default Image on the General Settings page.
+
+All options are carefully explained on each settings page -- there's no need to purchase extra documentation, how-to videos, etc.
 
 = Provides Social Sharing =
 
@@ -29,13 +31,13 @@ NGFB Open Graph also comes with several multilingual social sharing buttons, tha
 * Google+
 * LinkedIn
 * Pinterest
-* StumbleUpon
-* Tumblr
+* StumbleUpon 
+* Tumblr (Links, Quotes, Images, Videos)
 * Twitter
 
-= Sources Media =
+= Images and Videos =
 
-References to images and videos, associated with the webpage content, may be included in the Open Graph meta property tags, and can be used by the social websites in a variety of ways. NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with the built-in WordPress Media Library. *The NextGEN Gallery plugin is not required to use NGFB Open Graph* -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags (for Posts and Pages) are chosen in this sequence:
+All references to images and videos, associated or included in the webpage content, can be used in the Open Graph meta property tags -- and are used by the social websites in a variety of ways. NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with just the built-in WordPress Media Library. *The NextGEN Gallery plugin is not required to use NGFB Open Graph* -- all options and features work just as well with the WordPress Media Library. Images used in the Open Graph meta property tags (for Posts and Pages) are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
 1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
@@ -44,11 +46,11 @@ References to images and videos, associated with the webpage content, may be inc
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB plugin settings.
 
-NGFB Open Graph also detects and uses embedded videos from YouTube and Video in your content, including their preview images.
+NGFB Open Graph also detects and uses embedded videos from YouTube and Vimeo in your content, including their preview images.
 
 = Best Performance =
 
-NGFB Open Graph is tuned for performance and makes full use of available caching techniques:
+Unlike other plugins, NGFB Open Graph is tuned for performance, and makes full use of available caching techniques:
 
 * Using an optional file / disk based cache for javascript and images from social websites (Pro version).
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
@@ -60,17 +62,17 @@ NGFB Open Graph is being actively developed and supported. You can review the [F
 
 = Developer Friendly =
 
-NGFB Open Graph offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and `constants.txt` for a complete list).
+NGFB Open Graph offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
 
 = Pro Version =
 
-**[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+**[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-Updating to the Pro version is simple and easy -- click "Purchase the Pro Version" on any NGFB Open Graph settings page, receive an email with your unique Transaction ID, enter the Transaction ID on the settings page, and update the plugin from within WordPress (like any other regular update).
+Updating to the Pro version is simple and easy -- click "Purchase the Pro Version" on any NGFB Open Graph settings page, receive an email with your unique Transaction ID, enter the Transaction ID on the settings page, and update the plugin from within WordPress (like a regular plugin update).
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [contribute a small amount](http://surniaulula.com/extend/plugins/contribution-form/), as a way to help with the continued development and support of NGFB Open Graph.
 
-<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also very much appreciated. ;-)
+<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also *very* much appreciated. ;-)
 
 Thank you,
 
@@ -151,7 +153,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images/videos included, and enable / disable social buttons for each individual Post and Page. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+**A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 

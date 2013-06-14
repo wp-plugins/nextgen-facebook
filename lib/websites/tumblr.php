@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
 				'<th class="short">Button Style</th><td>' . $buttons . '</td>',
 				'<th class="short"><u>Link</u> Description Length</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters or less</td>',
-				'<th class="short">Prioritize Images</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
+				'<th class="short">Prioritize Featured Image</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
 				'<th class="short">Image Size to Share</th><td>' . $this->ngfb->admin->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
 				'<th class="short">Image and Video Caption</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
 				'<th class="short">Caption Length</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters or less</td>',
