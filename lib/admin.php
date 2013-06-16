@@ -165,7 +165,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
 				if ( $this->ngfb->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
-				else array_push( $links, 'Pro Installed' );
 			}
 			return $links;
 		}
