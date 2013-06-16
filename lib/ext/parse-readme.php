@@ -1,5 +1,5 @@
 <?php
-// This is the path to markdown.php
+
 if ( !defined('NGFB_README_MARKDOWN') )
 	define('NGFB_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
 

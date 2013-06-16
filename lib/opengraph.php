@@ -1,16 +1,8 @@
 <?php
 /*
+License: GPLv3
+License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
-
-This script is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 3 of the License, or (at your option) any later
-version.
-
-This script is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details at
-http://www.gnu.org/licenses/.
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -142,6 +134,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_ret = array();
 
 			// check for attachment page
+			// since wp 2.0.0 
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
 				$num_remains = $this->num_remains( $og_ret, $num );
@@ -495,6 +488,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		private function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '' ) {
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {
+				// since wp 2.1.0 
 				if ( wp_attachment_is_image( $attach_id ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],

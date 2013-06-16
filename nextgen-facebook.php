@@ -4,20 +4,12 @@ Plugin Name: NGFB Open Graph
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
+License: GPLv3
+License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
 Version: 5.3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
-
-This script is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 3 of the License, or (at your option) any later
-version.
-
-This script is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details at
-http://www.gnu.org/licenses/.
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -100,11 +92,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
-			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
-			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );
-			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );
+			// since wp 3.1 : register_activation_hook is now fired only when the user activates the plugin 
+			// and not when an automatic plugin update occurs
+			register_activation_hook( __FILE__, array( &$this, 'activate' ) );		// since wp 2.0
+			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );		// since wp 2.0
+			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );	// since wp 2.7
 
-			add_action( 'init', array( &$this, 'init_plugin' ) );
+			add_action( 'init', array( &$this, 'init_plugin' ) );		// since wp 1.2.0
 		}
 
 		public function activate() {
@@ -113,7 +107,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function deactivate() {
-			wp_clear_scheduled_hook( 'plugin_updates-' . $this->slug );
+			wp_clear_scheduled_hook( 'plugin_updates-' . $this->slug );	// since wp 2.1.0
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
@@ -142,7 +136,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function define_constants() { 
 
 			define( 'NGFB_FILEPATH', __FILE__ );
-			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
@@ -260,6 +254,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
 			// post thumbnail feature is supported by wp theme
+			// since wp 2.9.0
 			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
 			// nextgen gallery plugin
@@ -334,7 +329,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( is_admin() ) {
 				$this->admin = new ngfbAdmin( $this );
-				$this->admin->plugin_name = plugin_basename( __FILE__ );
+				$this->admin->plugin_name = plugin_basename( __FILE__ );	// since wp 1.5
 			} else {
 				$this->head = new ngfbHead( $this );		// wp_head / opengraph
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags

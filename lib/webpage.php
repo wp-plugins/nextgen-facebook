@@ -1,16 +1,8 @@
 <?php
 /*
+License: GPLv3
+License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
-
-This script is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 3 of the License, or (at your option) any later
-version.
-
-This script is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details at
-http://www.gnu.org/licenses/.
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -39,11 +31,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			global $post;
 			$quote = '';
 			if ( empty( $post ) ) return $quote;
-			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );
+			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );	// since wp 2.3.0, since wp 0.71 
 			else $quote = $post->post_content;					// fallback to regular content
 			$quote = $this->ngfb->util->cleanup_html_tags( $quote, false );		// remove shortcodes, etc., but don't strip html tags
 			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_quote', $quote );
+				return apply_filters( 'ngfb_quote', $quote );			// since wp 0.71 
 			else return $quote;
 		}
 
@@ -81,7 +73,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			elseif ( is_category() ) { 
 
-				$title = single_cat_title( '', false );
+				$title = single_cat_title( '', false );		// since wp 0.71
 				$this->ngfb->debug->log( 'single_cat_title() = "' . $title . '"' );
 				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->ngfb->options['og_title_sep'] . ' ', false );
 
@@ -99,10 +91,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				unset ( $cat_parents );
 
 			// we are on an index page, but need individual titles from the posts
-			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {
+			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
 
 				$this->ngfb->debug->log( 'use_post = ' . ( $use_post ? 'true' : 'false' ) );
-				$title = get_the_title();
+				$title = get_the_title();			// since wp 0.71 
 				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
 				if ( $post->post_parent ) {
 					$parent_title = get_the_title( $post->post_parent );

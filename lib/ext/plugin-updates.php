@@ -1,6 +1,6 @@
 <?php
-/* Plugin Update Class, Copyright (c) 2012 by Rob Landry
-
+/* 
+Plugin Update Class, Copyright (c) 2012 by Rob Landry
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 
 This script is free software; you can redistribute it and/or modify it under
@@ -69,7 +69,7 @@ class ngfb_check_for_updates {
 				// remove old schedule name (if it exists)
 				if ( wp_get_schedule( 'pcfu_updates-' . $this->slug ) )
 					wp_clear_scheduled_hook( 'pcfu_updates-' . $this->slug );
-				wp_schedule_event( time(), $this->sched_name, $this->cron_hook );
+				wp_schedule_event( time(), $this->sched_name, $this->cron_hook );	// since wp 2.1.0
 			}
 		} else wp_clear_scheduled_hook( $this->cron_hook );
 	}

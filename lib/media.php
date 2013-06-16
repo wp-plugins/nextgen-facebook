@@ -1,16 +1,8 @@
 <?php
 /*
+License: GPLv3
+License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
-
-This script is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 3 of the License, or (at your option) any later
-version.
-
-This script is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details at
-http://www.gnu.org/licenses/.
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -53,6 +45,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$image_url = '';
 			$size_info = $this->get_size_info( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
+			// since wp 2.5.0
 			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
 			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
 				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
