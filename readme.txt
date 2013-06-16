@@ -579,6 +579,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 == Upgrade Notice ==
 
+= 5.3 =
+
+Fixed saving of custom Post and Page settings in the Pro version, and added the ability for the *Free* version to self-update to the Pro version. 
+
 = 5.2.3 =
 
 Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION, and added a check for NGFB_CURL_DISABLE constant before using PHP's curl to shorten URLs, minor fixes to markdown class to avoid a 503 error.
