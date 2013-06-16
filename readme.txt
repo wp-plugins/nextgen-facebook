@@ -1,11 +1,12 @@
 === NextGEN Facebook Open Graph ===
 Contributors: jsmoriss
-Donate link: http://surniaulula.com/extend/plugins/nextgen-facebook/
+Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery
-License: GPLv3 or later
-Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 5.3
+License: GPLv3
+License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+Requires At Least: 3.0
+Tested Up To: 3.5.1
+Stable Tag: 5.3
 
 Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
 
@@ -362,7 +363,7 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 NGFB Open Graph uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
 
-The `example.css` file, located in the `wp-content/plugins/nextgen-facebook/` folder, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
+The `wp-content/plugins/nextgen-facebook/css/webpage.css` file contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
