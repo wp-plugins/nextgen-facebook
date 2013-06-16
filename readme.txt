@@ -69,10 +69,10 @@ NGFB Open Graph offers a wide variety of filter hooks, functions, methods and co
 
 **[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
+NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt) per purchased license / Transaction ID.
+
 Updating to the Pro version is simple and easy -- click "Purchase the Pro Version" on any NGFB Open Graph settings page, receive an email with your unique Transaction ID, enter the Transaction ID on the Advanced settings page, and update the plugin from within WordPress (like a regular plugin update).
 
-NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt) per purchased license / Transaction ID.
- 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [contribute a small amount](http://surniaulula.com/extend/plugins/contribution-form/), as a way to help with the continued development and support of NGFB Open Graph.
 
 <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also *very* much appreciated. ;-)
