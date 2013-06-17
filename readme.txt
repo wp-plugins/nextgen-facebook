@@ -158,12 +158,6 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 
-<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also very much appreciated. ;-)
-
-Thank you,
-
-js.
-
 = Q. How do I install the Pro version? =
 
 Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
@@ -172,9 +166,9 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph Pro plugin. Contact me at [Surnia Ulula](http://surniaulula.com/) for developer and/or 5+ website license discounts.
 
-= Q. What do the Open Graph property tags look like? =
+= Q. What do the SEO and Open Graph meta tags look like? =
 
-**A.** [Open Graph](http://ogp.me/) property tags are added to the `<head>` section of webpages. Here's an example of the Open Graph meta property tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
+**A.** SEO and [Open Graph](http://ogp.me/) meta property tags are added to the `<head>` section of webpages. Here's an example of some head tags for a Post on [Surnia Ulula](http://surniaulula.com/) titled [WordPress Caching and Plugins for Performance](http://surniaulula.com/2012/12/01/wordpress-caching-and-plugins-for-performance/).
 
 `
 <!-- NGFB Open Graph meta tags BEGIN -->
@@ -258,7 +252,7 @@ And another for a gallery Page on [Underwater Focus](http://underwaterfocus.com/
 <!-- NGFB Open Graph meta tags END -->
 `
 
-= Q. Why doesn't Facebook show my (current) Open Graph image? =
+= Q. Why doesn't Facebook show the correct Open Graph image? =
 
 **A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
 
