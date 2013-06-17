@@ -36,8 +36,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		public function show_metabox( $post ) {
-			$this->ngfb->style->settings();
-			$name = $post->post_type == page ? 'Page' : 'Post';
+			$name = $post->post_type == 'page' ? 'Page' : 'Post';
 			echo '<table class="ngfb-settings">';
 			foreach ( $this->get_rows( $post, $name ) as $row )
 				echo '<tr>' . $row . '</tr>';
@@ -48,34 +47,34 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
-				'<th>Topic</th><td class="blank">
+				'<th class="short">Topic</th><td class="blank">
 				<p>A custom Topic for this ' . $name . ', different from the default Website Topic chosen in the <a href="' . 
 				$this->ngfb->util->get_admin_url( 'webpage' ) . '">General Settings</a> 
 				(currently set at "' . $this->ngfb->options['og_art_section'] . '").</p></td>',
 
-				'<th>Title</th><td class="blank">
+				'<th class="short">Title</th><td class="blank">
 				<p>A custom Title for this ' . $name . ' to use in the Open Graph meta tags.</td>',
 
-				'<th>Description</th><td class="blank">
+				'<th class="short">Description</th><td class="blank">
 				<p>A custom Description for this ' . $name . ' to use in the Open Graph meta tags.</td>',
 
-				'<th>Image ID</th><td class="blank">
+				'<th class="short">Image ID</th><td class="blank">
 				<p>A custom Image ID to use in the Open Graph meta tags, that is not already associated with or included in the content 
 				of this ' . $name . ' (featured, attached, singlepic shortcode, img html tag, etc.).</p></td>',
 
-				'<th>Image URL</th><td class="blank">
+				'<th class="short">Image URL</th><td class="blank">
 				<p>You may also enter a custom image URL, instead of an Image ID, to use in the Open Graph meta tags.</p></td>',
 
-				'<th>Maximum Images</th><td class="blank">
+				'<th class="short">Maximum Images</th><td class="blank">
 				<p>The maximum number of images to include in the Open Graph meta tags for this ' . $name . '. 
 				Select a value of "1" if you are using a custom Image ID or URL, and would like that to be the only image listed in the 
 				Open Graph meta tags (the current website Maximum Images value is "' . $this->ngfb->options['og_img_max'] . '").</p></td>', 
 
-				'<th>Maximum Videos</th><td class="blank">
+				'<th class="short">Maximum Videos</th><td class="blank">
 				<p>The maximum number of embedded videos to include in the Open Graph meta tags (the current website Maximum Videos value is 
 				"' . $this->ngfb->options['og_vid_max'] . '").</p></td>',
 
-				'<th>Disable Social Buttons</th><td class="blank">
+				'<th class="short">Disable Social Buttons</th><td class="blank">
 				<p>Disable all social sharing buttons for this ' . $name . ' (added to the content, excerpt, as a widget, etc.)</p></td>',
 			);
 		}

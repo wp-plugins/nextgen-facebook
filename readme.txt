@@ -164,7 +164,7 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 = Q. Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph Pro plugin. Contact me at [Surnia Ulula](http://surniaulula.com/) for developer and/or 5+ website license discounts.
+NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
 = Q. What do the SEO and Open Graph meta tags look like? =
 

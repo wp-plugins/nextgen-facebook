@@ -234,10 +234,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
 
 			$this->ngfb->debug->show_html( null, 'Debug Log' );
-			$this->ngfb->style->admin_page();
-			$this->ngfb->style->settings();
 
-			// add meta box here (after wp_enqueue_script()) to prevent removal
+			// add meta box here to prevent removal
 			if ( $this->ngfb->is_avail['aop'] !== true ) {
 				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_purchase_side' ) );
@@ -332,9 +330,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			} else {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
-					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );	// remove the inline styling
-					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', 
-						' class="ngfb-settings"', $desc );			// remove table cellspacing
+					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );		// remove the inline styling
+					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove table cellspacing
 					$desc = preg_replace( '/%TransactionID%/', 
 						$this->ngfb->options['ngfb_pro_tid'], $desc );		// substitute transaction ID
 
@@ -373,9 +370,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
-			</table>
 			<?php
-			echo '<div class="check-updates-button">';
+			echo '<tr><td colspan="2">';
+			echo '<p style="text-align:center;">';
 			if ( $this->ngfb->is_avail['aop'] == true ) {
 				$q = '&amp;action=check_for_updates'; 
 				echo '<input type="button" class="button-primary" value="Check for Updates" onClick="location.href=\'';
@@ -387,25 +384,34 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				value="Clear All Cache" onClick="location.href=\'';
 			echo $this->ngfb->util->get_admin_url(), $q;
 			echo '\'" />', "\n";
-			echo '</div>', "\n";
+			echo '</p>', "\n";
+			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_purchase() {
+			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<form name="ngfb" method="get" action="' . $this->ngfb->urls['plugin'] . '" target="_blank">', "\n";
 			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
 			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
-			echo '<p class="sig">Thank you.</p>', "\n";
+			echo '<p>Thank you,</p>', "\n";
+			echo '<p class="sig">js.</p>', "\n";
 			echo '<p>', $this->get_submit_button( 'Purchase the Pro Version' ), '</p>';
 			echo '</form>', "\n";
+			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_thankyou() {
+			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<p>', $this->ngfb->msgs['thankyou'], '</p>', "\n";
+			echo '<p class="sig">js.</p>', "\n";
+			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
+			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<p>', $this->ngfb->msgs['help_boxes'], '</p>', "\n";
 			echo '<p>', $this->ngfb->msgs['help_forum'], '</p>', "\n";
+			echo '</td></tr></table>';
 		}
 
 	}
