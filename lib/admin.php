@@ -75,10 +75,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function filter_version_number( $version ) {
-			if ( $this->ngfb->is_avail['aop'] == true )
-				return $version . '-Pro';
-			else
-				return '0.0-' . $version . '-Free';
+			if ( $this->ngfb->is_avail['aop'] !== true )
+				return '0-' . $version . '-Free';
 		}
 
 		public function set_readme( $expire_secs = false ) {
@@ -363,7 +361,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			?>
 			<table class="ngfb-settings">
-			<tr><th class="side">Installed:</th><td><?php echo $this->ngfb->version; echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ''; ?></tr>
+			<tr><th class="side">Installed:</th><td><?php 
+				echo $this->ngfb->version; 
+				echo $this->ngfb->is_avail['aop'] ? ' Pro' : '<em>Free</em>'; 
+			?></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
 			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
