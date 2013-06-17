@@ -69,8 +69,6 @@ NGFB Open Graph offers a wide variety of filter hooks, functions, methods and co
 
 **[A Pro version of NGFB Open Graph is also available](http://surniaulula.com/extend/plugins/nextgen-facebook/)**. The Pro version allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt) per purchased license.
-
 Updating to the Pro version is simple and easy -- click "Purchase the Pro Version" on any NGFB Open Graph settings page, receive an email with your unique Transaction ID, enter the Transaction ID on the Advanced settings page, and update the plugin from within WordPress (like a regular plugin update).
 
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [contribute a small amount](http://surniaulula.com/extend/plugins/contribution-form/), as a way to help with the continued development and support of NGFB Open Graph.
@@ -158,8 +156,6 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 **A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
-NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt) per purchased license.
-
 **The *Free* version of NGFB Open Graph is not really "Free"** -- it has taken many months to develop, test, fine-tune and support. The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
 
 <a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook">A short "Thank You" note and rating on WordPress.org</a> is also very much appreciated. ;-)
@@ -171,6 +167,10 @@ js.
 = Q. How do I install the Pro version? =
 
 Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+
+= Q. Can I use the Pro version on multiple websites? =
+
+NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph Pro plugin. Contact me at [Surnia Ulula](http://surniaulula.com/) for developer and/or 5+ website license discounts.
 
 = Q. What do the Open Graph property tags look like? =
 
