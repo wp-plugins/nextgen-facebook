@@ -75,8 +75,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function filter_version_number( $version ) {
-			if ( $this->ngfb->is_avail['aop'] !== true )
-				return '0-' . $version . '-Free';
+			if ( $this->ngfb->is_avail['aop'] == true )
+				return $version;
+			else
+				return $version . '-Free';
 		}
 
 		public function set_readme( $expire_secs = false ) {
