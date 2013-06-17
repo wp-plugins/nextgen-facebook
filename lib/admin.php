@@ -209,8 +209,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						}
 						break;
 					case 'clear_all_cache' : 
-						$this->ngfb->notices->inf( ( $this->ngfb->util->delete_expired_cache( true ) ) . ' cache file(s) and ' . 
-							( $this->ngfb->util->delete_expired_transients( true ) ) . ' transient cache object(s) cleared.' );
+						$deleted_cache = $this->ngfb->util->delete_expired_cache( true );
+						$deleted_transient = $this->ngfb->util->delete_expired_transients( true );
+						wp_cache_flush();
+						$this->ngfb->notices->inf( 'Cached files, WP object cache, transient cache, and any 
+							additional caches, like APC, Memcache, Xcache, etc. have all been cleared.' );
 						break;
 				}
 			$this->ngfb->admin->set_readme();	// version info on all pages needs this
