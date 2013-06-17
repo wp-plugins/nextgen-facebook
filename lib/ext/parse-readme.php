@@ -10,13 +10,13 @@ if ( ! class_exists( 'ngfb_parse_readme' ) ) {
 
 class ngfb_parse_readme {
 
-	private $logger;
+	private $debug;
 
-	function __construct( &$logger = '' ) {
+	function __construct( &$debug = '' ) {
 
 		// check for logging object with mark() method
-		$this->logger = method_exists( $logger, 'mark' ) ? $logger : $this;
-		$this->logger->mark();
+		$this->debug = method_exists( $debug, 'mark' ) ? $debug : $this;
+		$this->debug->mark();
 	}
 
 	private function mark() { return; }
@@ -246,7 +246,7 @@ class ngfb_parse_readme {
 		if ( $markdown ) {
 			if ( !function_exists('ngfb_markdown') )
 				require_once( NGFB_README_MARKDOWN );
-			$text = ngfb_markdown($text, $this->logger );
+			$text = ngfb_markdown($text, $this->debug );
 		}
 
 		$allowed = array(

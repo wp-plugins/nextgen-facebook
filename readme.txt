@@ -359,9 +359,9 @@ Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page*
 
 = Social Buttons Style =
 
-NGFB Open Graph uses the "ngfb-buttons" class name to wrap all social buttons, and each button has it's own individual class name as well. NGFB does not come with it's own CSS stylesheet -- you must add CSS styling information to your theme's pre-existing stylesheet or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet. 
+NGFB Open Graph uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
 
-The `wp-content/plugins/nextgen-facebook/css/webpage.css` file contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of three other classes; `.ngfb-content-buttons` for buttons enabled on the NGFB settings page, `.ngfb-widget-buttons` for buttons enabled from the NGFB widget, and `.ngfb-shortcode-buttons` for buttons added in the content using the `&#91;ngfb&#93;` shortcode.
+The default CSS file, located in `wp-content/plugins/nextgen-facebook/css/social-buttons.css`, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes; `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
@@ -370,11 +370,11 @@ You can also hide the social buttons (or pretty much any object) in a webpage or
 `
 <div class="postid-123 post type-post status-publish format-standard 
 	hentry category-test category-wordpress tag-css tag-html">
-		The Post Content Text...
+		The post content text...
 </div>
 `
 
-You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on Post <em>123</em>, any page in category <em>test</em>, and posts using the Aside and Status formats:
+You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on Post <em>123</em>, any page in category <em>Test</em>, and posts using the Aside and Status formats:
 
 `
 .post-123 .ngfb-buttons,
@@ -383,7 +383,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable/disable social buttons for each particular Post and Page without the use of CSS.
+[The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable / disable social buttons for each particular Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
@@ -504,6 +504,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.4 DEV =
+
+* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ folder.
+* Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
+
 = Version 5.3 =
 
 * Fixed saving of custom Post and Page settings in the Pro version.
@@ -562,11 +567,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 Complete code review with an improved object-oriented design and several new classes.
 
-`
-Version 4.3 : 4108 lines in 9 files, with 8 classes and 114 functions.
-Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
-`
-
 * Added the ability to include social sharing buttons in the excerpt as well.
 * Added a new "Custom Post/Page Settings" metabox for each individual Post and Page (enabled by purchasing the Pro version).
 * Added transient caching to the url shortening method (reducing the number of requests to goo.gl).
@@ -576,6 +576,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.4 DEV =
+
+Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page.
 
 = 5.3 =
 

@@ -64,7 +64,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function filter( &$text, $type = 'the_content' ) {
 
 			// don't add social buttons on index pages, unless buttons_on_index option is checked
-			if ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) )
+			if ( ! is_admin() && ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) )
 				return $text;
 
 			if ( $this->is_disabled() ) 

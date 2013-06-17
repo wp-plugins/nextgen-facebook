@@ -141,7 +141,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_short_url( $url, $shorten = true ) {
 
 			// return original URL if curl not installed or disabled
-			if ( ! function_exists('curl_init') || empty( $shorten ) ||
+			if ( ! function_exists( 'curl_init' ) || empty( $shorten ) || ! class_exists( 'ngfb_googl' ) ||
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $url;
 

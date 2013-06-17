@@ -185,6 +185,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( $opts, $this->ngfb->opt->get_defaults() );
+
+				if ( array_key_exists( 'buttons_css_data', $opts ) ) {
+					$css_file = $this->ngfb->style->buttons_css_file;
+					if ( ! $fh = @fopen( $css_file, 'wb' ) )
+						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : 
+							Error saving CSS to ' . $css_file . '.', 'error' );
+					else {
+						fwrite( $fh, $opts['buttons_css_data'] );
+						$this->ngfb->debug->log( 'wrote css to file ' . $css_file );
+						fclose( $fh );
+					}
+					unset ( $opts['buttons_css_data'] );
+				}
 				add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . '</b> : Settings updated.', 'updated' );
 			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : Submitted settings are not an array.', 'error' );
 			return $opts;
@@ -299,6 +312,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo '</div>';
 			}
 			echo '<div style="clear:both;"></div>';
+
+			do_meta_boxes( $this->pagehook, 'bottom', null ); 
+
 			echo $this->get_submit_button();
 			echo '</form>', "\n";
 		}

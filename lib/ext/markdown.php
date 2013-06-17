@@ -11,10 +11,10 @@ if ( ! defined( 'ABSPATH' ) )
 	die( 'Sorry, you cannot call this webpage directly.' );
 
 if ( ! function_exists( 'ngfb_markdown' ) ) {
-	function ngfb_markdown( $text, &$logger = '' ) {
+	function ngfb_markdown( $text, &$debug = '' ) {
 		static $parser;
 		if (!isset($parser))
-			$parser = new ngfb_markdown_extra_parser( $logger );
+			$parser = new ngfb_markdown_extra_parser( $debug );
 		return $parser->transform( $text );
 	}
 }
@@ -51,13 +51,13 @@ class ngfb_markdown_parser {
 	var $predef_urls = array();
 	var $predef_titles = array();
 
-	protected $logger;
+	protected $debug;
 
-	function __construct( &$logger = '' ) {
+	function __construct( &$debug = '' ) {
 
 		// check for logging object with mark() method
-		$this->logger = method_exists( $logger, 'mark' ) ? $logger : $this;
-		$this->logger->mark();
+		$this->debug = method_exists( $debug, 'mark' ) ? $debug : $this;
+		$this->debug->mark();
 
 		$this->_initDetab();
 		$this->prepareItalicsAndBold();
@@ -1474,11 +1474,11 @@ class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
 	var $predef_abbr = array();
 
 
-	function __construct( &$logger = '' ) {
+	function __construct( &$debug = '' ) {
 
 		// check for logging object with mark() method
-		$this->logger = method_exists( $logger, 'mark' ) ? $logger : $this;
-		$this->logger->mark();
+		$this->debug = method_exists( $debug, 'mark' ) ? $debug : $this;
+		$this->debug->mark();
 
 		# Add extra escapable characters before parent constructor 
 		# initialize the table.
@@ -1502,7 +1502,7 @@ class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
 			"doAbbreviations"    => 70,
 			);
 		
-		parent::__construct( $logger );
+		parent::__construct( $debug );
 	}
 	
 	

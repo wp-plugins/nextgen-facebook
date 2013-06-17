@@ -224,10 +224,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );	// needed by admin for examples
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
 				unset ( $id, $name );

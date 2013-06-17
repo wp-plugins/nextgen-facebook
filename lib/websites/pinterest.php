@@ -63,7 +63,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['photo'] ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
-					if ( $use_post == true ) {
+					if ( ! empty( $post ) && $use_post == true ) {
 						if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
 							$this->ngfb->debug->log( 'get_post_thumbnail_id() = ' . $atts['pid'] );

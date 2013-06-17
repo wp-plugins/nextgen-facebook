@@ -21,7 +21,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			foreach ( $this->ngfb->shortcode_libs as $id => $name ) {
 				$classname = 'ngfbShortCode' . preg_replace( '/ /', '', $name );
-				$this->shortcode[$id] = new $classname( $ngfb_plugin );
+				if ( class_exists( $classname ) )
+					$this->shortcode[$id] = new $classname( $ngfb_plugin );
 			}
 			unset ( $id, $name );
 		}

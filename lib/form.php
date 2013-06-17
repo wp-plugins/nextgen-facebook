@@ -114,7 +114,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return $html;
 		}
 
-		public function get_textarea( $name, $class = '', $id = '', $len ) {
+		public function get_textarea( $name, $class = '', $id = '', $len = 0 ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '<textarea name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .

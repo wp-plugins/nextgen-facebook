@@ -32,11 +32,23 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				$this->website[$id] = new $classname( $this->ngfb );
 			}
 			unset ( $id, $name );
+
+			// use the custom css file, or a default one if it doesn't exist
+			$css_file = file_exists( $this->ngfb->style->_buttons_css_file ) ?
+				$this->ngfb->style->buttons_css_file :  NGFB_PLUGINDIR . 'css/social-buttons.css';
+			if ( ! $fh = @fopen( $css_file, 'rb' ) )
+				$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
+			else {
+				$this->ngfb->options['buttons_css_data'] = fread( $fh, filesize( $css_file ) );
+				$this->ngfb->debug->log( 'read css from file ' . $css_file );
+				fclose( $fh );
+			}
 		}
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook, 'Social Sharing Settings', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_style', 'Social StyleSheet', array( &$this, 'show_metabox_style' ), $this->pagehook, 'bottom' );
 
 			$col = 0;
 			$row = 0;
@@ -66,21 +78,15 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			?>
 			<table class="ngfb-settings">
 			<tr>
-				<td><p><?php echo $this->ngfb->fullname; ?> uses the "ngfb-buttons" class to wrap all social buttons, and each button has it's own individual class name as well. 
-				See the <b><a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes webpage for stylesheet examples</a></b> -- 
-				including how to hide the social buttons for specific Posts, Pages, categories, tags, etc. 
-				<b><?php echo $this->ngfb->fullname; ?> does not come with it's own CSS stylesheet</b> -- you must add CSS styling information to your theme's existing stylesheet, 
-				or use a plugin like <a href="http://wordpress.org/extend/plugins/lazyest-stylesheet/">Lazyest Stylesheet</a> (for example) to create an additional stylesheet.</p>
-				
-				<p>Each of the following social buttons can also be enabled via the "<?php echo ngfbWidgetSocialSharing::$fullname; ?>" 
-				widget as well (<a href="widgets.php">see the widgets admin webpage</a>).</p></td>
+				<td colspan="3"><p>The following social buttons can be added to the content, excerpt, 
+				and / or enabled within the "<?php echo ngfbWidgetSocialSharing::$fullname; ?>" widget as well 
+				(<a href="<?php echo get_admin_url( null, 'widgets.php' ); ?>">see the widgets admin webpage</a>).</p></td>
 			</tr>
-			</table>
-			<table class="ngfb-settings">
 			<tr>
 				<th>Include on Index Webpages</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td><p>Include social sharing buttons (that are enabled) on each entry of index webpages (index, archives, author, etc.).</p></td>
+				<td><p>Add the following (enabled) social sharing buttons on each entry of an index webpage (homepage, category, 
+				archive, etc.). By Default, social sharing buttons are not included on index webpages (default is unchecked).</p></td>
 			</tr>
 			<tr>
 				<th>Location in Excerpt Text</th>
@@ -91,6 +97,31 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				<th>Location in Content Text</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
 				<td><p>The social sharing button(s) must also be enabled below.</p></td>
+			</tr>
+			</table>
+			<?php
+		}
+
+		public function show_metabox_style() {
+			?>
+			<table class="ngfb-settings">
+			<tr>
+				<td colspan="3"><p><?php echo $this->ngfb->fullname; ?> uses the '<em>ngfb-buttons</em>' class to wrap all social buttons, 
+				and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" 
+				target="_blank">Other Notes</a> webpage for additional stylesheet information, including how to hide the social buttons 
+				for specific Posts, Pages, categories, tags, etc.</p></td>
+			</tr>
+			<tr>
+				<th class="short">Use Social StyleSheet</th>
+				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_link_css' ); ?></td>
+				<td>
+					<p>Add the following stylesheet to all webpages (default is unchecked).</p>
+					<p>The stylesheet URL will be <?php echo $this->ngfb->style->buttons_css_url; ?>.</p>
+				</td>
+			</tr>
+			<tr>
+				<th class="short">StyleSheet Editor</th>
+				<td colspan="2"><?php echo $this->ngfb->admin->form->get_textarea( 'buttons_css_data', 'large' ); ?></td>
 			</tr>
 			</table>
 			<?php

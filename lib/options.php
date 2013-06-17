@@ -12,7 +12,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '28';	// increment when adding/removing default options
+		public $version = '29';		// increment when adding/removing default options
+		public $on_page = 'social';	// the settings page where the last option was modified
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
@@ -44,6 +45,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_on_index' => 0,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
+			'buttons_link_css' => 0,
+			'buttons_css_data' => '',
 			'fb_on_the_excerpt' => 0,
 			'fb_on_the_content' => 0,
 			'fb_order' => 1,
@@ -334,7 +337,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
 					<em>the updated settings have not been saved back to the database yet</em>.
-					<strong><a href="' . $this->ngfb->util->get_admin_url() . '">Please review and save the settings</a> 
+					<strong><a href="' . $this->ngfb->util->get_admin_url( $this->on_page ) . '">Please review and save the settings</a> 
 					to make these changes permanent.</strong>' );
 	
 				if ( $this->ngfb->is_avail['aop'] == false )

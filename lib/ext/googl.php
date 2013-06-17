@@ -29,16 +29,16 @@ if ( ! class_exists( 'ngfb_googl' ) ) {
 		private $target;
 		private $apiKey;
 		private $ch;
-		private $logger;
+		private $debug;
 
 		private static $buffer = array();
 	
-		function __construct( $apiKey = null, &$logger = '' ) {
+		function __construct( $apiKey = null, &$debug = '' ) {
 
 			// check for logging object with mark() method
-			$this->logger = method_exists( $logger, 'mark' ) && 
-				method_exists( $logger, 'log' ) ? $logger : $this;
-			$this->logger->mark();
+			$this->debug = method_exists( $debug, 'mark' ) && 
+				method_exists( $debug, 'log' ) ? $debug : $this;
+			$this->debug->mark();
 
 			$extended = false;
 			$this->target = 'https://www.googleapis.com/urlshortener/v1/url?';
