@@ -16,9 +16,9 @@ Improve webpage HTML for better Google Search results, ranking, social shares wi
 
 = Adds SEO and Open Graph =
 
-NextGEN Facebook Open Graph (NGFB Open Graph) adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
+NextGEN Facebook Open Graph (NGFB Open Graph) adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
 
-NGFB Open Graph goes well beyond other SEO and Open Graph plugins by offering a mature, stable, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph detects and uses images from NextGEN Gallery and/or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content (see the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) for an example of Open Graph property tags).
+NGFB Open Graph goes well beyond other SEO and Open Graph plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
 **Once installed and activated, NGFB Open Graph adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
@@ -40,7 +40,7 @@ NGFB Open Graph detects and uses all images, associated or included in your webp
 
 = Best Performance =
 
-Unlike other plugins, NGFB Open Graph is fast and tuned for performance -- it makes full use of available caching techniques:
+Unlike other plugins, NGFB Open Graph is fast and tuned for performance -- it makes full use of all available caching techniques:
 
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
@@ -60,9 +60,9 @@ NGFB Open Graph also offers a wide variety of filter hooks, functions, methods a
 
 = Pro Version =
 
-The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) offers enhanced customization features for *each individual Post and Page*. You can also enable a file cache for social images and JavaScripts to improve the page load times. And if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also offers enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph settings page, receive an email with your unique Transaction ID, enter the Transaction ID on the Advanced settings page, and update the plugin from within WordPress (like a regular plugin update).
+Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID, and update the plugin from within WordPress (like a regular plugin update).
 
 == Installation ==
 
