@@ -139,10 +139,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function check_options() {
 			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
 
-			if ( $size_info['width'] < NGFB_MIN_IMG_WIDTH || $size_info['height'] < NGFB_MIN_IMG_HEIGHT ) {
+			if ( $size_info['width'] < NGFB_MIN_IMG_SIZE || $size_info['height'] < NGFB_MIN_IMG_SIZE ) {
 				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
 				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images 
-					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_WIDTH . 'x' . NGFB_MIN_IMG_HEIGHT . '. 
+					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
 					<a href="' . $this->ngfb->util->get_admin_url( 'webpage' ) . '">Please select a larger Image Size Name from the 
 					General Settings page</a>.' );
 			}

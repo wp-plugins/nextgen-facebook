@@ -67,15 +67,10 @@ NGFB_MIN_DESC_LEN
 	but any value entered bellow NGFB_MIN_DESC_LEN will be changed to
 	NGFB_MIN_DESC_LEN when saved.
 
-NGFB_MIN_IMG_WIDTH
+NGFB_MIN_IMG_SIZE
 
-	The minimum image width suggested on the settings page. The default
-	value is 200.
-
-NGFB_MIN_IMG_HEIGHT
-
-	The minimum image height suggested on the settings page. The default
-	value is 200.
+	The minimum image width and height suggested on the settings page. The
+	default value is 200.
 
 NGFB_MAX_IMG_OG
 

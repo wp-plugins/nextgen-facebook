@@ -172,14 +172,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
 				define( 'NGFB_FOOTER_PRIORITY', 100 );
 			
+			if ( ! defined( 'NGFB_OG_SIZE_NAME' ) )
+				define( 'NGFB_OG_SIZE_NAME', 'ngfb-open-graph' );
+
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 160 );
 
-			if ( ! defined( 'NGFB_MIN_IMG_WIDTH' ) )
-				define( 'NGFB_MIN_IMG_WIDTH', 200 );
-
-			if ( ! defined( 'NGFB_MIN_IMG_HEIGHT' ) )
-				define( 'NGFB_MIN_IMG_HEIGHT', 200 );
+			if ( ! defined( 'NGFB_MIN_IMG_SIZE' ) )
+				define( 'NGFB_MIN_IMG_SIZE', 200 );
 
 			if ( ! defined( 'NGFB_MAX_IMG_OG' ) )
 				define( 'NGFB_MAX_IMG_OG', 20 );
@@ -269,12 +269,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-				'purchase' => 'This plugin has taken many months to develop, test, fine-tune and support. 
-					If you appreciate the result of those efforts, please support us by 
-					<a href="' . $this->urls['plugin'] . '" target="_blank">purchasing the Pro version</a>.',
-				'review' => 'You can also contribute by 
-					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" 
-					target="_blank">rating the plugin</a> on WordPress.org.',
+				'purchase' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
+					Improve page load times with a file cache for social buttons? 
+					Rewrite Open Graph image URLs to a CDN or static content server? 
+					Get these and many more features by <a href="' . $this->urls['plugin'] . '" target="_blank">purchasing the Pro version</a>.',
+				'review' => 'You can also help other WordPress users find out about this plugin by 
+					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
+					on WordPress.org. A short \'<em>Thank you.</em>\' or \'<em>Great plugin!</em>\' is all it takes, and your feedback is
+					always greatly appreciated.',
 				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . 
 					' plugin will exceed all of your expectations.',
 				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
@@ -287,13 +289,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// get the options, upgrade the options (if necessary), and validate their values
 		private function setup_vars( $activate = false ) {
 
-			// load options 
+			/*
+			 * load all options and setup message strings
+			 */
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 			if ( $this->is_avail['ngg'] == true ) $this->ngg_options = get_option( 'ngg_options' );
 			if ( $this->is_avail['aop'] == true ) $this->fullname = $this->fullname_pro;
 			$this->setup_msgs();
 	
-			// create essential object classes
+			/*
+			 * create essential class objects
+			 */
 			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 
 					'html' => ( ! empty( $this->options['ngfb_debug'] ) || 
 						( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false ),
@@ -304,7 +310,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
 
-			// plugin is being activated - create default options
+			/*
+			 * plugin is being activated - create default options
+			 */
 			if ( $activate == true ) {
 				$this->debug->log( 'plugin activated' );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
@@ -317,10 +325,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->debug->log( 'default options have been added to the database' );
 				}
 				$this->debug->log( 'exiting early for: init_plugin() to follow' );
-				return;	// no need to continue, init_plugin() will handle the rest
+
+				// no need to continue, init_plugin() will handle the rest
+				return;
 			}
 
-			// continue creating object classes
+			/*
+			 * continue creating remaining object classes
+			 */
 			$this->user = new ngfbUser( $this );
 			$this->media = new ngfbMedia( $this );
 			$this->meta = new ngfbPostMeta( $this );
@@ -337,17 +349,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
-			// create pro class object last since it extends previous classes (util, meta, and admin->settings)
+			/* 
+			 * create pro class object last - it extends several previous classes (util, meta, and admin->settings)
+			 */
 			if ( $this->is_avail['aop'] == true )
 				$this->pro = new ngfbAddOnPro( $this );
 
-			// error checks / messages
-			if ( $this->is_avail['mbdecnum'] != true )
-				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
-					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
-
-			// make sure we have something to work with - upgrade options if necessary
+			/*
+			 * check options array read from database - upgrade options if necessary
+			 */
 			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
 				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opt->version )
 					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
@@ -367,6 +377,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 				$this->options = $this->opt->get_defaults();
 			}
+
+			/*
+			 * setup class properties etc. based on option values
+			 */
+			add_image_size( NGFB_OG_SIZE_NAME, $this->options['og_img_width'], $this->options['og_img_height'], $this->options['og_img_crop'] );
 
 			if ( is_admin() )
 				if ( $this->debug->is_on( 'wp' ) == true ) 
@@ -392,6 +407,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( $this->is_avail['aop'] == false )
 					$this->notices->inf( $this->msgs['purchase'] );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
+
+			// error checks / messages
+			if ( $this->is_avail['mbdecnum'] != true ) {
+				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
+				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
+					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
+					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
+			}
+
 		}
 
 	}

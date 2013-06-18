@@ -90,7 +90,7 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				?></td>
 				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. 
 				The default size name is "<?php echo $this->ngfb->opt->get_defaults( 'og_img_size' ); ?>" (currently defined as <?php echo $size_desc; ?>). 
-				Select an image size name with a value between <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> and 1500x1500 in width and height - preferably cropped.
+				Select an image size name with a value between <?php echo NGFB_MIN_IMG_SIZE, 'x', NGFB_MIN_IMG_SIZE; ?> and 1500x1500 in width and height - preferably cropped.
 				You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) 
 				to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. 
 				I suggest creating an "opengraph-thumbnail" image size to manage the Open Graph image sizes independently from those of your theme.</p></td>
@@ -114,7 +114,7 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td colspan="2"><?php echo $this->ngfb->admin->form->get_input( 'og_def_img_url', 'wide' ); ?>
 				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. 
 				This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). 
-				The image should be at least <?php echo NGFB_MIN_IMG_WIDTH, 'x', NGFB_MIN_IMG_HEIGHT; ?> or more in width and height. 
+				The image should be at least <?php echo NGFB_MIN_IMG_SIZE, 'x', NGFB_MIN_IMG_SIZE; ?> or more in width and height. 
 				If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
 				</td>
 			</tr>

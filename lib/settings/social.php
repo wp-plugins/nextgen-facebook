@@ -34,7 +34,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			unset ( $id, $name );
 
 			// use the custom css file, or a default one if it doesn't exist
-			$css_file = file_exists( $this->ngfb->style->_buttons_css_file ) ?
+			$css_file = file_exists( $this->ngfb->style->buttons_css_file ) ?
 				$this->ngfb->style->buttons_css_file :  NGFB_PLUGINDIR . 'css/social-buttons.css';
 			if ( ! $fh = @fopen( $css_file, 'rb' ) )
 				$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );

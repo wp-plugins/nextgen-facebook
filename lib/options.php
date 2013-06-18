@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '29';		// increment when adding/removing default options
+		public $version = '30';		// increment when adding/removing default options
 		public $on_page = 'social';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -20,6 +20,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'link_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_size' => 'medium',
+			'og_img_width' => 600,
+			'og_img_height' => 600,
+			'og_img_crop' => 1,
 			'og_img_max' => 1,
 			'og_vid_max' => 1,
 			'og_def_img_id_pre' => 'wp',
@@ -337,8 +340,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
 					<em>the updated settings have not been saved back to the database yet</em>.
-					<strong><a href="' . $this->ngfb->util->get_admin_url( $this->on_page ) . '">Please review and save the settings</a> 
-					to make these changes permanent.</strong>' );
+					<a href="' . $this->ngfb->util->get_admin_url( $this->on_page ) . '">Please review and save the settings</a> 
+					to make these changes permanent.' );
 	
 				if ( $this->ngfb->is_avail['aop'] == false )
 					$this->ngfb->notices->inf( $this->ngfb->msgs['purchase'] );
