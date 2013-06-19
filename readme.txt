@@ -457,6 +457,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 5.4 DEV =
+
+* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
+* Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
+* Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
+
 = Version 5.3 =
 
 * Fixed saving of custom Post and Page settings in the Pro version.
@@ -529,6 +535,10 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 5.4 DEV =
+
+Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page, changed 'Image Size Name' option to width and height values instead.
 
 = 5.3 =
 
