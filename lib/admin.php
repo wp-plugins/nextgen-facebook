@@ -137,20 +137,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function check_options() {
-			$size_info = $this->ngfb->media->get_size_info( $this->ngfb->options['og_img_size'] );
-
-			if ( $size_info['width'] < NGFB_MIN_IMG_SIZE || $size_info['height'] < NGFB_MIN_IMG_SIZE ) {
-				$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-				$this->ngfb->notices->inf( 'The "' . $this->ngfb->options['og_img_size'] . '" image size (' . $size_desc . '), used for images 
-					in the Open Graph meta tags, is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
-					<a href="' . $this->ngfb->util->get_admin_url( 'webpage' ) . '">Please select a larger Image Size Name from the 
+			if ( $this->ngfb->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->ngfb->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
+				$size_desc = $this->ngfb->options['og_img_width'] . 'x' . $this->ngfb->options['og_img_height'] . 
+					' (' . ( empty( $this->ngfb->options['og_img_crop'] ) ? 'not ' : '' ) . 'cropped)';
+				$this->ngfb->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
+					is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
+					<a href="' . $this->ngfb->util->get_admin_url( 'webpage' ) . '">Please enter a larger Image Size on the 
 					General Settings page</a>.' );
 			}
 
 			if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$url = $this->ngfb->util->get_admin_url( 'advanced' );
-				$this->ngfb->notices->inf( 'Transaction ID option value not found. In order for the plugin to authenticate itself for future updates, 
-					<a href="' . $url . '">please enter the transaction ID you received by email on the Advanced Settings page</a>.' );
+				$this->ngfb->notices->inf( 'The Transaction ID option value is empty. In order for the plugin to authenticate itself for future updates, 
+					<a href="' . $url . '">please enter the Transaction ID you received by email on the Advanced Settings page</a>.' );
 			}
 		}
 
@@ -176,6 +175,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// this method receives only a partial options array, so re-create a full one
 		public function sanitize_options( $opts ) {
 			if ( is_array( $opts ) ) {
+
+				$def_opts = $this->ngfb->opt->get_defaults();
+
 				// un-checked checkboxes are not given, so re-create them here based on hidden values
 				$checkbox = $this->ngfb->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
 				foreach ( $checkbox as $key => $val ) {
@@ -184,8 +186,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					unset ( $opts['is_checkbox_'.$key] );
 				}
 				$opts = array_merge( $this->ngfb->options, $opts );
-				$opts = $this->ngfb->opt->sanitize( $opts, $this->ngfb->opt->get_defaults() );
+				$opts = $this->ngfb->opt->sanitize( $opts, $def_opts );
 
+				foreach ( $opts as $key => $val )
+					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
+						unset( $opts[$key] );
+				unset ( $key, $val );
+	
 				if ( array_key_exists( 'buttons_css_data', $opts ) ) {
 					$css_file = $this->ngfb->style->buttons_css_file;
 					if ( ! $fh = @fopen( $css_file, 'wb' ) )
@@ -198,6 +205,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					}
 					unset ( $opts['buttons_css_data'] );
 				}
+
 				add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . '</b> : Settings updated.', 'updated' );
 			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : Submitted settings are not an array.', 'error' );
 			return $opts;

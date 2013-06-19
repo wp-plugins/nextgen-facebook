@@ -222,7 +222,7 @@ NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). *Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
+**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
@@ -461,6 +461,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ folder.
 * Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
+* Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
 
 = Version 5.3 =
 
@@ -532,7 +533,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 5.4 DEV =
 
-Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page.
+Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page, changed 'Image Size Name' option to width and height values instead.
 
 = 5.3 =
 

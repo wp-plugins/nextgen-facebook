@@ -82,13 +82,13 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
 
 			if ( $og_max['og_img_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
-				$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], $this->ngfb->options['og_img_size'] );
+				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+				$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
 
 				// if we didn't find any images, then use the default image
 				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->ngfb->debug->log( 'calling this->get_default_image(' . $og_max['og_img_max'] . ', "' . $this->ngfb->options['og_img_size'] . '")' );
-					$og['og:image'] = $this->get_default_image( $og_max['og_img_max'], $this->ngfb->options['og_img_size'] );
+					$this->ngfb->debug->log( 'calling this->get_default_image(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+					$og['og:image'] = $this->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
 				}
 			} else $this->ngfb->debug->log( 'images disabled: maximum videos = 0' );
 

@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $setting_libs = array(
 			'about' => 'About',
-			'webpage' => 'Webpage',
+			'general' => 'General',
 			'social' => 'Social Sharing',
 			'advanced' => 'Advanced' );
 
@@ -98,7 +98,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );		// since wp 2.0
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );	// since wp 2.7
 
-			add_action( 'init', array( &$this, 'init_plugin' ) );		// since wp 1.2.0
+			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
 		}
 
 		public function activate() {
@@ -149,10 +149,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_WP_DEBUG
 			// NGFB_RESET
 			// NGFB_MIN_IMG_SIZE_DISABLE
+			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_CURL_DISABLE
 			// NGFB_CURL_PROXY
 			// NGFB_CURL_PROXYUSERPWD
-			// NGFB_OPEN_GRAPH_DISABLE
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
@@ -162,6 +162,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.10' );
+
+			if ( ! defined( 'NGFB_INIT_PRIORITY' ) )
+				define( 'NGFB_INIT_PRIORITY', 12 );
 
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
 				define( 'NGFB_HEAD_PRIORITY', 10 );

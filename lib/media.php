@@ -20,23 +20,21 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_size_info( $size_name = 'thumbnail' ) {
-
 			global $_wp_additional_image_sizes;
-
 			if ( is_integer( $size_name ) ) return;
 			if ( is_array( $size_name ) ) return;
 
 			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
 				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
-			else $width = get_option( "{$size_name}_size_w" );
-		
+			else $width = get_option( $size_name . '_size_w' );
+
 			if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
 				$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
-			else $height = get_option( "{$size_name}_size_h" );
+			else $height = get_option( $size_name . '_size_h' );
 		
 			if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
 				$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
-			else $crop = get_option( "{$size_name}_crop" );
+			else $crop = get_option( $size_name . '_crop' );
 
 			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
@@ -58,13 +56,10 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
 		public function get_ngg_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
-
 			if ( $this->ngfb->is_avail['ngg'] != true ) return;
-
 			$image_url = '';
 			$size_info = array( 'width' => '', 'height' => '', 'crop' => '' );
 			$cropped = '';
-
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				global $nggdb;
 				$pid = substr( $pid, 4 );

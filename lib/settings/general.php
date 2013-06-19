@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
-	class ngfbSettingsWebpage extends ngfbAdmin {
+	class ngfbSettingsGeneral extends ngfbAdmin {
 
 		protected $ngfb;
 		protected $menu_id;
@@ -26,35 +26,38 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook . '_general', 'General Settings', array( &$this, 'show_metabox_general' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_opengraph', 'Open Graph Settings', array( &$this, 'show_metabox_opengraph' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_facebook', 'Facebook Settings', array( &$this, 'show_metabox_facebook' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_google', 'Google Settings', array( &$this, 'show_metabox_google' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
-		public function show_metabox_general() {
+		public function show_metabox_opengraph() {
 			?>
 			<table class="ngfb-settings">
+			<tr><td colspan="3"><h3>Classification Options</h3></td></tr>
 			<tr>
 				<th>Website Topic</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ); ?></td>
 				<td><p>The topic name that best describes the Posts and Pages on your website. 
 				This topic name will be used in the "article:section" Open Graph meta tag for all your Posts and Pages. 
-				You can leave the topic name blank if you would prefer not to include an "article:section" meta tag.</p></td>
+				You can leave the topic name blank, if you would prefer not to include an "article:section" meta tag.</p></td>
 			</tr>
+			<tr><td colspan="3"><h3>Authorship Options</h3></td></tr>
 			<tr>
-				<th>Article Author URL</th>
+				<th>Author Profile URL</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'og_author_field', $this->author_fields() ); ?></td>
-				<td><p>Select the profile field to use for the "article:author" Open Graph property tag URL. 
+				<td><p>Select the author profile field to use for Posts and Pages in the "article:author" Open Graph meta tag. 
 				The URL should point to an author's <em>personal</em> website or social page. 
-				This Open Graph meta tag is primarily used by Facebook, so the preferred value is the author's Facebook webpage URL. 
+				This Open Graph meta tag is primarily used by Facebook, so the preferred (and default) value is the author's Facebook webpage URL. 
 				See the "Google Settings" section below for an Author URL field for Google, and to define a common <em>publisher</em> URL for all webpages.</p></td>
 			</tr>
 			<tr>
-				<th>Fallback to Author Index</th>
+				<th>Fallback to Local Author Index</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ); ?></td>
-				<td><p>If the value found in the Author URL profile field (and the Author Link URL in the "Google Settings" section below) is not a valid URL, 
-				NGFB can fallback to using the Author Index webpage URL instead ("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). 
+				<td><p>If the value found in the Author Profile URL profile field (and the Author Link URL in the "Google Settings" section below) is not a valid URL, 
+				then NGFB Open Graph can fallback to using the author index webpage URL instead 
+				("<?php echo trailingslashit( site_url() ), 'author/{username}'; ?>" for example). 
 				Uncheck this option to disable this fallback feature (default is checked).</p></td>
 			</tr>
 			<tr>
@@ -81,19 +84,21 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>Check this option if you would like to force the Default Author on search result webpages as well. 
 				If the Default Author is <em>[none]</em>, then the search results webpage will be labeled as a 'webpage' instead of an 'article' (default is unchecked).</p></td>
 			</tr>
+			<tr><td colspan="3"><h3>Image and Video Options</h3></td></tr>
 			<tr>
-				<th>Image Size Name</th>
-				<td class="second"><?php 
-					echo $this->ngfb->admin->form->get_select_img_size( 'og_img_size' ); 
-					$size_info = $this->ngfb->media->get_size_info( $this->ngfb->opt->get_defaults( 'og_img_size' ) );
-					$size_desc = $size_info['width'] . 'x' . $size_info['height'] . ', ' . ( $size_info['crop'] == 1 ? '' : 'not ' ) . 'cropped';
-				?></td>
-				<td><p>The <a href="options-media.php">Media Settings</a> size name used for images in the Open Graph meta tags. 
-				The default size name is "<?php echo $this->ngfb->opt->get_defaults( 'og_img_size' ); ?>" (currently defined as <?php echo $size_desc; ?>). 
-				Select an image size name with a value between <?php echo NGFB_MIN_IMG_SIZE, 'x', NGFB_MIN_IMG_SIZE; ?> and 1500x1500 in width and height - preferably cropped.
-				You can use the <a href="http://wordpress.org/extend/plugins/simple-image-sizes/" target="_blank">Simple Image Size</a> plugin (or others) 
-				to define your own custom sizes in the <a href="options-media.php">Media Settings</a>. 
-				I suggest creating an "opengraph-thumbnail" image size to manage the Open Graph image sizes independently from those of your theme.</p></td>
+				<th>Image Dimensions</th>
+				<td class="second">
+					Width <?php echo $this->ngfb->admin->form->get_input( 'og_img_width', 'short' ); ?> x
+					Height <?php echo $this->ngfb->admin->form->get_input( 'og_img_height', 'short' ); ?>
+					Crop <?php echo $this->ngfb->admin->form->get_checkbox( 'og_img_crop' ); ?>
+				</td>
+				<td><p>Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
+				between <?php echo NGFB_MIN_IMG_SIZE, 'x', NGFB_MIN_IMG_SIZE; ?> and 1500x1500, preferably cropped 
+				(the defaults are <?php 
+					echo $this->ngfb->opt->get_defaults( 'og_img_width' ), 'x', 
+					$this->ngfb->opt->get_defaults( 'og_img_height' ), ', ', 
+					( $this->ngfb->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ) . 'cropped'; 
+				?>). Note that Facebook prefers larger images for use in backgrounds and banners.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image ID</th>
@@ -105,17 +110,17 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 						$id_pre['ngg'] = 'NextGEN Gallery';
 					echo $this->ngfb->admin->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' );
 				?></td>
-				<td><p>The ID number and location of your default image (example: 123). 
-				The Image ID number, for an image in the Media Library, can be determined from the URL when editing an image in the Media Library (post=123 in the URL, for example). 
+				<td><p>The ID number and location of your default image (example: 123). The Image ID number for an image in the 
+				WordPress Media Library can be found in the URL when editing the image (post=123 in the URL, for example). 
 				The NextGEN Gallery Image IDs are easier to find -- it's the number in the first column when viewing a Gallery.</p></td>
 			</tr>
 			<tr>
 				<th>Default Image URL</th>
 				<td colspan="2"><?php echo $this->ngfb->admin->form->get_input( 'og_def_img_url', 'wide' ); ?>
-				<p>You can specify a Default Image URL (including the http:// prefix) instead of a Default Image ID. 
-				This allows you to use an image outside of a managed collection (Media Library or NextGEN Gallery). 
+				<p>You can also specify a Default Image URL (including the http:// prefix) instead of choosing a Default Image ID. 
+				This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
 				The image should be at least <?php echo NGFB_MIN_IMG_SIZE, 'x', NGFB_MIN_IMG_SIZE; ?> or more in width and height. 
-				If both the Default Image ID and URL are defined, the Default Image ID takes precedence.</p>
+				If both the Default Image ID and URL are defined, the Default Image ID will take precedence.</p>
 				</td>
 			</tr>
 			<tr>
@@ -144,7 +149,8 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Add Page Title as Tag</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'og_page_title_tag' ); ?></td>
-				<td><p>Add the title of the Page to the Open Graph tag list as well. If the "Add Page Ancestor Tags" option is checked, the titles of ancestor Pages will be added as well. 
+				<td><p>Add the title of the Page to the Open Graph tag list as well. 
+				If the "Add Page Ancestor Tags" option is checked, the all the titles of the ancestor Pages will be added as well. 
 				This option works well if the title of your Pages are short and subject-oriented.</p></td>
 			</tr>
 			<tr>
@@ -159,6 +165,7 @@ if ( ! class_exists( 'ngfbSettingsWebpage' ) && class_exists( 'ngfbAdmin' ) ) {
 				<td><p>The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. 
 				If you select "0", no videos will be listed in the Open Graph meta tags.</p></td>
 			</tr>
+			<tr><td colspan="3"><h3>Title and Description Options</h3></td></tr>
 			<tr>
 				<th>Title Separator</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'og_title_sep', 'short' ); ?></td>

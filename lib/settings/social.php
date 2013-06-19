@@ -48,7 +48,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_style', 'Social StyleSheet', array( &$this, 'show_metabox_style' ), $this->pagehook, 'bottom' );
+			add_meta_box( $this->pagehook . '_style', 'StyleSheet', array( &$this, 'show_metabox_style' ), $this->pagehook, 'bottom' );
 
 			$col = 0;
 			$row = 0;
@@ -60,7 +60,9 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				add_meta_box( $this->pagehook . '_' . $id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
 				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
 			}
-			$this->ngfb->user->collapse_metaboxes( $this->pagehook, array_keys( $this->ngfb->website_libs ) );
+			$reset_ids = array_diff( array_keys( $this->ngfb->website_libs ), array( 'facebook', 'gplus' ) );
+			$reset_ids[] = 'style';
+			$this->ngfb->user->reset_metaboxes( $this->pagehook, $reset_ids );
 		}
 
 		public function add_class_postbox_website( $classes ) {
@@ -116,12 +118,14 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_link_css' ); ?></td>
 				<td>
 					<p>Add the following stylesheet to all webpages (default is unchecked).</p>
-					<p>The stylesheet URL will be <?php echo $this->ngfb->style->buttons_css_url; ?>.</p>
 				</td>
 			</tr>
 			<tr>
 				<th class="short">StyleSheet Editor</th>
-				<td colspan="2"><?php echo $this->ngfb->admin->form->get_textarea( 'buttons_css_data', 'large' ); ?></td>
+				<td colspan="2">
+					<?php echo $this->ngfb->admin->form->get_textarea( 'buttons_css_data', 'large' ); ?>
+					<p>The stylesheet URL is <?php echo $this->ngfb->style->buttons_css_url; ?>.</p>
+				</td>
 			</tr>
 			</table>
 			<?php

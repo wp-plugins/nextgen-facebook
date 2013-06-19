@@ -13,15 +13,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 	class ngfbOptions {
 
 		public $version = '30';		// increment when adding/removing default options
-		public $on_page = 'social';	// the settings page where the last option was modified
+		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
 			'og_art_section' => '',
-			'og_img_size' => 'medium',
-			'og_img_width' => 600,
-			'og_img_height' => 600,
+			'og_img_width' => 320,
+			'og_img_height' => 320,
 			'og_img_crop' => 1,
 			'og_img_max' => 1,
 			'og_vid_max' => 1,
@@ -228,6 +227,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							break;
 
 						// integer options that must me 1 or more (not zero)
+						case 'og_img_width' : 
+						case 'og_img_height' : 
 						case 'og_title_len' : 
 						case 'fb_order' : 
 						case 'fb_width' : 
@@ -249,7 +250,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						// options that cannot be blank
 						case 'og_art_section' :
 						case 'link_author_field' :
-						case 'og_img_size' : 
 						case 'og_img_id_pre' : 
 						case 'og_def_img_id_pre' : 
 						case 'og_author_field' :
@@ -313,6 +313,24 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						unset( $opts[$old] );
 					}
 				unset ( $old, $new );
+
+				if ( array_key_exists( 'og_img_size', $opts ) ) {
+					// these option names may have been used in the past, so remove them, just in case
+					if ( $opts['ngfb_version'] < 30 ) {
+						unset( $opts['og_img_width'] );
+						unset( $opts['og_img_height'] );
+						unset( $opts['og_img_crop'] );
+					}
+					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
+						$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
+						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+							$opts['og_img_width'] = $size_info['width'];
+							$opts['og_img_height'] = $size_info['height'];
+							$opts['og_img_crop'] = $size_info['crop'];
+						}
+						unset( $opts['og_img_size'] );
+					}
+				}
 	
 				// unset options that no longer exist
 				foreach ( $opts as $key => $val )

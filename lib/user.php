@@ -50,16 +50,24 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			return $url;
 		}
 
-		public function collapse_metaboxes( $page, $ids = array(), $force = false ) {
+		public function reset_metaboxes( $page, $ids = array(), $force = false ) {
 			$user_id = get_current_user_id();				// since wp 3.0
+
+			if ( $force == true ) {
+				delete_user_option( $user_id, 'meta-box-order_' . $page, true );	// since wp 3.0
+				delete_user_option( $user_id, 'metaboxhidden_' . $page, true );		// since wp 3.0
+				delete_user_option( $user_id, 'closedpostboxes_' . $page, true );	// since wp 3.0
+			}
+
 			$option_name = 'closedpostboxes_' . $page;
 			$option_arr = get_user_option( $option_name, $user_id );	// since wp 2.0.0 
 
 			if ( ! is_array( $option_arr ) )
 				$option_arr = array();
 
-			if ( empty( $option_arr ) || $force == true )
-				foreach ( $ids as $id ) $option_arr[] = $page . '_' . $id;
+			if ( empty( $option_arr ) )
+				foreach ( $ids as $id ) 
+					$option_arr[] = $page . '_' . $id;
 
 			update_user_option( $user_id, $option_name, array_unique( $option_arr ), true );	// since wp 2.0
 		}
