@@ -249,29 +249,40 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<th>Enable Twitter Cards</th><td class="blank">
 				<p>Add Twitter Cards to all webpages (cards include summary, large image, photo, and gallery).</p></td>',
+
 				'<th>Website @username</th><td class="blank">
 				<p>The Twitter username for your website and / or company (not your personal Twitter username).</p></td>',
+
+				'<th>Minimum Images for Gallery</th><td class="blank"><p>Minimum images to qualify for a Twitter Card gallery.</p></td>',
 			);
 		}
 
 		public function show_metabox_taglist() {
 			?>
-			<table class="ngfb-settings">
+			<table class="ngfb-settings" style="padding-bottom:0;">
 			<tr>
-				<?php $og_cols = 4; ?>
-				<?php echo '<td colspan="'.($og_cols * 2).'">'; ?>
+				<td colspan="3">
 				<p><?php echo $this->ngfb->fullname; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
-				If your theme, or another plugin, already generates one or more of these meta tags, you can uncheck them here to prevent 
-				<?php echo $this->ngfb->fullname; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, for example).</p>
+				If your theme or another plugin already generates one or more of these meta tags, you can uncheck them here to prevent 
+				<?php echo $this->ngfb->fullname; ?> from adding duplicate meta tags 
+				(the "description" meta tag is popular with SEO plugins, for example).</p>
 				</td>
 			</tr>
+			<tr>
+				<th>Include Empty og:* Meta Tags</th>
+				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_empty_tags' ); ?></td>
+				<td><p>Include meta property tags of type og:* without any content (default is unchecked).</p></td>
+			</tr>
+			</table>
+			<table class="ngfb-settings" style="padding-top:0;">
 			<?php
+				$og_cols = 5;
 				$cells = array();
 				$rows = array();
 				foreach ( $this->ngfb->opt->get_defaults() as $opt => $val ) {
 					if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
-						$cells[] = '<th class="metatag">Include '.$match[1].' Meta Tag</th>
-							<td>'. $this->ngfb->admin->form->get_checkbox( $opt ) . '</td>';
+						$cells[] = '<td class="taglist">'. $this->ngfb->admin->form->get_checkbox( $opt ) . '</td>' .
+							'<th class="taglist">'.$match[1].'</th>' . "\n";
 				}
 				unset( $opt, $val );
 				$per_col = ceil( count( $cells ) / $og_cols );
@@ -285,11 +296,6 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					echo '<tr>', $row, '</tr>', "\n";
 				unset( $num, $row );
 			?>
-			<tr>
-				<th>Include Empty og:* Meta Tags</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'og_empty_tags' ); ?></td>
-				<td colspan="<?php echo ( $og_cols * 2 ) - 2; ?>"><p>Include meta property tags of type og:* without any content (default is unchecked).</p></td>
-			</tr>
 			</table>
 			<?php
 		}

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '32';		// increment when adding/removing default options
+		public $version = '33';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -71,6 +71,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
 			'twitter_card_enable' => '',
+			'twitter_card_gal_min' => 2,
 			'twitter_card_gal_size' => 'large',
 			'twitter_card_site' => '',	// twitter:site
 			'twitter_on_the_excerpt' => 0,
@@ -134,6 +135,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_article:section' => 1,
 			'inc_article:tag' => 1,
 			'inc_twitter:card' => 1,
+			'inc_twitter:creator' => 1,
 			'inc_twitter:site' => 1,
 			'inc_twitter:title' => 1,
 			'inc_twitter:description' => 1,
@@ -230,7 +232,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :
 						case 'ngfb_cdn_urls' :
-							if ( $opts[$key] && ! preg_match( '/:\/\//', $opts[$key] ) ) 
+							if ( ! empty( $opts[$key] ) && strpos( $opts[$key], '://' ) === false ) 
 								$opts[$key] = $def_val;
 							break;
 

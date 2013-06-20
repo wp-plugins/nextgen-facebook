@@ -237,13 +237,13 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
-				$sc_type = $match[1];
-				$sc_id = $match[3];
-				$this->ngfb->debug->log( 'ngg query with [' . $sc_type . '] shortcode' );
+				$shortcode_type = $match[1];
+				$shortcode_id = $match[3];
+				$this->ngfb->debug->log( 'ngg query with [' . $shortcode_type . '] shortcode (id:' . $shortcode_id . ')' );
 
 				// always trust hard-coded shortcode ID more than query arguments
-				$ngg_album = $sc_type == 'nggalbum' || $sc_type == 'album' ? $sc_id : $ngg_album;
-				$ngg_gallery = $sc_type == 'nggallery' ? $sc_id : $ngg_gallery;
+				$ngg_album = $shortcode_type == 'nggalbum' || $shortcode_type == 'album' ? $shortcode_id : $ngg_album;
+				$ngg_gallery = $shortcode_type == 'nggallery' ? $shortcode_id : $ngg_gallery;
 
 				// security checks
 				if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
@@ -311,7 +311,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			if ( preg_match_all( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $album ) {
-					$this->ngfb->debug->log( '[' . $album[1] . '] shortcode found' );
+					$this->ngfb->debug->log( '[' . $album[1] . '] shortcode found (id:' . $album[3] . ')' );
 					$og_image = array();
 					if ( empty( $album[3] ) ) {
 						$ngg_album = 0;
@@ -335,7 +335,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			if ( preg_match_all( '/\[(nggallery) [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $gallery ) {
-					$this->ngfb->debug->log( '[' . $gallery[1] . '] shortcode found' );
+					$this->ngfb->debug->log( '[' . $gallery[1] . '] shortcode found (id:' . $gallery[2] . ')' );
 					$og_image = array();
 					$ngg_gallery = $gallery[2];
 					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
@@ -354,7 +354,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			if ( preg_match_all( '/\[(singlepic) [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $singlepic ) {
-					$this->ngfb->debug->log( '[' . $singlepic[1] . '] shortcode found' );
+					$this->ngfb->debug->log( '[' . $singlepic[1] . '] shortcode found (id:' . $singlepic[2] . ')' );
 					$og_image = array();
 					$pid = $singlepic[2];
 					$this->ngfb->debug->log( 'getting image for singlepic:' . $pid );

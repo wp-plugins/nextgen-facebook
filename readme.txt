@@ -294,7 +294,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Resources ==
 
-[Follow this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for news about the NGFB Open Graph plugin.
+You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom) and [this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for on-going news about the NGFB Open Graph plugin.
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
@@ -486,9 +486,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 5.4.DEV =
 
 * Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
-* Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
+* Added a 'StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
 * Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
 * Added 'Twitter @username' to the user's profile page (in addition to the existing 'Facebook URL' and 'Google+ URL' user profile fields).
+* Added sanitation code for custom user profile field values (remove HTML, URLs must be URLs, etc.).
+* Added a new 'ngfb_shortcode' filter (Pro version) to modify shortcode attributes based on a content string (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for information on shortcodes and filters).
 
 = Version 5.3 =
 

@@ -35,6 +35,11 @@ table.ngfb-settings th {
 	min-width:190px;
 	width:190px;
 }
+table.ngfb-settings th.taglist { 
+	text-align:left;
+	min-width:120px;
+	width:120px;
+}
 table.ngfb-settings th.short { 
 	min-width:145px;
 	width:145px;
@@ -46,6 +51,11 @@ table.ngfb-settings th.side {
 }
 table.ngfb-settings td { 
 	padding:0 4px 0 4px;
+}
+table.ngfb-settings td.taglist { 
+	text-align:right;
+	min-width:15px;
+	width:15px;
 }
 table.ngfb-settings td p { 
 	color:#666;
@@ -68,12 +78,18 @@ table.ngfb-settings td.blank p {
 table.ngfb-settings td#latest_notice p { 
 	margin:10px 0 5px 0;
 }
+table.ngfb-settings td select { 
+	height:22px;
+}
 table.ngfb-settings td select,
 table.ngfb-settings td input,
 table.ngfb-settings td textarea { 
 	margin:0 0 5px 0; 
 }
-table.ngfb-settings td input[type=text] { width:250px; }
+table.ngfb-settings td input[type=text] { 
+	height:23px; 
+	width:250px;
+}
 table.ngfb-settings td input[type=text].short { width:50px; }
 table.ngfb-settings td input[type=text].wide { width:100%; }
 table.ngfb-settings td input[type=radio] { 

@@ -123,13 +123,13 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			}
 
 			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
-				$sc_type = $match[1];
-				$sc_id = $match[3];
-				$this->ngfb->debug->log( '[' . $sc_type . '] shortcode found' );
+				$shortcode_type = $match[1];
+				$shortcode_id = $match[3];
+				$this->ngfb->debug->log( '[' . $shortcode_type . '] shortcode found (id:' . $shortcode_id . ')' );
 
 				// always trust hard-coded shortcode ID more than query arguments
-				$ngg_album = $sc_type == 'nggalbum' || $sc_type == 'album' ? $sc_id : $ngg_album;
-				$ngg_galery = $sc_type == 'nggallery' ? $sc_id : $ngg_gallery;
+				$ngg_album = $shortcode_type == 'nggalbum' || $shortcode_type == 'album' ? $shortcode_id : $ngg_album;
+				$ngg_gallery = $shortcode_type == 'nggallery' ? $shortcode_id : $ngg_gallery;
 
 				// security checks
 				if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
@@ -154,7 +154,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				if ( $ngg_gallery > 0 ) {
 					// get_ids_from_gallery($id, $order_by = 'sortorder', $order_dir = 'ASC', $exclude = true)
 					foreach ( array_slice( $nggdb->get_ids_from_gallery( $ngg_gallery, 'sortorder', 'ASC', true ), 0, $num ) as $pid ) {
-						$ret = $this->get_ngg_image_src( 'ngg-' . $nggImage->pid, $size_name, false );
+						$ret = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name, false );
 						if ( ! empty( $ret[0] ) ) $images[] = $ret[0];
 					}
 				}

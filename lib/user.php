@@ -18,33 +18,58 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
 
-			add_filter( 'user_contactmethods', array( &$this, 'contactmethods' ), 20, 1 );
+			add_action( 'edit_user_profile_update', array( &$this, 'sanitize_contact_methods' ) );
+			add_action( 'personal_options_update', array( &$this, 'sanitize_contact_methods' ) );
+
+			add_filter( 'user_contactmethods', array( &$this, 'add_contact_methods' ), 20, 1 );
 		}
 
-		public function contactmethods( $fields = array() ) { 
+		public function add_contact_methods( $fields = array() ) { 
 			foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
-				$field_name = preg_split( '/ *: */', $field_list );
-				$fields[$field_name[0]] = $field_name[1];
+				$field_info = preg_split( '/ *: */', $field_list );
+				$fields[$field_info[0]] = $field_info[1];
 			}
 			ksort( $fields, SORT_STRING );
 			return $fields;
 		}
 
+		public function sanitize_contact_methods( $user_id ) {
+			if ( current_user_can( 'edit_user', $user_id ) ) {
+				foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
+					$field_info = preg_split( '/ *: */', $field_list );
+					$field_id = $field_info[0];
+					$field_val = wp_filter_nohtml_kses( $_POST[$field_id] );
+					if ( ! empty( $field_val ) ) {
+						switch ( $field_id ) {
+							case 'facebook' :
+							case 'gplus' :
+								if ( strpos( $field_val, '://' ) === false )
+									$field_val = '';
+								break;
+							case 'twitter' :
+								$field_val = substr( preg_replace( '/[^a-z0-9]/', '', 
+									strtolower( $field_val ) ), 0, 15 );
+								break;
+						}
+					}
+					$_POST[$field_id] = $field_val;
+				}
+			}
+		}
+
 		// called from head and opengraph classes
-		public function get_author_url( $author_id, $field_name = 'url' ) {
-			switch ( $field_name ) {
+		public function get_author_url( $author_id, $field_id = 'url' ) {
+			switch ( $field_id ) {
 				case 'none' :
 					break;
 				case 'index' :
 					$url = get_author_posts_url( $author_id );
 					break;
 				default :
-					$url = get_the_author_meta( $field_name, $author_id );	// since wp 2.8.0 
-
-					// if empty or not a URL, then fallback to the author index page
+					$url = get_the_author_meta( $field_id, $author_id );	// since wp 2.8.0 
+					// if empty or not a url, then fallback to the author index page
 					if ( $this->ngfb->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
 						$url = get_author_posts_url( $author_id );
-
 					break;
 			}
 			return $url;
