@@ -99,7 +99,71 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			else return array( null, null, null, null );
 		}
 
-	}
+		public function get_gallery_images( $num = 0, $size_name = 'large' ) {
+			$images = array();
 
+			if ( $this->ngfb->is_avail['ngg'] !== true ) 
+				return $images;
+
+			global $post, $wp_query, $nggdb;
+			$size_info = $this->ngfb->media->get_size_info( $size_name );
+
+			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early for: empty post object' ); return $images; }
+			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $images; }
+
+			// sanitize possible query values
+			$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
+			$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
+			$ngg_pageid = empty( $wp_query->query['pageid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pageid'] );
+			$ngg_pid = empty( $wp_query->query['pid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pid'] );
+
+			if ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) || ! empty( $ngg_pid ) ) {
+				$this->ngfb->debug->log( 'ngg query found (pageid:' . $ngg_pageid . ' album:' . $ngg_album . 
+					' gallery:' . $ngg_gallery . ' pid:' . $ngg_pid . ')' );
+			}
+
+			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
+				$sc_type = $match[1];
+				$sc_id = $match[3];
+				$this->ngfb->debug->log( '[' . $sc_type . '] shortcode found' );
+
+				// always trust hard-coded shortcode ID more than query arguments
+				$ngg_album = $sc_type == 'nggalbum' || $sc_type == 'album' ? $sc_id : $ngg_album;
+				$ngg_galery = $sc_type == 'nggallery' ? $sc_id : $ngg_gallery;
+
+				// security checks
+				if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
+					$nggAlbum = $nggdb->find_album( $ngg_album );
+					if ( in_array( $ngg_gallery, $nggAlbum->gallery_ids, true ) ) {
+						$this->ngfb->debug->log( 'security check passed = gallery:' . $ngg_gallery . ' is in album:' . $ngg_album );
+					} else {
+						$this->ngfb->debug->log( 'security check failed = gallery:' . $ngg_gallery . ' is not in album:' . $ngg_album );
+						return $og_ret;
+					}
+				}
+				if ( $ngg_pid > 0 && $ngg_gallery > 0 ) {
+					$pids = $nggdb->get_ids_from_gallery( $ngg_gallery );
+					if ( in_array( $ngg_pid, $pids, true ) ) {
+						$this->ngfb->debug->log( 'security check passed = pid:' . $ngg_pid . ' is in gallery:' . $ngg_gallery );
+					} else {
+						$this->ngfb->debug->log( 'security check failed = pid:' . $ngg_pid . ' is not in gallery:' . $ngg_gallery );
+						return $og_ret;
+					}
+				}
+
+				if ( $ngg_gallery > 0 ) {
+					// get_ids_from_gallery($id, $order_by = 'sortorder', $order_dir = 'ASC', $exclude = true)
+					foreach ( array_slice( $nggdb->get_ids_from_gallery( $ngg_gallery, 'sortorder', 'ASC', true ), 0, $num ) as $pid ) {
+						$ret = $this->get_ngg_image_src( 'ngg-' . $nggImage->pid, $size_name, false );
+						if ( ! empty( $ret[0] ) ) $images[] = $ret[0];
+					}
+				}
+			} else $this->ngfb->debug->log( '[nggalbum|album|nggallery] shortcode not found' );
+			$this->ngfb->util->slice_max( $images, $num );
+			return $images;
+		}
+
+	}
 }
+
 ?>

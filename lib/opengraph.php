@@ -48,10 +48,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			global $post;
 			$has_video_image = '';
-			$og['og:url'] = $sharing_url;
-			$og['fb:admins'] = $this->ngfb->options['og_admins'];
-			$og['fb:app_id'] = $this->ngfb->options['og_app_id'];
+			$og['fb:admins'] = $this->ngfb->options['fb_admins'];
+			$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+			$og['og:url'] = $sharing_url;
 			$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
 			$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
 
@@ -207,22 +207,21 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og_ret = array_merge( $og_ret, $this->get_content_images( $num_remains, $size_name ) );
 			}
 
-			$this->slice_max( $og_ret, $num );
+			$this->ngfb->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
 		private function get_ngg_query_images( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
-			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
-			global $post, $wpdb, $wp_query;
+			if ( $this->ngfb->is_avail['ngg'] !== true ) 
+				return $og_ret;
+
+			global $post, $wp_query, $nggdb;
 			$size_info = $this->ngfb->media->get_size_info( $size_name );
 
-			if ( empty( $post ) ) {
-				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret;
-			} elseif ( empty( $post->post_content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret;
-			}
+			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret; }
+			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
 
 			// sanitize possible query values
 			$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
@@ -238,57 +237,77 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
+				$sc_type = $match[1];
+				$sc_id = $match[3];
+				$this->ngfb->debug->log( 'ngg query with [' . $sc_type . '] shortcode' );
 
-				$this->ngfb->debug->log( 'ngg query with [' . $match[1] . '] shortcode' );
-				if ( $ngg_pid > 0 ) {
+				// always trust hard-coded shortcode ID more than query arguments
+				$ngg_album = $sc_type == 'nggalbum' || $sc_type == 'album' ? $sc_id : $ngg_album;
+				$ngg_gallery = $sc_type == 'nggallery' ? $sc_id : $ngg_gallery;
+
+				// security checks
+				if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
+					$nggAlbum = $nggdb->find_album( $ngg_album );
+					if ( in_array( $ngg_gallery, $nggAlbum->gallery_ids, true ) ) {
+						$this->ngfb->debug->log( 'security check passed = gallery:' . $ngg_gallery . ' is in album:' . $ngg_album );
+					} else {
+						$this->ngfb->debug->log( 'security check failed = gallery:' . $ngg_gallery . ' is not in album:' . $ngg_album );
+						return $og_ret;
+					}
+				}
+				if ( $ngg_pid > 0 && $ngg_gallery > 0 ) {
+					$pids = $nggdb->get_ids_from_gallery( $ngg_gallery );
+					if ( in_array( $ngg_pid, $pids, true ) ) {
+						$this->ngfb->debug->log( 'security check passed = pid:' . $ngg_pid . ' is in gallery:' . $ngg_gallery );
+					} else {
+						$this->ngfb->debug->log( 'security check failed = pid:' . $ngg_pid . ' is not in gallery:' . $ngg_gallery );
+						return $og_ret;
+					}
+				}
+
+				if ( $ngg_pid > 0 && $ngg_gallery > 0 ) {
 					$this->ngfb->debug->log( 'getting image for ngg query pid:' . $ngg_pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $ngg_pid, $size_name );
-					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
-
+					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 				} elseif ( $ngg_gallery > 0 ) {
-					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
-					if ( is_array( $galleries ) ) {
-						foreach ( $galleries as $row ) {
-							$this->ngfb->debug->log( 'getting image for ngg query gallery:' . $row->gid . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
+					$gallery = $nggdb->find_gallery( $ngg_gallery );
+					if ( ! empty( $gallery ) ) {
+						if ( ! empty( $gallery->previewpic ) ) {
+							$this->ngfb->debug->log( 'getting previewpic:' . $gallery->previewpic . ' for gallery:' . $ngg_gallery );
+							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+								$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $gallery->previewpic, $size_name );
+							if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+						} else $this->ngfb->debug->log( 'no previewpic for gallery:' . $ngg_gallery );
+					} else $this->ngfb->debug->log( 'no gallery:' . $ngg_gallery . ' found' );
 				} elseif ( $ngg_album > 0 ) {
-					$albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
-					if ( is_array( $albums ) ) {
-						foreach ( $albums as $row ) {
-							$this->ngfb->debug->log( 'getting image for ngg query album:' . $row->id . ' (previewpic:' . $row->previewpic . ')' );
-							if ( ! empty( $row->previewpic ) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
-						}
-					}
+					$album = $nggfb->find_album( $ngg_album );
+					if ( ! empty( $albums ) ) {
+						if ( ! empty( $album->previewpic ) ) {
+							$this->ngfb->debug->log( 'getting previewpic:' . $album->previewpic . ' for album:' . $ngg_album );
+							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+								$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $album->previewpic, $size_name );
+							if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+						} else $this->ngfb->debug->log( 'no previewpic for album:' . $ngg_album );
+					} else $this->ngfb->debug->log( 'no album:' . $ngg_album . ' found' );
 				}
 			} else $this->ngfb->debug->log( 'ngg query without [nggalbum|album|nggallery] shortcode' );
 
-			$this->slice_max( $og_ret, $num );
+			$this->ngfb->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
 		private function get_ngg_shortcode_images( $num = 0, $size_name = 'thumbnail' ) {
 			$og_ret = array();
-			if ( $this->ngfb->is_avail['ngg'] !== true ) return $og_ret;
 
-			$size_info = $this->ngfb->media->get_size_info( $size_name );
+			if ( $this->ngfb->is_avail['ngg'] !== true ) 
+				return $og_ret;
+
 			global $post, $wpdb;
+			$size_info = $this->ngfb->media->get_size_info( $size_name );
 
-			if ( empty( $post ) ) {
-				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret;
-			} elseif ( empty( $post->post_content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret;
-			}
+			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret; } 
+			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $album ) {
@@ -298,18 +317,19 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$ngg_album = 0;
 						$this->ngfb->debug->log( 'album id zero or not found - setting album id to 0 (all)' );
 					} else $ngg_album = $album[3];
-					if ( $ngg_album > 0 ) $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
+					if ( $ngg_album > 0 ) 
+						$albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
 					else $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum, OBJECT_K );
 					if ( is_array( $albums ) ) {
 						foreach ( $albums as $row ) {
-							$this->ngfb->debug->log( 'getting image for nggalbum:' . $row->id . ' (previewpic:' . $row->previewpic . ')' );
 							if ( ! empty( $row->previewpic ) ) {
+								$this->ngfb->debug->log( 'getting previewpic:' . $row->previewpic . ' for album:' . $row->id );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
+								if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+							} else $this->ngfb->debug->log( 'no previewpic for album:' . $row->id );
 						}
-					}
+					} else $this->ngfb->debug->log( 'no album(s) found' );
 				}
 			} else $this->ngfb->debug->log( 'no [nggalbum|album] shortcode found' );
 
@@ -321,14 +341,14 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$galleries = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggallery . ' WHERE gid IN (\'' . $ngg_gallery . '\')', OBJECT_K );
 					if ( is_array( $galleries ) ) {
 						foreach ( $galleries as $row ) {
-							$this->ngfb->debug->log( 'getting image for nggallery:' . $row->gid . ' (previewpic:' . $row->previewpic . ')' );
 							if ( ! empty( $row->previewpic ) ) {
+								$this->ngfb->debug->log( 'getting previewpic:' . $row->previewpic . ' for gallery:' . $row->gid );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $row->previewpic, $size_name );
-								if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
-							}
+								if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+							} else $this->ngfb->debug->log( 'no previewpic for gallery:' . $row->gid );
 						}
-					}
+					} else $this->ngfb->debug->log( 'no gallery:' . $ngg_gallery . ' found' );
 				}
 			} else $this->ngfb->debug->log( 'no [nggallery] shortcode found' );
 
@@ -340,11 +360,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$this->ngfb->debug->log( 'getting image for singlepic:' . $pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $pid, $size_name );
-					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 				}
 			} else $this->ngfb->debug->log( 'no [singlepic] shortcode found' );
 
-			$this->slice_max( $og_ret, $num );
+			$this->ngfb->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -363,7 +383,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $pid[1], $size_name );
-					if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 				}
 			} else $this->ngfb->debug->log( 'no <div id="ngg-image-#"> html tag found' );
 
@@ -405,7 +425,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 
-						if ( $this->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+						if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 
 					} else $this->ngfb->debug->log( $src_name . ' image rejected: width and height attributes missing or too small' );
 				}
@@ -461,7 +481,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] . 
 							' (' . $og_video['og:video:width'] .  ' x ' . $og_video['og:video:height'] . ')' );
 
-						if ( $this->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
+						if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 					}
 				}
 			} else $this->ngfb->debug->log( 'no <iframe|embed/> html tag(s) found' );
@@ -478,7 +498,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$og_image = array();
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_ngg_image_src( 'ngg-' . $image->pid, $size_name );
-						$this->push_max( $og_ret, $og_image, $num );
+						$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 					}
 				}
 			}
@@ -493,7 +513,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $attach_id, $size_name );
-					$this->push_max( $og_ret, $og_image, $num );
+					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 				} else $this->ngfb->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
 			}
 			return $og_ret;
@@ -509,7 +529,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							$og_image = array();
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 								$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $attachment->ID, $size_name );
-							$this->push_max( $og_ret, $og_image, $num );
+							$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 						}
 					}
 			}
@@ -530,7 +550,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				}
 			}
 			// returned array must be two-dimensional
-			$this->push_max( $og_ret, $og_image, $num );
+			$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
@@ -554,7 +574,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$this->ngfb->debug->log( 'using default img url = ' . $og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
-			$this->push_max( $og_ret, $og_image, $num );
+			$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
@@ -575,38 +595,16 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->ngfb->media->get_attachment_image_src( $pid, $size_name );
 					}
-					$this->push_max( $og_ret, $og_image, $num );
+					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 				}
 				if ( ! empty( $url ) ) {
 					$og_image = array();	// clear all array values
 					$this->ngfb->debug->log( 'found custom meta image url = ' . $url );
 					$og_image['og:image'] = $url;
-					$this->push_max( $og_ret, $og_image, $num );
+					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 				}
 			}
 			return $og_ret;
-		}
-
-		private function push_max( &$dst, &$src, $num = 0 ) {
-			if ( ! is_array( $dst ) || ! is_array( $src ) ) return false;
-			if ( ! empty( $src ) ) array_push( $dst, $src );
-			return $this->slice_max( $dst, $num );
-		}
-
-		private function slice_max( &$arr, $num = 0 ) {
-			if ( ! is_array( $arr ) ) return false;
-			$has = count( $arr );
-			if ( $num > 0 ) {
-				if ( $has == $num ) {
-					$this->ngfb->debug->log( 'max values reached (' . $has . ' == ' . $num . ')' );
-					return true;
-				} elseif ( $has > $num ) {
-					$this->ngfb->debug->log( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
-					$arr = array_slice( $arr, 0, $num );
-					return true;
-				}
-			}
-			return false;
 		}
 
 		private function is_maxed( &$arr, $num = 0 ) {

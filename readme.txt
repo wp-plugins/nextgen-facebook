@@ -300,13 +300,22 @@ Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-fa
 
 == Shortcodes ==
 
-You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. For example:
+You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. **The "Enable Shortcode" option must be enabled on the NGFB settings page** (disabled by default).
 
 `
 &#91;ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"&#93;
 `
 
-Note: **The "Enable Shortcode" option must be enabled on the NGFB settings page**, and like all other methods used to add NGFB social buttons (enabled from the settings page, widget, etc.), the **Pinterest button will only show on posts with a *featured* or *attached* image**.
+You may use several arguments:
+
+* `buttons` : A list of buttons to include, as shown in the example above.
+* `url` : A specific URL to share, instead of the current webpage or Post URL.
+* `pid` : A picture ID to share for the Pinterest and Tumblr buttons. NextGEN Gallery picture IDs must be in the form of 'ngg-#' (for example: `pid="ngg-123"`).
+* `photo` : A specific photo / image URL to share for the Pinterest and Tumblr buttons. The `photo` argument takes precedence over the `pid` argument.
+* `css_class` : A CSS class name.
+* `css_id` : A CSS id name.
+
+Note that by default (like all other methods used to add NGFB social buttons), a *featured* or *attached* image must be present for the Pinterest button to show (unless the `pid` or `photo` argument is used).
 
 == Stylesheets ==
 
@@ -421,27 +430,44 @@ function uwf_filter_ngfb_tags( $tags = array() ) {
 }
 `
 
-Filter functions in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter should always be "1" for NGFB filters.
+Most filters in NGFB are called with a single argument -- using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter is '1' for most filters (exceptions are noted).
 
 `
 <?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?> 
 `
 
-The following list of NGFB filters receive, and must return, a standard text string.
+The following list of NGFB filters receive and must return a single *text string*.
 
 * ngfb_section : The section text string used in the article:section meta tag.
-* ngfb_title : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers will be included in the title text string.
+* ngfb_title : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers are included in the title text string.
 * ngfb_description : The description string used in the og:description meta tag.
 * ngfb_content : The filtered (shortcode resolved, etc.) or un-filtered (depending on settings) content of the Post or Page.
 * ngfb_caption : The caption used by Tumblr, Pinterest, and Twitter sharing buttons.
 * ngfb_quote : The quote text used by the Tumblr sharing button.
 
-The following list of NGFB filters receive an array, and must return an array.
+The following list of NGFB filters receive and must return a single *array*.
 
 * ngfb_tags : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
 * ngfb_wp_tags : An array of WordPress Post and Page tags used in the article:tag meta tags.
 * ngfb_ngg_tags : An array of NextGEN Gallery image tags used in the article:tag meta tags.
 * ngfb_og : A complete, multi-dimensional array of all Open Graph meta tags.
+* ngfb_tc : A complete, multi-dimensional array of all Twitter Card meta tags.
+
+The following filter receives *two arguments* -- an array and a text string, and must return an array.
+
+* ngfb_shortcode : Filters the `&#91;ngfb&#93;` shortcode attributes, and any content between the opening and closing tags (example: `&#91;ngfb&#93;some content text&#91;/ngfb&#93;`). The filter function should return the attributes array.
+
+`
+add_filter( 'ngfb_shortcode', 'my_ngfb_shortcode_filter', 10, 2 );
+
+function my_ngfb_shortcode_filter( $atts = array(), $content = null ) {
+	/*
+	 * manipulate / extract content here
+	 */
+	$atts['url'] = $content;	// use content text as sharing url
+        return $atts;
+}
+`
 
 = PHP Constants =
 
@@ -457,11 +483,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 5.4 DEV =
+= Version 5.4.DEV =
 
-* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ folder.
+* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
 * Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
 * Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
+* Added 'Twitter @username' to the user's profile page (in addition to the existing 'Facebook URL' and 'Google+ URL' user profile fields).
 
 = Version 5.3 =
 
@@ -531,7 +558,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 5.4 DEV =
+= 5.4.DEV =
 
 Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page, changed 'Image Size Name' option to width and height values instead.
 

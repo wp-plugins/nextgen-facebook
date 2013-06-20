@@ -12,12 +12,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '30';		// increment when adding/removing default options
+		public $version = '32';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
 			'link_publisher_url' => '',
+			'fb_admins' => '',
+			'fb_app_id' => '',
 			'og_art_section' => '',
 			'og_img_width' => 320,
 			'og_img_height' => 320,
@@ -41,8 +43,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_title_len' => 100,
 			'og_desc_len' => 280,
 			'og_desc_strip' => 0,
-			'og_admins' => '',
-			'og_app_id' => '',
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
 			'buttons_location_the_excerpt' => 'bottom',
@@ -70,6 +70,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
+			'twitter_card_enable' => '',
+			'twitter_card_gal_size' => 'large',
+			'twitter_card_site' => '',	// twitter:site
 			'twitter_on_the_excerpt' => 0,
 			'twitter_on_the_content' => 0,
 			'twitter_order' => 3,
@@ -130,6 +133,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_article:modified_time' => 1,
 			'inc_article:section' => 1,
 			'inc_article:tag' => 1,
+			'inc_twitter:card' => 1,
+			'inc_twitter:site' => 1,
+			'inc_twitter:title' => 1,
+			'inc_twitter:description' => 1,
+			'inc_twitter:image0' => 1,
+			'inc_twitter:image1' => 1,
+			'inc_twitter:image2' => 1,
+			'inc_twitter:image3' => 1,
 			'ngfb_version' => '',
 			'ngfb_pro_tid' => '',
 			'ngfb_reset' => 0,
@@ -167,7 +178,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'pin_enable' => 'pin_on_the_content',
 			'stumble_enable' => 'stumble_on_the_content',
 			'tumblr_enable' => 'tumblr_on_the_content',
-			'buttons_location' => 'buttons_location_the_content' );
+			'buttons_location' => 'buttons_location_the_content',
+			'og_admins' => 'fb_admins',
+			'og_app_id' => 'fb_app_id',
+		);
 
 		private $ngfb;		// ngfbPlugin
 
@@ -192,20 +206,26 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 					switch ( $key ) {
 
-						// remove HTML
+						// twitter-style usernames (a-z0-9, max 15 chars)
+						case 'twitter_card_site' :
+							$opts[$key] = substr( preg_replace( '/[^a-z0-9]/', '', strtolower( $opts[$key] ) ), 0, 15 );
+							break;
+
+						// remove html
+						case 'fb_app_id' :
 						case 'og_title' :
 						case 'og_desc' :
-						case 'og_app_id' :
+						case 'buttons_css_data' :
 							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
 							break;
 
-						// stip off leading URLs (leaving just the account names)
-						case 'og_admins' :
+						// stip off leading urls (leaving just the account names)
+						case 'fb_admins' :
 							$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
 								wp_filter_nohtml_kses( $opts[$key] ) );
 							break;
 
-						// must be a URL
+						// must be a url
 						case 'og_img_url' :
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :

@@ -29,6 +29,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_opengraph', 'Open Graph Settings', array( &$this, 'show_metabox_opengraph' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_facebook', 'Facebook Settings', array( &$this, 'show_metabox_facebook' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_google', 'Google Settings', array( &$this, 'show_metabox_google' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_twitter', 'Twitter Settings', array( &$this, 'show_metabox_twitter' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
@@ -198,7 +199,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr>
 				<th>Facebook Admin(s)</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'og_admins' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'fb_admins' ); ?></td>
 				<td><p>One or more Facebook account names (generally your own) separated with a comma. 
 				When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). 
 				Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to 
@@ -206,7 +207,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			<tr>
 				<th>Facebook App ID</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'og_app_id' ); ?></td>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'fb_app_id' ); ?></td>
 				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. 
 				Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data 
 				for accounts associated with the Application ID.</p></td>
@@ -234,6 +235,23 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			</tr>
 			</table>
 			<?php
+		}
+
+		public function show_metabox_twitter() {
+			?>
+			<table class="ngfb-settings">
+			<?php foreach ( $this->get_more_twitter() as $row ) echo '<tr>' . $row . '</tr>'; ?>
+			</table>
+			<?php
+		}
+
+		protected function get_more_twitter() {
+			return array(
+				'<th>Enable Twitter Cards</th><td class="blank">
+				<p>Add Twitter Cards to all webpages (cards include summary, large image, photo, and gallery).</p></td>',
+				'<th>Website @username</th><td class="blank">
+				<p>The Twitter username for your website and / or company (not your personal Twitter username).</p></td>',
+			);
 		}
 
 		public function show_metabox_taglist() {

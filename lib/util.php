@@ -12,20 +12,16 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 	class ngfbUtil {
 
+		public $rewrite;
+
 		protected $ngfb;
 
-		private $rewrite;
 		private $urls_found = array();
 
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-
-			if ( ! empty( $this->ngfb->is_avail['aop'] ) && 
-				$this->ngfb->is_avail['aop'] == true )
-					$this->rewrite = new ngfbRewritePro( $ngfb_plugin );
-
 			$this->add_actions();
 		}
 
@@ -114,7 +110,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			switch ( $strip_query ) {
 				case 'noquery' :
-					if ( strpos( $url, '?' ) !== false ) $url = reset( explode( '?', $url ) );
+					if ( strpos( $url, '?' ) !== false ) 
+						$url = reset( explode( '?', $url ) );
 					break;
 				case 'notrack' :
 					// strip out tracking query arguments by facebook, google, etc.
@@ -370,6 +367,28 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				closedir( $dh );
 			}
 			return $deleted;
+		}
+
+		public function push_max( &$dst, &$src, $num = 0 ) {
+			if ( ! is_array( $dst ) || ! is_array( $src ) ) return false;
+			if ( ! empty( $src ) ) array_push( $dst, $src );
+			return $this->slice_max( $dst, $num );
+		}
+
+		public function slice_max( &$arr, $num = 0 ) {
+			if ( ! is_array( $arr ) ) return false;
+			$has = count( $arr );
+			if ( $num > 0 ) {
+				if ( $has == $num ) {
+					$this->ngfb->debug->log( 'max values reached (' . $has . ' == ' . $num . ')' );
+					return true;
+				} elseif ( $has > $num ) {
+					$this->ngfb->debug->log( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
+					$arr = array_slice( $arr, 0, $num );
+					return true;
+				}
+			}
+			return false;
 		}
 
 	}

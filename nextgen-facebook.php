@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 5.4
+Version: 5.4.DEV
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '5.4';	// only for display purposes
+		public $version = '5.4.DEV';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
@@ -194,7 +194,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_MAX_CACHE', 24 );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
-				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
+				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
 
 			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
 				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
@@ -244,8 +244,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
-			if ( file_exists( NGFB_PLUGINDIR . 'lib/addon.php' ) )
-				require_once ( NGFB_PLUGINDIR . 'lib/addon.php' );
+			// Pro version classes
+			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro/addon.php' ) )
+				require_once ( NGFB_PLUGINDIR . 'lib/pro/addon.php' );
+
 		}
 
 		private function check_deps() {

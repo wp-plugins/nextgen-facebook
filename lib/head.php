@@ -56,16 +56,17 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
 
-			// echo the publisher link
+			/*
+			 * Meta Tags for Google
+			 */
 			if ( ! empty( $arr['link:publisher'] ) )
 				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
 			elseif ( $this->ngfb->options['link_publisher_url'] )
 				echo '<link rel="publisher" href="', $this->ngfb->options['link_publisher_url'], '" />', "\n";
 
-			// echo the author link
-			if ( ! empty( $arr['link:author'] ) ) {
+			if ( ! empty( $arr['link:author'] ) )
 				echo '<link rel="author" href="', $arr['link:author'], '" />', "\n";
-			} else {
+			else {
 				if ( ! empty( $post ) && $post->post_author )
 					$author_url = $this->ngfb->user->get_author_url( $post->post_author, 
 						$this->ngfb->options['link_author_field'] );
@@ -74,15 +75,16 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
 						$this->ngfb->options['link_author_field'] );
 
-				if ( $author_url ) echo '<link rel="author" href="', $author_url, '" />', "\n";
+				if ( $author_url ) 
+					echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
 
-			// echo the description meta
 			if ( ! empty( $arr['og:description'] ) && ! empty( $this->ngfb->options['inc_description'] ) )
 				echo '<meta name="description" content="', $arr['og:description'], '" />', "\n";
 
-			// show the multi-dimensional array as html
-			ksort( $arr );
+			/*
+			 * Print the Multi-Dimensional Array as HTML
+			 */
 			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
 				if ( is_array( $d_val ) ) {
 					foreach ( $d_val as $dd_num => $dd_val ) {			// second-dimension array
@@ -104,17 +106,18 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->ngfb->options['inc_'.$name] ) && 
-				( ! empty( $val ) || 
-					( ! empty( $this->ngfb->options['og_empty_tags'] ) && preg_match( '/^og:/', $name ) ) ) ) {
+			if ( ! empty( $this->ngfb->options['inc_' . $name] ) && 
+				( ! empty( $val ) || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) ) {
 
 				$charset = get_bloginfo( 'charset' );
-
 				$val = htmlentities( $this->ngfb->util->cleanup_html_tags( $this->ngfb->util->decode( $val ) ), 
 					ENT_QUOTES, $charset, false );
-
 				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-				$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
+
+				if ( strpos( $name, 'twitter:' ) === 0 )
+					$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
+				else
+					$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 			}
 			return $meta_html;
 		}
