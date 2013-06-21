@@ -1,4 +1,4 @@
-=== NextGEN Facebook Open Graph ===
+=== NGFB Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro
@@ -16,7 +16,7 @@ Improve webpage HTML for better Google Search results, ranking, social shares wi
 
 = Adds SEO and Open Graph =
 
-NextGEN Facebook Open Graph (NGFB Open Graph) adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
+NGFB Open Graph adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
 
 NGFB Open Graph goes well beyond other SEO and Open Graph plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
@@ -483,13 +483,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 5.4.DEV =
+= Version 6.0.DEV =
 
-* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
-* Added a 'StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
-* Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
+* Added a 'StyleSheet' editor on the Social Sharing settings page. 
+* Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 * Added 'Twitter @username' to the user's profile page (in addition to the existing 'Facebook URL' and 'Google+ URL' user profile fields).
 * Added sanitation code for custom user profile field values (remove HTML, URLs must be URLs, etc.).
+* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
+* Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
 * Added a new 'ngfb_shortcode' filter (Pro version) to modify shortcode attributes based on a content string (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for information on shortcodes and filters).
 
 = Version 5.3 =
@@ -560,9 +561,9 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 5.4.DEV =
+= 6.0.DEV =
 
-Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page, changed 'Image Size Name' option to width and height values instead.
+Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 
 = 5.3 =
 
