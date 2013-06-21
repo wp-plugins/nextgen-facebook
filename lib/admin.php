@@ -185,6 +185,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						$opts[$key] = 0;	// add missing checkbox as empty
 					unset ( $opts['is_checkbox_'.$key] );
 				}
+
 				$opts = array_merge( $this->ngfb->options, $opts );
 				$opts = $this->ngfb->opt->sanitize( $opts, $def_opts );
 

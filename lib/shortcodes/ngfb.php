@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 
 		public function shortcode( $atts, $content = null ) { 
 
-			//if ( $this->ngfb->is_avail['aop'] ) 
+			if ( $this->ngfb->is_avail['aop'] ) 
 				$atts = apply_filters( 'ngfb_shortcode', $atts, $content );
 
 			global $post;
@@ -59,7 +59,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 				if ( $html !== false ) {
 					$this->ngfb->debug->log( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
-					if ( ! empty( $atts['buttons'] ) ) {
+					if ( ! empty( $atts['buttons'] ) && $this->ngfb->social->is_disabled() == false ) {
 						$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
 						unset ( $atts['buttons'] );
 

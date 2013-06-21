@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '33';		// increment when adding/removing default options
+		public $version = '35';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -70,10 +70,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
-			'twitter_card_enable' => '',
-			'twitter_card_gal_min' => 2,
-			'twitter_card_gal_size' => 'large',
-			'twitter_card_site' => '',	// twitter:site
+			'tc_enable' => '',
+			'tc_site' => '',
+			'tc_gal_min' => 2,
+			'tc_gal_size' => 'medium',
+			'tc_photo_size' => 'large',
+			'tc_large_size' => 'medium',
+			'tc_sum_size' => 'thumbnail',
 			'twitter_on_the_excerpt' => 0,
 			'twitter_on_the_content' => 0,
 			'twitter_order' => 3,
@@ -139,10 +142,16 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_twitter:site' => 1,
 			'inc_twitter:title' => 1,
 			'inc_twitter:description' => 1,
+			'inc_twitter:image' => 1,
+			'inc_twitter:image:width' => 1,
+			'inc_twitter:image:height' => 1,
 			'inc_twitter:image0' => 1,
 			'inc_twitter:image1' => 1,
 			'inc_twitter:image2' => 1,
 			'inc_twitter:image3' => 1,
+			'inc_twitter:player' => 1,
+			'inc_twitter:player:width' => 1,
+			'inc_twitter:player:height' => 1,
 			'ngfb_version' => '',
 			'ngfb_pro_tid' => '',
 			'ngfb_reset' => 0,
@@ -209,8 +218,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					switch ( $key ) {
 
 						// twitter-style usernames (a-z0-9, max 15 chars)
-						case 'twitter_card_site' :
-							$opts[$key] = substr( preg_replace( '/[^a-z0-9]/', '', strtolower( $opts[$key] ) ), 0, 15 );
+						case 'tc_site' :
+							$opts[$key] = substr( preg_replace( '/[^a-z0-9]/', '', 
+								strtolower( $opts[$key] ) ), 0, 15 );
+							if ( ! empty( $opts[$key] ) ) 
+								$opts[$key] = '@' . $opts[$key];
 							break;
 
 						// remove html

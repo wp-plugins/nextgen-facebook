@@ -110,7 +110,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( $use_post == true ) {
 					if ( ! empty( $post ) && ! empty( $post->post_content ) ) {
 						$videos = array();
-						$videos = $this->ngfb->head->og->get_content_videos( 1 );	// get the first video, if any
+						$videos = $this->ngfb->media->get_content_videos( 1, false );	// get the first video, if any
 						if ( ! empty( $videos[0]['og:video'] ) ) 
 							$atts['embed'] = $videos[0]['og:video'];
 					}

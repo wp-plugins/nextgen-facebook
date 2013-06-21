@@ -49,6 +49,8 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 							case 'twitter' :
 								$field_val = substr( preg_replace( '/[^a-z0-9]/', '', 
 									strtolower( $field_val ) ), 0, 15 );
+								if ( ! empty( $field_val ) )
+									$field_val = '@' . $field_val;
 								break;
 						}
 					}
