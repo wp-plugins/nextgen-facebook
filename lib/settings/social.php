@@ -32,17 +32,6 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				$this->website[$id] = new $classname( $this->ngfb );
 			}
 			unset ( $id, $name );
-
-			// use the custom css file, or a default one if it doesn't exist
-			$css_file = file_exists( $this->ngfb->style->buttons_css_file ) ?
-				$this->ngfb->style->buttons_css_file :  NGFB_PLUGINDIR . 'css/social-buttons.css';
-			if ( ! $fh = @fopen( $css_file, 'rb' ) )
-				$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
-			else {
-				$this->ngfb->options['buttons_css_data'] = fread( $fh, filesize( $css_file ) );
-				$this->ngfb->debug->log( 'read css from file ' . $css_file );
-				fclose( $fh );
-			}
 		}
 
 		protected function add_meta_boxes() {
