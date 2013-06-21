@@ -28,8 +28,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function add_header() {
 			if ( $this->ngfb->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
-				$this->ngfb->debug->show_html( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
-				$this->ngfb->debug->show_html( $this->ngfb->options, 'NGFB Settings' );
+				//$this->ngfb->debug->show_html( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				//$this->ngfb->debug->show_html( $this->ngfb->options, 'NGFB Settings' );
 				$this->ngfb->debug->show_html( $this->ngfb->is_avail, 'Available Features' );
 
 				$this->ngfb->debug->log( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );

@@ -148,18 +148,18 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_gallery_images( $num = 0, $size_name = 'large', $want_this = 'gallery', $check_dupes = false ) {
-			$images = array();
+			$og_ret = array();
 
 			if ( $this->ngfb->is_avail['ngg'] !== true ) 
-				return $images;
+				return $og_ret;
 
 			global $post, $wp_query, $nggdb;
 			$size_info = $this->get_size_info( $size_name );
 
 			if ( empty( $post ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $images;
+				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret;
 			} elseif ( empty( $post->post_content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $images;
+				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret;
 			}
 
 			// sanitize possible query values
@@ -174,62 +174,74 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			}
 
 			if ( $want_this == 'gallery' && $ngg_pid > 0 ) {
-				$this->ngfb->debug->log( 'exiting early - want gallery but have query for pid:' . $ngg_pid );
-				return images;
+				$this->ngfb->debug->log( 'exiting early for: want gallery but have query for pid:' . $ngg_pid );
+				return $og_ret;
+			} elseif ( $want_this == 'pid' && empty( $ngg_pid ) ) {
+				$this->ngfb->debug->log( 'exiting early for: want pid but don\'t have a query for pid' );
+				return $og_ret;
 			}
 
-			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
-				$shortcode_type = $match[1];
+			if ( preg_match( '/\[(nggalbum|album|nggallery|nggtags)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
+				$shortcode_type = strtolower( $match[1] );
 				$shortcode_id = $match[3];
 				$this->ngfb->debug->log( '[' . $shortcode_type . '] shortcode found (id:' . $shortcode_id . ')' );
 
-				// always trust hard-coded shortcode ID more than query arguments
-				$ngg_album = $shortcode_type == 'nggalbum' || $shortcode_type == 'album' ? $shortcode_id : $ngg_album;
-				$ngg_gallery = $shortcode_type == 'nggallery' ? $shortcode_id : $ngg_gallery;
-
-				// security checks
-				if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
-					$nggAlbum = $nggdb->find_album( $ngg_album );
-					if ( in_array( $ngg_gallery, $nggAlbum->gallery_ids, true ) ) {
-						$this->ngfb->debug->log( 'security check passed = gallery:' . $ngg_gallery . ' is in album:' . $ngg_album );
-					} else {
-						$this->ngfb->debug->log( 'security check failed = gallery:' . $ngg_gallery . ' is not in album:' . $ngg_album );
-						return $og_ret;
-					}
-				}
-
-				if ( $ngg_pid > 0 && $ngg_gallery > 0 ) {
-					$pids = $nggdb->get_ids_from_gallery( $ngg_gallery );
-					if ( in_array( $ngg_pid, $pids, true ) ) {
-						$this->ngfb->debug->log( 'security check passed = pid:' . $ngg_pid . ' is in gallery:' . $ngg_gallery );
-					} else {
-						$this->ngfb->debug->log( 'security check failed = pid:' . $ngg_pid . ' is not in gallery:' . $ngg_gallery );
-						return $og_ret;
-					}
-				}
-
-				switch ( $want_this ) {
-					case 'gallery' :
-						if ( $ngg_gallery > 0 ) {
-							// get_ids_from_gallery($id, $order_by = 'sortorder', $order_dir = 'ASC', $exclude = true)
-							foreach ( array_slice( $nggdb->get_ids_from_gallery( $ngg_gallery, 'sortorder', 'ASC', true ), 0, $num ) as $pid ) {
-								$ret = $this->get_ngg_image_src( 'ngg-' . $pid, $size_name, $check_dupes );
-								if ( ! empty( $ret[0] ) ) $images[] = $ret;
+				switch ( $shortcode_type ) {
+					case 'nggtags' :
+						$content = do_shortcode( $match[0] );
+						$og_ret = array_merge( $og_ret, $this->get_content_images( $num, $size_name, $check_dupes, $content ) );
+						break;
+					default :
+						// always trust hard-coded shortcode ID more than query arguments
+						$ngg_album = $shortcode_type == 'nggalbum' || $shortcode_type == 'album' ? $shortcode_id : $ngg_album;
+						$ngg_gallery = $shortcode_type == 'nggallery' ? $shortcode_id : $ngg_gallery;
+		
+						// security checks
+						if ( $ngg_gallery > 0 && $ngg_album > 0 ) {
+							$nggAlbum = $nggdb->find_album( $ngg_album );
+							if ( in_array( $ngg_gallery, $nggAlbum->gallery_ids, true ) ) {
+								$this->ngfb->debug->log( 'security check passed = gallery:' . $ngg_gallery . ' is in album:' . $ngg_album );
+							} else {
+								$this->ngfb->debug->log( 'security check failed = gallery:' . $ngg_gallery . ' is not in album:' . $ngg_album );
+								return $og_ret;
 							}
 						}
-						break;
-					case 'pid' :
-						if ( $ngg_pid > 0 ) {
-							$ret = $this->get_ngg_image_src( 'ngg-' . $ngg_pid, $size_name, $check_dupes );
-							if ( ! empty( $ret[0] ) ) $images[] = $ret;
+		
+						if ( $ngg_pid > 0 && $ngg_gallery > 0 ) {
+							$pids = $nggdb->get_ids_from_gallery( $ngg_gallery );
+							if ( in_array( $ngg_pid, $pids, true ) ) {
+								$this->ngfb->debug->log( 'security check passed = pid:' . $ngg_pid . ' is in gallery:' . $ngg_gallery );
+							} else {
+								$this->ngfb->debug->log( 'security check failed = pid:' . $ngg_pid . ' is not in gallery:' . $ngg_gallery );
+								return $og_ret;
+							}
+						}
+		
+						switch ( $want_this ) {
+							case 'gallery' :
+								if ( $ngg_gallery > 0 ) {
+									// get_ids_from_gallery($id, $order_by = 'sortorder', $order_dir = 'ASC', $exclude = true)
+									foreach ( array_slice( $nggdb->get_ids_from_gallery( $ngg_gallery, 'sortorder', 'ASC', true ), 0, $num ) as $pid ) {
+										list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+											$og_image['og:image:cropped'] )= $this->get_ngg_image_src( 'ngg-' . $pid, $size_name, $check_dupes );
+										if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+									}
+								}
+								break;
+							case 'pid' :
+								if ( $ngg_pid > 0 ) {
+									list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+										$og_image['og:image:cropped'] )= $this->get_ngg_image_src( 'ngg-' . $ngg_pid, $size_name, $check_dupes );
+									if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								}
+								break;
 						}
 						break;
-				}
+				}	
+			} else $this->ngfb->debug->log( '[nggalbum|album|nggallery|nggtags] shortcode not found' );
 
-			} else $this->ngfb->debug->log( '[nggalbum|album|nggallery] shortcode not found' );
-
-			$this->ngfb->util->slice_max( $images, $num );
-			return $images;
+			$this->ngfb->util->slice_max( $og_ret, $num );
+			return $og_ret;
 		}
 
 		public function get_ngg_query_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
@@ -488,13 +500,20 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		public function get_content_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
+		public function get_content_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true, $content = null ) {
 			global $post;
 			$og_ret = array();
 			$size_info = $this->get_size_info( $size_name );
-			$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
-			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
+
+			// allow custom content to be passed
+			if ( empty( $content ) ) {
+				$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
+				$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
+			}
+			if ( empty( $content ) ) { 
+				$this->ngfb->debug->log( 'exiting early for: empty post content' ); 
+				return $og_ret; 
+			}
 
 			// check for ngg image ids
 			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {

@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_js_loc' => 'header',
 			'twitter_lang' => 'en',
 			'twitter_caption' => 'title',
-			'twitter_cap_len' => 140,
+			'twitter_cap_len' => 117,	// after shortening
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => 1,
