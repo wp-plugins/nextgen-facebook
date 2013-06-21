@@ -60,7 +60,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 = Pro Version =
 
-The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also offers Twitter Cards and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds Twitter Card support and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID and update the plugin from within WordPress (like a regular plugin update).
 
@@ -139,7 +139,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) comes with support for Twitter Cards, and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
+**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for Twitter Cards, and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
 The *Free* version is a complete, stable, optimized, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 

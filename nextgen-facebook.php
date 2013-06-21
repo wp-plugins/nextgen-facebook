@@ -278,15 +278,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
 				'purchase' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
-					Improve page load times with a file cache for social buttons? 
+					Add Twitter Card support? Improve page load times with a file cache for social buttons? 
 					Rewrite Open Graph image URLs to a CDN or static content server? 
-					Get these and many more features by <a href="' . $this->urls['plugin'] . '" target="_blank">purchasing the Pro version</a>.',
+					Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version</a>.',
 				'review' => 'You can also help other WordPress users find out about this plugin by 
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
 					on WordPress.org. A short \'<em>Thank you.</em>\' or \'<em>Great plugin!</em>\' is all it takes, and your feedback is
 					always greatly appreciated.',
-				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . 
-					' plugin will exceed all of your expectations.',
+				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
 				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
 					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
 				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
