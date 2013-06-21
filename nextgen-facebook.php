@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: NGFB Open Graph
+Plugin Name: NGFB Open Graph+
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.0.DEV
+Version: 6.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,10 +19,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.0.DEV';	// only for display purposes
+		public $version = '6.0';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
-		public $menuname = 'Open Graph';
+		public $menuname = 'Open Graph+';
 		public $fullname = 'NGFB Open Graph+';
 		public $fullname_pro = 'NGFB Open Graph+ Pro';
 		public $slug = 'nextgen-facebook';

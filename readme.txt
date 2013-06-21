@@ -516,11 +516,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Screenshots ==
 
-1. Screenshot 1 : About Page (Pro Version 5.3)
-2. Screenshot 2 : General Settings Page (Pro Version 5.3)
-3. Screenshot 3 : Social Sharing Settings Page (Pro Version 5.3)
-4. Screenshot 4 : Advanced Settings Page (Pro Version 5.3)
-6. Screenshot 5 : Custom Post and Page Settings (Pro Version 5.3)
+1. Screenshot 1 : About Page (Pro Version 6.0)
+2. Screenshot 2 : General Settings Page (Pro Version 6.0)
+3. Screenshot 3 : Social Sharing Settings Page (Pro Version 6.0)
+4. Screenshot 4 : Advanced Settings Page (Pro Version 6.0)
+6. Screenshot 5 : Custom Post and Page Settings (Pro Version 6.0)
 
 == Changelog ==
 
