@@ -51,16 +51,16 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 				<p>A custom Topic for this ' . $name . ', different from the default Website Topic chosen in the General Settings.</p></td>',
 
 				'<th class="short">Title</th><td class="blank">
-				<p>A custom Title for this ' . $name . ' to use in the Open Graph, and Twitter Card meta tags.</td>',
+				<p>A custom Title for this ' . $name . ' to use in the Open Graph and Twitter Card meta tags.</td>',
 
 				'<th class="short">Description</th><td class="blank">
-				<p>A custom Description for this ' . $name . ' to use in the Description, Open Graph, and Twitter Card meta tags.</td>',
+				<p>A custom Description for this ' . $name . ' to use in the SEO description, Open Graph, and Twitter Card meta tags.</td>',
 
 				'<th class="short">Image ID</th><td class="blank">
-				<p>A custom Image ID to use in the Open Graph and Twitter Card meta tags.</p></td>',
+				<p>A custom Image ID to include in the Open Graph and Twitter \'Large Image Summary\' Card meta tags.</p></td>',
 
 				'<th class="short">Image URL</th><td class="blank">
-				<p>A custom image URL, instead of an Image ID, to use in the Open Graph and Twitter Card meta tags.</p></td>',
+				<p>A custom image URL, instead of an Image ID, to include in the Open Graph and Twitter Card meta tags.</p></td>',
 
 				'<th class="short">Maximum Images</th><td class="blank">
 				<p>The maximum number of images to include in the Open Graph meta tags for this ' . $name . '.</p></td>', 
