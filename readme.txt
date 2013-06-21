@@ -602,7 +602,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.0.DEV =
+= 6.0 =
 
 Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 
