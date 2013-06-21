@@ -73,6 +73,11 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			);
 		}
 
+                public function get_options( $post_id, $idx = '' ) {
+			if ( ! empty( $idx ) ) return false;
+			else return array();
+		}
+
 	}
 }
 
