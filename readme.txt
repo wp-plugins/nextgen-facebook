@@ -16,15 +16,19 @@ Improve webpage HTML for better Google Search results, ranking, social shares wi
 
 = Adds SEO and Open Graph =
 
-NGFB Open Graph adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
+NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
 
-NGFB Open Graph goes well beyond other SEO and Open Graph plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
+NGFB Open Graph+ goes well beyond other SEO and Open Graph plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
-**Once installed and activated, NGFB Open Graph adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
+**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
+
+= Complete Twitter Cards =
+
+NGFB Open Graph+ supports the Summary, Large Image Summary, Photo, Gallery, and Player Cards, including configurable image sizes for each.
 
 = Provides Social Sharing =
 
-NGFB Open Graph also comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be configured and enabled individually:
+NGFB Open Graph+ also comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be configured and enabled individually:
 
 * Facebook
 * Google+
@@ -36,11 +40,11 @@ NGFB Open Graph also comes with several multilingual social sharing buttons, tha
 
 = Images and Videos =
 
-NGFB Open Graph detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including their preview images). NGFB Open Graph was specifically written to support images from NextGEN Galleries, but works just as well with just the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including their preview images). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with just the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Best Performance =
 
-Unlike other plugins, NGFB Open Graph is fast and tuned for performance -- it makes full use of all available caching techniques:
+Unlike other plugins, NGFB Open Graph+ is fast and tuned for performance -- it makes full use of all available caching techniques:
 
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
@@ -48,21 +52,21 @@ Unlike other plugins, NGFB Open Graph is fast and tuned for performance -- it ma
 
 = Clean Uninstall =
 
-Try the NGFB Open Graph plugin with complete confidence -- when uninstalled, NGFB Open Graph removes all all traces of itself from the database. 
+Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes all all traces of itself from the database. 
 
 = Great Support =
 
-NGFB Open Graph is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+NGFB Open Graph+ is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph+ Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
 
 = Developer Friendly =
 
-NGFB Open Graph also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
+NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
 
 = Pro Version =
 
 The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also offers enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID and update the plugin from within WordPress (like a regular plugin update).
+Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID and update the plugin from within WordPress (like a regular plugin update).
 
 == Installation ==
 
@@ -70,9 +74,9 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 
 To install the *Free* version from WordPress.org, follow the *Automated Install* method described bellow.
 
-If you have purchased the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+If you have purchased the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
-If you downloaded the NGFB Open Graph plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
+If you downloaded the NGFB Open Graph+ plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph+ is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
 
 If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
@@ -88,7 +92,7 @@ If you need to roll-back and re-install an older *Free* version, you can find th
 
 **Semi-Automated Install** (*Free* and *Pro* versions)
 
-Note that if you already have NGFB Open Graph installed, you will have to remove it first, before you can re-install it using this method.
+Note that if you already have NGFB Open Graph+ installed, you will have to remove it first, before you can re-install it using this method.
 
 1. Download the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
 1. Go to the wp-admin/ section of your website
@@ -107,9 +111,9 @@ Note that if you already have NGFB Open Graph installed, you will have to remove
 1. Go to the wp-admin/ section of your website
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the "NGFB Open Graph" plugin, and click its *Activate* link
+1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Activate* link
 
-Once installed and activated, the NGFB Open Graph plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
+Once installed and activated, the NGFB Open Graph+ plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
 
 The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
 
@@ -123,8 +127,8 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Check the "Preserve on Uninstall" option if you would like to keep NGFB settings in the database
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the "NGFB Open Graph" plugin, and click its *Deactivate* link
-1. Scroll down to the "NGFB Open Graph" plugin, and click its *Delete* link
+1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Deactivate* link
+1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Delete* link
 1. Click on the *Yes, Delete these files and data* button
 
 Note: Unless you checked the "Preserve on Uninstall" option on the Advanced settings page, deleting the plugin will also remove all of its settings from the database.
@@ -139,70 +143,80 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
+**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
-The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph.
+The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 
 = Q. How do I install the Pro version? =
 
-Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph will appear on the WordPress Updates page. Update the NGFB Open Graph plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 = Q. Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
+NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
 = Q. What do the SEO and Open Graph meta tags look like? =
 
-**A.** SEO and [Open Graph](http://ogp.me/) meta property tags are added to the `<head>` section of webpages. Here's an example from a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/):
+**A.** SEO and [Open Graph](http://ogp.me/) meta property tags are added to the `<head>` section of webpages. Here's an example from a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/). Compare these tags with those of any other Open Graph or SEO plugin to see just how much more NGFB Open Graph+ offers.
 
 `
-<!-- NGFB Open Graph meta tags BEGIN -->
+<!-- NGFB Open Graph+ Pro meta tags BEGIN -->
+<meta name="generator" content="NGFB Open Graph+ Pro 6.0" />
 <link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
 <link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
 <meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands. Together with Aruba and Curaçao it forms a group referred to as the ABC islands." />
+<meta name="twitter:site" content="@underwaterfocus" />
+<meta name="twitter:title" content="Bonaire" />
+<meta name="twitter:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands." />
+<meta name="twitter:creator" content="@jsmoriss" />
+<meta name="twitter:card" content="gallery" />
+<meta name="twitter:image0" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/192__480x480_20070430-153247-jsmoriss-9364.jpg" />
+<meta name="twitter:image1" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/191__480x480_20070430-111635-jsmoriss-9316.jpg" />
+<meta name="twitter:image2" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/190__480x480_20080514-100511-mevallee-2928.jpg" />
+<meta name="twitter:image3" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/189__480x480_20051019-112651-jsmoriss-3661.jpg" />
+<meta property="fb:app_id" content="125425797600886" />
+<meta property="og:site_name" content="Underwater Focus" />
+<meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
+<meta property="og:title" content="Bonaire" />
+<meta property="og:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands. Together with Aruba and Cura&ccedil;ao it forms a group referred to as the ABC islands." />
+<!-- og:image:1 --><meta property="og:image" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/192_crop_480x480_20070430-153247-jsmoriss-9364.jpg" />
+<!-- og:image:1 --><meta property="og:image:height" content="480" />
+<!-- og:image:1 --><meta property="og:image:width" content="480" />
+<!-- og:image:2 --><meta property="og:image" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/191_crop_480x480_20070430-111635-jsmoriss-9316.jpg" />
+<!-- og:image:2 --><meta property="og:image:height" content="480" />
+<!-- og:image:2 --><meta property="og:image:width" content="480" />
+<!-- og:image:3 --><meta property="og:image" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/190_crop_480x480_20080514-100511-mevallee-2928.jpg" />
+<!-- og:image:3 --><meta property="og:image:height" content="480" />
+<!-- og:image:3 --><meta property="og:image:width" content="480" />
+<!-- og:image:4 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/189_crop_480x480_20051019-112651-jsmoriss-3661.jpg" />
+<!-- og:image:4 --><meta property="og:image:height" content="480" />
+<!-- og:image:4 --><meta property="og:image:width" content="480" />
+<!-- og:image:5 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/188_crop_480x480_20080514-095134-jsmoriss-0636.jpg" />
+<!-- og:image:5 --><meta property="og:image:height" content="480" />
+<!-- og:image:5 --><meta property="og:image:width" content="480" />
+<!-- og:image:6 --><meta property="og:image" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/187_crop_480x480_20080513-145720-jsmoriss-0620.jpg" />
+<!-- og:image:6 --><meta property="og:image:height" content="480" />
+<!-- og:image:6 --><meta property="og:image:width" content="480" />
+<!-- og:image:7 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/186_crop_480x480_20080521-094013-jsmoriss-0918.jpg" />
+<!-- og:image:7 --><meta property="og:image:height" content="480" />
+<!-- og:image:7 --><meta property="og:image:width" content="480" />
+<!-- og:image:8 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/185_crop_480x480_20051031-145248-jsmoriss-4345.jpg" />
+<!-- og:image:8 --><meta property="og:image:height" content="480" />
+<!-- og:image:8 --><meta property="og:image:width" content="480" />
+<!-- og:image:9 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/184_crop_480x480_20050509-150718-jsmoriss-2667.jpg" />
+<!-- og:image:9 --><meta property="og:image:height" content="480" />
+<!-- og:image:9 --><meta property="og:image:width" content="480" />
+<!-- og:image:10 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/183_crop_480x480_20051102-090501-jsmoriss-4458.jpg" />
+<!-- og:image:10 --><meta property="og:image:height" content="480" />
+<!-- og:image:10 --><meta property="og:image:width" content="480" />
+<meta property="og:type" content="article" />
 <meta property="article:author" content="https://www.facebook.com/pages/Underwater-Focus/427082117363463" />
-<meta property="article:modified_time" content="2013-01-09T15:55:14+00:00" />
-<meta property="article:published_time" content="2012-07-30T15:07:13+00:00" />
-<meta property="article:section" content="Photography" />
 <!-- article:tag:1 --><meta property="article:tag" content="bonaire" />
 <!-- article:tag:2 --><meta property="article:tag" content="netherlands" />
-<meta property="fb:app_id" content="125425797600886" />
-<meta property="og:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality (officially public body) of the Netherlands. Together with Aruba and Cura&ccedil;ao it forms a group referred to..." />
-<!-- og:image:1 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/192_crop_300x300_20070430-153247-jsmoriss-9364.jpg" />
-<!-- og:image:1 --><meta property="og:image:height" content="300" />
-<!-- og:image:1 --><meta property="og:image:width" content="300" />
-<!-- og:image:2 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/191_crop_300x300_20070430-111635-jsmoriss-9316.jpg" />
-<!-- og:image:2 --><meta property="og:image:height" content="300" />
-<!-- og:image:2 --><meta property="og:image:width" content="300" />
-<!-- og:image:3 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/190_crop_300x300_20080514-100511-mevallee-2928.jpg" />
-<!-- og:image:3 --><meta property="og:image:height" content="300" />
-<!-- og:image:3 --><meta property="og:image:width" content="300" />
-<!-- og:image:4 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/189_crop_300x300_20051019-112651-jsmoriss-3661.jpg" />
-<!-- og:image:4 --><meta property="og:image:height" content="300" />
-<!-- og:image:4 --><meta property="og:image:width" content="300" />
-<!-- og:image:5 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/188_crop_300x300_20080514-095134-jsmoriss-0636.jpg" />
-<!-- og:image:5 --><meta property="og:image:height" content="300" />
-<!-- og:image:5 --><meta property="og:image:width" content="300" />
-<!-- og:image:6 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/187_crop_300x300_20080513-145720-jsmoriss-0620.jpg" />
-<!-- og:image:6 --><meta property="og:image:height" content="300" />
-<!-- og:image:6 --><meta property="og:image:width" content="300" />
-<!-- og:image:7 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/186_crop_300x300_20080521-094013-jsmoriss-0918.jpg" />
-<!-- og:image:7 --><meta property="og:image:height" content="300" />
-<!-- og:image:7 --><meta property="og:image:width" content="300" />
-<!-- og:image:8 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/185_crop_300x300_20051031-145248-jsmoriss-4345.jpg" />
-<!-- og:image:8 --><meta property="og:image:height" content="300" />
-<!-- og:image:8 --><meta property="og:image:width" content="300" />
-<!-- og:image:9 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/184_crop_300x300_20050509-150718-jsmoriss-2667.jpg" />
-<!-- og:image:9 --><meta property="og:image:height" content="300" />
-<!-- og:image:9 --><meta property="og:image:width" content="300" />
-<!-- og:image:10 --><meta property="og:image" content="http://underwaterfocus.com/wp-content/gallery/cache/183_crop_300x300_20051102-090501-jsmoriss-4458.jpg" />
-<!-- og:image:10 --><meta property="og:image:height" content="300" />
-<!-- og:image:10 --><meta property="og:image:width" content="300" />
-<meta property="og:site_name" content="Underwater Focus" />
-<meta property="og:title" content="Bonaire" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
-<!-- NGFB Open Graph meta tags END -->
+<meta property="article:section" content="Photography" />
+<meta property="article:modified_time" content="2013-01-09T15:55:14+00:00" />
+<meta property="article:published_time" content="2012-07-30T15:07:13+00:00" />
+<!-- NGFB Open Graph+ Pro meta tags END -->
 `
 
 = Q. Why doesn't Facebook show the correct Open Graph image? =
@@ -215,7 +229,7 @@ NGFB Open Graph Pro is [licensed for a Single Website](http://surniaulula.com/wp
 
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
-**A.** The NGFB Open Graph plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
+**A.** The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
@@ -252,7 +266,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP *Twe
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NGFB Open Graph adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+**A.** NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
 = Q. How does NGFB find images to include in the Open Graph meta tags? =
 
@@ -294,7 +308,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Resources ==
 
-You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom) and [this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for on-going news about the NGFB Open Graph plugin.
+You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom) and [this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for on-going news about the NGFB Open Graph+ plugin.
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
@@ -321,7 +335,7 @@ Note that by default (like all other methods used to add NGFB social buttons), a
 
 = Social Buttons Style =
 
-NGFB Open Graph uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
+NGFB Open Graph+ uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
 
 The default CSS file, located in `wp-content/plugins/nextgen-facebook/css/social-buttons.css`, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes; `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
 
@@ -345,7 +359,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NGFB Open Graph](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable / disable social buttons for each particular Post and Page without the use of CSS.
+[The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable / disable social buttons for each particular Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
@@ -416,7 +430,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = NGFB Filter Hooks =
 
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it can transform and return.
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+ Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it can transform and return.
 
 `
 add_filter( 'ngfb_tags', 'uwf_filter_ngfb_tags', 10, 1 );
@@ -537,7 +551,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 5.1 =
 
 * The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
-* Added a "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph settings when uninstalling the plugin (useful when upgrading to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/)).  
+* Added a "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph+ settings when uninstalling the plugin (useful when upgrading to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/)).  
 * Added static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allow you to enter CDN URLs, choose folders to include / exclude, etc.
 * Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information on NGFB filter hooks.
 * Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
