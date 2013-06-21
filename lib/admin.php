@@ -193,8 +193,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
 						unset( $opts[$key] );
 				unset ( $key, $val );
-	
-				if ( array_key_exists( 'buttons_css_data', $opts ) ) {
+
+				// buttons_css_data only has a value on the social sharing settings page
+				if ( array_key_exists( 'buttons_css_data', $opts ) && ! empty( $opts['buttons_css_data'] ) ) {
 					$css_file = $this->ngfb->style->buttons_css_file;
 					if ( ! $fh = @fopen( $css_file, 'wb' ) )
 						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : 
