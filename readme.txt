@@ -457,7 +457,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.0.DEV =
+= Version 6.0 =
 
 * Added a 'StyleSheet' editor on the Social Sharing settings page. 
 * Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
@@ -540,7 +540,7 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 == Upgrade Notice ==
 
-= 6.0.DEV =
+= 6.0 =
 
 Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 
