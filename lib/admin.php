@@ -28,8 +28,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			'both' => 'Title and Excerpt',
 		);
 
-		public $update;
-
 		protected $ngfb;	// ngfbPlugin
 		protected $form;	// ngfbForm
 		protected $menu_id;
@@ -43,7 +41,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
 			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->defaults );
-			$this->load_libs();
 			$this->setup_vars();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
@@ -54,31 +51,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
-		private function load_libs() {
-			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-				require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
-		}
-
 		private function setup_vars() {
 			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
 				$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
-
-			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-				$tid = $this->ngfb->options['ngfb_pro_tid'];
-				$this->update = new ngfb_check_for_updates( $this->ngfb->urls['update'] . '?transaction=' . $tid, 
-					NGFB_FILEPATH, $this->ngfb->slug, $this->ngfb->update_hours, null, $this->ngfb->debug );
-				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
-			}
-		}
-
-		public function filter_version_number( $version ) {
-			if ( $this->ngfb->is_avail['aop'] == true )
-				return $version;
-			else
-				return $version . '-Free';
 		}
 
 		public function set_readme( $expire_secs = false ) {
@@ -219,14 +197,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 				// we have a transaction ID, but we are not using the pro version (yet) - force an update
 				if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) && $this->ngfb->is_avail['aop'] == false )
-					$this->ngfb->admin->update->check_for_updates();
+					$this->ngfb->update->check_for_updates();
 			}
 
 			if ( ! empty( $_GET['action'] ) )
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
 						if ( $this->ngfb->is_avail['aop'] == true ) {
-							$this->ngfb->admin->update->check_for_updates();
+							$this->ngfb->update->check_for_updates();
 							$this->ngfb->admin->set_readme( 0 );
 							$this->ngfb->notices->inf( 'Version information checked and updated.' );
 						}

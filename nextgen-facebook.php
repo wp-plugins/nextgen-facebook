@@ -42,6 +42,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $tags;		// ngfbTags
 		public $webpage;	// ngfbWebPage
 		public $social;		// ngfbSocial
+		public $update;		// ngfb_check_for_updates
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -218,6 +219,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
 
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
@@ -245,6 +247,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			foreach ( $this->widget_libs as $id => $name )
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
 			unset ( $id, $name );
 
 			// Pro version classes
@@ -424,6 +427,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
 			}
 
+			// setup update checks if we have a transaction ID
+			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
+				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
+				$this->update = new ngfb_check_for_updates( $this->urls['update'] . '?transaction=' . $this->options['ngfb_pro_tid'], 
+					NGFB_FILEPATH, $this->slug, $this->update_hours, null, $this->debug );
+			}
+
+		}
+
+		public function filter_version_number( $version ) {
+			if ( $this->is_avail['aop'] == true )
+				return $version;
+			else
+				return $version . '-Free';
 		}
 
 	}

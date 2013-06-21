@@ -97,7 +97,7 @@ class ngfb_check_for_updates {
 	}
 
 	public function custom_schedule( $schedule ) {
-		if ($this->time_period && ($this->time_period > 0)) {
+		if ($this->time_period > 0) {
 			$schedule[$this->sched_name] = array(
 				'interval' => $this->time_period * 3600,
 				'display' => sprintf('Every %d hours', $this->time_period)
