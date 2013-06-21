@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.5.1
 Stable Tag: 6.0
 
-Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
+Improve Facebook / G+ posts and Google rank with Open Graph, SEO and Twitter Card tags. Includes excellent social sharing buttons.
 
 == Description ==
 
