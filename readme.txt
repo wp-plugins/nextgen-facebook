@@ -457,11 +457,15 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 5.4 DEV =
+= Version 6.0.DEV =
 
+* Added a 'StyleSheet' editor on the Social Sharing settings page. 
+* Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
+* Added 'Twitter @username' to the user's profile page (in addition to the existing 'Facebook URL' and 'Google+ URL' user profile fields).
+* Added sanitation code for custom user profile field values (remove HTML, URLs must be URLs, etc.).
 * Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
-* Added a 'Social StyleSheet' metabox on the Social Sharing settings page. In the past, NGFB did not come with a stylesheet, but now as an option, you can edit and include one from the Social Sharing settings page.
 * Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
+* Added a new 'ngfb_shortcode' filter (Pro version) to modify shortcode attributes based on a content string (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for information on shortcodes and filters).
 
 = Version 5.3 =
 
@@ -536,9 +540,9 @@ Version 5.0 : 5695 lines in 32 files, with 37 classes and 212 functions.
 
 == Upgrade Notice ==
 
-= 5.4 DEV =
+= 6.0.DEV =
 
-Added licence files for the *Free* and Pro versions, added a 'Social StyleSheet' metabox on the Social Sharing settings page, changed 'Image Size Name' option to width and height values instead.
+Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 
 = 5.3 =
 
