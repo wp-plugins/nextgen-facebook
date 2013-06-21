@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.0.DEV
+Version: 6.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.0.DEV';	// only for display purposes
+		public $version = '6.0';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph';
@@ -195,6 +195,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
+
+			if ( ! defined( 'NGFB_TWITTER_FIELD_ID' ) )
+				define( 'NGFB_TWITTER_FIELD_ID', 'twitter' );
 
 			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
 				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );

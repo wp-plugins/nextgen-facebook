@@ -41,16 +41,15 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 					$field_val = wp_filter_nohtml_kses( $_POST[$field_id] );
 					if ( ! empty( $field_val ) ) {
 						switch ( $field_id ) {
-							case 'facebook' :
-							case 'gplus' :
-								if ( strpos( $field_val, '://' ) === false )
-									$field_val = '';
-								break;
-							case 'twitter' :
+							case NGFB_TWITTER_FIELD_ID :
 								$field_val = substr( preg_replace( '/[^a-z0-9]/', '', 
 									strtolower( $field_val ) ), 0, 15 );
 								if ( ! empty( $field_val ) )
 									$field_val = '@' . $field_val;
+								break;
+							default :
+								if ( strpos( $field_val, '://' ) === false )
+									$field_val = '';
 								break;
 						}
 					}

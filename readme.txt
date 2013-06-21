@@ -1,7 +1,7 @@
 === NGFB Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro
+Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -14,21 +14,21 @@ Improve webpage HTML for better Google Search results, ranking, social shares wi
 
 **An essential plugin for *every* WordPress website.**
 
-= Adds SEO and Open Graph =
+= SEO and Open Graph =
 
 NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
 
-NGFB Open Graph+ goes well beyond other SEO and Open Graph plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
+NGFB Open Graph+ goes well beyond other SEO, Open Graph, and Twitter Card plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
 **Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
-= Complete Twitter Cards =
+= Twitter Cards =
 
-NGFB Open Graph+ supports the Summary, Large Image Summary, Photo, Gallery, and Player Cards, including configurable image sizes for each.
+NGFB Open Graph+ supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each. Don't settle for plugins that implement (more or less successfully) just one or two Twitter Cards!
 
 = Provides Social Sharing =
 
-NGFB Open Graph+ also comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be configured and enabled individually:
+NGFB Open Graph+ comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+
@@ -40,15 +40,11 @@ NGFB Open Graph+ also comes with several multilingual social sharing buttons, th
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including their preview images). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with just the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including preview the image). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Best Performance =
 
-Unlike other plugins, NGFB Open Graph+ is fast and tuned for performance -- it makes full use of all available caching techniques:
-
-* Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
-* Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
-* Using an optional file / disk based cache for javascript and images from social websites (Pro version).
+NGFB Open Graph+ is fast and tuned for performance, and unlike most popular plugins, makes full use of all available caching techniques as well (persistent and non-persistent object caches and disk caching).
 
 = Clean Uninstall =
 
@@ -56,7 +52,7 @@ Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NG
 
 = Great Support =
 
-NGFB Open Graph+ is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [NGFB Open Graph+ Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+NGFB Open Graph+ is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
 
 = Developer Friendly =
 
@@ -64,7 +60,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 = Pro Version =
 
-The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also offers enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
+The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also offers Twitter Cards and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID and update the plugin from within WordPress (like a regular plugin update).
 
@@ -143,9 +139,9 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
+**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) comes with support for Twitter Cards, and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
-The *Free* version is a complete, stable, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
+The *Free* version is a complete, stable, optimized, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 
 = Q. How do I install the Pro version? =
 
@@ -155,9 +151,9 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
-= Q. What do the SEO and Open Graph meta tags look like? =
+= Q. What do the NGFB Open Graph+ meta tags look like? =
 
-**A.** SEO and [Open Graph](http://ogp.me/) meta property tags are added to the `<head>` section of webpages. Here's an example from a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/). Compare these tags with those of any other Open Graph or SEO plugin to see just how much more NGFB Open Graph+ offers.
+**A.** When active, NGFB Open Graph+ adds Search Engine Optimization (SEO), [Open Graph](http://ogp.me/), and [Twitter Card](https://dev.twitter.com/docs/cards) meta tags to the `<head>` section of all webpages. Here's an example from a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/). Compare these tags with those of any other Open Graph or SEO plugin (often just a few lines) to see just how much more NGFB Open Graph+ offers.
 
 `
 <!-- NGFB Open Graph+ Pro meta tags BEGIN -->
@@ -218,6 +214,9 @@ NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/w
 <meta property="article:published_time" content="2012-07-30T15:07:13+00:00" />
 <!-- NGFB Open Graph+ Pro meta tags END -->
 `
+= Q. Why don't my Twitter Cards show on Twitter? =
+
+Your website must be 'authorized' for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
 
 = Q. Why doesn't Facebook show the correct Open Graph image? =
 
@@ -312,6 +311,28 @@ You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom) 
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
 
+== Twitter Cards ==
+
+Your website must be 'authorized' for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
+
+1. Make sure the 'Enable Twitter Cards' option is checked on the General settings page.
+1. Go to Twitter's [Card Validator](https://dev.twitter.com/docs/cards/validation/validator).
+1. 'Cancel' the Card Catalog popup.
+1. Choose the 'Validate &amp; Apply' tab.
+1. Paste the URL of your chosen webpage.
+1. Click on the 'Request Approval' button.
+1. Fill-in and submit the form.
+
+NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages.
+
+* Player : An embedded video in the content from YouTube or Vimeo.
+* Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
+* Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
+* Large Image Summary Card : An image defined in the Post Meta (Pro version), a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
+* Summary : All other webpages.
+
+An 'ngfb_tc' filter hook is also available to customize the Twitter Card meta tags.
+
 == Shortcodes ==
 
 You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. **The "Enable Shortcode" option must be enabled on the NGFB settings page** (disabled by default).
@@ -335,9 +356,9 @@ Note that by default (like all other methods used to add NGFB social buttons), a
 
 = Social Buttons Style =
 
-NGFB Open Graph+ uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
+NGFB Open Graph+ uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
 
-The default CSS file, located in `wp-content/plugins/nextgen-facebook/css/social-buttons.css`, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes; `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
+The default stylesheet, located in `wp-content/plugins/nextgen-facebook/css/social-buttons.css`, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
@@ -363,7 +384,13 @@ You could use any of these class names to hide one or more NGFB social buttons e
 
 == Performance Tuning ==
 
-The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. You may consider the following option settings to fine-tune the plugin for optimal performance.
+The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. And unlike most plugins, NGFB Open Graph+ makes full use of all available caching techniques:
+
+* Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
+* Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
+* Using an optional file / disk based cache for javascript and images from social websites (Pro version).
+
+You may consider the following option settings to fine-tune the plugin for optimal performance.
 
 * If your website content does not have any embedded videos, or you prefer not to include information on embedded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embedded videos.
 
@@ -373,7 +400,7 @@ The code for NGFB is highly optimized -- the plugin will not load or execute cod
 
 * If you don't use the `&#91;ngfb&#93;` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
 
-* If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option to several hours (the default of "0" hours disables this option).
+* If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option in the Pro version to several hours (the default of "0" hours disables this option).
 
 * If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 60 seconds to several minutes.
 
@@ -421,10 +448,10 @@ wp_head();
 By default, NGFB adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "gplus". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
 
 `
-define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL' );
+define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
 `
 
-A comma separates the the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
+A comma separates the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
 
 If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NGFB settings page.
 
@@ -497,7 +524,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.0.DEV =
+= Version 6.0 =
 
 * Added a 'StyleSheet' editor on the Social Sharing settings page. 
 * Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
