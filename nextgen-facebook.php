@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $tags;		// ngfbTags
 		public $webpage;	// ngfbWebPage
 		public $social;		// ngfbSocial
-		public $update;		// ngfb_check_for_updates
+		public $update;		// ngfbUpdate
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
@@ -437,7 +437,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// setup update checks if we have a transaction ID
 			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
 				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
-				$this->update = new ngfb_check_for_updates( $this->urls['update'] . '?transaction=' . $this->options['ngfb_pro_tid'], 
+				$this->update = new ngfbUpdate( $this->urls['update'] . '?transaction=' . $this->options['ngfb_pro_tid'], 
 					NGFB_FILEPATH, $this->slug, $this->update_hours, null, $this->debug );
 			}
 
