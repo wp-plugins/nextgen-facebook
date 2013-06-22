@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.5.1
 Stable Tag: 6.0
 
-Improve Facebook / G+ posts and Google rank with Open Graph, SEO and Twitter Card tags. Includes excellent social sharing buttons.
+Open Graph, SEO, Twitter Cards for improved Google rank / results, Facebook, G+, Twitter shares, including Pinterest and Tumblr.
 
 == Description ==
 
@@ -17,7 +17,7 @@ Improve Facebook / G+ posts and Google rank with Open Graph, SEO and Twitter Car
 = SEO and Open Graph =
 
 <!--ngfb-content-->
-NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
+NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, tags, images, videos, author profiles, etc.).
 <!--/ngfb-content-->
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
