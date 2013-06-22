@@ -183,7 +183,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 			if ( preg_match( '/\[(nggalbum|album|nggallery|nggtags)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
 				$shortcode_type = strtolower( $match[1] );
-				$shortcode_id = $match[3];
+				$shortcode_id = ! empty( $match[3] ) ? $match[3] : 0;
 				$this->ngfb->debug->log( '[' . $shortcode_type . '] shortcode found (id:' . $shortcode_id . ')' );
 
 				switch ( $shortcode_type ) {
@@ -274,7 +274,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 			if ( preg_match( '/\[(nggalbum|album|nggallery)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match ) ) {
 				$shortcode_type = $match[1];
-				$shortcode_id = $match[3];
+				$shortcode_id = ! empty( $match[3] ) ? $match[3] : 0;
 				$this->ngfb->debug->log( 'ngg query with [' . $shortcode_type . '] shortcode (id:' . $shortcode_id . ')' );
 
 				// always trust hard-coded shortcode ID more than query arguments

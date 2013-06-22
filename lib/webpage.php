@@ -184,21 +184,21 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'is_author() = true' );
 				the_post();
 				$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
-				$author_desc = preg_replace( '/[\r\n\t ]+/s', ' ', get_the_author_meta( 'description' ) );	// put everything on one line
+				$author_desc = get_the_author_meta( 'description' );
 				if ( $author_desc ) $desc .= ' : '.$author_desc;		// add the author's profile description, if there is one
 		
 			} elseif ( is_tag() ) {
 		
 				$this->ngfb->debug->log( 'is_tag() = true' );
 				$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
-				$tag_desc = preg_replace( '/[\r\n\t ]+/s', ' ', tag_description() );	// put everything on one line
+				$tag_desc = tag_description();
 				if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
 		
 			} elseif ( is_category() ) { 
 		
 				$this->ngfb->debug->log( 'is_category() = true' );
 				$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
-				$cat_desc = preg_replace( '/[\r\n\t ]+/', ' ', category_description() );	// put everything on one line
+				$cat_desc = category_description();
 				if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
 			}
 			elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
@@ -258,8 +258,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
-			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
+			$content = preg_replace( '/^.*<!--ngfb-content-->(.*)<!--\/ngfb-content-->.*$/', '$1', $content );
+			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = str_replace( ']]>', ']]&gt;', $content );
 			$content_strlen_after = strlen( $content );
 			$this->ngfb->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
