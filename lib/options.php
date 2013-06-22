@@ -396,7 +396,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					to make these changes permanent.' );
 	
 				if ( $this->ngfb->is_avail['aop'] == false )
-					$this->ngfb->notices->inf( $this->ngfb->msgs['purchase'] );
+					$this->ngfb->notices->inf( $this->ngfb->msgs['pro_details'] );
 
 			}
 			return $opts;

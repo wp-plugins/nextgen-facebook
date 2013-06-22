@@ -280,18 +280,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->msgs = array(
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-				'purchase' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
+
+				'pro_details' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
 					Add Twitter Card support? Improve page load times with a file cache for social buttons? 
 					Rewrite Open Graph image URLs to a CDN or static content server? 
 					Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
 					target="_blank">purchasing the Pro version</a>.',
-				'review' => 'You can also help other WordPress users find out about this plugin by 
+
+				'purchase_box' => 'NGFB Open Graph+ has taken many, many months of long days to develop and fine-tune.
+					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
+					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version</a>.',
+
+				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
 					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
-					on WordPress.org. A short \'<em>Thank you.</em>\' or \'<em>Great plugin!</em>\' is all it takes, and your feedback is
-					always greatly appreciated.',
+					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
+
 				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
+
 				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
 					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
+
 				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
 					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
 			);
@@ -415,8 +424,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
 				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
 					WP object cache expiration <em>temporarily</em> set at ' . $this->cache->object_expire . ' second(s).' );
-				if ( $this->is_avail['aop'] == false )
-					$this->notices->inf( $this->msgs['purchase'] );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
 			// error checks / messages

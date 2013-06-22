@@ -411,8 +411,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<form name="ngfb" method="get" action="' . $this->ngfb->urls['plugin'] . '" target="_blank">', "\n";
-			echo '<p>', $this->ngfb->msgs['purchase'], '</p>', "\n";
-			echo '<p>', $this->ngfb->msgs['review'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msgs['purchase_box'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msgs['review_plugin'], '</p>', "\n";
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p>', $this->get_submit_button( 'Purchase the Pro Version' ), '</p>';
