@@ -16,7 +16,9 @@ Improve Facebook / G+ posts and Google rank with Open Graph, SEO and Twitter Car
 
 = SEO and Open Graph =
 
+<!--ngfb-content-->
 NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
+<!--/ngfb-content-->
 
 NGFB Open Graph+ goes well beyond other SEO, Open Graph, and Twitter Card plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
@@ -303,7 +305,7 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Q. How can I exclude certain parts of the content text? =
 
-**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--no-text-->` and `<!--no-text-->` comment tags.
+**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
 
 == Resources ==
 

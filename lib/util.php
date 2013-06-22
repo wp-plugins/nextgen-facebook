@@ -202,7 +202,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 			$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
-			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );			// put everything on one line
 			$text = $this->cleanup_html_tags( $text );				// remove any remaining html tags
 			if ( strlen( $trailing ) > $textlen )
 				$trailing = substr( $text, 0, $textlen );			// trim the trailing string, if too long
@@ -216,12 +215,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function cleanup_html_tags( $text, $strip_tags = true ) {
-			$text = strip_shortcodes( $text );						// remove any remaining shortcodes
-			$text = preg_replace( '/<\?.*\?>/i', ' ', $text);				// remove php
-			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);		// remove javascript
-			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);		// remove inline stylesheets
-			$text = preg_replace( '/<!--no-text-->(.*?)<!--\/no-text-->/im', ' ', $text);	// remove text between comment strings
-			if ( $strip_tags == true ) $text = strip_tags( $text );				// remove remaining html tags
+			$text = strip_shortcodes( $text );							// remove any remaining shortcodes
+			$text = preg_replace( '/[\r\n\t ]+/s', ' ', $text );					// put everything on one line
+			$text = preg_replace( '/<\?.*\?>/i', ' ', $text);					// remove php
+			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);			// remove javascript
+			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);			// remove inline stylesheets
+			$text = preg_replace( '/<!--ngfb-ignore-->(.*?)<!--\/ngfb-ignore-->/i', ' ', $text);	// remove text between comment strings
+			if ( $strip_tags == true ) $text = strip_tags( $text );					// remove remaining html tags
 			return trim( $text );
 		}
 
