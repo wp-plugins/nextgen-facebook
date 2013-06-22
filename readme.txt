@@ -20,6 +20,8 @@ Improve Facebook / G+ posts and Google rank with Open Graph, SEO and Twitter Car
 NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, and many more, to parse and describe your content correctly (title, description, tags, images, videos, author social profiles, etc.).
 <!--/ngfb-content-->
 
+[What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
+
 NGFB Open Graph+ goes well beyond other SEO, Open Graph, and Twitter Card plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
 **Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
