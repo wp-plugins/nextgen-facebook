@@ -14,8 +14,8 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details at
 http://www.gnu.org/licenses/.
 */
 
-if (!class_exists('ngfb_check_for_updates')) {
-class ngfb_check_for_updates {
+if (!class_exists('ngfbUpdate')) {
+class ngfbUpdate {
 
 	public $json_url = '';
 	public $file_path = '';
@@ -127,7 +127,7 @@ class ngfb_check_for_updates {
 			array( 'checking_for_updates' => '1' )
 		);
 		if ($plugin_data == null) return null;
-		$plugin_data = ngfb_plugin_update::from_plugin_data($plugin_data);
+		$plugin_data = ngfbPluginUpdate::from_plugin_data($plugin_data);
 		return $plugin_data;
 	}
 
@@ -146,7 +146,7 @@ class ngfb_check_for_updates {
 			&& isset( $result['response']['code'] )
 			&& ( $result['response']['code'] == 200 )
 			&& ! empty( $result['body'] ) )
-				$plugin_data = ngfb_plugin_data::from_json( $result['body'] );
+				$plugin_data = ngfbPluginData::from_json( $result['body'] );
 		return $plugin_data;
 	}
 
@@ -165,8 +165,8 @@ class ngfb_check_for_updates {
 } # End If
 
 
-if (!class_exists('ngfb_plugin_data')) {
-class ngfb_plugin_data {
+if (!class_exists('ngfbPluginData')) {
+class ngfbPluginData {
 
 	public $id = 0;
 	public $name;
@@ -191,7 +191,7 @@ class ngfb_plugin_data {
 		$exists = isset( $json_data->name ) && !empty( $json_data->name )
 			&& isset( $json_data->version ) && !empty( $json_data->version );
 		if ( ! $exists ) return null;
-		$plugin_data = new ngfb_plugin_data();
+		$plugin_data = new ngfbPluginData();
 		foreach( get_object_vars( $json_data ) as $key => $value) {
 			$plugin_data->$key = $value;
 		}
@@ -236,8 +236,8 @@ class ngfb_plugin_data {
 } # End If
 
 
-if (!class_exists('ngfb_plugin_update')) {
-class ngfb_plugin_update {
+if (!class_exists('ngfbPluginUpdate')) {
+class ngfbPluginUpdate {
 
 	public $id = 0;
 	public $slug;
@@ -247,14 +247,14 @@ class ngfb_plugin_update {
 	public $upgrade_notice;
 
 	public function from_json($json){
-		$plugin_data = ngfb_plugin_data::from_json($json);
+		$plugin_data = ngfbPluginData::from_json($json);
 		if ($plugin_data != null) 
 			return self::from_plugin_data($plugin_data);
 		else return null;
 	}
 
 	public static function from_plugin_data($data){
-		$plugin_update = new ngfb_plugin_update();
+		$plugin_update = new ngfbPluginUpdate();
 		$fields = array(
 			'id', 
 			'slug', 
