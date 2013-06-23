@@ -33,7 +33,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		public function register_styles() {
 			wp_register_style( $this->ngfb->acronym . '_admin_settings_page', NGFB_URLPATH . 'css/admin-settings-page.css', false, $this->ngfb->version );
 			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.css', false, $this->ngfb->version );
-			wp_register_style( $this->ngfb->acronym . '_social_buttons', NGFB_URLPATH . 'css/social-buttons.css', false, $this->ngfb->version );
+			wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_file, false, $this->ngfb->version );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
