@@ -179,7 +179,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : 
 							Error saving CSS to ' . $css_file . '.', 'error' );
 					else {
-						fwrite( $fh, $opts['buttons_css_data'] );
+						fwrite( $fh, html_entity_decode( $opts['buttons_css_data'] ) );
 						$this->ngfb->debug->log( 'wrote css to file ' . $css_file );
 						fclose( $fh );
 					}
@@ -226,7 +226,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
 						$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
 					else {
-						$this->ngfb->options['buttons_css_data'] = fread( $fh, filesize( $css_file ) );
+						$this->ngfb->options['buttons_css_data'] = esc_textarea( fread( $fh, filesize( $css_file ) ) );
 						$this->ngfb->debug->log( 'read css from file ' . $css_file );
 						fclose( $fh );
 					}
