@@ -35,7 +35,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.css', false, $this->ngfb->version );
 
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
-				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_file, false, $this->ngfb->version );
+				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_url, false, $this->ngfb->version );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
