@@ -76,21 +76,17 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) 
-				$atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
-			if ( ! empty( $atts['tweet'] ) ) 
-				$atts['caption'] = $atts['tweet'];
-			if ( empty( $atts['caption'] ) ) 
-				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $this->ngfb->options['twitter_cap_len'], $use_post );
-
+			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			$long_url = $atts['url'];
 			$atts['url'] = $this->ngfb->util->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
+			$cap_len = $this->ngfb->options['twitter_cap_len'] - strlen( $atts['url'] ) - 1;
+			if ( ! empty( $atts['tweet'] ) ) $atts['caption'] = $atts['tweet'];
+			if ( empty( $atts['caption'] ) ) $atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
 			$twitter_dnt = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 			$lang = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
-
 			$html = '
 				<!-- Twitter Button -->
-				<!-- URL = ' . $long_url . ' -->
+				<!-- url = ' . $long_url . ' -->
 				<div ' . $this->get_css( 'twitter', $atts ) . '>
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"

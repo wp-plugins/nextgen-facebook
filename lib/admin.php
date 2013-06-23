@@ -203,7 +203,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $_GET['action'] ) )
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
-						if ( $this->ngfb->is_avail['aop'] == true ) {
+						if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 							$this->ngfb->update->check_for_updates();
 							$this->ngfb->admin->set_readme( 0 );
 							$this->ngfb->notices->inf( 'Version information checked and updated.' );
@@ -353,7 +353,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );		// remove the inline styling
 					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove table cellspacing
 					$desc = preg_replace( '/%TransactionID%/', 
-						$this->ngfb->options['ngfb_pro_tid'], $desc );		// substitute transaction ID
+						$this->ngfb->options['ngfb_pro_tid'], $desc );			// substitute transaction ID
 
 					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
@@ -393,7 +393,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 			echo '<tr><td colspan="2">';
 			echo '<p style="text-align:center;">';
-			if ( $this->ngfb->is_avail['aop'] == true ) {
+			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 				$q = '&amp;action=check_for_updates'; 
 				echo '<input type="button" class="button-primary" value="Check for Updates" onClick="location.href=\'';
 				echo $this->ngfb->util->get_admin_url(), $q;

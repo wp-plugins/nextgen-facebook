@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '35';		// increment when adding/removing default options
+		public $version = '36';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_js_loc' => 'header',
 			'twitter_lang' => 'en',
 			'twitter_caption' => 'title',
-			'twitter_cap_len' => 117,	// after url shortening
+			'twitter_cap_len' => 140,
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => 1,
@@ -354,10 +354,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					unset( $opts['og_img_height'] );
 					unset( $opts['og_img_crop'] );
 				}
-				if ( $opts['ngfb_version'] < 35 ) {
-					if ( $opts['twitter_cap_len'] > $def_opts['twitter_cap_len'] )
-						$opts['twitter_cap_len'] = $def_opts['twitter_cap_len'];
-				}
 
 				if ( array_key_exists( 'og_img_size', $opts ) ) {
 					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
@@ -400,7 +396,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					<a href="' . $this->ngfb->util->get_admin_url( $this->on_page ) . '">Please review and save the settings</a> 
 					to make these changes permanent.' );
 	
-				if ( $this->ngfb->is_avail['aop'] == false )
+				if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
 					$this->ngfb->notices->inf( $this->ngfb->msgs['pro_details'] );
 
 			}
