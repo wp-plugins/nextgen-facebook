@@ -1,4 +1,4 @@
-=== NGFB Open Graph+ ===
+=== NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards
@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.5.1
 Stable Tag: 6.0
 
-Open Graph, SEO, Twitter Cards for improved Google rank / results, Facebook, G+, Twitter shares, including Pinterest and Tumblr.
+Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
 
 == Description ==
 
@@ -21,8 +21,6 @@ NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://o
 <!--/ngfb-content-->
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
-
-NGFB Open Graph+ goes well beyond other SEO, Open Graph, and Twitter Card plugins by offering a stable, mature, high-performance platform that supports a wide variety of media sources and archive-types. NGFB Open Graph+ detects and uses images from the NextGEN Gallery plugin and / or the WordPress Media Library (featured, attached, preview, shortcodes, etc.), and embedded videos in your content.
 
 **Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
@@ -40,7 +38,7 @@ NGFB Open Graph+ comes with several multilingual social sharing buttons, that yo
 * Pinterest
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
-* Twitter
+* Twitter (Summary, Large Image Summary, Photo, Gallery, and Player Cards)
 
 = Images and Videos =
 
