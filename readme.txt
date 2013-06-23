@@ -24,7 +24,7 @@ Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surnia
 
 **Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
-= Provides Social Sharing =
+= Social Sharing Buttons =
 
 NGFB Open Graph+ comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
