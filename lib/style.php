@@ -20,11 +20,11 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			$this->register_styles();
 
 			$updir = wp_upload_dir();
 			$this->buttons_css_file = trailingslashit( $updir['basedir'] ) . $this->ngfb->acronym . '-social-buttons.css';
 			$this->buttons_css_url = trailingslashit( $updir['baseurl'] ) . $this->ngfb->acronym . '-social-buttons.css';
+			$this->register_styles();
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
@@ -33,7 +33,9 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		public function register_styles() {
 			wp_register_style( $this->ngfb->acronym . '_admin_settings_page', NGFB_URLPATH . 'css/admin-settings-page.css', false, $this->ngfb->version );
 			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.css', false, $this->ngfb->version );
-			wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_file, false, $this->ngfb->version );
+
+			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
+				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_file, false, $this->ngfb->version );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
@@ -50,8 +52,10 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		}
 
 		public function wp_enqueue_styles( $hook ) {
-			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
+			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) ) {
+				$this->ngfb->debug->log( 'wp_enqueue_style = ' . $this->ngfb->acronym . '_social_buttons' );
 				wp_enqueue_style( $this->ngfb->acronym . '_social_buttons' );
+			}
 		}
 
 	}
