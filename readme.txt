@@ -153,72 +153,9 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
-= Q. What do the NGFB Open Graph+ meta tags look like? =
-
-**A.** When active, NGFB Open Graph+ adds Search Engine Optimization (SEO), [Open Graph](http://ogp.me/), and [Twitter Card](https://dev.twitter.com/docs/cards) meta tags to the `<head>` section of all webpages. Here's an example from a gallery Page on [Underwater Focus](http://underwaterfocus.com/) of [underwater images from Bonaire, Netherland Antilles](http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/). Compare these tags with those of any other Open Graph or SEO plugin (often just a few lines) to see just how much more NGFB Open Graph+ offers.
-
-`
-<!-- NGFB Open Graph+ Pro meta tags BEGIN -->
-<meta name="generator" content="NGFB Open Graph+ Pro 6.0" />
-<link rel="publisher" href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" />
-<link rel="author" href="https://plus.google.com/104808665690163182693/posts" />
-<meta name="description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands. Together with Aruba and Curaçao it forms a group referred to as the ABC islands." />
-<meta name="twitter:site" content="@underwaterfocus" />
-<meta name="twitter:title" content="Bonaire" />
-<meta name="twitter:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands." />
-<meta name="twitter:creator" content="@jsmoriss" />
-<meta name="twitter:card" content="gallery" />
-<meta name="twitter:image0" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/192__480x480_20070430-153247-jsmoriss-9364.jpg" />
-<meta name="twitter:image1" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/191__480x480_20070430-111635-jsmoriss-9316.jpg" />
-<meta name="twitter:image2" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/190__480x480_20080514-100511-mevallee-2928.jpg" />
-<meta name="twitter:image3" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/189__480x480_20051019-112651-jsmoriss-3661.jpg" />
-<meta property="fb:app_id" content="125425797600886" />
-<meta property="og:site_name" content="Underwater Focus" />
-<meta property="og:url" content="http://underwaterfocus.com/photographs/locations/oceans-and-islands/atlantic/caribbean/netherlands-antilles/bonaire/" />
-<meta property="og:title" content="Bonaire" />
-<meta property="og:description" content="Bonaire (Papiamentu: Boneiru) is a Caribbean island that, with the uninhabited islet of Klein Bonaire nestled in its western crescent, forms a special municipality of the Netherlands. Together with Aruba and Cura&ccedil;ao it forms a group referred to as the ABC islands." />
-<!-- og:image:1 --><meta property="og:image" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/192_crop_480x480_20070430-153247-jsmoriss-9364.jpg" />
-<!-- og:image:1 --><meta property="og:image:height" content="480" />
-<!-- og:image:1 --><meta property="og:image:width" content="480" />
-<!-- og:image:2 --><meta property="og:image" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/191_crop_480x480_20070430-111635-jsmoriss-9316.jpg" />
-<!-- og:image:2 --><meta property="og:image:height" content="480" />
-<!-- og:image:2 --><meta property="og:image:width" content="480" />
-<!-- og:image:3 --><meta property="og:image" content="http://cdn6.static.underwaterfocus.com/wp-content/gallery/cache/190_crop_480x480_20080514-100511-mevallee-2928.jpg" />
-<!-- og:image:3 --><meta property="og:image:height" content="480" />
-<!-- og:image:3 --><meta property="og:image:width" content="480" />
-<!-- og:image:4 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/189_crop_480x480_20051019-112651-jsmoriss-3661.jpg" />
-<!-- og:image:4 --><meta property="og:image:height" content="480" />
-<!-- og:image:4 --><meta property="og:image:width" content="480" />
-<!-- og:image:5 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/188_crop_480x480_20080514-095134-jsmoriss-0636.jpg" />
-<!-- og:image:5 --><meta property="og:image:height" content="480" />
-<!-- og:image:5 --><meta property="og:image:width" content="480" />
-<!-- og:image:6 --><meta property="og:image" content="http://cdn5.static.underwaterfocus.com/wp-content/gallery/cache/187_crop_480x480_20080513-145720-jsmoriss-0620.jpg" />
-<!-- og:image:6 --><meta property="og:image:height" content="480" />
-<!-- og:image:6 --><meta property="og:image:width" content="480" />
-<!-- og:image:7 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/186_crop_480x480_20080521-094013-jsmoriss-0918.jpg" />
-<!-- og:image:7 --><meta property="og:image:height" content="480" />
-<!-- og:image:7 --><meta property="og:image:width" content="480" />
-<!-- og:image:8 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/185_crop_480x480_20051031-145248-jsmoriss-4345.jpg" />
-<!-- og:image:8 --><meta property="og:image:height" content="480" />
-<!-- og:image:8 --><meta property="og:image:width" content="480" />
-<!-- og:image:9 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/184_crop_480x480_20050509-150718-jsmoriss-2667.jpg" />
-<!-- og:image:9 --><meta property="og:image:height" content="480" />
-<!-- og:image:9 --><meta property="og:image:width" content="480" />
-<!-- og:image:10 --><meta property="og:image" content="http://cdn4.static.underwaterfocus.com/wp-content/gallery/cache/183_crop_480x480_20051102-090501-jsmoriss-4458.jpg" />
-<!-- og:image:10 --><meta property="og:image:height" content="480" />
-<!-- og:image:10 --><meta property="og:image:width" content="480" />
-<meta property="og:type" content="article" />
-<meta property="article:author" content="https://www.facebook.com/pages/Underwater-Focus/427082117363463" />
-<!-- article:tag:1 --><meta property="article:tag" content="bonaire" />
-<!-- article:tag:2 --><meta property="article:tag" content="netherlands" />
-<meta property="article:section" content="Photography" />
-<meta property="article:modified_time" content="2013-01-09T15:55:14+00:00" />
-<meta property="article:published_time" content="2012-07-30T15:07:13+00:00" />
-<!-- NGFB Open Graph+ Pro meta tags END -->
-`
 = Q. Why don't my Twitter Cards show on Twitter? =
 
-Your website must be 'authorized' for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
+Your website must be 'authorized' by Twitter for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
 
 = Q. Why doesn't Facebook show the correct Open Graph image? =
 
@@ -315,14 +252,14 @@ Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-fa
 
 == Twitter Cards ==
 
-Your website must be 'authorized' for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
+Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
 
-1. Make sure the 'Enable Twitter Cards' option is checked on the General settings page.
+1. Make sure the 'Enable Twitter Cards' option is checked on NGFB Open Graph+ Pro's General settings page.
 1. Go to Twitter's [Card Validator](https://dev.twitter.com/docs/cards/validation/validator).
-1. 'Cancel' the Card Catalog popup.
+1. 'Cancel' the Card Catalog popup (these are just examples).
 1. Choose the 'Validate &amp; Apply' tab.
-1. Paste the URL of your chosen webpage.
-1. Click on the 'Request Approval' button.
+1. Enter an example URL from your website for the Twitter Card you would like to get approved. The Twitter Card type depends on the webpage content (see following).
+1. If the Twitter Card type has not been approved yet, you may click on the 'Request Approval' button.
 1. Fill-in and submit the form.
 
 NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages.
@@ -330,7 +267,7 @@ NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages
 * Player : An embedded video in the content from YouTube or Vimeo.
 * Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
 * Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
-* Large Image Summary Card : An image defined in the Post Meta (Pro version), a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
+* Large Image Summary Card : An image defined in the Post or Page Metabox, a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
 * Summary : All other webpages.
 
 An 'ngfb_tc' filter hook is also available to customize the Twitter Card meta tags.
