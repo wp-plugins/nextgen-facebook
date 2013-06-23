@@ -14,10 +14,10 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.**
 
-= SEO and Open Graph =
+= Open Graph and SEO =
 
 <!--ngfb-content-->
-NGFB Open Graph+ adds Search Engine Optimization (SEO) and [Open Graph](http://ogp.me/) HTML tags to the head section of your webpages. These tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, tags, images, videos, author profiles, etc.).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
 <!--/ngfb-content-->
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
