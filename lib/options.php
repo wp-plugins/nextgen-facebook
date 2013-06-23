@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_js_loc' => 'header',
 			'twitter_lang' => 'en',
 			'twitter_caption' => 'title',
-			'twitter_cap_len' => 117,	// after shortening
+			'twitter_cap_len' => 117,	// after url shortening
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_dnt' => 1,
@@ -348,13 +348,18 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					}
 				unset ( $old, $new );
 
+				// these option names may have been used in the past, so remove them, just in case
+				if ( $opts['ngfb_version'] < 30 ) {
+					unset( $opts['og_img_width'] );
+					unset( $opts['og_img_height'] );
+					unset( $opts['og_img_crop'] );
+				}
+				if ( $opts['ngfb_version'] < 35 ) {
+					if ( $opts['twitter_cap_len'] > $def_opts['twitter_cap_len'] )
+						$opts['twitter_cap_len'] = $def_opts['twitter_cap_len'];
+				}
+
 				if ( array_key_exists( 'og_img_size', $opts ) ) {
-					// these option names may have been used in the past, so remove them, just in case
-					if ( $opts['ngfb_version'] < 30 ) {
-						unset( $opts['og_img_width'] );
-						unset( $opts['og_img_height'] );
-						unset( $opts['og_img_crop'] );
-					}
 					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
 						$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
 						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
