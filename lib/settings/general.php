@@ -253,28 +253,29 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<th>Website @username</th><td class="blank">
 				<p>The Twitter username for your website and / or company (not your personal Twitter username).</p></td>',
 
+				'<th>\'Summary\' Card Image Size</th><td class="blank">' .
+				'<p>The size of content images provided for the 
+				<a href="https://dev.twitter.com/docs/cards/types/summary-card" target="_blank">Summary Card</a>
+				(should be at least 120x120, larger than 60x60, and less than 1MB).</p></td>',
+
+				'<th>\'Large Image Summary\' Card Size</th><td class="blank">' .
+				'<p>The size of Post Meta, Featured or Attached images provided for the
+				<a href="https://dev.twitter.com/docs/cards/types/large-image-summary-card" target="_blank">Large Image Summary Card</a>
+				(must be larger than 280x150 and less than 1MB).</p></td>',
+
+				'<th>\'Photo\' Card Image Size</th><td class="blank">' .
+				'<p>The size of ImageBrowser or Attachment Page images provided for the 
+				<a href="https://dev.twitter.com/docs/cards/types/photo-card" target="_blank">Photo Card</a> 
+				(should be at least 560x750 and less than 1MB).</p></td>',
+
+				'<th>\'Gallery\' Card Image Size</th><td class="blank">' .
+				'<p>The size of NGG Gallery images provided for the
+				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.</p></td>',
+
 				'<th>Minimum Images for Gallery</th><td class="blank">
 				<p>The minimum number of images found in a gallery to qualify for the 
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.</p></td>',
 
-				'<th>Gallery Card Image Size</th><td class="blank">
-				<p>The size of NGG Gallery images provided for the
-				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.</p></td>',
-
-				'<th>Photo Card Image Size</th><td class="blank">
-				<p>The size of ImageBrowser or Attachment Page images provided for the 
-				<a href="https://dev.twitter.com/docs/cards/types/photo-card" target="_blank">Photo Card</a> 
-				(should be at least 560x750 and less than 1MB).</p></td>',
-
-				'<th>Large Image Summary Card Size</th><td class="blank">
-				<p>The size of Post Meta, Featured or Attached images provided for the
-				<a href="https://dev.twitter.com/docs/cards/types/large-image-summary-card" target="_blank">Large Image Summary Card</a>
-				(must be larger than 280x150 and less than 1MB).</p></td>',
-
-				'<th>Large Image Summary Card Size</th><td class="blank">
-				<p>The size of content images provided for the 
-				<a href="https://dev.twitter.com/docs/cards/types/summary-card" target="_blank">Summary Card</a>
-				(should be at least 120x120, larger than 60x60, and less than 1MB).</p></td>',
 			);
 		}
 
