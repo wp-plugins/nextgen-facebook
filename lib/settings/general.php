@@ -200,16 +200,18 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<th>Facebook Admin(s)</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'fb_admins' ); ?></td>
-				<td><p>One or more Facebook account names (generally your own) separated with a comma. 
-				When you are viewing your own Facebook wall, your account name is located in the URL (example: https://www.facebook.com/<b>account_name</b>). 
-				Enter only the account names, not the URLs. The Facebook Admin names are used by Facebook to allow access to 
-				<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those accounts.</p></td>
+				<td><p>One or more Facebook user names separated with commas. When viewing your own Facebook wall, 
+				your user name is located in the URL (example: https://www.facebook.com/<b>user_name</b>). 
+				Enter only the user user name(s), not the URL(s). The Facebook Admin user list is used by Facebook to allow access to 
+				<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data for those users.
+				Note: These should be <em>user</em> account names, not the name(s) of Facebook <em>pages</em>.</p></td>
 			</tr>
 			<tr>
 				<th>Facebook App ID</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'fb_app_id' ); ?></td>
-				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> ID for your website, enter it here. 
-				Facebook Application IDs are used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data 
+				<td><p>If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> 
+				ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow access to 
+				<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data 
 				for accounts associated with the Application ID.</p></td>
 			</tr>
 			</table>
