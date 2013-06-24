@@ -61,7 +61,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			 */
 			if ( ! empty( $arr['link:publisher'] ) )
 				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
-			elseif ( $this->ngfb->options['link_publisher_url'] )
+			elseif ( ! empty( $this->ngfb->options['link_publisher_url'] ) )
 				echo '<link rel="publisher" href="', $this->ngfb->options['link_publisher_url'], '" />', "\n";
 
 			if ( ! empty( $arr['link:author'] ) )

@@ -72,7 +72,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
 		// $use_post = true when buttons are added to individual posts on an index webpage
 		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
-
 			if ( ! empty( $url ) )  {
 				$url = $this->fix_relative_url( $url );
 			} else {
@@ -81,16 +80,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 				// check for album/gallery query strings and an [nggalbum] shortcode
 				if ( is_singular() ) {
-
 					global $wp_query;
-
 					// sanitize query values
 					$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
 					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
 
 					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
 						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
-
 						$this->ngfb->debug->log( 'is_singular with nggalbum shortcode and query' );
 						$is_nggalbum = true;
 						$strip_query = 'notrack';	// keep the album/gallery query values
@@ -99,7 +95,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
 				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
-
 					$url = get_permalink( $post->ID );
 					$strip_query = 'none';	// don't modify the permalinks
 				} else {
@@ -107,7 +102,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 				}
 			}
-
 			switch ( $strip_query ) {
 				case 'noquery' :
 					if ( strpos( $url, '?' ) !== false ) 

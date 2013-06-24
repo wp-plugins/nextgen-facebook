@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '36';		// increment when adding/removing default options
+		public $version = '37';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -120,6 +120,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_description' => 1,
 			'inc_fb:admins' => 1,
 			'inc_fb:app_id' => 1,
+			'inc_og:locale' => 1,
 			'inc_og:site_name' => 1,
 			'inc_og:title' => 1,
 			'inc_og:type' => 1,

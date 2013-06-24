@@ -469,6 +469,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.1 =
+
+* Included the Facebook 'Language / Locale' option on the General page, and added the 'og:locale' meta tag.
+
 = Version 6.0 =
 
 * Added a 'StyleSheet' editor on the Social Sharing settings page. 

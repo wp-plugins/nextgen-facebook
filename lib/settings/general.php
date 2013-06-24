@@ -214,6 +214,11 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data 
 				for accounts associated with the Application ID.</p></td>
 			</tr>
+			<tr>
+				<th>Language / Locale</th>
+				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'fb_lang', 
+					$this->ngfb->admin->settings['social']->website['facebook']->lang ); ?></td>
+			<tr>
 			</table>
 			<?php
 		}

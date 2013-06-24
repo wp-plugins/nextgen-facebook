@@ -12,11 +12,12 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 
 	class ngfbSettingsSocialSharing extends ngfbAdmin {
 
+		public $website = array();
+
 		protected $ngfb;
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
-		protected $website = array();
 
 		public function __construct( &$ngfb_plugin, $id, $name ) {
 			$this->ngfb =& $ngfb_plugin;

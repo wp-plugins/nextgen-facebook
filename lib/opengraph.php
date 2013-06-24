@@ -50,6 +50,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$has_video_image = '';
 			$og['fb:admins'] = $this->ngfb->options['fb_admins'];
 			$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
+			$og['og:locale'] = $this->ngfb->options['fb_lang'];
 			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
 			$og['og:url'] = $sharing_url;
 			$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
