@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 			}
 
 			return array(
-				'<th class="short">Add Sharing Button to</th><td>' . 
+				'<th class="short">Add Button to</th><td>' . 
 					$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_content' ) . ' the Content and / or ' . 
 					$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',

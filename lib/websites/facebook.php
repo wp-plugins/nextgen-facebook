@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Sharing Button to</th><td>' . 
+				'<th class="short">Add Button to</th><td>' . 
 					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' the Content and / or ' . 
 					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
@@ -139,7 +139,7 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 						'dark' => 'Dark',
 					)
 				) . '</td>',
-				'<th class="short">Facebook Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
+				'<th class="short">Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
 					array( 
 						'like' => 'Like',
 						'recommend' => 'Recommend',

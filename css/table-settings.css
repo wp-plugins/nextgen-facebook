@@ -56,14 +56,18 @@ table.ngfb-settings th img.ngfb_tooltip {
 	vertical-align:middle; 
 	cursor:pointer;
 }
+table.ngfb-settings th.medium { 
+	min-width:150px;
+	width:150px;
+}
 table.ngfb-settings th.taglist { 
 	text-align:left;
 	min-width:120px;
 	width:120px;
 }
 table.ngfb-settings th.short { 
-	min-width:145px;
-	width:145px;
+	min-width:115px;
+	width:115px;
 }
 table.ngfb-settings th.side { 
 	padding:0 2px 0 2px; 

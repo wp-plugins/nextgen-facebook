@@ -47,35 +47,37 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
-				'<th class="short">Topic</th><td class="blank">
+				'<th class="medium">Topic</th><td class="blank">
 				<p>A custom topic, different from the default Website Topic chosen in the General Settings.</p></td>',
 
-				'<th class="short">Title</th><td class="blank">
+				'<th class="medium">Title</th><td class="blank">
 				<p>A custom title to use in the Open Graph and Twitter Card meta tags.</p></td>',
 
-				'<th class="short">Description</th><td class="blank">
-				<p>A custom description for this ' . $name . ', to use for the Open Graph and Twitter Card meta tags, Pinterest and Tumblr sharing buttons.</p><td>',
+				'<th class="medium">Description</th><td class="blank">
+				<p>A custom description to use in the Open Graph and Twitter Card meta tags, 
+				as well as the Pinterest and Tumblr social sharing buttons.</p><td>',
 
-				'<th class="short">Tweet</th><td class="blank">
-				<p>A custom Tweet text for this ' . $name . ', to use for the Twitter sharing buttons.</p><td>',
+				'<th class="medium">Tweet</th><td class="blank">
+				<p>A custom Tweet text for the Twitter social sharing button.</p><td>',
 
-				'<th class="short">Image ID</th><td class="blank">
-				<p>A custom Image ID to include in the Open Graph and Twitter \'Large Image Summary\' Card meta tags.</p></td>',
+				'<th class="medium">Image ID</th><td class="blank">
+				<p>A custom Image ID, that is not already associated (featured, attached, singlepic shortcode, img html tag, etc.), 
+					to include in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.</p></td>',
 
-				'<th class="short">Image URL</th><td class="blank">
+				'<th class="medium">Image URL</th><td class="blank">
 				<p>A custom image URL, instead of an Image ID, to include in the Open Graph and Twitter Card meta tags.</p></td>',
 
-				'<th class="short">Video URL</th><td class="blank">
+				'<th class="medium">Video URL</th><td class="blank">
 				<p>A custom video URL, from YouTube or Vimeo, to include in the Open Graph and Twitter Card meta tags.</p></td>',
 
-				'<th class="short">Maximum Images</th><td class="blank">
+				'<th class="medium">Maximum Images</th><td class="blank">
 				<p>The maximum number of images to include in the Open Graph meta tags for this ' . $name . '.</p></td>', 
 
-				'<th class="short">Maximum Videos</th><td class="blank">
+				'<th class="medium">Maximum Videos</th><td class="blank">
 				<p>The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $name . '.</p></td>',
 
-				'<th class="short">Disable Social Buttons</th><td class="blank">
-				<p>Disable all social sharing buttons for this ' . $name . '.</p></td>',
+				'<th class="medium">Disable Social Buttons</th><td class="blank">
+				<p>Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $name . '.</p></td>',
 			);
 		}
 

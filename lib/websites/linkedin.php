@@ -21,7 +21,7 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Sharing Button to</th><td>' . 
+				'<th class="short">Add Button to</th><td>' . 
 					$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' the Content and / or ' . 
 					$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
@@ -33,7 +33,7 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 						'top' => 'Vertical',
 					)
 				) . '</td>',
-				'<th class="short">Show Zero in Counter</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
+				'<th class="short">Zero in Counter</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
 			);
 		}
 

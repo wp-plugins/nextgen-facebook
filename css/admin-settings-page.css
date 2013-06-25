@@ -39,7 +39,7 @@
 }
 .postbox_website {
 	min-height:410px;
-	min-width:510px;
+	min-width:480px;
 	overflow-y:auto;
 }
 .closed {

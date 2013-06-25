@@ -85,7 +85,7 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Sharing Button to</th><td>' . 
+				'<th class="short">Add Button to</th><td>' . 
 					$this->ngfb->admin->form->get_checkbox( 'gp_on_the_content' ) . ' the Content and / or ' . 
 					$this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
