@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-1
+Version: 6.1-DEV-3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-1';	// only for display purposes
+		public $version = '6.1-DEV-3';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -394,11 +394,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
 			// error checks / messages
-			if ( $this->is_avail['mbdecnum'] != true ) {
+			if ( $this->is_avail['mbdecnum'] !== true ) {
 				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
 				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
 					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation as soon as possible.' );
+					This function is required to decode UTF8 entities. Please update your PHP installation 
+					(hint: you may need to install the \'php-mbstring\' package on some Linux distros).' );
 			}
 
 			// setup update checks if we have a transaction ID

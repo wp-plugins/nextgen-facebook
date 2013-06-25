@@ -65,6 +65,16 @@ jQuery(document).ready(function(){
 				tooltip:'bottomLeft',
 			},
 		},
+		show:{
+			when:{
+				event:'click'
+			}
+		},
+		hide:{
+			when:{
+				event:'click'
+			}
+		},
 		style:{
 			name:'blue',
 			tip:'bottomLeft',
