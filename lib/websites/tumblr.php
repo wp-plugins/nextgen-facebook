@@ -43,8 +43,9 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 
 			return array(
 				'<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when prioritized), embedded video, the content of <em>quote</em> format Posts, or the webpage link.</p></td>',
-				'<th class="short">Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . '</td>',
-				'<th class="short">Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . '</td>',
+				'<th class="short">Add Sharing Button to</th><td>' . 
+					$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' the Content and / or ' . 
+					$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
 				'<th class="short">Button Style</th><td>' . $buttons . '</td>',

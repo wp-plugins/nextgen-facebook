@@ -122,6 +122,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
 				'>' .  ( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
+			if ( $len > 0 )
+				$html .= '<div class="max_chars"><span id="' . $id . '-length"></span> of ' . $len . ' characters maximum.</div>' . "\n";
 			return $html;
 		}
 

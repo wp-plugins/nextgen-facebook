@@ -101,8 +101,9 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add to Content Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . '</td>',
-				'<th class="short">Add to Excerpt Text</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . '</td>',
+				'<th class="short">Add Sharing Button to</th><td>' . 
+					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' the Content and / or ' . 
+					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>',
 				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
 				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
 				'<th class="short">Language / Locale</th><td>' . $this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',

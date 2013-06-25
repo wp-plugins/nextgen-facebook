@@ -182,7 +182,9 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<th>Maximum Description Length</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ); ?> Characters</td>
 				<td><p>The maximum length of text, from your post/page excerpt or content, used in the Open Graph description tag. 
-				The length must be <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (default is <?php echo $this->ngfb->opt->get_defaults( 'og_desc_len' ); ?>).</p></td>
+				The length should be at least <?php echo NGFB_MIN_DESC_LEN; ?> characters or more (the default is 
+				<?php echo $this->ngfb->opt->get_defaults( 'og_desc_len' ); ?> characters).
+				The maximum for Facebook is about 160 to 300 characters, depending on the display context.</p></td>
 			</tr>
 			<tr>
 				<th>Content Begins at First Paragraph</th>
@@ -294,7 +296,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<p><?php echo $this->ngfb->fullname; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
 				If your theme or another plugin already generates one or more of these meta tags, you can uncheck them here to prevent 
 				<?php echo $this->ngfb->fullname; ?> from adding duplicate meta tags 
-				(the "description" meta tag is popular with SEO plugins, for example).</p>
+				(the "description" meta tag is popular with SEO plugins, for example, so is unchecked by default).</p>
 				</td>
 			</tr>
 			<tr>

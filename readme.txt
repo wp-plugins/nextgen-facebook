@@ -469,9 +469,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1 =
+= Version 6.1 DEV =
 
-* Included the Facebook 'Language / Locale' option on the General page, and added the 'og:locale' meta tag.
+* Included the Facebook 'Language / Locale' option on the General settings page, and added the 'og:locale' meta property tag.
+* Added a character counter to the Custom Post / Page Description area (Pro version).
 
 = Version 6.0 =
 
@@ -550,6 +551,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.1 DEV =
+
+* Added an 'og:locale' meta tag, character counter to Custom Post / Page Description (Pro version).
 
 = 6.0 =
 

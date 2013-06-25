@@ -36,6 +36,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $media;		// ngfbMedia
 		public $meta;		// ngfbPostMeta
 		public $style;		// ngfbStyle
+		public $script;		// ngfbStyle
 		public $cache;		// ngfbCache
 		public $admin;		// ngfbAdmin
 		public $head;		// ngfbHead
@@ -223,6 +224,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
 
@@ -334,6 +336,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->media = new ngfbMedia( $this );
 			$this->meta = new ngfbPostMeta( $this );
 			$this->style = new ngfbStyle( $this );
+			$this->script = new ngfbScript( $this );
 			$this->cache = new ngfbCache( $this );
 
 			if ( is_admin() ) {
