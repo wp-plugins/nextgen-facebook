@@ -469,7 +469,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1 DEV =
+= Version 6.1-DEV-1 =
 
 * Included the Facebook 'Language / Locale' option on the General settings page, and added the 'og:locale' meta property tag.
 * Added a character counter for the Post / Page custom Description field (Pro version).
@@ -555,7 +555,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1 DEV =
+= 6.1-DEV-1 =
 
 * Added an 'og:locale' meta tag, a character counter for the Post / Page custom description (Pro version), a custom Video URL for Posts and Pages (Pro Version), and Tweet field for Posts and Pages (Pro version), and moved most informational text to popup tooltips.
 
