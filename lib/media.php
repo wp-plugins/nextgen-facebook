@@ -64,7 +64,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attach_id, $size_name, $check_dupes );
-					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+					if ( ! empty( $og_image['og:image'] ) )
+						$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 				} else $this->ngfb->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
 			}
 			return $og_ret;
@@ -80,7 +81,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							$og_image = array();
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attachment->ID, $size_name, $check_dupes );
-							$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+							if ( ! empty( $og_image['og:image'] ) )
+								$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 						}
 					}
 			}
@@ -543,24 +545,27 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						$this->ngfb->debug->log( $src_name . ' ngg cache image = ' . $og_image['og:image'] );
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $match[1], $size_name, $check_dupes );
-
-					} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || $this->ngfb->util->is_uniq_url( $og_image['og:image'] ) ) {
-						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:width'] = $match[1];
-						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) $og_image['og:image:height'] = $match[1];
-
+					} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
+						$this->ngfb->util->is_uniq_url( $og_image['og:image'] ) == true ) {
+						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
+							$og_image['og:image:width'] = $match[1];
+						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
+							$og_image['og:image:height'] = $match[1];
 					} else continue;	// skip anything that is "not good" (duplicate or empty)
 
 					$this->ngfb->debug->log( $src_name . ' = ' . $og_image['og:image'] . 
 						' (' . $og_image['og:image:width'] . ' x ' . $og_image['og:image:height'] . ')' );
 
 					// set value to 0 if not valid, to avoid error when comparing image sizes
-					if ( ! is_numeric( $og_image['og:image:width'] ) ) $og_image['og:image:width'] = 0;
-					if ( ! is_numeric( $og_image['og:image:height'] ) ) $og_image['og:image:height'] = 0;
+					if ( ! is_numeric( $og_image['og:image:width'] ) ) 
+						$og_image['og:image:width'] = 0;
+					if ( ! is_numeric( $og_image['og:image:height'] ) ) 
+						$og_image['og:image:height'] = 0;
 
 					// if we're picking up an img from 'src', make sure it's width and height is large enough
-					if ( $src_name == 'share-' . $size_name || $src_name == 'share' 
-						|| ( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) 
-						|| ( $src_name == 'src' && $this->ngfb->options['ngfb_skip_small_img'] && 
+					if ( $src_name == 'share-' . $size_name || $src_name == 'share' || 
+						( $src_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
+						( $src_name == 'src' && ! empty( $this->ngfb->options['ngfb_skip_small_img'] ) && 
 							$og_image['og:image:width'] >= $size_info['width'] && 
 							$og_image['og:image:height'] >= $size_info['height'] ) ) {
 

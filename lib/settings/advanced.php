@@ -62,9 +62,9 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				<th>Ignore Small Images</th>
 				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
 				<td><p><?php echo $this->ngfb->fullname; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content 
-				(provided the "Maximim Number of Images" chosen has not been reached). The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, 
-				and their size must be equal to or larger than the Image Size Name you've selected. You can uncheck this option to include smaller images from the content, 
-				or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/"><?php echo $this->ngfb->fullname; ?> FAQ</a> webpage for additional solutions.</p></td>
+				The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the 
+				Image Dimensions you've chosen (on the General settings page). You can uncheck this option to include smaller images from the content, 
+				or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> for additional solutions.</p></td>
 			</tr>
 			<tr>
 				<th>Apply Title Filters</th>

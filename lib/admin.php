@@ -46,7 +46,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
-			add_action( 'wp_loaded', array( &$this, 'check_options' ) );
 
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
@@ -112,23 +111,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		protected function add_meta_boxes() {
-		}
-
-		public function check_options() {
-			if ( $this->ngfb->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->ngfb->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
-				$size_desc = $this->ngfb->options['og_img_width'] . 'x' . $this->ngfb->options['og_img_height'] . 
-					' (' . ( empty( $this->ngfb->options['og_img_crop'] ) ? 'not ' : '' ) . 'cropped)';
-				$this->ngfb->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
-					is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
-					<a href="' . $this->ngfb->util->get_admin_url( 'webpage' ) . '">Please enter a larger Image Size on the 
-					General Settings page</a>.' );
-			}
-
-			if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-				$url = $this->ngfb->util->get_admin_url( 'advanced' );
-				$this->ngfb->notices->inf( 'The Transaction ID option value is empty. In order for the plugin to authenticate itself for future updates, 
-					<a href="' . $url . '">please enter the Transaction ID you received by email on the Advanced Settings page</a>.' );
-			}
 		}
 
 		// display a settings link on the main plugins page

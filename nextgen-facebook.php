@@ -65,7 +65,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'linkedin' => 'linkedin',
 			'pinterest' => 'pin',
 			'stumbleupon' => 'stumble',
-			'tumblr' => 'tumblr' );
+			'tumblr' => 'tumblr',
+		);
 
 		public $website_libs = array(
 			'facebook' => 'Facebook', 
@@ -74,19 +75,23 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'linkedin' => 'LinkedIn',
 			'pinterest' => 'Pinterest',
 			'stumbleupon' => 'StumbleUpon',
-			'tumblr' => 'Tumblr' );
+			'tumblr' => 'Tumblr',
+		);
 
 		public $shortcode_libs = array(
-			'ngfb' => 'Ngfb' );
+			'ngfb' => 'Ngfb',
+		);
 
 		public $widget_libs = array(
-			'social' => 'SocialSharing' );
+			'social' => 'SocialSharing',
+		);
 
 		public $setting_libs = array(
-			'about' => 'About',
 			'general' => 'General',
 			'social' => 'Social Sharing',
-			'advanced' => 'Advanced' );
+			'advanced' => 'Advanced',
+			'about' => 'About',
+		);
 
 		public function __construct() {
 
@@ -271,39 +276,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// nextgen gallery plugin
 			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
 
-			// cdn linker plugin
-			$this->is_avail['cdnlink'] = class_exists( 'CDNLinksRewriterWordpress' ) ? true : false;
-		}
-
-		private function setup_msgs() {
-			// define some re-usable text strings
-			$this->msgs = array(
-				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
-					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-
-				'pro_details' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
-					Add Twitter Card support? Improve page load times with a file cache for social buttons? 
-					Rewrite Open Graph image URLs to a CDN or static content server? 
-					Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version</a>.',
-
-				'purchase_box' => 'NGFB Open Graph+ has taken many, many months of long days to develop and fine-tune.
-					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version</a>.',
-
-				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
-					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
-					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
-
-				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
-
-				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
-					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
-
-				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
-					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
-			);
 		}
 
 		// get the options, upgrade the options (if necessary), and validate their values
@@ -313,8 +285,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 * load all options and setup message strings
 			 */
 			$this->options = get_option( NGFB_OPTIONS_NAME );
-			if ( $this->is_avail['ngg'] == true ) $this->ngg_options = get_option( 'ngg_options' );
-			if ( $this->is_avail['aop'] == true ) $this->fullname = $this->fullname_pro;
+
+			if ( $this->is_avail['ngg'] == true ) 
+				$this->ngg_options = get_option( 'ngg_options' );
+
+			if ( $this->is_avail['aop'] == true ) 
+				$this->fullname = $this->fullname_pro;
+
 			$this->setup_msgs();
 	
 			/*
@@ -370,7 +347,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			/* 
-			 * create pro class object last - it extends several previous classes (util, meta, and admin->settings)
+			 * create pro class object last - it extends several previous classes
 			 */
 			if ( $this->is_avail['aop'] == true )
 				$this->pro = new ngfbAddOnPro( $this );
@@ -378,36 +355,22 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * check options array read from database - upgrade options if necessary
 			 */
-			if ( ! empty( $this->options ) && is_array( $this->options ) ) {
-				if ( empty( $this->options['ngfb_version'] ) || $this->options['ngfb_version'] !== $this->opt->version )
-					$this->options = $this->opt->upgrade( $this->options, $this->opt->get_defaults() );
-			} else {
-				if ( $this->options === false )
-					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
-				elseif ( ! is_array( $this->options ) )
-					$err_msg = 'returned a non-array value when reading "' . NGFB_OPTIONS_NAME . '" from';
-				elseif ( empty( $this->options ) )
-					$err_msg = 'returned an empty array when reading "' . NGFB_OPTIONS_NAME . '" from';
-				else 
-					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
-
-				$this->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
-					All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
-					<a href="' . $this->util->get_admin_url() . '">Please visit the plugin settings pages to review and save the options</a>.' );
-
-				$this->options = $this->opt->get_defaults();
-			}
+			$this->options = $this->opt->quick_check( $this->options, $this->opt->defaults );
 
 			/*
-			 * setup class properties etc. based on option values
+			 * setup class properties based on option values
 			 */
-			add_image_size( NGFB_OG_SIZE_NAME, $this->options['og_img_width'], $this->options['og_img_height'], $this->options['og_img_crop'] );
+			add_image_size( NGFB_OG_SIZE_NAME, 
+				$this->options['og_img_width'], 
+				$this->options['og_img_height'], 
+				$this->options['og_img_crop'] 
+			);
 
+			// set the file cache expiration value
 			if ( is_admin() )
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = 0;
-				else 
-					$this->cache->file_expire = $this->update_hours * 60 * 60;
+				else $this->cache->file_expire = $this->update_hours * 60 * 60;
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? 
 					$this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
@@ -418,6 +381,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->log( 'File cache expiration set to ' . $this->cache->file_expire . ' second(s)' );
 			}
 
+			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = 1;
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
@@ -448,6 +412,37 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				return $version;
 			else
 				return $version . '-Free';
+		}
+
+		private function setup_msgs() {
+			// define some re-usable text strings
+			$this->msgs = array(
+				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
+					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
+
+				'pro_details' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
+					Add Twitter Card support? Improve page load times with a file cache for social buttons? 
+					Rewrite Open Graph image URLs to a CDN or static content server? 
+					Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version</a>.',
+
+				'purchase_box' => 'NGFB Open Graph+ has taken many, many months of long days to develop and fine-tune.
+					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
+					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version</a>.',
+
+				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
+					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
+					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
+
+				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
+
+				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
+					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
+
+				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
+					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
+			);
 		}
 
 	}

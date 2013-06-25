@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '37';		// increment when adding/removing default options
+		public $version = '38';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -39,7 +39,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_page_title_tag' => 0,
 			'og_author_field' => 'facebook',
 			'og_author_fallback' => 1,
-			'og_title_sep' => '|',
+			'og_title_sep' => '-',
 			'og_title_len' => 100,
 			'og_desc_len' => 280,
 			'og_desc_strip' => 0,
@@ -205,6 +205,48 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function get_defaults( $idx = '' ) {
 			if ( ! empty( $idx ) ) return $this->defaults[$idx];
 			else return $this->defaults;
+		}
+
+		public function quick_check( &$opts = array(), &$def_opts = array() ) {
+			$err_msg = '';
+			if ( ! empty( $opts ) && is_array( $opts ) ) {
+				if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] !== $this->version )
+					$opts = $this->upgrade( $opts, $this->defaults );
+			} else {
+				if ( $opts === false )
+					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
+				elseif ( ! is_array( $opts ) )
+					$err_msg = 'returned a non-array value when reading "' . NGFB_OPTIONS_NAME . '" from';
+				elseif ( empty( $opts ) )
+					$err_msg = 'returned an empty array when reading "' . NGFB_OPTIONS_NAME . '" from';
+				else 
+					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
+
+				$this->ngfb->debug->log( 'WordPress ' . $err_msg . ' the options database table.' );
+				$opts = $this->defaults;
+			}
+			if ( is_admin() ) {
+				if ( ! empty( $err_msg ) ) {
+					$url = $this->ngfb->util->get_admin_url( 'general' );
+					$this->ngfb->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
+						All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
+						<a href="' . $url . '">Please visit the plugin settings pages to review and save the options</a>.' );
+				}
+				if ( $this->ngfb->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->ngfb->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
+					$url = $this->ngfb->util->get_admin_url( 'general' );
+					$size_desc = $this->ngfb->options['og_img_width'] . 'x' . $this->ngfb->options['og_img_height'];
+					$this->ngfb->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
+						is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
+						<a href="' . $url . '">Please enter a larger Image Size on the General Settings page</a>.' );
+				}
+				if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+					$url = $this->ngfb->util->get_admin_url( 'advanced' );
+					$this->ngfb->notices->inf( 'The Transaction ID option value is empty. In order for the plugin to authenticate itself for future updates, 
+						<a href="' . $url . '">please enter the Transaction ID you received by email on the Advanced Settings page</a>.' );
+				}
+
+			}
+			return $opts;
 		}
 
 		// sanitize and validate input
