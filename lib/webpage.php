@@ -60,7 +60,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			else return $caption;
 		}
 
-		public function get_title( $textlen = 100, $trailing = '', $use_post = false ) {
+		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
 			global $post, $page, $paged;
 			$title = '';
 			$page_num = '';
@@ -143,7 +143,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			else return $title . $page_num;
 		}
 
-		public function get_description( $textlen = 300, $trailing = '', $use_post = false ) {
+		public function get_description( $textlen = 280, $trailing = '', $use_post = false ) {
 			global $post;
 			$desc = '';
 

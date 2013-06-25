@@ -33,12 +33,14 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />' . "\n";
 		}
 
-		public function get_input( $name, $class = '', $id = '' ) {
+		public function get_input( $name, $class = '', $id = '', $len = 0 ) {
 			if ( empty( $name ) ) return;	// just in case
-			return '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
+			$html = '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
+				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
 				' value="' . ( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />' . "\n";
+			return $html;
 		}
 
 		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
@@ -122,8 +124,6 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
 				'>' .  ( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
-			if ( $len > 0 )
-				$html .= '<div class="max_chars"><span id="' . $id . '-length"></span> of ' . $len . ' characters maximum.</div>' . "\n";
 			return $html;
 		}
 

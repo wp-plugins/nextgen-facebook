@@ -1,17 +1,20 @@
+.ngfb-qtip-content {
+	font-family:Verdana, sans-serif;
+	margin:5px;
+}
 table.ngfb-settings .pro_feature {
 	margin:0 0 5px 0;
 }
-table.ngfb-settings .max_chars {
-	text-align:right;
+table.ngfb-settings td .max_chars {
 	color:#666;
-	margin:0 0 10px 0;
+	margin:0;
 }
-table.ngfb-settings .max_chars .good {
-	font-weight:normal;
+table.ngfb-settings td .max_chars .good {
+	font-weight:bold;
 	color:#090;
 }
-table.ngfb-settings .max_chars .bad {
-	font-weight:normal;
+table.ngfb-settings td .max_chars .bad {
+	font-weight:bold;
 	color:#900;
 }
 table.ngfb-settings { 
@@ -45,8 +48,13 @@ table.ngfb-settings th {
 	text-align:right;
 	white-space:nowrap; 
 	padding:0 10px 0 4px; 
-	min-width:190px;
-	width:190px;
+	min-width:300px;
+	width:300px;
+}
+table.ngfb-settings th img.ngfb_tooltip { 
+	margin:0 0 0 10px; 
+	vertical-align:middle; 
+	cursor:pointer;
 }
 table.ngfb-settings th.taglist { 
 	text-align:left;

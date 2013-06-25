@@ -69,8 +69,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			unset ( $max_name );
 
 			if ( $og_max['og_vid_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos(' . $og_max['og_vid_max'] . ')' );
-				$og['og:video'] = $this->ngfb->media->get_content_videos( $og_max['og_vid_max'] );
+				$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
+				$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
+
 				if ( is_array( $og['og:video'] ) ) {
 					foreach ( $og['og:video'] as $val ) {
 						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -128,6 +129,27 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $og;
+		}
+
+		private function get_all_videos( $num = 0 ) {
+			global $post;
+			$og_ret = array();
+
+			if ( ! empty( $post ) ) {
+				$num_remains = $this->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_meta_video(' . $num_remains . ', ' . $post->ID . ')' );
+				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_meta_video( $num_remains, $post->ID ) );
+			}
+
+			// if we haven't reached the limit of images yet, keep going
+			if ( ! $this->is_maxed( $og_ret, $num ) ) {
+				$num_remains = $this->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos(' . $num_remains . ')' );
+				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_videos( $num_remains ) );
+			}
+
+			$this->ngfb->util->slice_max( $og_ret, $num );
+			return $og_ret;
 		}
 
 		private function get_all_images( $num = 0, $size_name = 'thumbnail' ) {

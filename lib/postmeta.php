@@ -48,19 +48,25 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
 				'<th class="short">Topic</th><td class="blank">
-				<p>A custom Topic for this ' . $name . ', different from the default Website Topic chosen in the General Settings.</p></td>',
+				<p>A custom topic, different from the default Website Topic chosen in the General Settings.</p></td>',
 
 				'<th class="short">Title</th><td class="blank">
-				<p>A custom Title for this ' . $name . ' to use in the Open Graph and Twitter Card meta tags.</td>',
+				<p>A custom title to use in the Open Graph and Twitter Card meta tags.</p></td>',
 
 				'<th class="short">Description</th><td class="blank">
-				<p>A custom Description for this ' . $name . ' to use in the SEO description, Open Graph, and Twitter Card meta tags.</td>',
+				<p>A custom description for this ' . $name . ', to use for the Open Graph and Twitter Card meta tags, Pinterest and Tumblr sharing buttons.</p><td>',
+
+				'<th class="short">Tweet</th><td class="blank">
+				<p>A custom Tweet text for this ' . $name . ', to use for the Twitter sharing buttons.</p><td>',
 
 				'<th class="short">Image ID</th><td class="blank">
 				<p>A custom Image ID to include in the Open Graph and Twitter \'Large Image Summary\' Card meta tags.</p></td>',
 
 				'<th class="short">Image URL</th><td class="blank">
 				<p>A custom image URL, instead of an Image ID, to include in the Open Graph and Twitter Card meta tags.</p></td>',
+
+				'<th class="short">Video URL</th><td class="blank">
+				<p>A custom video URL, from YouTube or Vimeo, to include in the Open Graph and Twitter Card meta tags.</p></td>',
 
 				'<th class="short">Maximum Images</th><td class="blank">
 				<p>The maximum number of images to include in the Open Graph meta tags for this ' . $name . '.</p></td>', 

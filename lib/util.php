@@ -16,13 +16,23 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		protected $ngfb;
 
+		private $goo;	// ngfbGoogl
 		private $urls_found = array();
 
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
+			$this->setup_vars();
 			$this->add_actions();
+		}
+
+		private function setup_vars() {
+			if ( class_exists( 'ngfbGoogl' ) ) {
+				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? 
+					'' : $this->ngfb->options['ngfb_googl_api_key'];
+				$this->goo = new ngfbGoogl( $api_key, $this->ngfb->debug );
+			}
 		}
 
 		protected function add_actions() {
@@ -132,8 +142,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_short_url( $url, $shorten = true ) {
 
 			// return original URL if curl not installed or disabled
-			if ( ! function_exists( 'curl_init' ) || empty( $shorten ) || ! class_exists( 'ngfb_googl' ) ||
-				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
+			// $shorten can be 'true' or '1', so test with empty()
+			if ( ! function_exists( 'curl_init' ) || ! class_exists( 'ngfbGoogl' ) ||
+				empty( $shorten ) || ( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $url;
 
 			$cache_salt = __METHOD__ . '(url:' . $url . ')';
@@ -146,12 +157,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->ngfb->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
 				$url = $short_url;
 			} else {
-				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? 
-					'' : $this->ngfb->options['ngfb_googl_api_key'];
-
-				$goo = new ngfb_googl( $api_key, $this->ngfb->debug );
-				$short_url = $goo->shorten( $url );
-
+				$short_url = $this->goo->shorten( $url );
 				if ( empty( $short_url ) )
 					$this->ngfb->debug->log( 'failed to shorten url = ' . $url );
 				else {
@@ -383,6 +389,18 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				}
 			}
 			return false;
+		}
+
+		public function th( $title = '', $class = '', $id = '', $tooltip = '' ) {
+			$html = '<th'.
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
+				'>' .  $title;
+			if ( ! empty( $tooltip ) )
+				$html .= '<img src="' . NGFB_URLPATH . 'images/question-mark.png" 
+					class="ngfb_tooltip" alt="' . esc_attr( $tooltip ) . '" />';
+			$html .= '</th>' . "\n";
+			return $html;
 		}
 
 	}

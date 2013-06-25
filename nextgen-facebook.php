@@ -186,7 +186,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_OG_SIZE_NAME', 'ngfb-open-graph' );
 
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
-				define( 'NGFB_MIN_DESC_LEN', 160 );
+				define( 'NGFB_MIN_DESC_LEN', 156 );
 
 			if ( ! defined( 'NGFB_MIN_IMG_SIZE' ) )
 				define( 'NGFB_MIN_IMG_SIZE', 200 );
@@ -226,6 +226,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
 
 			if ( is_admin() ) {
@@ -240,7 +241,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );	// needed by admin for examples
 				foreach ( $this->shortcode_libs as $id => $name )

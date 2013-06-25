@@ -21,9 +21,9 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfb_googl' ) ) {
+if ( ! class_exists( 'ngfbGoogl' ) ) {
 
-	class ngfb_googl {
+	class ngfbGoogl {
 
 		public $extended;
 		private $target;
