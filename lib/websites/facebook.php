@@ -101,29 +101,47 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Language / Locale</th><td>' . $this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',
-				'<th class="short">Markup Language</th><td>' . $this->ngfb->admin->form->get_select( 'fb_markup', 
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Language / Locale', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_lang', $this->lang ) . '</td>',
+
+				$this->ngfb->util->th( 'Markup Language', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_markup', 
 					array( 
 						'html5' => 'HTML5', 
 						'xfbml' => 'XFBML',
 					) 
 				) . '</td>',
-				'<th class="short">Include Send</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_send' ) . '</td>',
-				'<th class="short">Layout</th><td>' . $this->ngfb->admin->form->get_select( 'fb_layout', 
+
+				$this->ngfb->util->th( 'Include Send', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'fb_send' ) . '</td>',
+
+				$this->ngfb->util->th( 'Layout', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_layout', 
 					array(
 						'standard' => 'Standard',
 						'button_count' => 'Button Count',
 						'box_count' => 'Box Count',
 					) 
 				) . '</td>',
-				'<th class="short">Default Width</th><td>' . $this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
-				'<th class="short">Show Faces</th><td>' . $this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . ' (standard layout only)</td>',
-				'<th class="short">Font</th><td>' . $this->ngfb->admin->form->get_select( 'fb_font', 
+
+				$this->ngfb->util->th( 'Default Width', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_input( 'fb_width', 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'Show Faces', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'fb_show_faces' ) . ' (standard layout only)</td>',
+
+				$this->ngfb->util->th( 'Font', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_font', 
 					array( 
 						'arial' => 'Arial',
 						'lucida grande' => 'Lucida Grande',
@@ -133,13 +151,17 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 						'verdana' => 'Verdana',
 					) 
 				) . '</td>',
-				'<th class="short">Color Scheme</th><td>' . $this->ngfb->admin->form->get_select( 'fb_colorscheme', 
+
+				$this->ngfb->util->th( 'Color Scheme', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_colorscheme', 
 					array( 
 						'light' => 'Light',
 						'dark' => 'Dark',
 					)
 				) . '</td>',
-				'<th class="short">Action Name</th><td>' . $this->ngfb->admin->form->get_select( 'fb_action', 
+
+				$this->ngfb->util->th( 'Action Name', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'fb_action', 
 					array( 
 						'like' => 'Like',
 						'recommend' => 'Recommend',

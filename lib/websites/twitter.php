@@ -31,31 +31,50 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Language</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_lang', $this->lang ) . '</td>',
-				'<th class="short">Count Position</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_count', 
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Language', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_lang', $this->lang ) . '</td>',
+
+				$this->ngfb->util->th( 'Count Position', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_count', 
 					array( 
 						'none' => '',
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
 					) 
 				) . '</td>',
-				'<th class="short">Button Size</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_size', 
+
+				$this->ngfb->util->th( 'Button Size', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_size', 
 					array( 
 						'medium' => 'Medium',
 						'large' => 'Large',
 					)
 				) . '</td>',
-				'<th class="short">Tweet Text</th><td>' . $this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>',
-				'<th class="short">Text Length</th><td>' . $this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>',
-				'<th class="short">Do Not Track</th><td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
-				'<th class="short">Shorten URLs</th><td><div style="float:left;margin-right:10px;">' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . 
-					'</div><div><p>Review the <em>Goo.gl Simple API Access Key</em> option on the <a href="' . 
-						$this->ngfb->util->get_admin_url( 'advanced' ) . '">Advanced settings</a> page.</p></div></td>',
+
+				$this->ngfb->util->th( 'Tweet Text', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>',
+
+				$this->ngfb->util->th( 'Text Length', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>',
+
+				$this->ngfb->util->th( 'Do Not Track', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>',
+
+				$this->ngfb->util->th( 'Shorten URLs', 'short', null, '
+					Don\'t forget to enter a <em>Goo.gl Simple API Access Key</em> value on the 
+					<a href="' . $this->ngfb->util->get_admin_url( 'advanced' ) . '">Advanced settings page</a>.
+					' ) . '<td>' .
+				$this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '</td>',
 			);
 		}
 

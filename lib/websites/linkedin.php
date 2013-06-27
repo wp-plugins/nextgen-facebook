@@ -21,19 +21,27 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Counter Mode</th><td>' . $this->ngfb->admin->form->get_select( 'linkedin_counter', 
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Counter Mode', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'linkedin_counter', 
 					array( 
 						'none' => '',
 						'right' => 'Horizontal',
 						'top' => 'Vertical',
 					)
 				) . '</td>',
-				'<th class="short">Zero in Counter</th><td>' . $this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
+
+				$this->ngfb->util->th( 'Zero in Counter', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
 			);
 		}
 

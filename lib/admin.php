@@ -154,13 +154,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						unset( $opts[$key] );
 				unset ( $key, $val );
 
-				// buttons_css_data only has a value on the social sharing settings page
+				// buttons_css_data only has a value on one settings page, so don't bother saving unless we have something to save
 				if ( array_key_exists( 'buttons_css_data', $opts ) && ! empty( $opts['buttons_css_data'] ) ) {
 					$css_file = $this->ngfb->style->buttons_css_file;
 					if ( ! $fh = @fopen( $css_file, 'wb' ) )
 						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : 
 							Error saving CSS to ' . $css_file . '.', 'error' );
 					else {
+						// make sure we don't save html encoded characters
 						fwrite( $fh, html_entity_decode( $opts['buttons_css_data'] ) );
 						$this->ngfb->debug->log( 'wrote css to file ' . $css_file );
 						fclose( $fh );
@@ -201,7 +202,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 			
 			switch ( $this->pagehook ) {
-				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-social/', $this->pagehook ) ? true : false ) :
+				// only load the buttons_css_data option when on a style settings page
+				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-style/', $this->pagehook ) ? true : false ) :
 					// use the custom css file, or a default one if it doesn't exist
 					$css_file = file_exists( $this->ngfb->style->buttons_css_file ) ?
 						$this->ngfb->style->buttons_css_file :  NGFB_PLUGINDIR . 'css/social-buttons.css';
@@ -215,7 +217,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					break;
 			}
 
-			$this->ngfb->admin->set_readme();	// version info on all pages needs this
+			$this->ngfb->admin->set_readme();	// the version info metabox on all settings pages needs this
 
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();

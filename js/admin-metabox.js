@@ -64,16 +64,15 @@ jQuery(document).ready(function(){
 				target:'topMiddle',
 				tooltip:'bottomLeft',
 			},
+			adjust:{
+			},
 		},
 		show:{
 			when:{
-				event:'click'
-			}
+			},
 		},
 		hide:{
-			when:{
-				event:'click'
-			}
+			fixed:true,
 		},
 		style:{
 			name:'blue',
@@ -83,7 +82,7 @@ jQuery(document).ready(function(){
 				max:'500',
 			},
 			classes:{
-				content:'ngfb-qtip-content',
+				tooltip:'ngfb-qtip',
 			},
 		},
 	});

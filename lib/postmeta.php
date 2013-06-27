@@ -47,37 +47,47 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
 
-				'<th class="medium">Topic</th><td class="blank">
-				<p>A custom topic, different from the default Website Topic chosen in the General Settings.</p></td>',
+				$this->ngfb->util->th( 'Topic', 'medium', null, 
+					'A custom topic, different from the default Website Topic chosen in the General Settings.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Title</th><td class="blank">
-				<p>A custom title to use in the Open Graph and Twitter Card meta tags.</p></td>',
+				$this->ngfb->util->th( 'Title', 'medium', null, 
+					'A custom title to use in the Open Graph and Twitter Card meta tags.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Description</th><td class="blank">
-				<p>A custom description to use in the Open Graph and Twitter Card meta tags, 
-				as well as the Pinterest and Tumblr social sharing buttons.</p><td>',
+				$this->ngfb->util->th( 'Description', 'medium', null, 
+					'A custom description to use in the Open Graph and Twitter Card meta tags, 
+					as well as the Pinterest and Tumblr social sharing buttons.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Tweet</th><td class="blank">
-				<p>A custom Tweet text for the Twitter social sharing button.</p><td>',
+				$this->ngfb->util->th( 'Tweet', 'medium', null, 
+					'A custom Tweet text for the Twitter social sharing button.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Image ID</th><td class="blank">
-				<p>A custom Image ID, that is not already associated (featured, attached, singlepic shortcode, img html tag, etc.), 
-					to include in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.</p></td>',
+				$this->ngfb->util->th( 'Image ID', 'medium', null, 
+					'A custom Image ID, that is not already associated (featured, attached, singlepic shortcode, img html tag, etc.), 
+					to include in the Open Graph and the \'Large Image Summary\' Twitter Card meta tags.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Image URL</th><td class="blank">
-				<p>A custom image URL, instead of an Image ID, to include in the Open Graph and Twitter Card meta tags.</p></td>',
+				$this->ngfb->util->th( 'Image URL', 'medium', null, 
+					'A custom image URL, instead of an Image ID, to include in the Open Graph and Twitter Card meta tags.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Video URL</th><td class="blank">
-				<p>A custom video URL, from YouTube or Vimeo, to include in the Open Graph and Twitter Card meta tags.</p></td>',
+				$this->ngfb->util->th( 'Video URL', 'medium', null, 
+					'A custom video URL, from YouTube or Vimeo, to include in the Open Graph and Twitter Card meta tags.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Maximum Images</th><td class="blank">
-				<p>The maximum number of images to include in the Open Graph meta tags for this ' . $name . '.</p></td>', 
+				$this->ngfb->util->th( 'Maximum Images', 'medium', null, 
+					'The maximum number of images to include in the Open Graph meta tags for this ' . $name . '.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Maximum Videos</th><td class="blank">
-				<p>The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $name . '.</p></td>',
+				$this->ngfb->util->th( 'Maximum Videos', 'medium', null, 
+					'The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $name . '.' ) .
+				'<td class="blank">&nbsp;</td>',
 
-				'<th class="medium">Disable Social Buttons</th><td class="blank">
-				<p>Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $name . '.</p></td>',
+				$this->ngfb->util->th( 'Disable Social Buttons', 'medium', null, 
+					'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $name . '.' ) .
+				'<td class="blank">&nbsp;</td>',
 			);
 		}
 

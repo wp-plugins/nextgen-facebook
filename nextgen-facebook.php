@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-3
+Version: 6.1-DEV-4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-3';	// only for display purposes
+		public $version = '6.1-DEV-4';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -90,9 +90,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $setting_libs = array(
 			'general' => 'General',
 			'social' => 'Social Sharing',
+			'style' => 'Social Style',
 			'advanced' => 'Advanced',
 			'about' => 'About',
 		);
+
+		private $wpseo_social = array();	// yoast wordpress seo social options
 
 		public function __construct() {
 
@@ -130,6 +133,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function init_plugin() {
 			$this->check_deps();
 			$this->setup_vars();
+			$this->error_checks();
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -271,13 +275,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// php v4.0.6+
 			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
-			// post thumbnail feature is supported by wp theme
-			// since wp 2.9.0
+			// post thumbnail feature is supported by wp theme // since wp 2.9.0
 			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
 			// nextgen gallery plugin
 			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
 
+			// yoast wordpress seo plugin
+			$this->is_avail['wpseo'] = function_exists( 'wpseo_init' ) ? true : false;
 		}
 
 		// get the options, upgrade the options (if necessary), and validate their values
@@ -290,6 +295,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( $this->is_avail['ngg'] == true ) 
 				$this->ngg_options = get_option( 'ngg_options' );
+
+			if ( $this->is_avail['wpseo'] == true ) 
+				$this->wpseo_social = get_option( 'wpseo_social' );
 
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
@@ -393,15 +401,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					WP object cache expiration <em>temporarily</em> set at ' . $this->cache->object_expire . ' second(s).' );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
-			// error checks / messages
-			if ( $this->is_avail['mbdecnum'] !== true ) {
-				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
-				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
-					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation 
-					(hint: you may need to install the \'php-mbstring\' package on some Linux distros).' );
-			}
-
 			// setup update checks if we have a transaction ID
 			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
 				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
@@ -415,7 +414,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
 			else
-				return $version . '-Free';
+				return '0-' . $version . '-Free';
 		}
 
 		private function setup_msgs() {
@@ -449,6 +448,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 		}
 
+		private function error_checks() {
+
+			if ( $this->is_avail['mbdecnum'] !== true ) {
+				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
+				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
+					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
+					This function is required to decode UTF8 entities. Please update your PHP installation 
+					(hint: you may need to install the \'php-mbstring\' package on some Linux distros).' );
+			}
+
+			if ( $this->is_avail['wpseo'] == true ) {
+				if ( ! empty( $this->wpseo_social['opengraph'] ) ) {
+					$this->debug->log( 'option conflict - wpseo opengraph option is enabled' );
+					$this->notices->err( 'Option conflict found. Please disable the Open Graph meta data option in the Yoast WordPress SEO plugin.' );
+				}
+				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $this->wpseo_social['twitter'] ) ) {
+					$this->debug->log( 'option conflict - wpseo twitter option is enabled' );
+					$this->notices->err( 'Option conflict found. Please disable the Twitter Card meta data option in the Yoast WordPress SEO plugin.' );
+				}
+			}
+		}
 	}
 
         global $ngfb;

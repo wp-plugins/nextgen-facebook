@@ -42,18 +42,35 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 			$buttons .= '</div>' . "\n";
 
 			return array(
-				'<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when option is checked), embedded video, the content of <em>quote</em> format custom Posts, or the webpage link.</p></td>',
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Button Style</th><td>' . $buttons . '</td>',
-				'<th class="short">Use Featured Image</th><td>' . $this->ngfb->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
-				'<th class="short">Image Size to Share</th><td>' . $this->ngfb->admin->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
-				'<th class="short">Media Caption</th><td>' . $this->ngfb->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
-				'<th class="short">Caption Length</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters or less</td>',
-				'<th class="short"><u>Link</u> Description</th><td>' . $this->ngfb->admin->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters or less</td>',
+				'<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when option is checked), 
+				embedded video, the content of <em>quote</em> format custom Posts, or the webpage link.</p></td>',
+
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Button Style', 'short' ) . '<td>' . $buttons . '</td>',
+
+				$this->ngfb->util->th( 'Use Featured Image', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
+
+				$this->ngfb->util->th( 'Image Size to Share', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
+
+				$this->ngfb->util->th( 'Media Caption', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
+
+				$this->ngfb->util->th( 'Caption Length', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters or less</td>',
+
+				$this->ngfb->util->th( 'Link Description', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters or less</td>',
 			);
 		}
 

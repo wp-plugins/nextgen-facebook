@@ -38,7 +38,6 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_style', 'StyleSheet', array( &$this, 'show_metabox_style' ), $this->pagehook, 'bottom' );
 
 			$col = 0;
 			$row = 0;
@@ -51,12 +50,11 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
 			}
 			$reset_ids = array_diff( array_keys( $this->ngfb->website_libs ), array( 'facebook', 'gplus' ) );
-			$reset_ids[] = 'style';
 			$this->ngfb->user->reset_metaboxes( $this->pagehook, $reset_ids );
 		}
 
 		public function add_class_postbox_website( $classes ) {
-			array_push( $classes, 'postbox_website' );
+			array_push( $classes, 'admin_postbox_website' );
 			return $classes;
 		}
 
@@ -71,54 +69,32 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			<table class="ngfb-settings">
 			<tr>
 				<td colspan="3"><p>The following social buttons can be added to the content, excerpt, 
-				and / or enabled within the "<?php echo ngfbWidgetSocialSharing::$fullname; ?>" widget as well 
+				and / or enabled within the '<?php echo ngfbWidgetSocialSharing::$fullname; ?>' widget as well 
 				(<a href="<?php echo get_admin_url( null, 'widgets.php' ); ?>">see the widgets admin webpage</a>).</p></td>
-			</tr>
-			<tr>
-				<th>Include on Index Webpages</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ); ?></td>
-				<td><p>Add the following (enabled) social sharing buttons on each entry of an index webpage (homepage, category, 
-				archive, etc.). By Default, social sharing buttons are not included on index webpages (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Location in Excerpt Text</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled below.</p></td>
-			</tr>
-			<tr>
-				<th>Location in Content Text</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ); ?></td>
-				<td><p>The social sharing button(s) must also be enabled below.</p></td>
-			</tr>
-			</table>
+			</tr><tr>
 			<?php
-		}
+			echo $this->ngfb->util->th( 'Include on Index Webpages', null, null, '
+				Add the following (enabled) social sharing buttons on each entry of an index webpage (homepage, category, 
+				archive, etc.). By Default, social sharing buttons are <em>not</em> included on index webpages 
+				(default is unchecked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ), '</td>';
 
-		public function show_metabox_style() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<td colspan="3"><p><?php echo $this->ngfb->fullname; ?> uses the '<em>ngfb-buttons</em>' class to wrap all social buttons, 
-				and each button has it's own individual class name as well. Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" 
-				target="_blank">Other Notes</a> webpage for additional stylesheet information, including how to hide the social buttons 
-				for specific Posts, Pages, categories, tags, etc.</p></td>
-			</tr>
-			<tr>
-				<th class="short">Use Social StyleSheet</th>
-				<td><?php echo $this->ngfb->admin->form->get_checkbox( 'buttons_link_css' ); ?></td>
-				<td>
-					<p>Add the following stylesheet to all webpages (default is unchecked).</p>
-				</td>
-			</tr>
-			<tr>
-				<th class="short">StyleSheet Editor</th>
-				<td colspan="2">
-					<?php echo $this->ngfb->admin->form->get_textarea( 'buttons_css_data', 'large' ); ?>
-					<p>The stylesheet URL is <?php echo $this->ngfb->style->buttons_css_url; ?>.</p>
-				</td>
-			</tr>
-			</table>
-			<?php
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Location in Excerpt Text', null, null, '
+				Individual social sharing button(s) must also be enabled below.
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Location in Content Text', null, null, '
+				Individual social sharing button(s) must also be enabled below.
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_content', array( 'top' => 'Top', 'bottom' => 'Bottom' ) ), '</td>';
+
+			echo '</tr></table>';
 		}
 
 	}

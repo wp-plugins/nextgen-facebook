@@ -85,19 +85,29 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 
 		public function get_rows() {
 			return array(
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'gp_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Language</th><td>' . $this->ngfb->admin->form->get_select( 'gp_lang', $this->lang ) . '</td>',
-				'<th class="short">Button Type</th><td>' . $this->ngfb->admin->form->get_select( 'gp_action', 
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'gp_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Language', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_lang', $this->lang ) . '</td>',
+
+				$this->ngfb->util->th( 'Button Type', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_action', 
 					array( 
 						'plusone' => 'G +1', 
 						'share' => 'G+ Share',
 					) 
 				) . '</td>',
-				'<th class="short">Button Size</th><td>' . $this->ngfb->admin->form->get_select( 'gp_size', 
+
+				$this->ngfb->util->th( 'Button Size', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_size', 
 					array( 
 						'small' => 'Small [ 15px ]',
 						'medium' => 'Medium [ 20px ]',
@@ -105,7 +115,9 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 						'tall' => 'Tall [ 60px ]',
 					) 
 				) . '</td>',
-				'<th class="short">Annotation</th><td>' . $this->ngfb->admin->form->get_select( 'gp_annotation', 
+
+				$this->ngfb->util->th( 'Annotation', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'gp_annotation', 
 					array( 
 						'none' => '',
 						'inline' => 'Inline',

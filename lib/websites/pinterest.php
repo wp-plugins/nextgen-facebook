@@ -22,21 +22,33 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 		public function get_rows() {
 			return array(
 				'<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>featured</em> or <em>attached</em> image.</p></td>',
-				'<th class="short">Add Button to</th><td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'pin_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' the Excerpt Text</td>',
-				'<th class="short">Preferred Order</th><td>' . $this->ngfb->admin->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
-				'<th class="short">JavaScript in</th><td>' . $this->ngfb->admin->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',
-				'<th class="short">Pin Count Layout</th><td>' . $this->ngfb->admin->form->get_select( 'pin_count_layout', 
+				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_content' ) . ' the Content and / or ' . 
+				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' the Excerpt Text</td>',
+
+				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+
+				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',
+
+				$this->ngfb->util->th( 'Pin Count Layout', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'pin_count_layout', 
 					array( 
 						'none' => '',
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
 					)
 				) . '</td>',
-				'<th class="short">Image Size to Share</th><td>' . $this->ngfb->admin->form->get_select_img_size( 'pin_img_size' ) . '</td>',
-				'<th class="short">Image Caption Text</th><td>' . $this->ngfb->admin->form->get_select( 'pin_caption', $this->captions ) . '</td>',
-				'<th class="short">Caption Length</th><td>' . $this->ngfb->admin->form->get_input( 'pin_cap_len', 'short' ) . ' Characters or less</td>',
+
+				$this->ngfb->util->th( 'Image Size to Share', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select_img_size( 'pin_img_size' ) . '</td>',
+
+				$this->ngfb->util->th( 'Image Caption Text', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_select( 'pin_caption', $this->captions ) . '</td>',
+
+				$this->ngfb->util->th( 'Caption Length', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_input( 'pin_cap_len', 'short' ) . ' Characters or less</td>',
 			);
 		}
 

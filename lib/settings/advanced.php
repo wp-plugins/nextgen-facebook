@@ -33,141 +33,169 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_plugin() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<th>Reset on Activate</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ); ?></td>
-				<td><p>Check this option if you would like to reset the <?php echo $this->ngfb->fullname; ?> 
-					settings to their default values when you <em>deactivate</em>, and then 
-					<em>re-activate</em> the plugin (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Preserve on Uninstall</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ); ?></td>
-				<td><p>Check this option if you would like to preserve all <?php echo $this->ngfb->fullname; ?> 
-					settings when you <em>uninstall</em> the plugin (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Add Hidden Debug Info</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ); ?></td>
-				<td><p>Include hidden debug information with the Open Graph meta tags (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Enable Shortcode(s)</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_enable_shortcode' ); ?></td>
-				<td><p>Enable the <?php echo $this->ngfb->fullname; ?> content shortcode(s) (default is unchecked).</p></td>
-			</tr>
-			<tr>
-				<th>Ignore Small Images</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ); ?></td>
-				<td><p><?php echo $this->ngfb->fullname; ?> will attempt to include images from <code>&lt;img/&gt;</code> HTML tags it finds in the content 
-				The <code>&lt;img/&gt;</code> HTML tags must have a width and height attribute, and their size must be equal to or larger than the 
-				Image Dimensions you've chosen (on the General settings page). You can uncheck this option to include smaller images from the content, 
-				or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> for additional solutions.</p></td>
-			</tr>
-			<tr>
-				<th>Apply Title Filters</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_title' ); ?></td>
-				<td><p>Apply the standard WordPress filters to render the title (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Apply Content Filters</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ); ?></td>
-				<td><p>Apply the standard WordPress filters to render the content (default is checked).</p></td>
-			</tr>
-			<tr>
-				<th>Apply Excerpt Filters</th>
-				<td class="second"><?php echo $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ); ?></td>
-				<td><p>Apply the standard WordPress filters to render the excerpt (default is unchecked).
-				Check this option if you use shortcodes in your excerpt, for example.</p></td>
-			</tr>
-			<?php foreach ( $this->get_more_plugin() as $row ) echo '<tr>' . $row . '</tr>'; ?>
-			</table>
-			<?php
+
+			echo '<table class="ngfb-settings"><tr>';
+
+			echo $this->ngfb->util->th( 'Preserve Settings on Uninstall', 'highlight', null, '
+				Check this option if you would like to preserve all ' . $this->ngfb->fullname . '
+				settings when you <em>uninstall</em> the plugin (default is unchecked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Reset Settings on Activate', null, null, '
+				Check this option if you would like to reset the ' . $this->ngfb->fullname . '
+				settings to their default values when you <em>deactivate</em>, and then 
+				<em>re-activate</em> the plugin (default is unchecked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Add Hidden Debug Info', null, null, '
+				Include hidden debug information with the Open Graph meta tags (default is unchecked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Enable Shortcode(s)', 'highlight', null, '
+				Enable the ' . $this->ngfb->fullname . ' content shortcode(s) (default is unchecked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_enable_shortcode' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Ignore Small Images', 'highlight', null, '
+				' . $this->ngfb->fullname . ' will attempt to include images from img html tags it finds in the content.
+				The img html tags must have a width and height attribute, and their size must be equal to or larger than the 
+				<em>Image Dimensions</em> you\'ve chosen (on the General settings page). 
+				You can uncheck this option to include smaller images from the content, 
+				or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
+				for additional solutions.
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Apply Title Filters', null, null, '
+				Apply the standard WordPress filters to render the title (default is checked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_title' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Apply Content Filters', null, null, '
+				Apply the standard WordPress filters to render the content (default is checked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Apply Excerpt Filters', null, null, '
+				Apply the standard WordPress filters to render the excerpt (default is unchecked).
+				Check this option if you use shortcodes in your excerpt, for example.
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ), '</td>';
+
+			echo '</tr>';
+
+			foreach ( $this->get_more_plugin() as $row ) echo '<tr>' . $row . '</tr>';
+
+			echo '</table>';
 		}
 
 		protected function get_more_plugin() {
 			return array(
-				'<th>Purchase Transaction ID</th><td class="second">' . $this->ngfb->admin->form->get_input( 'ngfb_pro_tid' ) . '</td><td class="blank">
-				<p>After purchasing of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. 
-				Enter your unique Transaction ID here, and after saving the changes, an update for "' . $this->ngfb->fullname . '" will appear on the 
-				<a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
-				Update the "' . $this->ngfb->fullname . '" plugin to download and activate the new Pro version.</p></td>',
+				$this->ngfb->util->th( 'Purchase Transaction ID', 'highlight', null, '
+				After purchasing of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. 
+				Enter your unique Transaction ID here, and after saving the changes, an update for \'' . $this->ngfb->fullname . '\' 
+				will appear on the <a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
+				Update the \'' . $this->ngfb->fullname . '\' plugin to download and activate the new Pro version.' ) .
+				'<td class="blank">' . $this->ngfb->admin->form->get_input( 'ngfb_pro_tid' ) . '</td>',
 			);
 		}
 
 		public function show_metabox_cache() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<th>Object Cache Expiry</th>
-				<td nowrap><?php echo $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ); ?> Seconds</td>
-				<td><p><?php echo $this->ngfb->fullname; ?> saves the rendered (filtered) content text to a non-presistant cache (wp_cache), 
-				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. Changes to the website content and 
-				webpages will not be reflected in the Open Graph and NGFB social sharing buttons until the object cache has expired. 
+			echo '<table class="ngfb-settings"><tr>';
+
+			echo $this->ngfb->util->th( 'Object Cache Expiry', null, null, '
+				' . $this->ngfb->fullname . ' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
+				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
+				Changes to the website content and webpages will not be reflected in the Open Graph and NGFB social sharing 
+				buttons until the object cache has expired. 
 				Decrease this value if your content is often revised after publishing, or increase it to improve performance. 
-				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).</p></td>
-			</tr>
-			<?php foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>'; ?>
-			</table>
-			<?php
+				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).
+				' );
+			echo '<td nowrap>', $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ), ' Seconds</td>';
+			
+			echo '</tr>';
+
+			foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>';
+
+			echo '</table>';
 		}
 
 		protected function get_more_cache() {
 			return array(
-				'<td colspan="3" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<td colspan="2" align="center"><p>' . $this->ngfb->msgs['pro_feature'] . '</p></td>',
 
-				'<th>File Cache Expiry</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '
-				<p>NGFB can save social sharing images and JavaScript to a cache folder, providing URLs to these files instead of the originals. 
-				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.</p>
-				</td>',
+				$this->ngfb->util->th( 'File Cache Expiry', 'highlight', null, '
+				' . $this->ngfb->fullname . ' can save social sharing images and JavaScript to a cache folder, 
+				providing URLs to these files instead of the originals. 
+				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.' ) .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>',
 
-				'<th>Verify SSL Certificates</th><td colspan="2" class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '
-				<p>An option to enable verification of peer SSL certificates when fetching content to be cached using HTTPS.</p>
-				</td>',
+				$this->ngfb->util->th( 'Verify SSL Certificates', null, null, '
+				An option to enable verification of peer SSL certificates when fetching content to be cached using HTTPS.' ) .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>',
 			);
 		}
 
 		public function show_metabox_rewrite() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<th>Goo.gl Simple API Access Key</th>
-				<td colspan="2"><?php echo $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ); ?>
-				<p>The "Google URL Shortener API Key" for this website. If you don't already have one, visit Google's 
-				<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring and using an API Key</a> documentation, 
-				and follow the directions to acquire your <em>Simple API Access Key</em>.</p></td>
-			</tr>
-			<?php foreach ( $this->get_more_rewrite() as $row ) echo '<tr>' . $row . '</tr>'; ?>
-			</table>
-			<?php
+			echo '<table class="ngfb-settings"><tr>';
+
+			echo $this->ngfb->util->th( 'Goo.gl Simple API Access Key', 'highlight', null, '
+				The "Google URL Shortener API Key" for this website. If you don\'t already have one, visit Google\'s 
+				<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring 
+				and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.
+				' );
+			echo '<td>', $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ), '</td>';
+
+			echo '</tr>';
+
+			foreach ( $this->get_more_rewrite() as $row ) echo '<tr>' . $row . '</tr>';
+
+			echo '</table>';
 		}
 
 		protected function get_more_rewrite() {
 			return array(
-				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<td colspan="2" align="center"><p>' . $this->ngfb->msgs['pro_feature'] . '</p></td>',
 
-				'<th>Static Content URL(s)</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . '
-				<p>Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 
-				and cached social media files (see the "File Cache Expiry" option above).</p>
-				</td>',
+				$this->ngfb->util->th( 'Static Content URL(s)', 'highlight', null, '
+				Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 
+				and cached social media files (see the <em>File Cache Expiry</em> option above).' ) . 
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . '</td>',
 
-				'<th>Include Folders</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '
-				<p>A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
-				(the default value is "<em>wp-content, wp-includes</em>").</p>
-				</td>',
+				$this->ngfb->util->th( 'Include Folders', null, null, '
+				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
+				(the default value is "<em>wp-content, wp-includes</em>").') .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '</td>',
 
-				'<th>Exclude Patterns</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '
-				<p>A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
-				(the default value is blank).</p>
-				</td>',
+				$this->ngfb->util->th( 'Exclude Patterns', null, null, '
+				A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
+				(the default value is blank).' ) .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '</td>',
 
-				'<th>Not when Using HTTPS</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . '
-				<p>Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).</p></td>',
+				$this->ngfb->util->th( 'Not when Using HTTPS', null, null, '
+				Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ) .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . '</td>',
 
-				'<th>www is Optional</th><td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '
-				<p>The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).</p></td>',
+				$this->ngfb->util->th( 'www is Optional', null, null, '
+				The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ) .
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '</td>',
 			);
 		}
 
