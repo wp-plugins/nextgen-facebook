@@ -447,7 +447,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
 			else
-				return $version . '-Free';
+				return '0-' . $version . '-Free';
 		}
 
 	}
