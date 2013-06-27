@@ -558,7 +558,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 6.1-DEV-4 =
 
-Added check for Open Graph / Twitter Card conflict with Yoast WP SEO, added an `og:locale` meta tag, added a counter for the Post / Page custom description (Pro version), added a custom Video URL for Posts and Pages (Pro Version), added a Tweet field for Posts and Pages (Pro version), and moved most informational text to popup tooltips.
+Added check for Open Graph / Twitter Card conflict with Yoast WP SEO, `og:locale` meta tag, counter for the Post / Page custom description (Pro version), custom Video URL for Posts and Pages (Pro Version), Tweet field for Posts and Pages (Pro version), and moved information text to popup tooltips.
 
 = 6.0 =
 
