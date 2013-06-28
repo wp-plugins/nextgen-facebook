@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '38';		// increment when adding/removing default options
+		public $version = '40';		// increment when adding/removing default options
 		public $on_page = 'general';	// the settings page where the last option was modified
 
 		public $defaults = array(
@@ -48,7 +48,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
 			'buttons_link_css' => 0,
-			'buttons_css_data' => '',
+			'buttons_css_excerpt' => '',
+			'buttons_css_content' => '',
+			'buttons_css_shortcode' => '',
+			'buttons_css_social' => '',
+			'buttons_css_widget' => '',
 			'fb_on_the_excerpt' => 0,
 			'fb_on_the_content' => 0,
 			'fb_order' => 1,
@@ -203,15 +207,28 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function get_defaults( $idx = '' ) {
-			if ( ! empty( $idx ) ) return $this->defaults[$idx];
+			foreach ( $this->ngfb->css_names as $css_id => $css_name ) {
+				$css_file = NGFB_PLUGINDIR . 'css/' . $css_id . '-buttons.css';
+				if ( empty( $this->defaults['buttons_css_' . $css_id] ) ) {
+					if ( ! $fh = @fopen( $css_file, 'rb' ) )
+						$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
+					else {
+						$this->defaults['buttons_css_' . $css_id] = fread( $fh, filesize( $css_file ) );
+						$this->ngfb->debug->log( 'read css from file ' . $css_file );
+						fclose( $fh );
+					}
+				}
+			}
+			if ( ! empty( $idx ) ) 
+				return $this->defaults[$idx];
 			else return $this->defaults;
 		}
 
-		public function quick_check( &$opts = array(), &$def_opts = array() ) {
+		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 				if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] !== $this->version )
-					$opts = $this->upgrade( $opts, $this->defaults );
+					$opts = $this->upgrade( $opts, $this->get_defaults() );
 			} else {
 				if ( $opts === false )
 					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
@@ -223,7 +240,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
 
 				$this->ngfb->debug->log( 'WordPress ' . $err_msg . ' the options database table.' );
-				$opts = $this->defaults;
+				$opts = $this->get_defaults();
 			}
 			if ( is_admin() ) {
 				if ( ! empty( $err_msg ) ) {
@@ -259,6 +276,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// loop through all the known option keys
 				foreach ( $def_opts as $key => $def_val ) {
 
+					// remove html, decode entities, and strip slashes
+					$opts[$key] = stripslashes( html_entity_decode( 
+						wp_filter_nohtml_kses( $opts[$key] ) ) );
+
 					switch ( $key ) {
 
 						// twitter-style usernames (a-z0-9, max 15 chars)
@@ -269,27 +290,20 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 								$opts[$key] = '@' . $opts[$key];
 							break;
 
-						// remove html
-						case 'fb_app_id' :
-						case 'og_title' :
-						case 'og_desc' :
-						case 'buttons_css_data' :
-							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
-							break;
-
-						// stip off leading urls (leaving just the account names)
+						// stip leading urls off Facebook usernames
 						case 'fb_admins' :
 							$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
-								wp_filter_nohtml_kses( $opts[$key] ) );
+								$opts[$key] );
 							break;
 
-						// must be a url
+						// must be a url (reset to default if not)
 						case 'og_img_url' :
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :
 						case 'ngfb_cdn_urls' :
-							if ( ! empty( $opts[$key] ) && strpos( $opts[$key], '://' ) === false ) 
-								$opts[$key] = $def_val;
+							if ( ! empty( $opts[$key] ) && 
+								strpos( $opts[$key], '://' ) === false ) 
+									$opts[$key] = $def_val;
 							break;
 
 						// must be numeric (blank or zero is ok)
@@ -300,8 +314,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
 						case 'ngfb_file_cache_hrs' :
-							if ( ! empty( $opts[$key] ) && ! is_numeric( $opts[$key] ) )
-								$opts[$key] = $def_val;
+							if ( ! empty( $opts[$key] ) && 
+								! is_numeric( $opts[$key] ) )
+									$opts[$key] = $def_val;
 							break;
 
 						// integer options that must me 1 or more (not zero)
@@ -321,8 +336,15 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'stumble_order' : 
 						case 'stumble_badge' :
 						case 'ngfb_object_cache_exp' :
-							if ( empty( $opts[$key] ) || ! is_numeric( $opts[$key] ) )
-								$opts[$key] = $def_val;
+							if ( empty( $opts[$key] ) || 
+								! is_numeric( $opts[$key] ) )
+									$opts[$key] = $def_val;
+							break;
+
+						// text strings that can be blank
+						case 'fb_app_id' :
+						case 'og_title' :
+						case 'og_desc' :
 							break;
 
 						// options that cannot be blank
@@ -333,6 +355,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_author_field' :
 						case 'buttons_location_the_excerpt' : 
 						case 'buttons_location_the_content' : 
+						case 'buttons_css_excerpt' :
+						case 'buttons_css_content' :
+						case 'buttons_css_shortcode' :
+						case 'buttons_css_social' :
+						case 'buttons_css_widget' :
 						case 'fb_js_loc' : 
 						case 'fb_markup' : 
 						case 'gp_js_loc' : 
@@ -354,11 +381,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_img_size' :
 						case 'tumblr_caption' :
 						case 'stumble_js_loc' : 
-							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
-							if ( empty( $opts[$key] ) ) $opts[$key] = $def_val;
+							if ( empty( $opts[$key] ) ) 
+								$opts[$key] = $def_val;
 							break;
 
-						// everything else is assumed to be a true/false checkbox option
+						// everything else is assumed to be a true / false checkbox option
 						default :
 							// make sure the default option is true/false - just in case
 							if ( $def_val === 0 || $def_val === 1 )
@@ -425,9 +452,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// add missing options and set to defaults
 				foreach ( $def_opts as $key => $def_val ) {
 					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						if ( $this->ngfb->debug->is_on() == true )
-							$this->ngfb->notices->inf( 'Adding missing \'' . $key . 
-								'\' option with the default value of \'' . $def_val . '\'.' );
+						$this->ngfb->debug->log( 'adding missing ' . $key . ' option.' );
 						$opts[$key] = $def_val;
 					}
 				}

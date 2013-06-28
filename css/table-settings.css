@@ -64,7 +64,7 @@ table.ngfb-settings th p {
 }
 table.ngfb-settings th.highlight { 
 	background-color:#f3f3f3;
-	border:1px solid #e3e3e3;
+	border:1px solid #d3d3d3;
 }
 table.ngfb-settings th img.ngfb_tooltip { 
 	margin:0 0 0 10px; 
@@ -118,6 +118,15 @@ table.ngfb-settings td.taglist {
 	min-width:15px;
 	width:15px;
 }
+table.ngfb-settings td.textinfo { 
+	vertical-align:top;
+	padding:2px 10px 2px 0;
+	min-width:300px;
+	width:300px;
+}
+table.ngfb-settings td.textinfo p { 
+	margin:0 0 10px 0;
+}
 table.ngfb-settings td p { 
 	color:#666;
 	margin:0 0 5px 0;
@@ -151,9 +160,8 @@ table.ngfb-settings td input[type=text].short {
 table.ngfb-settings td input[type=text].wide { 
 	width:100%; 
 }
-table.ngfb-settings td input[type=radio] { 
-	vertical-align:top; 
-	margin:4px 4px 4px 0;
+table.ngfb-settings td input[type=checkbox] { 
+	margin:0 4px 0 0;
 }
 table.ngfb-settings td input[type=button] { 
 	margin:10px 0 0 0;
@@ -166,7 +174,7 @@ table.ngfb-settings td textarea.wide {
 }
 table.ngfb-settings td textarea.large { 
 	width:100%; 
-	height:60em; 
+	height:30em; 
 }
 table.ngfb-settings td select { width:250px; }
 table.ngfb-settings td select.short { width:100px; }

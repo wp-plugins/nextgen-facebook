@@ -4,37 +4,7 @@
 #page { overflow:visible; }
 
 /* 
- * Buttons in Content and Excerpt - Create a shadowed box for the buttons 
- */ 
-.ngfb-excerpt-buttons,
-.ngfb-content-buttons { 
-	display:block;
-	padding:2px;
-	margin:20px auto 20px auto;
-	text-align:center;
-	background-color:#eee;
-	-moz-box-shadow:0 0 5px #aaa;
-	-webkit-box-shadow:0 0 5px #aaa;
-	box-shadow:0 0 5px #aaa;
-	border-radius:5px;	/* Round off the box */
-}
-
-/* 
- * Buttons in Widget - Align vertically in 150px column
- */
-.ngfb-widget-buttons { text-align:left; }
-.ngfb-widget-buttons .ngfb-buttons > div { width:150px; }
-
-/* 
- * Buttons in Shortcode - Display inline with the text 
- */
-.ngfb-shortcode-buttons { 
-	display:inline-block;
-	text-align:left;
-}
-
-/* 
- * All the Buttons within the Content, Widget and Shortcode classes
+ * All the Buttons within the content, widget and shortcode classes
  */
 .ngfb-buttons { }
 .ngfb-buttons img { border:none; }
@@ -67,4 +37,3 @@ div.twitter-button { width:89px; }
 div.linkedin-button { width:109px; }
 div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
-div.tumblr-button { width:80px; }

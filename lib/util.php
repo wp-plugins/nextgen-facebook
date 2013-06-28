@@ -45,16 +45,16 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
-		public function preg_grep_keys( $pattern, $source, $invert = false, $trunc = false, $rep = '' ) {
-			if ( ! is_array( $source ) ) return false;
+		public function preg_grep_keys( $preg, $arr, $invert = false, $trunc = false, $rep = '' ) {
+			if ( ! is_array( $arr ) ) return false;
 			$invert = $invert == false ? null : PREG_GREP_INVERT;
-			$match = preg_grep( $pattern, array_keys( $source ), $invert );
+			$match = preg_grep( $preg, array_keys( $arr ), $invert );
 			$found = array();
 			foreach ( $match as $key ) {
 				if ( $trunc == true ) {
-					$fixed = preg_replace( $pattern, $rep, $key );
-					$found[$fixed] = $source[$key]; 
-				} else $found[$key] = $source[$key]; 
+					$fixed = preg_replace( $preg, $rep, $key );
+					$found[$fixed] = $arr[$key]; 
+				} else $found[$key] = $arr[$key]; 
 			}
 			return $found;
 		}
@@ -322,17 +322,19 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $plugin_info;
 		}
 
-		public function get_admin_url( $submenu = '' ) {
+		public function get_admin_url( $submenu = '', $link_text = '' ) {
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
-				else $submenu = 'webpage';
+				else $submenu = 'general';
 			} else {
 				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
-					$submenu = 'webpage';
+					$submenu = 'general';
 			}
-			return get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+			$url = get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+			if ( empty( $link_text ) ) return $url;
+			else return '<a href="' . $url . '">' . $link_text . '</a>';
 		}
 
 		public function delete_expired_transients( $clear_all = false ) { 

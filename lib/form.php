@@ -33,23 +33,13 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />' . "\n";
 		}
 
-		public function get_input( $name, $class = '', $id = '', $len = 0 ) {
-			if ( empty( $name ) ) return;	// just in case
-			$html = '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
-				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
-				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
-				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
-				' value="' . ( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />' . "\n";
-			return $html;
-		}
-
 		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
 			if ( empty( $name ) ) return;	// just in case
 			return $this->get_hidden( 'is_checkbox_' . $name, 1 ) .
 				'<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
-				' title="Default is ' .
-				( $this->in_options( $name ) && $this->defaults[$name] == $check[0] ? 'Checked' : 'Unchecked' ) . '" />' . "\n";
+				' title="default is ' .
+				( $this->in_options( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ) . '" />' . "\n";
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
@@ -116,19 +106,30 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return $html;
 		}
 
+		public function get_input( $name, $class = '', $id = '', $len = 0 ) {
+			if ( empty( $name ) ) return;	// just in case
+			$html = '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
+				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
+				' value="' . esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />' . "\n";
+			return $html;
+		}
+
 		public function get_textarea( $name, $class = '', $id = '', $len = 0 ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '<textarea name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
-				'>' .  ( $this->in_options( $name ) ? $this->options[$name] : '' ) .
+				'>' . esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
 			return $html;
 		}
 
 		private function in_options( $name ) {
-			return is_array( $this->options ) && array_key_exists( $name, $this->options ) ? true : false;
+			return is_array( $this->options ) && 
+				array_key_exists( $name, $this->options ) ? true : false;
 		}
 	}
 }

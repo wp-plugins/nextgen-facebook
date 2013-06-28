@@ -1,0 +1,7 @@
+/* 
+ * Buttons in Shortcode - Display inline with the text 
+ */
+.ngfb-shortcode-buttons { 
+	display:inline-block;
+	text-align:left;
+}

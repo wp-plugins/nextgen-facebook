@@ -154,21 +154,35 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						unset( $opts[$key] );
 				unset ( $key, $val );
 
-				// buttons_css_data only has a value on one settings page, so don't bother saving unless we have something to save
-				if ( array_key_exists( 'buttons_css_data', $opts ) && ! empty( $opts['buttons_css_data'] ) ) {
-					$css_file = $this->ngfb->style->buttons_css_file;
-					if ( ! $fh = @fopen( $css_file, 'wb' ) )
-						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : 
-							Error saving CSS to ' . $css_file . '.', 'error' );
-					else {
-						// make sure we don't save html encoded characters
-						fwrite( $fh, html_entity_decode( $opts['buttons_css_data'] ) );
-						$this->ngfb->debug->log( 'wrote css to file ' . $css_file );
-						fclose( $fh );
+				/*
+				 * Minimize and save the CSS option values
+				 */
+				$css_min_file = $this->ngfb->style->buttons_css_min_file;
+				if ( empty( $opts['buttons_link_css'] ) ) {
+					if ( file_exists( $css_min_file ) ) {
+						if ( @unlink( $css_min_file ) )
+							add_settings_error( NGFB_OPTIONS_NAME, 'cssrm', 
+								'<b>' . $this->ngfb->acronym_uc . '</b> : Minimized stylesheet removed.', 'updated' );
+						else 
+							add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+								'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet.', 'error' );
 					}
-					unset ( $opts['buttons_css_data'] );
+				} else {
+					if ( ! $fh = @fopen( $css_min_file, 'wb' ) )
+						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
+							'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening ' . $css_min_file . ' for writing.', 'error' );
+					else {
+						$css_data = '';
+						foreach ( $this->ngfb->css_names as $css_id => $css_name )
+							$css_data .= $opts['buttons_css_' . $css_id];
+						$css_data = ngfbMinifyCssCompressor::process( $css_data );
+						fwrite( $fh, $css_data );
+						fclose( $fh );
+						$this->ngfb->debug->log( 'updated css file ' . $css_min_file );
+						add_settings_error( NGFB_OPTIONS_NAME, 'cssrm', 
+							'<b>' . $this->ngfb->acronym_uc . '</b> : Minimized stylesheet updated.', 'updated' );
+					}
 				}
-
 				add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . '</b> : Settings updated.', 'updated' );
 			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : Submitted settings are not an array.', 'error' );
 			return $opts;
@@ -183,7 +197,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$this->ngfb->update->check_for_updates();
 			}
 
-			if ( ! empty( $_GET['action'] ) )
+			if ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
 					case 'check_for_updates' : 
 						if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
@@ -200,21 +214,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 							additional caches, like APC, Memcache, Xcache, etc. have all been cleared.' );
 						break;
 				}
-			
-			switch ( $this->pagehook ) {
-				// only load the buttons_css_data option when on a style settings page
-				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-style/', $this->pagehook ) ? true : false ) :
-					// use the custom css file, or a default one if it doesn't exist
-					$css_file = file_exists( $this->ngfb->style->buttons_css_file ) ?
-						$this->ngfb->style->buttons_css_file :  NGFB_PLUGINDIR . 'css/social-buttons.css';
-					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
-					else {
-						$this->ngfb->options['buttons_css_data'] = esc_textarea( fread( $fh, filesize( $css_file ) ) );
-						$this->ngfb->debug->log( 'read css from file ' . $css_file );
-						fclose( $fh );
-					}
-					break;
 			}
 
 			$this->ngfb->admin->set_readme();	// the version info metabox on all settings pages needs this

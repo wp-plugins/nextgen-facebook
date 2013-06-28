@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-4
+Version: 6.1-DEV-5
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-4';	// only for display purposes
+		public $version = '6.1-DEV-5';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -59,6 +59,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
 		);
 
+		public $css_names = array(
+			'excerpt' => 'Excerpt Style',
+			'content' => 'Content Style',
+			'shortcode' => 'Shortcode Style',
+			'widget' => 'Widget Style',
+			'social' => 'Social Buttons Style',
+		);
+
 		public $social_prefix = array(
 			'facebook' => 'fb', 
 			'gplus' => 'gp',
@@ -89,9 +97,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $setting_libs = array(
 			'general' => 'General',
+			'advanced' => 'Advanced',
 			'social' => 'Social Sharing',
 			'style' => 'Social Style',
-			'advanced' => 'Advanced',
 			'about' => 'About',
 		);
 
@@ -240,6 +248,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
 				unset ( $id, $name );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
+				require_once ( NGFB_PLUGINDIR . 'lib/ext/compressor.php' );
 			} else {
 				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
@@ -366,7 +375,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * check options array read from database - upgrade options if necessary
 			 */
-			$this->options = $this->opt->quick_check( $this->options, $this->opt->defaults );
+			$this->options = $this->opt->quick_check( $this->options );
 
 			/*
 			 * setup class properties based on option values
@@ -461,11 +470,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['wpseo'] == true ) {
 				if ( ! empty( $this->wpseo_social['opengraph'] ) ) {
 					$this->debug->log( 'option conflict - wpseo opengraph option is enabled' );
-					$this->notices->err( 'Option conflict found. Please disable the Open Graph meta data option in the Yoast WordPress SEO plugin.' );
+					$this->notices->err( 'Option conflict found -- please disable the <em>Open Graph</em> meta data option in the Yoast WordPress SEO plugin.' );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $this->wpseo_social['twitter'] ) ) {
 					$this->debug->log( 'option conflict - wpseo twitter option is enabled' );
-					$this->notices->err( 'Option conflict found. Please disable the Twitter Card meta data option in the Yoast WordPress SEO plugin.' );
+					$this->notices->err( 'Option conflict found -- Please disable the <em>Twitter Card</em> meta data option in the Yoast WordPress SEO plugin.' );
 				}
 			}
 		}

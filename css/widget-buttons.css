@@ -1,0 +1,5 @@
+/* 
+ * Buttons in Widget - Align vertically in 150px column
+ */
+.ngfb-widget-buttons { text-align:left; }
+.ngfb-widget-buttons .ngfb-buttons > div { width:150px; }

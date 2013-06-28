@@ -111,7 +111,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				' );
 			echo '<td>Width ', $this->ngfb->admin->form->get_input( 'og_img_width', 'short' ), ' x ',
 				'Height ', $this->ngfb->admin->form->get_input( 'og_img_height', 'short' ), 
-				'Crop ', $this->ngfb->admin->form->get_checkbox( 'og_img_crop' ), '</td>';
+				'Cropped ', $this->ngfb->admin->form->get_checkbox( 'og_img_crop' ), '</td>';
 
 			echo '</tr><tr>';
 
