@@ -76,26 +76,24 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			return $url;
 		}
 
-		public function reset_metaboxes( $page, $ids = array(), $force = false ) {
+		public function reset_metaboxes( $page, $box_ids = array(), $force = false ) {
 			$user_id = get_current_user_id();				// since wp 3.0
 
-			if ( $force == true ) {
-				delete_user_option( $user_id, 'meta-box-order_' . $page, true );	// since wp 3.0
-				delete_user_option( $user_id, 'metaboxhidden_' . $page, true );		// since wp 3.0
-				delete_user_option( $user_id, 'closedpostboxes_' . $page, true );	// since wp 3.0
-			}
+			if ( $force == true )
+				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
+					delete_user_option( $user_id, $meta_name . '_' . $page, true );
 
-			$option_name = 'closedpostboxes_' . $page;
-			$option_arr = get_user_option( $option_name, $user_id );	// since wp 2.0.0 
+			$meta_key = 'closedpostboxes_' . $page;
+			$option_arr = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
 
 			if ( ! is_array( $option_arr ) )
 				$option_arr = array();
 
 			if ( empty( $option_arr ) )
-				foreach ( $ids as $id ) 
+				foreach ( $box_ids as $id ) 
 					$option_arr[] = $page . '_' . $id;
 
-			update_user_option( $user_id, $option_name, array_unique( $option_arr ), true );	// since wp 2.0
+			update_user_option( $user_id, $meta_key, array_unique( $option_arr ), true );	// since wp 2.0
 		}
 
 	}

@@ -469,7 +469,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-DEV-5 =
+= Version 6.1-DEV-6 =
 
 * Included the Facebook 'Language / Locale' option on the General settings page, and added the `og:locale` meta property tag.
 * Added a check for possible Open Graph / Twitter Card options conflict with the Yoast WordPress SEO plugin (its meta tags are too basic and should be disabled).
@@ -557,7 +557,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1-DEV-5 =
+= 6.1-DEV-6 =
 
 Added check for possible option conflict with Yoast WP SEO, `og:locale` meta tag, counter for Post/Page custom description (Pro version), Post/Page custom Video URL (Pro Version), Post/Page custom Tweet field (Pro version), improved stylesheet settings, and moved info text to popup tooltips.
 

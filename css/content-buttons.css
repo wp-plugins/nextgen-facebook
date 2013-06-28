@@ -1,6 +1,6 @@
-/* 
- * Buttons in Content - Create a shadowed box for the buttons 
- */ 
+/* Save an empty text box to reload the defaults */
+
+/* Buttons in Content - create a shadowed box for the buttons */ 
 .ngfb-content-buttons { 
 	display:block;
 	padding:2px;

@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-5
+Version: 6.1-DEV-6
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-5';	// only for display purposes
+		public $version = '6.1-DEV-6';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -106,12 +106,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private $wpseo_social = array();	// yoast wordpress seo social options
 
 		public function __construct() {
-
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
-			// since wp 3.1 : register_activation_hook is now fired only when the user activates the plugin 
-			// and not when an automatic plugin update occurs
+			// since wp 3.1 : register_activation_hook is now fired only when the user 
+			// activates the plugin and not when an automatic plugin update occurs
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );		// since wp 2.0
 			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );		// since wp 2.0
 			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );	// since wp 2.7
@@ -125,6 +124,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function deactivate() {
+			$this->debug->mark();
 			wp_clear_scheduled_hook( 'plugin_updates-' . $this->slug );	// since wp 2.1.0
 		}
 
@@ -134,6 +134,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
 				delete_option( 'external_updates-nextgen-facebook' );
+				// remove metabox preferences from all users
+				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
+					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
+						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
+							$meta_key = $meta_name . '_' . $page_prefix . '_ngfb-' . $settings_page;
+							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
+								delete_user_option( $user->ID, $meta_key, true );
+						}
+					}
+				}
 			}
 		}
 
@@ -470,11 +480,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['wpseo'] == true ) {
 				if ( ! empty( $this->wpseo_social['opengraph'] ) ) {
 					$this->debug->log( 'option conflict - wpseo opengraph option is enabled' );
-					$this->notices->err( 'Option conflict found -- please disable the <em>Open Graph</em> meta data option in the Yoast WordPress SEO plugin.' );
+					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
+						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $this->wpseo_social['twitter'] ) ) {
 					$this->debug->log( 'option conflict - wpseo twitter option is enabled' );
-					$this->notices->err( 'Option conflict found -- Please disable the <em>Twitter Card</em> meta data option in the Yoast WordPress SEO plugin.' );
+					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
+						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 			}
 		}
