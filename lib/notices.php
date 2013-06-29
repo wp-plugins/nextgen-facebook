@@ -41,7 +41,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			if ( ! empty( $this->msgs['nag'] ) ) {
 				echo '
 				<style type="text/css">
-					.update-nag {
+					.ngfb-update-nag {
 						color:#333;
 						background:#eeeeff;
 						background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -51,22 +51,25 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 						background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
 						border:1px dashed #ccc;
 						padding:10px 40px 10px 40px;
+						overflow:hidden;
 					}
 				</style>';
 				foreach ( $this->msgs['nag'] as $msg )
-					echo '<div class="update-nag">', $msg, '</div>', "\n";
+					echo '<div class="update-nag ngfb-update-nag">', $msg, '</div>', "\n";
 			}
 
 			if ( ! empty( $this->msgs['err'] ) ) {
 				foreach ( $this->msgs['err'] as $msg )
-					echo '<div class="error"><p><b>', $this->ngfb->acronym_uc, ' Warning</b> : ', 
-						$msg, '</p></div>', "\n";
+					echo '<div class="error">
+						<div style="float:left;"><p><b>', $this->ngfb->acronym_uc, ' Warning</b> :</p></div>
+						<p>', $msg, '</p></div>', "\n";
 			}
 
 			if ( ! empty( $this->msgs['inf'] ) ) {
 				foreach ( $this->msgs['inf'] as $msg )
-					echo '<div class="updated fade"><p><b>', $this->ngfb->acronym_uc, ' Info</b> : ', 
-						$msg, '</p></div>', "\n";
+					echo '<div class="updated fade">
+						<div style="float:left;"><p><b>', $this->ngfb->acronym_uc, ' Info</b> :</p></div>
+						<p>', $msg, '</p></div>', "\n";
 			}
 		}
 

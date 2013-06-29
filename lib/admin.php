@@ -166,7 +166,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				if ( file_exists( $css_min_file ) ) {
 					if ( ! @unlink( $css_min_file ) )
 						add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-							'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet.', 'error' );
+							'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet. 
+								Does the web server have sufficient privileges?', 'error' );
 				}
 			} else {
 				if ( ! $fh = @fopen( $css_min_file, 'wb' ) )
@@ -198,6 +199,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
+					case 'remove_old_css' : 
+						if ( file_exists( $this->ngfb->style->buttons_css_file ) )
+							if ( @unlink( $this->ngfb->style->buttons_css_file ) )
+								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+									'<b>' . $this->ngfb->acronym_uc . '</b> : The older <u>' .  
+										$this->ngfb->style->buttons_css_file . '</u>
+										stylesheet has been removed.', 'updated' );
+							else
+								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+									'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing stylesheet. 
+										Does the web server have sufficient privileges?', 'error' );
+
+						break;
 					case 'check_for_updates' : 
 						if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 							$this->ngfb->update->check_for_updates();
@@ -223,6 +237,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
+
+			if ( file_exists( $this->ngfb->style->buttons_css_file ) ) {
+				$this->ngfb->notices->inf( 'The older <u>' . $this->ngfb->style->buttons_css_file . '</u> stylesheet is no longer used. 
+					Styling for social buttons is now managed ' . $this->ngfb->util->get_admin_url( 'style', 'on the new Social Style settings page' ) . '. 
+					If you have not customized the default CSS, or when you are ready, you may ' . 
+					$this->ngfb->util->get_admin_url( '?action=remove_old_css', 'click this link to remove the old stylesheet' ) . '.' );
+			}
 
 			if ( $this->ngfb->is_avail['aop'] == true )
 				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
@@ -283,7 +304,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
 			// always include the version number of the options
-			echo $this->ngfb->admin->form->get_hidden( 'ngfb_version', $this->ngfb->opt->version );
+			echo $this->ngfb->admin->form->get_hidden( 'ngfb_opts_ver', $this->ngfb->opt->opts_ver );
+			echo $this->ngfb->admin->form->get_hidden( 'ngfb_plugin_ver', $this->ngfb->version );
 
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
 

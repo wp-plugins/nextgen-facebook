@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attachment, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -12,7 +12,9 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 == Description ==
 
-**An essential plugin for *every* WordPress website.**
+**An essential plugin for *every* WordPress website.** 
+
+** Enhances and improves any traditional SEO plugin.**
 
 = Open Graph and SEO =
 
@@ -38,7 +40,7 @@ NGFB Open Graph+ comes with several multilingual social sharing buttons, that yo
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including preview the image). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Best Performance =
 
@@ -295,9 +297,9 @@ Note that by default (like all other methods used to add NGFB social buttons), a
 
 = Social Buttons Style =
 
-NGFB Open Graph+ uses several layers of classes to wrap all its ocial buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Sharing settings page. The stylesheet is saved as `wp-content/uploads/ngfb-social-buttons.css` -- outside of the plugin folder, so it won't be removed when the plugin is updated.
+NGFB Open Graph+ uses several layers of classes to wrap all its social buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Style settings page.
 
-The default stylesheet, located in `wp-content/plugins/nextgen-facebook/css/social-buttons.css`, contains a fairly complete example of CSS styling for the NGFB social buttons. You should note that I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button area helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
+The default styles offer a fairly complete example of CSS styling for the NGFB social buttons. In the default Social Buttons Style section, I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
@@ -469,7 +471,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-DEV-8 =
+= Version 6.1-DEV-9 =
+
+The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
 
 * Included the Facebook *Language / Locale* option on the General settings page, and added the `og:locale` meta property tag.
 * Added a check for possible Open Graph / Twitter Card options conflict with the Yoast WordPress SEO plugin (its meta tags are too basic and should be disabled).
@@ -559,9 +563,9 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1-DEV-8 =
+= 6.1-DEV-9 =
 
-Added check for possible option conflict with Yoast WP SEO, `og:locale` meta tag, counter for Post/Page custom description (Pro version), Post/Page custom Video URL (Pro Version), Post/Page custom Tweet field (Pro version), improved stylesheet settings, and moved info text to popup tooltips.
+Several new features -- recommended upgrade. Please note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet has been replaced and is no longer used (see Changelog).
 
 = 6.0 =
 

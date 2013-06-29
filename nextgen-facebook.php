@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-8
+Version: 6.1-DEV-9
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-8';	// only for display purposes
+		public $version = '6.1-DEV-9';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -345,7 +345,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
 	
 					$this->options = $this->opt->get_defaults();
-					$this->options['ngfb_version'] = $this->opt->version;
+					$this->options['ngfb_opts_ver'] = $this->opt->opts_ver;
+					$this->options['ngfb_plugin_ver'] = $this->version;
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );
@@ -442,15 +443,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
 
-				'pro_details' => '<p><strong>Would you like to manage <em>Open Graph</em> and <em>SEO</em> values for each 
-					<em>individual Post and Page</em>, add support for <em>Twitter Card</em> meta tags, improve page load times 
-					with a file cache for social button JavaScript, rewrite Open Graph image URLs for a <em>CDN</em> or 
-					<em>static content server</em>?</strong></p>
+				'pro_details' => '<p style="font-weight:bold;font-size:1.1em;">
+					Would you like to... Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
+					Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, including Gallery, Photo, Player and Large Image Cards?<br/>
+					Improve page load times with file caching for social button images and JavaScript?<br/>
+					Re-write Open Graph and image sharing URLs for <em>CDNs</em> or <em>static content server(s)</em>?</p>
 					
 					<p>Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
 					target="_blank">purchasing the ' . $this->fullname . ' Pro plugin</a>.</p>
 
-					<p>Upgrading to the Pro version is simple and easy -- enter your purchase Transaction ID on the Advanced 
+					<p>Upgrading to the Pro version is simple and easy; enter your purchase Transaction ID on the Advanced 
 					settings page and install the update from within WordPress.</p>',
 
 				'purchase_box' => $this->fullname . ' has taken many, many months of long days to develop and fine-tune.

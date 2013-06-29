@@ -323,6 +323,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function get_admin_url( $submenu = '', $link_text = '' ) {
+			$query = '';
+			if ( strpos( $submenu, '?' ) !== false )
+				list( $submenu, $query ) = explode( '?', $submenu );
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
@@ -333,6 +336,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$submenu = 'general';
 			}
 			$url = get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+			if ( ! empty( $query ) ) $url .= '&' . $query;
 			if ( empty( $link_text ) ) return $url;
 			else return '<a href="' . $url . '">' . $link_text . '</a>';
 		}

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '42';		// increment when adding/removing default options
+		public $opts_ver = '42';		// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
@@ -159,7 +159,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_twitter:player' => 1,
 			'inc_twitter:player:width' => 1,
 			'inc_twitter:player:height' => 1,
-			'ngfb_version' => '',
+			'ngfb_opts_ver' => '',
+			'ngfb_plugin_ver' => '',
 			'ngfb_pro_tid' => '',
 			'ngfb_reset' => 0,
 			'ngfb_preserve' => 0,
@@ -199,6 +200,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_location' => 'buttons_location_the_content',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
+			'ngfb_version' => 'ngfb_opts_ver',
 		);
 
 		private $ngfb;		// ngfbPlugin
@@ -229,8 +231,12 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-				if ( empty( $opts['ngfb_version'] ) || $opts['ngfb_version'] !== $this->version )
+
+				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
+					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
+						$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
+				}
 			} else {
 				if ( $opts === false )
 					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
@@ -422,7 +428,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				unset ( $old, $new );
 
 				// these option names may have been used in the past, so remove them, just in case
-				if ( $opts['ngfb_version'] < 30 ) {
+				if ( $opts['ngfb_opts_ver'] < 30 ) {
 					unset( $opts['og_img_width'] );
 					unset( $opts['og_img_height'] );
 					unset( $opts['og_img_crop'] );
@@ -462,31 +468,27 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
+				// mark the new options as current
+				$old_opts_ver = $opts['ngfb_opts_ver'];
+				$opts['ngfb_opts_ver'] = $this->opts_ver;
+				$opts['ngfb_plugin_ver'] = $this->ngfb->version;
+
 				// make sure someone is there to see the success / error messages
 				if ( is_admin() ) {
-					// mark the new options as current
-					$opts['ngfb_version'] = $this->version;
-
 					// update_option() returns false if options are the same or there was an error, 
 					// so check to make sure they need to be updated to avoid throwing a false error
 					if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
-						if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true )
-							$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
-								$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
-									' when you have time.' );
-						else
+						if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
+							if ( $old_opts_ver !== $this->opts_ver ) {
+								$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
+									$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
+										' when you have time.' );
+							}
+						} else {
 							$this->ngfb->notices->err( 'The plugin settings have been updated, 
 								but WordPress returned an error when saving them.' );
 							return $opts;
-					}
-	
-					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-						$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
-	
-					if ( file_exists( $this->ngfb->style->buttons_css_file ) ) {
-						$this->ngfb->notices->inf( 'Please note that the <u>' . $this->ngfb->style->buttons_css_file . '</u> stylesheet file is no longer used. 
-							If you have not customized it, you may safely remove this file. Styling for social buttons can be entered directly
-							on the new ' . $this->ngfb->util->get_admin_url( 'style', 'Social Style settings page' ) . '.' );
+						}
 					}
 				}
 			}
