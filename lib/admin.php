@@ -365,13 +365,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			?>
 			<table class="ngfb-settings">
-			<tr><th class="side">Installed:</th><td><?php 
+			<tr><th class="side">Installed:</th>
+			<td><?php 
 				echo $this->ngfb->version; 
-				echo $this->ngfb->is_avail['aop'] ? ' Pro' : ' <em>Free</em>'; 
-			?></tr>
-			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></tr>
-			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></tr>
-			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p></tr>
+				echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ' (<em>Free</em>)'; 
+			?></td></tr>
+			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
+			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>
+			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p>
+				<p style="font-size:0.95em;"><?php echo 
+					$this->ngfb->util->get_admin_url( 'about', 'See the Changelog for additional details...' ); ?></p></td></tr>
 			<?php
 			echo '<tr><td colspan="2">';
 			echo '<p style="text-align:center;">';

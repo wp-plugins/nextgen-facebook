@@ -12,6 +12,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 
 	class ngfbStyle {
 
+		public $buttons_css_file;
 		public $buttons_css_min_file;
 		public $buttons_css_min_url;
 
@@ -22,6 +23,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			$this->ngfb->debug->mark();
 
 			$upload_dir = wp_upload_dir();
+			$this->buttons_css_file = trailingslashit( $upload_dir['basedir'] ) . $this->ngfb->acronym . '-social-buttons.css';
 			$this->buttons_css_min_file = trailingslashit( $upload_dir['basedir'] ) . $this->ngfb->acronym . '-social-buttons.min.css';
 			$this->buttons_css_min_url = trailingslashit( $upload_dir['baseurl'] ) . $this->ngfb->acronym . '-social-buttons.min.css';
 			$this->register_styles();

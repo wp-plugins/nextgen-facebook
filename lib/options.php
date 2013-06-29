@@ -213,7 +213,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$css_file = NGFB_PLUGINDIR . 'css/' . $css_id . '-buttons.css';
 				if ( empty( $this->defaults['buttons_css_' . $css_id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->ngfb->notices->err( 'Failed to open ' . $css_file . ' for reading.' );
+						$this->ngfb->notices->err( 'Failed to open <u>' . $css_file . '</u> for reading.' );
 					else {
 						$this->defaults['buttons_css_' . $css_id] = fread( $fh, filesize( $css_file ) );
 						$this->ngfb->debug->log( 'read css from file ' . $css_file );
@@ -260,9 +260,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				}
 				if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 					$url = $this->ngfb->util->get_admin_url( 'advanced' );
-					$this->ngfb->notices->inf( 'The <em>Transaction ID</em> option value is empty. In order for the plugin to authenticate 
-						itself for future updates, <a href="' . $url . '">please enter the Transaction ID you received by email on the 
-						Advanced Settings page</a>.' );
+					$this->ngfb->notices->nag( '<p>The ' . $this->ngfb->fullname . ' <em>Purchase Transaction ID</em> option value is empty. 
+						In order for the plugin to authenticate itself for future updates,<br/><a href="' . $url . '">please enter 
+						the Transaction ID you received by email on the Advanced Settings page</a>.</p>' );
 				}
 
 			}
@@ -462,24 +462,33 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				// mark the new options as current
-				$opts['ngfb_version'] = $this->version;
+				// make sure someone is there to see the success / error messages
+				if ( is_admin() ) {
+					// mark the new options as current
+					$opts['ngfb_version'] = $this->version;
 
-				// update_option() returns false if options are the same or there was an error, 
-				// so check to make sure they need to be updated to avoid throwing a false error
-				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
-					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true )
-						$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
-							$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
-								' when you have time.' );
-					else
-						$this->ngfb->notices->err( 'The plugin settings have been updated, 
-							but WordPress returned an error when saving them.' );
+					// update_option() returns false if options are the same or there was an error, 
+					// so check to make sure they need to be updated to avoid throwing a false error
+					if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
+						if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true )
+							$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
+								$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
+									' when you have time.' );
+						else
+							$this->ngfb->notices->err( 'The plugin settings have been updated, 
+								but WordPress returned an error when saving them.' );
+							return $opts;
+					}
+	
+					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
+						$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
+	
+					if ( file_exists( $this->ngfb->style->buttons_css_file ) ) {
+						$this->ngfb->notices->inf( 'Please note that the <u>' . $this->ngfb->style->buttons_css_file . '</u> stylesheet file is no longer used. 
+							If you have not customized it, you may safely remove this file. Styling for social buttons can be entered directly
+							on the new ' . $this->ngfb->util->get_admin_url( 'style', 'Social Style settings page' ) . '.' );
+					}
 				}
-
-				if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-					$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
-
 			}
 			return $opts;
 		}

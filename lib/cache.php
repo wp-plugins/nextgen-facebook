@@ -128,7 +128,8 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				}
 			} else {
 				if ( is_admin() )
-					$this->ngfb->notices->err( 'Error connecting to URL ' . $get_url . ' for caching. 
+					$this->ngfb->notices->err( 'Error connecting to <a href="' . $get_url . '" 
+						target="_blank">' . $get_url . '</a> for caching. 
 						Ignoring requests to cache this URL for ' . $this->ignore_time . ' second(s)' );
 
 				$this->ngfb->debug->log( 'error connecting to URL ' . $get_url . ' for caching. ' );
@@ -165,11 +166,11 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
 					if ( file_exists( $cache_file ) ) {
 						if ( ! is_readable( $cache_file ) )
-							$this->ngfb->notices->err( $cache_file . ' is not readable.' );
+							$this->ngfb->notices->err( '<u>' . $cache_file . '</u> is not readable.' );
 						elseif ( filemtime( $cache_file ) > time() - $file_expire && 
 							( $this->ngfb->is_avail['aop'] == true || is_admin() ) ) {
 							if ( ! $fh = @fopen( $cache_file, 'rb' ) )
-								$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for reading.' );
+								$this->ngfb->notices->err( 'Failed to open <u>' . $cache_file . '</u> for reading.' );
 							else {
 								$cache_data = fread( $fh, filesize( $cache_file ) );
 								fclose( $fh );
@@ -211,10 +212,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
 					if ( ! is_writable( $this->base_dir ) )
-						$this->ngfb->notices->err( $this->base_dir . ' is not writable.' );
+						$this->ngfb->notices->err( '<u>' . $this->base_dir . '</u> is not writable.' );
 					elseif ( $this->ngfb->is_avail['aop'] == true || is_admin() ) {
 						if ( ! $fh = @fopen( $cache_file, 'wb' ) )
-							$this->ngfb->notices->err( 'Failed to open ' . $cache_file . ' for writing.' );
+							$this->ngfb->notices->err( 'Failed to open <u>' . $cache_file . '</u> for writing.' );
 						else {
 							if ( fwrite( $fh, $cache_data ) ) {
 								$this->ngfb->debug->log( $cache_type . ': cache_data saved to "' . $cache_file . '"' );
