@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -14,7 +14,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.** 
 
-**Enhances and improves traditional SEO plugins like Yoast WordPress SEO and others.**
+**Improves and enhances traditional SEO plugins like *Yoast WordPress SEO* and others.**
 
 = Open Graph and SEO =
 
