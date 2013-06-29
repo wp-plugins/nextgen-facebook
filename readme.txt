@@ -14,7 +14,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.** 
 
-** Enhances and improves any traditional SEO plugin.**
+**Enhances and improves traditional SEO plugins like Yoast WordPress SEO and others.**
 
 = Open Graph and SEO =
 
@@ -22,7 +22,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
 <!--/ngfb-content-->
 
-Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
+Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/) and [NGFB Open Graph+ Example Screenshots](http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/).
 
 **Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
@@ -565,7 +565,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 6.1-DEV-9 =
 
-Several new features -- recommended upgrade. Please note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet has been replaced and is no longer used (see Changelog).
+Recommended upgrade. Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet has been replaced and is no longer used (see Changelog).
 
 = 6.0 =
 
