@@ -469,15 +469,17 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-DEV-6 =
+= Version 6.1-DEV-7 =
 
-* Included the Facebook 'Language / Locale' option on the General settings page, and added the `og:locale` meta property tag.
+* Included the Facebook *Language / Locale* option on the General settings page, and added the `og:locale` meta property tag.
 * Added a check for possible Open Graph / Twitter Card options conflict with the Yoast WordPress SEO plugin (its meta tags are too basic and should be disabled).
 * Added a character counter for the Post / Page custom Description field (Pro version).
-* Added a custom Video URL field for Posts and Pages (Pro version).
-* Added a custom Tweet field for Posts and Pages (Pro version).
+* Added a custom *Video URL* field for Posts and Pages (Pro version).
+* Added a custom *Tweet* field for Posts and Pages (Pro version).
 * Added a stylesheet settings page with sections for each button style (excerpt, content, shortcode, etc.).
 * Moved most informational text on the settings pages to popup tooltips.
+* Upgraded settings will now be saved back to the database automatically, without having to save them manually from a plugin settings page.
+* Added the *Default Author*', *Default Author on Indexes*, and *Default Author on Search Results* options for Google.
 
 = Version 6.0 =
 
@@ -557,7 +559,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1-DEV-6 =
+= 6.1-DEV-7 =
 
 Added check for possible option conflict with Yoast WP SEO, `og:locale` meta tag, counter for Post/Page custom description (Pro version), Post/Page custom Video URL (Pro Version), Post/Page custom Tweet field (Pro version), improved stylesheet settings, and moved info text to popup tooltips.
 

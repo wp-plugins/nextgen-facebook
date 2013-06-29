@@ -134,57 +134,56 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		// this method receives only a partial options array, so re-create a full one
 		public function sanitize_options( $opts ) {
-			if ( is_array( $opts ) ) {
 
-				$def_opts = $this->ngfb->opt->get_defaults();
+			if ( ! is_array( $opts ) ) {
+				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . ' Error </b> : Submitted settings are not an array.', 'error' );
+				return $opts;
+			}
 
-				// un-checked checkboxes are not given, so re-create them here based on hidden values
-				$checkbox = $this->ngfb->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
-				foreach ( $checkbox as $key => $val ) {
-					if ( ! array_key_exists( $key, $opts ) )
-						$opts[$key] = 0;	// add missing checkbox as empty
-					unset ( $opts['is_checkbox_'.$key] );
+			$def_opts = $this->ngfb->opt->get_defaults();
+
+			// un-checked checkboxes are not given, so re-create them here based on hidden values
+			$checkbox = $this->ngfb->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
+			foreach ( $checkbox as $key => $val ) {
+				if ( ! array_key_exists( $key, $opts ) )
+					$opts[$key] = 0;	// add missing checkbox as empty
+				unset ( $opts['is_checkbox_'.$key] );
+			}
+
+			$opts = array_merge( $this->ngfb->options, $opts );
+			$opts = $this->ngfb->opt->sanitize( $opts, $def_opts );
+
+			foreach ( $opts as $key => $val )
+				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
+					unset( $opts[$key] );
+			unset ( $key, $val );
+
+			/*
+			 * Minimize and save the CSS option values
+			 */
+			$css_min_file = $this->ngfb->style->buttons_css_min_file;
+			if ( empty( $opts['buttons_link_css'] ) ) {
+				if ( file_exists( $css_min_file ) ) {
+					if ( ! @unlink( $css_min_file ) )
+						add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+							'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet.', 'error' );
 				}
-
-				$opts = array_merge( $this->ngfb->options, $opts );
-				$opts = $this->ngfb->opt->sanitize( $opts, $def_opts );
-
-				foreach ( $opts as $key => $val )
-					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
-						unset( $opts[$key] );
-				unset ( $key, $val );
-
-				/*
-				 * Minimize and save the CSS option values
-				 */
-				$css_min_file = $this->ngfb->style->buttons_css_min_file;
-				if ( empty( $opts['buttons_link_css'] ) ) {
-					if ( file_exists( $css_min_file ) ) {
-						if ( @unlink( $css_min_file ) )
-							add_settings_error( NGFB_OPTIONS_NAME, 'cssrm', 
-								'<b>' . $this->ngfb->acronym_uc . '</b> : Minimized stylesheet removed.', 'updated' );
-						else 
-							add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-								'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet.', 'error' );
-					}
-				} else {
-					if ( ! $fh = @fopen( $css_min_file, 'wb' ) )
-						add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
-							'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening ' . $css_min_file . ' for writing.', 'error' );
-					else {
-						$css_data = '';
-						foreach ( $this->ngfb->css_names as $css_id => $css_name )
-							$css_data .= $opts['buttons_css_' . $css_id];
-						$css_data = ngfbMinifyCssCompressor::process( $css_data );
-						fwrite( $fh, $css_data );
-						fclose( $fh );
-						$this->ngfb->debug->log( 'updated css file ' . $css_min_file );
-						add_settings_error( NGFB_OPTIONS_NAME, 'cssrm', 
-							'<b>' . $this->ngfb->acronym_uc . '</b> : Minimized stylesheet updated.', 'updated' );
-					}
+			} else {
+				if ( ! $fh = @fopen( $css_min_file, 'wb' ) )
+					add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
+						'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening ' . $css_min_file . ' for writing.', 'error' );
+				else {
+					$css_data = '';
+					foreach ( $this->ngfb->css_names as $css_id => $css_name )
+						$css_data .= $opts['buttons_css_' . $css_id];
+					$css_data = ngfbMinifyCssCompressor::process( $css_data );
+					fwrite( $fh, $css_data );
+					fclose( $fh );
+					$this->ngfb->debug->log( 'updated css file ' . $css_min_file );
 				}
-				add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . '</b> : Settings updated.', 'updated' );
-			} else add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . '</b> : Submitted settings are not an array.', 'error' );
+			}
+
+			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : Settings updated.', 'updated' );
 			return $opts;
 		}
 
@@ -413,7 +412,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_help() {
 			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<p>', $this->ngfb->msgs['help_boxes'], '</p>', "\n";
-			echo '<p>', $this->ngfb->msgs['help_forum'], '</p>', "\n";
+			if ( $this->ngfb->is_avail['aop'] == true )
+				echo '<p>', $this->ngfb->msgs['help_email'], '</p>', "\n";
+			else
+				echo '<p>', $this->ngfb->msgs['help_forum'], '</p>', "\n";
 			echo '</td></tr></table>';
 		}
 

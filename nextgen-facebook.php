@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-DEV-6
+Version: 6.1-DEV-7
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-DEV-6';	// only for display purposes
+		public $version = '6.1-DEV-7';	// only for display purposes
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -129,7 +129,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
-		public function uninstall() {
+		public static function uninstall() {
 			$options = get_option( NGFB_OPTIONS_NAME );
 			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
@@ -442,13 +442,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
 					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
 
-				'pro_details' => 'Would you like to manage the Open Graph and SEO values for each individual Post and Page? 
-					Add Twitter Card support? Improve page load times with a file cache for social buttons? 
-					Rewrite Open Graph image URLs to a CDN or static content server? 
-					Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version</a>.',
+				'pro_details' => '<p><strong>Would you like to manage <em>Open Graph</em> and <em>SEO</em> values for each 
+					<em>individual Post and Page</em>, add support for <em>Twitter Card</em> meta tags, improve page load times 
+					with a file cache for social button JavaScript, rewrite Open Graph image URLs for a <em>CDN</em> or 
+					<em>static content server</em>?</strong></p>
+					
+					<p>Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the ' . $this->fullname . ' Pro plugin</a>.</p>
 
-				'purchase_box' => 'NGFB Open Graph+ has taken many, many months of long days to develop and fine-tune.
+					<p>Upgrading to the Pro version is simple and easy -- enter your purchase Transaction ID on the Advanced 
+					settings page and install the update from within WordPress.</p>',
+
+				'purchase_box' => $this->fullname . ' has taken many, many months of long days to develop and fine-tune.
 					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
 					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
 					target="_blank">purchasing the Pro version</a>.',
@@ -463,7 +468,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
 
 				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
-					target="_blank">NGFB Open Graph Support Forum</a> on WordPress.org.',
+					target="_blank">Support Forum</a> on WordPress.org.',
+
+				'help_email' => 'Need help? Contact me by email at <a href="mailto:jsm@surniaulula.com" 
+					target="_blank">jsm@surniaulula.com</a>.',
 			);
 		}
 
@@ -477,15 +485,22 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					(hint: you may need to install the \'php-mbstring\' package on some Linux distros).' );
 			}
 
+			// Yoast WordPress SEO
 			if ( $this->is_avail['wpseo'] == true ) {
 				if ( ! empty( $this->wpseo_social['opengraph'] ) ) {
-					$this->debug->log( 'option conflict - wpseo opengraph option is enabled' );
+					$this->debug->log( 'option conflict - wpseo opengraph meta data option is enabled' );
 					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $this->wpseo_social['twitter'] ) ) {
-					$this->debug->log( 'option conflict - wpseo twitter option is enabled' );
+					$this->debug->log( 'option conflict - wpseo twitter meta data option is enabled' );
 					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
+						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
+				}
+
+				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $this->wpseo_social['plus-publisher'] ) ) {
+					$this->debug->log( 'option conflict - wpseo google plus publisher option is defined' );
+					$this->notices->err( 'Option conflict found -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 			}

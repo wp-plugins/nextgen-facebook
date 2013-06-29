@@ -16,6 +16,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		private $msgs = array(
 			'err' => array(),
 			'inf' => array(),
+			'nag' => array(),
 		);
 
 		public function __construct( &$ngfb_plugin ) {
@@ -25,13 +26,11 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
 		}
 
-		public function err( $msg = '' ) {
-			$this->log( 'err', $msg );
-		}
+		public function err( $msg = '' ) { $this->log( 'err', $msg ); }
 
-		public function inf( $msg = '' ) {
-			$this->log( 'inf', $msg );
-		}
+		public function inf( $msg = '' ) { $this->log( 'inf', $msg ); }
+
+		public function nag( $msg = '' ) { $this->log( 'nag', $msg ); }
 
 		public function log( $type, $msg = '' ) {
 			if ( ! empty( $msg ) && ! in_array( $msg, $this->msgs[$type] ) ) 
@@ -39,19 +38,35 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		}
 
 		public function admin_notices() {
-			$p_start = '<p><b>' . $this->ngfb->acronym_uc . '</b>';
-			$p_end = '</p>';
+			if ( ! empty( $this->msgs['nag'] ) ) {
+				echo '
+				<style type="text/css">
+					.update-nag {
+						color:#333;
+						background:#eeeeff;
+						background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
+						background-image: -webkit-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+						background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+						background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+						background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
+						border:1px dashed #ccc;
+						padding:10px 40px 10px 40px;
+					}
+				</style>';
+				foreach ( $this->msgs['nag'] as $msg )
+					echo '<div class="update-nag">', $msg, '</div>', "\n";
+			}
 
 			if ( ! empty( $this->msgs['err'] ) ) {
-				echo '<div id="message" class="error">';
-				foreach ( $this->msgs['err'] as $msg ) echo $p_start, ' Warning : ', $msg, $p_end;
-				echo '</div>', "\n";
+				foreach ( $this->msgs['err'] as $msg )
+					echo '<div class="error"><p><b>', $this->ngfb->acronym_uc, ' Warning</b> : ', 
+						$msg, '</p></div>', "\n";
 			}
 
 			if ( ! empty( $this->msgs['inf'] ) ) {
-				echo '<div id="message" class="updated fade">';
-				foreach ( $this->msgs['inf'] as $msg ) echo $p_start, ' : ', $msg, $p_end;
-				echo '</div>', "\n";
+				foreach ( $this->msgs['inf'] as $msg )
+					echo '<div class="updated fade"><p><b>', $this->ngfb->acronym_uc, ' Info</b> : ', 
+						$msg, '</p></div>', "\n";
 			}
 		}
 

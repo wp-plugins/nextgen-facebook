@@ -12,11 +12,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $version = '40';		// increment when adding/removing default options
-		public $on_page = 'general';	// the settings page where the last option was modified
+		public $version = '42';		// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
+			'link_def_author_id' => 0,
+			'link_def_author_on_index' => 0,
+			'link_def_author_on_search' => 0,
 			'link_publisher_url' => '',
 			'fb_admins' => '',
 			'fb_app_id' => '',
@@ -277,8 +279,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $def_opts as $key => $def_val ) {
 
 					// remove html, decode entities, and strip slashes
-					$opts[$key] = stripslashes( html_entity_decode( 
-						wp_filter_nohtml_kses( $opts[$key] ) ) );
+					$opts[$key] = stripslashes( html_entity_decode( wp_filter_nohtml_kses( $opts[$key] ) ) );
 
 					switch ( $key ) {
 
@@ -307,6 +308,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							break;
 
 						// must be numeric (blank or zero is ok)
+						case 'link_def_author_id' :
 						case 'og_desc_len' : 
 						case 'og_img_max' :
 						case 'og_vid_max' :
@@ -460,13 +462,23 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// sanitize and verify the options - just in case
 				$opts = $this->sanitize( $opts, $def_opts );
 
-				$this->ngfb->notices->inf( 'Plugin settings from the database have been read and updated dynamically --
-					<em>the updated settings have not been saved back to the database yet</em>.
-					<a href="' . $this->ngfb->util->get_admin_url( $this->on_page ) . '">Please review and save the settings</a> 
-					to make these changes permanent.' );
-	
+				// mark the new options as current
+				$opts['ngfb_version'] = $this->version;
+
+				// update_option() returns false if options are the same or there was an error, 
+				// so check to make sure they need to be updated to avoid throwing a false error
+				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
+					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true )
+						$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
+							$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
+								' when you have time.' );
+					else
+						$this->ngfb->notices->err( 'The plugin settings have been updated, 
+							but WordPress returned an error when saving them.' );
+				}
+
 				if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-					$this->ngfb->notices->inf( $this->ngfb->msgs['pro_details'] );
+					$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
 
 			}
 			return $opts;

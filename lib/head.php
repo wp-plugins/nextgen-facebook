@@ -75,14 +75,23 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			if ( ! empty( $arr['link:author'] ) )
 				echo '<link rel="author" href="', $arr['link:author'], '" />', "\n";
 			else {
-				if ( ! empty( $post ) && $post->post_author )
-					$author_url = $this->ngfb->user->get_author_url( $post->post_author, 
-						$this->ngfb->options['link_author_field'] );
+				if ( is_singular() ) {
 
-				elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
-					$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
-						$this->ngfb->options['link_author_field'] );
+					if ( ! empty( $post ) && $post->post_author )
+						$author_url = $this->ngfb->user->get_author_url( $post->post_author, 
+							$this->ngfb->options['link_author_field'] );
 
+					elseif ( ! empty( $this->ngfb->options['link_def_author_id'] ) )
+						$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
+							$this->ngfb->options['link_author_field'] );
+
+				// check for default author info on indexes and searches
+				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['link_def_author_on_index'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) )
+					|| ( is_search() && ! empty( $this->ngfb->options['link_def_author_on_search'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) ) ) {
+
+					$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
+						$this->ngfb->options['link_author_field'] );
+				}
 				if ( $author_url ) 
 					echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
