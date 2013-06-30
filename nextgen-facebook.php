@@ -169,6 +169,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			define( 'NGFB_FILEPATH', __FILE__ );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
+			define( 'NGFB_PLUGINBASE', plugin_basename( __FILE__ ) );			// since wp 1.5
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
 			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
@@ -318,10 +319,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * plugin is being activated - create default options
 			 */
-			if ( $activate == true || ( ! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' ) ) {
+			if ( $activate == true || ( ! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' &&
+				! empty( $_GET['plugin'] ) && $_GET['plugin'] == NGFB_PLUGINBASE ) ) {
 				$this->debug->log( 'plugin activated' );
-				if ( ! empty( $_GET['action'] ) ) $this->debug->log( 'action query value: ' . $_GET['action'] );
-				if ( ! empty( $_GET['plugin'] ) ) $this->debug->log( 'plugin query value: ' . $_GET['plugin'] );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
 					$this->options = $this->opt->get_defaults();
@@ -349,7 +349,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				$this->msg = new ngfbMessages( $this );
 				$this->admin = new ngfbAdmin( $this );
-				$this->admin->plugin_name = plugin_basename( __FILE__ );	// since wp 1.5
 			} else {
 				$this->head = new ngfbHead( $this );		// wp_head / opengraph
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
