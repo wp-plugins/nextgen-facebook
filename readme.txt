@@ -18,13 +18,11 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-<!--ngfb-content-->
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
-<!--/ngfb-content-->
 
 Find out more from... [NGFB Open Graph+ Example Screenshots](http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/) and [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
-**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. Although, if you have an image that represents your website, you may want to select it as your Default Image on the General Settings page. All options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
+**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. All plugin options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
 
 = Social Buttons =
 
@@ -40,11 +38,11 @@ NGFB Open Graph+ comes with several multilingual social sharing buttons, that yo
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Galleries, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Best Performance =
 
-NGFB Open Graph+ is fast and tuned for performance, and unlike most popular plugins, makes full use of all available caching techniques as well (persistent and non-persistent object caches and disk caching).
+NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object caches and disk caching).
 
 = Clean Uninstall =
 
@@ -297,9 +295,9 @@ Note that by default (like all other methods used to add NGFB social buttons), a
 
 = Social Buttons Style =
 
-NGFB Open Graph+ uses several layers of classes to wrap all its social buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Style settings page.
+NGFB Open Graph+ uses several layers of classes to describe all its social buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Style settings page.
 
-The default styles offer a fairly complete example of CSS styling for the NGFB social buttons. In the default Social Buttons Style section, I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
+The default styles offer a fairly complete example of CSS styling for the NGFB social buttons. In the default Social Buttons Style section I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
 
 = Hide Social Buttons =
 
