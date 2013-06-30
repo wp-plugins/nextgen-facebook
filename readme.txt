@@ -470,19 +470,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-RC3 =
+= Version 6.1 =
 
 The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
 
 * Included the Facebook *Language / Locale* option on the General settings page, and added the `og:locale` meta property tag.
-* Added a check for possible Open Graph / Twitter Card options conflict with the Yoast WordPress SEO plugin (its meta tags are too basic and should be disabled).
+* Added a check for possible Open Graph / Twitter Card conflict with Yoast WordPress SEO and SEO Ultimate plugins.
 * Added a character counter for the Post / Page custom Description field (Pro version).
 * Added a custom *Video URL* field for Posts and Pages (Pro version).
 * Added a custom *Tweet* field for Posts and Pages (Pro version).
 * Added a stylesheet settings page with sections for each button style (excerpt, content, shortcode, etc.).
-* Moved most informational text on the settings pages to popup tooltips.
-* Upgraded settings will now be saved back to the database automatically, without having to save them manually from a plugin settings page.
 * Added the *Default Author*', *Default Author on Indexes*, and *Default Author on Search Results* options for Google.
+* Upgraded settings are now saved back to the database automatically, without having to save them manually from a plugin settings page.
+* Moved most informational text on the settings pages to popup tooltips.
 
 = Version 6.0 =
 
@@ -564,7 +564,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 6.1-RC3 =
 
-Recommended upgrade. Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet file has been replaced and is no longer used (see Changelog).
+Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet has been replaced and is no longer used (see Changelog).
 
 = 6.0 =
 

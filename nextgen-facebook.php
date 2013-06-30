@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-RC3
+Version: 6.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-RC3';
+		public $version = '6.1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -163,7 +163,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							"echo '<!-- " . $this->fullname . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 			}
-
 		}
 
 		private function define_constants() { 
@@ -294,14 +293,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function setup_vars( $activate = false ) {
 
 			/*
-			 * load all options and setup message strings
+			 * load all plugin options
 			 */
 			$this->is_avail = $this->check_deps();
-			$this->options = get_option( NGFB_OPTIONS_NAME );
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
 			if ( $this->is_avail['ngg'] == true ) 
 				$this->ngg_options = get_option( 'ngg_options' );
+			$this->options = get_option( NGFB_OPTIONS_NAME );
 	
 			/*
 			 * create essential class objects
@@ -452,9 +451,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		// used before any class objects are created, so keep in main class
-		private function check_deps() {
-	
-			$is_avail = array();
+		private function check_deps( $is_avail = array() ) {
 
 			// php v4.0.6+
 			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;

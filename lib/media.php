@@ -409,27 +409,30 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
 			$image = array();
 			$og_ret = array();
-			if ( ! empty( $post_id ) ) {
-				$pid = $this->ngfb->meta->get_options( $post_id, 'og_img_id' );
-				$pre = $this->ngfb->meta->get_options( $post_id, 'og_img_id_pre' );
-				$url = $this->ngfb->meta->get_options( $post_id, 'og_img_url' );
-				if ( $pid > 0 ) {
-					if ( $pre == 'ngg' ) {
-						$this->ngfb->debug->log( 'found custom meta image id = ' . $pre . '-' . $pid );
-						$image = $this->get_ngg_image_src( $pre . '-' . $pid, $size_name, $check_dupes );
-					} else {
-						$this->ngfb->debug->log( 'found custom meta image id = ' . $pid );
-						$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
-					}
-				} elseif ( ! empty( $url ) ) {
-					$this->ngfb->debug->log( 'found custom meta image url = ' . $url );
-					$image[] = $url;
+			if ( empty( $post_id ) ) return $og_ret;
+
+			$pid = $this->ngfb->meta->get_options( $post_id, 'og_img_id' );
+			$pre = $this->ngfb->meta->get_options( $post_id, 'og_img_id_pre' );
+			$url = $this->ngfb->meta->get_options( $post_id, 'og_img_url' );
+
+			if ( $pid > 0 ) {
+				if ( $pre == 'ngg' ) {
+					$this->ngfb->debug->log( 'found custom meta image id = ' . $pre . '-' . $pid );
+					$image = $this->get_ngg_image_src( $pre . '-' . $pid, $size_name, $check_dupes );
+				} else {
+					$this->ngfb->debug->log( 'found custom meta image id = ' . $pid );
+					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
+			} elseif ( ! empty( $url ) ) {
+				$this->ngfb->debug->log( 'found custom meta image url = ' . $url );
+				$image[] = $url;
 			}
+
 			if ( ! empty( $image ) ) {
-				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-					$og_image['og:image:cropped'] ) = $image;
-				$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+				list( $og_image['og:image'], $og_image['og:image:width'], 
+					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
+				if ( ! empty( $og_image['og:image'] ) )
+					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 			}
 			return $og_ret;
 		}
@@ -601,7 +604,6 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						// set the height and width based on the iframe/embed attributes
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) 
 							$og_video['og:video:width'] = $match[1];
-
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) 
 							$og_video['og:video:height'] = $match[1];
 
@@ -631,17 +633,18 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					'og:video:height' => '',
 					'og:video:type' => 'application/x-shockwave-flash'
 				);
-				$this->ngfb->debug->log( 'found custom meta video url = ' . $og_video['og:video'] );
-				$og_video = $this->get_video_info( $og_video );
-				$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
-				$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] );
-				$this->ngfb->util->push_max( $og_ret, $og_video, $num );
+				if ( ( $check_dupes == false && ! empty( $og_video['og:video'] ) ) || $this->ngfb->util->is_uniq_url( $og_video['og:video'] ) ) {
+					$this->ngfb->debug->log( 'found custom meta video url = ' . $og_video['og:video'] );
+					$og_video = $this->get_video_info( $og_video );
+					$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
+					$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] );
+					if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
+				}
 			}
 			return $og_ret;
 		}
 
 		private function get_video_info( $og_video = array() ) {
-
 			if ( empty(  $og_video['og:video'] ) ) 
 				return $og_video;
 
