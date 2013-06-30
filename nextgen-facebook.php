@@ -318,7 +318,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * plugin is being activated - create default options
 			 */
-			if ( $activate == true ) {
+			if ( $activate == true || ( ! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' ) ) {
 				$this->debug->log( 'plugin activated' );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {

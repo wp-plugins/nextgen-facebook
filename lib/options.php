@@ -472,13 +472,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$opts['ngfb_plugin_ver'] = $this->ngfb->version;
 
 			// make sure someone is there to see the success / error messages
-			if ( is_admin() && ( empty( $_GET['action'] ) || $_GET['action'] !== 'upgrade-plugin' ) ) {
+			if ( is_admin() ) {
 
 				// update_option() returns false if options are the same or there was an error, 
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
 					$this->ngfb->debug->log( 'action query value: ' . $_GET['action'] );
+					$this->ngfb->debug->log( 'plugin query value: ' . $_GET['plugin'] );
 
 					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 						$this->ngfb->debug->log( 'adding notices message update-nag \'pro_details\'' );
