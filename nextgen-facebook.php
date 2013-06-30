@@ -336,6 +336,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// no need to continue, init_plugin() will handle the rest
 				return;
 			}
+				if ( ! empty( $_GET['action'] ) ) $this->debug->log( 'action query value: ' . $_GET['action'] );
+				if ( ! empty( $_GET['plugin'] ) ) $this->debug->log( 'plugin query value: ' . $_GET['plugin'] );
 
 			/*
 			 * continue creating remaining object classes
