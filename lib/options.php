@@ -231,7 +231,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-
 				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
 					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
 						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
