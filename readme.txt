@@ -14,8 +14,6 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.** 
 
-**A great addition to traditional SEO plugins like *Yoast WordPress SEO* and others.**
-
 = Open Graph and SEO =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
@@ -469,7 +467,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-RC1 =
+= Version 6.1-RC2 =
 
 The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
 
@@ -561,7 +559,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1-RC1 =
+= 6.1-RC2 =
 
 Recommended upgrade. Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet file has been replaced and is no longer used (see Changelog).
 

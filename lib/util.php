@@ -397,6 +397,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return false;
 		}
 
+		// table header with optional tooltip text
 		public function th( $title = '', $class = '', $id = '', $tooltip = '' ) {
 			$html = '<th'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .

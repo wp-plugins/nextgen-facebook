@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-RC1
+Version: 6.1-RC2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-RC1';
+		public $version = '6.1-RC2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -119,7 +119,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function activate() {
-			$this->check_deps();
 			$this->setup_vars( true );
 		}
 
@@ -149,7 +148,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
-			$this->check_deps();
 			$this->setup_vars();
 			$this->error_checks();
 			if ( $this->debug->is_on() == true ) {
@@ -265,12 +263,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );	// needed by admin for examples
+				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
 				unset ( $id, $name );
 			}
 
+			// website classes extend both lib/social.php and lib/settings/social.php
 			foreach ( $this->website_libs as $id => $name )
 				require_once ( NGFB_PLUGINDIR . 'lib/websites/' . $id . '.php' );
 			unset ( $id, $name );
@@ -280,28 +279,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
 			unset ( $id, $name );
 
-			// Pro version classes
+			// pro version classes
 			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro/addon.php' ) )
 				require_once ( NGFB_PLUGINDIR . 'lib/pro/addon.php' );
 
-		}
-
-		private function check_deps() {
-		
-			// ngfb pro
-			$this->is_avail['aop'] = class_exists( 'ngfbAddOnPro' ) ? true : false;
-
-			// php v4.0.6+
-			$this->is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
-			// post thumbnail feature is supported by wp theme // since wp 2.9.0
-			$this->is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			// nextgen gallery plugin
-			$this->is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
-
-			// yoast wordpress seo plugin
-			$this->is_avail['wpseo'] = function_exists( 'wpseo_init' ) ? true : false;
 		}
 
 		// get the options, upgrade the options (if necessary), and validate their values
@@ -310,18 +291,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * load all options and setup message strings
 			 */
+			$this->is_avail = $this->check_deps();
 			$this->options = get_option( NGFB_OPTIONS_NAME );
-
-			if ( $this->is_avail['ngg'] == true ) 
-				$this->ngg_options = get_option( 'ngg_options' );
-
-			if ( $this->is_avail['wpseo'] == true ) 
-				$this->wpseo_social = get_option( 'wpseo_social' );
-
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
-
-			$this->setup_msgs();
+			if ( $this->is_avail['ngg'] == true ) 
+				$this->ngg_options = get_option( 'ngg_options' );
+			if ( $this->is_avail['wpseo'] == true ) 
+				$this->wpseo_social = get_option( 'wpseo_social' );
+			$this->msgs = $this->get_msgs();
 	
 			/*
 			 * create essential class objects
@@ -343,7 +321,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->log( 'plugin activated' );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
-	
 					$this->options = $this->opt->get_defaults();
 					$this->options['ngfb_opts_ver'] = $this->opt->opts_ver;
 					$this->options['ngfb_plugin_ver'] = $this->version;
@@ -352,7 +329,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->debug->log( 'default options have been added to the database' );
 				}
 				$this->debug->log( 'exiting early for: init_plugin() to follow' );
-
 				// no need to continue, init_plugin() will handle the rest
 				return;
 			}
@@ -377,9 +353,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
-			/* 
-			 * create pro class object last - it extends several previous classes
-			 */
+			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )
 				$this->pro = new ngfbAddOnPro( $this );
 
@@ -389,7 +363,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->options = $this->opt->quick_check( $this->options );
 
 			/*
-			 * setup class properties based on option values
+			 * setup class properties, etc. based on option values
 			 */
 			add_image_size( NGFB_OG_SIZE_NAME, 
 				$this->options['og_img_width'], 
@@ -437,47 +411,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				return '0-' . $version . '-Free';
 		}
 
-		private function setup_msgs() {
-			// define some re-usable text strings
-			$this->msgs = array(
-				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
-					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-
-				'pro_details' => '<p style="font-weight:bold;font-size:1.1em;">
-					Would you like to... Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
-					Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, including Gallery, Photo, Player and Large Image Cards?<br/>
-					Improve page load times with file caching for social button images and JavaScript?<br/>
-					Re-write Open Graph and image sharing URLs for <em>CDNs</em> or <em>static content server(s)</em>?</p>
-					
-					<p>Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the ' . $this->fullname . ' Pro plugin</a>.</p>
-
-					<p>Upgrading to the Pro version is simple and easy; enter your purchase Transaction ID on the Advanced 
-					settings page and install the update from within WordPress.</p>',
-
-				'purchase_box' => $this->fullname . ' has taken many, many months of long days to develop and fine-tune.
-					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version</a>.',
-
-				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
-					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
-					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
-
-				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
-
-				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
-					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
-
-				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
-					target="_blank">Support Forum</a> on WordPress.org.',
-
-				'help_email' => 'Need help with the Pro version? Visit my website at 
-					<a href="http://surniaulula.com/" target="_blank">surniaulula.com</a>,
-					or contact me by email at <a href="mailto:jsm@surniaulula.com" target="_blank">jsm@surniaulula.com</a>.',
-			);
-		}
-
 		private function error_checks() {
 
 			if ( $this->is_avail['mbdecnum'] !== true ) {
@@ -508,6 +441,75 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 		}
+
+		// used before any class objects are created, so keep in main class
+		private function check_deps() {
+	
+			$is_avail = array();
+
+			// php v4.0.6+
+			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
+
+			// ngfb pro
+			$is_avail['aop'] = class_exists( 'ngfbAddOnPro' ) ? true : false;
+
+			// post thumbnail feature is supported by wp theme // since wp 2.9.0
+			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
+
+			// nextgen gallery plugin
+			$is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
+
+			// yoast wordpress seo plugin
+			$is_avail['wpseo'] = function_exists( 'wpseo_init' ) ? true : false;
+
+			// all-in-one seo pack
+			$is_avail['aioseo'] = class_exists( 'All_in_One_SEO_Pack' ) ? true : false;
+
+			// seo ultimate
+			$is_avail['seou'] = class_exists( 'SEO_Ultimate' ) ? true : false;
+
+			return $is_avail;
+		}
+
+		private function get_msgs() {
+			return array(
+				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
+					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
+
+				'pro_details' => '<p style="font-weight:bold;font-size:1.1em;">
+					Would you like to... Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
+					Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
+					including Gallery, Photo, Player and Large Image Cards?<br/>
+					Improve page load times with file caching for social button images and JavaScript?<br/>
+					Re-write Open Graph and image sharing URLs for <em>CDNs</em> or <em>static content server(s)</em>?</p>
+					<p>Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the ' . $this->fullname . ' Pro plugin</a>.</p>
+					<p>Upgrading to the Pro version is simple and easy; enter your purchase Transaction ID on the Advanced 
+					settings page and install the update from within WordPress.</p>',
+
+				'purchase_box' => $this->fullname . ' has taken many, many months of long days to develop and fine-tune.
+					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
+					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
+					target="_blank">purchasing the Pro version</a>.',
+
+				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
+					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
+					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
+
+				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
+
+				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
+					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
+
+				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
+					target="_blank">Support Forum</a> on WordPress.org.',
+
+				'help_email' => 'Need help with the Pro version? Visit my website at 
+					<a href="http://surniaulula.com/" target="_blank">surniaulula.com</a>,
+					or contact me by email at <a href="mailto:jsm@surniaulula.com" target="_blank">jsm@surniaulula.com</a>.',
+			);
+		}
+
 	}
 
         global $ngfb;
