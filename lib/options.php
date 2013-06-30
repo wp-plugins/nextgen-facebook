@@ -478,6 +478,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
+					if ( ! empty( $_GET['action'] ) ) $this->ngfb->debug->log( 'action query value: ' . $_GET['action'] );
+					if ( ! empty( $_GET['plugin'] ) ) $this->ngfb->debug->log( 'plugin query value: ' . $_GET['plugin'] );
+
 					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 						$this->ngfb->debug->log( 'adding notices message update-nag \'pro_details\'' );
 						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
