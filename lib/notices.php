@@ -52,6 +52,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 						border:1px dashed #ccc;
 						padding:10px 40px 10px 40px;
 						overflow:hidden;
+						line-height:1.2em;
 					}
 				</style>';
 				foreach ( $this->log['nag'] as $msg )
