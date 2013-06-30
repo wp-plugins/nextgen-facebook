@@ -12,7 +12,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 	class ngfbAdmin {
 	
-		public $plugin_name = '';
 		public $lang = array();
 		public $settings = array();
 
@@ -70,8 +69,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function check_wp_version() {
 			global $wp_version;
 			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
-				if( is_plugin_active( $this->plugin_name ) ) {
-					deactivate_plugins( $this->plugin_name );
+				if( is_plugin_active( NGFB_PLUGINBASE ) ) {
+					deactivate_plugins( NGFB_PLUGINBASE );
 					wp_die( '"' . $this->ngfb->fullname . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
 						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
 				}
@@ -120,7 +119,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// display a settings link on the main plugins page
 		public function add_plugin_links( $links, $file ) {
 			// only add links when filter is called for this plugin
-			if ( $file == $this->plugin_name ) {
+			if ( $file == NGFB_PLUGINBASE ) {
 				foreach ( $links as $num => $val )
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
