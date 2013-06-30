@@ -14,7 +14,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.** 
 
-**Improves and enhances traditional SEO plugins like *Yoast WordPress SEO* and others.**
+**A great addition to traditional SEO plugins like *Yoast WordPress SEO* and others.**
 
 = Open Graph and SEO =
 
