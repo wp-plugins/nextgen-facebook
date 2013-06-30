@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 						to the Pro version to enable the following features</a>.</p>';
 					break;
 				case 'pro_details' :
-					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 
+					$msg = '<p style="font-weight:bold;">Would you like to... 
 						Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
 						Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
 						including Gallery, Photo, Player and Large Image Cards?<br/>

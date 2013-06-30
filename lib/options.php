@@ -232,8 +232,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
-					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
+					$this->ngfb->debug->log( 'plugin version different than options version : calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
 			} else {
@@ -412,82 +411,89 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function upgrade( &$opts = array(), $def_opts = array() ) {
 
 			// make sure we have something to work with
-			if ( ! empty( $opts ) && is_array( $opts ) ) {
+			if ( empty( $opts ) || ! is_array( $opts ) ) return $opts;
 
-				// move old option values to new option names
-				foreach ( $this->renamed as $old => $new )
-					// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
-					if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-						if ( $this->ngfb->debug->is_on() == true )
-							$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
-								$new . '\' with a value of \'' . $opts[$old] . '\'.' );
-						$opts[$new] = $opts[$old];
-						unset( $opts[$old] );
-					}
-				unset ( $old, $new );
-
-				// these option names may have been used in the past, so remove them, just in case
-				if ( $opts['ngfb_opts_ver'] < 30 ) {
-					unset( $opts['og_img_width'] );
-					unset( $opts['og_img_height'] );
-					unset( $opts['og_img_crop'] );
+			// move old option values to new option names
+			foreach ( $this->renamed as $old => $new )
+				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
+				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
+					if ( $this->ngfb->debug->is_on() == true )
+						$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
+							$new . '\' with a value of \'' . $opts[$old] . '\'.' );
+					$opts[$new] = $opts[$old];
+					unset( $opts[$old] );
 				}
+			unset ( $old, $new );
 
-				if ( array_key_exists( 'og_img_size', $opts ) ) {
-					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
-						$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
-						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
-							$opts['og_img_width'] = $size_info['width'];
-							$opts['og_img_height'] = $size_info['height'];
-							$opts['og_img_crop'] = $size_info['crop'];
+			// these option names may have been used in the past, so remove them, just in case
+			if ( $opts['ngfb_opts_ver'] < 30 ) {
+				unset( $opts['og_img_width'] );
+				unset( $opts['og_img_height'] );
+				unset( $opts['og_img_crop'] );
+			}
+
+			if ( array_key_exists( 'og_img_size', $opts ) ) {
+				if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
+					$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
+					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+						$opts['og_img_width'] = $size_info['width'];
+						$opts['og_img_height'] = $size_info['height'];
+						$opts['og_img_crop'] = $size_info['crop'];
+					}
+					unset( $opts['og_img_size'] );
+				}
+			}
+
+			// unset options that no longer exist
+			foreach ( $opts as $key => $val )
+				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
+				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
+					if ( $this->ngfb->debug->is_on() == true )
+						$this->ngfb->notices->inf( 'Removing deprecated option \'' . 
+							$key . '\' with a value of \'' . $val . '\'.' );
+					unset( $opts[$key] );
+				}
+			unset ( $key, $val );
+
+			// add missing options and set to defaults
+			foreach ( $def_opts as $key => $def_val ) {
+				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
+					$this->ngfb->debug->log( 'adding missing ' . $key . ' option.' );
+					$opts[$key] = $def_val;
+				}
+			}
+
+			// sanitize and verify the options - just in case
+			$opts = $this->sanitize( $opts, $def_opts );
+
+			// mark the new options as current
+			$old_opts_ver = $opts['ngfb_opts_ver'];
+			$opts['ngfb_opts_ver'] = $this->opts_ver;
+			$opts['ngfb_plugin_ver'] = $this->ngfb->version;
+
+			// make sure someone is there to see the success / error messages
+			if ( is_admin() ) {
+				// update_option() returns false if options are the same or there was an error, 
+				// so check to make sure they need to be updated to avoid throwing a false error
+				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
+
+					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
+						$this->ngfb->debug->log( 'adding notices message update-nag \'pro_details\'' );
+						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
+					}
+
+					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
+						if ( $old_opts_ver !== $this->opts_ver ) {
+							$this->ngfb->debug->log( 'upgraded plugin options have been saved' );
+							$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
+								$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
+									' when you have time.' );
 						}
-						unset( $opts['og_img_size'] );
-					}
-				}
-	
-				// unset options that no longer exist
-				foreach ( $opts as $key => $val )
-					// check that the key doesn't exist in the default options (which is a complete list of the current options used)
-					if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-						if ( $this->ngfb->debug->is_on() == true )
-							$this->ngfb->notices->inf( 'Removing deprecated option \'' . 
-								$key . '\' with a value of \'' . $val . '\'.' );
-						unset( $opts[$key] );
-					}
-				unset ( $key, $val );
-	
-				// add missing options and set to defaults
-				foreach ( $def_opts as $key => $def_val ) {
-					if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-						$this->ngfb->debug->log( 'adding missing ' . $key . ' option.' );
-						$opts[$key] = $def_val;
-					}
-				}
-
-				// sanitize and verify the options - just in case
-				$opts = $this->sanitize( $opts, $def_opts );
-
-				// mark the new options as current
-				$old_opts_ver = $opts['ngfb_opts_ver'];
-				$opts['ngfb_opts_ver'] = $this->opts_ver;
-				$opts['ngfb_plugin_ver'] = $this->ngfb->version;
-
-				// make sure someone is there to see the success / error messages
-				if ( is_admin() ) {
-					// update_option() returns false if options are the same or there was an error, 
-					// so check to make sure they need to be updated to avoid throwing a false error
-					if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
-						if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
-							if ( $old_opts_ver !== $this->opts_ver ) {
-								$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
-									$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
-										' when you have time.' );
-							}
-						} else {
-							$this->ngfb->notices->err( 'The plugin settings have been updated, 
-								but WordPress returned an error when saving them.' );
-							return $opts;
-						}
+					} else {
+						$this->ngfb->debug->log( 'failed to save the upgraded plugin options' );
+						$this->ngfb->notices->err( 'The plugin settings have been updated, 
+							but WordPress returned an error when saving them.' );
+						return $opts;
 					}
 				}
 			}
