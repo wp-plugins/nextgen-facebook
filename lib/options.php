@@ -349,7 +349,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				unset ( $old, $new );
 
 				// these option names may have been used in the past, so remove them, just in case
-				if ( $opts['ngfb_version'] < 30 ) {
+				if ( ! empty( $opts['ngfb_version'] ) && $opts['ngfb_version'] < 30 ) {
 					unset( $opts['og_img_width'] );
 					unset( $opts['og_img_height'] );
 					unset( $opts['og_img_crop'] );
