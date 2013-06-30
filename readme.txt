@@ -470,7 +470,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.1-RC2 =
+= Version 6.1-RC3 =
 
 The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
 
@@ -562,7 +562,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.1-RC2 =
+= 6.1-RC3 =
 
 Recommended upgrade. Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet file has been replaced and is no longer used (see Changelog).
 

@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 	class ngfbNotices {
 
 		private $ngfb;		// ngfbPlugin
-		private $msgs = array(
+		private $log = array(
 			'err' => array(),
 			'inf' => array(),
 			'nag' => array(),
@@ -33,12 +33,12 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		public function nag( $msg = '' ) { $this->log( 'nag', $msg ); }
 
 		public function log( $type, $msg = '' ) {
-			if ( ! empty( $msg ) && ! in_array( $msg, $this->msgs[$type] ) ) 
-				$this->msgs[$type][] = $msg;
+			if ( ! empty( $msg ) && ! in_array( $msg, $this->log[$type] ) ) 
+				$this->log[$type][] = $msg;
 		}
 
 		public function admin_notices() {
-			if ( ! empty( $this->msgs['nag'] ) ) {
+			if ( ! empty( $this->log['nag'] ) ) {
 				echo '
 				<style type="text/css">
 					.ngfb-update-nag {
@@ -54,19 +54,19 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 						overflow:hidden;
 					}
 				</style>';
-				foreach ( $this->msgs['nag'] as $msg )
+				foreach ( $this->log['nag'] as $msg )
 					echo '<div class="update-nag ngfb-update-nag">', $msg, '</div>', "\n";
 			}
 
-			if ( ! empty( $this->msgs['err'] ) ) {
-				foreach ( $this->msgs['err'] as $msg )
+			if ( ! empty( $this->log['err'] ) ) {
+				foreach ( $this->log['err'] as $msg )
 					echo '<div class="error">
 						<div style="float:left;"><p><b>', $this->ngfb->acronym_uc, ' Warning</b> :</p></div>
 						<p>', $msg, '</p></div>', "\n";
 			}
 
-			if ( ! empty( $this->msgs['inf'] ) ) {
-				foreach ( $this->msgs['inf'] as $msg )
+			if ( ! empty( $this->log['inf'] ) ) {
+				foreach ( $this->log['inf'] as $msg )
 					echo '<div class="updated fade">
 						<div style="float:left;"><p><b>', $this->ngfb->acronym_uc, ' Info</b> :</p></div>
 						<p>', $msg, '</p></div>', "\n";

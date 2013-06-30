@@ -139,7 +139,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_cache() {
 			return array(
-				'<td colspan="2" align="center"><p>' . $this->ngfb->msgs['pro_feature'] . '</p></td>',
+				'<td colspan="2" align="center"><p>' . $this->ngfb->msg->get( 'pro_feature' ) . '</p></td>',
 
 				$this->ngfb->util->th( 'File Cache Expiry', 'highlight', null, '
 				' . $this->ngfb->fullname . ' can save social sharing images and JavaScript to a cache folder, 
@@ -172,7 +172,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_rewrite() {
 			return array(
-				'<td colspan="2" align="center"><p>' . $this->ngfb->msgs['pro_feature'] . '</p></td>',
+				'<td colspan="2" align="center"><p>' . $this->ngfb->msg->get( 'pro_feature' ) . '</p></td>',
 
 				$this->ngfb->util->th( 'Static Content URL(s)', 'highlight', null, '
 				Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 

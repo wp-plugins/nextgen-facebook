@@ -344,7 +344,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_twitter() {
 			return array(
-				'<td colspan="2" align="center"><p>' . $this->ngfb->msgs['pro_feature'] . '</p></td>',
+				'<td colspan="2" align="center"><p>' . $this->ngfb->msg->get( 'pro_feature' ) . '</p></td>',
 
 				$this->ngfb->util->th( 'Enable Twitter Cards', 'highlight', null, 
 				'Add Twitter Card meta tags to all webpage headers (cards include Summary, Large Image, Photo, and Gallery).

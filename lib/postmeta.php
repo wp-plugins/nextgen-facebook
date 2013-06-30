@@ -23,14 +23,12 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		protected function add_actions() {
-			if ( is_admin() ) {
+			if ( is_admin() )
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
-			}
 		}
 
 		public function add_metaboxes() {
 			foreach ( array( 'post' => 'Post', 'page' => 'Page' ) as $id => $name ) 
-				// since wp 2.5
 				add_meta_box( NGFB_META_NAME, $this->ngfb->fullname . ' - Custom ' . $name . ' Settings', 
 					array( &$this->ngfb->meta, 'show_metabox' ), $id, 'advanced', 'high' );
 		}
@@ -45,7 +43,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		protected function get_rows( $post, $name ) {
 			return array(
-				'<td colspan="2" align="center">' . $this->ngfb->msgs['pro_feature'] . '</td>',
+				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
 				$this->ngfb->util->th( 'Topic', 'medium', null, 
 					'A custom topic, different from the default Website Topic chosen in the General Settings.' ) .

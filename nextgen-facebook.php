@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.1-RC2
+Version: 6.1-RC3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.1-RC2';
+		public $version = '6.1-RC3';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -48,15 +48,17 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
-		public $msgs = array();
 
 		public $urls = array(
+			'email' => 'jsm@surniaulula.com',
+			'website' => 'http://surniaulula.com/',
 			'news_feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
 			'plugin' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 			'update' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
-			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+			'support_forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
+			'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook',
 		);
 
 		public $css_names = array(
@@ -103,8 +105,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'about' => 'About',
 		);
 
-		private $wpseo_social = array();	// yoast wordpress seo social options
-
 		public function __construct() {
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
@@ -144,6 +144,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					}
 				}
 			}
+		}
+
+		public function filter_version_number( $version ) {
+			if ( $this->is_avail['aop'] == true )
+				return $version;
+			else return '0-' . $version . '-Free';
 		}
 
 		// called by WP init action
@@ -250,13 +256,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
 
 			if ( is_admin() ) {
+				require_once ( NGFB_PLUGINDIR . 'lib/messages.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
 				foreach ( $this->setting_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
 				unset ( $id, $name );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/ext/compressor.php' );
 			} else {
 				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
@@ -276,7 +282,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			foreach ( $this->widget_libs as $id => $name )
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
 			unset ( $id, $name );
 
 			// pro version classes
@@ -297,9 +302,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->fullname = $this->fullname_pro;
 			if ( $this->is_avail['ngg'] == true ) 
 				$this->ngg_options = get_option( 'ngg_options' );
-			if ( $this->is_avail['wpseo'] == true ) 
-				$this->wpseo_social = get_option( 'wpseo_social' );
-			$this->msgs = $this->get_msgs();
 	
 			/*
 			 * create essential class objects
@@ -344,6 +346,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->cache = new ngfbCache( $this );
 
 			if ( is_admin() ) {
+				$this->msg = new ngfbMessages( $this );
 				$this->admin = new ngfbAdmin( $this );
 				$this->admin->plugin_name = plugin_basename( __FILE__ );	// since wp 1.5
 			} else {
@@ -404,13 +407,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		}
 
-		public function filter_version_number( $version ) {
-			if ( $this->is_avail['aop'] == true )
-				return $version;
-			else
-				return '0-' . $version . '-Free';
-		}
-
 		private function error_checks() {
 
 			if ( $this->is_avail['mbdecnum'] !== true ) {
@@ -423,21 +419,34 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// Yoast WordPress SEO
 			if ( $this->is_avail['wpseo'] == true ) {
-				if ( ! empty( $this->wpseo_social['opengraph'] ) ) {
-					$this->debug->log( 'option conflict - wpseo opengraph meta data option is enabled' );
-					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
+				$wpseo_social = get_option( 'wpseo_social' );
+				if ( ! empty( $wpseo_social['opengraph'] ) ) {
+					$this->debug->log( 'seo conflict detected - wpseo opengraph meta data option is enabled' );
+					$this->notices->err( 'SEO conflict detected -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
-				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $this->wpseo_social['twitter'] ) ) {
-					$this->debug->log( 'option conflict - wpseo twitter meta data option is enabled' );
-					$this->notices->err( 'Option conflict found -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
+				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
+					$this->debug->log( 'seo conflict detected - wpseo twitter meta data option is enabled' );
+					$this->notices->err( 'SEO conflict detected -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 
-				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $this->wpseo_social['plus-publisher'] ) ) {
-					$this->debug->log( 'option conflict - wpseo google plus publisher option is defined' );
-					$this->notices->err( 'Option conflict found -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
+				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
+					$this->debug->log( 'seo conflict detected - wpseo google plus publisher option is defined' );
+					$this->notices->err( 'SEO conflict detected -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
+				}
+			}
+
+			// SEO Ultimate
+			if ( $this->is_avail['seou'] == true ) {
+				$seo_ultimate = get_option( 'seo_ultimate' );
+				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
+					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
+						$this->debug->log( 'seo conflict detected - seo ultimate opengraph module is enabled' );
+						$this->notices->err( 'SEO conflict detected -- please disable the \'<em>Open Graph Integrator</em>\' module in the
+							<a href="' . get_admin_url( null, 'admin.php?page=seo' ) . '">SEO Ultimate plugin Module Manager</a>.' );
+					}
 				}
 			}
 		}
@@ -469,45 +478,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$is_avail['seou'] = class_exists( 'SEO_Ultimate' ) ? true : false;
 
 			return $is_avail;
-		}
-
-		private function get_msgs() {
-			return array(
-				'pro_feature' => '<div class="pro_feature"><a href="' . $this->urls['plugin'] . '" 
-					target="_blank">Upgrade to the Pro version to enable the following features</a>.</div>',
-
-				'pro_details' => '<p style="font-weight:bold;font-size:1.1em;">
-					Would you like to... Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
-					Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
-					including Gallery, Photo, Player and Large Image Cards?<br/>
-					Improve page load times with file caching for social button images and JavaScript?<br/>
-					Re-write Open Graph and image sharing URLs for <em>CDNs</em> or <em>static content server(s)</em>?</p>
-					<p>Get these and many more exciting features by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the ' . $this->fullname . ' Pro plugin</a>.</p>
-					<p>Upgrading to the Pro version is simple and easy; enter your purchase Transaction ID on the Advanced 
-					settings page and install the update from within WordPress.</p>',
-
-				'purchase_box' => $this->fullname . ' has taken many, many months of long days to develop and fine-tune.
-					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					Please help continue that work by <a href="' . $this->urls['plugin'] . '" 
-					target="_blank">purchasing the Pro version</a>.',
-
-				'review_plugin' => 'You can also help other WordPress users find out about this plugin by 
-					<a href="http://wordpress.org/support/view/plugin-reviews/nextgen-facebook" target="_blank">reviewing and rating the plugin</a> 
-					on WordPress.org. A short \'<em>Thank you.</em>\' is all it takes, and your feedback is always greatly appreciated.',
-
-				'thankyou' => 'Thank you for your purchase! I hope the ' . $this->fullname . ' plugin will exceed all of your expectations.',
-
-				'help_boxes' => 'Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
-					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).',
-
-				'help_forum' => 'Need help? Visit the <a href="http://wordpress.org/support/plugin/nextgen-facebook" 
-					target="_blank">Support Forum</a> on WordPress.org.',
-
-				'help_email' => 'Need help with the Pro version? Visit my website at 
-					<a href="http://surniaulula.com/" target="_blank">surniaulula.com</a>,
-					or contact me by email at <a href="mailto:jsm@surniaulula.com" target="_blank">jsm@surniaulula.com</a>.',
-			);
 		}
 
 	}

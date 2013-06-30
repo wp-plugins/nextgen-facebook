@@ -234,7 +234,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
 					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-						$this->ngfb->notices->nag( $this->ngfb->msgs['pro_details'] );
+						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
 			} else {

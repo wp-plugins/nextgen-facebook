@@ -36,6 +36,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected $readme;
 
 		private $min_wp_version = '3.0';
+		private $old_css_file = '';
 
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
@@ -56,6 +57,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
+
+			$upload_dir = wp_upload_dir();
+			$this->old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
 		}
 
 		public function set_readme( $expire_secs = false ) {
@@ -121,7 +125,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
 				array_push( $links, '<a href="' . $this->ngfb->util->get_admin_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
-				array_push( $links, '<a href="' . $this->ngfb->urls['support'] . '">' . __( 'Support' ) . '</a>' );
+				array_push( $links, '<a href="' . $this->ngfb->urls['support_forum'] . '">' . __( 'Support' ) . '</a>' );
 				if ( $this->ngfb->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="' . $this->ngfb->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
 			}
@@ -136,13 +140,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function sanitize_options( $opts ) {
 
 			if ( ! is_array( $opts ) ) {
-				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . ' Error </b> : Submitted settings are not an array.', 'error' );
+				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->ngfb->acronym_uc . ' Error </b> : 
+					Submitted settings are not an array.', 'error' );
 				return $opts;
 			}
 
 			$def_opts = $this->ngfb->opt->get_defaults();
 
-			// un-checked checkboxes are not given, so re-create them here based on hidden values
+			// unchecked checkboxes are not provided, so re-create them here based on hidden values
 			$checkbox = $this->ngfb->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
 			foreach ( $checkbox as $key => $val ) {
 				if ( ! array_key_exists( $key, $opts ) )
@@ -153,38 +158,20 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$opts = array_merge( $this->ngfb->options, $opts );
 			$opts = $this->ngfb->opt->sanitize( $opts, $def_opts );
 
+			// remove any options that shouldn't exist
 			foreach ( $opts as $key => $val )
 				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
 					unset( $opts[$key] );
 			unset ( $key, $val );
 
-			/*
-			 * Minimize and save the CSS option values
-			 */
-			$css_min_file = $this->ngfb->style->buttons_css_min_file;
-			if ( empty( $opts['buttons_link_css'] ) ) {
-				if ( file_exists( $css_min_file ) ) {
-					if ( ! @unlink( $css_min_file ) )
-						add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-							'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet. 
-								Does the web server have sufficient privileges?', 'error' );
-				}
-			} else {
-				if ( ! $fh = @fopen( $css_min_file, 'wb' ) )
-					add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
-						'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening ' . $css_min_file . ' for writing.', 'error' );
-				else {
-					$css_data = '';
-					foreach ( $this->ngfb->css_names as $css_id => $css_name )
-						$css_data .= $opts['buttons_css_' . $css_id];
-					$css_data = ngfbMinifyCssCompressor::process( $css_data );
-					fwrite( $fh, $css_data );
-					fclose( $fh );
-					$this->ngfb->debug->log( 'updated css file ' . $css_min_file );
-				}
-			}
+			// update the social stylesheet
+			if ( empty( $opts['buttons_link_css'] ) ) 
+				$this->ngfb->style->unlink_social();
+			else $this->ngfb->style->update_social();
 
-			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : Settings updated.', 'updated' );
+			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : 
+				Settings updated.', 'updated' );
+
 			return $opts;
 		}
 
@@ -200,16 +187,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
 					case 'remove_old_css' : 
-						if ( file_exists( $this->ngfb->style->buttons_css_file ) )
-							if ( @unlink( $this->ngfb->style->buttons_css_file ) )
+						if ( file_exists( $this->old_css_file ) )
+							if ( @unlink( $this->old_css_file ) )
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->ngfb->acronym_uc . '</b> : The older <u>' .  
-										$this->ngfb->style->buttons_css_file . '</u>
+									'<b>' . $this->ngfb->acronym_uc . '</b> : The old <u>' . $this->old_css_file . '</u> 
 										stylesheet has been removed.', 'updated' );
 							else
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing stylesheet. 
-										Does the web server have sufficient privileges?', 'error' );
+									'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing the old <u>' . $this->old_css_file . '</u> 
+										stylesheet. Does the web server have sufficient privileges?', 'error' );
 
 						break;
 					case 'check_for_updates' : 
@@ -238,10 +224,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
-			if ( file_exists( $this->ngfb->style->buttons_css_file ) ) {
-				$this->ngfb->notices->inf( 'The older <u>' . $this->ngfb->style->buttons_css_file . '</u> stylesheet is no longer used. 
-					Styling for social buttons is now managed ' . $this->ngfb->util->get_admin_url( 'style', 'on the new Social Style settings page' ) . '. 
-					If you have not customized the default CSS, or when you are ready, you may ' . 
+			if ( file_exists( $this->old_css_file ) ) {
+				$this->ngfb->notices->inf( 'The <u>' . $this->old_css_file . '</u> stylesheet is no longer used. 
+					Styling for social buttons is now managed ' . $this->ngfb->util->get_admin_url( 'style', 
+					'on the new Social Style settings page' ) . '. If you have not customized the default CSS, or when you are ready, you may ' .
 					$this->ngfb->util->get_admin_url( '?action=remove_old_css', 'click this link to remove the old stylesheet' ) . '.' );
 			}
 
@@ -306,9 +292,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// always include the version number of the options
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_opts_ver', $this->ngfb->opt->opts_ver );
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_plugin_ver', $this->ngfb->version );
-
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
-
 			foreach ( range( 1, ceil( count( $this->ngfb->website_libs ) / 2 ) ) as $row ) {
 				echo '<div class="website-row">', "\n";
 				foreach ( range( 1, 2 ) as $col ) {
@@ -320,9 +304,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo '</div>';
 			}
 			echo '<div style="clear:both;"></div>';
-
 			do_meta_boxes( $this->pagehook, 'bottom', null ); 
-
 			echo $this->get_submit_button();
 			echo '</form>', "\n";
 		}
@@ -358,7 +340,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove table cellspacing
 					$desc = preg_replace( '/%TransactionID%/', 
 						$this->ngfb->options['ngfb_pro_tid'], $desc );			// substitute transaction ID
-
 					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
 						esc_html( $item->get_title() ), '</a></div><div class="description">', 
@@ -407,8 +388,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo '\'" /> ';
 			}
 			$q = '&amp;action=clear_all_cache'; 
-			echo '<input type="button" class="button-primary" 
-				value="Clear All Cache" onClick="location.href=\'';
+			echo '<input type="button" class="button-primary" value="Clear All Cache" onClick="location.href=\'';
 			echo $this->ngfb->util->get_admin_url(), $q;
 			echo '\'" />', "\n";
 			echo '</p>', "\n";
@@ -418,8 +398,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
 			echo '<form name="ngfb" method="get" action="' . $this->ngfb->urls['plugin'] . '" target="_blank">', "\n";
-			echo '<p>', $this->ngfb->msgs['purchase_box'], '</p>', "\n";
-			echo '<p>', $this->ngfb->msgs['review_plugin'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msg->get( 'purchase_box' ), '</p>', "\n";
+			echo '<p>', $this->ngfb->msg->get( 'review_plugin' ), '</p>', "\n";
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p>', $this->get_submit_button( 'Purchase the Pro Version' ), '</p>';
@@ -429,18 +409,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_metabox_thankyou() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<p>', $this->ngfb->msgs['thankyou'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msg->get( 'thankyou' ), '</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<p>', $this->ngfb->msgs['help_boxes'], '</p>', "\n";
+			echo '<p>', $this->ngfb->msg->get( 'help_boxes' ), '</p>', "\n";
 			if ( $this->ngfb->is_avail['aop'] == true )
-				echo '<p>', $this->ngfb->msgs['help_email'], '</p>', "\n";
+				echo '<p>', $this->ngfb->msg->get( 'help_email' ), '</p>', "\n";
 			else
-				echo '<p>', $this->ngfb->msgs['help_forum'], '</p>', "\n";
+				echo '<p>', $this->ngfb->msg->get( 'help_forum' ), '</p>', "\n";
 			echo '</td></tr></table>';
 		}
 

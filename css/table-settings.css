@@ -7,9 +7,6 @@
 	background-color:#e4f2fd	!important;
 	margin:5px;
 }
-table.ngfb-settings .pro_feature {
-	margin:10px 0 5px 0;
-}
 table.ngfb-settings { 
 	padding:10px;
 	margin:0;
@@ -23,6 +20,9 @@ table.ngfb-settings {
 }
 table.ngfb-settings p { 
 	line-height:1.4em;
+}
+table.ngfb-settings p.pro_feature {
+	text-align:center;
 }
 table.ngfb-settings h3 { 
 	padding:0		!important;

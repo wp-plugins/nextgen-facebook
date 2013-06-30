@@ -12,9 +12,8 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 
 	class ngfbStyle {
 
-		public $buttons_css_file;
-		public $buttons_css_min_file;
-		public $buttons_css_min_url;
+		public $social_css_min_file;
+		public $social_css_min_url;
 
 		private $ngfb;
 
@@ -22,10 +21,8 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
 
-			$upload_dir = wp_upload_dir();
-			$this->buttons_css_file = trailingslashit( $upload_dir['basedir'] ) . $this->ngfb->acronym . '-social-buttons.css';
-			$this->buttons_css_min_file = trailingslashit( $upload_dir['basedir'] ) . $this->ngfb->acronym . '-social-buttons.min.css';
-			$this->buttons_css_min_url = trailingslashit( $upload_dir['baseurl'] ) . $this->ngfb->acronym . '-social-buttons.min.css';
+			$this->social_css_min_url = NGFB_URLPATH . 'cache/' . $this->ngfb->acronym . '-social-styles.min.css';
+			$this->social_css_min_file = NGFB_PLUGINDIR . 'cache/' . $this->ngfb->acronym . '-social-styles.min.css';
 			$this->register_styles();
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_styles' ) );
@@ -37,7 +34,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.css', false, $this->ngfb->version );
 
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
-				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->buttons_css_min_url, false, $this->ngfb->version );
+				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->social_css_min_url, false, $this->ngfb->version );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
@@ -55,8 +52,35 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 
 		public function wp_enqueue_styles( $hook ) {
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) ) {
+				if ( ! file_exists( $this->social_css_min_file ) ) $this->update_social();
 				$this->ngfb->debug->log( 'wp_enqueue_style = ' . $this->ngfb->acronym . '_social_buttons' );
 				wp_enqueue_style( $this->ngfb->acronym . '_social_buttons' );
+			}
+		}
+
+		public function update_social() {
+			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
+				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
+					'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening 
+						<u>' . $this->social_css_min_file . '</u> for writing.', 'error' );
+			else {
+				$css_data = '';
+				foreach ( $this->ngfb->css_names as $css_id => $css_name )
+					$css_data .= $this->ngfb->options['buttons_css_' . $css_id];
+				require_once ( NGFB_PLUGINDIR . 'lib/ext/compressor.php' );
+				$css_data = ngfbMinifyCssCompressor::process( $css_data );
+				fwrite( $fh, $css_data );
+				fclose( $fh );
+				$this->ngfb->debug->log( 'updated css file ' . $this->social_css_min_file );
+			}
+		}
+
+		public function unlink_social() {
+			if ( file_exists( $this->social_css_min_file ) ) {
+				if ( ! @unlink( $this->social_css_min_file ) )
+					add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+						'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing minimized stylesheet. 
+							Does the web server have sufficient privileges?', 'error' );
 			}
 		}
 
