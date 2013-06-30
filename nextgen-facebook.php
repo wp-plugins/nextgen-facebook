@@ -320,6 +320,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			if ( $activate == true || ( ! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' ) ) {
 				$this->debug->log( 'plugin activated' );
+				if ( ! empty( $_GET['action'] ) ) $this->ngfb->debug->log( 'action query value: ' . $_GET['action'] );
+				if ( ! empty( $_GET['plugin'] ) ) $this->ngfb->debug->log( 'plugin query value: ' . $_GET['plugin'] );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
 					$this->options = $this->opt->get_defaults();
