@@ -473,6 +473,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 			// make sure someone is there to see the success / error messages
 			if ( is_admin() && ( empty( $_GET['action'] ) || $_GET['action'] !== 'upgrade-plugin' ) ) {
+
 				// update_option() returns false if options are the same or there was an error, 
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
