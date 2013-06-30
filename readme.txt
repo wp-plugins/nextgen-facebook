@@ -18,7 +18,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
 
-**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. All plugin options are carefully explained on each settings page -- there's no need to download or purchase additional documentation, how-to videos, etc.
+**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. The plugin options are all carefully explained on each settings page -- you don't need to download or purchase any documentation, how-to videos, etc.
 
 Find out more... 
 
