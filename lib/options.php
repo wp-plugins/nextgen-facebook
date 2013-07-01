@@ -232,7 +232,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
-					$this->ngfb->debug->log( 'plugin version different than options version : calling upgrade() method.' );
+					$this->ngfb->debug->log( 'plugin version different than options version: calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
 			} else {
@@ -411,7 +411,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function upgrade( &$opts = array(), $def_opts = array() ) {
 
 			// make sure we have something to work with
-			if ( empty( $opts ) || ! is_array( $opts ) ) return $opts;
+			if ( empty( $opts ) || ! is_array( $opts ) ) {
+				$this->ngfb->debug->log( 'exiting early: options variable is empty and/or not array' );
+				return $opts;
+			}
 
 			// move old option values to new option names
 			foreach ( $this->renamed as $old => $new )
@@ -497,8 +500,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							but WordPress returned an error when saving them.' );
 						return $opts;
 					}
-				}
-			}
+				} else $this->ngfb->debug->log( 'new and old options array is identical' );
+			} else $this->ngfb->debug->log( 'not in admin interface: postponing options save' );
 			return $opts;
 		}
 
