@@ -1,0 +1,127 @@
+.wrap { 
+	font-size:1em; 
+	line-height:1.3em; 
+}
+.wrap h2 { 
+	margin:0 0 15px 0; 
+}
+.wrap p { 
+	text-align:justify; 
+	line-height:1.2em; 
+	margin:10px 0 10px 0;
+}
+.wrap div.updated, 
+.wrap div.error { 
+	padding:0 5px 0 5px; 
+	margin:5px 0 10px 0; 
+}
+.wrap div.updated p, 
+.wrap div.error p { 
+	margin:5px;
+}
+.wrap div.updated p strong { 
+	font-weight:normal;
+}
+.postbox {
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid transparent;
+	margin:0 0 10px 0;
+}
+.postbox p {
+	color:#333;
+}
+.postbox .inside {
+	padding:0;
+}
+#poststuff .inside {
+	margin:0;
+}
+.admin_postbox_website {
+	height:415px;
+	min-width:475px;
+	overflow-y:auto;
+}
+.closed {
+	height:auto;
+}
+.save-all-button { 
+	text-align:center;
+	margin:15px 0 0 0;
+}
+.postbox_purchase_side {
+	color:#333;
+	background:#eeeeff;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
+	background-image: -webkit-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+	background-image:    -moz-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+	background-image:      -o-linear-gradient(bottom, #eeeeff 7%, #ddddff 77%);
+	background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
+	border:1px dashed #ccc;
+}
+.postbox_purchase_side table.ngfb-settings p {
+	color:#000;
+}
+#toplevel_page_ngfb-about table {
+	table-layout:fixed;
+}
+#wpbody-content .metabox-holder {
+	padding:0;
+}
+.btn_wizard_column { 
+	white-space:nowrap;
+}
+.btn_wizard_example { 
+	display:inline-block; 
+	width:155px; 
+}
+.news_feed {
+	padding:0 10px 0 10px;
+}
+.news_feed p {
+	color:#666;
+	margin:5px 0 5px 0;
+}
+.rss-manager table {
+	border-spacing:0;
+}
+.rss-manager p.tags,
+.rss-manager p.categories {
+	font-size:0.8em;
+	font-style:italic;
+	margin:5px 0 5px 0;
+}
+.rss-manager p.tags,
+.rss-manager p.categories {
+	display:none;
+}
+.rss-manager img {
+	width:110px;
+	border:1px solid #ddd;
+	background-color:#ffffff;
+	margin:0 0 0 10px;
+}
+.support_feed .description {
+	font-size:0.9em;
+}
+.support_feed .description p {
+	margin:5px 0 5px 20px;
+}
+.website-col-1 {
+	float:left;
+	width:50%;
+}
+.website-col-1 .postbox {
+	margin-right:2px;
+}
+.website-col-2 {
+	float:right;
+	width:50%;
+}
+.website-col-2 .postbox {
+	margin-left:2px;
+}
+.sig {
+	font-family:cursive;
+	font-size:1.2em;
+}

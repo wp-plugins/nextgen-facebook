@@ -1,0 +1,7 @@
+/* Save an empty style text box to reload the defaults */
+
+/* Buttons in Shortcode - display inline with the text */
+.ngfb-shortcode-buttons { 
+	display:inline-block;
+	text-align:left;
+}

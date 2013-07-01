@@ -1,0 +1,31 @@
+/* Save an empty style text box to reload the defaults */
+
+/* Make sure the Facebook flyout does not get clipped */
+#page { overflow:visible; }
+
+/* All the Buttons within the content, widget and shortcode classes */
+.ngfb-buttons { }
+.ngfb-buttons img { border:none; }
+.ngfb-buttons img:hover { border:none; }
+
+/* Fix the Facebook "Like" flyout on 2012 based themes */
+.ngfb-buttons iframe { max-width:none; }
+
+/* Common style for all buttons */
+.ngfb-buttons > div { 
+	display:inline-block;
+	vertical-align:bottom;
+	text-align:left;
+	width:100px;
+	height:20px;
+	padding:0;
+	margin:2px;
+}
+
+/* Alternate widths for each button */
+div.facebook-button { width:149px; }
+div.gplus-button { width:75px; }
+div.twitter-button { width:89px; }
+div.linkedin-button { width:109px; }
+div.pinterest-button { width:80px; }
+div.stumbleupon-button { width:84px; }
