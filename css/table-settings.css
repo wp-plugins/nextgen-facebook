@@ -108,9 +108,13 @@ table.ngfb-settings td .max_chars .good {
 	font-weight:bold;
 	color:#090;
 }
+table.ngfb-settings td .max_chars .warn {
+	font-weight:bold;
+	color:#f80;
+}
 table.ngfb-settings td .max_chars .bad {
 	font-weight:bold;
-	color:#900;
+	color:#c00;
 }
 table.ngfb-settings td.taglist { 
 	text-align:right;

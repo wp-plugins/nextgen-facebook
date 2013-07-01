@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbScript' ) ) {
 			// don't load our javascript where we don't need it
 			switch ( $hook ) {
 				case 'post.php' :
-				case 'page.php' :
+				case 'post-new.php' :
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
 					wp_enqueue_script( $this->ngfb->acronym . '_admin_metabox' );
 					wp_enqueue_script( 'jquery-qtip' );

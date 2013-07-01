@@ -16,9 +16,9 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profiles, etc.).
 
-**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. The plugin options are all carefully explained on each settings page -- you don't need to download or purchase any documentation, how-to videos, etc.
+**Once installed and activated, NGFB Open Graph+ adds all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. The plugin options are all carefully explained on each settings page -- you don't need to download or purchase any extra documentation, how-to videos, etc.
 
 Find out more... 
 
@@ -470,6 +470,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.1.1 =
+
+* Fixed: Added the missing NGFB admin stylesheet and javascript to the `post-new.php` page as well.
+* Updated the `cache/.htaccess` file to deny access for commonly interpreted filename extensions (.php, .pl, .cgi, and .shtml).
+* Removed the 'Google Search' character count for the custom Post / Page Description when the 'description' meta tag is unchecked.
+
 = Version 6.1 =
 
 The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
@@ -561,6 +567,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.1.1 =
+
+Minor fix to add the missing NGFB admin stylesheet and javascript to the `post-new.php` page as well.
 
 = 6.1 =
 

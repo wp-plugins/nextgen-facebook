@@ -1,37 +1,31 @@
+
 function ngfbTextLen( id ) {
-	var text = jQuery.trim( ngfb_clean( jQuery('#'+id).val() ) );
-	var len_max = jQuery('#'+id).attr('maxLength');
+	var text = jQuery.trim( ngfbClean( jQuery('#'+id).val() ) );
 	var len = text.length;
-	var html = '';
+	var max = jQuery('#'+id).attr('maxLength');
 
-	if (len <= len_max) html = '<span class="good">'+len+'</span>';
-	else html = '<span class="bad">'+len+'</span>';
-
-	jQuery('#'+id+'-length').html(html);
+	jQuery('#'+id+'-length').html(ngfbLenSpan(len, max, 'len'));
 
 	if ( id == 'ngfb_og_desc' ) {
-		var gs_max = 156;
-		var tc_max = 200;
-		var fb_max = 300;
-		var html = '';
-	
-		html += 'Google Search ';
-		if (len <= gs_max) html += '<span class="good">ok</span>';
-		else html += '<span class="bad">exceeded</span>';
-	
-		html += ', Twitter Cards ';
-		if (len <= tc_max) html += '<span class="good">ok</span>';
-		else html += '<span class="bad">exceeded</span>';
-	
-		html += ', Facebook ';
-		if (len <= fb_max) html += '<span class="good">ok</span>';
-		else html += '<span class="bad">exceeded</span>';
-	
-		jQuery('#'+id+'-info').html(' ('+html+')');
+		jQuery('#'+id+'-diff-gs').html(ngfbLenSpan(len, 156, 'diff'));
+		jQuery('#'+id+'-diff-tc').html(ngfbLenSpan(len, 200, 'diff'));
+		jQuery('#'+id+'-diff-fb').html(ngfbLenSpan(len, 300, 'diff'));
 	}
 }
 
-function ngfb_clean( str ) {
+function ngfbLenSpan( len, max, want = 'len' ) {
+	var diff = max - len;
+	var classname = '';
+	var show = len;
+
+	if ( want == 'diff' ) show = diff;
+	if (diff > 10) classname = 'good';
+	else if (diff > 0) classname = 'warn';
+	else classname = 'bad';
+	return '<span class="'+classname+'">'+show+'</span>';
+}
+
+function ngfbClean( str ) {
 	if ( str == '' || str == undefined )
 		return ''; 
 	try {
@@ -87,3 +81,4 @@ jQuery(document).ready(function(){
 		},
 	});
 });
+
