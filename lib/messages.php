@@ -27,16 +27,15 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 						to the Pro version to enable the following features</a>.</p>';
 					break;
 				case 'pro_details' :
-					$msg = '<p style="font-weight:bold;">Would you like to... 
-						Customize <em>Open Graph</em> and <em>SEO</em> for each <em>individual</em> Post and Page?<br/>
+					$msg = '<p style="font-weight:bold;font-size:1.2em;">Would you like to... 
+						Customize the <em>Open Graph</em> meta tags for each <em>individual</em> Post and Page?<br/>
 						Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
-						including Gallery, Photo, Player and Large Image Cards?<br/>
+						including the Gallery, Photo, Player and Large Image Cards?<br/>
 						Improve page load times with file caching for social button images and JavaScript?<br/>
-						Re-write Open Graph and image sharing URLs for <em>CDNs</em> and <em>static content server(s)</em>?</p>
-						<p>Get these and many more exciting features by <a href="'.$this->ngfb->urls['plugin'].'" 
-						target="_blank">purchasing the '.$this->ngfb->fullname.' Pro plugin</a>.</p>
-						<p>Upgrading to the Pro version is simple and easy -- enter your purchase Transaction ID on the 
-						Advanced settings page, and install the update from within WordPress.</p>';
+						<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
+						target="_blank">purchasing the Pro version today</a>.</p>
+						<p>Upgrading is easy -- simply enter your <em>Purchase Transaction ID</em> (that you\'ll receive by email) 
+						on the Advanced settings page, then install the Pro update from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.

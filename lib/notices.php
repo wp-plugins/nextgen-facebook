@@ -52,7 +52,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 						border:1px dashed #ccc;
 						padding:10px 40px 10px 40px;
 						overflow:hidden;
-						line-height:1.5em;
+						line-height:1.4em;
 					}
 					.ngfb-update-nag p {
 						margin:10px 0 10px 0;
