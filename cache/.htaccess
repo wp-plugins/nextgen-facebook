@@ -1,3 +1,5 @@
-# prevent execution of php files from the cache folder
-php_flag engine off
-AddType text/plain .php .pl .cgi .sh .shtml
+<FilesMatch "\.(php|pl|cgi|shtml)$">
+	Order	deny,allow
+	Deny	from all
+	#Allow	from all
+</FilesMatch>
