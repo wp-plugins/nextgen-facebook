@@ -40,7 +40,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		public function admin_enqueue_styles( $hook ) {
 			switch ( $hook ) {
 				case 'post.php' :
-				case 'page.php' :
+				case 'post-new.php' :
 					wp_enqueue_style( $this->ngfb->acronym . '_table_settings' );
 					break;
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
