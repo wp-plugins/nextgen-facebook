@@ -32,11 +32,11 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 						Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
 						including Gallery, Photo, Player and Large Image Cards?<br/>
 						Improve page load times with file caching for social button images and JavaScript?<br/>
-						Re-write Open Graph and image sharing URLs for <em>CDNs</em> or <em>static content server(s)</em>?</p>
+						Re-write Open Graph and image sharing URLs for <em>CDNs</em> and <em>static content server(s)</em>?</p>
 						<p>Get these and many more exciting features by <a href="'.$this->ngfb->urls['plugin'].'" 
 						target="_blank">purchasing the '.$this->ngfb->fullname.' Pro plugin</a>.</p>
-						<p>Upgrading to the Pro version is simple and easy; enter your purchase Transaction ID on the Advanced 
-						settings page and install the update from within WordPress.</p>';
+						<p>Upgrading to the Pro version is simple and easy -- enter your purchase Transaction ID on the 
+						Advanced settings page, and install the update from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.
