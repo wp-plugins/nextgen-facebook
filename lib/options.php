@@ -471,15 +471,19 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$opts['ngfb_opts_ver'] = $this->opts_ver;
 			$opts['ngfb_plugin_ver'] = $this->ngfb->version;
 
-			// make sure someone is there to see the success / error messages
+			// don't save unless someone is there to see the success / error messages
+			// plugin activation may hide notices, so main plugin class tests for activation and exits early
 			if ( is_admin() ) {
+
 				// update_option() returns false if options are the same or there was an error, 
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
+
 					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 						$this->ngfb->debug->log( 'adding notices message update-nag \'pro_details\'' );
 						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
 					}
+
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
 						if ( $old_opts_ver !== $this->opts_ver ) {
 							$this->ngfb->debug->log( 'upgraded plugin options have been saved' );

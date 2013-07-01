@@ -317,12 +317,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->opt = new ngfbOptions( $this );
 
 			/*
-			 * plugin is being activated - create default options
+			 * plugin is being activated - create default options, if necessary, and exit
 			 */
 			if ( $activate == true || ( 
 				! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' &&
 				! empty( $_GET['plugin'] ) && $_GET['plugin'] == NGFB_PLUGINBASE ) ) {
-				$this->debug->log( 'plugin activated' );
+				$this->debug->log( 'plugin activation detected' );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
 					$this->options = $this->opt->get_defaults();
@@ -332,7 +332,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );
 				}
-				$this->debug->log( 'exiting early for: init_plugin() to follow' );
+				$this->debug->log( 'exiting early: init_plugin() to follow' );
 				// no need to continue, init_plugin() will handle the rest
 				return;
 			}

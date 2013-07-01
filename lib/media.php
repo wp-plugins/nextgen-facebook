@@ -159,9 +159,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 
 			if ( empty( $post ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret;
+				$this->ngfb->debug->log( 'exiting early: empty post object' ); return $og_ret;
 			} elseif ( empty( $post->post_content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret;
+				$this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret;
 			}
 
 			// sanitize possible query values
@@ -176,10 +176,10 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			}
 
 			if ( $want_this == 'gallery' && $ngg_pid > 0 ) {
-				$this->ngfb->debug->log( 'exiting early for: want gallery but have query for pid:' . $ngg_pid );
+				$this->ngfb->debug->log( 'exiting early: want gallery but have query for pid:' . $ngg_pid );
 				return $og_ret;
 			} elseif ( $want_this == 'pid' && empty( $ngg_pid ) ) {
-				$this->ngfb->debug->log( 'exiting early for: want pid but don\'t have a query for pid' );
+				$this->ngfb->debug->log( 'exiting early: want pid but don\'t have a query for pid' );
 				return $og_ret;
 			}
 
@@ -256,9 +256,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 
 			if ( empty( $post ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret; 
+				$this->ngfb->debug->log( 'exiting early: empty post object' ); return $og_ret; 
 			} elseif ( empty( $post->post_content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret;
+				$this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret;
 			}
 
 			// sanitize possible query values
@@ -268,7 +268,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$ngg_pid = empty( $wp_query->query['pid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pid'] );
 
 			if ( empty( $ngg_album ) && empty( $ngg_gallery ) && empty( $ngg_pid ) ) {
-				$this->ngfb->debug->log( 'exiting early for: no ngg query values' ); return $og_ret;
+				$this->ngfb->debug->log( 'exiting early: no ngg query values' ); return $og_ret;
 			} else {
 				$this->ngfb->debug->log( 'ngg query found = pageid:' . $ngg_pageid . ' album:' . $ngg_album . 
 					' gallery:' . $ngg_gallery . ' pid:' . $ngg_pid );
@@ -344,8 +344,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			global $post, $wpdb;
 			$size_info = $this->get_size_info( $size_name );
 
-			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret; } 
-			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
+			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early: empty post object' ); return $og_ret; } 
+			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $album ) {
@@ -446,8 +446,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			global $post;
 			$size_info = $this->get_size_info( $size_name );
 
-			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early for: empty post object' ); return $og_ret; } 
-			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
+			if ( empty( $post ) ) { $this->ngfb->debug->log( 'exiting early: empty post object' ); return $og_ret; } 
+			elseif ( empty( $post->post_content ) ) { $this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/\[(singlepic) [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $singlepic ) {
@@ -516,7 +516,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
 			}
 			if ( empty( $content ) ) { 
-				$this->ngfb->debug->log( 'exiting early for: empty post content' ); 
+				$this->ngfb->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
 
@@ -586,7 +586,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$og_ret = array();
 			$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
 			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->ngfb->debug->log( 'exiting early for: empty post content' ); return $og_ret; }
+			if ( empty( $content ) ) { $this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->ngfb->debug->log( count( $match_all ) . ' x video html tag(s) found' );

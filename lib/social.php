@@ -77,7 +77,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					break;
 			}
 			if ( $enabled == false ) {
-				$this->ngfb->debug->log( 'exiting early for: no buttons enabled for ' . $type );
+				$this->ngfb->debug->log( 'exiting early: no buttons enabled for ' . $type );
 				return $text;
 			}
 
