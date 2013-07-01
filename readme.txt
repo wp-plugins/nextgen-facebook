@@ -25,6 +25,14 @@ Find out more...
 * [NGFB Open Graph+ Example Screenshots](http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/)
 * [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
+= Twitter Cards =
+
+NGFB Open Graph+ (Pro version) supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
+
+= Images and Videos =
+
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+
 = Social Buttons =
 
 NGFB Open Graph+ comes with several multilingual social sharing buttons, that you can add above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
@@ -36,10 +44,6 @@ NGFB Open Graph+ comes with several multilingual social sharing buttons, that yo
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, and Player Cards)
-
-= Images and Videos =
-
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Best Performance =
 
@@ -62,10 +66,6 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds [Twitter Card](https://dev.twitter.com/docs/cards) support and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
 Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID and update the plugin from within WordPress (like a regular plugin update).
-
-= Twitter Cards =
-
-NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
 
 == Installation ==
 
