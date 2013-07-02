@@ -265,7 +265,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> 
 				ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow 
 				access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
-				data for <em>accounts associated with the Application ID</e>.</p></td>
+				data for <em>accounts associated with the Application ID</em>.
 				' );
 			echo '<td>', $this->ngfb->admin->form->get_input( 'fb_app_id' ), '</td>';
 
