@@ -64,8 +64,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function filter( &$text, $type = 'the_content' ) {
 
 			// don't add social buttons on index pages, unless buttons_on_index option is checked
-			if ( ! is_admin() && ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) )
-				return $text;
+			if ( ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) ) || 
+				( is_front_page() && empty( $this->ngfb->options['buttons_on_front'] ) ) ) 
+					return $text;
 
 			if ( $this->is_disabled() ) 
 				return $text;
@@ -145,9 +146,12 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
 
 					// check for enabled buttons on settings page
-					if ( ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_content' ] ) || ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_excerpt' ] ) ) && 
-						( is_singular() || $this->ngfb->options['buttons_on_index'] ) )
-							$ids[] = $id;
+					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_content' ] ) || ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_excerpt' ] ) ) {
+						if ( is_singular || 
+							( ! is_singular() && ! empty( $this->ngfb->options['buttons_on_index'] ) ) ||
+							( is_front_page() && ! empty( $this->ngfb->options['buttons_on_front'] ) ) )
+								$ids[] = $id;
+					}
 
 					// check for enabled buttons in widget
 					foreach ( $widget_settings as $instance ) {

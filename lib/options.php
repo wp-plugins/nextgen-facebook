@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '42';		// increment when adding/removing default options
+		public $opts_ver = '46';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_author_field' => 'gplus',
@@ -47,6 +47,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_desc_strip' => 0,
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
+			'buttons_on_front' => 1,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
 			'buttons_link_css' => 0,
@@ -231,7 +232,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-				if ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) {
+				if ( ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) ||
+					( empty( $opts['ngfb_opts_ver'] ) || $opts['ngfb_opts_ver'] !== $this->opts_ver ) ) {
 					$this->ngfb->debug->log( 'plugin version different than options version: calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
@@ -490,18 +492,18 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
 						if ( $old_opts_ver !== $this->opts_ver ) {
 							$this->ngfb->debug->log( 'upgraded plugin options have been saved' );
-							$this->ngfb->notices->inf( 'Plugin settings have been upgraded -- please ' . 
-								$this->ngfb->util->get_admin_url( 'general', 'review these new settings' ) . 
-									' when you have time.' );
+							$this->ngfb->notices->inf( 'Plugin settings have been upgraded and saved.' );
 						}
 					} else {
 						$this->ngfb->debug->log( 'failed to save the upgraded plugin options' );
-						$this->ngfb->notices->err( 'The plugin settings have been updated, 
+						$this->ngfb->notices->err( 'The plugin settings have been upgraded, 
 							but WordPress returned an error when saving them.' );
 						return $opts;
 					}
 				} else $this->ngfb->debug->log( 'new and old options array is identical' );
 			} else $this->ngfb->debug->log( 'not in admin interface: postponing options save' );
+
+			$this->ngfb->debug->log( 'options successfully upgraded' );
 			return $opts;
 		}
 

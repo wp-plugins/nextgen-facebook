@@ -470,6 +470,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.2-dev1 =
+
+* Added the 'Include on Static Homepage' option on the General settings page.
+
 = Version 6.1.1 =
 
 * Fixed: Added the missing NGFB admin stylesheet and javascript to the `post-new.php` page as well.

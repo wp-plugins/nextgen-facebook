@@ -74,11 +74,20 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			</tr><tr>
 			<?php
 			echo $this->ngfb->util->th( 'Include on Index Webpages', null, null, '
-				Add the following (enabled) social sharing buttons on each entry of an index webpage (homepage, category, 
-				archive, etc.). By Default, social sharing buttons are <em>not</em> included on index webpages 
+				Add the following (enabled) social sharing buttons to each entry of an index webpage 
+				(non-static homepage, category, archive, etc.). 
+				By Default, social sharing buttons are <em>not</em> included on index webpages 
 				(default is unchecked).
 				' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_on_index' ), '</td>';
+
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Include on Static Homepage', null, null, '
+				If a static Post or Page has been chosen for the homepage, add the following (enabled) 
+				social sharing buttons to the static homepage as well (default is checked).
+				' ); 
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
 
 			echo '</tr><tr>';
 
