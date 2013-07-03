@@ -13,7 +13,7 @@ function ngfbTextLen( id ) {
 	}
 }
 
-function ngfbLenSpan( len, max, want = 'len' ) {
+function ngfbLenSpan( len, max, want ) {
 	var diff = max - len;
 	var classname = '';
 	var show = len;
