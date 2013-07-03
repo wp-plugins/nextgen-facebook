@@ -16,11 +16,11 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [some example results from a few of these websites](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search, Google+, Facebook, Twitter, LinkedIn and many more, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Facebook, Google Search, Pinterest, Twitter Cards, and others](/plugins/nextgen-facebook/screenshots/).
 
 Once installed and activated, **NGFB Open Graph+ adds Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. And if you want to customize the plugin, all options are carefully explained on each settings page, so you won't have to purchase or download any extra documentation, how-to videos, etc.
 
-NGFB Open Graph+ is also excellent for extending traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc. SEO plugins don't usually offer Open Graph and Twitter Card meta tags, and when they do, it's often just the basics.
+NGFB Open Graph+ is also excellent for extending existing SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc. SEO plugins don't generally offer Open Graph and Twitter Card meta tags, and when they do, it's often just the basics.
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
