@@ -20,7 +20,7 @@ NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engi
 
 Once installed and activated, **NGFB Open Graph+ adds Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**. And if you want to customize the plugin, all options are carefully explained on each settings page, so you won't have to purchase or download any extra documentation, how-to videos, etc.
 
-NGFB Open Graph+ is also excellent for extending existing SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc. SEO plugins don't generally offer Open Graph and Twitter Card meta tags, and when they do, it's often just the basics.
+NGFB Open Graph+ is also excellent for extending existing SEO plugins, like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc. SEO plugins don't generally offer Open Graph and Twitter Card meta tags, and if they do, it's usually just the basic non-media related tags.
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
