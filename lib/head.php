@@ -52,7 +52,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		}
 
 		// called from the work/header.php template
-		public function html( &$arr = array() ) {
+		public function html( $arr = array() ) {
 			global $post;
 			$author_url = '';
 		
@@ -76,7 +76,6 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				echo '<link rel="author" href="', $arr['link:author'], '" />', "\n";
 			else {
 				if ( is_singular() ) {
-
 					if ( ! empty( $post ) && $post->post_author )
 						$author_url = $this->ngfb->user->get_author_url( $post->post_author, 
 							$this->ngfb->options['link_author_field'] );
