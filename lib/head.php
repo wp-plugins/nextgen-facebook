@@ -52,14 +52,14 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		}
 
 		// called from the work/header.php template
-		public function html( $arr = array() ) {
+		public function html( $html_tags = array() ) {
 			global $post;
 			$author_url = '';
 		
 			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
-			$this->ngfb->debug->show_html( print_r( $arr, true ), 'Open Graph Array' );
+			$this->ngfb->debug->show_html( print_r( $html_tags, true ), 'Open Graph Array' );
 			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'URLs Found' );
 
 			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
@@ -67,13 +67,13 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			/*
 			 * Meta Tags for Google
 			 */
-			if ( ! empty( $arr['link:publisher'] ) )
-				echo '<link rel="publisher" href="', $arr['link:publisher'], '" />', "\n";
+			if ( ! empty( $html_tags['link:publisher'] ) )
+				echo '<link rel="publisher" href="', $html_tags['link:publisher'], '" />', "\n";
 			elseif ( ! empty( $this->ngfb->options['link_publisher_url'] ) )
 				echo '<link rel="publisher" href="', $this->ngfb->options['link_publisher_url'], '" />', "\n";
 
-			if ( ! empty( $arr['link:author'] ) )
-				echo '<link rel="author" href="', $arr['link:author'], '" />', "\n";
+			if ( ! empty( $html_tags['link:author'] ) )
+				echo '<link rel="author" href="', $html_tags['link:author'], '" />', "\n";
 			else {
 				if ( is_singular() ) {
 
@@ -108,21 +108,31 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			/*
 			 * Print the Multi-Dimensional Array as HTML
 			 */
-			foreach ( $arr as $d_name => $d_val ) {						// first-dimension array (associative)
-				if ( is_array( $d_val ) ) {
-					foreach ( $d_val as $dd_num => $dd_val ) {			// second-dimension array
-						if ( $this->ngfb->util->is_assoc( $dd_val ) ) {
-							ksort( $dd_val );
-							foreach ( $dd_val as $ddd_name => $ddd_val ) {	// third-dimension array (associative)
-								echo $this->get_meta_html( $ddd_name, $ddd_val, $d_name . ':' . ( $dd_num + 1 ) );
+			$this->ngfb->debug->log( count( $html_tags ) . ' html_tags to process' );
+			foreach ( $html_tags as $first_name => $first_val ) {					// 1st-dimension array (associative)
+				if ( is_array( $first_val ) ) {
+					$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
+					foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
+						if ( $this->ngfb->util->is_assoc( $second_val ) ) {
+							$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
+							ksort( $second_val );
+							foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
+								$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
+								echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
 							}
-							unset ( $ddd_name, $ddd_val );
-						} else echo $this->get_meta_html( $d_name, $dd_val, $d_name . ':' . ( $dd_num + 1 ) );
+							unset ( $third_name, $third_val );
+						} else {
+							$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
+							echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
+						}
 					}
-					unset ( $dd_num, $dd_val );
-				} else echo $this->get_meta_html( $d_name, $d_val );
+					unset ( $second_num, $second_val );
+				} else {
+					$this->ngfb->debug->log( 'formatting 1st-dimension element: ' . $first_name );
+					echo $this->get_meta_html( $first_name, $first_val );
+				}
 			}
-			unset ( $d_name, $d_val );
+			unset ( $first_name, $first_val );
 
 			echo "<!-- ", $this->ngfb->fullname, " meta tags END -->\n";
 		}
