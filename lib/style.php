@@ -30,8 +30,9 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		}
 
 		public function register_styles() {
-			wp_register_style( $this->ngfb->acronym . '_admin_settings_page', NGFB_URLPATH . 'css/admin-settings.css', false, $this->ngfb->version );
+			wp_register_style( $this->ngfb->acronym . '_settings_pages', NGFB_URLPATH . 'css/settings-pages.css', false, $this->ngfb->version );
 			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.css', false, $this->ngfb->version );
+			wp_register_style( $this->ngfb->acronym . '_metabox_tabs', NGFB_URLPATH . 'css/metabox-tabs.css', false, $this->ngfb->version );
 
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
 				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->social_css_min_url, false, $this->ngfb->version );
@@ -42,9 +43,10 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				case 'post.php' :
 				case 'post-new.php' :
 					wp_enqueue_style( $this->ngfb->acronym . '_table_settings' );
+					wp_enqueue_style( $this->ngfb->acronym . '_metabox_tabs' );
 					break;
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
-					wp_enqueue_style( $this->ngfb->acronym . '_admin_settings_page' );
+					wp_enqueue_style( $this->ngfb->acronym . '_settings_pages' );
 					wp_enqueue_style( $this->ngfb->acronym . '_table_settings' );
 					break;
 			}

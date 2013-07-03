@@ -27,20 +27,47 @@ function ngfbClean( str ) {
 }
 
 jQuery(document).ready(function(){
+
+	var active_tab = window.location.hash;
+	if ( active_tab == '' || active_tab.search('ngfb') == -1 )
+		active_tab = 'header';
+	else
+		active_tab = active_tab.replace('#ngfb_',''); 
+		
+	jQuery('.'+active_tab).addClass('active'); 
+	
+	jQuery('a.ngfb_tablink').click( function($) {
+		jQuery('.ngfb-metabox-tabs li').removeClass('active');
+		jQuery('.ngfb-tab').removeClass('active'); 
+		
+		var id = jQuery(this).attr('href').replace('#ngfb_','');
+		jQuery('.'+id).addClass('active');
+		jQuery(this).parent().addClass('active'); 
+		
+		if ( jQuery(this).hasClass('scroll') ) {
+			var scrollto = jQuery(this).attr('href').replace('ngfb_','');
+			jQuery( "html, body" ).animate({
+				scrollTop: jQuery( scrollto ).offset().top
+			}, 500);
+		}
+	});
+
+	jQuery('.ngfb-metabox-tabs').show();
+
+	jQuery('#ngfb_og_title').focus( function() { ngfbTextLen('ngfb_og_title'); });
 	jQuery('#ngfb_og_title').keyup( function() { ngfbTextLen('ngfb_og_title'); });
-	jQuery('#ngfb_og_title').live('change', function() { ngfbTextLen('ngfb_og_title'); });
 
+	jQuery('#ngfb_og_desc').focus( function() { ngfbTextLen('ngfb_og_desc'); });
 	jQuery('#ngfb_og_desc').keyup( function() { ngfbTextLen('ngfb_og_desc'); });
-	jQuery('#ngfb_og_desc').live('change', function() { ngfbTextLen('ngfb_og_desc'); });
 
+	jQuery('#ngfb_link_desc').focus( function() { ngfbTextLen('ngfb_link_desc'); });
 	jQuery('#ngfb_link_desc').keyup( function() { ngfbTextLen('ngfb_link_desc'); });
-	jQuery('#ngfb_link_desc').live('change', function() { ngfbTextLen('ngfb_link_desc'); });
 
+	jQuery('#ngfb_tc_desc').focus( function() { ngfbTextLen('ngfb_tc_desc'); });
 	jQuery('#ngfb_tc_desc').keyup( function() { ngfbTextLen('ngfb_tc_desc'); });
-	jQuery('#ngfb_tc_desc').live('change', function() { ngfbTextLen('ngfb_tc_desc'); });
 
+	jQuery('#ngfb_tweet').focus( function() { ngfbTextLen('ngfb_tweet'); });
 	jQuery('#ngfb_tweet').keyup( function() { ngfbTextLen('ngfb_tweet'); });
-	jQuery('#ngfb_tweet').live('change', function() { ngfbTextLen('ngfb_tweet'); });
 	
 	jQuery(".ngfb_tooltip").qtip({
 		position:{

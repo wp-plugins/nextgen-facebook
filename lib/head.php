@@ -52,7 +52,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		}
 
 		// called from the work/header.php template
-		public function html( &$arr = array() ) {
+		public function html( $arr = array() ) {
 			global $post;
 			$author_url = '';
 		
@@ -96,8 +96,14 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
 
-			if ( ! empty( $arr['og:description'] ) && ! empty( $this->ngfb->options['inc_description'] ) )
-				echo '<meta name="description" content="', $arr['og:description'], '" />', "\n";
+			if ( ! empty( $this->ngfb->options['inc_description'] ) ) {
+				if ( is_singular() && ! empty( $post ) )
+					$link_desc = $this->ngfb->meta->get_options( $post->ID, 'link_desc' );
+				if ( empty( $link_desc ) )
+					$link_desc = $this->ngfb->webpage->get_description( $this->ngfb->options['link_desc_len'], '...' );
+				if ( ! empty( $link_desc ) ) 
+					echo '<meta name="description" content="', $link_desc, '" />', "\n";
+			}
 
 			/*
 			 * Print the Multi-Dimensional Array as HTML

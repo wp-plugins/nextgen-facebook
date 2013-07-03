@@ -143,10 +143,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			else return $title . $page_num;
 		}
 
-		public function get_description( $textlen = 280, $trailing = '', $use_post = false ) {
+		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false ) {
 			global $post;
 			$desc = '';
 
+			// og_desc meta is the fallback for all others as well (link_desc, tc_desc, etc.)
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
 				$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
 
@@ -208,7 +209,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$desc = $this->ngfb->util->cleanup_html_tags( $desc );
 
-			if ( $textlen > 0 ) $desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
+			if ( $textlen > 0 ) 
+				$desc = $this->ngfb->util->limit_text_length( $desc, $textlen, '...' );
 
 			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_description', $desc );
@@ -239,9 +241,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			if ( $filter_content == true ) {
 
-				$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
+				if ( is_object( $this->ngfb->social ) )
+					$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
 				foreach ( $this->ngfb->shortcode_libs as $id => $name )
-					$this->shortcode[$id]->remove();
+					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
+						$this->shortcode[$id]->remove();
 				unset ( $id, $name );
 
 				$this->ngfb->debug->log( 'calling apply_filters()' );
@@ -251,11 +255,12 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				unset ( $GLOBALS['subalbum'] );
 				unset ( $GLOBALS['nggShowGallery'] );
 
-				if ( ! empty( $filter_removed ) )
+				if ( is_object( $this->ngfb->social ) && ! empty( $filter_removed ) )
 					$this->ngfb->social->add_filter( 'the_content' );
 
 				foreach ( $this->ngfb->shortcode_libs as $id => $name )
-					$this->shortcode[$id]->add();
+					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
+						$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
