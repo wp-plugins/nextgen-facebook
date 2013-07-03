@@ -55,6 +55,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function html( $html_tags = array() ) {
 			global $post;
 			$author_url = '';
+			@ob_end_flush();	// just in case another plugin left the output buffer open
 		
 			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
 
