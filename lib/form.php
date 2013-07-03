@@ -129,6 +129,15 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return $html;
 		}
 
+		public function get_button( $value, $class = '', $id = '', $url = '' ) {
+			$html = '<input type="button" ' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
+				( empty( $url ) ? '' : ' onClick="location.href=\''.$url.'\'"' ) .
+				' value="' . esc_attr( $value ) . '" />' . "\n";
+			return $html;
+		}
+
 		private function in_options( $name ) {
 			return is_array( $this->options ) && 
 				array_key_exists( $name, $this->options ) ? true : false;

@@ -380,30 +380,25 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 			echo '<tr><td colspan="2">';
 			echo '<p style="text-align:center;">';
-			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-				$q = '&amp;action=check_for_updates'; 
-				echo '<input type="button" class="button-primary" value="Check for Updates" onClick="location.href=\'';
-				echo $this->ngfb->util->get_admin_url(), $q;
-				echo '\'" /> ';
-			}
-			$q = '&amp;action=clear_all_cache'; 
-			echo '<input type="button" class="button-primary" value="Clear All Cache" onClick="location.href=\'';
-			echo $this->ngfb->util->get_admin_url(), $q;
-			echo '\'" />', "\n";
+			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
+				echo $this->ngfb->admin->form->get_button( 'Check for Updates', 
+					'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=check_for_updates' );
+			echo $this->ngfb->admin->form->get_button( 'Clear All Cache', 
+				'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=clear_all_cache' );
 			echo '</p>', "\n";
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<form name="ngfb" method="get" action="' . $this->ngfb->urls['plugin'] . '" target="_blank">', "\n";
 			echo '<p>', $this->ngfb->msg->get( 'purchase_box' ), '</p>', "\n";
 			echo '<p>', $this->ngfb->msg->get( 'review_plugin' ), '</p>', "\n";
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
-			echo '<p>', $this->get_submit_button( 'Purchase the Pro Version' ), '</p>';
-			echo '</form>', "\n";
-			echo '</td></tr></table>';
+			echo '<p style="text-align:center;">';
+			echo $this->ngfb->admin->form->get_button( 'Purchase the Pro Version', 
+				'button-primary', null, $this->ngfb->urls['plugin'] );
+			echo '</p></td></tr></table>';
 		}
 
 		public function show_metabox_thankyou() {
