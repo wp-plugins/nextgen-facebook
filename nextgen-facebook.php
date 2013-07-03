@@ -248,6 +248,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/options.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/user.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
@@ -268,7 +269,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
@@ -342,6 +342,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			$this->user = new ngfbUser( $this );
 			$this->media = new ngfbMedia( $this );
+			$this->webpage = new ngfbWebPage( $this );		// title, desc, etc., plus shortcodes
 			$this->meta = new ngfbPostMeta( $this );
 			$this->style = new ngfbStyle( $this );
 			$this->script = new ngfbScript( $this );
@@ -353,7 +354,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} else {
 				$this->head = new ngfbHead( $this );		// wp_head / opengraph
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
-				$this->webpage = new ngfbWebPage( $this );	// title, desc, etc., plus shortcodes
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 

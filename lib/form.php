@@ -106,22 +106,24 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return $html;
 		}
 
-		public function get_input( $name, $class = '', $id = '', $len = 0 ) {
+		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
+				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ) . 
 				' value="' . esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />' . "\n";
 			return $html;
 		}
 
-		public function get_textarea( $name, $class = '', $id = '', $len = 0 ) {
+		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '<textarea name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
+				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ) . 
 				'>' . esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
 			return $html;

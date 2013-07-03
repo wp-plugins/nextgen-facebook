@@ -26,7 +26,7 @@ table.ngfb-settings p.pro_feature {
 }
 table.ngfb-settings h3 { 
 	padding:0		!important;
-	margin:20px 0 10px 0	!important;
+	margin:15px 0 10px 0	!important;
 	background:none;
 }
 table.ngfb-settings pre {
@@ -101,19 +101,21 @@ table.ngfb-settings th.side {
 table.ngfb-settings td { 
 }
 table.ngfb-settings td .max_chars {
-	color:#666;
-	margin:0;
+	color:#999;
+	text-align:right;
+	margin:4px 0 4px 0;
+	padding:0;
 }
 table.ngfb-settings td .max_chars .good {
-	font-weight:bold;
+	font-weight:normal;
 	color:#090;
 }
 table.ngfb-settings td .max_chars .warn {
-	font-weight:bold;
+	font-weight:normal;
 	color:#f80;
 }
 table.ngfb-settings td .max_chars .bad {
-	font-weight:bold;
+	font-weight:normal;
 	color:#c00;
 }
 table.ngfb-settings td.taglist { 
@@ -175,6 +177,7 @@ table.ngfb-settings td textarea {
 }
 table.ngfb-settings td textarea.wide { 
 	width:100%; 
+	height:3em; 
 }
 table.ngfb-settings td textarea.large { 
 	width:100%; 

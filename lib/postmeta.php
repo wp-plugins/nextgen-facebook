@@ -53,12 +53,19 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 					'A custom title to use in the Open Graph and Twitter Card meta tags.' ) .
 				'<td class="blank">&nbsp;</td>',
 
-				$this->ngfb->util->th( 'Description', 'medium', null, 
-					'A custom description to use in the Open Graph and Twitter Card meta tags, 
-					as well as the Pinterest and Tumblr social sharing buttons.' ) .
+				$this->ngfb->util->th( 'Open Graph+ Description', 'medium', null, 
+					'A custom description to use in the Open Graph meta tags, along with the Pinterest and Tumblr social sharing buttons.' ) .
 				'<td class="blank">&nbsp;</td>',
 
-				$this->ngfb->util->th( 'Tweet', 'medium', null, 
+				$this->ngfb->util->th( 'Google Description', 'medium', null, 
+					'A custom description to use for the Google Search description meta tag.' ) .
+				'<td class="blank">&nbsp;</td>',
+
+				$this->ngfb->util->th( 'Twitter Card Description', 'medium', null, 
+					'A custom description to use for the Twitter Card description meta tag.' ) .
+				'<td class="blank">&nbsp;</td>',
+
+				$this->ngfb->util->th( 'Tweet Text', 'medium', null, 
 					'A custom Tweet text for the Twitter social sharing button.' ) .
 				'<td class="blank">&nbsp;</td>',
 

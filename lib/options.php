@@ -12,9 +12,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '46';	// increment when adding/removing default options
+		public $opts_ver = '47';	// increment when adding/removing default options
 
 		public $defaults = array(
+			'link_desc_len' => 156,
 			'link_author_field' => 'gplus',
 			'link_def_author_id' => 0,
 			'link_def_author_on_index' => 0,
@@ -43,7 +44,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_author_fallback' => 0,
 			'og_title_sep' => '-',
 			'og_title_len' => 70,
-			'og_desc_len' => 200,
+			'og_desc_len' => 300,
 			'og_desc_strip' => 0,
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
@@ -79,6 +80,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'gp_annotation' => 'bubble',
 			'tc_enable' => 0,
 			'tc_site' => '',
+			'tc_desc_len' => 200,
 			'tc_gal_min' => 2,
 			'tc_gal_size' => 'medium',
 			'tc_photo_size' => 'large',

@@ -3,26 +3,17 @@ function ngfbTextLen( id ) {
 	var text = jQuery.trim( ngfbClean( jQuery('#'+id).val() ) );
 	var len = text.length;
 	var max = jQuery('#'+id).attr('maxLength');
-
-	jQuery('#'+id+'-length').html(ngfbLenSpan(len, max, 'len'));
-
-	if ( id == 'ngfb_og_desc' ) {
-		jQuery('#'+id+'-diff-gs').html(ngfbLenSpan(len, 156, 'diff'));
-		jQuery('#'+id+'-diff-tc').html(ngfbLenSpan(len, 200, 'diff'));
-		jQuery('#'+id+'-diff-fb').html(ngfbLenSpan(len, 300, 'diff'));
-	}
+	var html = '<div class="max_chars">'+ngfbLenSpan(len, max)+' of '+max+' characters maximum</span>';
+	jQuery('#'+id+'-length').html(html);
 }
 
-function ngfbLenSpan( len, max, want = 'len' ) {
+function ngfbLenSpan( len, max ) {
 	var diff = max - len;
 	var classname = '';
-	var show = len;
-
-	if ( want == 'diff' ) show = diff;
 	if (diff > 10) classname = 'good';
 	else if (diff > 0) classname = 'warn';
 	else classname = 'bad';
-	return '<span class="'+classname+'">'+show+'</span>';
+	return '<span class="'+classname+'">'+len+'</span>';
 }
 
 function ngfbClean( str ) {
@@ -36,21 +27,20 @@ function ngfbClean( str ) {
 }
 
 jQuery(document).ready(function(){
-	jQuery('#ngfb_og_desc').keyup( function() {
-		ngfbTextLen('ngfb_og_desc');
-	});
-	jQuery('#ngfb_og_desc').live('change', function() {
-		ngfbTextLen('ngfb_og_desc');
-	});
-	ngfbTextLen('ngfb_og_desc');
+	jQuery('#ngfb_og_title').keyup( function() { ngfbTextLen('ngfb_og_title'); });
+	jQuery('#ngfb_og_title').live('change', function() { ngfbTextLen('ngfb_og_title'); });
 
-	jQuery('#ngfb_tweet').keyup( function() {
-		ngfbTextLen('ngfb_tweet');
-	});
-	jQuery('#ngfb_tweet').live('change', function() {
-		ngfbTextLen('ngfb_tweet');
-	});
-	ngfbTextLen('ngfb_tweet'); 
+	jQuery('#ngfb_og_desc').keyup( function() { ngfbTextLen('ngfb_og_desc'); });
+	jQuery('#ngfb_og_desc').live('change', function() { ngfbTextLen('ngfb_og_desc'); });
+
+	jQuery('#ngfb_link_desc').keyup( function() { ngfbTextLen('ngfb_link_desc'); });
+	jQuery('#ngfb_link_desc').live('change', function() { ngfbTextLen('ngfb_link_desc'); });
+
+	jQuery('#ngfb_tc_desc').keyup( function() { ngfbTextLen('ngfb_tc_desc'); });
+	jQuery('#ngfb_tc_desc').live('change', function() { ngfbTextLen('ngfb_tc_desc'); });
+
+	jQuery('#ngfb_tweet').keyup( function() { ngfbTextLen('ngfb_tweet'); });
+	jQuery('#ngfb_tweet').live('change', function() { ngfbTextLen('ngfb_tweet'); });
 	
 	jQuery(".ngfb_tooltip").qtip({
 		position:{
