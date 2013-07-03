@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
 	
 	jQuery('a.ngfb_tablink').click( function($) {
 		jQuery('.ngfb-metabox-tabs li').removeClass('active');
-		jQuery('.ngfb-tab').removeClass('active'); 
+		jQuery('.ngfbtab').removeClass('active'); 
 		
 		var id = jQuery(this).attr('href').replace('#ngfb_','');
 		jQuery('.'+id).addClass('active');

@@ -112,24 +112,24 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			$this->ngfb->debug->log( count( $html_tags ) . ' html_tags to process' );
 			foreach ( $html_tags as $first_name => $first_val ) {					// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
-					$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
+					//$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
 					foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
 						if ( $this->ngfb->util->is_assoc( $second_val ) ) {
-							$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
+							//$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
 							ksort( $second_val );
 							foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
-								$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
+								//$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
 								echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
 							}
 							unset ( $third_name, $third_val );
 						} else {
-							$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
+							//$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
 							echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
 						}
 					}
 					unset ( $second_num, $second_val );
 				} else {
-					$this->ngfb->debug->log( 'formatting 1st-dimension element: ' . $first_name );
+					//$this->ngfb->debug->log( 'formatting 1st-dimension element: ' . $first_name );
 					echo $this->get_meta_html( $first_name, $first_val );
 				}
 			}
@@ -140,19 +140,19 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->ngfb->options['inc_' . $name] ) && 
-				( ! empty( $val ) || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) ) {
-
-				$charset = get_bloginfo( 'charset' );
-				$val = htmlentities( $this->ngfb->util->cleanup_html_tags( $this->ngfb->util->decode( $val ) ), 
-					ENT_QUOTES, $charset, false );
-				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-
-				if ( strpos( $name, 'twitter:' ) === 0 )
-					$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
-				else
-					$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
-			}
+			if ( ! empty( $this->ngfb->options['inc_' . $name] ) ) {
+				if ( ! empty( $val ) || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
+					$charset = get_bloginfo( 'charset' );
+					$val = htmlentities( $this->ngfb->util->cleanup_html_tags( $this->ngfb->util->decode( $val ) ), 
+						ENT_QUOTES, $charset, false );
+					$this->ngfb->debug->log( 'meta ' . $name . ' = "' . $val . '"' );
+					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
+					if ( strpos( $name, 'twitter:' ) === 0 )
+						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
+					else
+						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
+				} else $this->ngfb->debug->log( 'meta ' . $name . ' is empty - skipping' );
+			} else $this->ngfb->debug->log( 'meta ' . $name . ' is disabled - skipping' );
 			return $meta_html;
 		}
 

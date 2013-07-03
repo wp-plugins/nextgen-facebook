@@ -1,12 +1,12 @@
 
-div.ngfb-metabox-tabs ul {
-	list-style: none;
-}
-
 ul.ngfb-metabox-tabs {
 	display: none;
 	margin-top: 12px;
 	margin-bottom: 3px;
+}
+
+.ngfb-metabox-tabs-div ul {
+	list-style: none;
 }
 
 .ngfb-metabox-tabs li {
@@ -33,7 +33,7 @@ ul.ngfb-metabox-tabs li {
 	text-decoration: none;
 }
 
-div.ngfb-metabox-tabs div.ngfb-tabs-panel {
+.ngfb-metabox-tabs-div div.ngfb-tabs-panel {
 	overflow: auto;
 	padding: 0.5em 0.9em;
 	border-style: solid;
@@ -44,11 +44,11 @@ div.ngfb-metabox-tabs div.ngfb-tabs-panel {
 	padding-left: 10px;
 }
 
-.ngfb-tab {
+.ngfbtab {
 	display: none;
 }
 
-.ngfb-tab.active {
+.ngfbtab.active {
 	display: block;
 	overflow: auto;
 	padding: 0.5em 0.9em;
