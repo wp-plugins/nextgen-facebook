@@ -35,23 +35,22 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		public function show_metabox( $post ) {
 			?>
-			<div class="ngfb-metabox-tabs">
-				<ul class="ngfb-metabox-tabs" id="ngfb-metabox-tabs">
-					<li id="ngfb-header-tab"><a class="ngfb-tablink" href="#ngfb_header">Webpage Header</a></li>
-					<li id="ngfb-social-tab"><a class="ngfb-tablink" href="#ngfb_social">Social Sharing</a></li>
-				</ul>
+			<ul class="ngfb-metabox-tabs" id="ngfb-metabox-tabs">
+				<li id="ngfb-header-tab"><a class="ngfb-tablink" href="#ngfb_header">Webpage Header</a></li>
+				<li id="ngfb-social-tab"><a class="ngfb-tablink" href="#ngfb_social">Social Sharing</a></li>
+			</ul>
 			<?php
 			$this->do_tab( 'header', $post );
 			$this->do_tab( 'social', $post );
 		}
 
 		protected function do_tab( $id, $post ) {
-			//echo '<div class="ngfb-tab">';
+			echo '<div class="ngfb-tab ngfb_' . $id . '">';
 			echo '<table class="ngfb-settings">';
 			foreach ( $this->get_rows( $id, $post ) as $row )
 				echo '<tr>' . $row . '</tr>';
 			echo '</table>';
-			//echo '</div>';
+			echo '</div>';
 		}
 
 		protected function get_rows( $post ) {

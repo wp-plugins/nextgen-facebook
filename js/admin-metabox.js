@@ -30,26 +30,23 @@ jQuery(document).ready(function(){
 
 	var active_tab = window.location.hash;
 	if ( active_tab == '' || active_tab.search('ngfb') == -1 )
-		active_tab = 'header';
+		active_tab = 'ngfb_header';
 	else
-		active_tab = active_tab.replace('#ngfb_',''); 
+		active_tab = active_tab.replace('#',''); 
 		
 	jQuery('.'+active_tab).addClass('active'); 
 	
-	jQuery('a.ngfb_tablink').click( function($) {
+	jQuery('a.ngfb-tablink').click( function($) {
 		jQuery('.ngfb-metabox-tabs li').removeClass('active');
-		jQuery('.ngfbtab').removeClass('active'); 
+		jQuery('.ngfb-tab').removeClass('active'); 
 		
-		var id = jQuery(this).attr('href').replace('#ngfb_','');
+		var id = jQuery(this).attr('href').replace('#','');
 		jQuery('.'+id).addClass('active');
 		jQuery(this).parent().addClass('active'); 
 		
-		if ( jQuery(this).hasClass('scroll') ) {
-			var scrollto = jQuery(this).attr('href').replace('ngfb_','');
-			jQuery( "html, body" ).animate({
-				scrollTop: jQuery( scrollto ).offset().top
-			}, 500);
-		}
+		jQuery( "html, body" ).animate({
+			scrollTop: jQuery( '#ngfb_meta' ).offset().top
+		}, 500);
 	});
 
 	jQuery('.ngfb-metabox-tabs').show();
