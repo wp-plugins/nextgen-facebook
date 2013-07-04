@@ -1,4 +1,3 @@
-
 function ngfbTextLen( id ) {
 	var text = jQuery.trim( ngfbClean( jQuery('#'+id).val() ) );
 	var len = text.length;
@@ -31,15 +30,14 @@ jQuery(document).ready(function(){
 	var active_tab = window.location.hash;
 	if ( active_tab == '' || active_tab.search('ngfb') == -1 )
 		active_tab = 'ngfb_header';
-	else
-		active_tab = active_tab.replace('#',''); 
-		
+	else active_tab = active_tab.replace('#',''); 
+
 	jQuery('.'+active_tab).addClass('active'); 
-	
+
 	jQuery('a.ngfb-tablink').click( function($) {
 		jQuery('.ngfb-metabox-tabs li').removeClass('active');
 		jQuery('.ngfb-tab').removeClass('active'); 
-		
+
 		var id = jQuery(this).attr('href').replace('#','');
 		jQuery('.'+id).addClass('active');
 		jQuery(this).parent().addClass('active'); 
@@ -66,33 +64,4 @@ jQuery(document).ready(function(){
 	jQuery('#ngfb_tweet').focus( function() { ngfbTextLen('ngfb_tweet'); });
 	jQuery('#ngfb_tweet').keyup( function() { ngfbTextLen('ngfb_tweet'); });
 	
-	jQuery(".ngfb_tooltip").qtip({
-		position:{
-			corner:{
-				target:'topMiddle',
-				tooltip:'bottomLeft',
-			},
-			adjust:{
-			},
-		},
-		show:{
-			when:{
-			},
-		},
-		hide:{
-			fixed:true,
-		},
-		style:{
-			name:'blue',
-			tip:'bottomLeft',
-			width:{
-				min:'500',
-				max:'500',
-			},
-			classes:{
-				tooltip:'ngfb-qtip',
-			},
-		},
-	});
 });
-

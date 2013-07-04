@@ -4,10 +4,10 @@ ul.ngfb-metabox-tabs {
 	margin-top:12px;
 	margin-bottom: 3px;
 }
-
 .ngfb-metabox-tabs li {
 	display: inline;
 	padding:5px;
+	margin-right:3px;
 	-moz-border-radius:3px 3px 0 0;
 	-webkit-border-top-left-radius:3px;
 	-webkit-border-top-right-radius:3px;
@@ -15,25 +15,24 @@ ul.ngfb-metabox-tabs {
 	-khtml-border-top-right-radius:3px;
 	border-top-left-radius:3px;
 	border-top-right-radius:3px;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
 }
-
 .ngfb-metabox-tabs li.active {
 	border-width: 1px 1px 0;
-	border:1px solid #ddd;
+	border:1px solid #ccc;
 	background-color:#eee;
 }
-
 .ngfb-metabox-tabs a {
 	text-decoration:none;
 }
-
 .ngfb-tab {
 	display:none;
 }
-
 .ngfb-tab.active {
 	display: block;
 	overflow: auto;
-	border-top:1px solid #ddd;
+	border:1px solid #ccc;
 	border-radius:0 3px 3px 3px;
 }

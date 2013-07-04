@@ -34,26 +34,25 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		public function show_metabox( $post ) {
-			?>
-			<ul class="ngfb-metabox-tabs" id="ngfb-metabox-tabs">
-				<li id="ngfb-header-tab"><a class="ngfb-tablink" href="#ngfb_header">Webpage Header</a></li>
-				<li id="ngfb-social-tab"><a class="ngfb-tablink" href="#ngfb_social">Social Sharing</a></li>
-			</ul>
-			<?php
-			$this->do_tab( 'header', $post );
-			$this->do_tab( 'social', $post );
+			$this->do_tabs( array( 'header' => 'Webpage Header', 'social' => 'Social Sharing' ), $post );
 		}
 
-		protected function do_tab( $id, $post ) {
-			echo '<div class="ngfb-tab ngfb_' . $id . '">';
-			echo '<table class="ngfb-settings">';
-			foreach ( $this->get_rows( $id, $post ) as $row )
-				echo '<tr>' . $row . '</tr>';
-			echo '</table>';
-			echo '</div>';
+		protected function do_tabs( $ids = array(), $post ) {
+			echo '<ul class="ngfb-metabox-tabs">';
+			foreach ( $ids as $id => $title )
+				echo '<li class="ngfb_', $id, '"><a class="ngfb-tablink" href="#ngfb_', $id, '">', $title, '</a></li>';
+			echo '</ul>';
+			foreach ( $ids as $id => $title ) {
+				echo '<div class="ngfb-tab ngfb_' . $id . '">';
+				echo '<table class="ngfb-settings">';
+				foreach ( $this->get_rows( $id, $post ) as $row )
+					echo '<tr>' . $row . '</tr>';
+				echo '</table>';
+				echo '</div>';
+			}
 		}
 
-		protected function get_rows( $post ) {
+		protected function get_rows( $id, $post ) {
 			$ret = array();
 			$name = $post->post_type == 'page' ? 'Page' : 'Post';
 			$ret[] = '<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>';
