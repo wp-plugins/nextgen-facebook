@@ -472,6 +472,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.2-rc1 =
 
 * Added the 'Include on Static Homepage' option on the General settings page.
+* Added a tabbed layout for the Post/Page custom settings, General settings page, and Social Styles settings page.
+* Added links to the Facebook Debugger, Google Testing Tool, and Twitter Card Validator in the Post/Page custom settings.
+* Added a Google and Twitter Card description for the Post/Page custom settings (Pro version).
+* Added a Pinterest Image Caption, Tumblr Image and Video Caption to the Post/Page custom settings (Pro version).
 
 = Version 6.1.1 =
 
@@ -570,6 +574,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.2-rc1 =
+
+This version adds a tabbed layout to the General, Social Styles, and custom Post/Page settings. Also added links to various validation tools in the Post/Page settings, plus a few extra customization fields for the Pro version. 
 
 = 6.1.1 =
 
