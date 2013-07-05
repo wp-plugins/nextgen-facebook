@@ -469,7 +469,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2-dev1 =
+= Version 6.2-rc1 =
 
 * Added the 'Include on Static Homepage' option on the General settings page.
 

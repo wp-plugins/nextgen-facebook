@@ -34,192 +34,171 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_opengraph() {
+			$show_tabs = array( 
+				'default' => 'Image and Video',
+				'general' => 'Title and Description',
+				'author' => 'Authorship',
+			);
+			parent::do_tabs( $show_tabs );
+		}
 
-			echo '<table class="ngfb-settings"><tr><td colspan="3"><h3>Title and Description Options</h3></td></tr><tr>';
+		protected function get_rows( $id ) {
+			$ret = array();
+			switch ( $id ) {
 
-			echo $this->ngfb->util->th( 'Website Topic', 'highlight', null, '
-				The topic that best describes the Posts and Pages on your website.
-				This name will be used in the \'article:section\' Open Graph meta tag. 
-				Select \'[none]\' if you prefer to exclude the \'article:section\' meta tag.
-				Aside from this global option, the Pro version also allows the selection of a 
-				Topic for each individual Post and Page.' );
-			echo '<td>', $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ), '</td>';
+				case 'general' :
 
-			echo '</tr><tr>';
+					$ret[] = $this->ngfb->util->th( 'Website Topic', 'highlight', null, '
+					The topic that best describes the Posts and Pages on your website.
+					This name will be used in the \'article:section\' Open Graph meta tag. 
+					Select \'[none]\' if you prefer to exclude the \'article:section\' meta tag.
+					Aside from this global option, the Pro version also allows the selection of a 
+					Topic for each individual Post and Page.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ) . '</td>';
 
-			echo $this->ngfb->util->th( 'Title Separator', 'highlight', null, '
-				One or more characters used to separate values (category parent names, page numbers, etc.) within the Open Graph title string 
-				(default is \'' . $this->ngfb->opt->get_defaults( 'og_title_sep' ) . '\').' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'og_title_sep', 'short' ), '</td>';
+					$ret[] = $this->ngfb->util->th( 'Title Separator', 'highlight', null, '
+					One or more characters used to separate values (category parent names, page numbers, etc.) 
+					within the Open Graph title string (default is \'' . 
+					$this->ngfb->opt->get_defaults( 'og_title_sep' ) . '\').' ) . 
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_sep', 'short' ) . '</td>';
 
-			echo '</tr><tr>';
+					$ret[] = $this->ngfb->util->th( 'Title Length', null, null, '
+					The maximum length of text used in the Open Graph title tag 
+					(default is ' . $this->ngfb->opt->get_defaults( 'og_title_len' ) . ' characters).' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ) . ' Characters or less</td>';
 
-			echo $this->ngfb->util->th( 'Title Length', null, null, '
-				The maximum length of text used in the Open Graph title tag 
-				(default is ' . $this->ngfb->opt->get_defaults( 'og_title_len' ) . ' characters).' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ), ' Characters or less</td>';
+					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
+					The maximum length of text used in the Open Graph description tag. 
+					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more, and the
+					default is ' . $this->ngfb->opt->get_defaults( 'og_desc_len' ) . ' characters.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ) . ' Characters or less</td>';
 
-			echo '</tr><tr>';
+					$ret[] = $this->ngfb->util->th( 'Content Begins at First Paragraph', null, null, '
+					For a Page or Post <em>without</em> an excerpt, if this option is checked, 
+					the plugin will ignore all text until the first html paragraph tag in the content. 
+					If an excerpt exists, then this option is ignored, and the complete text of that 
+					excerpt is used instead.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_desc_strip' ) . '</td>';
 
-			echo $this->ngfb->util->th( 'Description Length', null, null, '
-				The maximum length of text used in the Open Graph description tag. 
-				The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more, and the
-				default is ' . $this->ngfb->opt->get_defaults( 'og_desc_len' ) . ' characters.
-				' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ), ' Characters or less</td>';
+					break;
 
-			echo '</tr><tr>';
+				case 'default' :
 
-			echo $this->ngfb->util->th( 'Content Begins at First Paragraph', null, null, '
-				For a Page or Post <em>without</em> an excerpt, if this option is checked, 
-				the plugin will ignore all text until the first html paragraph tag in the content. 
-				If an excerpt exists, then this option is ignored, and the complete text of that 
-				excerpt is used instead.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_desc_strip' ), '</td>';
+					$ret[] = $this->ngfb->util->th( 'Image Dimensions', 'highlight', null, '
+					Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
+					between ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' and 1500x1500, preferably cropped 
+					(the defaults are ' . $this->ngfb->opt->get_defaults( 'og_img_width' ) . 'x' .
+					$this->ngfb->opt->get_defaults( 'og_img_height' ) . ', ' .
+					( $this->ngfb->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ) . 'cropped). 
+					Note that Facebook prefers larger images for use in backgrounds and banners.
+					The default values are purposefully low in consideration of photography websites, 
+					who may not want to share larger images of their work.' ) .
+					'<td>Width ' . $this->ngfb->admin->form->get_input( 'og_img_width', 'short' ) . ' x ' .
+					'Height ' . $this->ngfb->admin->form->get_input( 'og_img_height', 'short' ) . 
+					'Cropped ' . $this->ngfb->admin->form->get_checkbox( 'og_img_crop' ) . '</td>';
+	
+					$id_pre = array( 'wp' => 'Media Library' );
+					if ( $this->ngfb->is_avail['ngg'] == true ) $id_pre['ngg'] = 'NextGEN Gallery';
+					$ret[] = $this->ngfb->util->th( 'Default Image ID', 'highlight', null, '
+					The ID number and location of your default image (example: 123). The <em>Default Image ID</em> 
+					will be used as a fallback for Posts and Pages that do not have any images <em>featured</em>, 
+					<em>attached</em>, or in their content. The Image ID number for images in the 
+					WordPress Media Library can be found in the URL when editing an image (post=123 in the URL, for example). 
+					The NextGEN Gallery Image IDs are easier to find -- it\'s the number in the first column when viewing a Gallery.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_def_img_id', 'short' ) . ' in the ' .
+					$this->ngfb->admin->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Default Image URL', null, null, '
+					You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 
+					<em>Default Image ID</em>.
+					This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
+					The image should be at least ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' or more in width and height. 
+					If both the <em>Default Image ID</em> and <em>Default Image URL</em> are defined, the <em>Default Image ID</em>
+					will take precedence.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_def_img_url', 'wide' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Default Image on Indexes', null, null, '
+					Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). 
+					If you leave this unchecked, ' . $this->ngfb->fullname . ' will attempt to use image(s) from the first entry on the webpage 
+					(default is checked).' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_def_img_on_index' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Default Image on Search Results', null, null, '
+					Check this option if you would like to use the default image on search result webpages as well (default is checked).' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_def_img_on_search' ) . '</td>';
+	
+					if ( $this->ngfb->is_avail['ngg'] == true ) {
+						$ret[] = $this->ngfb->util->th( 'Add Featured Image Tags', null, null, '
+						If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, 
+						then add that image\'s tags to the Open Graph tag list (default is unchecked).' ) .
+						'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_ngg_tags' ) . '</td>';
+					} else $ret[] = $this->ngfb->admin->form->get_hidden( 'og_ngg_tags' );
+	
+					$ret[] = $this->ngfb->util->th( 'Add Page Ancestor Tags', null, null, '
+					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_page_parent_tags' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Add Page Title as Tag', null, null, '
+					Add the title of the Page to the Open Graph tag list as well. 
+					If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
+					This option works well if the title of your Pages are short (one or two words) and subject-oriented.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_page_title_tag' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Maximum Images', 'highlight', null, '
+					The maximum number of images to list in the Open Graph meta property tags -- 
+					this includes the <em>featured</em> or <em>attached</em> images, 
+					and any images found in the Post or Page content. 
+					If you select \'0\', then no images will be listed in the Open Graph meta tags.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short', null, true ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Maximum Videos', 'highlight', null, '
+					The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. 
+					If you select \'0\', then no videos will be listed in the Open Graph meta tags.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ) . '</td>';
+	
+					break;
 
-			echo '</tr><tr><td colspan="3"><h3>Authorship Options</h3></td></tr><tr>';
+				case 'author' :
 
-			echo $this->ngfb->util->th( 'Author Profile URL', null, null, '
-				Select the profile field to use for Posts and Pages in the \'article:author\' Open Graph meta tag.
-				The URL should point to an author\'s <em>personal</em> website or social page.
-				This Open Graph meta tag is primarily used by Facebook, so the preferred (and default) 
-				value is the author\'s Facebook webpage URL.
-				See the Google Settings below for an <em>Author Link URL</em> for Google, 
-				and to define a common <em>publisher</em> URL for all webpages.' );
-			echo '<td>', $this->ngfb->admin->form->get_select( 'og_author_field', $this->author_fields() ), '</td>';
+					$ret[] = $this->ngfb->util->th( 'Author Profile URL', null, null, '
+					Select the profile field to use for Posts and Pages in the \'article:author\' Open Graph meta tag.
+					The URL should point to an author\'s <em>personal</em> website or social page.
+					This Open Graph meta tag is primarily used by Facebook, so the preferred (and default) 
+					value is the author\'s Facebook webpage URL.
+					See the Google Settings below for an <em>Author Link URL</em> for Google, 
+					and to define a common <em>publisher</em> URL for all webpages.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_author_field', $this->author_fields() ) . '</td>';
 
-			echo '</tr><tr>';
+					$ret[] = $this->ngfb->util->th( 'Fallback to Author Index', null, null, '
+					If the <em>Author Profile URL</em> (and the <em>Author Link URL</em> in the Google Settings below) 
+					is not a valid URL, then ' . $this->ngfb->fullname . ' can fallback to using the author index on this 
+					website (\'' . trailingslashit( site_url() ) . 'author/username\' for example). 
+					Uncheck this option to disable the fallback feature (default is unchecked).' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ) . '</td>';
+	
+					$user_ids = array();
+					foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
+					$ret[] = $this->ngfb->util->th( 'Default Author', null, null, '
+					A default author for webpages missing authorship information (for example, an index webpage without posts). 
+					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_def_author_id', $user_ids, null, null, true ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Default Author on Indexes', null, null, '
+					Check this option if you would like to force the <em>Default Author</em> on index webpages 
+					(homepage, archives, categories, author, etc.). 
+					If this option is checked, index webpages will be labeled as a an \'article\' with authorship 
+					attributed to the <em>Default Author </em> (default is unchecked).
+					If the <em>Default Author</em> is <em>[none]</em>, then the index webpages will be labeled as a \'webpage\'.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_index' ) . '</td>';
+	
+					$ret[] = $this->ngfb->util->th( 'Default Author on Search Results', null, null, '
+					Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_search' ) . '</td>';
 
-			echo $this->ngfb->util->th( 'Fallback to Author Index', null, null, '
-				If the <em>Author Profile URL</em> (and the <em>Author Link URL</em> in the Google Settings below) 
-				is not a valid URL, then ' . $this->ngfb->fullname . ' can fallback to using the author index on this 
-				website (\'' . trailingslashit( site_url() ) . 'author/username\' for example). 
-				Uncheck this option to disable the fallback feature (default is unchecked).' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ), '</td>';
+					break;
 
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author', null, null, '
-				A default author for webpages missing authorship information (for example, an index webpage without posts). 
-				If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).' );
-			$user_ids = array( '' );
-			foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
-			echo '<td>', $this->ngfb->admin->form->get_select( 'og_def_author_id', $user_ids, null, null, true ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author on Indexes', null, null, '
-				Check this option if you would like to force the <em>Default Author</em> on index webpages 
-				(homepage, archives, categories, author, etc.). 
-				If this option is checked, index webpages will be labeled as a an \'article\' with authorship 
-				attributed to the <em>Default Author </em> (default is unchecked).
-				If the <em>Default Author</em> is <em>[none]</em>, then the index webpages will be labeled as a \'webpage\'.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_index' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author on Search Results', null, null, '
-				Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_search' ), '</td>';
-
-			echo '</tr><tr><td colspan="3"><h3>Image and Video Options</h3></td></tr><tr>';
-
-			echo $this->ngfb->util->th( 'Image Dimensions', 'highlight', null, '
-				Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
-				between ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' and 1500x1500, preferably cropped 
-				(the defaults are ' . $this->ngfb->opt->get_defaults( 'og_img_width' ) . 'x' .
-				$this->ngfb->opt->get_defaults( 'og_img_height' ) . ', ' .
-				( $this->ngfb->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ) . 'cropped). 
-				Note that Facebook prefers larger images for use in backgrounds and banners.
-				The default values are purposefully low in consideration of photography websites, 
-				who may not want to share larger images of their work.' );
-			echo '<td>Width ', $this->ngfb->admin->form->get_input( 'og_img_width', 'short' ), ' x ',
-				'Height ', $this->ngfb->admin->form->get_input( 'og_img_height', 'short' ), 
-				'Cropped ', $this->ngfb->admin->form->get_checkbox( 'og_img_crop' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Image ID', 'highlight', null, '
-				The ID number and location of your default image (example: 123). The <em>Default Image ID</em> 
-				will be used as a fallback for Posts and Pages that do not have any images <em>featured</em>, 
-				<em>attached</em>, or in their content. The Image ID number for images in the 
-				WordPress Media Library can be found in the URL when editing an image (post=123 in the URL, for example). 
-				The NextGEN Gallery Image IDs are easier to find -- it\'s the number in the first column when viewing a Gallery.' );
-			$id_pre = array( 'wp' => 'Media Library' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'og_def_img_id', 'short' ), ' in the ';
-			if ( $this->ngfb->is_avail['ngg'] == true )
-				$id_pre['ngg'] = 'NextGEN Gallery';
-			echo $this->ngfb->admin->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Image URL', null, null, '
-				You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 
-				<em>Default Image ID</em>.
-				This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
-				The image should be at least ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' or more in width and height. 
-				If both the <em>Default Image ID</em> and <em>Default Image URL</em> are defined, the <em>Default Image ID</em>
-				will take precedence.' );
-			echo '<td colspan="2">', $this->ngfb->admin->form->get_input( 'og_def_img_url', 'wide' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Image on Indexes', null, null, '
-				Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). 
-				If you leave this unchecked, ' . $this->ngfb->fullname . ' will attempt to use image(s) from the first entry on the webpage 
-				(default is checked).' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_def_img_on_index' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Image on Search Results', null, null, '
-				Check this option if you would like to use the default image on search result webpages as well (default is checked).' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_def_img_on_search' ), '</td>';
-
-			echo '</tr>';
-
-			if ( $this->ngfb->is_avail['ngg'] == true ) {
-				echo '<tr>';
-				echo $this->ngfb->util->th( 'Add Featured Image Tags', null, null, '
-					If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, 
-					then add that image\'s tags to the Open Graph tag list (default is unchecked).' );
-				echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_ngg_tags' ), '</td>';
-				echo '</tr>';
-			} else {
-				echo $this->ngfb->admin->form->get_hidden( 'og_ngg_tags' );
 			}
-
-			echo '<tr>';
-
-			echo $this->ngfb->util->th( 'Add Page Ancestor Tags', null, null, '
-				Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_page_parent_tags' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Add Page Title as Tag', null, null, '
-				Add the title of the Page to the Open Graph tag list as well. 
-				If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
-				This option works well if the title of your Pages are short (one or two words) and subject-oriented.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_page_title_tag' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Maximum Images', 'highlight', null, '
-				The maximum number of images to list in the Open Graph meta property tags -- 
-				this includes the <em>featured</em> or <em>attached</em> images, 
-				and any images found in the Post or Page content. 
-				If you select \'0\', then no images will be listed in the Open Graph meta tags.' );
-			echo '<td>', $this->ngfb->admin->form->get_select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short', null, true ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Maximum Videos', 'highlight', null, '
-				The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. 
-				If you select \'0\', then no videos will be listed in the Open Graph meta tags.' );
-			echo '<td>', $this->ngfb->admin->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ), '</td>';
-
-			echo '</tr></table>';
+			return $ret;
 		}
 
 		public function show_metabox_facebook() {
@@ -323,7 +302,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_more_twitter() {
 			return array(
-				'<td colspan="2" align="center"><p>' . $this->ngfb->msg->get( 'pro_feature' ) . '</p></td>',
+				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
 				$this->ngfb->util->th( 'Enable Twitter Cards', 'highlight', null, 
 				'Add Twitter Card meta tags to all webpage headers (cards include Summary, Large Image, Photo, and Gallery).

@@ -123,6 +123,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
+				( empty( $len ) && empty( $class ) ? '' : ' rows="'.round($len / 100).'"' ) . 
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ) . 
 				'>' . esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
@@ -135,6 +136,16 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
 				( empty( $url ) ? '' : ' onClick="location.href=\''.$url.'\'"' ) .
 				' value="' . esc_attr( $value ) . '" />' . "\n";
+			return $html;
+		}
+
+		public static function get_text( $value, $class = '', $id = '' ) {
+			$html = '<input type="text" ' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
+				' value="' . esc_attr( $value ) . '" 
+				onFocus="this.select();" 
+				onMouseUp="return false;" />' . "\n";
 			return $html;
 		}
 

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '47';	// increment when adding/removing default options
+		public $opts_ver = '48';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -51,7 +51,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_on_front' => 1,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
-			'buttons_link_css' => 0,
+			'buttons_link_css' => 1,
 			'buttons_css_excerpt' => '',
 			'buttons_css_content' => '',
 			'buttons_css_shortcode' => '',
@@ -81,7 +81,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tc_enable' => 0,
 			'tc_site' => '',
 			'tc_desc_len' => 200,
-			'tc_gal_min' => 2,
+			'tc_gal_min' => 4,
 			'tc_gal_size' => 'medium',
 			'tc_photo_size' => 'large',
 			'tc_large_size' => 'medium',

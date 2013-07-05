@@ -48,19 +48,21 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
 					wp_enqueue_style( $this->ngfb->acronym . '_settings_pages' );
 					wp_enqueue_style( $this->ngfb->acronym . '_table_settings' );
+					wp_enqueue_style( $this->ngfb->acronym . '_metabox_tabs' );
 					break;
 			}
 		}
 
 		public function wp_enqueue_styles( $hook ) {
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) ) {
-				if ( ! file_exists( $this->social_css_min_file ) ) $this->update_social();
+				if ( ! file_exists( $this->social_css_min_file ) ) 
+					$this->update_social( $this->ngfb->options );
 				$this->ngfb->debug->log( 'wp_enqueue_style = ' . $this->ngfb->acronym . '_social_buttons' );
 				wp_enqueue_style( $this->ngfb->acronym . '_social_buttons' );
 			}
 		}
 
-		public function update_social() {
+		public function update_social( &$opts ) {
 			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
 				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
 					'<b>' . $this->ngfb->acronym_uc . '</b> : Error opening 
@@ -68,7 +70,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			else {
 				$css_data = '';
 				foreach ( $this->ngfb->css_names as $css_id => $css_name )
-					$css_data .= $this->ngfb->options['buttons_css_' . $css_id];
+					$css_data .= $opts['buttons_css_' . $css_id];
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/compressor.php' );
 				$css_data = ngfbMinifyCssCompressor::process( $css_data );
 				fwrite( $fh, $css_data );

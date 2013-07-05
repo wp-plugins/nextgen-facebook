@@ -144,6 +144,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				return $opts;
 			}
 
+			// get default values, including css from default stylesheets
 			$def_opts = $this->ngfb->opt->get_defaults();
 
 			// unchecked checkboxes are not provided, so re-create them here based on hidden values
@@ -166,7 +167,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// update the social stylesheet
 			if ( empty( $opts['buttons_link_css'] ) ) 
 				$this->ngfb->style->unlink_social();
-			else $this->ngfb->style->update_social();
+			else $this->ngfb->style->update_social( $opts );
 
 			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : 
 				Settings updated.', 'updated' );
@@ -348,6 +349,23 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</ul></div>', "\n";
 		}
 
+		protected function do_tabs( $ids = array() ) {
+			echo '<div class="ngfb-metabox-tabs">';
+			echo '<ul class="ngfb-metabox-tabs">';
+			foreach ( $ids as $id => $title )
+				echo '<li class="ngfb_', $id, '"><a class="ngfb-tablink" href="#ngfb_', $id, '">', $title, '</a></li>';
+			echo '</ul>';
+			foreach ( $ids as $id => $title ) {
+				echo '<div class="ngfb-tab ngfb_' . $id . '">';
+				echo '<table class="ngfb-settings">';
+				foreach ( $this->get_rows( $id ) as $row )
+					echo '<tr>' . $row . '</tr>';
+				echo '</table>';
+				echo '</div>';
+			}
+			echo '</div>';
+		}
+
 		public function feed_cache_expire( $seconds ) {
 			return $this->ngfb->update_hours * 60 * 60;
 		}
@@ -374,28 +392,30 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?></td></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>
-			<tr><td colspan="2" id="latest_notice"><p><?php echo $latest_notice; ?></p>
-				<p style="font-size:0.95em;"><?php echo 
-					$this->ngfb->util->get_admin_url( 'about', 'See the Changelog for additional details...' ); ?></p></td></tr>
+			<tr>
+				<td colspan="2" id="latest_notice">
+					<p><?php echo $latest_notice; ?></p>
+					<p><?php echo $this->ngfb->util->get_admin_url( 'about', 'See the Changelog for additional details...' ); ?></p>
+				</td>
+			</tr>
 			<?php
 			echo '<tr><td colspan="2">';
-			echo '<p style="text-align:center;">';
+			echo '<p class="centered">';
 			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
 				echo $this->ngfb->admin->form->get_button( 'Check for Updates', 
 					'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=check_for_updates' );
 			echo $this->ngfb->admin->form->get_button( 'Clear All Cache', 
 				'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=clear_all_cache' );
-			echo '</p>', "\n";
-			echo '</td></tr></table>';
+			echo '</p></td></tr></table>';
 		}
 
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<p>', $this->ngfb->msg->get( 'purchase_box' ), '</p>', "\n";
-			echo '<p>', $this->ngfb->msg->get( 'review_plugin' ), '</p>', "\n";
+			echo $this->ngfb->msg->get( 'purchase_box' ), "\n";
+			echo $this->ngfb->msg->get( 'review_plugin' ), "\n";
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
-			echo '<p style="text-align:center;">';
+			echo '<p class="centered">';
 			echo $this->ngfb->admin->form->get_button( 'Purchase the Pro Version', 
 				'button-primary', null, $this->ngfb->urls['plugin'] );
 			echo '</p></td></tr></table>';
@@ -403,18 +423,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_metabox_thankyou() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<p>', $this->ngfb->msg->get( 'thankyou' ), '</p>', "\n";
+			echo $this->ngfb->msg->get( 'thankyou' ), "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo '<p>', $this->ngfb->msg->get( 'help_boxes' ), '</p>', "\n";
+			echo $this->ngfb->msg->get( 'help_boxes' ), "\n";
 			if ( $this->ngfb->is_avail['aop'] == true )
-				echo '<p>', $this->ngfb->msg->get( 'help_email' ), '</p>', "\n";
+				echo $this->ngfb->msg->get( 'help_email' ), "\n";
 			else
-				echo '<p>', $this->ngfb->msg->get( 'help_forum' ), '</p>', "\n";
+				echo $this->ngfb->msg->get( 'help_forum' ), "\n";
 			echo '</td></tr></table>';
 		}
 

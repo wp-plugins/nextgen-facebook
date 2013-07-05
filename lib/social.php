@@ -147,7 +147,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 					// check for enabled buttons on settings page
 					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_content' ] ) || ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_excerpt' ] ) ) {
-						if ( is_singular || 
+						if ( is_singular() || 
 							( ! is_singular() && ! empty( $this->ngfb->options['buttons_on_index'] ) ) ||
 							( is_front_page() && ! empty( $this->ngfb->options['buttons_on_front'] ) ) )
 								$ids[] = $id;
@@ -219,14 +219,6 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
 
 			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
-		}
-
-		protected function get_first_attached_image_id( $post_id = '' ) {
-			if ( ! empty( $post_id ) ) {
-				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
-				foreach ( $images as $attachment ) return $attachment->ID;
-			}
-			return;
 		}
 
 		public function is_disabled() {

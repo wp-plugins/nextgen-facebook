@@ -29,7 +29,7 @@ jQuery(document).ready(function(){
 
 	var active_tab = window.location.hash;
 	if ( active_tab == '' || active_tab.search('ngfb') == -1 )
-		active_tab = 'ngfb_header';
+		active_tab = 'ngfb_default';
 	else active_tab = active_tab.replace('#',''); 
 
 	jQuery('.'+active_tab).addClass('active'); 
@@ -61,7 +61,16 @@ jQuery(document).ready(function(){
 	jQuery('#ngfb_tc_desc').focus( function() { ngfbTextLen('ngfb_tc_desc'); });
 	jQuery('#ngfb_tc_desc').keyup( function() { ngfbTextLen('ngfb_tc_desc'); });
 
-	jQuery('#ngfb_tweet').focus( function() { ngfbTextLen('ngfb_tweet'); });
-	jQuery('#ngfb_tweet').keyup( function() { ngfbTextLen('ngfb_tweet'); });
+	jQuery('#ngfb_pin_caption').focus( function() { ngfbTextLen('ngfb_pin_caption'); });
+	jQuery('#ngfb_pin_caption').keyup( function() { ngfbTextLen('ngfb_pin_caption'); });
+	
+	jQuery('#ngfb_tumblr_img_caption').focus( function() { ngfbTextLen('ngfb_tumblr_img_caption'); });
+	jQuery('#ngfb_tumblr_img_caption').keyup( function() { ngfbTextLen('ngfb_tumblr_img_caption'); });
+	
+	jQuery('#ngfb_tumblr_vid_caption').focus( function() { ngfbTextLen('ngfb_tumblr_vid_caption'); });
+	jQuery('#ngfb_tumblr_vid_caption').keyup( function() { ngfbTextLen('ngfb_tumblr_vid_caption'); });
+	
+	jQuery('#ngfb_twitter_caption').focus( function() { ngfbTextLen('ngfb_twitter_caption'); });
+	jQuery('#ngfb_twitter_caption').keyup( function() { ngfbTextLen('ngfb_twitter_caption'); });
 	
 });

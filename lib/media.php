@@ -57,6 +57,16 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return $og_ret;
 		}
 
+		public function get_first_attached_image_id( $post_id = '' ) {
+			if ( ! empty( $post_id ) ) {
+				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
+				$attach = reset( $images );
+				if ( ! empty( $attach->ID ) )
+					return $attach->ID;
+			}
+			return;
+		}
+
 		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '', $check_dupes = true ) {
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {

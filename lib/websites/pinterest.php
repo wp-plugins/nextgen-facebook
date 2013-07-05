@@ -74,16 +74,18 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['pin_img_size'];
 			if ( empty( $atts['photo'] ) ) {
+				// get the pid
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
+
+						$pid = $this->ngfb->meta->get_options( $post->ID, 'og_img_id' );
+						$pre = $this->ngfb->meta->get_options( $post->ID, 'og_img_id_pre' );
+						if ( ! empty( $pid ) ) $atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
+
 						if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-							$this->ngfb->debug->log( 'get_post_thumbnail_id() = ' . $atts['pid'] );
-						} else {
-							$atts['pid'] = $this->get_first_attached_image_id( $post->ID );
-							$this->ngfb->debug->log( 'get_first_attached_image_id() = ' . $atts['pid'] );
-						}
+						} else $atts['pid'] = $this->ngfb->media->get_first_attached_image_id( $post->ID );
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {
@@ -102,8 +104,16 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 				}
 			}
 			if ( empty( $atts['photo'] ) ) return;
-			if ( empty( $atts['pin_count_layout'] ) ) $atts['pin_count_layout'] = $this->ngfb->options['pin_count_layout'];
-			if ( empty( $atts['caption'] ) ) $atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], $this->ngfb->options['pin_cap_len'], $use_post );
+
+			if ( empty( $atts['pin_count_layout'] ) ) 
+				$atts['pin_count_layout'] = $this->ngfb->options['pin_count_layout'];
+
+			if ( empty( $atts['caption'] ) && $use_post == true ) 
+				$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'pin_caption' );
+
+			if ( empty( $atts['caption'] ) ) 
+				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], 
+					$this->ngfb->options['pin_cap_len'], $use_post );
 
 			$query .= 'url=' . urlencode( $atts['url'] );
 			$query .= '&amp;media='. urlencode( $atts['photo'] );

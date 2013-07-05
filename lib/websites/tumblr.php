@@ -102,9 +102,15 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
-						if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-						else $atts['pid'] = $this->get_first_attached_image_id( $post->ID );
+						$pid = $this->ngfb->meta->get_options( $post->ID, 'og_img_id' );
+						$pre = $this->ngfb->meta->get_options( $post->ID, 'og_img_id_pre' );
+						if ( ! empty( $pid ) )
+							$atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
+						else {
+							if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
+								$atts['pid'] = get_post_thumbnail_id( $post->ID );
+							else $atts['pid'] = $this->ngfb->media->get_first_attached_image_id( $post->ID );
+						}
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {
@@ -123,10 +129,12 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				}
 			}
 
+			// check for custom or embedded videos
 			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) ) {
 				// allow on index pages only if in content (not a widget)
-				if ( $use_post == true ) {
-					if ( ! empty( $post ) && ! empty( $post->post_content ) ) {
+				if ( ! empty( $post ) && $use_post == true ) {
+					$atts['embed'] = $this->ngfb->meta->get_options( $post->ID, 'og_vid_url' );
+					if ( empty( $atts['embed'] ) ) {
 						$videos = array();
 						$videos = $this->ngfb->media->get_content_videos( 1, false );	// get the first video, if any
 						if ( ! empty( $videos[0]['og:video'] ) ) 
@@ -135,6 +143,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				}
 			}
 
+			// if no image or video, then check for a 'quote'
 			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && empty( $atts['quote'] ) ) {
 				// allow on index pages only if in content (not a widget)
 				if ( $use_post == true ) {
@@ -143,10 +152,15 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				}
 			}
 
-			// we only need the caption / title / description for some cases
+			// we only need the caption, title, or description for some types of shares
 			if ( ! empty( $atts['photo'] ) || ! empty( $atts['embed'] ) ) {
+				// check for custom image or video caption
+				if ( empty( $atts['caption'] ) && $use_post == true ) 
+					$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 
+						( ! empty( $atts['photo'] ) ? 'tumblr_img_caption' : 'tumblr_vid_caption' ) );
 				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], $this->ngfb->options['tumblr_cap_len'], $use_post );
+					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], 
+						$this->ngfb->options['tumblr_cap_len'], $use_post );
 			} else {
 				if ( empty( $atts['title'] ) ) 
 					$atts['title'] = $this->ngfb->webpage->get_title( null, null, $use_post);
