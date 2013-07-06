@@ -287,7 +287,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				foreach ( $def_opts as $key => $def_val ) {
 
 					// remove html, decode entities, and strip slashes
-					$opts[$key] = stripslashes( html_entity_decode( wp_filter_nohtml_kses( $opts[$key] ) ) );
+					if ( array_key_exists( $key, $opts ) )
+						$opts[$key] = stripslashes( html_entity_decode( wp_filter_nohtml_kses( $opts[$key] ) ) );
 
 					switch ( $key ) {
 
@@ -307,6 +308,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 						// must be a url (reset to default if not)
 						case 'og_img_url' :
+						case 'og_vid_url' :
 						case 'og_def_img_url' :
 						case 'link_publisher_url' :
 						case 'ngfb_cdn_urls' :
@@ -355,6 +357,12 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'fb_app_id' :
 						case 'og_title' :
 						case 'og_desc' :
+						case 'link_desc' :
+						case 'tc_desc' :
+						case 'pin_desc' :
+						case 'tumblr_img_desc' :
+						case 'tumblr_vid_desc' :
+						case 'twitter_desc' :
 							break;
 
 						// options that cannot be blank

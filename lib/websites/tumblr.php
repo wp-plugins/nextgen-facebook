@@ -157,7 +157,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 				// check for custom image or video caption
 				if ( empty( $atts['caption'] ) && $use_post == true ) 
 					$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 
-						( ! empty( $atts['photo'] ) ? 'tumblr_img_caption' : 'tumblr_vid_caption' ) );
+						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
 				if ( empty( $atts['caption'] ) ) 
 					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], 
 						$this->ngfb->options['tumblr_cap_len'], $use_post );

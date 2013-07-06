@@ -61,16 +61,16 @@ jQuery(document).ready(function(){
 	jQuery('#ngfb_tc_desc').focus( function() { ngfbTextLen('ngfb_tc_desc'); });
 	jQuery('#ngfb_tc_desc').keyup( function() { ngfbTextLen('ngfb_tc_desc'); });
 
-	jQuery('#ngfb_pin_caption').focus( function() { ngfbTextLen('ngfb_pin_caption'); });
-	jQuery('#ngfb_pin_caption').keyup( function() { ngfbTextLen('ngfb_pin_caption'); });
+	jQuery('#ngfb_pin_desc').focus( function() { ngfbTextLen('ngfb_pin_desc'); });
+	jQuery('#ngfb_pin_desc').keyup( function() { ngfbTextLen('ngfb_pin_desc'); });
 	
-	jQuery('#ngfb_tumblr_img_caption').focus( function() { ngfbTextLen('ngfb_tumblr_img_caption'); });
-	jQuery('#ngfb_tumblr_img_caption').keyup( function() { ngfbTextLen('ngfb_tumblr_img_caption'); });
+	jQuery('#ngfb_tumblr_img_desc').focus( function() { ngfbTextLen('ngfb_tumblr_img_desc'); });
+	jQuery('#ngfb_tumblr_img_desc').keyup( function() { ngfbTextLen('ngfb_tumblr_img_desc'); });
 	
-	jQuery('#ngfb_tumblr_vid_caption').focus( function() { ngfbTextLen('ngfb_tumblr_vid_caption'); });
-	jQuery('#ngfb_tumblr_vid_caption').keyup( function() { ngfbTextLen('ngfb_tumblr_vid_caption'); });
+	jQuery('#ngfb_tumblr_vid_desc').focus( function() { ngfbTextLen('ngfb_tumblr_vid_desc'); });
+	jQuery('#ngfb_tumblr_vid_desc').keyup( function() { ngfbTextLen('ngfb_tumblr_vid_desc'); });
 	
-	jQuery('#ngfb_twitter_caption').focus( function() { ngfbTextLen('ngfb_twitter_caption'); });
-	jQuery('#ngfb_twitter_caption').keyup( function() { ngfbTextLen('ngfb_twitter_caption'); });
+	jQuery('#ngfb_twitter_desc').focus( function() { ngfbTextLen('ngfb_twitter_desc'); });
+	jQuery('#ngfb_twitter_desc').keyup( function() { ngfbTextLen('ngfb_twitter_desc'); });
 	
 });
