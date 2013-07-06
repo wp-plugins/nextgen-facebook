@@ -26,7 +26,7 @@ if ( ! class_exists( 'ngfbScript' ) ) {
 			// wp_register_script( $handle, $src, $deps, $ver, $in_footer );
 			wp_register_script( $this->ngfb->acronym . '_postmeta', NGFB_URLPATH . 'js/jquery-postmeta.min.js', false, $this->ngfb->version, true );
 			wp_register_script( $this->ngfb->acronym . '_tooltips', NGFB_URLPATH . 'js/jquery-tooltips.min.js', false, $this->ngfb->version, true );
-			wp_register_script( 'jquery-qtip', NGFB_URLPATH . 'js/jquery-qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
+			wp_register_script( $this->ngfb->acronym . '_qtip', NGFB_URLPATH . 'js/jquery-qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
 		}
 
 		public function admin_enqueue_scripts( $hook ) {
@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbScript' ) ) {
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
 					wp_enqueue_script( $this->ngfb->acronym . '_postmeta' );
 					wp_enqueue_script( $this->ngfb->acronym . '_tooltips' );
-					wp_enqueue_script( 'jquery-qtip' );
+					wp_enqueue_script( $this->ngfb->acronym . '_qtip' );
 					break;
 			}
 		}
