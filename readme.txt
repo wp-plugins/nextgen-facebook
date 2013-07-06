@@ -491,7 +491,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a Pinterest Image Caption, Tumblr Image and Video Caption to the Post/Page custom settings (Pro version).
 * Improved the character counter on the Post/Page custom settings (Pro version).
 * Added the `ngfb_topics` filter (Pro version).
-* Minimized as CSS stylesheets and JS scripts.
+* Minimized all CSS stylesheets and JS scripts.
 
 = Version 6.1.1 =
 
