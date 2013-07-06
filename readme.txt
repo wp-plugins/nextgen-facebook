@@ -489,6 +489,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added links to the Facebook Debugger, Google Testing Tool, and Twitter Card Validator in the Post/Page custom settings.
 * Added a Google and Twitter Card description for the Post/Page custom settings (Pro version).
 * Added a Pinterest Image Caption, Tumblr Image and Video Caption to the Post/Page custom settings (Pro version).
+* Improved the character counter on the Post/Page custom settings (Pro version).
 * Added the `ngfb_topics` filter (Pro version).
 * Minimized as CSS stylesheets and JS scripts.
 
