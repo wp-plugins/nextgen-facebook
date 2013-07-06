@@ -30,10 +30,11 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 		}
 
 		public function register_styles() {
-			wp_register_style( $this->ngfb->acronym . '_settings_pages', NGFB_URLPATH . 'css/settings-pages.min.css', false, $this->ngfb->version );
-			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.min.css', false, $this->ngfb->version );
-			wp_register_style( $this->ngfb->acronym . '_metabox_tabs', NGFB_URLPATH . 'css/metabox-tabs.min.css', false, $this->ngfb->version );
-
+			if ( is_admin() ) {
+				wp_register_style( $this->ngfb->acronym . '_settings_pages', NGFB_URLPATH . 'css/settings-pages.min.css', false, $this->ngfb->version );
+				wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.min.css', false, $this->ngfb->version );
+				wp_register_style( $this->ngfb->acronym . '_metabox_tabs', NGFB_URLPATH . 'css/metabox-tabs.min.css', false, $this->ngfb->version );
+			}
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
 				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->social_css_min_url, false, $this->ngfb->version );
 		}
