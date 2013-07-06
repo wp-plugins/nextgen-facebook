@@ -396,7 +396,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = NGFB Filter Hooks =
 
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+ Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it can transform and return.
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+ Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
 
 `
 add_filter( 'ngfb_tags', 'uwf_filter_ngfb_tags', 10, 1 );
@@ -433,6 +433,18 @@ The following list of NGFB filters receive and must return a single *array*.
 * ngfb_ngg_tags : An array of NextGEN Gallery image tags used in the article:tag meta tags.
 * ngfb_og : A complete, multi-dimensional array of all Open Graph meta tags.
 * ngfb_tc : A complete, multi-dimensional array of all Twitter Card meta tags.
+
+As an example, here's a filter to add custom topics ("Name One" and "Name Two") to the built-in topics list.
+
+`
+add_filter( 'ngfb_topics', 'my_filter_ngfb_topics', 10, 1 );
+
+function my_filter_ngfb_topics( $topics = array() ) {
+	$topics[] = 'Name One';
+	$topics[] = 'Name Two';
+	return $topics;
+}
+`
 
 The following filter receives *two arguments* -- an array and a text string, and must return an array.
 
