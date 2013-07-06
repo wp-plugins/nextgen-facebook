@@ -470,7 +470,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2-rc3 =
+= Version 6.2 =
 
 * Added the 'Include on Static Homepage' option on the General settings page.
 * Added a tabbed layout for the Post/Page custom settings, General settings page, and Social Styles settings page.
@@ -578,7 +578,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.2-rc3 =
+= 6.2 =
 
 This version adds a tabbed layout to the General, Social Styles, and custom Post/Page settings. Also added links to various validation tools in the Post/Page settings, plus a few extra customization fields for the Pro version. 
 

@@ -32,9 +32,9 @@ if ( ! class_exists( 'ngfbSettingsSocialStyle' ) && class_exists( 'ngfbAdmin' ) 
 		public function show_metabox_style() {
 			echo '<table class="ngfb-settings"><tr>';
 			echo $this->ngfb->util->th( 'Use the Social Styles', 'highlight', null, '
-				Add the following styles to all webpages (default is unchecked).
-				All styles will be minimized into a single stylesheet with the URL of ' . $this->ngfb->style->social_css_min_url . '. 
-				The stylesheet is created or removed depending whether this option is checked or unchecked.' ); 
+				Add the following styles to all webpages (default is checked).
+				All styles will be minimized into a single stylesheet with the URL of <u>' . $this->ngfb->style->social_css_min_url . '</u>. 
+				The stylesheet is created or removed, depending on whether this option is checked or unchecked.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
 			$show_tabs = array_merge( array( 'default' => $this->ngfb->css_names['social'] ), $this->ngfb->css_names );
