@@ -23,23 +23,16 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 
 			$this->social_css_min_url = NGFB_URLPATH . 'cache/' . $this->ngfb->acronym . '-social-styles.min.css';
 			$this->social_css_min_file = NGFB_PLUGINDIR . 'cache/' . $this->ngfb->acronym . '-social-styles.min.css';
-			$this->register_styles();
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
 		}
 
-		public function register_styles() {
-			if ( is_admin() ) {
-				wp_register_style( $this->ngfb->acronym . '_settings_pages', NGFB_URLPATH . 'css/settings-pages.min.css', false, $this->ngfb->version );
-				wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.min.css', false, $this->ngfb->version );
-				wp_register_style( $this->ngfb->acronym . '_metabox_tabs', NGFB_URLPATH . 'css/metabox-tabs.min.css', false, $this->ngfb->version );
-			}
-			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) )
-				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->social_css_min_url, false, $this->ngfb->version );
-		}
-
 		public function admin_enqueue_styles( $hook ) {
+			wp_register_style( $this->ngfb->acronym . '_settings_pages', NGFB_URLPATH . 'css/settings-pages.min.css', false, $this->ngfb->version );
+			wp_register_style( $this->ngfb->acronym . '_table_settings', NGFB_URLPATH . 'css/table-settings.min.css', false, $this->ngfb->version );
+			wp_register_style( $this->ngfb->acronym . '_metabox_tabs', NGFB_URLPATH . 'css/metabox-tabs.min.css', false, $this->ngfb->version );
+
 			switch ( $hook ) {
 				case 'post.php' :
 				case 'post-new.php' :
@@ -56,6 +49,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 
 		public function wp_enqueue_styles( $hook ) {
 			if ( ! empty( $this->ngfb->options['buttons_link_css'] ) ) {
+				wp_register_style( $this->ngfb->acronym . '_social_buttons', $this->social_css_min_url, false, $this->ngfb->version );
 				if ( ! file_exists( $this->social_css_min_file ) ) 
 					$this->update_social( $this->ngfb->options );
 				$this->ngfb->debug->log( 'wp_enqueue_style = ' . $this->ngfb->acronym . '_social_buttons' );
