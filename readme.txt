@@ -482,6 +482,18 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.2.1 =
+
+Fix for WordPress Bug #17916:
+
+* Moved the `wp_register_style()` and `wp_register_script()` calls into `add_action()` methods.
+
+Performance Improvements:
+
+* Moved jQuery character counters, on the custom Post/Page settings, inline with input fields.
+* Added object caching to the plugin info extracted from the readme (version and notice info, etc.).
+* Changed the default object expiration time from 60 to 180 seconds.
+
 = Version 6.2 =
 
 * Added the 'Include on Static Homepage' option on the General settings page.

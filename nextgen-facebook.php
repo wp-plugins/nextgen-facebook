@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve webpage HTML for better Google Search results, ranking, social shares with Facebook, G+, Twitter, LinkedIn, and much more.
-Version: 6.2
+Version: 6.2.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.2';
+		public $version = '6.2.1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -229,6 +229,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_DEBUG_OBJ_EXP' ) )
 				define( 'NGFB_DEBUG_OBJ_EXP', 3 );
 
+			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
+				define( 'NGFB_DEBUG_FILE_EXP', 5 );
+
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
 
@@ -381,7 +384,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// set the file cache expiration value
 			if ( is_admin() )
 				if ( $this->debug->is_on( 'wp' ) == true ) 
-					$this->cache->file_expire = 0;
+					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->update_hours * 60 * 60;
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? 

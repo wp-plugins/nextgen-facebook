@@ -164,20 +164,25 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_file = $this->base_dir . $cache_id . $url_ext;
 					$this->ngfb->debug->log( $cache_type . ': filename id salt "' . $cache_salt . '"' );
 					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
-					if ( file_exists( $cache_file ) ) {
-						if ( ! is_readable( $cache_file ) )
-							$this->ngfb->notices->err( '<u>' . $cache_file . '</u> is not readable.' );
-						elseif ( filemtime( $cache_file ) > time() - $file_expire && 
-							( $this->ngfb->is_avail['aop'] == true || is_admin() ) ) {
-							if ( ! $fh = @fopen( $cache_file, 'rb' ) )
-								$this->ngfb->notices->err( 'Failed to open <u>' . $cache_file . '</u> for reading.' );
-							else {
-								$cache_data = fread( $fh, filesize( $cache_file ) );
-								fclose( $fh );
-								if ( ! empty( $cache_data ) )
-									$this->ngfb->debug->log( $cache_type . ': cache_data retrieved from "' . $cache_file . '"' );
-							}
-						}
+					if ( ! file_exists( $cache_file ) ) {
+						$this->ngfb->debug->log( $cache_file . ' does not exist yet.' ); break;
+					}
+					if ( ! is_readable( $cache_file ) ) {
+						$this->ngfb->notices->err( '<u>' . $cache_file . '</u> is not readable.' ); break;
+					}
+					if ( $this->ngfb->is_avail['aop'] !== true && ! is_admin() ) {
+						$this->ngfb->debug->log( 'file cache disabled: must be pro or admin.' ); break;
+					}
+					if ( filemtime( $cache_file ) < time() - $file_expire ) {
+						$this->ngfb->debug->log( $cache_file . ' has expired (file expiration = ' . $file_expire . ').' ); break;
+					}
+					if ( ! $fh = @fopen( $cache_file, 'rb' ) )
+						$this->ngfb->notices->err( 'Failed to open <u>' . $cache_file . '</u> for reading.' );
+					else {
+						$cache_data = fread( $fh, filesize( $cache_file ) );
+						fclose( $fh );
+						if ( ! empty( $cache_data ) )
+							$this->ngfb->debug->log( $cache_type . ': cache_data retrieved from "' . $cache_file . '"' );
 					}
 					break;
 				default :
