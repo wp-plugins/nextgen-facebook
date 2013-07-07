@@ -108,7 +108,16 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			$html = '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
+			$html = '';
+			if ( ! empty( $len ) && ! empty( $id ) ) {
+				$html .= '<script type="text/javascript">
+						jQuery(document).ready(function(){
+							jQuery(\'#' . $id . '\').focus( function() { ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').keyup( function() { ngfbTextLen(\'' . $id . '\'); });
+						});
+					</script>';
+			}
+			$html .= '<input type="text" name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
@@ -119,7 +128,16 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			$html = '<textarea name="' . $this->options_name . '[' . $name . ']"' .
+			$html = '';
+			if ( ! empty( $len ) && ! empty( $id ) ) {
+				$html .= '<script type="text/javascript">
+						jQuery(document).ready(function(){
+							jQuery(\'#' . $id . '\').focus( function() { ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').keyup( function() { ngfbTextLen(\'' . $id . '\'); });
+						});
+					</script>';
+			}
+			$html .= '<textarea name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
