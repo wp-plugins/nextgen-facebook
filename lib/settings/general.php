@@ -323,30 +323,30 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				is <a href="https://twitter.com/surniaululacom" target="_blank">@surniaululacom</a>.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_site' ) . '</td>',
 
-				$this->ngfb->util->th( '\'Summary\' Card Image Size', null, null, 
+				$this->ngfb->util->th( '<em>Summary</em> Card Image Size', null, null, 
 				'The size of content images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/summary-card" target="_blank">Summary Card</a>
 				(should be at least 120x120, larger than 60x60, and less than 1MB).' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_sum_size' ) . '</td>',
 
-				$this->ngfb->util->th( '\'Large Image Summary\' Card Size', null, null, 
+				$this->ngfb->util->th( '<em>Large Image Summary</em> Card Image Size', null, null, 
 				'The size of Post Meta, Featured or Attached images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/large-image-summary-card" target="_blank">Large Image Summary Card</a>
 				(must be larger than 280x150 and less than 1MB).' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_large_size' ) . '</td>',
 
-				$this->ngfb->util->th( '\'Photo\' Card Image Size', 'highlight', null, 
+				$this->ngfb->util->th( '<em>Photo</em> Card Image Size', 'highlight', null, 
 				'The size of ImageBrowser or Attachment Page images provided for the 
 				<a href="https://dev.twitter.com/docs/cards/types/photo-card" target="_blank">Photo Card</a> 
 				(should be at least 560x750 and less than 1MB).' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_photo_size' ) . '</td>',
 
-				$this->ngfb->util->th( '\'Gallery\' Card Image Size', null, null, 
+				$this->ngfb->util->th( '<em>Gallery</em> Card Image Size', null, null, 
 				'The size of NGG Gallery images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) . 
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) . '</td>',
 
-				$this->ngfb->util->th( 'Minimum Images for Gallery', null, null, 
+				$this->ngfb->util->th( 'Minimum Images for <em>Gallery</em> Card', null, null, 
 				'The minimum number of images found in a gallery to qualify for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) . '</td>',
