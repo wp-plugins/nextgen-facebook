@@ -16,13 +16,13 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
 
-Once installed and activated, **NGFB Open Graph+ adds Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**.
-
-NGFB Open Graph+ is also excellent for extending traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc. SEO plugins don't generally offer Open Graph and Twitter Card HTML tags, and if they do, it's often just the basic non-media related tags.
+**NGFB Open Graph+ adds Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**.
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
+
+NGFB Open Graph+ is also excellent for extending and improving traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
 = Twitter Cards =
 
@@ -30,7 +30,9 @@ NGFB Open Graph+ (Pro version) supports the [Summary](https://dev.twitter.com/do
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library.
+
+**The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
 
 = Social Buttons =
 
