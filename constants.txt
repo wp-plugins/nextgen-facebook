@@ -82,7 +82,7 @@ NGFB_MAX_VID_OG
 	The maximum range shown in the "Maximum Number of Videos" drop-down on
 	the settings page. The default value is 20.
 
-NGFB_MAX_CACHE
+NGFB_MAX_CACHE_HRS
 
 	The maximum range shown in the "Cache Expiry in Hours" drop-down on
 	the settings page. The default value is 24.

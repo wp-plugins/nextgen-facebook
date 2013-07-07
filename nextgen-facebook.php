@@ -223,8 +223,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_MAX_VID_OG' ) )
 				define( 'NGFB_MAX_VID_OG', 20 );
 
-			if ( ! defined( 'NGFB_MAX_CACHE' ) )
-				define( 'NGFB_MAX_CACHE', 24 );
+			if ( ! defined( 'NGFB_MAX_CACHE_HRS' ) )
+				define( 'NGFB_MAX_CACHE_HRS', 24 );
+
+			if ( ! defined( 'NGFB_DEBUG_OBJ_EXP' ) )
+				define( 'NGFB_DEBUG_OBJ_EXP', 3 );
 
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
@@ -392,7 +395,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
-				$this->cache->object_expire = 1;
+				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
 				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
 				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
