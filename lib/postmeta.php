@@ -39,8 +39,11 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		protected function do_tabs( $ids = array(), $post ) {
-			echo '<div class="ngfb-metabox-tabs">';
-			echo '<ul class="ngfb-metabox-tabs">';
+			echo '<script type="text/javascript">
+				jQuery(document).ready(function(){ ngfbTabs(); });
+			</script>
+			<div class="ngfb-metabox-tabs">
+			<ul class="ngfb-metabox-tabs">';
 			foreach ( $ids as $id => $title )
 				echo '<li class="ngfb_', $id, '"><a class="ngfb-tablink" href="#ngfb_', $id, '">', $title, '</a></li>';
 			echo '</ul>';

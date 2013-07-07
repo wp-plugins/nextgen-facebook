@@ -112,8 +112,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			if ( ! empty( $len ) && ! empty( $id ) ) {
 				$html .= '<script type="text/javascript">
 						jQuery(document).ready(function(){
-							jQuery(\'#' . $id . '\').focus( function() { ngfbTextLen(\'' . $id . '\'); });
-							jQuery(\'#' . $id . '\').keyup( function() { ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').focus(function(){ ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').keyup(function(){ ngfbTextLen(\'' . $id . '\'); });
 						});
 					</script>';
 			}
@@ -132,8 +132,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			if ( ! empty( $len ) && ! empty( $id ) ) {
 				$html .= '<script type="text/javascript">
 						jQuery(document).ready(function(){
-							jQuery(\'#' . $id . '\').focus( function() { ngfbTextLen(\'' . $id . '\'); });
-							jQuery(\'#' . $id . '\').keyup( function() { ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').focus(function(){ ngfbTextLen(\'' . $id . '\'); });
+							jQuery(\'#' . $id . '\').keyup(function(){ ngfbTextLen(\'' . $id . '\'); });
 						});
 					</script>';
 			}
