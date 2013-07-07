@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.5.1
-Stable Tag: 6.2.1
+Stable Tag: 6.2
 
 Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
 
@@ -481,18 +481,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 11. Screenshot 11 : Example Twitter 'Gallery' Card (Pro Version)
 
 == Changelog ==
-
-= Version 6.2.1 =
-
-Fix for WordPress Bug #17916:
-
-* Moved the `wp_register_style()` and `wp_register_script()` calls into `add_action()` methods.
-
-Performance Improvements:
-
-* Moved jQuery character counters, on the custom Post/Page settings, inline with input fields.
-* Added object caching to the plugin info extracted from the readme (version and notice info, etc.).
-* Changed the default object expiration time from 60 to 180 seconds.
 
 = Version 6.2 =
 
