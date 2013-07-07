@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.5.1
-Stable Tag: 6.2
+Stable Tag: 6.2.1
 
 Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
 
@@ -490,7 +490,7 @@ Fix for WordPress Bug #17916:
 
 Performance Improvements:
 
-* Moved jQuery character counters inline with input fields.
+* Moved jQuery character counters, on the custom Post/Page settings, inline with input fields.
 * Added object caching to the plugin info extracted from the readme (version and notice info, etc.).
 * Changed the default object expiration time from 60 to 180 seconds.
 
