@@ -484,7 +484,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.2.1 =
 
-Fix for WordPress Bug #17916:
+Fix for WordPress Bug http://core.trac.wordpress.org/ticket/17916:
 
 * Moved the `wp_register_style()` and `wp_register_script()` calls into `add_action()` methods.
 
