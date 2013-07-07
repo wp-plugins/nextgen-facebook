@@ -301,7 +301,17 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$plugin_info;
+			$cache_salt = __METHOD__ . '(file:' . $this->ngfb->urls['readme'] . ')';
+			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
+			$cache_type = 'object cache';
+			$plugin_info = get_transient( $cache_id );
+			$this->ngfb->debug->log( $cache_type . ': plugin_info transient id salt "' . $cache_salt . '"' );
+
+			if ( $plugin_info !== false ) {
+				$this->ngfb->debug->log( $cache_type . ': plugin_info retrieved from transient for id "' . $cache_id . '"' );
+				return $plugin_info;
+			}
+
 			$using_local = false;
 			$readme = $this->ngfb->cache->get( $this->ngfb->urls['readme'], 'raw', 'file', $expire_secs );
 			// fallback to local readme.txt file
@@ -319,6 +329,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 							unset( $plugin_info[$key] );
 				}
 			}
+
+			set_transient( $cache_id, $plugin_info, $this->ngfb->cache->object_expire );
+			$this->ngfb->debug->log( $cache_type . ': plugin_info saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $plugin_info;
 		}
 

@@ -229,6 +229,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_DEBUG_OBJ_EXP' ) )
 				define( 'NGFB_DEBUG_OBJ_EXP', 3 );
 
+			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
+				define( 'NGFB_DEBUG_FILE_EXP', 5 );
+
 			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
 				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
 
@@ -381,7 +384,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// set the file cache expiration value
 			if ( is_admin() )
 				if ( $this->debug->is_on( 'wp' ) == true ) 
-					$this->cache->file_expire = 0;
+					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->update_hours * 60 * 60;
 			elseif ( $this->is_avail['aop'] == true )
 				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? 

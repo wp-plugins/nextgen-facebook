@@ -126,7 +126,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				Changes to the website content and webpages will not be reflected in the Open Graph and NGFB social sharing 
 				buttons until the object cache has expired. 
 				Decrease this value if your content is often revised after publishing, or increase it to improve performance. 
-				The default is 60 seconds, and the minimum value is 1 second (such a low value is not recommended).
+				The default is ' . $this->ngfb->opt->defaults['ngfb_object_cache_exp'] . ' seconds, and the minimum value is 
+				1 second (such a low value is not recommended).
 				' );
 			echo '<td nowrap>', $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ), ' Seconds</td>';
 			
