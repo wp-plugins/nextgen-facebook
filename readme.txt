@@ -30,9 +30,9 @@ NGFB Open Graph+ (Pro version) supports the [Summary](https://dev.twitter.com/do
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support images from NextGEN Gallery, but works just as well with the standard WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
 
-**The NextGEN Gallery plugin is not required to use all the funtionality of NGFB Open Graph+**.
+**The NextGEN Gallery plugin is not required to use all the features of this plugin**.
 
 = Social Buttons =
 
