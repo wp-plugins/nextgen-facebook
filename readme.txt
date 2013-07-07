@@ -484,7 +484,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.2.1 =
 
-Fix for WordPress Bug [#17916](http://core.trac.wordpress.org/ticket/17916):
+Work-around for WordPress Bug [#17916](http://core.trac.wordpress.org/ticket/17916):
 
 * Moved the `wp_register_style()` and `wp_register_script()` calls into `add_action()` methods.
 
@@ -602,6 +602,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.2.1 =
+
+Work-around for WordPress Bug #17916 and small performance improvements for admin settings pages.
 
 = 6.2 =
 
