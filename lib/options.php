@@ -51,7 +51,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_on_front' => 1,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
-			'buttons_link_css' => 1,
+			'buttons_link_css' => 0,
 			'buttons_css_excerpt' => '',
 			'buttons_css_content' => '',
 			'buttons_css_shortcode' => '',
