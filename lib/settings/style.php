@@ -37,16 +37,17 @@ if ( ! class_exists( 'ngfbSettingsSocialStyle' ) && class_exists( 'ngfbAdmin' ) 
 				The stylesheet is created or removed, depending on whether this option is checked or unchecked.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
-			$show_tabs = array_merge( array( 'default' => $this->ngfb->css_names['social'] ), $this->ngfb->css_names );
-			unset ( $show_tabs['social'] );
-			parent::do_tabs( $show_tabs );
+			$tab_rows = array();
+			foreach ( $this->ngfb->css_names as $key => $title )
+				$tab_rows[$key] = $this->get_rows( $key );
+			$this->ngfb->util->do_tabs( 'css', $this->ngfb->css_names, $tab_rows );
 		}
 
 		public function get_rows( $id ) {
 			$ret = array();
 			switch ( $id ) {
 
-				case 'default' :
+				case 'social' :
 					$ret[] = '<td class="textinfo">
 					<p>' . $this->ngfb->fullname . ' uses the \'ngfb-buttons\' class to wrap all its 
 					social buttons, and each button has it\'s own individual class name as well. 

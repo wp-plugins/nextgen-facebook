@@ -34,28 +34,15 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		public function show_metabox( $post ) {
-			$show_tabs = array( 'default' => 'Webpage Header', 'social' => 'Social Sharing', 'tools' => 'Validation Tools' );
-			$this->do_tabs( $show_tabs, $post );
-		}
-
-		protected function do_tabs( $ids = array(), $post ) {
-			echo '<script type="text/javascript">
-				jQuery(document).ready(function(){ ngfbTabs(); });
-			</script>
-			<div class="ngfb-metabox-tabs">
-			<ul class="ngfb-metabox-tabs">';
-			foreach ( $ids as $id => $title )
-				echo '<li class="ngfb_', $id, '"><a class="ngfb-tablink" href="#ngfb_', $id, '">', $title, '</a></li>';
-			echo '</ul>';
-			foreach ( $ids as $id => $title ) {
-				echo '<div class="ngfb-tab ngfb_' . $id . '">';
-				echo '<table class="ngfb-settings">';
-				foreach ( $this->get_rows( $id, $post ) as $row )
-					echo '<tr>' . $row . '</tr>';
-				echo '</table>';
-				echo '</div>';
-			}
-			echo '</div>';
+			$show_tabs = array( 
+				'header' => 'Webpage Header', 
+				'social' => 'Social Sharing', 
+				'tools' => 'Validation Tools',
+			);
+			$tab_rows = array();
+			foreach ( $show_tabs as $key => $title )
+				$tab_rows[$key] = $this->get_rows( $key, $post );
+			$this->ngfb->util->do_tabs( 'meta', $show_tabs, $tab_rows, '#ngfb_meta' );
 		}
 
 		protected function get_rows( $id, $post ) {
@@ -63,7 +50,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$name = $post->post_type == 'page' ? 'Page' : 'Post';
 			switch ( $id ) {
 
-				case 'default' :
+				case 'header' :
 
 					$ret[] = '<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>';
 
@@ -154,12 +141,17 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 					break;
 
-				case 'tools' :	$ret = array_merge( $ret, $this->get_tools( $post ) ); break; 
+				case 'tools' :	
+
+					$ret = $this->get_rows_tools( $post );
+
+					break; 
+
 			}
 			return $ret;
 		}
 
-		protected function get_tools( $post ) {
+		protected function get_rows_tools( $post ) {
 			$tools = array();
 			$name = $post->post_type == 'page' ? 'Page' : 'Post';
 

@@ -349,26 +349,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</ul></div>', "\n";
 		}
 
-		protected function do_tabs( $ids = array() ) {
-			echo '<script type="text/javascript">
-				jQuery(document).ready(function(){ ngfbTabs(); });
-			</script>
-			<div class="ngfb-metabox-tabs">
-			<ul class="ngfb-metabox-tabs">';
-			foreach ( $ids as $id => $title )
-				echo '<li class="ngfb_', $id, '"><a class="ngfb-tablink" href="#ngfb_', $id, '">', $title, '</a></li>';
-			echo '</ul>';
-			foreach ( $ids as $id => $title ) {
-				echo '<div class="ngfb-tab ngfb_' . $id . '">';
-				echo '<table class="ngfb-settings">';
-				foreach ( $this->get_rows( $id ) as $row )
-					echo '<tr>' . $row . '</tr>';
-				echo '</table>';
-				echo '</div>';
-			}
-			echo '</div>';
-		}
-
 		public function feed_cache_expire( $seconds ) {
 			return $this->ngfb->update_hours * 60 * 60;
 		}

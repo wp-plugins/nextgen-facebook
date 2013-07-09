@@ -27,62 +27,41 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_opengraph', 'Open Graph Settings', array( &$this, 'show_metabox_opengraph' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_facebook', 'Facebook Settings', array( &$this, 'show_metabox_facebook' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_google', 'Google Settings', array( &$this, 'show_metabox_google' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_twitter', 'Twitter Settings', array( &$this, 'show_metabox_twitter' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_publishers', 'Publisher Settings', array( &$this, 'show_metabox_publishers' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_opengraph() {
 			$show_tabs = array( 
-				'default' => 'Image and Video',
+				'media' => 'Image and Video',
 				'general' => 'Title and Description',
 				'author' => 'Authorship',
 			);
-			parent::do_tabs( $show_tabs );
+			$tab_rows = array();
+			foreach ( $show_tabs as $key => $title )
+				$tab_rows[$key] = $this->get_rows( $key );
+			$this->ngfb->util->do_tabs( 'og', $show_tabs, $tab_rows );
+		}
+
+		public function show_metabox_publishers() {
+			$show_tabs = array( 
+				'google' => 'Google',
+				'facebook' => 'Facebook',
+				'twitter' => 'Twitter',
+			);
+			$tab_rows = array();
+			foreach ( $show_tabs as $key => $title )
+				$tab_rows[$key] = $this->get_rows( $key );
+			$this->ngfb->util->do_tabs( 'pub', $show_tabs, $tab_rows );
 		}
 
 		protected function get_rows( $id ) {
 			$ret = array();
+			$user_ids = array();
+			foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
 			switch ( $id ) {
 
-				case 'general' :
-
-					$ret[] = $this->ngfb->util->th( 'Website Topic', 'highlight', null, '
-					The topic that best describes the Posts and Pages on your website.
-					This name will be used in the \'article:section\' Open Graph meta tag. 
-					Select \'[none]\' if you prefer to exclude the \'article:section\' meta tag.
-					Aside from this global option, the Pro version also allows the selection of a 
-					Topic for each individual Post and Page.' ) .
-					'<td>' . $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ) . '</td>';
-
-					$ret[] = $this->ngfb->util->th( 'Title Separator', 'highlight', null, '
-					One or more characters used to separate values (category parent names, page numbers, etc.) 
-					within the Open Graph title string (default is \'' . 
-					$this->ngfb->opt->get_defaults( 'og_title_sep' ) . '\').' ) . 
-					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_sep', 'short' ) . '</td>';
-
-					$ret[] = $this->ngfb->util->th( 'Title Length', null, null, '
-					The maximum length of text used in the Open Graph title tag 
-					(default is ' . $this->ngfb->opt->get_defaults( 'og_title_len' ) . ' characters).' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ) . ' Characters or less</td>';
-
-					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
-					The maximum length of text used in the Open Graph description tag. 
-					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more, and the
-					default is ' . $this->ngfb->opt->get_defaults( 'og_desc_len' ) . ' characters.' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ) . ' Characters or less</td>';
-
-					$ret[] = $this->ngfb->util->th( 'Content Begins at First Paragraph', null, null, '
-					For a Page or Post <em>without</em> an excerpt, if this option is checked, 
-					the plugin will ignore all text until the first html paragraph tag in the content. 
-					If an excerpt exists, then this option is ignored, and the complete text of that 
-					excerpt is used instead.' ) .
-					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_desc_strip' ) . '</td>';
-
-					break;
-
-				case 'default' :
+				case 'media' :
 
 					$ret[] = $this->ngfb->util->th( 'Image Dimensions', 'highlight', null, '
 					Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
@@ -158,6 +137,42 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 	
 					break;
 
+				case 'general' :
+
+					$ret[] = $this->ngfb->util->th( 'Website Topic', 'highlight', null, '
+					The topic that best describes the Posts and Pages on your website.
+					This name will be used in the \'article:section\' Open Graph meta tag. 
+					Select \'[none]\' if you prefer to exclude the \'article:section\' meta tag.
+					Aside from this global option, the Pro version also allows the selection of a 
+					Topic for each individual Post and Page.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'og_art_section', $this->ngfb->util->get_topics() ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Title Separator', 'highlight', null, '
+					One or more characters used to separate values (category parent names, page numbers, etc.) 
+					within the Open Graph title string (default is \'' . 
+					$this->ngfb->opt->get_defaults( 'og_title_sep' ) . '\').' ) . 
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_sep', 'short' ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Title Length', null, null, '
+					The maximum length of text used in the Open Graph title tag 
+					(default is ' . $this->ngfb->opt->get_defaults( 'og_title_len' ) . ' characters).' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ) . ' Characters or less</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
+					The maximum length of text used in the Open Graph description tag. 
+					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more, and the
+					default is ' . $this->ngfb->opt->get_defaults( 'og_desc_len' ) . ' characters.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ) . ' Characters or less</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Content Begins at First Paragraph', null, null, '
+					For a Page or Post <em>without</em> an excerpt, if this option is checked, 
+					the plugin will ignore all text until the first html paragraph tag in the content. 
+					If an excerpt exists, then this option is ignored, and the complete text of that 
+					excerpt is used instead.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_desc_strip' ) . '</td>';
+
+					break;
+
 				case 'author' :
 
 					$ret[] = $this->ngfb->util->th( 'Author Profile URL', null, null, '
@@ -176,8 +191,6 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					Uncheck this option to disable the fallback feature (default is unchecked).' ) .
 					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ) . '</td>';
 	
-					$user_ids = array();
-					foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
 					$ret[] = $this->ngfb->util->th( 'Default Author', null, null, '
 					A default author for webpages missing authorship information (for example, an index webpage without posts). 
 					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).' ) .
@@ -197,110 +210,85 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					break;
 
+				case 'facebook' :
+
+					$ret[] = $this->ngfb->util->th( 'Facebook Admin(s)', 'highlight', null, '
+					The <em>Facebook Admin(s)</em> user list is used by Facebook to allow access to 
+					<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
+					data for those users. 
+					Note that these are <em>user</em> account names, not Facebook <em>page</em> names.
+					Enter one or more Facebook user names, separated with commas. 
+					When viewing your own Facebook wall, your user name is located in the URL 
+					(example: https://www.facebook.com/<b>user_name</b>). 
+					Enter only the user user name(s), not the URL(s).' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'fb_admins' ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Facebook Application ID', null, null, '
+					If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> 
+					ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow 
+					access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
+					data for <em>accounts associated with the Application ID</em>.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'fb_app_id' ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Language / Locale', null, null, '
+					The language / locale for your website content. This option also controls the language of the 
+					Facebook social sharing button.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'fb_lang', 
+						$this->ngfb->admin->settings['social']->website['facebook']->lang ) . '</td>';
+
+					break;
+
+				case 'google' :
+			
+					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
+					The maximum length of text used for the Google Search description meta tag.
+					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
+					(the default is ' . $this->ngfb->opt->get_defaults( 'link_desc_len' ) . ' characters).' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'link_desc_len', 'short' ) . ' Characters or less</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Author Link URL', null, null, 
+					$this->ngfb->fullname . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
+					These are not Open Graph meta property tags - they are used primarily by Google\'s search engine to associate Google+
+					profiles with search results.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'link_author_field', $this->author_fields() ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Default Author', null, null, '
+					A default author for webpages missing authorship information (for example, an index webpage without posts). 
+					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).
+					This option is similar to the Open Graph <em>Default Author</em>, except that its applied to the Link meta tag instead.' ) .
+					'<td>' . $this->ngfb->admin->form->get_select( 'link_def_author_id', $user_ids, null, null, true ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Default Author on Indexes', null, null, '
+					Check this option if you would like to force the <em>Default Author</em> on index webpages 
+					(homepage, archives, categories, author, etc.).' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'link_def_author_on_index' ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Default Author on Search Results', null, null, '
+					Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'link_def_author_on_search' ) . '</td>';
+			
+					$ret[] = $this->ngfb->util->th( 'Publisher Link URL', 'highlight', null, '
+					If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, 
+					you may use it\'s URL as the Publisher Link. 
+					For example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> 
+					(one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" 
+					target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>.
+					The <em>Publisher Link URL</em> may take precedence over the <em>Author Link URL</em> in Google\'s search results.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'link_publisher_url', 'wide' ) . '</td>';
+
+					break;
+
+				case 'twitter' :
+
+					$ret = $this->get_rows_twitter();
+
+					break;
+
 			}
 			return $ret;
 		}
 
-		public function show_metabox_facebook() {
-		
-			echo '<table class="ngfb-settings"><tr>';
-
-			echo $this->ngfb->util->th( 'Facebook Admin(s)', 'highlight', null, '
-				The <em>Facebook Admin(s)</em> user list is used by Facebook to allow access to 
-				<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
-				data for those users. 
-				Note that these are <em>user</em> account names, not Facebook <em>page</em> names.
-				Enter one or more Facebook user names, separated with commas. 
-				When viewing your own Facebook wall, your user name is located in the URL 
-				(example: https://www.facebook.com/<b>user_name</b>). 
-				Enter only the user user name(s), not the URL(s).' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'fb_admins' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Facebook Application ID', null, null, '
-				If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> 
-				ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow 
-				access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
-				data for <em>accounts associated with the Application ID</em>.' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'fb_app_id' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Language / Locale', null, null, '
-				The language / locale for your website content. This option also controls the language of the 
-				Facebook social sharing button.' ); 
-			echo '<td>', $this->ngfb->admin->form->get_select( 'fb_lang', 
-				$this->ngfb->admin->settings['social']->website['facebook']->lang ), '</td>';
-
-			echo '<tr></table>';
-		}
-
-		public function show_metabox_google() {
-		
-			echo '<table class="ngfb-settings"><tr>';
-			
-			echo $this->ngfb->util->th( 'Description Length', null, null, '
-				The maximum length of text used for the Google Search description meta tag.
-				The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
-				(the default is ' . $this->ngfb->opt->get_defaults( 'link_desc_len' ) . ' characters).' );
-			echo '<td>', $this->ngfb->admin->form->get_input( 'link_desc_len', 'short' ), ' Characters or less</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Author Link URL', null, null, '
-				' . $this->ngfb->fullname . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
-				These are not Open Graph meta property tags - they are used primarily by Google\'s search engine to associate Google+
-				profiles with search results.' ); 
-			echo '<td>', $this->ngfb->admin->form->get_select( 'link_author_field', $this->author_fields() ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author', null, null, '
-				A default author for webpages missing authorship information (for example, an index webpage without posts). 
-				If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).
-				This option is similar to the Open Graph <em>Default Author</em>, except that its applied to the Link meta tag instead.' );
-			$user_ids = array( '' );
-			foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
-			echo '<td>', $this->ngfb->admin->form->get_select( 'link_def_author_id', $user_ids, null, null, true ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author on Indexes', null, null, '
-				Check this option if you would like to force the <em>Default Author</em> on index webpages 
-				(homepage, archives, categories, author, etc.).' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'link_def_author_on_index' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Default Author on Search Results', null, null, '
-				Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'link_def_author_on_search' ), '</td>';
-
-			echo '</tr><tr>';
-
-			echo $this->ngfb->util->th( 'Publisher Link URL', 'highlight', null, '
-				If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, 
-				you may use it\'s URL as the Publisher Link. 
-				For example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> 
-				(one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" 
-				target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>.
-				The <em>Publisher Link URL</em> may take precedence over the <em>Author Link URL</em> in Google\'s search results.' ); 
-			echo '<td>', $this->ngfb->admin->form->get_input( 'link_publisher_url', 'wide' ), '</td>';
-
-			echo '</tr></table>';
-
-		}
-
-		public function show_metabox_twitter() {
-			?>
-			<table class="ngfb-settings">
-			<?php foreach ( $this->get_more_twitter() as $row ) echo '<tr>' . $row . '</tr>'; ?>
-			</table>
-			<?php
-		}
-
-		protected function get_more_twitter() {
+		protected function get_rows_twitter() {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 

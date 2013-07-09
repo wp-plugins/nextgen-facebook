@@ -423,6 +423,34 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $html;
 		}
 
+		public function do_tabs( $prefix = '', $tabs = array(), $tab_rows = array(), $scroll_to = '' ) {
+			$default_tab = reset( array_keys( $tabs ) );
+			$prefix = empty( $prefix ) ? '' : '_' . $prefix;
+			$class_tabs = 'ngfb-metabox-tabs' . ( empty( $prefix ) ? '' : ' ngfb-metabox-tabs' . $prefix );
+			$class_link = 'ngfb-tablink' . ( empty( $prefix ) ? '' : ' ngfb-tablink' . $prefix );
+			$class_tab = 'ngfb-tab';
+			echo '<script type="text/javascript">jQuery(document).ready(function(){ 
+				ngfbTabs(\'', $prefix, '\', \'', $default_tab, '\', \'', $scroll_to, '\'); });</script>
+			<div class="', $class_tabs, '">
+			<ul class="', $class_tabs, '">';
+			foreach ( $tabs as $key => $title ) {
+				$href_key = $class_tab . $prefix . '_' . $key;
+				echo '<li class="', $href_key, '"><a class="', $class_link, '" href="#', $href_key, '">', $title, '</a></li>';
+			}
+			echo '</ul>';
+			foreach ( $tabs as $key => $title ) {
+				$href_key = $class_tab . $prefix . '_' . $key;
+				echo '<div class="', $class_tab, ( empty( $prefix ) ? '' : ' ' . $class_tab . $prefix ), ' ', $href_key, '">';
+				echo '<table class="ngfb-settings">';
+				if ( ! empty( $tab_rows[$key] ) && is_array( $tab_rows[$key] ) )
+					foreach ( $tab_rows[$key] as $row ) 
+						echo '<tr>' . $row . '</tr>';
+				echo '</table>';
+				echo '</div>';
+			}
+			echo '</div>';
+		}
+
 	}
 
 }

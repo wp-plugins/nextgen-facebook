@@ -53,7 +53,8 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					break;
 				case 'help_boxes' :
 					$msg = '<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
-						moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>';
+						moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).</p>
+						<p>Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_forum' :
 					$msg = '<p>Need help? Visit the <a href="'.$this->ngfb->urls['support_forum'].'" target="_blank">Support Forum</a> on WordPress.org.</p>';
