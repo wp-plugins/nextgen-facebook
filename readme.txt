@@ -484,7 +484,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2.2-dev1 =
+= Version 6.2.2 =
 
 * Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
 
@@ -609,7 +609,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.2.2-dev1 =
+= 6.2.2 =
 
 Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
 
