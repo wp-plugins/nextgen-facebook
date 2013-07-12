@@ -177,7 +177,9 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_author_fallback' ) . '</td>';
 	
 					$user_ids = array();
-					foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
+					foreach ( get_users() as $user ) 
+						$user_ids[$user->ID] = $user->display_name;
+					$user_ids[0] = 'none';
 					$ret[] = $this->ngfb->util->th( 'Default Author', null, null, '
 					A default author for webpages missing authorship information (for example, an index webpage without posts). 
 					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).' ) .
@@ -261,7 +263,9 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).
 				This option is similar to the Open Graph <em>Default Author</em>, except that its applied to the Link meta tag instead.' );
 			$user_ids = array( '' );
-			foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
+			foreach ( get_users() as $user ) 
+				$user_ids[$user->ID] = $user->display_name;
+			$user_ids[0] = 'none';
 			echo '<td>', $this->ngfb->admin->form->get_select( 'link_def_author_id', $user_ids, null, null, true ), '</td>';
 
 			echo '</tr><tr>';
