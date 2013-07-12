@@ -22,7 +22,7 @@ NGFB Open Graph+ is a stand-alone plugin that uses the existing content of your 
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
-**Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your existing content -- there's no need to configure any additional settings**.
+**Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
 
 = Twitter Cards =
 
