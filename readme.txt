@@ -487,6 +487,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.2.2 =
 
 * Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
+* Fixed: Added missing 'none' option in the Default Author selection lists.
 
 = Version 6.2.1 =
 
@@ -611,7 +612,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 6.2.2 =
 
-Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
+Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format. Added missing 'none' option to Default Author selects.
 
 = 6.2.1 =
 

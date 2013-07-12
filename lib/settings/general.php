@@ -58,7 +58,9 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_rows( $id ) {
 			$ret = array();
 			$user_ids = array();
-			foreach ( get_users() as $user ) $user_ids[$user->ID] = $user->display_name;
+			foreach ( get_users() as $user ) 
+				$user_ids[$user->ID] = $user->display_name;
+			$user_ids[0] = 'none';
 			switch ( $id ) {
 
 				case 'media' :

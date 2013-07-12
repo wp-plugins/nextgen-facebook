@@ -45,16 +45,13 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) || ! is_array( $values ) ) return;
 			if ( $is_assoc == false ) $is_assoc = $this->ngfb->util->is_assoc( $values );
-
 			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
-
 			foreach ( $values as $val => $desc ) {
 				// if the array is NOT associative (so regular numered array), 
 				// then the description is used as the saved value as well
 				if ( $is_assoc == false ) $val = $desc;
-
 				if ( $val == -1 ) 
 					$desc = '(value from settings)';
 				else {
