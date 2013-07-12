@@ -16,17 +16,17 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) (SEO) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
 
-NGFB Open Graph+ is also excellent for extending and improving traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
+NGFB Open Graph+ is a stand-alone plugin that uses the existing content of your webpages, but it can also be used to improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
-**NGFB Open Graph+ adds Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings**.
+**Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your existing content -- there's no need to configure any additional settings**.
 
 = Twitter Cards =
 
-NGFB Open Graph+ (Pro version) supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
+NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
 
 = Images and Videos =
 
@@ -52,7 +52,7 @@ NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, mak
 
 = Clean Uninstall =
 
-Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes all all traces of itself from the database. 
+Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database. 
 
 = Great Support =
 
