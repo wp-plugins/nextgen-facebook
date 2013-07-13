@@ -493,7 +493,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.2.3 =
 
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
-* Added a check to reject images from the WordPress Media Library that are smaller than the size requested.
 
 = Version 6.2.2 =
 
