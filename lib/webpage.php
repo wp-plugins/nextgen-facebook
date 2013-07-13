@@ -143,7 +143,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			else return $title . $page_num;
 		}
 
-		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false ) {
+		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
 			global $post;
 			$desc = '';
 

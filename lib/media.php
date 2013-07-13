@@ -42,6 +42,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		public function get_featured( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$og_ret = array();
 			$og_image = array();
+			$size_info = $this->get_size_info( $size_name );
 			if ( ! empty( $post_id ) && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
@@ -51,9 +52,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
+				if ( ! empty( $og_image['og:image'] ) )
+					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 			}
-			// returned array must be two-dimensional
-			$this->ngfb->util->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
@@ -100,45 +101,51 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_attachment_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
-			$image_url = '';
+			$img_url = '';
+			$img_width = 0;
+			$img_height = 0;
 			$size_info = $this->get_size_info( $size_name );
 			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-			// since wp 2.5.0
-			list( $image_url, $size_info['width'], $size_info['height'] ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
-				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
-			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
-			if ( ( $check_dupes == false && ! empty( $image_url ) ) || $this->ngfb->util->is_uniq_url( $image_url ) )
-				return array( $this->ngfb->util->rewrite( $image_url ), 
-					$size_info['width'], $size_info['height'], $cropped );
-			else return array( null, null, null, null );
+
+			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
+			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . $img_url . ' (' . $img_width . ' x ' . $img_height . ')' );
+			$img_url = $this->ngfb->util->fix_relative_url( $img_url );
+
+			if ( ! empty( $img_url ) ) {
+				if ( ( $cropped == true && $img_width >= $size_info['width'] && $img_height >= $size_info['height'] ) ||
+					( $cropped == false && ( $img_width >= $size_info['width'] || $img_height >= $size_info['height'] ) ) ) {
+
+					if ( $check_dupes == false || $this->ngfb->util->is_uniq_url( $img_url ) )
+						return array( $this->ngfb->util->rewrite( $img_url ), $img_width, $img_height, $cropped );
+
+				} else $this->ngfb->debug->log( 'image rejected: returned image is smaller than \'' . $size_name . '\'' );
+			} else $this->ngfb->debug->log( 'image rejected: image url is empty' );
+			return array( null, null, null, null );
 		}
 
 		// called to get an image URL from an NGG picture ID and a media size name (the pid must be formatted as 'ngg-#')
 		public function get_ngg_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
 			if ( $this->ngfb->is_avail['ngg'] != true ) return;
-			$image_url = '';
-			$size_info = array( 'width' => '', 'height' => '', 'crop' => '' );
-			$cropped = '';
+			$img_url = '';
+			$size_info = $this->get_size_info( $size_name );
+			$cropstr = ( $size_info['crop'] == 1 ? 'crop' : '' );
+			$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
+
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				global $nggdb;
 				$pid = substr( $pid, 4 );
 				$image = $nggdb->find_image( $pid );	// returns an nggImage object
 				if ( ! empty( $image ) ) {
-					$size_info = $this->get_size_info( $size_name );
-					$crop = ( $size_info['crop'] == 1 ? 'crop' : '' );
-					$cropped = ( $size_info['crop'] == 1 ? 'true' : 'false' );
-					$image_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop ); 
-					
-					if ( empty( $image_url ) )	// if the image file doesn't exist, use the dynamic image url
-						$image_url = trailingslashit( site_url() ) . 
+					$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $cropstr ); 
+					if ( empty( $img_url ) )	// if the image file doesn't exist, use the dynamic image url
+						$img_url = trailingslashit( site_url() ) . 
 							'index.php?callback=image&amp;pid=' . $pid .
 							'&amp;width=' . $size_info['width'] . 
 							'&amp;height=' . $size_info['height'] . 
-							'&amp;mode=' . $crop;
+							'&amp;mode=' . $cropstr;
 					else {
 						// get the REAL image width and height
-						$cachename = $image->pid . '_' . $crop . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
+						$cachename = $image->pid . '_' . $cropstr . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
 						$cachefolder = WINABSPATH . $this->ngfb->ngg_options['gallerypath'] . 'cache/';
 						$cached_url = site_url() . '/' . $this->ngfb->ngg_options['gallerypath'] . 'cache/' . $cachename;
 						$cached_file = $cachefolder . $cachename;
@@ -150,13 +157,16 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					}
 				}
 			}
-			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . 
-				$image_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
-			$image_url = $this->ngfb->util->fix_relative_url( $image_url );
-			if ( ( $check_dupes == false && ! empty( $image_url ) ) || $this->ngfb->util->is_uniq_url( $image_url ) )
-				return array( $this->ngfb->util->rewrite( $image_url ), 
-					$size_info['width'], $size_info['height'], $cropped );
-			else return array( null, null, null, null );
+			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . $img_url . ' (' . $size_info['width'] . ' x ' . $size_info['height'] . ')' );
+			$img_url = $this->ngfb->util->fix_relative_url( $img_url );
+
+			if ( ! empty( $img_url ) ) {
+
+				if ( $check_dupes == false || $this->ngfb->util->is_uniq_url( $img_url ) )
+					return array( $this->ngfb->util->rewrite( $img_url ), $size_info['width'], $size_info['height'], $cropped );
+
+			} else $this->ngfb->debug->log( 'image rejected: image url is empty' );
+			return array( null, null, null, null );
 		}
 
 		public function get_gallery_images( $num = 0, $size_name = 'large', $want_this = 'gallery', $check_dupes = false ) {
