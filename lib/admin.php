@@ -206,11 +206,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						}
 						break;
 					case 'clear_all_cache' : 
-						$deleted_cache = $this->ngfb->util->delete_expired_cache( true );
+						$deleted_cache = $this->ngfb->util->delete_expired_file_cache( true );
 						$deleted_transient = $this->ngfb->util->delete_expired_transients( true );
 						wp_cache_flush();
+						if ( function_exists('w3tc_pgcache_flush') ) 
+							w3tc_pgcache_flush();
+						elseif ( function_exists('wp_cache_clear_cache') ) 
+							wp_cache_clear_cache();
 						$this->ngfb->notices->inf( 'Cached files, WP object cache, transient cache, and any 
-							additional caches, like APC, Memcache, Xcache, etc. have all been cleared.' );
+							additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.' );
 						break;
 				}
 			}

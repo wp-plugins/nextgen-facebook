@@ -37,7 +37,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		protected function add_actions() {
 			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_transients' ) );
-			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_cache' ) );
+			add_action( 'wp_scheduled_delete', array( &$this, 'delete_expired_file_cache' ) );
 		}
 
 		public function is_assoc( $arr ) {
@@ -372,7 +372,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $deleted;
 		}
 
-		public function delete_expired_cache( $clear_all = false ) {
+		public function delete_expired_file_cache( $clear_all = false ) {
 			$deleted = 0;
 			if ( $dh = opendir( NGFB_CACHEDIR ) ) {
 				while ( $fn = readdir( $dh ) ) {
