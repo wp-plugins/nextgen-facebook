@@ -451,6 +451,15 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			echo '</div>';
 		}
 
+		public function tweet_max_len( $url ) {
+			$short_url = $this->get_short_url( $url, $this->ngfb->options['twitter_shorten'] );
+			$twitter_cap_len = $this->ngfb->options['twitter_cap_len'] - strlen( $short_url ) - 1;
+			if ( ! empty( $this->ngfb->options['tc_site'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
+				$twitter_cap_len = $twitter_cap_len - strlen( preg_replace( '/^@/', '', 
+					$this->ngfb->options['tc_site'] ) ) - 5;	// include 'via' and 2 spaces
+			return $twitter_cap_len;
+		}
+
 	}
 
 }
