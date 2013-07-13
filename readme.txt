@@ -248,9 +248,9 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 == Resources ==
 
-You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom) and [this RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/) for on-going news about the NGFB Open Graph+ plugin.
+You can follow [@surniaululacom on Twitter](https://twitter.com/surniaululacom), [Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977), [Google+](https://plus.google.com/u/2/103457833348046432604/posts), the [SurniaUlulaCom channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom), and use this [RSS feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/), for on-going news about the NGFB Open Graph+ plugin.
 
-Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org.
+Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchaisng the Pro version).
 
 == Twitter Cards ==
 
