@@ -27,15 +27,15 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 						to the Pro version to enable the following features</a>.</p>';
 					break;
 				case 'pro_details' :
-					$msg = '<p style="font-weight:bold;font-size:1.2em;">Would you like to... 
+					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 
 						Customize the <em>Open Graph</em> meta tags for each <em>individual</em> Post and Page?<br/>
 						Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
 						including the Gallery, Photo, Player and Large Image Cards?<br/>
-						Improve page load times with file caching for social button images and JavaScript?<br/>
+						Improve your website\'s response time with file caching for social sharing images and JavaScript?<br/>
 						<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
 						target="_blank">purchasing the Pro version today</a>.</p>
-						<p>Upgrading is easy -- simply enter your <em>Purchase Transaction ID</em> (that you\'ll receive by email) 
-						on the Advanced settings page, then install the Pro update from within WordPress.</p>';
+						<p>Upgrading to the Pro version is easy! Simply enter the unique <em>Purchase Transaction ID</em> 
+						(that you\'ll receive by email) on the Advanced settings page, then install the Pro update from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.
