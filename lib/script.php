@@ -31,6 +31,7 @@ if ( ! class_exists( 'ngfbScript' ) ) {
 				case 'post.php' :
 				case 'post-new.php' :
 				case ( preg_match( '/_page_' . $this->ngfb->acronym . '-/', $hook ) ? true : false ) :
+					wp_enqueue_script( 'jquery' );
 					wp_enqueue_script( 'jquery-qtip' );
 					wp_enqueue_script( $this->ngfb->acronym . '_tooltips' );
 					wp_enqueue_script( $this->ngfb->acronym . '_postmeta' );
