@@ -174,7 +174,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		
 				if ( empty( $desc ) ) {
 					$this->ngfb->debug->log( 'calling this->get_content()' );
-					$desc = $this->get_content( $this->ngfb->options['ngfb_filter_content'] );
+					$desc = $this->get_content( $this->ngfb->options['ngfb_filter_content'], $use_cache );
 				}
 		
 				// ignore everything until the first paragraph tag if $this->ngfb->options['og_desc_strip'] is true
@@ -217,7 +217,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			else return $desc;
 		}
 
-		public function get_content( $filter_content = true ) {
+		public function get_content( $filter_content = true, $use_cache = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
@@ -225,7 +225,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$content = wp_cache_get( $cache_id, __METHOD__ );
+			$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
 
 			if ( $content !== false ) {
