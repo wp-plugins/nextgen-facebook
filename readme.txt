@@ -493,6 +493,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.2.3 =
 
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
+* Added the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
+* To accomodate the old / new "Share" button, I've implemented a tabbed layout in the Facebook settings metabox.
 
 = Version 6.2.2 =
 
@@ -619,6 +621,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.2.3 =
+
+Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 
 = 6.2.2 =
 

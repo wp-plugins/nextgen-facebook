@@ -32,3 +32,9 @@ div.twitter-button { width:89px; }
 div.linkedin-button { width:109px; }
 div.pinterest-button { width:80px; }
 div.stumbleupon-button { width:84px; }
+
+div.fb-share-button { width:100px; }
+div.fb-share-button span { 
+	display:block !important;
+	vertical-align:middle !important;
+}

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '50';	// increment when adding/removing default options
+		public $opts_ver = '51';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -62,14 +62,16 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'fb_order' => 1,
 			'fb_js_loc' => 'header',
 			'fb_lang' => 'en_US',
+			'fb_button' => 'like',
+			'fb_markup' => 'xfbml',
 			'fb_send' => 1,
 			'fb_layout' => 'button_count',
 			'fb_width' => 200,
-			'fb_colorscheme' => 'light',
 			'fb_font' => 'arial',
 			'fb_show_faces' => 0,
+			'fb_colorscheme' => 'light',
 			'fb_action' => 'like',
-			'fb_markup' => 'xfbml',
+			'fb_type' => 'button_count',
 			'gp_on_the_excerpt' => 0,
 			'gp_on_the_content' => 0,
 			'gp_order' => 2,
