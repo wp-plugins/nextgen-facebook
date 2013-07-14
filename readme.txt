@@ -497,13 +497,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a tabbed layout in the Facebook settings metabox to accomodate the old / new "Share" button options.
 * Added the following CSS to the 'Buttons Style' stylesheet for the Facebook "Share" button:
 
-`
+<pre>
 div.fb-share-button { width:105px; }
 div.fb-share-button span {
         display:block !important;
         vertical-align:middle !important;
 }
-`
+</pre>
 
 = Version 6.2.2 =
 
