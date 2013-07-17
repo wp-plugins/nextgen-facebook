@@ -78,14 +78,13 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
-
 						$pid = $this->ngfb->meta->get_options( $post->ID, 'og_img_id' );
 						$pre = $this->ngfb->meta->get_options( $post->ID, 'og_img_id_pre' );
-						if ( ! empty( $pid ) ) $atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
-
-						if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
+						if ( ! empty( $pid ) ) 
+							$atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
+						elseif ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-						} else $atts['pid'] = $this->ngfb->media->get_first_attached_image_id( $post->ID );
+						else $atts['pid'] = $this->ngfb->media->get_first_attached_image_id( $post->ID );
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {

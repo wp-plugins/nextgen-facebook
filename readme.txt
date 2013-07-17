@@ -490,7 +490,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2.3-dev4 =
+= Version 6.2.3-dev6 =
 
 * Skipped content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
@@ -632,7 +632,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.2.3-dev4 =
+= 6.2.3-dev6 =
 
 Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 
