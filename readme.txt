@@ -492,10 +492,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2.3-dev7 =
+= Version 6.3-dev1 =
 
 * Changed default object cache expiration from 180 to 90 seconds.
 * Skipped content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
+* Added the 'Use HTTPS for Videos' option on the General settings page (Open Graph metabox -&gt; Image and Video tab).
+* Added 'og:image:secure_url' and 'og:video:secure_url' for HTTPS URLs.
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
 * Added the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 * Added a tabbed layout in the Facebook settings metabox to accomodate the old / new "Share" button options.
@@ -635,7 +637,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.2.3-dev7 =
+= 6.3-dev1 =
 
 Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 
