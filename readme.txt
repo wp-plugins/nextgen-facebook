@@ -497,6 +497,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Changed default object cache expiration from 180 to 90 seconds.
 * Skipped content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
 * Added the 'Use HTTPS for Videos' option on the General settings page (Open Graph metabox -&gt; Image and Video tab).
+* Added 'og:image:secure_url' and 'og:video:secure_url' for HTTPS URLs.
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
 * Added the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 * Added a tabbed layout in the Facebook settings metabox to accomodate the old / new "Share" button options.
