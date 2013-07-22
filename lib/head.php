@@ -152,6 +152,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 					if ( strpos( $name, 'twitter:' ) === 0 )
 						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
+					elseif ( ( $name == 'og:image' || $name == 'og:video' ) && strpos( $val, 'https:' ) === 0 )
+						$meta_html .= '<meta property="' . $name . ':secure_url" content="' . $val . '" />' . "\n";
 					else
 						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 				} else $this->ngfb->debug->log( 'meta ' . $name . ' is empty - skipping' );

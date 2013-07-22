@@ -137,6 +137,10 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					If you select \'0\', then no videos will be listed in the Open Graph meta tags.' ) .
 					'<td>' . $this->ngfb->admin->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ) . '</td>';
 	
+					$ret[] = $this->ngfb->util->th( 'Use HTTPS for Videos', null, null, '
+					Use HTTPS URLs instead of HTTP whenever possible.' ) .
+					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_vid_https' ) . '</td>';
+	
 					break;
 
 				case 'general' :

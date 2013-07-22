@@ -682,16 +682,18 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( empty(  $og_video['og:video'] ) ) 
 				return $og_video;
 
+			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http' : 'https';
+
 			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i',  $og_video['og:video'], $match ) ) {
 
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$og_video['og:video'] = 'http://www.youtube.com/v/'.$vid_name;
-				$og_video['og:image'] = 'http://img.youtube.com/vi/'.$vid_name.'/0.jpg';
+				$og_video['og:video'] = $prot . '://www.youtube.com/v/'.$vid_name;
+				$og_video['og:image'] = $prot . '://img.youtube.com/vi/'.$vid_name.'/0.jpg';
 
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i',  $og_video['og:video'], $match ) ) {
 
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$api_url = 'http://vimeo.com/api/v2/video/' . $vid_name . '.php';
+				$api_url = $prot . '://vimeo.com/api/v2/video/' . $vid_name . '.php';
 				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 				$hash = unserialize( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
 

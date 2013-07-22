@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '51';	// increment when adding/removing default options
+		public $opts_ver = '52';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -29,6 +29,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_img_crop' => 1,
 			'og_img_max' => 1,
 			'og_vid_max' => 1,
+			'og_vid_https' => 1,
 			'og_def_img_id_pre' => 'wp',
 			'og_def_img_id' => '',
 			'og_def_img_url' => '',

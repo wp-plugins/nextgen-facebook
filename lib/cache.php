@@ -40,9 +40,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $want_this == 'url' ? $url : '';
 
-			// if we're not using https on the current page, then no need to make our requests using https
-			$get_url = empty( $_SERVER['HTTPS'] ) ? preg_replace( '/^https:/', 'http:', $url ) : $url;
-			$get_url = preg_replace( '/#.*$/', '', $get_url );
+			$get_url = preg_replace( '/#.*$/', '', $url );	// remove the fragment
 			$url_path = parse_url( $get_url, PHP_URL_PATH );
 
 			$url_ext = pathinfo( $url_path, PATHINFO_EXTENSION );
