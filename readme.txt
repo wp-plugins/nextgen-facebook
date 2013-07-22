@@ -163,13 +163,15 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. Plea
 
 **A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
 
+After publishing a new Post or Page, a 'Validation Tools' tab will appear in the 'Custom Post Settings' metabox. You can use these links to check the content that is extracted from your webpage by Facebook, Google, etc.
+
 = Q. How can I see what Facebook sees? =
 
 **A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
-**A.** The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly, instead of linking the preview image (for example) to the source website. There are two possible solutions:
+**A.** The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly instead of linking the preview image (as an example) to the source website. There are two possible solutions:
 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
@@ -490,8 +492,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.2.3-dev6 =
+= Version 6.2.3-dev7 =
 
+* Changed default object cache expiration from 180 to 90 seconds.
 * Skipped content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
 * Added the 'Add via @username' option to the Twitter Social Sharing settings.
 * Added the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
@@ -632,7 +635,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.2.3-dev6 =
+= 6.2.3-dev7 =
 
 Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 

@@ -60,7 +60,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 			// show the array structure before the html block
 			$this->ngfb->debug->show_html( print_r( $html_tags, true ), 'Open Graph Array' );
-			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'URLs Found' );
+			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'Media URLs Found' );
 
 			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
 
@@ -109,24 +109,28 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			 * Print the Multi-Dimensional Array as HTML
 			 */
 			$this->ngfb->debug->log( count( $html_tags ) . ' html_tags to process' );
-			foreach ( $html_tags as $first_name => $first_val ) {					// 1st-dimension array (associative)
+			foreach ( $html_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
-					//$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
-					foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
-						if ( $this->ngfb->util->is_assoc( $second_val ) ) {
-							//$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
-							ksort( $second_val );
-							foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
-								//$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
-								echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
+					if ( empty( $first_val ) ) {
+						echo $this->get_meta_html( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
+					} else {
+						//$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
+						foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
+							if ( $this->ngfb->util->is_assoc( $second_val ) ) {
+								//$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
+								ksort( $second_val );
+								foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
+									//$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
+									echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
+								}
+								unset ( $third_name, $third_val );
+							} else {
+								//$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
+								echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
 							}
-							unset ( $third_name, $third_val );
-						} else {
-							//$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
-							echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
 						}
+						unset ( $second_num, $second_val );
 					}
-					unset ( $second_num, $second_val );
 				} else {
 					//$this->ngfb->debug->log( 'formatting 1st-dimension element: ' . $first_name );
 					echo $this->get_meta_html( $first_name, $first_val );
