@@ -108,14 +108,15 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 			$long_url = $atts['url'];
 			$atts['url'] = $this->ngfb->util->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
-			$cap_len = $this->ngfb->util->tweet_max_len( $atts['url'] );
 
 			if ( ! empty( $atts['tweet'] ) ) 
 				$atts['caption'] = $atts['tweet'];
 			if ( empty( $atts['caption'] ) && $use_post == true ) 
 				$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'twitter_desc' );
-			if ( empty( $atts['caption'] ) ) 
+			if ( empty( $atts['caption'] ) ) {
+				$cap_len = $this->ngfb->util->tweet_max_len( $atts['url'] );
 				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
+			}
 			if ( empty( $atts['via'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
 				$atts['via'] = preg_replace( '/^@/', '', $this->ngfb->options['tc_site'] );
 

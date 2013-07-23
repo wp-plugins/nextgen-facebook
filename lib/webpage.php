@@ -41,7 +41,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
-		public function get_caption( $type = 'title', $length = 300, $use_post = true ) {
+		public function get_caption( $type = 'title', $length = 200, $use_post = true ) {
 			$caption = '';
 			switch( strtolower( $type ) ) {
 				case 'title' :
