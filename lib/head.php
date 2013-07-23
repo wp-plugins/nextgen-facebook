@@ -153,9 +153,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					if ( strpos( $name, 'twitter:' ) === 0 ) {
 						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
 					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && strpos( $val, 'https:' ) === 0 ) {
+						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
+						if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 						$meta_html .= '<meta property="' . $name . ':secure_url" content="' . $val . '" />' . "\n";
-						//if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-						//$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 					} else {
 						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 					}
