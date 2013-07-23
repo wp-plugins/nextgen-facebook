@@ -688,7 +688,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				$og_video['og:video'] = $prot . '://www.youtube.com/v/'.$vid_name;
-				$og_video['og:image'] = $prot . '://img.youtube.com/vi/'.$vid_name.'/0.jpg';
+				$og_video['og:image'] = $prot . '://img.youtube.com/vi/'.$vid_name.'/hqdefault.jpg';
 
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i',  $og_video['og:video'], $match ) ) {
 
