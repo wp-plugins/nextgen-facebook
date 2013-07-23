@@ -492,7 +492,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.3-dev1 =
+= Version 6.3-dev2 =
 
 * Changed default object cache expiration from 180 to 90 seconds.
 * Skipped content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
@@ -637,7 +637,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.3-dev1 =
+= 6.3-dev2 =
 
 Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
 
