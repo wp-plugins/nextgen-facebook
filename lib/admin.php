@@ -318,7 +318,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_news() {
-			$this->show_feed( $this->ngfb->urls['news_feed'], 3, 'news_feed' );
+			$this->show_feed( $this->ngfb->urls['feed'], 3, 'ngfb_feed' );
 		}
 
 		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
