@@ -20,6 +20,8 @@ NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engi
 
 NGFB Open Graph+ is a stand-alone plugin that uses the existing content of your webpages, but it can also be used to improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
+[youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
+
 Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
 
 **Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
