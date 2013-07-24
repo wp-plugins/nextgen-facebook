@@ -494,6 +494,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.3.1-dev1 =
+
+* Improved the Social Sharing settings page CSS for smaller displays. 
+
 = Version 6.3 =
 
 * Changed default object cache expiration from 180 to 90 seconds.
