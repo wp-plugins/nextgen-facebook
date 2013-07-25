@@ -494,9 +494,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.3.1-dev1 =
+= Version 6.4-dev2 =
 
 * Improved the Social Sharing settings page CSS for smaller displays. 
+* Added image width and height meta tags for YouTube and Vimeo preview images.
+* Added support for preview images for Wistia videos (width and height will be equal to the embed/iframe width and height).
 
 = Version 6.3 =
 

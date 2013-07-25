@@ -614,7 +614,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		// called from the Tumblr class
+		// called from the OpenGraph and Tumblr classes
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
 			global $post;
 			$og_ret = array();
@@ -641,7 +641,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) 
 							$og_video['og:video:height'] = $match[1];
 
-						// fix URLs and define video images for known websites (youtube, vimeo, etc.)
+						// (possibly) modify the video url and set the preview image (youtube, vimeo, etc.)
 						$og_video = $this->get_video_info( $og_video );
 
 						$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
@@ -669,6 +669,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				);
 				if ( ( $check_dupes == false && ! empty( $og_video['og:video'] ) ) || $this->ngfb->util->is_uniq_url( $og_video['og:video'] ) ) {
 					$this->ngfb->debug->log( 'found custom meta video url = ' . $og_video['og:video'] );
+					// (possibly) modify the video url and set the preview image (youtube, vimeo, etc.)
 					$og_video = $this->get_video_info( $og_video );
 					$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
 					$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] );
@@ -682,18 +683,53 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( empty(  $og_video['og:video'] ) ) 
 				return $og_video;
 
-			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http' : 'https';
+			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http://' : 'https://';
 
-			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i',  $og_video['og:video'], $match ) ) {
-
-				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$og_video['og:video'] = $prot . '://www.youtube.com/v/'.$vid_name;
-				$og_video['og:image'] = $prot . '://img.youtube.com/vi/'.$vid_name.'/hqdefault.jpg';
-
-			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i',  $og_video['og:video'], $match ) ) {
+			if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD && preg_match( '/^.*(wistia\.net)\/.*\/([^\/\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
 
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$api_url = $prot . '://vimeo.com/api/v2/video/' . $vid_name . '.php';
+				$api_url = $prot . 'api.wistia.com/v1/medias/' . $vid_name . '.xml';
+				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
+				$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
+
+				if ( ! empty( $xml->thumbnail->url ) ) {
+			
+					if ( ! empty( $og_video['og:video:width'] ) )
+						$og_video['og:image:width'] = $og_video['og:video:width'];
+					if ( ! empty( $og_video['og:video:height'] ) )
+						$og_video['og:image:height'] = $og_video['og:video:height'];
+
+					$og_video['og:image'] = preg_replace( '/\?.*$/', '', (string) $xml->thumbnail->url ) . '?image_resize=' . 
+						$og_video['og:image:width'] . 'x' . $og_video['og:image:height'] . '&image_play_button=true';
+
+					//$og_video['og:image'] = preg_replace( '/^http:\/\//', $prot, $og_video['og:image'] );
+					//$og_video['og:video'] = preg_replace( '/^http:\/\//', $prot, $og_video['og:video'] );
+				}
+
+			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
+
+				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
+				$og_video['og:video'] = $prot . 'www.youtube.com/v/'.$vid_name;
+				$og_video['og:image'] = $prot . 'img.youtube.com/vi/'.$vid_name.'/hqdefault.jpg';
+
+				if ( function_exists( 'simplexml_load_string' ) ) {
+					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name;
+					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+
+					if ( ! empty( $xml->entry[0] ) ) {
+						$this->ngfb->debug->log( 'setting og:image from Vimeo API hash' );
+						$media = $xml->entry[0]->children( 'media', true );
+						$thumb = $media->group->thumbnail[0]->attributes();
+						list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
+							array( (string) $thumb['url'], (string) $thumb['width'], (string) $thumb['height'] );
+					}
+				}
+
+			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
+
+				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
+				$api_url = $prot . 'vimeo.com/api/v2/video/' . $vid_name . '.php';
 				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 				$hash = unserialize( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
 
@@ -701,6 +737,13 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					$this->ngfb->debug->log( 'setting og:video and og:image from Vimeo API hash' );
 					$og_video['og:video'] = $hash[0]['url'];
 					$og_video['og:image'] = $hash[0]['thumbnail_large'];
+
+					// the vimeo api does not provide the image size, so determine based on thumbnail filename
+					if ( preg_match( '/_([0-9]+)\.[a-z]+$/', $og_video['og:image'], $match ) && $match[1] <= $hash[0]['width'] ) {
+						$ratio = $hash[0]['width'] / $match[1];
+						$og_video['og:image:width'] = $match[1];
+						$og_video['og:image:height'] = $hash[0]['height'] / $ratio;
+					}
 				}
 			}
 			return $og_video;

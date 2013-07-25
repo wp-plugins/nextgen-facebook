@@ -34,7 +34,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			if ( $this->ignore_urls == false ) $this->ignore_urls = array();
 		}
 
-		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false ) {
+		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
 			if ( ! function_exists('curl_init') || 
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
@@ -108,6 +108,9 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 1 );
 				curl_setopt( $ch, CURLOPT_CAINFO, NGFB_CURL_CAINFO );
 			}
+
+			if ( ! empty( $curl_userpwd ) )
+				curl_setopt( $ch, CURLOPT_USERPWD, $curl_userpwd );
 
 			$this->ngfb->debug->log( 'curl: fetching cache_data from ' . $get_url );
 			$cache_data = curl_exec( $ch );
