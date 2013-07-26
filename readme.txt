@@ -32,7 +32,7 @@ NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.c
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
 
 **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
 
@@ -294,7 +294,7 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB
 
 NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages.
 
-* Player : An embedded video in the content from YouTube or Vimeo.
+* Player : An embedded video in the content from YouTube, Vimeo, or Wistia.
 * Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
 * Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
 * Large Image Summary Card : An image defined in the Post or Page Metabox, a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
@@ -499,16 +499,17 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 == Screenshots ==
 
 1. Screenshot 1 : Example Facebook Link Share
-2. Screenshot 2 : Example Google+ Link Share
-3. Screenshot 3 : Example Google Search Result showing Author Profile Info
-4. Screenshot 4 : Example Pinterest Pin
-5. Screenshot 5 : Example StumbleUpon Share
-6. Screenshot 6 : Example Tumblr 'Link' Share
-7. Screenshot 7 : Example Tumblr 'Photo' Share
-8. Screenshot 8 : Example Twitter 'Summary' Card (Pro Version)
-9. Screenshot 9 : Example Twitter 'Large Image Summary' Card (Pro Version)
-10. Screenshot 10 : Example Twitter 'Photo' Card (Pro Version)
-11. Screenshot 11 : Example Twitter 'Gallery' Card (Pro Version)
+2. Screenshot 2 : Example Facebook Video Share
+3. Screenshot 3 : Example Google+ Link Share
+4. Screenshot 4 : Example Google Search Result showing Author Profile Info
+5. Screenshot 5 : Example Pinterest Pin
+6. Screenshot 6 : Example StumbleUpon Share
+7. Screenshot 7 : Example Tumblr 'Link' Share
+8. Screenshot 8 : Example Tumblr 'Photo' Share
+9. Screenshot 9 : Example Twitter 'Summary' Card (Pro Version)
+10. Screenshot 10 : Example Twitter 'Large Image Summary' Card (Pro Version)
+11. Screenshot 11 : Example Twitter 'Photo' Card (Pro Version)
+12. Screenshot 12 : Example Twitter 'Gallery' Card (Pro Version)
 
 == Changelog ==
 
@@ -516,8 +517,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
 * Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
-* Added image width and height meta tags for YouTube and Vimeo preview images.
 * Added support for sharing embedded Wistia videos. See the FAQ in order to define the required NGFB_WISTIA_API_PWD constant.
+* Added width and height meta tags for YouTube, Vimeo and Wistia preview images.
 
 = Version 6.3 =
 
