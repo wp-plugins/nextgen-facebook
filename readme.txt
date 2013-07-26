@@ -499,16 +499,17 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 == Screenshots ==
 
 1. Screenshot 1 : Example Facebook Link Share
-2. Screenshot 2 : Example Google+ Link Share
-3. Screenshot 3 : Example Google Search Result showing Author Profile Info
-4. Screenshot 4 : Example Pinterest Pin
-5. Screenshot 5 : Example StumbleUpon Share
-6. Screenshot 6 : Example Tumblr 'Link' Share
-7. Screenshot 7 : Example Tumblr 'Photo' Share
-8. Screenshot 8 : Example Twitter 'Summary' Card (Pro Version)
-9. Screenshot 9 : Example Twitter 'Large Image Summary' Card (Pro Version)
-10. Screenshot 10 : Example Twitter 'Photo' Card (Pro Version)
-11. Screenshot 11 : Example Twitter 'Gallery' Card (Pro Version)
+2. Screenshot 2 : Example Facebook Video Share
+3. Screenshot 3 : Example Google+ Link Share
+4. Screenshot 4 : Example Google Search Result showing Author Profile Info
+5. Screenshot 5 : Example Pinterest Pin
+6. Screenshot 6 : Example StumbleUpon Share
+7. Screenshot 7 : Example Tumblr 'Link' Share
+8. Screenshot 8 : Example Tumblr 'Photo' Share
+9. Screenshot 9 : Example Twitter 'Summary' Card (Pro Version)
+10. Screenshot 10 : Example Twitter 'Large Image Summary' Card (Pro Version)
+11. Screenshot 11 : Example Twitter 'Photo' Card (Pro Version)
+12. Screenshot 12 : Example Twitter 'Gallery' Card (Pro Version)
 
 == Changelog ==
 
