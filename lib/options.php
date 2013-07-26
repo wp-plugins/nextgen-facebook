@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '52';	// increment when adding/removing default options
+		public $opts_ver = '53';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -140,9 +140,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_og:url' => 1,
 			'inc_og:description' => 1,
 			'inc_og:image' => 1,
+			'inc_og:image:secure_url' => 1,
 			'inc_og:image:width' => 1,
 			'inc_og:image:height' => 1,
 			'inc_og:video' => 1,
+			'inc_og:video:secure_url' => 1,
 			'inc_og:video:width' => 1,
 			'inc_og:video:height' => 1,
 			'inc_og:video:type' => 1,

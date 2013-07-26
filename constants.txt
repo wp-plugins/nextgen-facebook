@@ -125,3 +125,9 @@ NGFB_CURL_CAINFO
 	NGFB_CURL_CAINFO constant in your wp-config.php file to change the
 	default location used by NGFB.
 
+NGFB_WISTIA_API_PWD
+
+	In order to share embedded videos from Wistia, you must define your
+	Wistia API password (see the Account Dashboard -> API Settings on
+	Wistia).
+

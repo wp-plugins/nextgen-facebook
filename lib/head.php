@@ -152,7 +152,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 					if ( strpos( $name, 'twitter:' ) === 0 ) {
 						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
-					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && strpos( $val, 'https:' ) === 0 ) {
+					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
+						strpos( $val, 'https:' ) === 0 && ! empty( $this->ngfb->options['inc_'.$name] ) ) {
+
 						$non_sec = preg_replace( '/^https:/', 'http:', $val );
 						$meta_html .= '<meta property="' . $name . '" content="' . $non_sec . '" />' . "\n";
 						if ( $cmt ) $meta_html .= "<!-- $cmt -->";

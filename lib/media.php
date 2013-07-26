@@ -662,7 +662,37 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			);
 			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http://' : 'https://';
 
-			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
+			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
+				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
+				if ( function_exists( 'simplexml_load_string' ) ) {
+					if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD ) {
+						$api_url = $prot . 'api.wistia.com/v1/medias/' . $vid_name . '.xml';
+						$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
+						$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
+						if ( ! empty( $xml->embedCode ) ) {
+							$embed = preg_match( '/<embed(.*)><\/embed>/i', (string) $xml->embedCode, $match ) ? $match[1] : '';
+							$embed_src = preg_match( '/ src=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
+							$embed_var = preg_match( '/ flashvars=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
+							if ( ! empty( $embed_src ) && ! empty( $embed_var ) )
+								$og_video['og:video'] = $embed_src . '?' . $embed_var;
+							$og_video['og:video:width'] = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
+							$og_video['og:video:height'] = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
+						}
+					}
+					$api_url = $prot . 'fast.wistia.com/oembed.xml?url=http%3A//home.wistia.com/medias/' . $vid_name;
+					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+					if ( ! empty( $xml->thumbnail_url ) ) {
+						$og_video['og:image'] = (string) $xml->thumbnail_url;
+						$og_video['og:image:width'] = (string) $xml->thumbnail_width;
+						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
+					}
+					if ( ! empty( $this->ngfb->options['og_vid_https'] ) ) {
+						$og_video['og:video:secure_url'] = preg_replace( '/http:\/\/embed-0\./', 'https://embed-ssl.', $og_video['og:video'] );
+						$og_video['og:image:secure_url'] = preg_replace( '/http:\/\/embed-0\./', 'https://embed-ssl.', $og_video['og:image'] );
+					}
+				}
+			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				$og_video['og:video'] = $prot . 'www.youtube.com/v/' . $vid_name;
 				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';
@@ -690,7 +720,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->thumbnail_url ) ) {
-						$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api hash' );
+						$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api xml' );
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
 						$og_video['og:image:width'] = (string) $xml->thumbnail_width;
 						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
@@ -702,8 +732,16 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] . ' (' . $og_video['og:image:width'] .  'x' . $og_video['og:image:height'] . ')' );
 			$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] . ' (' . $og_video['og:video:width'] .  'x' . $og_video['og:video:height'] . ')' );
 
-			if ( ! empty( $og_video['og:video'] ) ) return $og_video;
-			else return array();
+			if ( empty( $og_video['og:video'] ) ) {
+				unset ( 
+					$og_video['og:video'],
+					$og_video['og:video:type'],
+					$og_video['og:video:width'],
+					$og_video['og:video:height']
+				);
+			}
+			if ( empty( $og_video['og:video'] ) && empty( $og_video['og:image'] ) ) return array();
+			else return $og_video;
 		}
 		
 	}
