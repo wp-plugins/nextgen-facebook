@@ -178,6 +178,16 @@ After publishing a new Post or Page, a 'Validation Tools' tab will appear in the
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
 
+= Q. Why doesn't Facebook embed my videos from Wistia? =
+
+Sharing URLs for Wistia videos are only available from a password protected Wistia API. You can find your Wistia API password from the Wistia Account Dashboard, under API Settings. You must define the `NGFB_WISTIA_API_PWD` constant in your WordPress `wp-config.php` file with your API password. For example (replace the stars with your API password):
+
+`
+define('NGFB_WISTIA_API_PWD', '****************************************');
+`
+
+After defining the `NGFB_WISTIA_API_PWD` constant, Facebook, Twitter, Google+, etc. will be able to correctly include and play these videos.
+
 = Q. What about Google Search and Google Plus? =
 
 **A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
@@ -494,6 +504,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.4-dev4 =
+
+* Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
+* Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
+* Added image width and height meta tags for YouTube and Vimeo preview images.
+* Added support for sharing embedded Wistia videos. See the FAQ in order to define the required NGFB_WISTIA_API_PWD constant.
+
 = Version 6.3 =
 
 * Changed default object cache expiration from 180 to 90 seconds.
@@ -638,6 +655,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.4-dev4 =
+
+Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images, added support for sharing Wistia embedded videos.
 
 = 6.3 =
 
