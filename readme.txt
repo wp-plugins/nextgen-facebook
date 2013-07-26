@@ -507,10 +507,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 7. Screenshot 7 : Example StumbleUpon Share
 8. Screenshot 8 : Example Tumblr 'Link' Share
 9. Screenshot 9 : Example Tumblr 'Photo' Share
-10. Screenshot 10 : Example Twitter 'Summary' Card (Pro Version)
-11. Screenshot 11 : Example Twitter 'Large Image Summary' Card (Pro Version)
-12. Screenshot 12 : Example Twitter 'Photo' Card (Pro Version)
-13. Screenshot 13 : Example Twitter 'Gallery' Card (Pro Version)
+10. Screenshot 10 : Example Tumblr 'Video' Share
+11. Screenshot 11 : Example Twitter 'Summary' Card (Pro Version)
+12. Screenshot 12 : Example Twitter 'Large Image Summary' Card (Pro Version)
+13. Screenshot 13 : Example Twitter 'Photo' Card (Pro Version)
+14. Screenshot 14 : Example Twitter 'Gallery' Card (Pro Version)
 
 == Changelog ==
 
