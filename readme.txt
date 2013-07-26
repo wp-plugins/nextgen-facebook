@@ -515,7 +515,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.4-dev4 =
+= Version 6.4-dev5 =
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
 * Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
@@ -667,7 +667,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.4-dev4 =
+= 6.4-dev5 =
 
 Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images, added support for sharing Wistia embedded videos.
 

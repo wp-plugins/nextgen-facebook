@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.4-dev4
+Version: 6.4-dev5
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.4-dev4';
+		public $version = '6.4-dev5';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -52,9 +52,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $urls = array(
 			'email' => 'jsm@surniaulula.com',
 			'website' => 'http://surniaulula.com/',
-			'feed' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-			'plugin' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
-			'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
+			'feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+			'plugin' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
+			'update' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'support_forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',

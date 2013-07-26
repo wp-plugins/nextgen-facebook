@@ -688,8 +688,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
 					}
 					if ( ! empty( $this->ngfb->options['og_vid_https'] ) ) {
-						$og_video['og:video:secure_url'] = preg_replace( '/http:\/\/embed-0\./', 'https://embed-ssl.', $og_video['og:video'] );
-						$og_video['og:image:secure_url'] = preg_replace( '/http:\/\/embed-0\./', 'https://embed-ssl.', $og_video['og:image'] );
+						$og_video['og:video:secure_url'] = preg_replace( '/http:\/\/embed[^\.]*\./', 'https://embed-ssl.', $og_video['og:video'] );
+						$og_video['og:image:secure_url'] = preg_replace( '/http:\/\/embed[^\.]*\./', 'https://embed-ssl.', $og_video['og:image'] );
 					}
 				}
 			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
