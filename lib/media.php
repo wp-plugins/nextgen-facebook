@@ -684,21 +684,18 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				}
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$api_url = $prot . 'vimeo.com/api/v2/video/' . $vid_name . '.php';
-				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-				$hash = unserialize( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
-				if ( ! empty( $hash ) ) {
-					$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api hash' );
-					//$og_video['og:video'] = $hash[0]['url'];
-					$og_video['og:video'] = $prot . 'vimeo.com/moogaloop.swf?clip_id=' . $vid_name;
-					$og_video['og:video:width'] = $hash[0]['width'];
-					$og_video['og:video:height'] = $hash[0]['height'];
-					$og_video['og:image'] = $hash[0]['thumbnail_large'];
-					// the vimeo api does not provide the image size, so determine based on thumbnail filename
-					if ( preg_match( '/_([0-9]+)\.[a-z]+$/', $og_video['og:image'], $match ) && $match[1] <= $og_video['og:video:width'] ) {
-						$ratio = $og_video['og:video:width'] / $match[1];
-						$og_video['og:image:width'] = $match[1];
-						$og_video['og:image:height'] = $og_video['og:video:height'] / $ratio;
+				$og_video['og:video'] = $prot . 'vimeo.com/moogaloop.swf?clip_id=' . $vid_name;
+				if ( function_exists( 'simplexml_load_string' ) ) {
+					$api_url = $prot . 'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/' . $vid_name;
+					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+					if ( ! empty( $xml->thumbnail_url ) ) {
+						$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api hash' );
+						$og_video['og:image'] = (string) $xml->thumbnail_url;
+						$og_video['og:image:width'] = (string) $xml->thumbnail_width;
+						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
+						$og_video['og:video:width'] = $og_video['og:image:width'];
+						$og_video['og:video:height'] = $og_video['og:image:height'];
 					}
 				}
 			}
