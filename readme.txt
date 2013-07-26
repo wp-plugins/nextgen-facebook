@@ -32,7 +32,7 @@ NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.c
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube and Vimeo (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
 
 **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
 
@@ -294,7 +294,7 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB
 
 NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages.
 
-* Player : An embedded video in the content from YouTube or Vimeo.
+* Player : An embedded video in the content from YouTube, Vimeo, or Wistia.
 * Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
 * Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
 * Large Image Summary Card : An image defined in the Post or Page Metabox, a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
@@ -516,8 +516,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
 * Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
-* Added image width and height meta tags for YouTube and Vimeo preview images.
 * Added support for sharing embedded Wistia videos. See the FAQ in order to define the required NGFB_WISTIA_API_PWD constant.
+* Added width and height meta tags for YouTube, Vimeo and Wistia preview images.
 
 = Version 6.3 =
 
