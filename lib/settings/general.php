@@ -134,7 +134,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 	
 					$ret[] = $this->ngfb->util->th( 'Maximum Videos', 'highlight', null, '
 					The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. 
-					If you select \'0\', then no videos will be listed in the Open Graph meta tags.' ) .
+					If you select \'0\', then no videos will be listed in the Open Graph meta tags. If you embed videos from Wistia,
+					see the ' . $this->ngfb->util->get_admin_url( 'about', 'Other Notes' ) . ' to configure your Wistia API password.' ) .
 					'<td>' . $this->ngfb->admin->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ) . '</td>';
 	
 					$ret[] = $this->ngfb->util->th( 'Use HTTPS for Videos', null, null, '
