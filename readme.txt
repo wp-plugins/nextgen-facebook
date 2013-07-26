@@ -494,11 +494,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.4-dev2 =
+= Version 6.4-dev3 =
 
-* Improved the Social Sharing settings page CSS for smaller displays. 
+* Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
+* Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
 * Added image width and height meta tags for YouTube and Vimeo preview images.
-* Added support for preview images for Wistia videos (width and height will be equal to the embed/iframe width and height).
 
 = Version 6.3 =
 
@@ -644,6 +644,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.4-dev3 =
+
+Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images.
 
 = 6.3 =
 

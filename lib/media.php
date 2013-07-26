@@ -616,137 +616,97 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 		// called from the OpenGraph and Tumblr classes
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
-			global $post;
 			$og_ret = array();
 			$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
 			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { $this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret; }
-
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->ngfb->debug->log( count( $match_all ) . ' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
 					$this->ngfb->debug->log( '<' . $media[1] . '/> html tag found = ' . $media[2] );
-					$og_video = array(
-						'og:image' => '',
-						'og:video' => $this->ngfb->util->get_sharing_url( 'noquery', $media[2] ),
-						'og:video:width' => '',
-						'og:video:height' => '',
-						'og:video:type' => 'application/x-shockwave-flash'
-					);
-					if ( ( $check_dupes == false && ! empty( $og_video['og:video'] ) ) || $this->ngfb->util->is_uniq_url( $og_video['og:video'] ) ) {
-
-						// set the height and width based on the iframe/embed attributes
-						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) 
-							$og_video['og:video:width'] = $match[1];
-						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ) 
-							$og_video['og:video:height'] = $match[1];
-
-						// (possibly) modify the video url and set the preview image (youtube, vimeo, etc.)
-						$og_video = $this->get_video_info( $og_video );
-
-						$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
-						$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] . 
-							' (' . $og_video['og:video:width'] .  ' x ' . $og_video['og:video:height'] . ')' );
-
+					$embed_url = $this->ngfb->util->get_sharing_url( 'noquery', $media[2] );
+					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->ngfb->util->is_uniq_url( $embed_url ) ) {
+						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
+						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
+						$og_video = $this->get_video_info( $embed_url, $embed_width, $embed_height );
 						if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 					}
 				}
 			} else $this->ngfb->debug->log( 'no <iframe|embed/> html tag(s) found' );
-
 			return $og_ret;
 		}
 
 		public function get_meta_video( $num = 0, $post_id = '', $check_dupes = true ) {
 			$og_ret = array();
-			$og_video = array();
 			if ( ! empty( $post_id ) ) {
-				$og_video = array(
-					'og:image' => '',
-					'og:video' => $this->ngfb->meta->get_options( $post_id, 'og_vid_url' ),
-					'og:video:width' => '',
-					'og:video:height' => '',
-					'og:video:type' => 'application/x-shockwave-flash'
-				);
-				if ( ( $check_dupes == false && ! empty( $og_video['og:video'] ) ) || $this->ngfb->util->is_uniq_url( $og_video['og:video'] ) ) {
-					$this->ngfb->debug->log( 'found custom meta video url = ' . $og_video['og:video'] );
-					// (possibly) modify the video url and set the preview image (youtube, vimeo, etc.)
-					$og_video = $this->get_video_info( $og_video );
-					$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] );
-					$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] );
+				$embed_url = $this->ngfb->meta->get_options( $post_id, 'og_vid_url' );
+				if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->ngfb->util->is_uniq_url( $embed_url ) ) {
+					$this->ngfb->debug->log( 'found custom meta video url = ' . $embed_url );
+					$og_video = $this->get_video_info( $embed_url );
 					if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 				}
 			}
 			return $og_ret;
 		}
 
-		private function get_video_info( $og_video = array() ) {
-			if ( empty(  $og_video['og:video'] ) ) 
-				return $og_video;
-
+		private function get_video_info( $embed_url, $embed_width = 0, $embed_height = 0 ) {
+			if ( empty( $embed_url ) ) return array();
+			$og_video = array(
+				'og:video' => '',
+				'og:video:type' => 'application/x-shockwave-flash',
+				'og:video:width' => $embed_width,
+				'og:video:height' => $embed_height,
+				'og:image' => '',
+				'og:image:width' => '',
+				'og:image:height' => '',
+			);
 			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http://' : 'https://';
 
-			if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD && preg_match( '/^.*(wistia\.net)\/.*\/([^\/\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
-
+			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$api_url = $prot . 'api.wistia.com/v1/medias/' . $vid_name . '.xml';
-				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-				$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
-
-				if ( ! empty( $xml->thumbnail->url ) ) {
-			
-					if ( ! empty( $og_video['og:video:width'] ) )
-						$og_video['og:image:width'] = $og_video['og:video:width'];
-					if ( ! empty( $og_video['og:video:height'] ) )
-						$og_video['og:image:height'] = $og_video['og:video:height'];
-
-					$og_video['og:image'] = preg_replace( '/\?.*$/', '', (string) $xml->thumbnail->url ) . '?image_resize=' . 
-						$og_video['og:image:width'] . 'x' . $og_video['og:image:height'] . '&image_play_button=true';
-
-					//$og_video['og:image'] = preg_replace( '/^http:\/\//', $prot, $og_video['og:image'] );
-					//$og_video['og:video'] = preg_replace( '/^http:\/\//', $prot, $og_video['og:video'] );
-				}
-
-			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
-
-				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$og_video['og:video'] = $prot . 'www.youtube.com/v/'.$vid_name;
-				$og_video['og:image'] = $prot . 'img.youtube.com/vi/'.$vid_name.'/hqdefault.jpg';
-
+				$og_video['og:video'] = $prot . 'www.youtube.com/v/' . $vid_name;
+				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name;
 					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
-
 					if ( ! empty( $xml->entry[0] ) ) {
-						$this->ngfb->debug->log( 'setting og:image from Vimeo API hash' );
+						$this->ngfb->debug->log( 'setting og:image from youtube api xml' );
 						$media = $xml->entry[0]->children( 'media', true );
+						$content = $media->group->content[0]->attributes();
 						$thumb = $media->group->thumbnail[0]->attributes();
-						list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
-							array( (string) $thumb['url'], (string) $thumb['width'], (string) $thumb['height'] );
+						if ( $content['type'] == 'application/x-shockwave-flash' )
+							$og_video['og:video'] = (string) $content['url'];
+						if ( ! empty( $thumb['width'] ) && ! empty( $thumb['height'] ) )
+							list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
+								array( (string) $thumb['url'], (string) $thumb['width'], (string) $thumb['height'] );
 					}
 				}
-
-			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $og_video['og:video'], $match ) ) {
-
+			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				$api_url = $prot . 'vimeo.com/api/v2/video/' . $vid_name . '.php';
 				$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 				$hash = unserialize( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
-
 				if ( ! empty( $hash ) ) {
-					$this->ngfb->debug->log( 'setting og:video and og:image from Vimeo API hash' );
-					$og_video['og:video'] = $hash[0]['url'];
+					$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api hash' );
+					//$og_video['og:video'] = $hash[0]['url'];
+					$og_video['og:video'] = $prot . 'vimeo.com/moogaloop.swf?clip_id=' . $vid_name;
+					$og_video['og:video:width'] = $hash[0]['width'];
+					$og_video['og:video:height'] = $hash[0]['height'];
 					$og_video['og:image'] = $hash[0]['thumbnail_large'];
-
 					// the vimeo api does not provide the image size, so determine based on thumbnail filename
-					if ( preg_match( '/_([0-9]+)\.[a-z]+$/', $og_video['og:image'], $match ) && $match[1] <= $hash[0]['width'] ) {
-						$ratio = $hash[0]['width'] / $match[1];
+					if ( preg_match( '/_([0-9]+)\.[a-z]+$/', $og_video['og:image'], $match ) && $match[1] <= $og_video['og:video:width'] ) {
+						$ratio = $og_video['og:video:width'] / $match[1];
 						$og_video['og:image:width'] = $match[1];
-						$og_video['og:image:height'] = $hash[0]['height'] / $ratio;
+						$og_video['og:image:height'] = $og_video['og:video:height'] / $ratio;
 					}
 				}
 			}
-			return $og_video;
+			$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] . ' (' . $og_video['og:image:width'] .  'x' . $og_video['og:image:height'] . ')' );
+			$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] . ' (' . $og_video['og:video:width'] .  'x' . $og_video['og:video:height'] . ')' );
+
+			if ( ! empty( $og_video['og:video'] ) ) return $og_video;
+			else return array();
 		}
 		
 	}
