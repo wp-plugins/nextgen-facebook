@@ -508,14 +508,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 8. Screenshot 8 : Example Tumblr 'Link' Share
 9. Screenshot 9 : Example Tumblr 'Photo' Share
 10. Screenshot 10 : Example Tumblr 'Video' Share
-11. Screenshot 11 : Example Twitter 'Summary' Card (Pro Version)
-12. Screenshot 12 : Example Twitter 'Large Image Summary' Card (Pro Version)
-13. Screenshot 13 : Example Twitter 'Photo' Card (Pro Version)
-14. Screenshot 14 : Example Twitter 'Gallery' Card (Pro Version)
+11. Screenshot 11 : Example Twitter 'Summary' Card
+12. Screenshot 12 : Example Twitter 'Large Image Summary' Card
+13. Screenshot 13 : Example Twitter 'Photo' Card
+14. Screenshot 14 : Example Twitter 'Gallery' Card
 
 == Changelog ==
 
-= Version 6.4-dev5 =
+= Version 6.4 =
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
 * Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
@@ -667,7 +667,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.4-dev5 =
+= 6.4 =
 
 Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images, added support for sharing Wistia embedded videos.
 
