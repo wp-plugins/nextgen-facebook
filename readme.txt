@@ -157,6 +157,44 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
+= Q. How does NGFB find images to include in the Open Graph meta tags? =
+
+**A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+
+1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
+1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
+1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
+1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;` or `&#91;nggtags&#93;` shortcodes.
+1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
+1. A default image defined in the NGFB plugin settings.
+
+= Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
+
+If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+
+If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NGFB use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
+
+`
+<img
+    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
+    src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
+    width="150" height="150" />
+`
+
+The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NGFB to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
+
+`
+define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
+`
+
+= Q. How can I share a single NextGEN Gallery image? =
+
+**A.** You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
+
+= Q. How can I exclude certain parts of the content text? =
+
+**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
+
 = Q. Why don't my Twitter Cards show on Twitter? =
 
 Your website must be 'authorized' by Twitter for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
@@ -221,44 +259,6 @@ There is also a known issue with Facebook's "Like" button flyout and the WP *Twe
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
 **A.** NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
-
-= Q. How does NGFB find images to include in the Open Graph meta tags? =
-
-**A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
-
-1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
-1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
-1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
-1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;` or `&#91;nggtags&#93;` shortcodes.
-1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
-1. A default image defined in the NGFB plugin settings.
-
-= Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
-
-If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
-
-If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NGFB use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
-
-`
-<img
-    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
-    src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
-    width="150" height="150" />
-`
-
-The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NGFB to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
-
-`
-define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
-`
-
-= Q. How can I share a single NextGEN Gallery image? =
-
-**A.** You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
-
-= Q. How can I exclude certain parts of the content text? =
-
-**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
 
 == Resources ==
 
