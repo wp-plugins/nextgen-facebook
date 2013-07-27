@@ -116,11 +116,12 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					} else $ret[] = $this->ngfb->admin->form->get_hidden( 'og_ngg_tags' );
 	
 					$ret[] = $this->ngfb->util->th( 'Add Page Ancestor Tags', null, null, '
-					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list.' ) .
+					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list 
+					(default is unchecked).' ) .
 					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_page_parent_tags' ) . '</td>';
 	
 					$ret[] = $this->ngfb->util->th( 'Add Page Title as Tag', null, null, '
-					Add the title of the Page to the Open Graph tag list as well. 
+					Add the title of the Page to the Open Graph tag list as well (default is unchecked). 
 					If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
 					This option works well if the title of your Pages are short (one or two words) and subject-oriented.' ) .
 					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_page_title_tag' ) . '</td>';
@@ -341,7 +342,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) . 
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) . '</td>',
 
-				$this->ngfb->util->th( 'Minimum Images for <em>Gallery</em> Card', null, null, 
+				$this->ngfb->util->th( 'Minimum Images for the <em>Gallery</em> Card', null, null, 
 				'The minimum number of images found in a gallery to qualify for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) . '</td>',
