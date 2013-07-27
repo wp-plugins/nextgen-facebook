@@ -16,9 +16,9 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
 
-NGFB Open Graph+ is a stand-alone plugin that uses the existing content of your webpages, but it can also be used to improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
+NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. It can also be used to extend and improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -26,15 +26,15 @@ Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surnia
 
 **Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
 
-= Twitter Cards =
-
-NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
-
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from NextGEN Gallery, but it also works just as well with the built-in WordPress Media Library.
 
 **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
+
+= Twitter Cards =
+
+NGFB Open Graph+ also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
 
 = Social Buttons =
 
@@ -503,19 +503,20 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 3. Screenshot 3 : Example Google+ Link Share
 4. Screenshot 4 : Example Google+ Video Share
 5. Screenshot 5 : Example Google Search Result showing Author Profile Info
-6. Screenshot 6 : Example Pinterest Pin
-7. Screenshot 7 : Example StumbleUpon Share
-8. Screenshot 8 : Example Tumblr 'Link' Share
-9. Screenshot 9 : Example Tumblr 'Photo' Share
-10. Screenshot 10 : Example Tumblr 'Video' Share
-11. Screenshot 11 : Example Twitter 'Summary' Card (Pro Version)
-12. Screenshot 12 : Example Twitter 'Large Image Summary' Card (Pro Version)
-13. Screenshot 13 : Example Twitter 'Photo' Card (Pro Version)
-14. Screenshot 14 : Example Twitter 'Gallery' Card (Pro Version)
+6. Screenshot 6 : Example LinkedIn Share
+7. Screenshot 7 : Example Pinterest Pin
+8. Screenshot 8 : Example StumbleUpon Share
+9. Screenshot 9 : Example Tumblr 'Link' Share
+10. Screenshot 10 : Example Tumblr 'Photo' Share
+11. Screenshot 11 : Example Tumblr 'Video' Share
+12. Screenshot 12 : Example Twitter 'Summary' Card
+13. Screenshot 13 : Example Twitter 'Large Image Summary' Card
+14. Screenshot 14 : Example Twitter 'Photo' Card
+15. Screenshot 15 : Example Twitter 'Gallery' Card
 
 == Changelog ==
 
-= Version 6.4-dev4 =
+= Version 6.4 =
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
 * Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
@@ -667,7 +668,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 == Upgrade Notice ==
 
-= 6.4-dev4 =
+= 6.4 =
 
 Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images, added support for sharing Wistia embedded videos.
 
