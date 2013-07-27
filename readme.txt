@@ -16,9 +16,9 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter (Cards), Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
 
-NGFB Open Graph+ is a stand-alone plugin that uses the existing content of your webpages, but it can also be used to improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
+NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. It can also be used to extend and improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -26,15 +26,15 @@ Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surnia
 
 **Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
 
-= Twitter Cards =
-
-NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
-
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support galleries and images from NextGEN Gallery, but it also works just as well with the WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from NextGEN Gallery, but it also works just as well with the built-in WordPress Media Library.
 
 **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
+
+= Twitter Cards =
+
+NGFB Open Graph+ also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards, including configurable image sizes for each.
 
 = Social Buttons =
 
