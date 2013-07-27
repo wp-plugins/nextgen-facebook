@@ -695,21 +695,29 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				$og_video['og:video'] = $prot . 'www.youtube.com/v/' . $vid_name;
-				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';
+				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';	// 0, hqdefault, maxresdefault
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name;
+					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name . '&max-results=1&format=5';
 					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
 					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->entry[0] ) ) {
-						$this->ngfb->debug->log( 'setting og:image from youtube api xml' );
+						$this->ngfb->debug->log( 'setting og:video and og:image from youtube api xml' );
 						$media = $xml->entry[0]->children( 'media', true );
 						$content = $media->group->content[0]->attributes();
-						$thumb = $media->group->thumbnail[0]->attributes();
 						if ( $content['type'] == 'application/x-shockwave-flash' )
 							$og_video['og:video'] = (string) $content['url'];
-						if ( ! empty( $thumb['width'] ) && ! empty( $thumb['height'] ) )
-							list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
-								array( (string) $thumb['url'], (string) $thumb['width'], (string) $thumb['height'] );
+						// find the largest thumbnail available (by width)
+						foreach ( $media->group->thumbnail as $thumb ) {
+							$thumb_attr = $thumb->attributes();
+							if ( ! empty( $thumb_attr['width'] ) ) {
+								$thumb_url = (string) $thumb_attr['url'];
+								$thumb_width = (string) $thumb_attr['width'];
+								$thumb_height = (string) $thumb_attr['height'];
+								if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] )
+									list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
+										array( $thumb_url, $thumb_width, $thumb_height );
+							}
+						}
 					}
 				}
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
