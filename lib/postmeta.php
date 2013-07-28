@@ -23,8 +23,10 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		}
 
 		protected function add_actions() {
-			if ( is_admin() )
+			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
+				add_action( 'save_post', array( &$this, 'save_options' ) );
+			}
 		}
 
 		public function add_metaboxes() {
@@ -181,6 +183,9 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			else return array();
 		}
 
+		public function save_options( $post_id ) {
+			$this->ngfb->util->flush_post_cache( $post_id );
+		}
 	}
 }
 

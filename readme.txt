@@ -518,7 +518,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.5-dev1 =
 
-* Improved YouTube video preview image selection by comparing all available sizes and choosing the largest.
+* Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
+* Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
 
 = Version 6.4 =
 
@@ -674,7 +675,7 @@ Complete code review with an improved object-oriented design and several new cla
 
 = 6.5-dev1 =
 
-Improved YouTube video preview image selection.
+Improved the selection of YouTube video preview images, added flush of object cache when a Post or Page is updated.
 
 = 6.4 =
 

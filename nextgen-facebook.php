@@ -52,9 +52,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $urls = array(
 			'email' => 'jsm@surniaulula.com',
 			'website' => 'http://surniaulula.com/',
-			'feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-			'plugin' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
-			'update' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/update/',
+			'feed' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+			'plugin' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
+			'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'support_forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
