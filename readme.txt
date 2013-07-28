@@ -605,72 +605,6 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 * Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
 * Added a new 'ngfb_shortcode' filter (Pro version) to modify shortcode attributes based on a content string (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for information on shortcodes and filters).
 
-= Version 5.3 =
-
-* Fixed saving of custom Post and Page settings in the Pro version.
-* Added the ability for the *Free* version to self-update to the Pro version, after entering a valid Transaction ID on the Advanced settings page. 
-
-= Version 5.2.3 =
-
-* Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION (which is not compatible with these PHP options).
-* Added a check for NGFB_CURL_DISABLE before using PHP's curl to shorten URLs for Twitter.
-* Minor changes to the markdown class (used to parses the readme.txt) to avoid a 503 error reported by some people.
-
-= Version 5.2.2 =
-
-* Fixed caching method to return no data when URL has failed (instead of returning the error message).
-* Improved caching method to ignore failed URLs for 300 seconds.
-* Improved readme.txt parsing to use the (older) local copy, if the readme.txt from WordPress.org is not available.
-* Added the NGFB_CURL_DISABLE, NGFB_CURL_PROXY, and NGFB_CURL_PROXYUSERPWD constants.
-* Renamed the NGFB_USER_AGENT constant to NGFB_CURL_USERAGENT.
-* Renamed the NGFB_PEM_FILE constant to NGFB_CURL_CAINFO.
-
-= Version 5.2.1 =
-
-* Fixed a small typo in the goo.gl URL shortening class.
-* Removed a few unused functions in the third-party markdown class.
-* Added file caching to Tumblr and StumbleUpon images on the Social Sharing settings page.
-
-= Version 5.2 =
-
-* Added a "Clear All Cache" button on the *Plugin Information* metabox.
-* Added a "Check for Updates" button on the *Plugin Information* metabox in the Pro version.
-* Added a daily schedule (as part of 'wp_scheduled_delete') to remove expired cached files and transient object cache items.
-* The Pro version update check schedule is adjusted (if necessary) to match the desired frequency (every 12 hours).
-* Optimized the library class requirements and class object creation for admin and non-admin webpages.
-
-= Version 5.1.1 =
-
-* Fixed the `uninstall()` method to read plugin options as a stand-alone method.
-* Improved the plugin `activate()` method to terminate sooner (and hand-off to the `init_plugin()` method that follows it).
-* Added a `deactivate()` method to remove the Pro version "update check" cronjob (if any) upon deactivation.
-* Added an NGFB_WP_DEBUG constant to send status / debug messages to WP's debug log as well. Add `define('NGFB_WP_DEBUG', true);` to the `wp-config.php` file to enable.
-
-= Version 5.1 =
-
-* The social website configurations (on the "Social Sharing" settings page) have been moved into their own individual setting boxes. The new layout is quite slick -- the social website boxes can be moved, re-arranged, removed, etc., all within a two column layout.
-* Added a "Preserve on Uninstall" option on the Advanced settings page (default is unchecked). Checking this option preserves NGFB Open Graph+ settings when uninstalling the plugin (useful when upgrading to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/)).  
-* Added static content rewriting options for CDNs on the Advanced Settings page. The new Rewrite Settings allow you to enter CDN URLs, choose folders to include / exclude, etc.
-* Removed the "Use WP-WikiBox for Pages" and "WP-WikiBox Tag Prefix" options. Customized content and tags can now be managed by with the new 'ngfb_description' and 'ngfb_tags' filter hooks (among many others). See the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information on NGFB filter hooks.
-* Fixed the missing Pinterest button in the widget, when using both the widget and content social sharing buttons (the widget would detect the featured image as a duplicate, and not include the Pinterest button).
-
-= Version 5.0.1 =
-
-* Added a check to verify that the cache directory/files is writable/readable, preempting a possible PHP write/read error.
-* Improved the option sanitation method to re-create missing checkbox options (checkboxes are not submitted by HTML forms when un-checked). This should fix the problem where checked options could not be unchecked.
-
-= Version 5.0 =
-
-Complete code review with an improved object-oriented design and several new classes.
-
-* Added the ability to include social sharing buttons in the excerpt as well.
-* Added a new "Custom Post/Page Settings" metabox for each individual Post and Page (enabled by purchasing the Pro version).
-* Added transient caching to the url shortening method (reducing the number of requests to goo.gl).
-* Streamlined the image discovery methods to improve performance (methods check the Maximum Images limit more often).
-* Removed support for the "Exclude Pages" plugin (in the past, social sharing buttons were not added to excluded pages) -- social sharing buttons can now be disabled for individual Posts and Pages on the new "Custom Post/Page Settings" options box.
-* Complete over-haul of the (too long) settings page, breaking it up into several pages under the new "Open Graph" menu item.
-* This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
-
 == Upgrade Notice ==
 
 = 6.5-dev1 =
@@ -708,40 +642,4 @@ Several new features and improvements, including a more streamlined look for the
 = 6.0 =
 
 Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
-
-= 5.3 =
-
-Fixed saving of custom Post and Page settings in the Pro version, and added the ability for the *Free* version to self-update to the Pro version. 
-
-= 5.2.3 =
-
-Added a check for PHP's safe_mode and/or open_basedir before setting CURLOPT_FOLLOWLOCATION, and added a check for NGFB_CURL_DISABLE constant before using PHP's curl to shorten URLs, minor fixes to markdown class to avoid a 503 error.
-
-= 5.2.2 =
-
-Improved caching method to ignore failed URLs for 300 seconds, added PHP curl related constants, and added local fallback for readme.txt.
-
-= 5.2.1 =
-
-Fixed a small typo in the goo.gl URL shortening class and removed a few un-used functions in the third-party markdown class.
-
-= 5.2 =
-
-Added a "Clear All Cache" and "Check for Updates" button on the NGFB settings pages, a daily scheduled job to remove expired transient cache objects, and optimized the library class requirements / class object creation.
-
-= 5.1.1 =
-
-Minor fix for the `uninstall()` method, minor improvement to the `activate()` method, added a new `deactivate()` method, and added support for WP's debug log. See the [Changelog](http://surniaulula.com/extend/plugins/nextgen-facebook/changelog/) for more details.
-
-= 5.1 =
-
-Improved the social website configuration layout, added a new "Preserve on Uninstall" option, added new Static Content rewriting options (Pro version), and new filter hooks for Open Graph data and meta tags (Pro version).
-
-= 5.0.1 =
-
-Fixed problem where checked options could not be unchecked. Added verification for directory/file permissions when caching content.
-
-= 5.0 =
-
-Complete code review with an improved object-oriented design. New features include social buttons in excerpts, transient caching of shortened urls, streamlined image discovery, complete over-haul of the settings page, and a Pro version with support for individual Post and Page settings.
 
