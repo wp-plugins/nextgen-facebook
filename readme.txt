@@ -516,7 +516,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.5-dev1 =
+= Version 6.5-dev2 =
 
 * Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
 * Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
@@ -607,7 +607,7 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.5-dev1 =
+= 6.5-dev2 =
 
 Improved the selection of YouTube video preview images, added flush of object cache when a Post or Page is updated.
 
