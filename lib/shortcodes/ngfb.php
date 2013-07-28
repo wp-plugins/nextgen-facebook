@@ -54,10 +54,10 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 				$cache_id = 'ngfb_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
-				$this->ngfb->debug->log( $cache_type . ' : shortcode transient id salt "' . $cache_salt . '"' );
+				$this->ngfb->debug->log( $cache_type . ': shortcode transient id salt "' . $cache_salt . '"' );
 
 				if ( $html !== false ) {
-					$this->ngfb->debug->log( $cache_type . ' : html retrieved from transient for id "' . $cache_id . '"' );
+					$this->ngfb->debug->log( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
 				} else {
 					if ( ! empty( $atts['buttons'] ) && $this->ngfb->social->is_disabled() == false ) {
 						$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
@@ -72,7 +72,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 					}
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
-					$this->ngfb->debug->log( $cache_type . ' : html saved to transient for id "' . 
+					$this->ngfb->debug->log( $cache_type . ': html saved to transient for id "' . 
 						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 				}
 			}

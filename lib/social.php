@@ -34,7 +34,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function add_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'filter_' . $type ), NGFB_SOCIAL_PRIORITY );
-			//$this->ngfb->debug->log( 'this->filter_' . $type . '() added' );
+			$this->ngfb->debug->log( 'this->filter_' . $type . '() added' );
 		}
 
 		public function remove_filter( $type = 'the_content' ) {

@@ -38,8 +38,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$cache_salt = __METHOD__ . '(sharing_url:' . $sharing_url . ')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$og = get_transient( $cache_id );
 			$this->ngfb->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
+			$og = get_transient( $cache_id );
 
 			if ( $og !== false ) {
 				$this->ngfb->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );

@@ -516,6 +516,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.5-dev1 =
+
+* Improved YouTube video preview image selection by comparing all available sizes and choosing the largest.
+
 = Version 6.4 =
 
 * Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
@@ -667,6 +671,10 @@ Complete code review with an improved object-oriented design and several new cla
 * This new version also allows you to unlock some Pro features, giving you the option to fine-tune the Title, Description, Images, etc., on individual Pages and Posts. The standard version of NextGEN Facebook Open Graph remains a complete, mature and full-featured plugin -- if you would like to thank me for my efforts, please consider purchasing the Pro version. Thanks.
 
 == Upgrade Notice ==
+
+= 6.5-dev1 =
+
+Improved YouTube video preview image selection.
 
 = 6.4 =
 
