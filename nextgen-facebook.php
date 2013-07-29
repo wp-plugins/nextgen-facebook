@@ -132,9 +132,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$options = get_option( NGFB_OPTIONS_NAME );
 			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
-				delete_option( 'external_updates-' . $this->slug );
+				delete_option( 'external_updates-nextgen-facebook' );
 				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-					$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
+					$msg_opt = 'ngfb_notices_' . $type;
 					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
 						delete_user_option( $user->ID, $msg_opt, true );
 				}
