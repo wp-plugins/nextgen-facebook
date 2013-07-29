@@ -466,17 +466,20 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				case 'pending' :
 				case 'private' :
 				case 'publish' :
+					$name = is_page( $post_id ) ? 'Page' : 'Post';
 					$cache_type = 'object cache';
 					$sharing_url = $this->ngfb->util->get_sharing_url( 'none', get_permalink( $post_id ) );
-
 					foreach ( array(
 						'og array' => 'ngfbOpenGraph::get(sharing_url:' . $sharing_url . ')',
+						'the_excerpt html' => 'ngfbSocial::filter(post:' . $post_id .'_type:the_excerpt)',
 						'the_content html' => 'ngfbSocial::filter(post:' . $post_id .'_type:the_content)',
 					) as $cache_origin => $cache_salt ) {
 						$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 						$this->ngfb->debug->log( $cache_type . ': ' . $cache_origin . ' transient id salt "' . $cache_salt . '"' );
-						if ( delete_transient( $cache_id ) )
+						if ( delete_transient( $cache_id ) ) {
 							$this->ngfb->debug->log( $cache_type . ': ' . $cache_origin . ' transient deleted for id "' . $cache_id . '"' );
+							$this->ngfb->notices->inf( 'WordPress object cache flushed for ' . $name . ' ID #' . $post_id, true );
+						}
 					}
 					break;
 			}

@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.5-dev2
+Version: 6.5-dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.5-dev2';
+		public $version = '6.5-dev3';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -132,7 +132,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$options = get_option( NGFB_OPTIONS_NAME );
 			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
-				delete_option( 'external_updates-nextgen-facebook' );
+				delete_option( 'external_updates-' . $this->slug );
+				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
+					$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
+					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
+						delete_user_option( $user->ID, $msg_opt, true );
+				}
 				// remove metabox preferences from all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
