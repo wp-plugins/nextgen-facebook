@@ -42,10 +42,10 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 			$buttons .= '</div>' . "\n";
 
 			return array(
-				'<td colspan="2"><p>The tumblr button shares a <em>featured</em> or <em>attached</em> image (when option is checked), 
-				embedded video, the content of <em>quote</em> format custom Posts, or the webpage link.</p></td>',
-
-				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->util->th( 'Add Button to', 'short', null,
+				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
+				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
+				custom Posts, or the webpage link.' ) . '<td>' . 
 				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' the Content and / or ' . 
 				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
