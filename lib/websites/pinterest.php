@@ -21,8 +21,8 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 
 		public function get_rows() {
 			return array(
-				'<td colspan="2"><p>The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>featured</em> or <em>attached</em> image.</p></td>',
-				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
+				$this->ngfb->util->th( 'Add Button to', 'short', null,
+				'The Pinterest "Pin It" button appears only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
 				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_content' ) . ' the Content and / or ' . 
 				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
