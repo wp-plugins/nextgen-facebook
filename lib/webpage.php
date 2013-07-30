@@ -73,8 +73,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( ! empty( $title ) ) {
 				$this->ngfb->debug->log( 'found custom meta title = "' . $title . '"' );
 
-			// we are on an index, but need individual titles from the posts
+			// we are on an index, but need individual titles from the posts (probably for social buttons)
 			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
+
+				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+				$this->ngfb->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
 
 				$title = get_the_title( $post->ID );	// since wp 0.71 
 				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
@@ -90,6 +93,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$title = wp_title( '', false );
 				$this->ngfb->debug->log( 'seo wp_title() = "' . $title . '"' );
 
+			// category title, with category parents
 			} elseif ( is_category() ) { 
 
 				$title = single_cat_title( '', false );		// since wp 0.71
@@ -129,12 +133,12 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$title = $this->ngfb->util->decode( $title );
 			$title = $this->ngfb->util->cleanup_html_tags( $title );
-			$title = trim( $title, ' ' . $this->ngfb->options['og_title_sep'] );	// trim excess seperator
+			$title = trim( $title, ' ' . $this->ngfb->options['og_title_sep'] );	// trim spaces and excess seperator
 
-			// seo-like title changes
+			// seo-like title modifications
 			if ( $this->ngfb->is_avail['any_seo'] == false ) {
 
-				// add the parent's title 
+				// apprent the parent's title 
 				if ( is_singular() && ! empty( $post->post_parent ) ) {
 					$parent_title = get_the_title( $post->post_parent );
 					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
@@ -153,8 +157,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
 
 			// append the text number after the trailing character string
-			if ( ! empty( $page_num_suffix ) ) 
-				$title .= $page_num_suffix;
+			if ( ! empty( $page_num_suffix ) ) $title .= $page_num_suffix;
 
 			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_title', $title );
@@ -165,7 +168,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			global $post;
 			$desc = '';
 
-			// og_desc meta is the fallback for all others as well (link_desc, tc_desc, etc.)
+			// check for custom meta description
+			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
 				$desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
 
