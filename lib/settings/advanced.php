@@ -79,13 +79,6 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 			echo '</tr><tr>';
 
-			echo $this->ngfb->util->th( 'Apply Title Filters', null, null, '
-				Apply the standard WordPress filters to render the title (default is checked).
-				' ); 
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_title' ), '</td>';
-
-			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Apply Content Filters', null, null, '
 				Apply the standard WordPress filters to render the content (default is checked).
 				' ); 

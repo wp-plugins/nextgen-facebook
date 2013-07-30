@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '53';	// increment when adding/removing default options
+		public $opts_ver = '54';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -175,7 +175,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_preserve' => 0,
 			'ngfb_debug' => 0,
 			'ngfb_enable_shortcode' => 0,
-			'ngfb_filter_title' => 1,
 			'ngfb_filter_excerpt' => 0,
 			'ngfb_filter_content' => 1,
 			'ngfb_skip_small_img' => 1,
@@ -358,6 +357,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 								! is_numeric( $opts[$key] ) )
 									$opts[$key] = $def_val;
 							break;
+
+						// needs to be filtered
+						case 'og_title_sep' :
+							$opts[$key] = $this->ngfb->util->decode( trim( wptexturize( ' ' . $opts[$key] . ' ' ) ) );
 
 						// text strings that can be blank
 						case 'fb_app_id' :

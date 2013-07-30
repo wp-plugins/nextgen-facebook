@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.5-dev3
+Version: 6.5-dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.5-dev3';
+		public $version = '6.5-dev4';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -467,11 +467,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// used before any class objects are created, so keep in main class
 		private function check_deps( $is_avail = array() ) {
 
-			// php v4.0.6+
-			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
 			// ngfb pro
 			$is_avail['aop'] = class_exists( 'ngfbAddOnPro' ) ? true : false;
+
+			// php v4.0.6+
+			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
 			// post thumbnail feature is supported by wp theme // since wp 2.9.0
 			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
@@ -479,14 +479,25 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// nextgen gallery plugin
 			$is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
 
-			// yoast wordpress seo plugin
-			$is_avail['wpseo'] = function_exists( 'wpseo_init' ) ? true : false;
+			// by default, define any_seo value as false
+			$is_avail['any_seo'] = false;
 
-			// all-in-one seo pack
-			$is_avail['aioseo'] = class_exists( 'All_in_One_SEO_Pack' ) ? true : false;
+			// test for seo functions
+			foreach ( array( 
+					'wpseo' => 'wpseo_init',		// yoast wordpress seo plugin
+				) as $seo_name => $seo_func )
+					if ( function_exists( $seo_func ) ) 
+						$is_avail['any_seo'] = $is_avail[$seo_name] = true;
+					else $is_avail[$seo_name] = false;
 
-			// seo ultimate
-			$is_avail['seou'] = class_exists( 'SEO_Ultimate' ) ? true : false;
+			// test for seo methods
+			foreach ( array( 
+					'aioseo' => 'All_in_One_SEO_Pack',	// all-in-one seo pack
+					'seou' => 'SEO_Ultimate',		// seo ultimate
+				) as $seo_name => $seo_class )
+					if ( class_exists( $seo_class ) ) 
+						$is_avail['any_seo'] = $is_avail[$seo_name] = true;
+					else $is_avail[$seo_name] = false;
 
 			return $is_avail;
 		}

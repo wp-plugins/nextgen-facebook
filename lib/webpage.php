@@ -63,20 +63,39 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
 			global $post, $page, $paged;
 			$title = '';
-			$page_num = '';
 			$parent_title = '';
+			$page_num_suffix = '';
 
+			// check for custom meta title
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) )
 				$title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
 
-			if ( ! empty( $title ) ) 
+			if ( ! empty( $title ) ) {
 				$this->ngfb->debug->log( 'found custom meta title = "' . $title . '"' );
 
-			elseif ( is_category() ) { 
+			// we are on an index, but need individual titles from the posts
+			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
+
+				$title = get_the_title( $post->ID );	// since wp 0.71 
+				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
+				// add the parent's title if no seo package is installed
+				if ( $this->ngfb->is_avail['any_seo'] == false && ! empty( $post->post_parent ) ) {
+					$parent_title = get_the_title( $post->post_parent );
+					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
+				}
+
+			// by default, use an seo title if an seo plugin is available
+			} elseif ( $this->ngfb->is_avail['any_seo'] == true ) {
+
+				$title = wp_title( '', false );
+				$this->ngfb->debug->log( 'seo wp_title() = "' . $title . '"' );
+
+			} elseif ( is_category() ) { 
 
 				$title = single_cat_title( '', false );		// since wp 0.71
 				$this->ngfb->debug->log( 'single_cat_title() = "' . $title . '"' );
-				$cat_parents = get_category_parents( get_cat_ID( $title ), false, ' ' . $this->ngfb->options['og_title_sep'] . ' ', false );
+				$cat_parents = get_category_parents( get_cat_ID( $title ), false, 
+					' ' . $this->ngfb->options['og_title_sep'] . ' ', false );
 
 				// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
 				if ( is_wp_error( $cat_parents ) ) {
@@ -85,22 +104,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$this->ngfb->debug->log( 'get_category_parents() = "' . $cat_parents . '"' );
 					if ( ! empty( $cat_parents ) ) {
 						$title = trim( $cat_parents, ' ' . $this->ngfb->options['og_title_sep'] );
-						// beautify title with category names that end with three dots
+						// special fix for category names that end with three dots
 						$title = preg_replace( '/\.\.\. \\' . $this->ngfb->options['og_title_sep'] . ' /', '... ', $title );
 					}
 				}
 				unset ( $cat_parents );
-
-			// we are on an index page, but need individual titles from the posts
-			} elseif ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
-
-				$this->ngfb->debug->log( 'use_post = ' . ( $use_post ? 'true' : 'false' ) );
-				$title = get_the_title();			// since wp 0.71 
-				$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
-				if ( $post->post_parent ) {
-					$parent_title = get_the_title( $post->post_parent );
-					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
-				}
 
 			} else {
 				/* The title text depends on the query:
@@ -109,7 +117,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				 *	category = the name of the category 
 				 *	author page = the public name of the user 
 				 */
-				$title = trim( wp_title( $this->ngfb->options['og_title_sep'], false, 'right' ), ' ' . $this->ngfb->options['og_title_sep'] );
+				$title = wp_title( $this->ngfb->options['og_title_sep'], false, 'right' );
 				$this->ngfb->debug->log( 'wp_title() = "' . $title . '"' );
 			}
 
@@ -119,28 +127,38 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'get_bloginfo() = "' . $title . '"' );
 			}
 
-			// add a page number if necessary
-			if ( $paged >= 2 || $page >= 2 ) {
-				$page_num = ' ' . $this->ngfb->options['og_title_sep'] . ' ' . sprintf( 'Page %s', max( $paged, $page ) );
-				$textlen = $textlen - strlen( $page_num );	// make room for the page number
-			}
-
 			$title = $this->ngfb->util->decode( $title );
+			$title = $this->ngfb->util->cleanup_html_tags( $title );
+			$title = trim( $title, ' ' . $this->ngfb->options['og_title_sep'] );	// trim excess seperator
 
-			if ( ! empty( $this->ngfb->options['ngfb_filter_title'] ) ) {
-				$title = apply_filters( 'the_title', $title );
-				$this->ngfb->debug->log( 'apply_filters() = "' . $title . '"' );
+			// seo-like title changes
+			if ( $this->ngfb->is_avail['any_seo'] == false ) {
+
+				// add the parent's title 
+				if ( is_singular() && ! empty( $post->post_parent ) ) {
+					$parent_title = get_the_title( $post->post_parent );
+					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
+				}
+	
+				// add a page number
+				if ( $paged >= 2 || $page >= 2 ) {
+					if ( ! empty( $this->ngfb->options['og_title_sep'] ) )
+						$page_num_suffix .= ' ' . $this->ngfb->options['og_title_sep'];
+					$page_num_suffix .= ' ' . sprintf( 'Page %s', max( $paged, $page ) );
+					$textlen = $textlen - strlen( $page_num_suffix );	// make room for the page number
+				}
 			}
 
-			$title = $this->ngfb->util->cleanup_html_tags( $title );
-			$this->ngfb->debug->log( 'this->ngfb->util->cleanup_html_tags() = "' . $title . '"' );
+			if ( $textlen > 0 ) 
+				$title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
 
 			// append the text number after the trailing character string
-			if ( $textlen > 0 ) $title = $this->ngfb->util->limit_text_length( $title, $textlen, $trailing );
+			if ( ! empty( $page_num_suffix ) ) 
+				$title .= $page_num_suffix;
 
 			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_title', $title . $page_num );
-			else return $title . $page_num;
+				return apply_filters( 'ngfb_title', $title );
+			else return $title;
 		}
 
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
