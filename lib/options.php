@@ -237,7 +237,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type ) {
 				$key = 'ngfb_add_to_' . $post_type->name;
 				if ( ! array_key_exists( $key, $this->defaults ) )
-					$this->defaults[$key] = 0;
+					$this->defaults[$key] = 1;	// support all custom post types by default
 			}
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
