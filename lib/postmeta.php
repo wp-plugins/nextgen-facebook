@@ -33,7 +33,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		public function add_metaboxes() {
 			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
 				if ( ! empty( $this->ngfb->options[ 'ngfb_add_to_' . $post_type->name ] ) )
-					add_meta_box( NGFB_META_NAME, $this->ngfb->fullname . ' - Custom ' . $post_type->label . ' Settings', 
+					add_meta_box( NGFB_META_NAME, $this->ngfb->menuname . ' Custom ' . $post_type->label . ' Settings', 
 						array( &$this->ngfb->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
 		}
 

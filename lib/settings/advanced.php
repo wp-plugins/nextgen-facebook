@@ -99,11 +99,12 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			echo '</tr><tr>';
 
 			echo $this->ngfb->util->th( 'Add Custom Settings To', null, null, '
-				The Custom Settings metabox, which allows you to enter custom Open Graph values (among others), 
-				is available on the Post, Page, and Media admin webpages by default. 
-				If your theme (or another plugin) supports additional custom post types, and you would like to 
-				include the Custom Settings metabox on these admin webpages as well, check the appropriate 
-				options here.
+				The Custom Settings metabox, which allows you to enter custom Open Graph values 
+				(among other options), is available on the Post, Page, Media and custom post type 
+				admin webpages by default. 
+				If your theme (or another plugin) supports additional custom post types, 
+				and you would like to exclude the Custom Settings metabox from these admin webpages, 
+				uncheck the appropriate options here.
 			' );
 			echo '<td>';
 			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
