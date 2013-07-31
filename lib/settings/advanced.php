@@ -36,6 +36,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 			echo '<table class="ngfb-settings"><tr>';
 
+			foreach ( $this->get_pre_plugin() as $row ) echo '<tr>' . $row . '</tr>';
+
 			echo $this->ngfb->util->th( 'Preserve Settings on Uninstall', 'highlight', null, '
 				Check this option if you would like to preserve all ' . $this->ngfb->fullname . '
 				settings when you <em>uninstall</em> the plugin (default is unchecked).
@@ -81,6 +83,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 			echo $this->ngfb->util->th( 'Apply Content Filters', null, null, '
 				Apply the standard WordPress filters to render the content (default is checked).
+				This renders all shortcodes, and allows ' . $this->ngfb->fullname . ' to detect images and 
+				embedded videos that may be provided by these shortcodes.
 				' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ), '</td>';
 
@@ -92,14 +96,25 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ), '</td>';
 
+			echo '</tr><tr>';
+
+			echo $this->ngfb->util->th( 'Add Custom Settings To', null, null, '
+				The Custom Settings metabox, which allows you to enter custom Open Graph values (among others), 
+				is available on the Post, Page, and Media admin webpages by default. 
+				If your theme (or another plugin) supports additional custom post types, and you would like to 
+				include the Custom Settings metabox on these admin webpages as well, check the appropriate 
+				options here.
+			' );
+			echo '<td>';
+			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
+				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'ngfb_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
+			echo '</td>';
+
 			echo '</tr>';
-
-			foreach ( $this->get_more_plugin() as $row ) echo '<tr>' . $row . '</tr>';
-
 			echo '</table>';
 		}
 
-		protected function get_more_plugin() {
+		protected function get_pre_plugin() {
 			return array(
 				$this->ngfb->util->th( 'Purchase Transaction ID', 'highlight', null, '
 				After purchasing of the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. 

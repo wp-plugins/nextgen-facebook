@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '54';	// increment when adding/removing default options
+		public $opts_ver = '56';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -171,13 +171,16 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_opts_ver' => '',
 			'ngfb_plugin_ver' => '',
 			'ngfb_pro_tid' => '',
-			'ngfb_reset' => 0,
 			'ngfb_preserve' => 0,
+			'ngfb_reset' => 0,
 			'ngfb_debug' => 0,
 			'ngfb_enable_shortcode' => 0,
-			'ngfb_filter_excerpt' => 0,
-			'ngfb_filter_content' => 1,
 			'ngfb_skip_small_img' => 1,
+			'ngfb_filter_content' => 1,
+			'ngfb_filter_excerpt' => 0,
+			'ngfb_add_to_post' => 1,
+			'ngfb_add_to_page' => 1,
+			'ngfb_add_to_attachment' => 1,
 			'ngfb_verify_certs' => 0,
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 180,
@@ -230,6 +233,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						fclose( $fh );
 					}
 				}
+			}
+			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type ) {
+				$key = 'ngfb_add_to_' . $post_type->name;
+				if ( ! array_key_exists( $key, $this->defaults ) )
+					$this->defaults[$key] = 0;
 			}
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];

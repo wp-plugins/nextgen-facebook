@@ -516,12 +516,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.5-dev5 =
+= Version 6.5-dev6 =
 
 * Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
 * Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
 * Removed the 'Apply Title Filters' option (not necessary since `wp_title()` is filtered by default).
 * If an SEO plugin is active, the WordPress title will be used as-is (trusting that the SEO plugin will return an appropriate value).
+* Added a Custom Media Settings metabox to the attachment pages (requires 'edit_post' capabilities).
+* Added a new 'Add Custom Settings To' option in the Advanced settings to include the Custom Settings metabox on custom post types as well (if you wish).
 
 = Version 6.4 =
 
@@ -609,9 +611,9 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.5-dev5 =
+= 6.5-dev6 =
 
-Improved the selection of YouTube video preview images, added flush of object cache when a Post or Page is updated, added check for SEO plugin to return an SEO webpage title.
+Improved selection of YouTube video preview images, added flush of object cache when a Post or Page is updated, added check for SEO webpage title, added Custom Settings to attachent and custom post types.
 
 = 6.4 =
 
