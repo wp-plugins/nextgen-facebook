@@ -517,17 +517,22 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.5-dev8 =
+= Version 6.5-dev10 =
 
 * Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
 * Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
 * Removed the 'Apply Title Filters' option (not necessary since `wp_title()` is filtered by default).
 * If an SEO plugin is active, the WordPress title will be used as-is (trusting that the SEO plugin will return an appropriate value).
-* Added a Custom Media Settings metabox to the attachment pages (requires 'edit_post' capabilities).
+* Added the Custom Settings metabox to the attachment pages (requires 'edit_post' capabilities).
 * Added a new 'Add Custom Settings To' option in the Advanced settings to exclude the Custom Settings on specific custom post types.
-* Added detection of `<a data-image-id='#'>` HTML tags for NextGEN Gallery v2.0.
 * Fixed: Added encoding of html entities for the meta 'description' value.
-* Fixed: Verify NextGEN Gallery cached file existance before reading it's width and size.
+
+NGFB Open Graph+ v6.5 is compatible with the new NextGEN Gallery v2.0.0. There are *several* known bugs / issues with NextGEN Gallery v2.0.0, some of which affects NGFB Open Graph+'s ability to detect image IDs in the content, retrieve image tags for featured images, and report accurate image dimensions for the Open Graph meta tags. If you have not yet upgraded to NextGEN Gallery v2.0.0, I would suggest you wait until the next release of NextGEN Gallery from Photocrati before doing so.
+
+Changes for NextGEN Gallery v2.0.0:
+
+* Added detection of the `data-image-id='#'` attribute in `<a>` and `<img>` HTML tags.
+* Fixed: Read image dimensions of cached files for NextGEN Gallery pre-v2 only.
 
 = Version 6.4 =
 
@@ -615,9 +620,9 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.5-dev8 =
+= 6.5-dev10 =
 
-Improved selection of YouTube preview images, added flush of cache when a Post or Page is updated, added check for SEO title, added Custom Settings to attachent and custom post types, small changes for NextGEN Gallery v2.0.
+Improved selection of YouTube preview images, added flush of cache when a Post or Page is updated, added check for SEO title, added Custom Settings to custom post types, small changes for NextGEN Gallery v2.0.0 (see Changelog).
 
 = 6.4 =
 
