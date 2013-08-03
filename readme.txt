@@ -525,7 +525,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * If an SEO plugin is active, the WordPress title will be used as-is (trusting that the SEO plugin will return an appropriate value).
 * Added a Custom Media Settings metabox to the attachment pages (requires 'edit_post' capabilities).
 * Added a new 'Add Custom Settings To' option in the Advanced settings to exclude the Custom Settings on specific custom post types.
-* Added detection of `&lt;a data-image-id='#'&gt;` HTML tags for NextGEN Gallery v2.0.
+* Added detection of `<a data-image-id='#'>` HTML tags for NextGEN Gallery v2.0.
 * Fixed: Added encoding of html entities for the meta 'description' value.
 * Fixed: Verify NextGEN Gallery cached file existance before reading it's width and size.
 
