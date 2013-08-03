@@ -14,7 +14,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.**
 
-**NGFB Open Graph+ v6.5 is compatible with the new release of NextGEN Gallery v2.0.0.**
+**NGFB Open Graph+ v6.5 is compatible with the new release of NextGEN Gallery v2.0.0** (see [Changelog](/plugins/nextgen-facebook/changelog/) for details).
 
 = Open Graph and SEO =
 
