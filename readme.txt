@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.5.1
-Stable Tag: 6.4
+Stable Tag: 6.5
 
 Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
 
@@ -147,7 +147,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-**A.** [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for Twitter Cards, and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
+[The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for Twitter Cards, and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
 The *Free* version is a complete, stable, optimized, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 
@@ -159,16 +159,22 @@ Updating to the Pro version is simple and easy -- click on the "Purchase the Pro
 
 NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
-= Q. How does NGFB find images to include in the Open Graph meta tags? =
+= Q. Can I use other social sharing buttons than those of NGFB? =
 
-**A.** The images used in the Open Graph meta property tags for Posts and Pages are chosen in this sequence:
+Absolutely. NGFB Open Graph+'s primary function is to create Open Graph and related meta tags (Twitter Cards, SEO, etc.). Aside from Pinterest and Tumblr, social buttons only send a URL to the social websites. Those websites then connect *back* to the shared URL, read the meta tags, and show the results in a social sharing popup window. The Pinterest and Tumblr sharing buttons must send more information, such as captions, media type (image, video), post type, etc.
+
+NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc. according to your content and preferences. If you decide to use different social sharing buttons, please make sure they only share a URL, and not the title, description, etc. 
+
+= Q. How does NGFB Open Graph+ find images for the Open Graph meta tags? =
+
+The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
 1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
 1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
 1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
-1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;` or `&#91;nggtags&#93;` shortcodes.
+1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;`, `&#91;nggtags&#93;` or `&#91;ngg_images&#93;` shortcodes.
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
-1. A default image defined in the NGFB plugin settings.
+1. A default image defined in the NGFB Open Graph+ plugin settings.
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
@@ -191,11 +197,11 @@ define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 
 = Q. How can I share a single NextGEN Gallery image? =
 
-**A.** You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
+You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
 
 = Q. How can I exclude certain parts of the content text? =
 
-**A.** By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
+By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
 
 = Q. Why don't my Twitter Cards show on Twitter? =
 
@@ -203,17 +209,17 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. Plea
 
 = Q. Why doesn't Facebook show the correct Open Graph image? =
 
-**A.** The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
+The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
 
 After publishing a new Post or Page, a 'Validation Tools' tab will appear in the 'Custom Post Settings' metabox. You can use these links to check the content that is extracted from your webpage by Facebook, Google, etc.
 
 = Q. How can I see what Facebook sees? =
 
-**A.** Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
-**A.** The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly instead of linking the preview image (as an example) to the source website. There are two possible solutions:
+The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly instead of linking the preview image (as an example) to the source website. There are two possible solutions:
 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
@@ -230,15 +236,15 @@ After defining the `NGFB_WISTIA_API_PWD` constant, Facebook, Twitter, Google+, e
 
 = Q. What about Google Search and Google Plus? =
 
-**A.** Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
+Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
 = Q. Does LinkedIn read the Open Graph tags? =
 
-**A.** According to LinkedIn's [Setting Display Tags for Shares](https://developer.linkedin.com/documents/setting-display-tags-shares) information page, they use three of the Open Graph tags (title, description, and url).
+According to LinkedIn's [Setting Display Tags for Shares](https://developer.linkedin.com/documents/setting-display-tags-shares) information page, they use three of the Open Graph tags (title, description, and url).
 
 = Q. The W3C Markup Validation Service says "there is no attribute '<em>property</em>'". =
 
-**A.** The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the `header.php` file of your theme.
+The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the `header.php` file of your theme.
 
 `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
@@ -246,7 +252,7 @@ After defining the `NGFB_WISTIA_API_PWD` constant, Facebook, Twitter, Google+, e
 
 = Q. Why does the Facebook "Like" button flyout get clipped? =
 
-**A.** This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
+This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
 
 <pre>
 #page { overflow:visible; }
@@ -260,7 +266,7 @@ There is also a known issue with Facebook's "Like" button flyout and the WP *Twe
 
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
-**A.** NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
 == Resources ==
 
