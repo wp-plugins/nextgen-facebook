@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.5-dev8
+Version: 6.5-dev10
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.5-dev8';
+		public $version = '6.5-dev10';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -48,6 +48,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
 		public $ngg_options = array();
+		public $ngg_version = 0;
 
 		public $urls = array(
 			'email' => 'jsm@surniaulula.com',
@@ -311,8 +312,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->is_avail = $this->check_deps();
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
-			if ( $this->is_avail['ngg'] == true ) 
+			if ( $this->is_avail['ngg'] == true ) {
 				$this->ngg_options = get_option( 'ngg_options' );
+				if ( defined( 'NEXTGEN_GALLERY_PLUGIN_VERSION' ) && NEXTGEN_GALLERY_PLUGIN_VERSION )
+					$this->ngg_version = NEXTGEN_GALLERY_PLUGIN_VERSION;
+			}
 			$this->options = get_option( NGFB_OPTIONS_NAME );
 	
 			/*

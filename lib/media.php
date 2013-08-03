@@ -149,25 +149,31 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				if ( ! empty( $image ) ) {
 					$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
 					$this->ngfb->debug->log( 'cached_singlepic_file() = ' . $img_url );
-					if ( empty( $img_url ) )	// if the image file doesn't exist, use the dynamic image url
+					// if the image file doesn't exist, use the dynamic image url
+					if ( empty( $img_url ) ) {
 						$img_url = trailingslashit( site_url() ) . 
 							'index.php?callback=image&amp;pid=' . $pid .
 							'&amp;width=' . $size_info['width'] . 
 							'&amp;height=' . $size_info['height'] . 
 							'&amp;mode=' . $crop_arg;
-					else {
+					} elseif ( version_compare( $this->ngfb->ngg_version, '2.0.0', '<' ) ) {
 						// get the real image width and height for ngg pre-v2.0
 						$cachename = $image->pid . '_' . $crop_arg . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
 						$cachefolder = WINABSPATH . $this->ngfb->ngg_options['gallerypath'] . 'cache/';
 						$cached_file = $cachefolder . $cachename;
 						//$cached_url = site_url() . '/' . $this->ngfb->ngg_options['gallerypath'] . 'cache/' . $cachename;
 						if ( file_exists( $cached_file ) ) {
-							$file_info =  getimagesize( $cached_file );
+							$file_info = getimagesize( $cached_file );
 							if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
 								$size_info['width'] = $file_info[0];
 								$size_info['height'] = $file_info[1];
 							}
 						}
+					} else {
+						$this->ngfb->debug->log( 'accurate image dimensions are not available for ngg v2' );
+						$size_info['width'] = '';
+						$size_info['height'] = '';
+						$img_crop = '';
 					}
 				}
 			}
@@ -554,31 +560,35 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				return $og_ret; 
 			}
 
-			// check for ngg v2 image ids
-			if ( preg_match_all( '/<a [^>]*?data-image-id=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->ngfb->debug->log( count( $match ) . ' x <a data-image-id="#"> html tag(s) found (ngg v2)' );
-				foreach ( $match as $pid ) {
-					$og_image = array();
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name, $check_dupes );
-					if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
+			if ( $this->ngfb->is_avail['ngg'] == true ) {
+				if ( version_compare( $this->ngfb->ngg_version, '2.0.0', '>=' ) ) {
+					// check for ngg v2 image ids
+					if ( preg_match_all( '/<(a|img) [^>]*?data-image-id=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+						$this->ngfb->debug->log( count( $match ) . ' x <a|img data-image-id="#"> html tag(s) found (ngg v2)' );
+						foreach ( $match as $img ) {
+							$og_image = array();
+							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+								$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $img[2], $size_name, $check_dupes );
+							if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
+						}
+						return $og_ret;	// return immediately and ignore any other type of image
+					}
+					$this->ngfb->debug->log( 'no <a|img data-image-id="#"> html tag found (ngg v2)' );
+				} else {
+					// check for ngg pre-v2 image ids
+					if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+						$this->ngfb->debug->log( count( $match ) . ' x <div id="ngg-image-#"> html tag(s) found (ngg pre-v2)' );
+						foreach ( $match as $img ) {
+							$og_image = array();
+							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+								$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $img[1], $size_name, $check_dupes );
+							if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
+						}
+						return $og_ret;	// return immediately and ignore any other type of image
+					}
+					$this->ngfb->debug->log( 'no <div id="ngg-image-#"> html tag found (ngg pre-v2)' );
 				}
-				return $og_ret;	// return immediately and ignore any other type of image
 			}
-			$this->ngfb->debug->log( 'no <a data-image-id="#"> html tag found (ngg v2)' );
-
-			// check for ngg pre-v2 image ids
-			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->ngfb->debug->log( count( $match ) . ' x <div id="ngg-image-#"> html tag(s) found (ngg pre-v2)' );
-				foreach ( $match as $pid ) {
-					$og_image = array();
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name, $check_dupes );
-					if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
-				}
-				return $og_ret;	// return immediately and ignore any other type of image
-			}
-			$this->ngfb->debug->log( 'no <div id="ngg-image-#"> html tag found (ngg pre-v2)' );
 
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
