@@ -537,10 +537,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 NGFB Open Graph+ v6.5 is compatible with the new NextGEN Gallery v2.0.0. There are *several* known bugs / issues with NextGEN Gallery v2.0.0, some of which affects NGFB Open Graph+'s ability to detect image IDs in the content, retrieve image tags for featured images, and report accurate image dimensions for the Open Graph meta tags. If you have not yet upgraded to NextGEN Gallery v2.0.0, I would suggest you wait until the next release of NextGEN Gallery from Photocrati before doing so.
 
-Changes for NextGEN Gallery v2.0.0:
+Changes specifically for NextGEN Gallery v2.0.0:
 
 * Added detection of the `data-image-id='#'` attribute in `<a>` and `<img>` HTML tags.
-* Fixed: Read image dimensions of cached files for NextGEN Gallery pre-v2 only.
+* Fixed: Image dimensions of cached files are now read only for NextGEN Gallery pre-v2.
 
 = Version 6.4 =
 
