@@ -14,6 +14,8 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.**
 
+**Compatible with the new release of NextGEN Gallery v2.0.0.**
+
 = Open Graph and SEO =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
