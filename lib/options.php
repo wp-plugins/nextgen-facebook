@@ -380,6 +380,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_img_desc' :
 						case 'tumblr_vid_desc' :
 						case 'twitter_desc' :
+						case 'ngfb_pro_tid' :
+							$opts[$key] = trim( $opts[$key] );
 							break;
 
 						// options that cannot be blank
