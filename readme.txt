@@ -265,10 +265,11 @@ There is also a known issue with Facebook's "Like" button flyout and the WP *Twe
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
 
 * [@surniaululacom on Twitter](https://twitter.com/surniaululacom)
+* [#ngfb HashTag on Twitter](https://twitter.com/search?q=%23ngfb)
 * [Surnia Ulula on Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977)
 * [Surnia Ulula on Google+](https://plus.google.com/u/2/103457833348046432604/posts)
-* [The SurniaUlulaCom Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
-* [This RSS Feed from surniaulula.com](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
+* [SurniaUlulaCom Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
+* [RSS Feed from surniaulula.com](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchasing the Pro version).
 
@@ -516,12 +517,17 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.5-dev5 =
+= Version 6.5-dev8 =
 
 * Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
 * Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
 * Removed the 'Apply Title Filters' option (not necessary since `wp_title()` is filtered by default).
 * If an SEO plugin is active, the WordPress title will be used as-is (trusting that the SEO plugin will return an appropriate value).
+* Added a Custom Media Settings metabox to the attachment pages (requires 'edit_post' capabilities).
+* Added a new 'Add Custom Settings To' option in the Advanced settings to exclude the Custom Settings on specific custom post types.
+* Added detection of `&lt;a data-image-id='#'&gt;` HTML tags for NextGEN Gallery v2.0.
+* Fixed: Added encoding of html entities for the meta 'description' value.
+* Fixed: Verify NextGEN Gallery cached file existance before reading it's width and size.
 
 = Version 6.4 =
 
@@ -609,9 +615,9 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.5-dev5 =
+= 6.5-dev8 =
 
-Improved the selection of YouTube video preview images, added flush of object cache when a Post or Page is updated, added check for SEO plugin to return an SEO webpage title.
+Improved selection of YouTube preview images, added flush of cache when a Post or Page is updated, added check for SEO title, added Custom Settings to attachent and custom post types, small changes for NextGEN Gallery v2.0.
 
 = 6.4 =
 
