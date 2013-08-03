@@ -88,13 +88,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				global $post;
 				$is_nggalbum = false;
 
-				// check for album/gallery query strings and an [nggalbum] shortcode
+				// check for ngg pre-v2 album/gallery query strings and an [nggalbum] shortcode
 				if ( is_singular() ) {
 					global $wp_query;
 					// sanitize query values
 					$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
 					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
-
 					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
 						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
 						$this->ngfb->debug->log( 'is_singular with nggalbum shortcode and query' );
@@ -114,8 +113,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			}
 			switch ( $strip_query ) {
 				case 'noquery' :
-					if ( strpos( $url, '?' ) !== false ) 
-						$url = reset( explode( '?', $url ) );
+					if ( strpos( $url, '?' ) !== false ) {
+						$url_arr = explode( '?', $url );
+						$url = reset( $url_arr );
+					}
 					break;
 				case 'notrack' :
 					// strip out tracking query arguments by facebook, google, etc.
@@ -391,7 +392,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function push_max( &$dst, &$src, $num = 0 ) {
 			if ( ! is_array( $dst ) || ! is_array( $src ) ) return false;
 			if ( ! empty( $src ) ) array_push( $dst, $src );
-			return $this->slice_max( $dst, $num );
+			return $this->slice_max( $dst, $num );	// returns true or false
 		}
 
 		public function slice_max( &$arr, $num = 0 ) {
@@ -424,7 +425,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function do_tabs( $prefix = '', $tabs = array(), $tab_rows = array(), $scroll_to = '' ) {
-			$default_tab = reset( array_keys( $tabs ) );
+			$tab_keys = array_keys( $tabs );
+			$default_tab = reset( $tab_keys );
 			$prefix = empty( $prefix ) ? '' : '_' . $prefix;
 			$class_tabs = 'ngfb-metabox-tabs' . ( empty( $prefix ) ? '' : ' ngfb-metabox-tabs' . $prefix );
 			$class_link = 'ngfb-tablink' . ( empty( $prefix ) ? '' : ' ngfb-tablink' . $prefix );

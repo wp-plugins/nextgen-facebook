@@ -45,6 +45,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 			if ( ! empty( $post_id ) && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
+				// featured images from ngg pre-v2 had 'ngg-' prefix
 				if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( $pid, $size_name, $check_dupes );
@@ -141,13 +142,13 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$img_url = '';
 			$img_crop = $size_info['crop'] == 1 ? 'true' : 'false';
 			$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
-
 			if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				global $nggdb;
 				$pid = substr( $pid, 4 );
 				$image = $nggdb->find_image( $pid );	// returns an nggImage object
 				if ( ! empty( $image ) ) {
 					$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
+					$this->ngfb->debug->log( 'cached_singlepic_file() = ' . $img_url );
 					if ( empty( $img_url ) )	// if the image file doesn't exist, use the dynamic image url
 						$img_url = trailingslashit( site_url() ) . 
 							'index.php?callback=image&amp;pid=' . $pid .
@@ -155,15 +156,17 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							'&amp;height=' . $size_info['height'] . 
 							'&amp;mode=' . $crop_arg;
 					else {
-						// get the REAL image width and height
+						// get the real image width and height for ngg pre-v2.0
 						$cachename = $image->pid . '_' . $crop_arg . '_'. $size_info['width'] . 'x' . $size_info['height'] . '_' . $image->filename;
 						$cachefolder = WINABSPATH . $this->ngfb->ngg_options['gallerypath'] . 'cache/';
-						$cached_url = site_url() . '/' . $this->ngfb->ngg_options['gallerypath'] . 'cache/' . $cachename;
 						$cached_file = $cachefolder . $cachename;
-						$file_info =  getimagesize( $cached_file );
-						if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
-							$size_info['width'] = $file_info[0];
-							$size_info['height'] = $file_info[1];
+						//$cached_url = site_url() . '/' . $this->ngfb->ngg_options['gallerypath'] . 'cache/' . $cachename;
+						if ( file_exists( $cached_file ) ) {
+							$file_info =  getimagesize( $cached_file );
+							if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
+								$size_info['width'] = $file_info[0];
+								$size_info['height'] = $file_info[1];
+							}
 						}
 					}
 				}
@@ -172,10 +175,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$img_url = $this->ngfb->util->fix_relative_url( $img_url );
 
 			if ( ! empty( $img_url ) ) {
-
 				if ( $check_dupes == false || $this->ngfb->util->is_uniq_url( $img_url ) )
 					return array( $this->ngfb->util->rewrite( $img_url ), $size_info['width'], $size_info['height'], $img_crop );
-
 			} else $this->ngfb->debug->log( 'image rejected: image url is empty' );
 			return array( null, null, null, null );
 		}
@@ -195,7 +196,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret;
 			}
 
-			// sanitize possible query values
+			// sanitize possible ngg pre-v2 query values
 			$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
 			$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
 			$ngg_pageid = empty( $wp_query->query['pageid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pageid'] );
@@ -277,6 +278,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return $og_ret;
 		}
 
+		// parse ngg pre-v2 query arguments
 		public function get_ngg_query_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
 			$og_ret = array();
 
@@ -299,7 +301,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$ngg_pid = empty( $wp_query->query['pid'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['pid'] );
 
 			if ( empty( $ngg_album ) && empty( $ngg_gallery ) && empty( $ngg_pid ) ) {
-				$this->ngfb->debug->log( 'exiting early: no ngg query values' ); return $og_ret;
+				$this->ngfb->debug->log( 'exiting early: no ngg query values' ); 
+				return $og_ret;
 			} else {
 				$this->ngfb->debug->log( 'ngg query found = pageid:' . $ngg_pageid . ' album:' . $ngg_album . 
 					' gallery:' . $ngg_gallery . ' pid:' . $ngg_pid );
@@ -380,12 +383,12 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 			if ( preg_match_all( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content, $match, PREG_SET_ORDER ) ) {
 				foreach ( $match as $album ) {
-					$this->ngfb->debug->log( '[' . $album[1] . '] shortcode found (id:' . $album[3] . ')' );
 					$og_image = array();
 					if ( empty( $album[3] ) ) {
 						$ngg_album = 0;
 						$this->ngfb->debug->log( 'album id zero or not found - setting album id to 0 (all)' );
 					} else $ngg_album = $album[3];
+					$this->ngfb->debug->log( '[' . $album[1] . '] shortcode found (id:' . $ngg_album . ')' );
 					if ( $ngg_album > 0 ) 
 						$albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum . ' WHERE id IN (\'' . $ngg_album . '\')', OBJECT_K );
 					else $albums = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->nggalbum, OBJECT_K );
@@ -551,16 +554,31 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				return $og_ret; 
 			}
 
-			// check for ngg image ids
-			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->ngfb->debug->log( count( $match ) . ' x <div id="ngg-image-#"> html tag(s) found' );
+			// check for ngg v2 image ids
+			if ( preg_match_all( '/<a [^>]*?data-image-id=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+				$this->ngfb->debug->log( count( $match ) . ' x <a data-image-id="#"> html tag(s) found (ngg v2)' );
 				foreach ( $match as $pid ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name, $check_dupes );
-					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
 				}
-			} else $this->ngfb->debug->log( 'no <div id="ngg-image-#"> html tag found' );
+				return $og_ret;	// return immediately and ignore any other type of image
+			}
+			$this->ngfb->debug->log( 'no <a data-image-id="#"> html tag found (ngg v2)' );
+
+			// check for ngg pre-v2 image ids
+			if ( preg_match_all( '/<div[^>]*? id=[\'"]ngg-image-([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+				$this->ngfb->debug->log( count( $match ) . ' x <div id="ngg-image-#"> html tag(s) found (ngg pre-v2)' );
+				foreach ( $match as $pid ) {
+					$og_image = array();
+					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+						$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $pid[1], $size_name, $check_dupes );
+					if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
+				}
+				return $og_ret;	// return immediately and ignore any other type of image
+			}
+			$this->ngfb->debug->log( 'no <div id="ngg-image-#"> html tag found (ngg pre-v2)' );
 
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
@@ -574,17 +592,22 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						'og:image:cropped' => '',
 					);
 
-					// check for NGG image pids
+					// check for ngg pre-v2 image pids
 					if ( preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
+
 						$this->ngfb->debug->log( $src_name . ' ngg cache image = ' . $og_image['og:image'] );
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->get_ngg_image_src( 'ngg-' . $match[1], $size_name, $check_dupes );
+
 					} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
 						$this->ngfb->util->is_uniq_url( $og_image['og:image'] ) == true ) {
+
+						// try and get the width and height from the image tag
 						if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
 							$og_image['og:image:width'] = $match[1];
 						if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $img[0], $match) ) 
 							$og_image['og:image:height'] = $match[1];
+
 					} else continue;	// skip anything that is "not good" (duplicate or empty)
 
 					// set value to 0 if not valid, to avoid error when comparing image sizes
@@ -605,11 +628,13 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						( $src_name == 'src' && $size_info['crop'] !== 1 && 
 							( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
 
-						if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+						if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) break;
 
 					} else $this->ngfb->debug->log( $src_name . ' image rejected: width and height attributes missing or too small' );
 				}
-			} else $this->ngfb->debug->log( 'no <img/> html tag(s) found' );
+				return $og_ret;	// return immediately and ignore any other type of image
+			}
+			$this->ngfb->debug->log( 'no <img/> html tag(s) found' );
 
 			return $og_ret;
 		}

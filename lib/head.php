@@ -101,8 +101,12 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					$link_desc = $this->ngfb->meta->get_options( $post->ID, 'link_desc' );
 				if ( empty( $link_desc ) )
 					$link_desc = $this->ngfb->webpage->get_description( $this->ngfb->options['link_desc_len'], '...' );
-				if ( ! empty( $link_desc ) ) 
+				if ( ! empty( $link_desc ) ) {
+					// get_description is already decoded and html clean
+					$charset = get_bloginfo( 'charset' );
+					$link_desc = htmlentities( $link_desc, ENT_QUOTES, $charset, false );
 					echo '<meta name="description" content="', $link_desc, '" />', "\n";
+				}
 			}
 
 			/*

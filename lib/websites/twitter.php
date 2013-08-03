@@ -90,7 +90,7 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 
 if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialTwitter extends ngfbSocial {
+	class ngfbSocialTwitter {
 
 		protected $ngfb;
 
@@ -126,7 +126,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '
 				<!-- Twitter Button -->
 				<!-- url = ' . $long_url . ' -->
-				<div ' . $this->get_css( 'twitter', $atts ) . '>
+				<div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '>
 					<a href="https://twitter.com/share" 
 						class="twitter-share-button"
 						lang="'. $lang . '"

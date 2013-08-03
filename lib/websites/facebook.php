@@ -231,7 +231,7 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialFacebook extends ngfbSocial {
+	class ngfbSocialFacebook {
 
 		protected $ngfb;
 
@@ -255,7 +255,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 							// XFBML
 							$html = '
 							<!-- Facebook Like / Send Button(s) -->
-							<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
+							<div ' . $this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ) . '><fb:like 
 								href="' . $atts['url'] . '" 
 								send="' . $fb_send . '" 
 								layout="' . $this->ngfb->options['fb_layout'] . '" 
@@ -270,7 +270,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 							// HTML5
 							$html = '
 							<!-- Facebook Like / Send Button(s) -->
-							<div ' . $this->get_css( 'facebook', $atts, 'fb-like' ) . '
+							<div ' . $this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ) . '
 								data-href="' . $atts['url'] . '"
 								data-send="' . $fb_send . '" 
 								data-layout="' . $this->ngfb->options['fb_layout'] . '" 
@@ -287,7 +287,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 					$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
 					$html .= '
 					<!-- Facebook Share Button -->
-					<div ' . $this->get_css( 'fb-share', $atts, 'fb-share' ) . '><fb:share-button 
+					<div ' . $this->ngfb->social->get_css( 'fb-share', $atts, 'fb-share' ) . '><fb:share-button 
 						href="' . $atts['url'] . '"
 						font="' . $this->ngfb->options['fb_font'] . '" 
 						type="' . $this->ngfb->options['fb_type'] . '"></fb:share-button></div>

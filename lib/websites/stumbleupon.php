@@ -76,7 +76,7 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 
 if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialStumbleUpon extends ngfbSocial {
+	class ngfbSocialStumbleUpon {
 
 		protected $ngfb;
 
@@ -93,7 +93,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
 			$html = '
 				<!-- StumbleUpon Button -->
-				<div ' . $this->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
+				<div ' . $this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
 					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
 			';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );

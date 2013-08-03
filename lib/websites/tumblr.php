@@ -79,7 +79,7 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 
 if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialTumblr extends ngfbSocial {
+	class ngfbSocialTumblr {
 
 		protected $ngfb;
 
@@ -188,7 +188,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 
 			$html = '
 				<!-- Tumblr Button -->
-				<div ' . $this->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $query . '" 
+				<div ' . $this->ngfb->social->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $query . '" 
 					title="Share on Tumblr"><img border="0" alt="Share on Tumblr"
 					src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>
 			';

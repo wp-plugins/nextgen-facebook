@@ -133,7 +133,7 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 
 if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialGooglePlus extends ngfbSocial {
+	class ngfbSocialGooglePlus {
 
 		protected $ngfb;
 
@@ -150,7 +150,7 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 			$gp_class = $this->ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			$html = '
 				<!-- GooglePlus Button -->
-				<div ' . $this->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
+				<div ' . $this->ngfb->social->get_css( 'gplus', $atts, 'g-plusone-button' ) . '>
 					<span '. $gp_class . ' 
 						data-size="' . $this->ngfb->options['gp_size'] . '" 
 						data-annotation="' . $this->ngfb->options['gp_annotation'] . '" 

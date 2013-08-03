@@ -26,6 +26,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 				$tags = array_merge( $tags, $this->get_wp( $post->ID ) );
 				if ( $this->ngfb->options['og_ngg_tags'] && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 					$pid = get_post_thumbnail_id( $post->ID );
+					// featured images from ngg pre-v2 had 'ngg-' prefix
 					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 						$tags = array_merge( $tags, $this->get_ngg( $pid ) );
 				}
@@ -47,9 +48,8 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			foreach ( $post_ids as $id ) {
 				if ( $this->ngfb->options['og_page_title_tag'] && is_page( $id ) )
 					$tags[] = get_the_title( $id );
-				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name ) {
+				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name )
 					$tags[] = $tag_name;
-				}
 			}
 			$tags = array_map( 'strtolower', $tags );
 			if ( $this->ngfb->is_avail['aop'] ) 
@@ -62,8 +62,8 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			$tags = array();
 			if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
+				$tags = array_map( 'strtolower', $tags );
 			}
-			$tags = array_map( 'strtolower', $tags );
 			if ( $this->ngfb->is_avail['aop'] ) 
 				return apply_filters( 'ngfb_ngg_tags', $tags );
 			else return $tags;

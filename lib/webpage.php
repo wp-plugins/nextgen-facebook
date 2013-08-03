@@ -229,6 +229,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
 			else $desc = get_bloginfo( 'description', 'display' );
 
+			$desc = $this->ngfb->util->decode( $desc );
 			$desc = $this->ngfb->util->cleanup_html_tags( $desc );
 
 			if ( $textlen > 0 ) 

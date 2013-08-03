@@ -50,7 +50,7 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialLinkedIn extends ngfbSocial {
+	class ngfbSocialLinkedIn {
 
 		protected $ngfb;
 
@@ -66,7 +66,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			$html = '
 				<!-- LinkedIn Button -->
-				<div ' . $this->get_css( 'linkedin', $atts ) . '>
+				<div ' . $this->ngfb->social->get_css( 'linkedin', $atts ) . '>
 				<script type="IN/Share" data-url="' . $atts['url'] . '"';
 
 			if ( ! empty( $this->ngfb->options['linkedin_counter'] ) ) 

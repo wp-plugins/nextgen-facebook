@@ -204,7 +204,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				};' . "\n</script>\n";
 		}
 
-		protected function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
+		public function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
 			global $post;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 

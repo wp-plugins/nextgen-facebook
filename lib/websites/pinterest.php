@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 
 if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 
-	class ngfbSocialPinterest extends ngfbSocial {
+	class ngfbSocialPinterest {
 
 		protected $ngfb;
 
@@ -120,7 +120,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 
 			$html = '
 				<!-- Pinterest Button -->
-				<div ' . $this->get_css( 'pinterest', $atts ) . '><a 
+				<div ' . $this->ngfb->social->get_css( 'pinterest', $atts ) . '><a 
 					href="http://pinterest.com/pin/create/button/?' . $query . '" 
 					class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
 					title="Share on Pinterest"><img border="0" alt="Pin It"
