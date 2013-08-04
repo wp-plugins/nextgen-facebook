@@ -273,7 +273,7 @@ NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile pag
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
 
 * [@surniaululacom on Twitter](https://twitter.com/surniaululacom)
-* [#ngfb HashTag on Twitter](https://twitter.com/search?q=%23ngfb)
+* [#ngfbog HashTag on Twitter](https://twitter.com/search?q=%23ngfbog)
 * [Surnia Ulula on Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977)
 * [Surnia Ulula on Google+](https://plus.google.com/u/2/103457833348046432604/posts)
 * [SurniaUlulaCom Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
