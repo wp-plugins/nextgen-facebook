@@ -1,4 +1,4 @@
-=== NextGEN Facebook Open Graph+ ===
+=== NGFB Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo
@@ -89,9 +89,9 @@ If you need to roll-back and re-install an older *Free* version, you can find th
 1. Go to the wp-admin/ section of your website
 1. Select the *Plugins* menu item
 1. Select the *Add New* sub-menu item
-1. In the *Search* box, enter "NextGEN Facebook Open Graph"
+1. In the *Search* box, enter "NGFB Open Graph"
 1. Click the *Search Plugins* button
-1. Click the *Install Now* link for "NextGEN Facebook Open Graph"
+1. Click the *Install Now* link for "NGFB Open Graph"
 1. Click the *Activate Plugin* link
 
 **Semi-Automated Install** (*Free* and *Pro* versions)
