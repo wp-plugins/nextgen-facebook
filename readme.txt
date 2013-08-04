@@ -40,7 +40,7 @@ NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.c
 
 = eCommerce Products =
 
-NGFB Open Graph+ (Pro version) recognizes WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product stock status, extended attributes, category and tag pages, are all supported.
+NGFB Open Graph+ (Pro version) recognizes WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Social Buttons =
 
@@ -532,7 +532,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.6-dev2 =
 
 * Fixed: The Custom Settings in Posts/Pages are now added to new custom post types as they are created (not just when NGFB Open Graph+ is updated).
-* Added support (in the Pro version) for WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product stock status, extended attributes, category and tag pages, are all supported.
+* Added support (in the Pro version) for WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Version 6.5 =
 
