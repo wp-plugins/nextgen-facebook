@@ -528,6 +528,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.6-dev1 =
 
 * Fixed: The Custom Settings in Posts/Pages are now added to new custom post types as they are created (not just when NGFB Open Graph+ is updated).
+* Added Open Graph meta tags for WooCommerce products (Pro version).
 
 = Version 6.5 =
 
@@ -634,7 +635,7 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 = 6.6-dev1 =
 
-Custom Post/Page Settings now added to new custom post types as they are created.
+Custom Post/Page Settings now added to new custom post types as they are created, added Open Graph meta tags for WooCommerce products (Pro version).
 
 = 6.5 =
 
