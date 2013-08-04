@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '57';	// increment when adding/removing default options
+		public $opts_ver = '61';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -89,6 +89,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tc_photo_size' => 'large',
 			'tc_large_size' => 'medium',
 			'tc_sum_size' => 'thumbnail',
+			'tc_prod_size' => 'medium',
 			'twitter_on_the_excerpt' => 0,
 			'twitter_on_the_content' => 0,
 			'twitter_order' => 3,
@@ -155,6 +156,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_article:tag' => 1,
 			'inc_product:price:amount' => 1,
 			'inc_product:price:currency' => 1,
+			'inc_product:availability' => 1,
 			'inc_twitter:card' => 1,
 			'inc_twitter:creator' => 1,
 			'inc_twitter:site' => 1,
@@ -170,6 +172,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_twitter:player' => 1,
 			'inc_twitter:player:width' => 1,
 			'inc_twitter:player:height' => 1,
+			'inc_twitter:data1' => 1,
+			'inc_twitter:label1' => 1,
+			'inc_twitter:data2' => 1,
+			'inc_twitter:label2' => 1,
+			'inc_twitter:data3' => 1,
+			'inc_twitter:label3' => 1,
+			'inc_twitter:data4' => 1,
+			'inc_twitter:label4' => 1,
 			'ngfb_opts_ver' => '',
 			'ngfb_plugin_ver' => '',
 			'ngfb_pro_tid' => '',

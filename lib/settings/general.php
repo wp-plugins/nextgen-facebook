@@ -338,7 +338,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_photo_size' ) . '</td>',
 
 				$this->ngfb->util->th( '<em>Gallery</em> Card Image Size', null, null, 
-				'The size of NGG Gallery images provided for the
+				'The size of gallery images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) . 
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) . '</td>',
 
@@ -346,6 +346,14 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'The minimum number of images found in a gallery to qualify for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) . '</td>',
+
+				$this->ngfb->util->th( '<em>Product</em> Card Image Size', null, null, 
+				'The size of a featured product image for the
+				<a href="https://dev.twitter.com/docs/cards/types/product-card" target="_blank">Product Card</a>.
+				The product card requires an image of size 160 x 160 or greater. A square (aka cropped) image is better, 
+				but Twitter can crop/resize oddly shaped images to fit, as long as both dimensions are greater 
+				than or equal to 160 pixels. ' ) . 
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_prod_size' ) . '</td>',
 
 			);
 		}

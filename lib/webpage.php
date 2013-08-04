@@ -290,6 +290,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$content = preg_replace( '/^.*<!--ngfb-content-->(.*)<!--\/ngfb-content-->.*$/', '$1', $content );
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = str_replace( ']]>', ']]&gt;', $content );
+
 			$content_strlen_after = strlen( $content );
 			$this->ngfb->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
