@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '56';	// increment when adding/removing default options
+		public $opts_ver = '57';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'link_desc_len' => 156,
@@ -153,6 +153,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_article:modified_time' => 1,
 			'inc_article:section' => 1,
 			'inc_article:tag' => 1,
+			'inc_product:price:amount' => 1,
+			'inc_product:price:currency' => 1,
 			'inc_twitter:card' => 1,
 			'inc_twitter:creator' => 1,
 			'inc_twitter:site' => 1,
@@ -234,19 +236,35 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					}
 				}
 			}
-			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type ) {
-				$key = 'ngfb_add_to_' . $post_type->name;
-				if ( ! array_key_exists( $key, $this->defaults ) )
-					$this->defaults[$key] = 1;	// support all custom post types by default
-			}
+			$this->defaults = $this->add_to_post_types( $this->defaults );
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
 			else return $this->defaults;
 		}
 
+		public function add_to_post_types( &$opts = array() ) {
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
+				$key = 'ngfb_add_to_' . $post_type->name;
+				if ( ! array_key_exists( $key, $opts ) ) {
+					switch ( $post_type->name ) {
+						case 'shop_coupon' :
+							$opts[$key] = 0;
+							break;
+						default :
+							$opts[$key] = 1;
+							break;
+					}
+				}
+			}
+			return $opts;
+		}
+
 		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
+				// add support for post types that may have been added
+				$opts = $this->add_to_post_types( $opts );
+
 				if ( ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) ||
 					( empty( $opts['ngfb_opts_ver'] ) || $opts['ngfb_opts_ver'] !== $this->opts_ver ) ) {
 					$this->ngfb->debug->log( 'plugin version different than options version: calling upgrade() method.' );
@@ -381,6 +399,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_vid_desc' :
 						case 'twitter_desc' :
 						case 'ngfb_pro_tid' :
+						case 'ngfb_googl_api_key' :
+						case 'ngfb_cdn_folders' :
+						case 'ngfb_cdn_excl' :
 							$opts[$key] = trim( $opts[$key] );
 							break;
 

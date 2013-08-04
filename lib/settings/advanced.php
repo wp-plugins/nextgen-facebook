@@ -107,7 +107,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				uncheck the appropriate options here.
 			' );
 			echo '<td>';
-			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
 				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'ngfb_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
 			echo '</td>';
 
