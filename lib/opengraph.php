@@ -47,6 +47,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			global $post;
+			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
 			$og['fb:admins'] = $this->ngfb->options['fb_admins'];
@@ -57,34 +58,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
 			$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
 
-			if ( $og_max['og_vid_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
-				$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
-				if ( is_array( $og['og:video'] ) ) {
-					foreach ( $og['og:video'] as $val ) {
-						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
-							$this->ngfb->debug->log( 'og:image found in og:video array (no default image required)' );
-							$has_video_image = 1;
-						}
-					}
-					unset ( $vid );
-				}
-			} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
-
-			if ( $og_max['og_img_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
-				$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-				// if we didn't find any images, then use the default image
-				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
-					$og['og:image'] = $this->ngfb->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-				}
-			} else $this->ngfb->debug->log( 'images disabled: maximum images = 0' );
-
 			// singular posts/pages are articles by default
 			// check post_type for exceptions (like product pages)
 			if ( is_singular() ) {
-				$post_type = empty( $post ) ? 'article' : $post->post_type;	// just in case
+				if ( ! empty( $post ) )
+					$post_type = $post->post_type;
 				switch ( $post_type ) {
 					case 'product' :
 						$og['og:type'] = 'product';
@@ -116,7 +94,35 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['article:published_time'] = get_the_date('c');
 				$og['article:modified_time'] = get_the_modified_date('c');
 			}
-		
+
+			// get all videos
+			// check first, to add video preview images
+			if ( $og_max['og_vid_max'] > 0 ) {
+				$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
+				$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
+				if ( is_array( $og['og:video'] ) ) {
+					foreach ( $og['og:video'] as $val ) {
+						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
+							$this->ngfb->debug->log( 'og:image found in og:video array (no default image required)' );
+							$has_video_image = 1;
+						}
+					}
+					unset ( $vid );
+				}
+			} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
+
+			// get all images
+			if ( $og_max['og_img_max'] > 0 ) {
+				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+				$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+
+				// if we didn't find any images, then use the default image
+				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
+					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+					$og['og:image'] = $this->ngfb->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+				}
+			} else $this->ngfb->debug->log( 'images disabled: maximum images = 0' );
+
 			if ( $this->ngfb->is_avail['aop'] ) $og = apply_filters( 'ngfb_og', $og );
 			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');

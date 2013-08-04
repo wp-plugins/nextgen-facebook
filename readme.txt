@@ -14,7 +14,7 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.**
 
-**NGFB Open Graph+ v6.5 is compatible with the new release of NextGEN Gallery v2.0.0** (see [Changelog](/plugins/nextgen-facebook/changelog/) for details).
+**NGFB Open Graph+ v6.5 is compatible with the new release of [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) v2.0.0** (see [Changelog](/plugins/nextgen-facebook/changelog/) for details).
 
 = Open Graph and SEO =
 
@@ -30,7 +30,7 @@ Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surnia
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from NextGEN Gallery, but it also works just as well with the built-in WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/), but it also works just as well with the built-in WordPress Media Library.
 
 **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
 
@@ -40,7 +40,7 @@ NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.c
 
 = eCommerce Products =
 
-NGFB Open Graph+ (Pro version) recognizes WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
+NGFB Open Graph+ (Pro version) recognizes [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Social Buttons =
 
@@ -121,7 +121,7 @@ Note that if you already have NGFB Open Graph+ installed, you will have to remov
 1. Select the *Installed Plugins* sub-menu
 1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Activate* link
 
-Once installed and activated, the NGFB Open Graph+ plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or NextGEN Gallery that represents your website, you may want to define that one as your Default Image on the General Settings page.
+Once installed and activated, the NGFB Open Graph+ plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) that represents your website, you may want to define that one as your Default Image on the General Settings page.
 
 The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
 
@@ -173,12 +173,13 @@ NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc
 
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
-1. A *featured* or *attached* image from NextGEN Gallery or the WordPress Media Library.
-1. An image from the NextGEN Gallery *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
-1. A *preview* image from a NextGEN Gallery `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
-1. Image(s) from expanded NextGEN Gallery `&#91;singlepic&#93;`, `&#91;nggallery&#93;`, `&#91;nggtags&#93;` or `&#91;ngg_images&#93;` shortcodes.
+1. A *featured* or *attached* image from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) or the WordPress Media Library.
+1. An image from the [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
+1. A *preview* image from a [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
+1. Image(s) from expanded [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;singlepic&#93;`, `&#91;nggallery&#93;`, `&#91;nggtags&#93;` or `&#91;ngg_images&#93;` shortcodes.
 1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
 1. A default image defined in the NGFB Open Graph+ plugin settings.
+1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s).
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
@@ -532,7 +533,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.6-dev2 =
 
 * Fixed: The Custom Settings in Posts/Pages are now added to new custom post types as they are created (not just when NGFB Open Graph+ is updated).
-* Added support (in the Pro version) for WooCommerce product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
+* Added support (in the Pro version) for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Version 6.5 =
 
@@ -639,7 +640,7 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 = 6.6-dev2 =
 
-Custom Post/Page Settings now added to new custom post types as they are created, added Open Graph and Twitter Product Card meta tags for WooCommerce product, gategory and tag pages (Pro version).
+Custom Post/Page Settings now added to new custom post types as they are created, added Open Graph and Twitter Product Card meta tags for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages (Pro version).
 
 = 6.5 =
 
