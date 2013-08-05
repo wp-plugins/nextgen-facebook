@@ -14,11 +14,11 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 **An essential plugin for *every* WordPress website.**
 
-**NGFB Open Graph+ v6.5 is compatible with the new release of [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) v2.0.0** (see [Changelog](/plugins/nextgen-facebook/changelog/) for details).
+**NGFB Open Graph+ v6.5 is compatible with the new release of [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) v2.0.0** (see [Changelog](surniaulula.com/extend/plugins/nextgen-facebook/changelog/) for details).
 
 = Open Graph and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](surniaulula.com/extend/plugins/nextgen-facebook/screenshots/).
 
 NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. It can also be used to extend and improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
 
@@ -68,7 +68,7 @@ NGFB Open Graph+ is being actively developed and supported. You can review the [
 
 = Developer Friendly =
 
-NGFB Open Graph+ (Pro version) also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
+NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
 
 = Pro Version =
 
@@ -440,7 +440,7 @@ If you already have another plugin that adds Facebook and Google+ fields to the 
 
 = NGFB Filter Hooks =
 
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+ Pro](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
 
 `
 add_filter( 'ngfb_tags', 'uwf_filter_ngfb_tags', 10, 1 );
@@ -476,7 +476,11 @@ The following list of NGFB filters receive and must return a single *array*.
 * ngfb_wp_tags : An array of WordPress Post and Page tags used in the article:tag meta tags.
 * ngfb_ngg_tags : An array of NextGEN Gallery image tags used in the article:tag meta tags.
 * ngfb_og : A complete, multi-dimensional array of all Open Graph meta tags.
+* ngfb_og_seed : An empty array that will be used to build the Open Graph meta tags.
+* ngfb_og_woocommerce : A complete, multi-dimensional array of all Open Graph meta tags for WooCommerce.
 * ngfb_tc : A complete, multi-dimensional array of all Twitter Card meta tags.
+* ngfb_tc_seed : An empty array that will be used to build the Twitter Card meta tags.
+* ngfb_tc_woocommerce : A complete, multi-dimensional array of all Twitter Card meta tags for WooCommerce.
 
 As an example, here's a filter to add custom topics ("Name One" and "Name Two") to the built-in topics list.
 
@@ -533,6 +537,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.6-dev3 =
 
 * Fixed: The Custom Settings in Posts/Pages are now added to new custom post types as they are created (not just when NGFB Open Graph+ is updated).
+* Enabled all filter hooks on the *Free* version as well (see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/)).
 * Added support (in the Pro version) for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Version 6.5 =

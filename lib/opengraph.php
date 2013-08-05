@@ -26,12 +26,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		public function get() {
-			$og = array();
-
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
 				echo "\n<!-- ", $this->ngfb->fullname, " meta tags DISABLED -->\n\n";
-				return $og;
+				return array();
 			}
 
 			$sharing_url = $this->ngfb->util->get_sharing_url( 'notrack' );
@@ -40,7 +38,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$cache_type = 'object cache';
 			$this->ngfb->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
 			$og = get_transient( $cache_id );
-
 			if ( $og !== false ) {
 				$this->ngfb->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
 				return $og;
@@ -50,7 +47,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
-			$og = (array) apply_filters( 'ngfb_og_seed', $og );
+			$og = apply_filters( 'ngfb_og_seed', array() );
 
 			if ( ! array_key_exists( 'fb:admins', $og ) )
 				$og['fb:admins'] = $this->ngfb->options['fb_admins'];
