@@ -12,10 +12,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '61';	// increment when adding/removing default options
+		public $opts_ver = '62';	// increment when adding/removing default options
 
 		public $defaults = array(
-			'link_desc_len' => 156,
+			'meta_desc_len' => 156,
 			'link_author_field' => 'gplus',
 			'link_def_author_id' => 0,
 			'link_def_author_on_index' => 0,
@@ -224,6 +224,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
 			'ngfb_version' => 'ngfb_opts_ver',
+			'link_desc_len' => 'meta_desc_len',
 		);
 
 		private $ngfb;		// ngfbPlugin
@@ -402,7 +403,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'fb_app_id' :
 						case 'og_title' :
 						case 'og_desc' :
-						case 'link_desc' :
+						case 'meta_desc' :
 						case 'tc_desc' :
 						case 'pin_desc' :
 						case 'tumblr_img_desc' :
@@ -478,17 +479,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				return $opts;
 			}
 
-			// move old option values to new option names
-			foreach ( $this->renamed as $old => $new )
-				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
-				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-					if ( $this->ngfb->debug->is_on() == true )
-						$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
-							$new . '\' with a value of \'' . $opts[$old] . '\'.' );
-					$opts[$new] = $opts[$old];
-					unset( $opts[$old] );
-				}
-			unset ( $old, $new );
+			$opts = $this->rename_keys( $this->renamed, $opts );
 
 			// these option names may have been used in the past, so remove them, just in case
 			if ( $opts['ngfb_opts_ver'] < 30 ) {
@@ -497,6 +488,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				unset( $opts['og_img_crop'] );
 			}
 
+			// upgrade the old 'og_img_size' name into width / height / crop values
 			if ( array_key_exists( 'og_img_size', $opts ) ) {
 				if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
 					$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
@@ -564,6 +556,21 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			} else $this->ngfb->debug->log( 'not in admin interface: postponing options save' );
 
 			$this->ngfb->debug->log( 'options successfully upgraded' );
+			return $opts;
+		}
+
+		public function rename_keys( $renamed = array(), $opts = array() ) {
+			// move old option values to new option names
+			foreach ( $renamed as $old => $new )
+				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
+				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
+					if ( $this->ngfb->debug->is_on() == true )
+						$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
+							$new . '\' with a value of \'' . $opts[$old] . '\'.' );
+					$opts[$new] = $opts[$old];
+					unset( $opts[$old] );
+				}
+			unset ( $old, $new );
 			return $opts;
 		}
 

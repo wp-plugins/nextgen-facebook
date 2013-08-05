@@ -37,8 +37,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 
 		public function shortcode( $atts, $content = null ) { 
 
-			if ( $this->ngfb->is_avail['aop'] ) 
-				$atts = apply_filters( 'ngfb_shortcode', $atts, $content );
+			$atts = apply_filters( 'ngfb_shortcode', $atts, $content );
 
 			global $post;
 			$html = '';

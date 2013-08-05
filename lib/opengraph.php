@@ -50,80 +50,113 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
-			$og['fb:admins'] = $this->ngfb->options['fb_admins'];
-			$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
-			$og['og:locale'] = $this->ngfb->options['fb_lang'];
-			$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
-			$og['og:url'] = $sharing_url;
-			$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
-			$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
+			$og = (array) apply_filters( 'ngfb_og_seed', $og );
 
-			// singular posts/pages are articles by default
-			// check post_type for exceptions (like product pages)
-			if ( is_singular() ) {
-				if ( ! empty( $post ) )
-					$post_type = $post->post_type;
-				switch ( $post_type ) {
-					case 'product' :
-						$og['og:type'] = 'product';
-						break;
-					default :
-						$og['og:type'] = 'article';
-						if ( ! empty( $post ) && $post->post_author )
-							$og['article:author'] = $this->ngfb->user->get_author_url( $post->post_author, 
-								$this->ngfb->options['og_author_field'] );
-						elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
-							$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
-								$this->ngfb->options['og_author_field'] );
-						break;
-				}
-			// check for default author info on indexes and searches
-			} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_author_on_index'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) )
-				|| ( is_search() && ! empty( $this->ngfb->options['og_def_author_on_search'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) ) ) {
+			if ( ! array_key_exists( 'fb:admins', $og ) )
+				$og['fb:admins'] = $this->ngfb->options['fb_admins'];
 
-				$og['og:type'] = "article";
-				$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
-					$this->ngfb->options['og_author_field'] );
-			// default for everything else is 'website'
-			} else $og['og:type'] = 'website';
+			if ( ! array_key_exists( 'fb:app_id', $og ) )
+				$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
+
+			if ( ! array_key_exists( 'og:locale', $og ) )
+				$og['og:locale'] = $this->ngfb->options['fb_lang'];
+
+			if ( ! array_key_exists( 'og:site_name', $og ) )
+				$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+
+			if ( ! array_key_exists( 'og:url', $og ) )
+				$og['og:url'] = $sharing_url;
+
+			if ( ! array_key_exists( 'og:title', $og ) )
+				$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
+
+			if ( ! array_key_exists( 'og:description', $og ) )
+				$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
+
+			if ( ! array_key_exists( 'og:type', $og ) ) {
+				// singular posts/pages are articles by default
+				// check post_type for exceptions (like product pages)
+				if ( is_singular() ) {
+					if ( ! empty( $post ) )
+						$post_type = $post->post_type;
+					switch ( $post_type ) {
+						case 'product' :
+							$og['og:type'] = 'product';
+							break;
+						default :
+							$og['og:type'] = 'article';
+							break;
+					}
+				// check for default author info on indexes and searches
+				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_author_on_index'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) )
+					|| ( is_search() && ! empty( $this->ngfb->options['og_def_author_on_search'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) ) ) {
+	
+					$og['og:type'] = "article";
+					if ( ! array_key_exists( 'article:author', $og ) )
+						$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
+							$this->ngfb->options['og_author_field'] );
+
+				// default for everything else is 'website'
+				} else $og['og:type'] = 'website';
+			}
 
 			// if the page is an article, then define the other article meta tags
-			if ( $og['og:type'] == 'article' ) {
-				$og['article:tag'] = $this->ngfb->tags->get();
-				$og['article:section'] = $this->ngfb->webpage->get_section();
-				$og['article:published_time'] = get_the_date('c');
-				$og['article:modified_time'] = get_the_modified_date('c');
+			if ( array_key_exists( 'og:type', $og ) && $og['og:type'] == 'article' ) {
+				if ( is_singular() && ! array_key_exists( 'article:author', $og ) ) {
+					if ( ! empty( $post ) && $post->post_author )
+						$og['article:author'] = $this->ngfb->user->get_author_url( $post->post_author, 
+							$this->ngfb->options['og_author_field'] );
+					elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
+						$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
+							$this->ngfb->options['og_author_field'] );
+				}
+				if ( ! array_key_exists( 'article:tag', $og ) )
+					$og['article:tag'] = $this->ngfb->tags->get();
+
+				if ( ! array_key_exists( 'article:section', $og ) )
+					$og['article:section'] = $this->ngfb->webpage->get_section();
+
+				if ( ! array_key_exists( 'article:published_time', $og ) )
+					$og['article:published_time'] = get_the_date('c');
+
+				if ( ! array_key_exists( 'article:modified_time', $og ) )
+					$og['article:modified_time'] = get_the_modified_date('c');
 			}
 
 			// get all videos
 			// check first, to add video preview images
-			if ( $og_max['og_vid_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
-				$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
-				if ( is_array( $og['og:video'] ) ) {
-					foreach ( $og['og:video'] as $val ) {
-						if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
-							$this->ngfb->debug->log( 'og:image found in og:video array (no default image required)' );
-							$has_video_image = 1;
+			if ( ! array_key_exists( 'og:video', $og ) ) {
+				if ( $og_max['og_vid_max'] > 0 ) {
+					$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
+					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
+					if ( is_array( $og['og:video'] ) ) {
+						foreach ( $og['og:video'] as $val ) {
+							if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
+								$this->ngfb->debug->log( 'og:image found in og:video array (no default image required)' );
+								$has_video_image = 1;
+							}
 						}
+						unset ( $vid );
 					}
-					unset ( $vid );
-				}
-			} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
+				} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
+			}
 
 			// get all images
-			if ( $og_max['og_img_max'] > 0 ) {
-				$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
-				$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+			if ( ! array_key_exists( 'og:image', $og ) ) {
+				if ( $og_max['og_img_max'] > 0 ) {
+					$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+	
+					// if we didn't find any images, then use the default image
+					if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
+						$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
+						$og['og:image'] = $this->ngfb->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+					}
+				} else $this->ngfb->debug->log( 'images disabled: maximum images = 0' );
+			}
 
-				// if we didn't find any images, then use the default image
-				if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $og_max['og_img_max'] . ', "' . NGFB_OG_SIZE_NAME . '")' );
-					$og['og:image'] = $this->ngfb->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-				}
-			} else $this->ngfb->debug->log( 'images disabled: maximum images = 0' );
-
-			if ( $this->ngfb->is_avail['aop'] ) $og = apply_filters( 'ngfb_og', $og );
+			// run filter before saving to transient cache
+			$og = apply_filters( 'ngfb_og', $og );
 			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $og;

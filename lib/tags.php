@@ -35,9 +35,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		
 			// filter for duplicate (lowercase) element values - just in case
 			$tags = array_unique( array_map( 'strtolower', $tags ) );
-			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_tags', $tags );
-			else return $tags;
+			return apply_filters( 'ngfb_tags', $tags );
 		}
 
 		public function get_wp( $post_id ) {

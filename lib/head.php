@@ -51,15 +51,15 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			}
 		}
 
-		// called from the work/header.php template
-		public function html( $html_tags = array() ) {
+		// called from add_header() and the work/header.php template
+		public function html( $meta_tags = array() ) {
 			global $post;
 			$author_url = '';
 		
 			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
-			$this->ngfb->debug->show_html( print_r( $html_tags, true ), 'Open Graph Array' );
+			$this->ngfb->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
 			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'Media URLs Found' );
 
 			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
@@ -67,53 +67,54 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			/*
 			 * Meta Tags for Google
 			 */
-			if ( ! empty( $html_tags['link:publisher'] ) )
-				echo '<link rel="publisher" href="', $html_tags['link:publisher'], '" />', "\n";
-			elseif ( ! empty( $this->ngfb->options['link_publisher_url'] ) )
-				echo '<link rel="publisher" href="', $this->ngfb->options['link_publisher_url'], '" />', "\n";
+			$link_rel = array();
+			if ( array_key_exists( 'link:publisher', $meta_tags ) ) {
+				$link_rel['publisher'] = $meta_tags['link:publisher'];
+				unset ( $meta_tags['link:publisher'] );
+			} elseif ( ! empty( $this->ngfb->options['link_publisher_url'] ) )
+				$link_rel['publisher'] = $this->ngfb->options['link_publisher_url'];
 
-			if ( ! empty( $html_tags['link:author'] ) )
-				echo '<link rel="author" href="', $html_tags['link:author'], '" />', "\n";
-			else {
+			if ( array_key_exists( 'link:author', $meta_tags ) ) {
+				$link_rel['author'] = $meta_tags['link:author'];
+				unset ( $meta_tags['link:author'] );
+			} else {
 				if ( is_singular() ) {
-
 					if ( ! empty( $post ) && $post->post_author )
-						$author_url = $this->ngfb->user->get_author_url( $post->post_author, 
+						$link_rel['author'] = $this->ngfb->user->get_author_url( $post->post_author, 
 							$this->ngfb->options['link_author_field'] );
-
 					elseif ( ! empty( $this->ngfb->options['link_def_author_id'] ) )
-						$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
+						$link_rel['author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
 							$this->ngfb->options['link_author_field'] );
-
 				// check for default author info on indexes and searches
 				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['link_def_author_on_index'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) )
 					|| ( is_search() && ! empty( $this->ngfb->options['link_def_author_on_search'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) ) ) {
 
-					$author_url = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
+					$link_rel['author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
 						$this->ngfb->options['link_author_field'] );
 				}
-				if ( $author_url ) 
-					echo '<link rel="author" href="', $author_url, '" />', "\n";
 			}
+			$link_rel = apply_filters( 'ngfb_link_rel', $link_rel );
+			foreach ( $link_rel as $key => $val )
+				if ( ! empty( $val ) )
+					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
 
 			if ( ! empty( $this->ngfb->options['inc_description'] ) ) {
 				if ( is_singular() && ! empty( $post ) )
-					$link_desc = $this->ngfb->meta->get_options( $post->ID, 'link_desc' );
-				if ( empty( $link_desc ) )
-					$link_desc = $this->ngfb->webpage->get_description( $this->ngfb->options['link_desc_len'], '...' );
-				if ( ! empty( $link_desc ) ) {
-					// get_description is already decoded and html clean
+					$meta_tags['description'] = $this->ngfb->meta->get_options( $post->ID, 'meta_desc' );
+				if ( empty( $$meta_tags['description'] ) )
+					$meta_tags['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['meta_desc_len'], '...' );
+				if ( ! empty( $meta_tags['description'] ) ) {
+					// get_description is already decoded and html clean, so just encode html entities
 					$charset = get_bloginfo( 'charset' );
-					$link_desc = htmlentities( $link_desc, ENT_QUOTES, $charset, false );
-					echo '<meta name="description" content="', $link_desc, '" />', "\n";
+					$meta_tags['description'] = htmlentities( $meta_tags['description'], ENT_QUOTES, $charset, false );
 				}
 			}
 
 			/*
 			 * Print the Multi-Dimensional Array as HTML
 			 */
-			$this->ngfb->debug->log( count( $html_tags ) . ' html_tags to process' );
-			foreach ( $html_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
+			$this->ngfb->debug->log( count( $meta_tags ) . ' meta_tags to process' );
+			foreach ( $meta_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
 					if ( empty( $first_val ) ) {
 						echo $this->get_meta_html( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
@@ -154,13 +155,16 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 						ENT_QUOTES, $charset, false );
 					$this->ngfb->debug->log( 'meta ' . $name . ' = "' . $val . '"' );
 					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-					if ( strpos( $name, 'twitter:' ) === 0 ) {
+
+					// by default, echo a <meta property="" content=""> html tag
+					if ( $name == 'description' || strpos( $name, 'twitter:' ) === 0 ) {
 						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
 					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
 						strpos( $val, 'https:' ) === 0 && ! empty( $this->ngfb->options['inc_'.$name] ) ) {
 
 						$non_sec = preg_replace( '/^https:/', 'http:', $val );
 						$meta_html .= '<meta property="' . $name . '" content="' . $non_sec . '" />' . "\n";
+						// add an additional secure_url meta tag
 						if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 						$meta_html .= '<meta property="' . $name . ':secure_url" content="' . $val . '" />' . "\n";
 					} else {

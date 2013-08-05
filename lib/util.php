@@ -293,8 +293,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				'Webmail',
 				'Women\'s',
 			);
-			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_topics', $website_topics );			// since wp 0.71 
+			$website_topics = apply_filters( 'ngfb_topics', $website_topics );			// since wp 0.71 
 			natsort( $website_topics );
 			// after sorting the array, put 'none' first
 			$website_topics = array_merge( array( 'none' ), $website_topics );

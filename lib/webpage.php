@@ -159,9 +159,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// append the text number after the trailing character string
 			if ( ! empty( $page_num_suffix ) ) $title .= $page_num_suffix;
 
-			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_title', $title );
-			else return $title;
+			return apply_filters( 'ngfb_title', $title );
 		}
 
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
