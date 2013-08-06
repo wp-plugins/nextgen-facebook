@@ -538,8 +538,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 Pro Version Only:
 
-* Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). **[WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
-* Added support for the WordPress `[gallery]` shortcode to create Twitter Gallery Cards for WordPress image galleries.
+* **Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
+* Added support for the WordPress `&#91;gallery&#93;` shortcode to create Twitter Gallery Cards for WordPress image galleries.
 
 = Version 6.5 =
 
