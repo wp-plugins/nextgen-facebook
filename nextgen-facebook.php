@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.6-dev3
+Version: 6.6-dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.6-dev3';
+		public $version = '6.6-dev4';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -155,7 +155,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function filter_version_number( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0-' . $version . '-Free';
+			else return '0.' . $version . '-free';
 		}
 
 		// called by WP init action
@@ -305,7 +305,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// get the options, upgrade the options (if necessary), and validate their values
 		private function setup_vars( $activate = false ) {
-
 			/*
 			 * load all plugin options
 			 */
@@ -481,7 +480,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
 			// nextgen gallery plugin
-			$is_avail['ngg'] = class_exists( 'nggdb' ) && method_exists( 'nggdb', 'find_image' ) ? true : false;
+			// use in combination with $this->ngg_version
+			$is_avail['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
 
 			// woocommerce
 			$is_avail['woocom'] = class_exists( 'Woocommerce' ) ? true : false;
@@ -490,7 +490,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$is_avail['any_seo'] = false;
 
 			// test for seo functions
-			foreach ( array( 
+			foreach ( 
+				array( 
 					'wpseo' => 'wpseo_init',		// yoast wordpress seo plugin
 				) as $seo_name => $seo_func )
 					if ( function_exists( $seo_func ) ) 
@@ -498,7 +499,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					else $is_avail[$seo_name] = false;
 
 			// test for seo methods
-			foreach ( array( 
+			foreach ( 
+				array( 
 					'aioseo' => 'All_in_One_SEO_Pack',	// all-in-one seo pack
 					'seou' => 'SEO_Ultimate',		// seo ultimate
 				) as $seo_name => $seo_class )

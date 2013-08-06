@@ -413,7 +413,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'ngfb_googl_api_key' :
 						case 'ngfb_cdn_folders' :
 						case 'ngfb_cdn_excl' :
-							$opts[$key] = trim( $opts[$key] );
+							if ( ! empty( $opts[$key] ) )
+								$opts[$key] = trim( $opts[$key] );
 							break;
 
 						// options that cannot be blank

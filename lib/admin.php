@@ -40,7 +40,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $this->ngfb->opt->defaults );
+			$def_opts = $this->ngfb->opt->get_defaults();
+			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $def_opts );
 			$this->setup_vars();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );

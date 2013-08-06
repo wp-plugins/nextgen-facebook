@@ -88,12 +88,12 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 					}
 				}
 				if ( ! empty( $atts['pid'] ) ) {
-					// if the post thumbnail id has the form ngg- then it's a NextGEN image
+					// if the post thumbnail id has the form 'ngg-' then it's a NextGEN image
 					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-						$this->ngfb->debug->log( 'calling ngfb->media->get_ngg_image_src("' . 
+						$this->ngfb->debug->log( 'calling ngfb->media->ngg->get_image_src("' . 
 							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
 						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->ngfb->media->get_ngg_image_src( $atts['pid'], $atts['size'], false );
+							$atts['cropped'] ) = $this->ngfb->media->ngg->get_image_src( $atts['pid'], $atts['size'], false );
 					} else {
 						$this->ngfb->debug->log( 'calling ngfb->media->get_attachment_image_src("' . 
 							$atts['pid'] . '", "' . $atts['size'] . '", false)' );
