@@ -655,7 +655,7 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 = 6.6-dev4 =
 
-Custom Post/Page Settings now added to new custom post types as they are created, added Open Graph and Twitter Product Card meta tags for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages (Pro version).
+Custom Settings box added to new custom post types dynamically, added Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages, improvements in WP and NGG image detection in content.
 
 = 6.5 =
 
