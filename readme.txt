@@ -525,11 +525,21 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.6-dev3 =
+= Version 6.6-dev4 =
 
-* Fixed: The Custom Settings in Posts/Pages are now added to new custom post types as they are created (not just when NGFB Open Graph+ is updated).
-* Enabled all filter hooks on the *Free* version as well (see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/)).
-* Added support (in the Pro version) for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
+*Free* and Pro Versions:
+
+* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
+* *Enabled all NGFB filter hooks on the *Free* version as well (see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/)).*
+* Moved most NextGEN Gallery related functions into the `lib/ngg.php` library file, which is accessible (if the NextGEN Gallery plugin is active) from the `ngfbPlugin::media->ngg` object.
+* Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add the 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
+* Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add the 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
+* Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add the 'data-ngfb-ngg-pid="#"' attribute to the href attribute of thumbnails, etc.
+
+Pro Version Only:
+
+* Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). *[WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.*
+* Added support for the WordPress `[gallery]` shortcode to create Twitter Gallery Cards.
 
 = Version 6.5 =
 
@@ -634,9 +644,9 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.6-dev3 =
+= 6.6-dev4 =
 
-Custom Post/Page Settings now added to new custom post types as they are created, added Open Graph and Twitter Product Card meta tags for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages (Pro version).
+Custom Settings box added to new custom post types dynamically, added Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages, improvements in WP and NGG image detection in content.
 
 = 6.5 =
 
