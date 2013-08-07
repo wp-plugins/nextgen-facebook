@@ -99,10 +99,12 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
 
 			if ( ! empty( $this->ngfb->options['inc_description'] ) ) {
-				if ( is_singular() && ! empty( $post ) )
-					$meta_tags['description'] = $this->ngfb->meta->get_options( $post->ID, 'meta_desc' );
-				if ( empty( $meta_tags['description'] ) )
-					$meta_tags['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['meta_desc_len'], '...' );
+				if ( ! array_key_exists( 'description', $meta_tags ) ) {
+					if ( is_singular() && ! empty( $post ) )
+						$meta_tags['description'] = $this->ngfb->meta->get_options( $post->ID, 'meta_desc' );
+					if ( empty( $meta_tags['description'] ) )
+						$meta_tags['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['meta_desc_len'], '...' );
+				}
 				if ( ! empty( $meta_tags['description'] ) ) {
 					// get_description is already decoded and html clean, so just encode html entities
 					$charset = get_bloginfo( 'charset' );

@@ -18,18 +18,22 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-
-			foreach ( $this->ngfb->website_libs as $id => $name ) {
-				$classname = 'ngfbSocial' . preg_replace( '/ /', '', $name );
-				$this->website[$id] = new $classname( $ngfb_plugin );
-			}
-			unset ( $id, $name );
+			$this->setup_vars();
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
+		}
+
+		private function setup_vars() {
+			foreach ( $this->ngfb->website_libs as $id => $name ) {
+				$classname = 'ngfbSocial' . preg_replace( '/ /', '', $name );
+				if ( class_exists( $classname ) )
+					$this->website[$id] = new $classname( $this->ngfb );
+			}
+			unset ( $id, $name );
 		}
 
 		public function add_filter( $type = 'the_content' ) {

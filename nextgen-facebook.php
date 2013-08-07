@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.6-dev4
+Version: 6.6-dev5
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.6-dev4';
+		public $version = '6.6-dev5';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -43,6 +43,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $tags;		// ngfbTags
 		public $webpage;	// ngfbWebPage
 		public $social;		// ngfbSocial
+		public $seo;		// ngfbSeo*
+		public $pro;		// ngfbAddOnPro
 		public $update;		// ngfbUpdate
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
@@ -104,6 +106,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'social' => 'Social Sharing',
 			'style' => 'Social Style',
 			'about' => 'About',
+		);
+
+		public $seo_libs = array(
+			'aioseop' => 'All in One SEO Pack',
+			'seou' => 'SEO Ultimate',
+			'wpseo' => 'WordPress SEO',
 		);
 
 		public function __construct() {
@@ -272,10 +280,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/messages.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
+				// settings classes extend lib/admin.php and are created by lib/admin.php
 				foreach ( $this->setting_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
 				unset ( $id, $name );
+				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
 			} else {
 				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
@@ -283,6 +292,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
+				// ngfb_shortcode class object is created by lib/webpage.php
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
 				unset ( $id, $name );
@@ -293,11 +303,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/websites/' . $id . '.php' );
 			unset ( $id, $name );
 
+			// widgets are added to wp when library file is loaded
 			foreach ( $this->widget_libs as $id => $name )
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
+			// seo filters are added to wp in class construct
+			foreach ( $this->seo_libs as $id => $name )
+				if ( file_exists( NGFB_PLUGINDIR . 'lib/seo/' . $id . '.php' ) )
+					require_once ( NGFB_PLUGINDIR . 'lib/seo/' . $id . '.php' );
+			unset ( $id, $name );
+
 			// pro version classes
+			// additional classes are loaded and created by pro construct
 			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro/addon.php' ) )
 				require_once ( NGFB_PLUGINDIR . 'lib/pro/addon.php' );
 
@@ -371,6 +389,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
+
+			foreach ( $this->seo_libs as $id => $name ) {
+				if ( $this->is_avail[$id] == true ) {
+					$classname = 'ngfbSeo' . preg_replace( '/ /', '', $name );
+					if ( class_exists( $classname ) )
+						$this->seo = new $classname( $this );
+				}
+			}
+			unset ( $id, $name );
 
 			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )
@@ -489,24 +516,28 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// by default, define any_seo value as false
 			$is_avail['any_seo'] = false;
 
-			// test for seo functions
-			foreach ( 
-				array( 
-					'wpseo' => 'wpseo_init',		// yoast wordpress seo plugin
-				) as $seo_name => $seo_func )
-					if ( function_exists( $seo_func ) ) 
-						$is_avail['any_seo'] = $is_avail[$seo_name] = true;
-					else $is_avail[$seo_name] = false;
-
-			// test for seo methods
-			foreach ( 
-				array( 
-					'aioseo' => 'All_in_One_SEO_Pack',	// all-in-one seo pack
-					'seou' => 'SEO_Ultimate',		// seo ultimate
-				) as $seo_name => $seo_class )
-					if ( class_exists( $seo_class ) ) 
-						$is_avail['any_seo'] = $is_avail[$seo_name] = true;
-					else $is_avail[$seo_name] = false;
+			foreach ( $this->seo_libs as $key => $name ) {
+				$func_name = '';
+				$class_name = '';
+				switch ( $key ) {
+					case 'aioseop' :
+						$class_name = 'All_in_One_SEO_Pack';
+						break;
+					case 'seou' :
+						$class_name = 'SEO_Ultimate';
+						break;
+					case 'wpseo' :
+						$func_name = 'wpseo_init';
+						break;
+				}
+				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
+					$is_avail['any_seo'] = $is_avail[$key] = true;
+				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
+					$is_avail['any_seo'] = $is_avail[$key] = true;
+				else
+					$is_avail[$key] = false;
+			}
+			unset ( $id, $name );
 
 			return $is_avail;
 		}

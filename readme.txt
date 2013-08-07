@@ -38,7 +38,7 @@ NGFB Open Graph+ detects and uses all images, associated or included in your web
 
 NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= eCommerce Products =
+= Product Meta Tags =
 
 NGFB Open Graph+ (Pro version) recognizes [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
@@ -534,18 +534,20 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.6-dev4 =
+= Version 6.6-dev5 =
 
 *Free* and Pro Versions:
 
-* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
-* **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
+* Added the All in One SEO Pack home page title and description values.
+* Added support for the WordPress SEO by Yoast meta description templates.
 * Moved most NextGEN Gallery related functions into the `lib/ngg.php` library file, which is accessible (if the NextGEN Gallery plugin is active) from the `ngfbPlugin::media->ngg` object.
 * Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add an 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
 * Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
 * Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href of thumbnails, etc.
+* **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
+* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
 
-Pro Version Only:
+Pro Version:
 
 * **Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
 * Added support for the WordPress `&#91;gallery&#93;` shortcode to create Twitter Gallery Cards for WordPress image galleries.
@@ -653,9 +655,9 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.6-dev4 =
+= 6.6-dev5 =
 
-Custom Settings box added to new custom post types dynamically, added Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product, gategory and tag pages, improvements in WP and NGG image detection in content.
+Custom Settings box added to custom post types dynamically, Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/), improvements in image detection in the content, extended support for SEO plugins.
 
 = 6.5 =
 

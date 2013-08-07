@@ -40,9 +40,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
+			$this->setup_vars();
 			$def_opts = $this->ngfb->opt->get_defaults();
 			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $def_opts );
-			$this->setup_vars();
 
 			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
@@ -54,10 +54,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		private function setup_vars() {
 			foreach ( $this->ngfb->setting_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
-				$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
+				if ( class_exists( $classname ) )
+					$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
-
 			$upload_dir = wp_upload_dir();
 			$this->old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
 		}

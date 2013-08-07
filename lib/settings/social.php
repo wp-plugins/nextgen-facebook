@@ -30,7 +30,8 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		private function setup_vars() {
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
 				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
-				$this->website[$id] = new $classname( $this->ngfb );
+				if ( class_exists( $classname ) )
+					$this->website[$id] = new $classname( $this->ngfb );
 			}
 			unset ( $id, $name );
 		}
