@@ -308,12 +308,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
 			unset ( $id, $name );
 
-			// seo filters are added to wp in class construct
-			foreach ( $this->seo_libs as $id => $name )
-				if ( file_exists( NGFB_PLUGINDIR . 'lib/seo/' . $id . '.php' ) )
-					require_once ( NGFB_PLUGINDIR . 'lib/seo/' . $id . '.php' );
-			unset ( $id, $name );
-
 			// pro version classes
 			// additional classes are loaded and created by pro construct
 			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro/addon.php' ) )
@@ -389,15 +383,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
 				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
-
-			foreach ( $this->seo_libs as $id => $name ) {
-				if ( $this->is_avail[$id] == true ) {
-					$classname = 'ngfbSeo' . preg_replace( '/ /', '', $name );
-					if ( class_exists( $classname ) )
-						$this->seo = new $classname( $this );
-				}
-			}
-			unset ( $id, $name );
 
 			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )

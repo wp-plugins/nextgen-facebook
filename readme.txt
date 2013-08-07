@@ -538,19 +538,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 *Free* and Pro Versions:
 
-* Added the All in One SEO Pack home page title and description values.
-* Added support for the WordPress SEO by Yoast meta description templates.
-* Moved most NextGEN Gallery related functions into the `lib/ngg.php` library file, which is accessible (if the NextGEN Gallery plugin is active) from the `ngfbPlugin::media->ngg` object.
 * Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add an 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
 * Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
 * Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href of thumbnails, etc.
 * **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
 * Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
+* Moved most NextGEN Gallery related functions into the `lib/ngg.php` library file, which is accessible (if the NextGEN Gallery plugin is active) from the `ngfbPlugin::media->ngg` object.
 
 Pro Version:
 
 * **Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
 * Added support for the WordPress `&#91;gallery&#93;` shortcode to create Twitter Gallery Cards for WordPress image galleries.
+* Added support for the WordPress SEO by Yoast meta description templates.
+* Added support for the All in One SEO Pack home page title and description values.
 
 = Version 6.5 =
 
