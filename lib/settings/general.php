@@ -251,8 +251,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
 					The maximum length of text used for the Google Search description meta tag.
 					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
-					(the default is ' . $this->ngfb->opt->get_defaults( 'link_desc_len' ) . ' characters).' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'link_desc_len', 'short' ) . ' Characters or less</td>';
+					(the default is ' . $this->ngfb->opt->get_defaults( 'meta_desc_len' ) . ' characters).' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'meta_desc_len', 'short' ) . ' Characters or less</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Author Link URL', null, null, 
 					$this->ngfb->fullname . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.

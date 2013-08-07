@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '62';	// increment when adding/removing default options
+		public $opts_ver = '63';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -374,6 +374,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 							break;
 
 						// integer options that must me 1 or more (not zero)
+						case 'meta_desc_len' : 
 						case 'og_img_width' : 
 						case 'og_img_height' : 
 						case 'og_title_len' : 
