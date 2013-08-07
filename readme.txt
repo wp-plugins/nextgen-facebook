@@ -685,4 +685,3 @@ Several new features and improvements, including a more streamlined look for the
 = 6.0 =
 
 Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
-
