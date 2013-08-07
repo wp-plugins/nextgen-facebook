@@ -74,7 +74,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds [Twitter Card](https://dev.twitter.com/docs/cards) and [WooCommerce](http://wordpress.org/plugins/woocommerce/) support, and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your unique Transaction ID, and update the plugin from within WordPress (like a regular plugin update).
+Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Unique Transaction ID, and update the plugin from within WordPress (like a regular plugin update).
 
 == Installation ==
 
@@ -82,7 +82,7 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 
 To install the *Free* version from WordPress.org, follow the *Automated Install* method described bellow.
 
-If you have purchased the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+If you have purchased the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID. Enter your Unique Transaction ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 If you downloaded the NGFB Open Graph+ plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph+ is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
 
@@ -157,11 +157,11 @@ The *Free* version is a complete, stable, optimized, well supported, and feature
 
 = Q. How do I install the Pro version? =
 
-Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a unique Transaction ID. Enter your unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID. Enter your Unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 = Q. Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
+NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a Unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
 = Q. Can I use other social sharing buttons than those of NGFB Open Graph+? =
 

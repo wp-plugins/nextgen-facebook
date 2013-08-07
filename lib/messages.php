@@ -34,7 +34,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 						Improve your website\'s response time with file caching for social sharing images and JavaScript?<br/>
 						<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
 						target="_blank">purchasing the Pro version today</a>.</p>
-						<p>Upgrading to the Pro version is easy! Simply enter the unique <em>Purchase Transaction ID</em> 
+						<p>Upgrading to the Pro version is easy! Simply enter the <em>Unique Transaction ID</em> 
 						(that you\'ll receive by email) on the Advanced settings page, then install the Pro update from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
