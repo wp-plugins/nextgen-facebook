@@ -184,8 +184,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( empty( $desc ) ) {
 				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 	
-					$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
 					$this->ngfb->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+					$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
+					$this->ngfb->debug->log( 'has_excerpt() = ' . ( has_excerpt( $post->ID ) ? 'true' : 'false' ) );
 	
 					// use the excerpt, if we have one
 					if ( has_excerpt( $post->ID ) ) {
@@ -206,29 +207,30 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					}
 			
 					// ignore everything until the first paragraph tag if $this->ngfb->options['og_desc_strip'] is true
-					if ( $this->ngfb->options['og_desc_strip'] ) $desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
+					if ( $this->ngfb->options['og_desc_strip'] ) 
+						$desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
 			
 				} elseif ( is_author() ) { 
 			
 					$this->ngfb->debug->log( 'is_author() = true' );
 					the_post();
-					$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
-					$author_desc = get_the_author_meta( 'description' );
-					if ( $author_desc ) $desc .= ' : '.$author_desc;		// add the author's profile description, if there is one
+					$desc = get_the_author_meta( 'description' );
+					if ( empty( $desc ) )
+						$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
 			
 				} elseif ( is_tag() ) {
 			
 					$this->ngfb->debug->log( 'is_tag() = true' );
-					$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
-					$tag_desc = tag_description();
-					if ( $tag_desc ) $desc .= ' : '.$tag_desc;			// add the tag description, if there is one
+					$desc = tag_description();
+					if ( empty( $desc ) )
+						$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
 			
 				} elseif ( is_category() ) { 
 			
 					$this->ngfb->debug->log( 'is_category() = true' );
-					$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
-					$cat_desc = category_description();
-					if ($cat_desc) $desc .= ' : '.$cat_desc;			// add the category description, if there is one
+					$desc = category_description();
+					if ( empty( $desc ) )
+						$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 				}
 				elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
 				elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
