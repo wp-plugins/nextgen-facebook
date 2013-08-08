@@ -59,13 +59,14 @@ INDIRECT DAMAGES, SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU.
 
 3. License Grant. Subject to the terms and conditions of this Agreement and
 upon Licensee's full payment of the applicable fees the Author grants to you,
-and you accept, a personal, nonexclusive, NONTRANSFERABLE license to install
-and use the Application at a SINGLE WEBSITE. For the purposes of this License
+and you accept, a personal, nonexclusive, nontransferable license to install
+and use the Application at a single website. For the purposes of this License
 the single website shall mean a website, accessible by one fully qualified
-domain name. This License is effective until terminated as provided below. You
-may terminate this License by destroying the Application and any copies of the
-Application in your possession. This License will terminate automatically upon
-any violation of its terms by you or the Employer.
+domain name and path to its document root. This License is effective until
+terminated as provided below. You may terminate this License by destroying the
+Application and any copies of the Application in your possession. This License
+will terminate automatically upon any violation of its terms by you or the
+Employer.
 
 4. Support and upgrading. Licensee is entitled to receive upgrades of the
 Application at no additional fees.
