@@ -181,7 +181,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 				// we have a transaction ID, but we are not using the pro version (yet) - force an update
-				if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) && $this->ngfb->is_avail['aop'] == false )
+				if ( $this->ngfb->is_avail['aop'] == false && ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
 					$this->ngfb->update->check_for_updates();
 			}
 
@@ -203,7 +203,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
 							$this->ngfb->update->check_for_updates();
 							$this->ngfb->admin->set_readme( 0 );
-							$this->ngfb->notices->inf( 'Version information checked and updated.' );
+							$this->ngfb->notices->inf( 'Plugin update information has been checked and updated.' );
 						}
 						break;
 					case 'clear_all_cache' : 

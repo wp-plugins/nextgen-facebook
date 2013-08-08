@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.6-dev5
+Version: 6.6-dev7
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.6-dev5';
+		public $version = '6.6-dev7';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -195,6 +195,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_DEBUG
 			// NGFB_WP_DEBUG
 			// NGFB_RESET
+			// NGFB_UPDATE_URL
 			// NGFB_MIN_IMG_SIZE_DISABLE
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_CURL_DISABLE
@@ -317,6 +318,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// get the options, upgrade the options (if necessary), and validate their values
 		private function setup_vars( $activate = false ) {
+
+			/*
+			 * Allow override of default variables
+			 */
+			if ( defined( 'NGFB_UPDATE_URL' ) && NGFB_UPDATE_URL )
+				$this->urls['update'] = NGFB_UPDATE_URL;
+
 			/*
 			 * load all plugin options
 			 */
@@ -429,8 +437,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// setup update checks if we have a transaction ID
 			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
 				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
-				$this->update = new ngfbUpdate( $this->urls['update'] . '?transaction=' . $this->options['ngfb_pro_tid'], 
-					NGFB_FILEPATH, $this->slug, $this->update_hours, null, $this->debug );
+				$this->update = new ngfbUpdate( $this );
 			}
 
 		}

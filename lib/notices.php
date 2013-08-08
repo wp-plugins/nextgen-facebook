@@ -26,20 +26,25 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
 		}
 
-		public function nag( $msg = '', $store = false ) { $this->log( 'nag', $msg, $store ); }
-		public function err( $msg = '', $store = false ) { $this->log( 'err', $msg, $store ); }
-		public function inf( $msg = '', $store = false ) { $this->log( 'inf', $msg, $store ); }
+		public function nag( $msg = '', $store = false, $user = true ) { $this->log( 'nag', $msg, $store, $user ); }
+		public function err( $msg = '', $store = false, $user = true ) { $this->log( 'err', $msg, $store, $user ); }
+		public function inf( $msg = '', $store = false, $user = true ) { $this->log( 'inf', $msg, $store, $user ); }
 
-		public function log( $type, $msg = '', $store = false ) {
+		public function log( $type, $msg = '', $store = false, $user = true ) {
 			if ( empty( $msg ) ) return;
 			if ( $store == true ) {
 				$user_id = get_current_user_id();	// since wp 3.0
 				$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
-				if ( ( $msg_arr = get_user_option( $msg_opt, $user_id ) ) === false )
+				if ( $user == true )
+					$msg_arr = get_user_option( $msg_opt, $user_id );
+				else $msg_arr = get_option( $msg_opt );
+				if ( $msg_arr === false ) 
 					$msg_arr = array();
 				if ( ! in_array( $msg, $msg_arr ) )
 					$msg_arr[] = $msg;
-				update_user_option( $user_id, $msg_opt, $msg_arr );
+				if ( $user == true )
+					update_user_option( $user_id, $msg_opt, $msg_arr );
+				else update_option( $msg_opt, $msg_arr );
 			} elseif ( ! in_array( $msg, $this->log[$type] ) )
 				$this->log[$type][] = $msg;
 		}
@@ -48,10 +53,13 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 				$user_id = get_current_user_id();	// since wp 3.0
 				$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
-				if ( ( $msg_arr = get_user_option( $msg_opt, $user_id ) ) === false )
-					$msg_arr = $this->log[$type];
-				else $msg_arr = array_merge( $msg_arr, $this->log[$type] );
+				$msg_arr = array_merge( 
+					(array) get_option( $msg_opt ), 
+					(array) get_user_option( $msg_opt, $user_id ), 
+					$this->log[$type] 
+				);
 				$this->log[$type] = array();
+				delete_option( $msg_opt );
 				delete_user_option( $user_id, $msg_opt );
 				if ( ! empty( $msg_arr ) ) {
 					if ( $type == 'nag' ) {
@@ -76,16 +84,19 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 						</style>';
 					}
 					foreach ( $msg_arr as $msg ) {
-						switch ( $type ) {
+						if ( ! empty( $msg ) )
+							switch ( $type ) {
 							case 'nag' :
 								echo '<div class="update-nag ngfb-update-nag">', $msg, '</div>', "\n";
 								break;
 							case 'err' :
 								echo '<div class="error"><div style="float:left;"><p><b>', 
 									$this->ngfb->acronym_uc, ' Warning</b> :</p></div><p>', $msg, '</p></div>', "\n";
+								break;
 							case 'inf' :
 								echo '<div class="updated fade"><div style="float:left;"><p><b>', 
 									$this->ngfb->acronym_uc, ' Info</b> :</p></div><p>', $msg, '</p></div>', "\n";
+								break;
 						}
 					}
 				}

@@ -534,7 +534,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.6-dev5 =
+= Version 6.6-dev7 =
 
 *Free* and Pro Versions:
 
@@ -655,7 +655,7 @@ The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no long
 
 == Upgrade Notice ==
 
-= 6.6-dev5 =
+= 6.6-dev7 =
 
 Custom Settings box added to custom post types dynamically, Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/), improvements in image detection in the content, extended support for SEO plugins.
 

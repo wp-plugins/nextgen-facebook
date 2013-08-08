@@ -27,30 +27,19 @@ class ngfbUpdate {
 	public $update_info_option = '';
 	public $debug;
 
-	public function __construct($json_url, $file_path, $slug = '', $time_period = 12, $update_info_option = '', &$debug = '') {
-
-		// check for logging object with mark() and log() methods
-		$this->debug = method_exists( $debug, 'mark' ) && 
-			method_exists( $debug, 'log' ) ? $debug : $this;
-		$this->debug->mark();
-
-		if (empty($slug)) $slug = basename($file_path, '.php');
-		if (empty($update_info_option))	$update_info_option = 'external_updates-' . $slug;
-
-		$this->json_url = $json_url;
-		$this->file_path = $file_path;
-		$this->base_name = plugin_basename($file_path);
-		$this->slug = $slug;
-		$this->cron_hook = 'plugin_updates-' . $slug;
-		$this->time_period = $time_period;
+	public function __construct( &$ngfb_plugin ) {
+		$this->ngfb =& $ngfb_plugin;
+		$this->ngfb->debug->mark();
+		$this->json_url = $this->ngfb->urls['update'] . '?transaction=' . $this->ngfb->options['ngfb_pro_tid'];
+		$this->file_path = NGFB_FILEPATH;
+		$this->base_name = plugin_basename( $this->file_path );
+		$this->slug = $this->ngfb->slug;
+		$this->cron_hook = 'plugin_updates-' . $this->slug;
+		$this->time_period = $this->ngfb->update_hours;
 		$this->sched_name = 'every' . $this->time_period . 'hours';
-		$this->update_info_option = $update_info_option;
+		$this->update_info_option = 'external_updates-' . $this->slug;
 		$this->install_hooks();
 	}
-
-	public function mark() { return; }
-
-	public function log() { return; }
 
 	public function install_hooks() {
 		add_filter( 'plugins_api', array( &$this, 'inject_data' ), 10, 3 );
@@ -107,7 +96,7 @@ class ngfbUpdate {
 	}
 
 	public function check_for_updates() {
-		$option_data = get_site_option($this->update_info_option);
+		$option_data = get_site_option( $this->update_info_option );
 		if ( empty( $option_data ) ) {
 			$option_data = new StdClass;
 			$option_data->lastCheck = 0;
@@ -116,7 +105,7 @@ class ngfbUpdate {
 		}
 		$option_data->lastCheck = time();
 		$option_data->checkedVersion = $this->get_installed_version();
-		update_site_option($this->update_info_option, $option_data);
+		update_site_option( $this->update_info_option, $option_data );
 
 		$option_data->update = $this->get_update();
 		update_site_option( $this->update_info_option, $option_data );
@@ -126,8 +115,8 @@ class ngfbUpdate {
 		$plugin_data = $this->get_json(
 			array( 'checking_for_updates' => '1' )
 		);
-		if ($plugin_data == null) return null;
-		$plugin_data = ngfbPluginUpdate::from_plugin_data($plugin_data);
+		if ( $plugin_data == null ) return null;
+		$plugin_data = ngfbPluginUpdate::from_plugin_data( $plugin_data );
 		return $plugin_data;
 	}
 
@@ -145,8 +134,13 @@ class ngfbUpdate {
 		if ( ! is_wp_error( $result )
 			&& isset( $result['response']['code'] )
 			&& ( $result['response']['code'] == 200 )
-			&& ! empty( $result['body'] ) )
+			&& ! empty( $result['body'] ) ) {
+
+			if ( ! empty( $result['headers']['x-smp-error'] ) )
+				$this->ngfb->notices->err( json_decode( $result['body'] ), true, false );
+			else
 				$plugin_data = ngfbPluginData::from_json( $result['body'] );
+		}
 		return $plugin_data;
 	}
 

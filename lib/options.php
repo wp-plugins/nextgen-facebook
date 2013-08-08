@@ -312,7 +312,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					$url = $this->ngfb->util->get_admin_url( 'advanced' );
 					$this->ngfb->notices->nag( '<p>The ' . $this->ngfb->fullname . ' <em>Unique Transaction ID</em> option value is empty. 
 						In order for the plugin to authenticate itself for future updates,<br/><a href="' . $url . '">please enter 
-						the unique Transaction ID you received by email on the Advanced Settings page</a>.</p>' );
+						the Unique Transaction ID you received by email on the Advanced Settings page</a>.</p>' );
 				}
 
 			}
