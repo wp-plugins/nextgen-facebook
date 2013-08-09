@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.5.1
-Stable Tag: 6.5
+Stable Tag: 6.6
 
 Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
 
@@ -549,7 +549,7 @@ Pro Version:
 * **Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
 * Added support for the WordPress `&#91;gallery&#93;` shortcode to create Twitter Gallery Cards for WordPress image galleries.
 * Added support for the WordPress SEO by Yoast meta description templates.
-* Added support for the All in One SEO Pack home page title and description values.
+* Added support for the All in One SEO Pack custom home page title and description values.
 
 = Version 6.5 =
 
