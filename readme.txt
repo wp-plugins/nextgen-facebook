@@ -541,9 +541,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add an 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
 * Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
 * Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href of thumbnails, etc.
-* **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
 * Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
 * Fixed: Allowed underscores in twitter usernames.
+* **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
 
 Pro Version:
 
