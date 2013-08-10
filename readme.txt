@@ -1,7 +1,7 @@
 === NGFB Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -541,8 +541,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add an 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
 * Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
 * Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href of thumbnails, etc.
-* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
 * **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
+* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
+* Fixed: Allowed underscores in twitter usernames.
 
 Pro Version:
 
@@ -599,59 +600,6 @@ div.fb-share-button span {
 * Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
-= Version 6.2.1 =
-
-Work-around for WordPress Bug [#17916](http://core.trac.wordpress.org/ticket/17916):
-
-* Moved the `wp_register_style()` and `wp_register_script()` calls into `add_action()` methods.
-
-Performance Improvements:
-
-* Moved jQuery character counters, on the custom Post/Page settings, inline with input fields.
-* Added object caching to the plugin info extracted from the readme (version and notice info, etc.).
-* Changed the default object expiration time from 60 to 180 seconds.
-
-= Version 6.2 =
-
-* Added the 'Include on Static Homepage' option on the General settings page.
-* Added a tabbed layout for the Post/Page custom settings, General settings page, and Social Styles settings page.
-* Added links to the Facebook Debugger, Google Testing Tool, and Twitter Card Validator in the Post/Page custom settings.
-* Added a Google and Twitter Card description for the Post/Page custom settings (Pro version).
-* Added a Pinterest Image Caption, Tumblr Image and Video Caption to the Post/Page custom settings (Pro version).
-* Improved the character counter on the Post/Page custom settings (Pro version).
-* Added the `ngfb_topics` filter (Pro version).
-* Minimized all CSS stylesheets and JS scripts.
-
-= Version 6.1.1 =
-
-* Fixed: Added the missing NGFB admin stylesheet and javascript to the `post-new.php` page as well.
-* Updated the `cache/.htaccess` file to deny access for commonly interpreted filename extensions (.php, .pl, .cgi, and .shtml).
-* Removed the 'Google Search' character count for the custom Post / Page Description when the 'description' meta tag is unchecked.
-
-= Version 6.1 =
-
-The older stylesheet in `wp-contents/uploads/ngfb-social-buttons.css` is no longer used. Styling for social sharing buttons is now managed completely from the new Social Style settings page. Each type of button (content, shortcode, widget, etc.) has its own styling section. If you have customized the default stylesheet, please transfer your changes to this new settings page. The reason for splitting up the stylesheet this way is to allow for 'Social Styling Presets' in future versions.
-
-* Included the Facebook *Language / Locale* option on the General settings page, and added the `og:locale` meta property tag.
-* Added a check for possible Open Graph / Twitter Card conflict with Yoast WordPress SEO and SEO Ultimate plugins.
-* Added a character counter for the Post / Page custom Description field (Pro version).
-* Added a custom *Video URL* field for Posts and Pages (Pro version).
-* Added a custom *Tweet* field for Posts and Pages (Pro version).
-* Added a stylesheet settings page with sections for each button style (excerpt, content, shortcode, etc.).
-* Added the *Default Author*', *Default Author on Indexes*, and *Default Author on Search Results* options for Google.
-* Upgraded settings are now saved back to the database automatically, without having to save them manually from a plugin settings page.
-* Moved most informational text on the settings pages to popup tooltips.
-
-= Version 6.0 =
-
-* Added a 'StyleSheet' editor on the Social Sharing settings page. 
-* Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
-* Added 'Twitter @username' to the user's profile page (in addition to the existing 'Facebook URL' and 'Google+ URL' user profile fields).
-* Added sanitation code for custom user profile field values (remove HTML, URLs must be URLs, etc.).
-* Added licence files for the *Free* and Pro versions in the nextgen-facebook/licence/ sub-folder.
-* Changed the 'Image Size Name' option to 'Image Dimensions' with width, height, and crop values. This avoids the use of third party plugins to manage image size names.
-* Added a new 'ngfb_shortcode' filter (Pro version) to modify shortcode attributes based on a content string (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for information on shortcodes and filters).
-
 == Upgrade Notice ==
 
 = 6.6 =
@@ -673,24 +621,4 @@ Added the 'Add via @username' option in the Twitter settings, and the (now depre
 = 6.2.2 =
 
 Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format. Added missing 'none' option to Default Author selects.
-
-= 6.2.1 =
-
-Work-around for WordPress Bug #17916 and small performance improvements for admin settings pages.
-
-= 6.2 =
-
-This version adds a tabbed layout to the General, Social Styles, and custom Post/Page settings. Also added links to various validation tools in the Post/Page settings, plus a few extra customization fields for the Pro version. 
-
-= 6.1.1 =
-
-Minor fix to add the missing NGFB admin stylesheet and javascript to the `post-new.php` page as well.
-
-= 6.1 =
-
-Several new features and improvements, including a more streamlined look for the settings pages. Note that the wp-contents/uploads/ngfb-social-buttons.css stylesheet has been replaced and is no longer used (see Changelog).
-
-= 6.0 =
-
-Added a 'StyleSheet' editor on the Social Sharing settings page. Added *complete* support for Twitter Cards in the Pro version, including Gallery, Player, Photo, Large Image Summary, and Summary Cards.
 
