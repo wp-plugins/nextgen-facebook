@@ -336,7 +336,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 						// twitter-style usernames (a-z0-9, max 15 chars)
 						case 'tc_site' :
-							$opts[$key] = substr( preg_replace( '/[^a-z0-9]/', '', 
+							$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
 								strtolower( $opts[$key] ) ), 0, 15 );
 							if ( ! empty( $opts[$key] ) ) 
 								$opts[$key] = '@' . $opts[$key];
