@@ -172,10 +172,13 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 					target="_blank">Google Structured Data Testing Tool</a>' ) .
 					'<td><p>Check that Google can correctly parse your structured data markup and display it in search results.</p></td>';
 	
+				$tools[] = $this->ngfb->util->th( '<a href="http://developers.pinterest.com/developer/rich_pins/validator/?link=' . urlencode( get_permalink( $post->ID ) ) . '" 
+					target="_blank">Pinterest Rich Pin Validator</a>' ) .
+					'<td><p>Validate the Rich Pins meta tags and apply to get them on Pinterest.</p></td>';
+	
 				$tools[] = $this->ngfb->util->th( '<a href="https://dev.twitter.com/docs/cards/validation/validator" 
 					target="_blank">Twitter Card Validator</a>' ) .
-					'<td><p>The Twitter Card Validator does not accept query arguments. 
-					Copy-paste the following URL into the validation input field.</p>' . 
+					'<td><p>The Twitter Card Validator does not accept query arguments. Copy-paste the following URL into the validation input field.</p>' . 
 					ngfbForm::get_text( get_permalink( $post->ID ), 'wide' ) . '</td>';
 
 			} else $tools[] = '<td><p class="centered">The ' . $post_type_name . ' must be published with public visibility to access the validation tools.</p></td>';
