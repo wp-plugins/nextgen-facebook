@@ -31,7 +31,8 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		public function inf( $msg = '', $store = false, $user = true ) { $this->log( 'inf', $msg, $store, $user ); }
 
 		public function log( $type, $msg = '', $store = false, $user = true ) {
-			if ( empty( $msg ) ) return;
+			if ( empty( $msg ) ) 
+				return;
 			if ( $store == true ) {
 				$user_id = get_current_user_id();	// since wp 3.0
 				$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
@@ -49,6 +50,21 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 				$this->log[$type][] = $msg;
 		}
 
+		public function trunc( $type ) {
+			$user_id = get_current_user_id();	// since wp 3.0
+			$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
+			// delete doesn't always work, so set an empty value first
+			if ( get_option( $msg_opt ) ) {
+				update_option( $msg_opt, array() );
+				delete_option( $msg_opt );
+			}
+			if ( get_user_option( $msg_opt, $user_id ) ) {
+				update_user_option( $user_id, $msg_opt, array() );
+				delete_user_option( $user_id, $msg_opt );
+			}
+			$this->log[$type] = array();
+		}
+
 		public function admin_notices() {
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 				$user_id = get_current_user_id();	// since wp 3.0
@@ -58,9 +74,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 					(array) get_user_option( $msg_opt, $user_id ), 
 					$this->log[$type] 
 				);
-				$this->log[$type] = array();
-				delete_option( $msg_opt );
-				delete_user_option( $user_id, $msg_opt );
+				$this->trunc( $type );
 				if ( ! empty( $msg_arr ) ) {
 					if ( $type == 'nag' ) {
 						echo '

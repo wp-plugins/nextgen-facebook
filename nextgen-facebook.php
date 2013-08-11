@@ -142,10 +142,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( empty( $options['ngfb_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
 				delete_option( 'external_updates-nextgen-facebook' );
+				// remove all "stored" admin notices
 				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 					$msg_opt = 'ngfb_notices_' . $type;
+					delete_option( $msg_opt );
 					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
-						delete_user_option( $user->ID, $msg_opt, true );
+						delete_user_option( $user->ID, $msg_opt );
 				}
 				// remove metabox preferences from all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
