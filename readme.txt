@@ -535,6 +535,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.7-dev1 =
+
+* Added check for conflicting Open Graph features from the Wordbooker plugin.
+
 = Version 6.6 =
 
 *Free* and Pro Versions:
@@ -602,6 +606,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= Version 6.7-dev1 =
+
+Added checks for conflicting Open Graph features from other plugins.
 
 = 6.6 =
 
