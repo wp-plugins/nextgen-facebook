@@ -27,12 +27,14 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 						background: url("' . $this->ngfb->util->get_cache_url( 
 							'http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ) . '") no-repeat transparent; 
 						width:110px;
-						margin:0 0 10px 0;
+						margin:5px 0 5px 0;
+					}
+					.badge input[type=radio] {
 					}
 					.badge-col-left { display:inline-block; float:left; margin-right:20px; }
 					.badge-col-right { display:inline-block; }
-					#badge-1 { height:60px; background-position:25px 0px; }
-					#badge-2 { height:30px; background-position:25px -100px; }
+					#badge-1 { height:20px; background-position:25px 0px; }
+					#badge-2 { height:20px; background-position:25px -100px; }
 					#badge-3 { height:20px; background-position:25px -200px; }
 					#badge-4 { height:60px; background-position:25px -300px; }
 					#badge-5 { height:30px; background-position:25px -400px; }
@@ -40,21 +42,21 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 				</style>
 			';
 
-			foreach ( range( 1, 6 ) as $i ) {
-				switch ( $i ) {
-					case '1' : $badge .= '<div class="badge-col-left">' . "\n"; break;
-					case '4' : $badge .= '</div><div class="badge-col-right">' . "\n"; break;
-				}
+			$badge .= '<div class="badge-col-left">';
+			foreach ( array( 1, 2, 3, 6 ) as $i ) {
 				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
-				$badge .= '<input type="radio" 
-					name="' . $this->ngfb->admin->form->options_name . '[stumble_badge]" 
-					value="' . $i . '" ' . 
-					checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
+				$badge .= '<input type="radio" name="' . $this->ngfb->admin->form->options_name . '[stumble_badge]" 
+					value="' . $i . '" ' .  checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
 				$badge .= '</div>' . "\n";
-				switch ( $i ) { 
-					case '6' : $badge .= '</div>' . "\n"; break;
-				}
 			}
+			$badge .= '</div><div class="badge-col-right">';
+			foreach ( array( 4, 5 ) as $i ) {
+				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
+				$badge .= '<input type="radio" name="' . $this->ngfb->admin->form->options_name . '[stumble_badge]" 
+					value="' . $i . '" ' .  checked( $i, $this->ngfb->options['stumble_badge'], false ) . '/>' . "\n";
+				$badge .= '</div>' . "\n";
+			}
+			$badge .= '</div>';
 
 			return array(
 				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 

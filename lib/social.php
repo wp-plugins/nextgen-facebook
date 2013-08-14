@@ -118,10 +118,19 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
 				}
 			}
-			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) &&
-				$this->ngfb->options[ 'buttons_location_' . $type ] == "top" )
-					$text = $this->ngfb->debug->get_html() . $html . $text;
-			else $text .= $this->ngfb->debug->get_html() . $html;
+			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) ) {
+				switch ( $this->ngfb->options[ 'buttons_location_' . $type ] ) {
+					case 'top' : 
+						$text = $this->ngfb->debug->get_html() . $html . $text; 
+						break;
+					case 'bottom' : 
+						$text = $this->ngfb->debug->get_html() . $text . $html; 
+						break;
+					case 'both' : 
+						$text = $this->ngfb->debug->get_html() . $html . $text . $html; 
+						break;
+				}
+			}
 			return $text;
 		}
 

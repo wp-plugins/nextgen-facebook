@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '63';	// increment when adding/removing default options
+		public $opts_ver = '64';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -50,6 +50,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
 			'buttons_on_front' => 1,
+			'buttons_add_to_post' => 1,
+			'buttons_add_to_page' => 1,
+			'buttons_add_to_attachment' => 1,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
 			'buttons_link_css' => 0,
@@ -254,16 +257,18 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function add_to_post_types( &$opts = array() ) {
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
-				$key = 'ngfb_add_to_' . $post_type->name;
-				if ( ! array_key_exists( $key, $opts ) ) {
-					switch ( $post_type->name ) {
-						case 'shop_coupon' :
-							$opts[$key] = 0;
-							break;
-						default :
-							$opts[$key] = 1;
-							break;
+			foreach ( array( 'buttons_add_to', 'ngfb_add_to' ) as $opt_prefix ) {
+				foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
+					$key = $opt_prefix . '_' . $post_type->name;
+					if ( ! array_key_exists( $key, $opts ) ) {
+						switch ( $post_type->name ) {
+							case 'shop_coupon' :
+								$opts[$key] = 0;
+								break;
+							default :
+								$opts[$key] = 1;
+								break;
+						}
 					}
 				}
 			}

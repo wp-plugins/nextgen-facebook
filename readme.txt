@@ -5,7 +5,7 @@ Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share,
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
-Tested Up To: 3.5.1
+Tested Up To: 3.6
 Stable Tag: 6.6
 
 Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.

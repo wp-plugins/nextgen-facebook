@@ -33,84 +33,58 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_plugin() {
-
 			echo '<table class="ngfb-settings"><tr>';
-
 			foreach ( $this->get_pre_plugin() as $row ) echo '<tr>' . $row . '</tr>';
-
 			echo $this->ngfb->util->th( 'Preserve Settings on Uninstall', 'highlight', null, '
 				Check this option if you would like to preserve all ' . $this->ngfb->fullname . '
-				settings when you <em>uninstall</em> the plugin (default is unchecked).
-				' ); 
+				settings when you <em>uninstall</em> the plugin (default is unchecked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_preserve' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Reset Settings on Activate', null, null, '
 				Check this option if you would like to reset the ' . $this->ngfb->fullname . '
 				settings to their default values when you <em>deactivate</em>, and then 
-				<em>re-activate</em> the plugin (default is unchecked).
-				' ); 
+				<em>re-activate</em> the plugin (default is unchecked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_reset' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Add Hidden Debug Info', null, null, '
-				Include hidden debug information with the Open Graph meta tags (default is unchecked).
-				' ); 
+				Include hidden debug information with the Open Graph meta tags (default is unchecked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_debug' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Enable Shortcode(s)', 'highlight', null, '
-				Enable the ' . $this->ngfb->fullname . ' content shortcode(s) (default is unchecked).
-				' ); 
+				Enable the ' . $this->ngfb->fullname . ' content shortcode(s) (default is unchecked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_enable_shortcode' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Ignore Small Images', 'highlight', null, '
 				' . $this->ngfb->fullname . ' will attempt to include images from img html tags it finds in the content.
 				The img html tags must have a width and height attribute, and their size must be equal to or larger than the 
 				<em>Image Dimensions</em> you\'ve chosen (on the General settings page). 
 				You can uncheck this option to include smaller images from the content, 
 				or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
-				for additional solutions.
-				' ); 
+				for additional solutions.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_skip_small_img' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Apply Content Filters', null, null, '
 				Apply the standard WordPress filters to render the content (default is checked).
 				This renders all shortcodes, and allows ' . $this->ngfb->fullname . ' to detect images and 
-				embedded videos that may be provided by these shortcodes.
-				' ); 
+				embedded videos that may be provided by these shortcodes.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_content' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Apply Excerpt Filters', null, null, '
 				Apply the standard WordPress filters to render the excerpt (default is unchecked).
-				Check this option if you use shortcodes in your excerpt, for example.
-				' ); 
+				Check this option if you use shortcodes in your excerpt, for example.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ), '</td>';
-
 			echo '</tr><tr>';
-
 			echo $this->ngfb->util->th( 'Add Custom Settings To', null, null, '
 				The Custom Settings metabox, which allows you to enter custom Open Graph values 
-				(among other options), is available on the Post, Page, Media and custom post type 
-				admin webpages by default. 
+				(among other options), is available on the Post, Page, Media and most custom post 
+				type admin webpages by default. 
 				If your theme (or another plugin) supports additional custom post types, 
-				and you would like to exclude the Custom Settings metabox from these admin webpages, 
-				uncheck the appropriate options here.
-			' );
+				and you would like to <em>exclude</em> the Custom Settings metabox from these 
+				admin webpages, uncheck the appropriate options here.' );
 			echo '<td>';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
 				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'ngfb_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
 			echo '</td>';
-
 			echo '</tr>';
 			echo '</table>';
 		}
