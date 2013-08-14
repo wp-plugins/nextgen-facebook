@@ -607,7 +607,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= Version 6.7-dev1 =
+= 6.7-dev1 =
 
 Added checks for conflicting Open Graph features from other plugins.
 
