@@ -131,6 +131,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 						class="twitter-share-button"
 						lang="'. $lang . '"
 						data-url="' . $atts['url'] . '" 
+						data-counturl="' . $long_url . '" 
 						data-text="' . $atts['caption'] . '" 
 						data-via="' . $atts['via'] . '" 
 						data-count="' . $this->ngfb->options['twitter_count'] . '" 

@@ -537,6 +537,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added check for conflicting Open Graph features from the Wordbooker plugin.
 * Added option to include social buttons on both top and bottom of content / excerpt.
+* Added the `data-counturl` parameter to improve counter tracking on Twitter.
 * Fixed: Added check for `curl_init` before creating the Google URL shortening class object (which uses `curl_init`).
 
 = Version 6.6 =
