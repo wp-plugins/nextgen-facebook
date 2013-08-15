@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
-			if ( ! function_exists('curl_init') || 
+			if ( $this->ngfb->is_avail['curl'] == false || 
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $want_this == 'url' ? $url : '';
 

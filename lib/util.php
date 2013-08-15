@@ -28,7 +28,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		private function setup_vars() {
-			if ( class_exists( 'ngfbGoogl' ) ) {
+			if ( $this->ngfb->is_avail['curl'] == true && class_exists( 'ngfbGoogl' ) ) {
 				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? 
 					'' : $this->ngfb->options['ngfb_googl_api_key'];
 				$this->goo = new ngfbGoogl( $api_key, $this->ngfb->debug );
@@ -144,7 +144,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			// return original URL if curl not installed or disabled
 			// $shorten can be 'true' or '1', so test with empty()
-			if ( ! function_exists( 'curl_init' ) || ! class_exists( 'ngfbGoogl' ) ||
+			if ( $this->ngfb->is_avail['curl'] == false || ! class_exists( 'ngfbGoogl' ) ||
 				empty( $shorten ) || ( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $url;
 

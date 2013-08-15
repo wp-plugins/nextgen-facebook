@@ -533,9 +533,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7-dev1 =
+= Version 6.7-dev2 =
 
 * Added check for conflicting Open Graph features from the Wordbooker plugin.
+* Added option to include social buttons on both top and bottom of content / excerpt.
+* Fixed: Added check for `curl_init` before creating the Google URL shortening class object (which uses `curl_init`).
 
 = Version 6.6 =
 
@@ -605,9 +607,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7-dev1 =
+= 6.7-dev2 =
 
-Added checks for conflicting Open Graph features from other plugins.
+Added checks for conflicting Open Graph features from other plugins, more options for social button locations.
 
 = 6.6 =
 

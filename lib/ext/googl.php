@@ -80,6 +80,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 		}
 	
 		public function expand($url, $extended = false) {
+
 			curl_setopt($this->ch, CURLOPT_HTTPGET, true);
 			curl_setopt($this->ch, CURLOPT_URL, $this->target.'shortUrl='.$url);
 			
@@ -90,6 +91,7 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 		}
 	
 		function __destruct() {
+
 			curl_close($this->ch);
 			$this->ch = null;
 		}
