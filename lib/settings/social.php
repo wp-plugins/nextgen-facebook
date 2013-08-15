@@ -85,6 +85,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				If a static Post or Page has been chosen for the homepage, add the following (enabled) 
 				social sharing buttons to the static homepage as well (default is checked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
+			/*
 			echo '</tr><tr>';
 			echo $this->ngfb->util->th( 'Include on Post Types', null, null, '
 				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
@@ -94,6 +95,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
 				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'buttons_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
 			echo '</td>';
+			*/
 			echo '</tr><tr>';
 			echo $this->ngfb->util->th( 'Location in Content Text', null, null, '
 				Individual social sharing button(s) must also be enabled below.' ); 
