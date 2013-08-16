@@ -236,9 +236,15 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function is_disabled() {
 			global $post;
-			if ( ! empty( $post ) && $this->ngfb->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
-				$this->ngfb->debug->log( 'found custom meta buttons disabled = true' );
-				return true;
+			if ( ! empty( $post ) ) {
+				$post_type = $post->post_type;
+				if ( $this->ngfb->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
+					$this->ngfb->debug->log( 'found custom meta buttons disabled = true' );
+					return true;
+				} elseif ( ! empty( $post_type ) && empty( $this->ngfb->options['buttons_add_to_' . $post_type] ) ) {
+					$this->ngfb->debug->log( 'social buttons disabled for post type ' . $post_type );
+					return true;
+				}
 			}
 			return false;
 		}

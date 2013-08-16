@@ -213,10 +213,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				} elseif ( is_author() ) { 
 			
 					$this->ngfb->debug->log( 'is_author() = true' );
-					the_post();
-					$desc = get_the_author_meta( 'description' );
+					$desc = get_the_author_meta( 'description', $post->post_author );
 					if ( empty( $desc ) )
-						$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name' ) );
+						$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name', $post->post_author ) );
 			
 				} elseif ( is_tag() ) {
 			

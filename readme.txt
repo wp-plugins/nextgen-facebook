@@ -533,12 +533,20 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7-dev2 =
+= Version 6.7-dev4 =
+
+*Free* and Pro Versions:
 
 * Added check for conflicting Open Graph features from the Wordbooker plugin.
 * Added option to include social buttons on both top and bottom of content / excerpt.
 * Added the `data-counturl` parameter to improve counter tracking on Twitter.
-* Fixed: Added check for `curl_init` before creating the Google URL shortening class object (which uses `curl_init`).
+* Moved the 'Add Custom Settings To' option to the Pro version (since it's only available in the Pro version anyway).
+* Fixed: Added check for `curl_init` before creating the Google URL shortening class object.
+* Fixed: Used an alternate method, instead of using `the_post()` (which advances The Loop), to get information for author archives.
+
+Pro Version:
+
+* Added option to include / exclude social buttons on posts, pages, attachments, and custom post types.
 
 = Version 6.6 =
 
@@ -608,9 +616,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7-dev2 =
+= 6.7-dev4 =
 
-Added checks for conflicting Open Graph features from other plugins, more options for social button locations.
+Added checks for conflicting Open Graph features from other plugins, more options for social button locations (include/exclude by post type, and add to both top and bottom of content/excerpt).
 
 = 6.6 =
 

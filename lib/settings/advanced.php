@@ -73,19 +73,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				Apply the standard WordPress filters to render the excerpt (default is unchecked).
 				Check this option if you use shortcodes in your excerpt, for example.' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'ngfb_filter_excerpt' ), '</td>';
-			echo '</tr><tr>';
-			echo $this->ngfb->util->th( 'Add Custom Settings To', null, null, '
-				The Custom Settings metabox, which allows you to enter custom Open Graph values 
-				(among other options), is available on the Post, Page, Media and most custom post 
-				type admin webpages by default. 
-				If your theme (or another plugin) supports additional custom post types, 
-				and you would like to <em>exclude</em> the Custom Settings metabox from these 
-				admin webpages, uncheck the appropriate options here.' );
-			echo '<td>';
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'ngfb_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
-			echo '</td>';
 			echo '</tr>';
+			foreach ( $this->get_more_plugin() as $row ) echo '<tr>' . $row . '</tr>';
 			echo '</table>';
 		}
 
@@ -101,9 +90,27 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			);
 		}
 
+		protected function get_more_plugin() {
+			$add_to_checkboxes = '';
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+				$add_to_checkboxes .= $this->ngfb->admin->form->get_hidden( 'ngfb_add_to_' . $post_type->name ) . ' ' . $post_type->label . '<br/>';
+
+			return array(
+				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
+
+				$this->ngfb->util->th( 'Add Custom Settings To', null, null, '
+				The Custom Settings metabox, which allows you to enter custom Open Graph values 
+				(among other options), is available on the Post, Page, Media and most custom post 
+				type admin webpages by default. 
+				If your theme (or another plugin) supports additional custom post types, 
+				and you would like to <em>exclude</em> the Custom Settings metabox from these 
+				admin webpages, uncheck the appropriate options here.' ) . 
+				'<td class="blank" style="padding:4px;">' . $add_to_checkboxes . '</td>',
+			);
+		}
+
 		public function show_metabox_cache() {
 			echo '<table class="ngfb-settings"><tr>';
-
 			echo $this->ngfb->util->th( 'Object Cache Expiry', null, null, '
 				' . $this->ngfb->fullname . ' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
 				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
@@ -114,11 +121,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				1 second (such a low value is not recommended).
 				' );
 			echo '<td nowrap>', $this->ngfb->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ), ' Seconds</td>';
-			
 			echo '</tr>';
-
 			foreach ( $this->get_more_cache() as $row ) echo '<tr>' . $row . '</tr>';
-
 			echo '</table>';
 		}
 

@@ -74,6 +74,16 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				(<a href="<?php echo get_admin_url( null, 'widgets.php' ); ?>">see the widgets admin webpage</a>).</p></td>
 			</tr><tr>
 			<?php
+			echo $this->ngfb->util->th( 'Location in Content Text', null, null, '
+				Individual social sharing button(s) must also be enabled below.' ); 
+			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_content', 
+				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
+			echo '</tr><tr>';
+			echo $this->ngfb->util->th( 'Location in Excerpt Text', null, null, '
+				Individual social sharing button(s) must also be enabled below.' ); 
+			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', 
+				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
+			echo '</tr><tr>';
 			echo $this->ngfb->util->th( 'Include on Index Webpages', null, null, '
 				Add the following (enabled) social sharing buttons to each entry of an index webpage 
 				(non-static homepage, category, archive, etc.). 
@@ -85,31 +95,26 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				If a static Post or Page has been chosen for the homepage, add the following (enabled) 
 				social sharing buttons to the static homepage as well (default is checked).' ); 
 			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
-			/*
-			echo '</tr><tr>';
-			echo $this->ngfb->util->th( 'Include on Post Types', null, null, '
-				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
-				If your theme (or another plugin) supports additional custom post types, and you would like to <em>exclude</em> the 
-				social sharing buttons from these webpages, uncheck the appropriate options here.' );
-			echo '<td>';
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				echo '<p>', $this->ngfb->admin->form->get_checkbox( 'buttons_add_to_' . $post_type->name ), ' ', $post_type->label, '</p>';
-			echo '</td>';
-			*/
-			echo '</tr><tr>';
-			echo $this->ngfb->util->th( 'Location in Content Text', null, null, '
-				Individual social sharing button(s) must also be enabled below.' ); 
-			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_content', 
-				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both' ) ), '</td>';
-			echo '</tr><tr>';
-			echo $this->ngfb->util->th( 'Location in Excerpt Text', null, null, '
-				Individual social sharing button(s) must also be enabled below.' ); 
-			echo '<td>', $this->ngfb->admin->form->get_select( 'buttons_location_the_excerpt', 
-				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both' ) ), '</td>';
 			echo '</tr>';
+			foreach ( $this->get_more_social() as $row ) echo '<tr>' . $row . '</tr>';
 			echo '</table>';
 		}
 
+		protected function get_more_social() {
+			$add_to_checkboxes = '';
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+				$add_to_checkboxes .= $this->ngfb->admin->form->get_hidden( 'buttons_add_to_' . $post_type->name ) . ' ' . $post_type->label . '<br/>';
+
+			return array(
+				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
+
+				$this->ngfb->util->th( 'Include on Post Types', null, null, '
+				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
+				If your theme (or another plugin) supports additional custom post types, and you would like to <em>exclude</em> the 
+				social sharing buttons from these webpages, uncheck the appropriate options here.' ) .
+				'<td class="blank" style="padding:4px;">' . $add_to_checkboxes . '</td>',
+			);
+		}
 	}
 }
 
