@@ -143,8 +143,9 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 		}
 		
 		public function get_js( $pos = 'id' ) {
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			return '<script type="text/javascript" id="twitter-script-' . $pos . '">
-				ngfb_header_js( "twitter-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( 'https://platform.twitter.com/widgets.js' ) . '" );
+				ngfb_header_js( "twitter-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'platform.twitter.com/widgets.js' ) . '" );
 			</script>' . "\n";
 		}
 

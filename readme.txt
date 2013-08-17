@@ -537,12 +537,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 *Free* and Pro Versions:
 
-* Added check for conflicting Open Graph features from the Wordbooker plugin.
-* Added option to include social buttons on both top and bottom of content / excerpt.
+* Added a check for conflicting Open Graph features from the Wordbooker plugin.
+* Added an option to include social buttons on both top and bottom of content / excerpt.
 * Added the `data-counturl` parameter to improve counter tracking on Twitter.
 * Moved the 'Add Custom Settings To' option to the Pro version (since it's only available in the Pro version anyway).
 * Fixed: Added check for `curl_init` before creating the Google URL shortening class object.
-* Fixed: Used an alternate method, instead of using `the_post()` (which advances The Loop), to get information for author archives.
+* Fixed: Used `$post` instead of `the_post()` (which advances The Loop), to get information for author archives.
+* Fixed: Used matching http/https URLs (instead of always using https) for social button javascripts.
 
 Pro Version:
 

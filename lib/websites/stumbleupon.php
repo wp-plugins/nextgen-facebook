@@ -103,8 +103,9 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 		}
 
 		public function get_js( $pos = 'id' ) {
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			return '<script type="text/javascript" id="stumbleupon-script-' . $pos . '">
-				ngfb_header_js( "stumbleupon-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
+				ngfb_header_js( "stumbleupon-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
 			</script>' . "\n";
 		}
 

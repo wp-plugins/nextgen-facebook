@@ -300,11 +300,12 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 		
 		public function get_js( $pos = 'id' ) {
 			$html = '';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
 			$app_id = empty( $this->ngfb->options['fb_app_id'] ) ? '' : $this->ngfb->options['fb_app_id'];
 			$html .= '<script type="text/javascript" id="facebook-script-' . $pos . '">
 				ngfb_header_js( "facebook-script-' . $pos . '", "' . 
-					$this->ngfb->util->get_cache_url( 'https://connect.facebook.net/' . 
+					$this->ngfb->util->get_cache_url( $prot . 'connect.facebook.net/' . 
 					$lang . '/all.js#xfbml=1&appId=' . $app_id ) . '" );
 			</script>' . "\n";
 			return $html;
