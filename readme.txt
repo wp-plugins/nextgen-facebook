@@ -533,7 +533,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7-dev4 =
+= Version 6.7 =
 
 *Free* and Pro Versions:
 
@@ -617,9 +617,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7-dev4 =
+= 6.7 =
 
-Added checks for conflicting Open Graph features from other plugins, more options for social button locations (include/exclude by post type, and add to both top and bottom of content/excerpt).
+Added checks for conflicting Open Graph features from other plugin(s), more options for social button locations (include/exclude by post type, and add to both top and bottom of content/excerpt).
 
 = 6.6 =
 
