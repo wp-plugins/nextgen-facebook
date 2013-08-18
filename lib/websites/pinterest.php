@@ -70,6 +70,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			global $post; 
 			$html = '';
 			$query = '';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['pin_img_size'];
@@ -121,10 +122,10 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '
 				<!-- Pinterest Button -->
 				<div ' . $this->ngfb->social->get_css( 'pinterest', $atts ) . '><a 
-					href="http://pinterest.com/pin/create/button/?' . $query . '" 
+					href="' . $prot . 'pinterest.com/pin/create/button/?' . $query . '" 
 					class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
 					title="Share on Pinterest"><img border="0" alt="Pin It"
-					src="' . $this->ngfb->util->get_cache_url( 'https://assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
+					src="' . $this->ngfb->util->get_cache_url( $prot . 'assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
 			';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;

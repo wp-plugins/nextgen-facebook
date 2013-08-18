@@ -20,12 +20,13 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 		}
 
 		public function get_rows() {
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$badge = '
 				<style type="text/css">
 					.badge { 
 						display:block;
 						background: url("' . $this->ngfb->util->get_cache_url( 
-							'http://b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ) . '") no-repeat transparent; 
+							$prot . 'b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ) . '") no-repeat transparent; 
 						width:110px;
 						margin:5px 0 5px 0;
 					}
@@ -105,7 +106,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			return '<script type="text/javascript" id="stumbleupon-script-' . $pos . '">
-				ngfb_header_js( "stumbleupon-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'https://platform.stumbleupon.com/1/widgets.js' ) . '" );
+				ngfb_header_js( "stumbleupon-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'platform.stumbleupon.com/1/widgets.js' ) . '" );
 			</script>' . "\n";
 		}
 

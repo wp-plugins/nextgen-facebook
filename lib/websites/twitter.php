@@ -102,6 +102,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_html( $atts = array() ) {
 			global $post; 
 			$html = '';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			if ( empty( $atts['url'] ) ) 
 				$atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
@@ -127,7 +128,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				<!-- Twitter Button -->
 				<!-- url = ' . $long_url . ' -->
 				<div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '>
-					<a href="https://twitter.com/share" 
+					<a href="' . $prot . 'twitter.com/share" 
 						class="twitter-share-button"
 						lang="'. $lang . '"
 						data-url="' . $atts['url'] . '" 

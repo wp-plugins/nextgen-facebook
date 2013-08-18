@@ -533,6 +533,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.7.1 =
+
+* Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
+
 = Version 6.7 =
 
 *Free* and Pro Versions:
@@ -543,7 +547,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Moved the 'Add Custom Settings To' option to the Pro version (since it's only available in the Pro version anyway).
 * Fixed: Added check for `curl_init` before creating the Google URL shortening class object.
 * Fixed: Used `$post` instead of `the_post()` (which advances The Loop), to get information for author archives.
-* Fixed: Used matching http/https URLs (instead of always using https) for social button javascripts.
+* Fixed: Used matching http/https protocol (instead of always using https) for social button javascripts.
 
 Pro Version:
 
@@ -616,6 +620,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.7.1 =
+
+Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
 
 = 6.7 =
 
