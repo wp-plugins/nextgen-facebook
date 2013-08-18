@@ -212,13 +212,15 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. Plea
 
 = Q. Why doesn't the Twitter count increase? =
 
-Your website must allow the HEAD HTTP request. Some security plugins disable HEAD requests, which prevents the Twitter counter from incrementing correctly. At the Linux shell prompt, you can use the following command to verify if your website blocks HEAD requests. If the command returns '200 OK', then your website allows HEAD requests. Any other return code means the request was blocked. The second example shows a request that was blocked because of curl's default user agent identification string. Replace "surniaulula.com", used in this example, by the URL to your website.
+Your website must allow the HEAD HTTP request. Some security plugins (like BulletProof Security, for example) disable HEAD requests, which prevents the Twitter counter from incrementing correctly. 
+
+At the Linux shell prompt, you can use the following command to verify if your website allows HEAD requests. If the command returns '200 OK', then your website allows HEAD requests. Any other return code means the request was blocked or redirected. The second example shows a request that was blocked because of curl's default user agent identification string. Replace "http://surniaulula.com/" used in this example by the URL to your website.
 
 `
-$ curl -I -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0" http://surniaulula.com/ 2>&1 | grep ^HTTP
+$ curl -I -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0" http://surniaulula.com/ 2>&1 | egrep '^(HTTP|Location)'
 HTTP/1.1 200 OK
 
-$ curl -I http://surniaulula.com/ 2>&1 | grep ^HTTP
+$ curl -I http://surniaulula.com/ 2>&1 | egrep '^(HTTP|Location)'
 HTTP/1.1 403 Forbidden
 `
 
