@@ -106,6 +106,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '';
+			$placeholder = htmlentities( $placeholder );
 			if ( ! empty( $len ) && ! empty( $id ) ) {
 				$html .= '<script type="text/javascript">
 						jQuery(document).ready(function(){
@@ -119,7 +120,10 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ) . 
-				' value="' . esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" />' . "\n";
+				' value="' . esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ) . '" ' .
+				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder . '\';"' .
+				' onBlur="if ( this.value == \''. $placeholder . '\' ) this.value = \'\';"' .
+				'/>' . "\n";
 			return $html;
 		}
 
@@ -140,6 +144,8 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ) . 
 				( empty( $len ) && empty( $class ) ? '' : ' rows="'.round($len / 100).'"' ) . 
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ) . 
+				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder . '\';"' .
+				' onBlur="if ( this.value == \''. $placeholder . '\' ) this.value = \'\';"' .
 				'>' . esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ) .
 				'</textarea>' . "\n";
 			return $html;
