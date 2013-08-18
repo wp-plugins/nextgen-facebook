@@ -210,6 +210,18 @@ By default, NGFB will use the excerpt for the Open Graph description value. If a
 
 Your website must be 'authorized' by Twitter for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
 
+= Q. Why doesn't the Twitter count increase? =
+
+Your website must allow the HEAD HTTP request. Some security plugins disable HEAD requests, which prevents the Twitter counter from incrementing correctly. At the Linux shell prompt, you can use the following command to verify if your website blocks HEAD requests. If the command returns '200 OK', then your website allows HEAD requests. Any other return code means the request was blocked. The second example shows a request that was blocked because of curl's default user agent identification string. Replace "surniaulula.com", used in this example, by the URL to your website.
+
+`
+$ curl -I -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:23.0) Gecko/20100101 Firefox/23.0" http://surniaulula.com/ 2>&1 | grep ^HTTP
+HTTP/1.1 200 OK
+
+$ curl -I http://surniaulula.com/ 2>&1 | grep ^HTTP
+HTTP/1.1 403 Forbidden
+`
+
 = Q. Why doesn't Facebook show the correct Open Graph image? =
 
 The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
