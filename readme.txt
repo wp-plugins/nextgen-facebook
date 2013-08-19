@@ -547,6 +547,16 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.8-dev1 =
+
+*Free* and Pro Versions:
+
+* Added 'Recommend Author' to the Twitter social sharing options.
+
+Pro Version:
+
+* Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
+
 = Version 6.7.1 =
 
 * Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
@@ -634,6 +644,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.8-dev1 =
+
+Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options.
 
 = 6.7.1 =
 
