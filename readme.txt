@@ -549,7 +549,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.8-dev1 =
 
-* Added `onFocus()` and `onBlur()` events with default (editable) text for the Custom Settings input and textarea fields.
+*Free* and Pro Versions:
+
+* Added 'Recommend Author' to the Twitter social sharing options.
+
+Pro Version:
+
+* Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
 
 = Version 6.7.1 =
 
@@ -641,7 +647,7 @@ div.fb-share-button span {
 
 = 6.8-dev1 =
 
-Added default (editable) text for the Custom Settings input and textarea fields.
+Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options.
 
 = 6.7.1 =
 

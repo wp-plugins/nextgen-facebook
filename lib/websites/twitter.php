@@ -69,18 +69,31 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			$this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>';
 
 			if ( $this->ngfb->is_avail['aop'] == true )
-				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'twitter_via' ) . '</td>';
+				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short', null, 
+				'Append the Website\'s @username (entered on the ' .
+				$this->ngfb->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
+				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
+				'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_via' ) . '</td>';
 			else
-				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short' ) . '<td class="blank"></td>';
+				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short', null,
+				'Append the Website\'s @username (entered on the ' .
+				$this->ngfb->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
+				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
+				'<td class="blank"></td>';
 
-			$ret[] = $this->ngfb->util->th( 'Do Not Track', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>';
+			$ret[] = $this->ngfb->util->th( 'Recommend Author', 'short', null, 
+			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
+			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ) . 
+			'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_rel_author' ) . '</td>';
+
+			$ret[] = $this->ngfb->util->th( 'Do Not Track', 'short', null,
+			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ) . 
+			'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>';
 
 			$ret[] = $this->ngfb->util->th( 'Shorten URLs', 'short', null, '
-				Don\'t forget to enter a <em>Goo.gl Simple API Access Key</em> value on the 
-				<a href="' . $this->ngfb->util->get_admin_url( 'advanced' ) . '">Advanced settings page</a>.
-			' ) . '<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '</td>';
+				Don\'t forget to enter your <em>Goo.gl Simple API Access Key</em> value on the ' . 
+				$this->ngfb->util->get_admin_url( 'advanced', 'Advanced settings page' ) . '.' ) .
+				'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_shorten' ) . '</td>';
 
 			return $ret;
 		}
@@ -118,11 +131,14 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				$cap_len = $this->ngfb->util->tweet_max_len( $atts['url'] );
 				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
 			}
+			if ( empty( $atts['lang'] ) ) 
+				$atts['lang'] = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
 			if ( empty( $atts['via'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
 				$atts['via'] = preg_replace( '/^@/', '', $this->ngfb->options['tc_site'] );
-
-			$twitter_dnt = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
-			$lang = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
+			if ( empty( $atts['related'] ) && ! empty( $this->ngfb->options['twitter_rel_author'] ) && $use_post == true )
+				$atts['related'] = preg_replace( '/^@/', '', get_the_author_meta( NGFB_TWITTER_FIELD_ID, $post->author ) );
+			if ( ! array_key_exists( 'dnt', $atts ) ) 
+				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 
 			$html = '
 				<!-- Twitter Button -->
@@ -130,14 +146,16 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				<div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '>
 					<a href="' . $prot . 'twitter.com/share" 
 						class="twitter-share-button"
-						lang="'. $lang . '"
+						lang="'. $atts['lang'] . '"
 						data-url="' . $atts['url'] . '" 
 						data-counturl="' . $long_url . '" 
 						data-text="' . $atts['caption'] . '" 
 						data-via="' . $atts['via'] . '" 
+						data-related="' . $atts['related'] . '" 
+						data-hashtags="' . $atts['hashtags'] . '" 
 						data-count="' . $this->ngfb->options['twitter_count'] . '" 
 						data-size="' . $this->ngfb->options['twitter_size'] . '" 
-						data-dnt="' . $twitter_dnt . '">Tweet</a>
+						data-dnt="' . $atts['dnt'] . '">Tweet</a>
 				</div>' . "\n";
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '64';	// increment when adding/removing default options
+		public $opts_ver = '65';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -103,6 +103,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'twitter_via' => 1,
+			'twitter_rel_author' => 1,
 			'twitter_dnt' => 1,
 			'twitter_shorten' => 1,
 			'linkedin_on_the_excerpt' => 0,
