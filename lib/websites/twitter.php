@@ -123,20 +123,37 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			$long_url = $atts['url'];
 			$atts['url'] = $this->ngfb->util->get_short_url( $atts['url'], $this->ngfb->options['twitter_shorten'] );
 
-			if ( ! empty( $atts['tweet'] ) ) 
+			if ( array_key_exists( 'tweet', $atts ) )
 				$atts['caption'] = $atts['tweet'];
-			if ( empty( $atts['caption'] ) && $use_post == true ) 
-				$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'twitter_desc' );
-			if ( empty( $atts['caption'] ) ) {
-				$cap_len = $this->ngfb->util->tweet_max_len( $atts['url'] );
-				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
+
+			if ( ! array_key_exists( 'caption', $atts ) ) {
+				if ( $use_post == true ) 
+					$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'twitter_desc' );
+
+				if ( empty( $atts['caption'] ) ) {
+					$cap_len = $this->ngfb->util->tweet_max_len( $atts['url'] );
+					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
+				}
 			}
-			if ( empty( $atts['lang'] ) ) 
+
+			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
-			if ( empty( $atts['via'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
-				$atts['via'] = preg_replace( '/^@/', '', $this->ngfb->options['tc_site'] );
-			if ( empty( $atts['related'] ) && ! empty( $this->ngfb->options['twitter_rel_author'] ) && $use_post == true )
-				$atts['related'] = preg_replace( '/^@/', '', get_the_author_meta( NGFB_TWITTER_FIELD_ID, $post->author ) );
+
+			if ( ! array_key_exists( 'via', $atts ) ) {
+				if ( ! empty( $this->ngfb->options['twitter_via'] ) )
+					$atts['via'] = preg_replace( '/^@/', '', $this->ngfb->options['tc_site'] );
+			}
+
+			if ( ! array_key_exists( 'related', $atts ) ) {
+				if ( ! empty( $this->ngfb->options['twitter_rel_author'] ) && $use_post == true )
+					$atts['related'] = preg_replace( '/^@/', '', get_the_author_meta( NGFB_TWITTER_FIELD_ID, $post->author ) );
+				else
+					$atts['related'] = '';
+			}
+
+			if ( ! array_key_exists( 'hashtags', $atts ) )
+				$atts['hashtags'] = '';
+
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 
