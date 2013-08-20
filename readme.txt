@@ -547,7 +547,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.8-dev1 =
+= Version 6.7.2-dev2 =
 
 *Free* and Pro Versions:
 
@@ -556,6 +556,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 Pro Version:
 
 * Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
+* Fixed: Changed the WooCommerce `get_product()` function call for the global class method instead.
 
 = Version 6.7.1 =
 
@@ -645,9 +646,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.8-dev1 =
+= 6.7.2-dev2 =
 
-Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options.
+Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options, fixed WooCommerce function call.
 
 = 6.7.1 =
 
