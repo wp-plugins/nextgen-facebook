@@ -147,6 +147,9 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
+* <a href="diff-pro-free">What is the difference between the Pro and <em>Free</em> versions?</a>
+
+<a name="diff-pro-free"></a>
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Card](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/), integration with popular SEO plugins (for title and description values), and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
