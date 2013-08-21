@@ -167,8 +167,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * <a href="#w3c-validation">The W3C Markup Validation Service says "there is no attribute '<em>property</em>'".</a>
 * <a href="#dupe-profile-fields">Why are there duplicate Facebook / Google fields on the user profile page?</a>
 
-<a name="diff-pro-free"></a>
-= Q. What is the difference between the Pro and <em>Free</em> versions? =
+= Q. [What is the difference between the Pro and <em>Free</em> versions?][diff-pro-free] =
 
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Card](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/), integration with popular SEO plugins (for title and description values), and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
