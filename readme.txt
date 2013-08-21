@@ -751,7 +751,7 @@ div.fb-share-button span {
 
 = 6.7.2-dev3 =
 
-Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options, used alternate WooCommerce function call (Pro Version).
+Added 'Recommend Author' to Twitter social sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call and disabled content for cart/checkout/account pages (Pro Version).
 
 = 6.7.1 =
 
