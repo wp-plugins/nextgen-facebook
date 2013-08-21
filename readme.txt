@@ -147,7 +147,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
-= Table of Contents =
+= TABLE OF CONTENTS =
 
 * What is the difference between the Pro and <em>Free</em> versions?
 * How do I install the Pro version?
