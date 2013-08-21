@@ -251,6 +251,7 @@ class ngfb_parse_readme {
 
 		$allowed = array(
 			'a' => array(
+				'name' => array(),
 				'href' => array(),
 				'title' => array(),
 				'rel' => array()
