@@ -581,7 +581,7 @@ The following list of NGFB filters receive and must return a single *text string
 
 The following list of NGFB filters receive and must return a single *array*.
 
-* ngfb_topics : An array of build-in Topics. The default list is from http://en.wikipedia.org/wiki/Category:Websites_by_topic.
+* ngfb_topics : An array of build-in Topics. The default list is from [Wikipedia](http://en.wikipedia.org/wiki/Category:Websites_by_topic).
 * ngfb_tags : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
 * ngfb_wp_tags : An array of WordPress Post and Page tags used in the article:tag meta tags.
 * ngfb_ngg_tags : An array of NextGEN Gallery image tags used in the article:tag meta tags.
