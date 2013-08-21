@@ -331,6 +331,9 @@ NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile pag
 = TABLE OF CONTENTS =
 
 * Resources
+* Debugging and Problem Solving
+    * Content Filters
+    * Debug and Error Messages
 * Support for Wistia Videos
 * Twitter Cards
 * Shortcodes
@@ -357,6 +360,41 @@ For on-going news and information about the NGFB Open Graph+ plugin, you can sub
 * [RSS Feed from surniaulula.com](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchasing the Pro version).
+
+== Debugging and Problem Solving ==
+
+NGFB Open Graph+ followed the latest recommended WordPress coding practices, but on occasion, it may break other themes and/or plugins that do not.
+
+= Content Filters =
+
+WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consquence, some authors mitakenly assume that their filter function will only be called once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
+
+On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault, and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
+
+= Debug and Error Messages =
+
+Turning on the WordPress debug log can be highly illuminating -- your theme templates and/or plugins may be generating many errors, which you would never see unless you turn on the WordPress debug log. To enable the WordPress debug log, without displaying the errors to your visitors, add the following to your `wp-config.php` file.
+
+`
+define('WP_DEBUG', true);
+if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
+	define('WP_DEBUG_LOG', true);
+	define('WP_DEBUG_DISPLAY', false);
+	@ini_set('display_errors',0);
+}
+`
+
+NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug mesages will be added directly to the webpage, as HTML comments, to allow debugging remotely. You can also define the following constant to enable the same behavior.
+
+`
+define('NGFB_DEBUG', false);
+`
+
+If you would like to send NGFB Open Graph+ debug messages to the WordPress log file instead (or as well), you can define the following constant.
+
+`
+define('NGFB_WP_DEBUG', false);
+`
 
 == Support for Wistia Videos ==
 
