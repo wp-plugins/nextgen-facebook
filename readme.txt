@@ -647,17 +647,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7.2-dev2 =
+= Version 6.7.2-dev3 =
 
 *Free* and Pro Versions:
 
 * Added 'Recommend Author' to the Twitter social sharing options.
+* Added 'ngfb_content_seed' filter hook.
 
 Pro Version:
 
 * Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
 * Added support for WooCommerce product images defined in the Custom Settings metabox.
 * Fixed: Changed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
+* Fixed: Disabled content text rendering for WooCommerce cart, checkout and customer account pages.
 
 = Version 6.7.1 =
 
@@ -747,9 +749,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.2-dev2 =
+= 6.7.2-dev3 =
 
-Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options, used alternate WooCommerce function call (Pro Version).
+Added 'Recommend Author' to Twitter social sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call and disabled content for cart/checkout/account pages (Pro Version).
 
 = 6.7.1 =
 
