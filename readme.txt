@@ -148,6 +148,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 == Frequently Asked Questions ==
 
 * <a href="diff-pro-free">What is the difference between the Pro and <em>Free</em> versions?</a>
+* <a href="install-pro">How do I install the Pro version?</a>
 
 <a name="diff-pro-free"></a>
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
@@ -156,6 +157,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 The *Free* version is a complete, stable, optimized, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 
+<a name="install-pro"></a>
 = Q. How do I install the Pro version? =
 
 Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID. Enter your Unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
