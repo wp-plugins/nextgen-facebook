@@ -147,27 +147,29 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
-* <a href="#diff-pro-free">What is the difference between the Pro and <em>Free</em> versions?</a>
-* <a href="#install-pro">How do I install the Pro version?</a>
-* <a href="#single-website">Can I use the Pro version on multiple websites?</a>
-* <a href="#other-buttons">Can I use other social sharing buttons than those of NGFB Open Graph+?</a>
-* <a href="#find-images">How does NGFB Open Graph+ find images for the Open Graph meta tags?</a>
-* <a href="#small-images">Why does NGFB ignore the &lt;img/&gt; HTML tags in my content?</a>
-* <a href="#share-single">How can I share a single NextGEN Gallery image?</a>
-* <a href="#exclude-text">How can I exclude certain parts of the content text?</a>
-* <a href="#show-twitter-cards">Why don't my Twitter Cards show on Twitter?</a>
-* <a href="#twitter-count">Why doesn't the Twitter count increase?</a>
-* <a href="#facebook-image">Why doesn't Facebook show the correct Open Graph image?</a>
-* <a href="#facebook-debugger">How can I see what Facebook sees?</a>
-* <a href="#facebook-embed">Why does Facebook play videos instead of linking them to my webpage?</a>
-* <a href="#facebook-flyout">Why does the Facebook "Like" button flyout get clipped?</a>
-* <a href="#facebook-wistia">Why doesn't Facebook embed my videos from Wistia?</a>
-* <a href="#google-testing-tool">What about Google Search and Google Plus?</a>
-* <a href="#linkedin-open-graph">Does LinkedIn read the Open Graph tags?</a>
-* <a href="#w3c-validation">The W3C Markup Validation Service says "there is no attribute '<em>property</em>'".</a>
-* <a href="#dupe-profile-fields">Why are there duplicate Facebook / Google fields on the user profile page?</a>
+Table of Contents
 
-= Q. [What is the difference between the Pro and <em>Free</em> versions?][diff-pro-free] =
+* What is the difference between the Pro and <em>Free</em> versions?
+* How do I install the Pro version?
+* Can I use the Pro version on multiple websites?
+* Can I use other social sharing buttons than those of NGFB Open Graph+?
+* How does NGFB Open Graph+ find images for the Open Graph meta tags?
+* Why does NGFB ignore the &lt;img/&gt; HTML tags in my content?
+* How can I share a single NextGEN Gallery image?
+* How can I exclude certain parts of the content text?
+* Why don't my Twitter Cards show on Twitter?
+* Why doesn't the Twitter count increase?
+* Why doesn't Facebook show the correct Open Graph image?
+* How can I see what Facebook sees?
+* Why does Facebook play videos instead of linking them to my webpage?
+* Why does the Facebook "Like" button flyout get clipped?
+* Why doesn't Facebook embed my videos from Wistia?
+* What about Google Search and Google Plus?
+* Does LinkedIn read the Open Graph tags?
+* The W3C Markup Validation Service says "there is no attribute '<em>property</em>'".
+* Why are there duplicate Facebook / Google fields on the user profile page?
+
+= Q. What is the difference between the Pro and <em>Free</em> versions? =
 
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Card](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/), integration with popular SEO plugins (for title and description values), and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
