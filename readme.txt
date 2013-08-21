@@ -387,13 +387,13 @@ if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
 NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug mesages will be added directly to the webpage, as HTML comments, to allow debugging remotely. You can also define the following constant to enable the same behavior.
 
 `
-define('NGFB_DEBUG', false);
+define('NGFB_DEBUG', true);
 `
 
 If you would like to send NGFB Open Graph+ debug messages to the WordPress log file instead (or as well), you can define the following constant.
 
 `
-define('NGFB_WP_DEBUG', false);
+define('NGFB_WP_DEBUG', true);
 `
 
 == Support for Wistia Videos ==
