@@ -103,7 +103,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= $this->ngfb->admin->form->get_hidden( 'buttons_add_to_' . $post_type->name ) . ' ' . $post_type->label . '<br/>';
+				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'buttons_add_to_' . $post_type->name ) . ' ' . $post_type->label . '</p>';
 
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',

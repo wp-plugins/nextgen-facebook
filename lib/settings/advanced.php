@@ -93,7 +93,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_more_plugin() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= $this->ngfb->admin->form->get_hidden( 'ngfb_add_to_' . $post_type->name ) . ' ' . $post_type->label . '<br/>';
+				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'ngfb_add_to_' . $post_type->name ) . ' ' . $post_type->label . '</p>';
 
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
@@ -105,7 +105,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				If your theme (or another plugin) supports additional custom post types, 
 				and you would like to <em>exclude</em> the Custom Settings metabox from these 
 				admin webpages, uncheck the appropriate options here.' ) . 
-				'<td class="blank" style="padding:4px;">' . $add_to_checkboxes . '</td>',
+				'<td class="blank">' . $add_to_checkboxes . '</td>',
 			);
 		}
 
