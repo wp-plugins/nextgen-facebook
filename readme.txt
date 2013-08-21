@@ -367,9 +367,11 @@ NGFB Open Graph+ followed the latest recommended WordPress coding practices, but
 
 = Content Filters =
 
-WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consquence, some authors mitakenly assume that their filter function will only be called once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
+WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consquence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
 
-On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault, and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
+On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
+
+If you have the Pro version, instead of disabling the use of content / excerpt filters, you can enter a custom 'Default Description' in the Custom Settings metabox, located on most Pages and Posts. NGFB Open Graph+ will then use the custom description instead of applying filters to generate a description from the content.
 
 = Debug and Error Messages =
 
@@ -645,16 +647,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7.2-dev2 =
+= Version 6.7.2-dev3 =
 
 *Free* and Pro Versions:
 
 * Added 'Recommend Author' to the Twitter social sharing options.
+* Added 'ngfb_content_seed' filter hook.
 
 Pro Version:
 
 * Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
+* Added support for WooCommerce product images defined in the Custom Settings metabox.
 * Fixed: Changed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
+* Fixed: Disabled content text rendering for WooCommerce cart, checkout and customer account pages.
 
 = Version 6.7.1 =
 
@@ -744,7 +749,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.2-dev2 =
+= 6.7.2-dev3 =
 
 Added default text for the Custom Settings input and textarea fields (Pro version), added 'Recommend Author' to the Twitter social sharing options, used alternate WooCommerce function call (Pro Version).
 

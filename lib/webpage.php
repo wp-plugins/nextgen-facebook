@@ -61,19 +61,20 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
 			global $post, $page, $paged;
-			$title = apply_filters( 'ngfb_title_seed', '' );
 			$parent_title = '';
 			$page_num_suffix = '';
-
+			$title = apply_filters( 'ngfb_title_seed', '' );
 			if ( ! empty( $title ) )
-				$this->ngfb->debug->log( 'seed title = "' . $title . '"' );
+				$this->ngfb->debug->log( 'title seed = "' . $title . '"' );
 				
 			// check for custom meta title
-			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-				$meta_title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
-				if ( ! empty( $meta_title ) ) {
-					$this->ngfb->debug->log( 'custom meta title = "' . $meta_title . '"' );
-					$title = $meta_title;
+			if ( empty( $title ) ) {
+				if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+					$meta_title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
+					if ( ! empty( $meta_title ) ) {
+						$this->ngfb->debug->log( 'custom meta title = "' . $meta_title . '"' );
+						$title = $meta_title;
+					}
 				}
 			}
 
@@ -167,17 +168,18 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
 			global $post;
 			$desc = apply_filters( 'ngfb_description_seed', '' );
-
 			if ( ! empty( $desc ) )
-				$this->ngfb->debug->log( 'seed description = "' . $desc . '"' );
+				$this->ngfb->debug->log( 'description seed = "' . $desc . '"' );
 				
 			// check for custom meta description
 			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
-			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-				$meta_desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
-				if ( ! empty( $meta_desc ) ) {
-					$this->ngfb->debug->log( 'custom meta description = "' . $meta_desc . '"' );
-					$desc = $meta_desc;
+			if ( empty( $desc ) ) {
+				if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+					$meta_desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
+					if ( ! empty( $meta_desc ) ) {
+						$this->ngfb->debug->log( 'custom meta description = "' . $meta_desc . '"' );
+						$desc = $meta_desc;
+					}
 				}
 			}
 
@@ -248,7 +250,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_content( $filter_content = true, $use_cache = true ) {
 			global $post;
-			if ( empty( $post ) ) return;
+
+			if ( empty( $post ) ) 
+				return;
+
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 			$this->ngfb->debug->log( 'using content from post id ' . $post->ID );
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
@@ -261,7 +266,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
 				return $content;
 			} 
-			$content = $post->post_content;
+
+			$content = apply_filters( 'ngfb_content_seed', '' );
+			if ( ! empty( $content ) )
+				$this->ngfb->debug->log( 'content seed = "' . $content . '"' );
+
+			if ( empty( $content ) )
+				$content = $post->post_content;
+
 			$content_strlen_before = strlen( $content );
 
 			// remove singlepics, which we detect and use before-hand 
@@ -302,6 +314,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			// apply filters before caching
 			$content = apply_filters( 'ngfb_content', $content );
+
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->ngfb->cache->object_expire );
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
 			return $content;
