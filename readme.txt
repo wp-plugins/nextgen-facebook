@@ -147,8 +147,8 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
-* <a href="diff-pro-free">What is the difference between the Pro and <em>Free</em> versions?</a>
-* <a href="install-pro">How do I install the Pro version?</a>
+* <a href="#diff-pro-free">What is the difference between the Pro and <em>Free</em> versions?</a>
+* <a href="#install-pro">How do I install the Pro version?</a>
 
 <a name="diff-pro-free"></a>
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
