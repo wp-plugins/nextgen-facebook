@@ -326,6 +326,25 @@ The Facebook / Open Graph meta *property* attribute is not part of the HTML5 sta
 
 NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
+== Other Notes ==
+
+= TABLE OF CONTENTS =
+
+* Resources
+* Support for Wistia Videos
+* Twitter Cards
+* Shortcodes
+* Stylesheets
+    * Social Buttons Style
+    * Hide Social Buttons
+* Performance Tuning
+* Advanced Usage
+    * Include Social Buttons from Template File(s)
+    * Disable Open Graph Meta Tags
+    * Rename or Add Profile URL Fields
+    * NGFB Filter Hooks
+    * PHP Constants
+
 == Resources ==
 
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
