@@ -28,14 +28,20 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					break;
 				case 'pro_details' :
 					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 
-						Customize the <em>Open Graph</em> meta tags for each <em>individual</em> Post and Page?<br/>
-						Add support for <em><a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a></em>, 
-						including the Gallery, Photo, Player and Large Image Cards?<br/>
-						Improve your website\'s response time with file caching for social sharing images and JavaScript?<br/>
-						<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
-						target="_blank">purchasing the Pro version today</a>.</p>
-						<p>Upgrading to the Pro version is easy! Simply enter the <em>Unique Transaction ID</em> 
-						(that you\'ll receive by email) on the Advanced settings page, then install the Pro update from within WordPress.</p>';
+						Add support for <a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>,
+						including <em>Gallery, Photo, Large Image, Player and Product</em> Cards?<br/>';
+
+					$msg .= 'Customize Open Graph and Twitter Card meta tags for each <em>individual</em> Post and Page?<br/>';
+
+					$msg .= 'Add tighter integration with 3rd party plugins like WordPress SEO, All-In-One SEO and WooCommerce?<br/>';
+
+					$msg .= 'Improve page load times with file caching for <em>external</em> social images and JavaScript?<br/>';
+
+					$msg .= '<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
+						target="_blank">purchasing the Pro version today</a>.</p>';
+
+					$msg .= '<p>Upgrading to the Pro version is easy! Simply enter the unique <em>Authentication ID</em> 
+						(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.

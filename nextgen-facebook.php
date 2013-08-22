@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.7.2-dev3
+Version: 6.7.2-dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.2-dev3';
+		public $version = '6.7.2-dev4';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -436,7 +436,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					WP object cache expiration <em>temporarily</em> set at ' . $this->cache->object_expire . ' second(s).' );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
-			// setup update checks if we have a transaction ID
+			// setup update checks if we have an Authentication ID
 			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
 				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );

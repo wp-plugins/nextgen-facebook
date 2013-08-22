@@ -72,7 +72,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 The *Free* version is a complete, stable, well supported and feature rich plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Card](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/), integration with popular SEO plugins (for title and description values), and enhanced customization features for *each individual Post and Page*. You can enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature.
 
-Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Unique Transaction ID, and update the plugin from within WordPress (like a regular plugin update).
+Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Authentication ID, and update the plugin from within WordPress (like a regular plugin update).
 
 == Installation ==
 
@@ -80,7 +80,7 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 
 To install the *Free* version from WordPress.org, follow the *Automated Install* method described bellow.
 
-If you have purchased the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID. Enter your Unique Transaction ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+If you have purchased the Pro version, an email will be sent to you with Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 If you downloaded the NGFB Open Graph+ plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph+ is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
 
@@ -171,29 +171,24 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q. What is the difference between the Pro and <em>Free</em> versions? =
 
-<a name="about-pro"></a>
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Card](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/), integration with popular SEO plugins (for title and description values), and allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (improving the page load times in most cases). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature. 
 
 The *Free* version is a complete, stable, optimized, well supported, and feature rich plugin. If you appreciate the work and effort I've put into this plugin, please [purchase the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) as a way to help with the continued development and support of NGFB Open Graph+.
 
-<a name="install-pro"></a>
 = Q. How do I install the Pro version? =
 
-Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID. Enter your Unique Transaction ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+Updating to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After purchasing the Pro version, an email will be sent to you with an Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
-<a name="single-website"></a>
 = Q. Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a Unique Transaction ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
+NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Authentication ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts (in multiples of 5 licenses).
 
-<a name="other-buttons"></a>
 = Q. Can I use other social sharing buttons than those of NGFB Open Graph+? =
 
 Absolutely. NGFB Open Graph+'s primary function is to create Open Graph and related meta tags (Twitter Cards, SEO, etc.). Aside from Pinterest and Tumblr, social buttons only send a URL to the social websites. Those websites then connect *back* to the shared URL, read the meta tags, and show the results in a social sharing popup window. The Pinterest and Tumblr sharing buttons must send more information, such as captions, media type (image, video), post type, etc.
 
 NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc. according to your content and preferences. If you decide to use different social sharing buttons, please make sure they only share a URL, and not the title, description, etc. 
 
-<a name="find-images"></a>
 = Q. How does NGFB Open Graph+ find images for the Open Graph meta tags? =
 
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
@@ -206,7 +201,6 @@ The images used in the Open Graph meta tags for Posts and Pages are chosen in th
 1. A default image defined in the NGFB Open Graph+ plugin settings.
 1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s).
 
-<a name="small-images"></a>
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
@@ -226,22 +220,18 @@ The order in which the attributes are listed is important -- place the "share" a
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 `
 
-<a name="share-single"></a>
 = Q. How can I share a single NextGEN Gallery image? =
 
 You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
 
-<a name="exclude-text"></a>
 = Q. How can I exclude certain parts of the content text? =
 
 By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
 
-<a name="show-twitter-cards"></a>
 = Q. Why don't my Twitter Cards show on Twitter? =
 
 Your website must be 'authorized' by Twitter for each type of Twitter Card. Please see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for the validation process.
 
-<a name="twitter-count"></a>
 = Q. Why doesn't the Twitter count increase? =
 
 Your website must allow the HEAD HTTP request. Some security plugins (like BulletProof Security, for example) disable HEAD requests, which prevents the Twitter counter from incrementing correctly. 
@@ -256,19 +246,16 @@ $ curl -I http://surniaulula.com/ 2>&1 | egrep '^(HTTP|Location)'
 HTTP/1.1 403 Forbidden
 `
 
-<a name="facebook-image"></a>
 = Q. Why doesn't Facebook show the correct Open Graph image? =
 
 The first time Facebook accesses your webpage, it will cache the image and text it finds. Facebook then prefers to use the cached information until it has expired. So, before you hit the Facebook send / share button for the first time, make sure you're satisfied with your Post or Page images and text. If you change your mind, *and your webpage has not been liked or shared yet*, you can use [Facebook's Open Graph debugging tool](https://developers.facebook.com/tools/debug) to refresh Facebook's cache. If your webpage has already been liked or shared on Facebook, then there's nothing you can do to change the title, descriptive text, or image that was used.
 
 After publishing a new Post or Page, a 'Validation Tools' tab will appear in the 'Custom Post Settings' metabox. You can use these links to check the content that is extracted from your webpage by Facebook, Google, etc.
 
-<a name="facebook-debugger"></a>
 = Q. How can I see what Facebook sees? =
 
 Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
 
-<a name="facebook-embed"></a>
 = Q. Why does Facebook play videos instead of linking them to my webpage? =
 
 The NGFB Open Graph+ plugin generates information about the current webpage and its content - what social websites like Facebook do with that information is beyond our control. When Facebook is given information on videos, it embeds and plays them directly instead of linking the preview image (as an example) to the source website. There are two possible solutions:
@@ -276,7 +263,6 @@ The NGFB Open Graph+ plugin generates information about the current webpage and 
 1. Turn off video discovery completely by setting "Maximum Number of Videos" to "0" on the NGFB settings page.
 1. Uncheck the `og:video`, `og:video:width`, `og:video:height`, and `og:video:type` meta tags. This will leave the video preview images, but exclude information on the videos themselves.
 
-<a name="facebook-flyout"></a>
 = Q. Why does the Facebook "Like" button flyout get clipped? =
 
 This is a known issue with the JavaScript code Facebook uses. If the "Like" button is placed near the edge of an HTML element with the overflow property set to hidden, the flyout may be clipped or completely hidden when the button is clicked. This can be remedied by setting the overflow property to a value other than hidden, such as visible, scroll, or auto. For example:
@@ -291,7 +277,6 @@ There is also a known issue with Facebook's "Like" button flyout and the WP *Twe
 .ngfb-buttons iframe { max-width:none; }
 `
 
-<a name="facebook-wistia"></a>
 = Q. Why doesn't Facebook embed my videos from Wistia? =
 
 Sharing URLs for Wistia videos are only available from a password protected Wistia API. You can find your Wistia API password from the Wistia Account Dashboard, under API Settings. You must define the `NGFB_WISTIA_API_PWD` constant in your WordPress `wp-config.php` file with your API password. For example (replace the stars with your API password):
@@ -302,17 +287,14 @@ define('NGFB_WISTIA_API_PWD', '****************************************');
 
 After defining the `NGFB_WISTIA_API_PWD` constant, Facebook, Twitter, Google+, etc. will be able to correctly include and play these videos.
 
-<a name="google-testing-tool"></a>
 = Q. What about Google Search and Google Plus? =
 
 Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
-<a name="linkedin-open-graph"></a>
 = Q. Does LinkedIn read the Open Graph tags? =
 
 According to LinkedIn's [Setting Display Tags for Shares](https://developer.linkedin.com/documents/setting-display-tags-shares) information page, they use three of the Open Graph tags (title, description, and url).
 
-<a name="w3c-validation"></a>
 = Q. The W3C Markup Validation Service says "there is no attribute '<em>property</em>'". =
 
 The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the `header.php` file of your theme.
@@ -321,7 +303,6 @@ The Facebook / Open Graph meta *property* attribute is not part of the HTML5 sta
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
-<a name="dupe-profile-fields"></a>
 = Q. Why are there duplicate Facebook / Google fields on the user profile page? =
 
 NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
@@ -647,19 +628,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7.2-dev3 =
+= Version 6.7.2-dev4 =
 
 *Free* and Pro Versions:
 
-* Added 'Recommend Author' to the Twitter social sharing options.
-* Added 'ngfb_content_seed' filter hook.
+* Added a 'Recommend Author' option to the Twitter social sharing settings.
+* Added a 'ngfb_content_seed' filter hook.
+* Fixed: Disabled content filtering for WooCommerce cart, checkout and account pages.
 
 Pro Version:
 
 * Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
 * Added support for WooCommerce product images defined in the Custom Settings metabox.
 * Fixed: Changed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
-* Fixed: Disabled content text rendering for WooCommerce cart, checkout and customer account pages.
 
 = Version 6.7.1 =
 
@@ -749,9 +730,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.2-dev3 =
+= 6.7.2-dev4 =
 
-Added 'Recommend Author' to Twitter social sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call and disabled content for cart/checkout/account pages (Pro Version).
+Added 'Recommend Author' to Twitter sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call (Pro version) and disabled content filters for cart/checkout/account pages.
 
 = 6.7.1 =
 

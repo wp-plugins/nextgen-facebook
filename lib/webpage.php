@@ -63,21 +63,24 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			global $post, $page, $paged;
 			$parent_title = '';
 			$page_num_suffix = '';
-			$title = apply_filters( 'ngfb_title_seed', '' );
-			if ( ! empty( $title ) )
-				$this->ngfb->debug->log( 'title seed = "' . $title . '"' );
-				
+
 			// check for custom meta title
-			if ( empty( $title ) ) {
-				if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-					$meta_title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
-					if ( ! empty( $meta_title ) ) {
-						$this->ngfb->debug->log( 'custom meta title = "' . $meta_title . '"' );
-						$title = $meta_title;
-					}
+			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+				$meta_title = $this->ngfb->meta->get_options( $post->ID, 'og_title' );
+				if ( ! empty( $meta_title ) ) {
+					$this->ngfb->debug->log( 'custom meta title = "' . $meta_title . '"' );
+					$title = $meta_title;
 				}
 			}
 
+			// get seed if no custom meta title
+			if ( empty( $title ) ) {
+				$title = apply_filters( 'ngfb_title_seed', '' );
+				if ( ! empty( $title ) )
+					$this->ngfb->debug->log( 'title seed = "' . $title . '"' );
+			}
+			
+			// construct a title of our own
 			if ( empty( $title ) ) {
 				// we are on an index, but need individual titles from the posts (probably for social buttons)
 				if ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
@@ -167,22 +170,24 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
 			global $post;
-			$desc = apply_filters( 'ngfb_description_seed', '' );
-			if ( ! empty( $desc ) )
-				$this->ngfb->debug->log( 'description seed = "' . $desc . '"' );
-				
+
 			// check for custom meta description
 			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
-			if ( empty( $desc ) ) {
-				if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-					$meta_desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
-					if ( ! empty( $meta_desc ) ) {
-						$this->ngfb->debug->log( 'custom meta description = "' . $meta_desc . '"' );
-						$desc = $meta_desc;
-					}
+			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+				$meta_desc = $this->ngfb->meta->get_options( $post->ID, 'og_desc' );
+				if ( ! empty( $meta_desc ) ) {
+					$this->ngfb->debug->log( 'custom meta description = "' . $meta_desc . '"' );
+					$desc = $meta_desc;
 				}
 			}
 
+			// get seed if no custom meta description
+			if ( empty( $desc ) ) {
+				$desc = apply_filters( 'ngfb_description_seed', '' );
+				if ( ! empty( $desc ) )
+					$this->ngfb->debug->log( 'description seed = "' . $desc . '"' );
+			}
+				
 			if ( empty( $desc ) ) {
 				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 	
@@ -250,18 +255,19 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_content( $filter_content = true, $use_cache = true ) {
 			global $post;
-
-			if ( empty( $post ) ) 
-				return;
-
+			if ( empty( $post ) ) return;
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 			$this->ngfb->debug->log( 'using content from post id ' . $post->ID );
 			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
 
+			/***************************************************************************
+			 * Retrieve the content                                                    *
+			 ***************************************************************************/
+
+			$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
 			if ( $content !== false ) {
 				$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
 				return $content;
@@ -271,19 +277,38 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( ! empty( $content ) )
 				$this->ngfb->debug->log( 'content seed = "' . $content . '"' );
 
+			// exceptions for some woocommerce pages
+			if ( empty( $content ) && ! empty( $this->ngfb->is_avail['woocom'] ) ) {
+				if ( is_cart() )
+					$content = 'Shopping Cart';
+				elseif ( is_checkout() )
+					$content = 'Checkout Page';
+				elseif ( is_account_page() )
+					$content = 'Account Page';
+			}
+
 			if ( empty( $content ) )
 				$content = $post->post_content;
 
+			/***************************************************************************
+			 * Modify the content                                                      *
+			 ***************************************************************************/
+
+			// save content length (for comparison) before making changes
 			$content_strlen_before = strlen( $content );
 
 			// remove singlepics, which we detect and use before-hand 
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
-			if ( $count > 0 ) $this->ngfb->debug->log( $count . ' [singlepic] shortcode(s) removed from content' );
+			if ( $count > 0 ) 
+				$this->ngfb->debug->log( $count . ' [singlepic] shortcode(s) removed from content' );
 
 			if ( $filter_content == true ) {
 
+				// remove the social buttons filter, which would create a loop with this method
 				if ( is_object( $this->ngfb->social ) )
 					$filter_removed = $this->ngfb->social->remove_filter( 'the_content' );
+
+				// remove all of our shortcodes
 				foreach ( $this->ngfb->shortcode_libs as $id => $name )
 					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
 						$this->shortcode[$id]->remove();
@@ -292,18 +317,21 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'calling apply_filters()' );
 				$content = apply_filters( 'the_content', $content );
 
-				// cleanup for NGG album shortcode
+				// cleanup for NGG pre-v2 album shortcode
 				unset ( $GLOBALS['subalbum'] );
 				unset ( $GLOBALS['nggShowGallery'] );
 
+				// add the social buttons filter back, if it was removed
 				if ( is_object( $this->ngfb->social ) && ! empty( $filter_removed ) )
 					$this->ngfb->social->add_filter( 'the_content' );
 
+				// add our shortcodes back
 				foreach ( $this->ngfb->shortcode_libs as $id => $name )
 					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
 						$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
+
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = preg_replace( '/^.*<!--ngfb-content-->(.*)<!--\/ngfb-content-->.*$/', '$1', $content );
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );

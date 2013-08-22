@@ -80,10 +80,9 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_pre_plugin() {
 			return array(
-				$this->ngfb->util->th( 'Unique Transaction ID', 'highlight', null, '
-				After purchasing of the Pro version, an email will be sent to you with installation instructions and a Unique Transaction ID.
-				Note that this is not your PayPal Transaction ID, but a Unique Transaction ID included with the installation instructions.
-				Enter your Unique Transaction ID here, and after saving the changes, an update for \'' . $this->ngfb->fullname . '\' 
+				$this->ngfb->util->th( 'Authentication ID', 'highlight', null, '
+				After purchasing of the Pro version, an email will be sent to you with an Authentication ID and installation instructions.
+				Enter your unique Authentication ID here, and after saving the changes, an update for \'' . $this->ngfb->fullname . '\' 
 				will appear on the <a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
 				Update the \'' . $this->ngfb->fullname . '\' plugin to download and activate the new Pro version.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_input( 'ngfb_pro_tid' ) . '</td>',
