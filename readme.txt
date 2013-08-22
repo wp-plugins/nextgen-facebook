@@ -628,7 +628,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7.2-dev4 =
+= Version 6.7.2 =
 
 *Free* and Pro Versions:
 
@@ -731,7 +731,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.2-dev4 =
+= 6.7.2 =
 
 Added 'Recommend Author' to Twitter sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call (Pro version) and disabled content filters for cart/checkout/account pages.
 
