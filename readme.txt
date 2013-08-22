@@ -634,6 +634,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added a 'Recommend Author' option to the Twitter social sharing settings.
 * Added a 'ngfb_content_seed' filter hook.
+* Changed all references to 'Transaction ID' for 'Authentication ID'.
 * Fixed: Disabled content filtering for WooCommerce cart, checkout and account pages.
 
 Pro Version:
