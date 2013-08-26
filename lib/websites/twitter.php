@@ -157,23 +157,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '
-				<!-- Twitter Button -->
-				<!-- url = ' . $long_url . ' -->
-				<div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '>
-					<a href="' . $prot . 'twitter.com/share" 
-						class="twitter-share-button"
-						lang="'. $atts['lang'] . '"
-						data-url="' . $atts['url'] . '" 
-						data-counturl="' . $long_url . '" 
-						data-text="' . $atts['caption'] . '" 
-						data-via="' . $atts['via'] . '" 
-						data-related="' . $atts['related'] . '" 
-						data-hashtags="' . $atts['hashtags'] . '" 
-						data-count="' . $this->ngfb->options['twitter_count'] . '" 
-						data-size="' . $this->ngfb->options['twitter_size'] . '" 
-						data-dnt="' . $atts['dnt'] . '">Tweet</a>
-				</div>' . "\n";
+			$html = '<!-- Twitter Button --><div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '><a href="' . $prot . 'twitter.com/share" class="twitter-share-button" lang="'. $atts['lang'] . '" data-url="' . $atts['url'] . '" data-counturl="' . $long_url . '" data-text="' . $atts['caption'] . '" data-via="' . $atts['via'] . '" data-related="' . $atts['related'] . '" data-hashtags="' . $atts['hashtags'] . '" data-count="' . $this->ngfb->options['twitter_count'] . '" data-size="' . $this->ngfb->options['twitter_size'] . '" data-dnt="' . $atts['dnt'] . '">Tweet</a></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}

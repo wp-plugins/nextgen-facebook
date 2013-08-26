@@ -348,7 +348,7 @@ NGFB Open Graph+ followed the latest recommended WordPress coding practices, but
 
 = Content Filters =
 
-WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consquence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
+WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consequence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
 
 On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
 
@@ -627,6 +627,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 16. Screenshot 16 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.7.3-dev1 =
+
+* Allowed the definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constant values.
+* Fixed: Reformatted all social button HTML to use a single line, without any newline or return characters, which (if NGFB_SOCIAL_PRIORITY is low enough) could cause WordPress to add extra paragraph HTML tags.
 
 = Version 6.7.2 =
 

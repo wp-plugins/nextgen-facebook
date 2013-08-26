@@ -94,11 +94,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
-			$html = '
-				<!-- StumbleUpon Button -->
-				<div ' . $this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge 
-					layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>
-			';
+			$html = '<!-- StumbleUpon Button --><div ' . $this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}

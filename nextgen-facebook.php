@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.7.2
+Version: 6.7.3-dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.2';
+		public $version = '6.7.3-dev1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -187,8 +187,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
 			define( 'NGFB_PLUGINBASE', plugin_basename( __FILE__ ) );			// since wp 1.5
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
-			define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
-			define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR . 'lib/ext/markdown.php' );
 
@@ -204,6 +202,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_CURL_PROXY
 			// NGFB_CURL_PROXYUSERPWD
 			// NGFB_WISTIA_API_PWD
+
+			if ( ! defined( 'NGFB_CACHEDIR' ) )
+				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
+
+			if ( ! defined( 'NGFB_CACHEURL' ) )
+				define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );

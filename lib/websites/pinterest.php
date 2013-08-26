@@ -119,14 +119,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$query .= '&amp;media='. urlencode( $atts['photo'] );
 			$query .= '&amp;description=' . urlencode( $this->ngfb->util->decode( $atts['caption'] ) );
 
-			$html = '
-				<!-- Pinterest Button -->
-				<div ' . $this->ngfb->social->get_css( 'pinterest', $atts ) . '><a 
-					href="' . $prot . 'pinterest.com/pin/create/button/?' . $query . '" 
-					class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" 
-					title="Share on Pinterest"><img border="0" alt="Pin It"
-					src="' . $this->ngfb->util->get_cache_url( $prot . 'assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>
-			';
+			$html = '<!-- Pinterest Button --><div ' . $this->ngfb->social->get_css( 'pinterest', $atts ) . '><a href="' . $prot . 'pinterest.com/pin/create/button/?' . $query . '" class="pin-it-button" count-layout="' . $atts['pin_count_layout'] . '" title="Share on Pinterest"><img border="0" alt="Pin It" src="' . $this->ngfb->util->get_cache_url( $prot . 'assets.pinterest.com/images/PinExt.png' ) . '" /></a></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}

@@ -64,10 +64,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
-			$html = '
-				<!-- LinkedIn Button -->
-				<div ' . $this->ngfb->social->get_css( 'linkedin', $atts ) . '>
-				<script type="IN/Share" data-url="' . $atts['url'] . '"';
+			$html = '<!-- LinkedIn Button --><div ' . $this->ngfb->social->get_css( 'linkedin', $atts ) . '><script type="IN/Share" data-url="' . $atts['url'] . '"';
 
 			if ( ! empty( $this->ngfb->options['linkedin_counter'] ) ) 
 				$html .= ' data-counter="' . $this->ngfb->options['linkedin_counter'] . '"';
@@ -75,7 +72,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! empty( $this->ngfb->options['linkedin_showzero'] ) ) 
 				$html .= ' data-showzero="true"';
 
-			$html .= '></script></div>'."\n";
+			$html .= '></script></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}

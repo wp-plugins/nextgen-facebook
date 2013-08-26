@@ -187,7 +187,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				if ( ! empty( $desc ) )
 					$this->ngfb->debug->log( 'description seed = "' . $desc . '"' );
 			}
-				
+			
+			// if there's no custom description, and no pre-seed, then go ahead and generate the description value
 			if ( empty( $desc ) ) {
 				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 	
