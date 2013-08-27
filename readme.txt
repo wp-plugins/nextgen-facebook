@@ -155,6 +155,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Can I use other social sharing buttons than those of NGFB Open Graph+?
 * How does NGFB Open Graph+ find images for the Open Graph meta tags?
 * Why does NGFB ignore the &lt;img/&gt; HTML tags in my content?
+* How do I attach an image without showing it?
 * How can I share a single NextGEN Gallery image?
 * How can I exclude certain parts of the content text?
 * Why don't my Twitter Cards show on Twitter?
@@ -219,6 +220,10 @@ The order in which the attributes are listed is important -- place the "share" a
 `
 define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
 `
+
+= Q. How do I attach an image without showing it? =
+
+Aside from using featured images, `<img/>` HTML tags in the content, etc., NGFB Open Graph+ can also include *attached* images in the Open Graph and Twitter Card meta tags. Attached images have a link to the Post or Page, but are not displayed by default (unless they are also included in the content). To attach an image to a Post or Page, go to the Media -&gt; Library and upload a new image, or use one that is already listed with '(Unattached)' under the 'Uploaded to' column, and click on its 'Attach' link.
 
 = Q. How can I share a single NextGEN Gallery image? =
 
@@ -313,7 +318,7 @@ NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile pag
 
 * Resources
 * Debugging and Problem Solving
-    * Content Filters
+    * WordPress Content Filters
     * Debug and Error Messages
 * Support for Wistia Videos
 * Twitter Cards
@@ -346,9 +351,9 @@ Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-fa
 
 NGFB Open Graph+ followed the latest recommended WordPress coding practices, but on occasion, it may break other themes and/or plugins that do not.
 
-= Content Filters =
+= WordPress Content Filters =
 
-WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consquence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
+WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consequence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
 
 On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
 
@@ -627,6 +632,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 16. Screenshot 16 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.7.3-dev1 =
+
+* Allowed the definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constant values.
+* Fixed: Reformatted all social button HTML to use a single line, without any newline or return characters, which (if NGFB_SOCIAL_PRIORITY is low enough) could cause WordPress to add extra paragraph HTML tags.
 
 = Version 6.7.2 =
 
