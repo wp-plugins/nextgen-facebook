@@ -56,11 +56,11 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			$log_msg = '';
 			$stack = debug_backtrace();
 
-			if ( ! empty( $stack[$backtrace]['class'] ) ) 
-				$log_msg .= sprintf( '%-26s:: ', $stack[$backtrace]['class'] );
+			$log_msg .= sprintf( '%-26s:: ', 
+				( empty( $stack[$backtrace]['class'] ) ? '' : $stack[$backtrace]['class'] ) );
 
-			if ( ! empty( $stack[$backtrace]['function'] ) ) 
-				$log_msg .= sprintf( '%-24s : ', $stack[$backtrace]['function'] );
+			$log_msg .= sprintf( '%-24s : ', 
+				( empty( $stack[$backtrace]['function'] ) ? '' : $stack[$backtrace]['function'] ) );
 
 			if ( is_array( $input ) || is_object( $input ) )
 				$log_msg .= print_r( $input, true );
