@@ -633,10 +633,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.7.3-dev1 =
+= Version 6.7.3-dev2 =
 
+* Added support for older WooCommerce v1.x functions and methods.
 * Allowed the definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constant values.
-* Fixed: Reformatted all social button HTML to use a single line, without any newline or return characters, which (if NGFB_SOCIAL_PRIORITY is low enough) could cause WordPress to add extra paragraph HTML tags.
+* Reformatted social button HTML to use a single line, without any newline or carriage-return characters, to avoid extra paragraph HTML tags added by WordPress.
 
 = Version 6.7.2 =
 
@@ -740,6 +741,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.7.3-dev2 =
+
+Added support for older WooCommerce v1.x functions and methods, allowed definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constants, reformatted social button HTML to use a single line to avoid extra paragraph HTML tags.
 
 = 6.7.2 =
 
