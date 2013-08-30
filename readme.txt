@@ -338,7 +338,7 @@ For on-going news and information about the NGFB Open Graph+ plugin, you can sub
 * [#ngfbog HashTag on Twitter](https://twitter.com/search?q=%23ngfbog)
 * [Surnia Ulula on Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977)
 * [Surnia Ulula on Google+](https://plus.google.com/u/2/103457833348046432604/posts)
-* [SurniaUlulaCom Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
+* [SurniaUlulaCom's Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
 * [RSS Feed from surniaulula.com](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchasing the Pro version).
