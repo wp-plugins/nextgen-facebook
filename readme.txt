@@ -744,7 +744,7 @@ div.fb-share-button span {
 
 = 6.7.3-dev2 =
 
-Added support for older WooCommerce v1.x functions and methods, allowed definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constants, re-formatted social button HTML to use a single line to avoid extra paragraph HTML tags.
+Added support for older WooCommerce v1.x plugins, allowed definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constants, re-formatted social button HTML to use a single line to avoid extra paragraph HTML tags.
 
 = 6.7.2 =
 
