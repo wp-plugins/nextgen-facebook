@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
-Version: 6.7.3-dev2
+Version: 6.7.3-dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.3-dev2';
+		public $version = '6.7.3-dev3';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -462,19 +462,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->is_avail['wpseo'] == true ) {
 				$wpseo_social = get_option( 'wpseo_social' );
 				if ( ! empty( $wpseo_social['opengraph'] ) ) {
-					$this->debug->log( 'conflict detected - wpseo opengraph meta data option is enabled' );
-					$this->notices->err( 'Conflict detected -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
+					$this->debug->log( 'plugin conflict detected - wpseo opengraph meta data option is enabled' );
+					$this->notices->err( 'Plugin conflict detected -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
-					$this->debug->log( 'conflict detected - wpseo twitter meta data option is enabled' );
-					$this->notices->err( 'Conflict detected -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
+					$this->debug->log( 'plugin conflict detected - wpseo twitter meta data option is enabled' );
+					$this->notices->err( 'Plugin conflict detected -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 
 				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
-					$this->debug->log( 'conflict detected - wpseo google plus publisher option is defined' );
-					$this->notices->err( 'Conflict detected -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
+					$this->debug->log( 'plugin conflict detected - wpseo google plus publisher option is defined' );
+					$this->notices->err( 'Plugin conflict detected -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
 						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
 				}
 			}
@@ -484,8 +484,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$seo_ultimate = get_option( 'seo_ultimate' );
 				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
 					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
-						$this->debug->log( 'conflict detected - seo ultimate opengraph module is enabled' );
-						$this->notices->err( 'Conflict detected -- please disable the \'<em>Open Graph Integrator</em>\' module in the
+						$this->debug->log( 'plugin conflict detected - seo ultimate opengraph module is enabled' );
+						$this->notices->err( 'Plugin conflict detected -- please disable the \'<em>Open Graph Integrator</em>\' module in the
 							<a href="' . get_admin_url( null, 'admin.php?page=seo' ) . '">SEO Ultimate plugin Module Manager</a>.' );
 					}
 				}
@@ -495,10 +495,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( function_exists( 'wordbooker_og_tags' ) ) {
 				$wordbooker_settings = get_option( 'wordbooker_settings' );
 				if ( empty( $wordbooker_settings['wordbooker_fb_disable_og'] ) ) {
-					$this->debug->log( 'conflict detected - wordbooker opengraph is enabled' );
-					$this->notices->err( 'Conflict detected -- please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option 
+					$this->debug->log( 'plugin conflict detected - wordbooker opengraph is enabled' );
+					$this->notices->err( 'Plugin conflict detected -- please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option 
 						on the <a href="' . get_admin_url( null, 'options-general.php?page=wordbooker' ) . '">Wordbooker Options Page</a>.' );
 				}
+			}
+
+			if ( class_exists( 'Facebook_Loader' ) ) {
+				$this->debug->log( 'plugin conflict detected - facebook plugin is active' );
+				$this->notices->err( 'Plugin conflict detected -- please <a href="' . get_admin_url( null, 'plugins.php' ) . '">deactivate the Facebook plugin</a> 
+					to prevent duplicate Open Graph meta tags in your webpage headers.' );
 			}
 		}
 
