@@ -12,19 +12,19 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 == Description ==
 
-**An essential plugin for *every* WordPress website.**
+**An essential plugin for *every* WordPress website -- starts where other SEO plugins stop.**
 
 = Open Graph and SEO =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](surniaulula.com/extend/plugins/nextgen-facebook/screenshots/).
 
-NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. It can also be used to extend and improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.
+NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. **It is often used to extend (and improve) traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.**
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
-Find out more... [What are Open Graph and Twitter Card Meta Tags?](http://surniaulula.com/2013/06/22/what-are-open-graph-and-twitter-card-meta-tags/)
-
 **Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
+
+Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
 = Images and Videos =
 
