@@ -12,33 +12,29 @@ Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter
 
 == Description ==
 
-**An essential plugin for *every* WordPress website -- starts where other SEO plugins stop.**
+**An essential plugin for *every* WordPress website -- starts where other SEO plugins leave-off.**
 
-= Open Graph and SEO =
+= Meta Tags =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). See [examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](surniaulula.com/extend/plugins/nextgen-facebook/screenshots/).
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). **NGFB Open Graph+ can be used by itself, or to extend and improve traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.**
 
-NGFB Open Graph+ is a *complete* social sharing plugin that uses the existing content of your webpages to build HTML meta tags. **It is often used to extend (and improve) traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.**
+NGFB Open Graph+ is a *complete* social sharing solution that uses the *existing* content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any values or settings, though many settings and options are available. 
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
-
-**Once installed and activated, NGFB Open Graph+ enhances your webpages immediately by adding Open Graph meta tags based on your content -- there's no need to configure any additional settings**.
 
 Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/), but it also works just as well with the built-in WordPress Media Library.
-
-**The NextGEN Gallery plugin is not required to use all the features of this plugin**.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, and embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/), but it also works just as well with the built-in WordPress Media Library. **The NextGEN Gallery plugin is not required to use all the features of this plugin**.
 
 = Twitter Cards =
 
 NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= Product Meta Tags =
+= eCommerce =
 
-NGFB Open Graph+ (Pro version) recognizes [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
+NGFB Open Graph+ (Pro version) recognizes [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
 = Social Buttons =
 
@@ -54,7 +50,7 @@ NGFB Open Graph+ also comes with several multilingual social sharing buttons, th
 
 = Best Performance =
 
-NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
+**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
 
 = Clean Uninstall =
 
