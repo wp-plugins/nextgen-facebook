@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function check_wp_version() {
 			global $wp_version;
-			if ( version_compare( $wp_version, $this->min_wp_version, "<" ) ) {
+			if ( version_compare( $wp_version, $this->min_wp_version, '<' ) ) {
 				if( is_plugin_active( NGFB_PLUGINBASE ) ) {
 					deactivate_plugins( NGFB_PLUGINBASE );
 					wp_die( '"' . $this->ngfb->fullname . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
