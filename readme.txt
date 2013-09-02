@@ -18,7 +18,7 @@ Complete Solution to Improve Information Shared on Google Search, Facebook, Goog
 
 * *The Search is Over...* - By mattjabs
 * *Best Open Graph Implementation, Yet* - By barnesatl
-* *Solid plugin superb support - By robert5
+* *Solid plugin superb support* - By robert5
 * *Superb plugin, AMAZING support!* - By J (paradox_designs)
 * *Highly recommended!* - By dagicueppers (DagiCueppers)
 * *Powerful and well thought out* - By Stuart S (StuartSequeira)
