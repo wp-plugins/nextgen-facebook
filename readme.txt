@@ -14,7 +14,7 @@ Complete Solution to Improve Information Shared on Google Search, Facebook, Goog
 
 **An essential plugin for *every* WordPress website!**
 
-What customers are saying about NGFB Open Graph+:
+What users are saying about NGFB Open Graph+:
 
 * **The Search is Over...** - By mattjabs
 * **Best Open Graph Implementation, Yet** - By barnesatl
