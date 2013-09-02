@@ -642,6 +642,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= 6.7.4-dev1 =
+
+*Free* and Pro Versions:
+
+* Fixed author description lookup for author index pages without any posts.
+
 = Version 6.7.3 =
 
 *Free* and Pro Versions:
@@ -756,6 +762,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.7.4-dev1 =
+
+Fixed author description lookup for author index pages without any posts.
 
 = 6.7.3 =
 

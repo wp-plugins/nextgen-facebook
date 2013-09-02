@@ -221,9 +221,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				} elseif ( is_author() ) { 
 			
 					$this->ngfb->debug->log( 'is_author() = true' );
-					$desc = get_the_author_meta( 'description', $post->post_author );
-					if ( empty( $desc ) )
-						$desc = sprintf( 'Authored by %s', get_the_author_meta( 'display_name', $post->post_author ) );
+					$author = get_query_var( 'author_name' ) ?  get_userdata( get_query_var( 'author' ) ) : get_user_by( 'slug', get_query_var( 'author_name' ) );
+					$desc = empty( $author->description ) ? sprintf( 'Authored by %s', $author->display_name ) : $author->description;
 			
 				} elseif ( is_tag() ) {
 			
