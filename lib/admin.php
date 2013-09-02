@@ -72,7 +72,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( version_compare( $wp_version, $this->min_wp_version, '<' ) ) {
 				if( is_plugin_active( NGFB_PLUGINBASE ) ) {
 					deactivate_plugins( NGFB_PLUGINBASE );
-					wp_die( '"' . $this->ngfb->fullname . '" requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
+					error_log( NGFB_PLUGINBASE . ' requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated.' );
+					wp_die( $this->ngfb->fullname . ' requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
 						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
 				}
 			}
