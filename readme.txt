@@ -8,11 +8,21 @@ Requires At Least: 3.0
 Tested Up To: 3.6
 Stable Tag: 6.7.3
 
-Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
+Complete Solution to Improve Information Shared on Google Search, Facebook, Google+, Twitter, LinkedIn, Pinterest, etc.
 
 == Description ==
 
 **An essential plugin for *every* WordPress website!**
+
+[See what customers are saying about NGFB Open Graph+](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
+
+* *The Search is Over...* - By mattjabs
+* *Best Open Graph Implementation, Yet* - By barnesatl
+* *Solid plugin superb support - By robert5
+* *Superb plugin, AMAZING support!* - By J (paradox_designs)
+* *Highly recommended!* - By dagicueppers (DagiCueppers)
+* *Powerful and well thought out* - By Stuart S (StuartSequeira)
+* [And many more](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Meta Tags =
 
