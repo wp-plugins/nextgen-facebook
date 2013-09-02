@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.6
 Stable Tag: 6.7.3
 
-Complete Solution to Improve Information Shared on Google Search, Facebook, Google+, Twitter, LinkedIn, Pinterest, etc.
+Complete Solution to Improve the Information Shared with Google Search, Facebook, Google+, Twitter, LinkedIn, Pinterest, etc.
 
 == Description ==
 

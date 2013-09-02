@@ -6,7 +6,7 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
-Description: Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
+Description: Complete Solution to Improve the Information Shared with Google Search, Facebook, Google+, Twitter, LinkedIn, Pinterest, etc.
 Version: 6.7.3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
