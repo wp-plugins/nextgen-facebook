@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '66';	// increment when adding/removing default options
+		public $opts_ver = '68';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -23,6 +23,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'link_publisher_url' => '',
 			'fb_admins' => '',
 			'fb_app_id' => '',
+			'og_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_width' => 300,
 			'og_img_height' => 300,
@@ -154,6 +155,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_og:video:height' => 1,
 			'inc_og:video:type' => 1,
 			'inc_article:author' => 1,
+			'inc_article:publisher' => 1,
 			'inc_article:published_time' => 1,
 			'inc_article:modified_time' => 1,
 			'inc_article:section' => 1,
@@ -358,6 +360,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_img_url' :
 						case 'og_vid_url' :
 						case 'og_def_img_url' :
+						case 'og_publisher_url' :
 						case 'link_publisher_url' :
 						case 'ngfb_cdn_urls' :
 							if ( ! empty( $opts[$key] ) && 

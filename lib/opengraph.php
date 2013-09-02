@@ -107,6 +107,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 						$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
 							$this->ngfb->options['og_author_field'] );
 				}
+				if ( ! array_key_exists( 'article:publisher', $og ) )
+					$og['article:publisher'] = $this->ngfb->options['og_publisher_url'];
+
 				if ( ! array_key_exists( 'article:tag', $og ) )
 					$og['article:tag'] = $this->ngfb->tags->get();
 

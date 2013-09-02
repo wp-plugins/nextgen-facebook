@@ -642,11 +642,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.4-dev1 =
+= 6.7.4-dev2 =
 
 *Free* and Pro Versions:
 
 * Fixed author description lookup for author index pages without any posts.
+* Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
 
 = Version 6.7.3 =
 
@@ -763,9 +764,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.4-dev1 =
+= 6.7.4-dev2 =
 
-Fixed author description lookup for author index pages without any posts.
+Fixed author description lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings.
 
 = 6.7.3 =
 

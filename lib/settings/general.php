@@ -188,8 +188,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					The URL should point to an author\'s <em>personal</em> website or social page.
 					This Open Graph meta tag is primarily used by Facebook, so the preferred (and default) 
 					value is the author\'s Facebook webpage URL.
-					See the Google Settings below for an <em>Author Link URL</em> for Google, 
-					and to define a common <em>publisher</em> URL for all webpages.' ) .
+					See the Google Settings below for an <em>Author Link URL</em> for Google.' ) .
 					'<td>' . $this->ngfb->admin->form->get_select( 'og_author_field', $this->author_fields() ) . '</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Fallback to Author Index', null, null, '
@@ -215,6 +214,13 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->ngfb->util->th( 'Default Author on Search Results', null, null, '
 					Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' ) .
 					'<td>' . $this->ngfb->admin->form->get_checkbox( 'og_def_author_on_search' ) . '</td>';
+
+					$ret[] = $this->ngfb->util->th( 'Publisher Page URL', 'highlight', null, '
+					The URL of your website\'s social page (usually a Facebook page). 
+					For example, the Publisher Page URL for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
+					is <a href="https://www.facebook.com/SurniaUlulaCom" target="_blank">https://www.facebook.com/SurniaUlulaCom</a>.
+					See the Google Settings below for a <em>Publisher Link URL</em> for Google.' ) .
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_publisher_url', 'wide' ) . '</td>';
 
 					break;
 
@@ -278,9 +284,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->ngfb->util->th( 'Publisher Link URL', 'highlight', null, '
 					If you have a <a href="http://www.google.com/+/business/" target="_blank">Google+ business page for your website</a>, 
 					you may use it\'s URL as the Publisher Link. 
-					For example, the Publisher Link URL for <a href="http://underwaterfocus.com/" target="_blank">Underwater Focus</a> 
-					(one of my websites) is <a href="https://plus.google.com/b/103439907158081755387/103439907158081755387/posts" 
-					target="_blank">https://plus.google.com/b/103439907158081755387/103439907158081755387/posts</a>.
+					For example, the Publisher Link URL for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
+					is <a href="https://plus.google.com/u/1/103457833348046432604/posts" target="_blank">https://plus.google.com/u/1/103457833348046432604/posts</a>.
 					The <em>Publisher Link URL</em> may take precedence over the <em>Author Link URL</em> in Google\'s search results.' ) .
 					'<td>' . $this->ngfb->admin->form->get_input( 'link_publisher_url', 'wide' ) . '</td>';
 
