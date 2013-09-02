@@ -202,13 +202,14 @@ NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc
 
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
+1. An image defined in the Post or Page Open Graph+ Custom Settings (Pro version).
+1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s) (Pro version).
 1. A *featured* or *attached* image from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) or the WordPress Media Library.
 1. An image from the [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
 1. A *preview* image from a [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
 1. Image(s) from expanded [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;singlepic&#93;`, `&#91;nggallery&#93;`, `&#91;nggtags&#93;` or `&#91;ngg_images&#93;` shortcodes.
-1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
+1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB Open Graph+ plugin settings.
-1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s).
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
