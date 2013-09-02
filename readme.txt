@@ -22,7 +22,7 @@ Complete Solution to Improve Information Shared on Google Search, Facebook, Goog
 * **Superb plugin, AMAZING support!** - By J (paradox_designs)
 * **Highly recommended!** - By dagicueppers (DagiCueppers)
 * **Powerful and well thought out** - By Stuart S (StuartSequeira)
-* [And many more](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
+* [And many more great reviews](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Meta Tags =
 
