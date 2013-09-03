@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.6
 Stable Tag: 6.7.3
 
-Improves Webpage HTML for Google Search and Social Sharing. An Essential Plugin for Every WordPress Website.
+Improves Webpage HTML for Google Search and Social Sharing. An Essential Plugin for Every WordPress Website!
 
 == Description ==
 
@@ -44,11 +44,11 @@ NGFB Open Graph+ detects and uses all images, associated or included in your web
 
 NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= e-Commerce =
+= e-Commerce Products =
 
 NGFB Open Graph+ (Pro version) recognizes [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
-= Social Buttons =
+= Optional Social Buttons =
 
 NGFB Open Graph+ also comes with several multilingual social sharing buttons, that you can include above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
