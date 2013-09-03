@@ -14,6 +14,8 @@ Complete Solution to Improve the Information Shared with Google Search, Facebook
 
 **An essential plugin for *every* WordPress website!**
 
+= Recent Reviews =
+
 What users are saying about NGFB Open Graph+:
 
 * **The Search is Over...** - By mattjabs
@@ -22,7 +24,7 @@ What users are saying about NGFB Open Graph+:
 * **Superb plugin, AMAZING support!** - By J (paradox_designs)
 * **Highly recommended!** - By dagicueppers (DagiCueppers)
 * **Powerful and well thought out** - By Stuart S (StuartSequeira)
-* [And many more great reviews](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
+* [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Improved Headers =
 
