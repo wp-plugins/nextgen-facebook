@@ -148,7 +148,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				empty( $shorten ) || ( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return $url;
 
-			$cache_salt = __METHOD__ . '(url:' . $url . ')';
+			$cache_salt = __METHOD__.'(url:'.$url.')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$short_url = get_transient( $cache_id );
@@ -301,7 +301,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$cache_salt = __METHOD__ . '(file:' . $this->ngfb->urls['readme'] . ')';
+			$cache_salt = __METHOD__.'(file:'.$this->ngfb->urls['readme'].')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$plugin_info = get_transient( $cache_id );
@@ -467,23 +467,222 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				case 'pending' :
 				case 'private' :
 				case 'publish' :
+					$lang = get_locale();
 					$name = is_page( $post_id ) ? 'Page' : 'Post';
 					$cache_type = 'object cache';
 					$sharing_url = $this->ngfb->util->get_sharing_url( 'none', get_permalink( $post_id ) );
 					foreach ( array(
-						'og array' => 'ngfbOpenGraph::get(sharing_url:' . $sharing_url . ')',
-						'the_excerpt html' => 'ngfbSocial::filter(post:' . $post_id .'_type:the_excerpt)',
-						'the_content html' => 'ngfbSocial::filter(post:' . $post_id .'_type:the_content)',
+						'og array' => 'ngfbOpenGraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
+						'the_excerpt html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
+						'the_content html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
 					) as $cache_origin => $cache_salt ) {
 						$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
-						$this->ngfb->debug->log( $cache_type . ': ' . $cache_origin . ' transient id salt "' . $cache_salt . '"' );
+						$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
 						if ( delete_transient( $cache_id ) ) {
-							$this->ngfb->debug->log( $cache_type . ': ' . $cache_origin . ' transient deleted for id "' . $cache_id . '"' );
-							$this->ngfb->notices->inf( 'WordPress object cache flushed for ' . $name . ' ID #' . $post_id, true );
+							$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );
+							$this->ngfb->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id.' ('.$lang.')', true );
 						}
 					}
 					break;
 			}
+		}
+
+		public function get_lang( $lang = '' ) {
+			$ret = array();
+			switch ( $lang ) {
+				case 'fb' :
+				case 'facebook' :
+					$ret = array(
+						'af_ZA' => 'Afrikaans',
+						'sq_AL' => 'Albanian',
+						'ar_AR' => 'Arabic',
+						'hy_AM' => 'Armenian',
+						'az_AZ' => 'Azerbaijani',
+						'eu_ES' => 'Basque',
+						'be_BY' => 'Belarusian',
+						'bn_IN' => 'Bengali',
+						'bs_BA' => 'Bosnian',
+						'bg_BG' => 'Bulgarian',
+						'ca_ES' => 'Catalan',
+						'zh_HK' => 'Chinese (Hong Kong)',
+						'zh_CN' => 'Chinese (Simplified)',
+						'zh_TW' => 'Chinese (Traditional)',
+						'hr_HR' => 'Croatian',
+						'cs_CZ' => 'Czech',
+						'da_DK' => 'Danish',
+						'nl_NL' => 'Dutch',
+						'en_GB' => 'English (UK)',
+						'en_PI' => 'English (Pirate)',
+						'en_UD' => 'English (Upside Down)',
+						'en_US' => 'English (US)',
+						'eo_EO' => 'Esperanto',
+						'et_EE' => 'Estonian',
+						'fo_FO' => 'Faroese',
+						'tl_PH' => 'Filipino',
+						'fi_FI' => 'Finnish',
+						'fr_CA' => 'French (Canada)',
+						'fr_FR' => 'French (France)',
+						'fy_NL' => 'Frisian',
+						'gl_ES' => 'Galician',
+						'ka_GE' => 'Georgian',
+						'de_DE' => 'German',
+						'el_GR' => 'Greek',
+						'he_IL' => 'Hebrew',
+						'hi_IN' => 'Hindi',
+						'hu_HU' => 'Hungarian',
+						'is_IS' => 'Icelandic',
+						'id_ID' => 'Indonesian',
+						'ga_IE' => 'Irish',
+						'it_IT' => 'Italian',
+						'ja_JP' => 'Japanese',
+						'km_KH' => 'Khmer',
+						'ko_KR' => 'Korean',
+						'ku_TR' => 'Kurdish',
+						'la_VA' => 'Latin',
+						'lv_LV' => 'Latvian',
+						'fb_LT' => 'Leet Speak',
+						'lt_LT' => 'Lithuanian',
+						'mk_MK' => 'Macedonian',
+						'ms_MY' => 'Malay',
+						'ml_IN' => 'Malayalam',
+						'ne_NP' => 'Nepali',
+						'nb_NO' => 'Norwegian (Bokmal)',
+						'nn_NO' => 'Norwegian (Nynorsk)',
+						'ps_AF' => 'Pashto',
+						'fa_IR' => 'Persian',
+						'pl_PL' => 'Polish',
+						'pt_BR' => 'Portuguese (Brazil)',
+						'pt_PT' => 'Portuguese (Portugal)',
+						'pa_IN' => 'Punjabi',
+						'ro_RO' => 'Romanian',
+						'ru_RU' => 'Russian',
+						'sk_SK' => 'Slovak',
+						'sl_SI' => 'Slovenian',
+						'es_LA' => 'Spanish',
+						'es_ES' => 'Spanish (Spain)',
+						'sr_RS' => 'Serbian',
+						'sw_KE' => 'Swahili',
+						'sv_SE' => 'Swedish',
+						'ta_IN' => 'Tamil',
+						'te_IN' => 'Telugu',
+						'th_TH' => 'Thai',
+						'tr_TR' => 'Turkish',
+						'uk_UA' => 'Ukrainian',
+						'vi_VN' => 'Vietnamese',
+						'cy_GB' => 'Welsh',
+					);
+					break;
+				case 'gplus' :
+				case 'google' :
+					$ret = array(
+						'af'	=> 'Afrikaans',
+						'am'	=> 'Amharic',
+						'ar'	=> 'Arabic',
+						'eu'	=> 'Basque',
+						'bn'	=> 'Bengali',
+						'bg'	=> 'Bulgarian',
+						'ca'	=> 'Catalan',
+						'zh-HK'	=> 'Chinese (Hong Kong)',
+						'zh-CN'	=> 'Chinese (Simplified)',
+						'zh-TW'	=> 'Chinese (Traditional)',
+						'hr'	=> 'Croatian',
+						'cs'	=> 'Czech',
+						'da'	=> 'Danish',
+						'nl'	=> 'Dutch',
+						'en-GB'	=> 'English (UK)',
+						'en-US'	=> 'English (US)',
+						'et'	=> 'Estonian',
+						'fil'	=> 'Filipino',
+						'fi'	=> 'Finnish',
+						'fr'	=> 'French',
+						'fr-CA'	=> 'French (Canadian)',
+						'gl'	=> 'Galician',
+						'de'	=> 'German',
+						'el'	=> 'Greek',
+						'gu'	=> 'Gujarati',
+						'iw'	=> 'Hebrew',
+						'hi'	=> 'Hindi',
+						'hu'	=> 'Hungarian',
+						'is'	=> 'Icelandic',
+						'id'	=> 'Indonesian',
+						'it'	=> 'Italian',
+						'ja'	=> 'Japanese',
+						'kn'	=> 'Kannada',
+						'ko'	=> 'Korean',
+						'lv'	=> 'Latvian',
+						'lt'	=> 'Lithuanian',
+						'ms'	=> 'Malay',
+						'ml'	=> 'Malayalam',
+						'mr'	=> 'Marathi',
+						'no'	=> 'Norwegian',
+						'fa'	=> 'Persian',
+						'pl'	=> 'Polish',
+						'pt-BR'	=> 'Portuguese (Brazil)',
+						'pt-PT'	=> 'Portuguese (Portugal)',
+						'ro'	=> 'Romanian',
+						'ru'	=> 'Russian',
+						'sr'	=> 'Serbian',
+						'sk'	=> 'Slovak',
+						'sl'	=> 'Slovenian',
+						'es'	=> 'Spanish',
+						'es-419'	=> 'Spanish (Latin America)',
+						'sw'	=> 'Swahili',
+						'sv'	=> 'Swedish',
+						'ta'	=> 'Tamil',
+						'te'	=> 'Telugu',
+						'th'	=> 'Thai',
+						'tr'	=> 'Turkish',
+						'uk'	=> 'Ukrainian',
+						'ur'	=> 'Urdu',
+						'vi'	=> 'Vietnamese',
+						'zu'	=> 'Zulu',
+					);
+					break;
+				case 'twitter' :
+					$ret = array(
+						'ar'	=> 'Arabic',
+						'ca'	=> 'Catalan',
+						'cs'	=> 'Czech',
+						'da'	=> 'Danish',
+						'de'	=> 'German',
+						'el'	=> 'Greek',
+						'en'	=> 'English',
+						'en-gb'	=> 'English UK',
+						'es'	=> 'Spanish',
+						'eu'	=> 'Basque',
+						'fa'	=> 'Farsi',
+						'fi'	=> 'Finnish',
+						'fil'	=> 'Filipino',
+						'fr'	=> 'French',
+						'gl'	=> 'Galician',
+						'he'	=> 'Hebrew',
+						'hi'	=> 'Hindi',
+						'hu'	=> 'Hungarian',
+						'id'	=> 'Indonesian',
+						'it'	=> 'Italian',
+						'ja'	=> 'Japanese',
+						'ko'	=> 'Korean',
+						'msa'	=> 'Malay',
+						'nl'	=> 'Dutch',
+						'no'	=> 'Norwegian',
+						'pl'	=> 'Polish',
+						'pt'	=> 'Portuguese',
+						'ro'	=> 'Romanian',
+						'ru'	=> 'Russian',
+						'sv'	=> 'Swedish',
+						'th'	=> 'Thai',
+						'tr'	=> 'Turkish',
+						'uk'	=> 'Ukrainian',
+						'ur'	=> 'Urdu',
+						'xx-lc'	=> 'Lolcat',
+						'zh-tw'	=> 'Traditional Chinese',
+						'zh-cn'	=> 'Simplified Chinese',
+
+					);
+					break;
+			}
+			asort( $ret );
+			return $ret;
 		}
 
 	}

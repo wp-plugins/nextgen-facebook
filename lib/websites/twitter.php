@@ -12,16 +12,6 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 
 	class ngfbSettingsTwitter extends ngfbSettingsSocialSharing {
 
-		public $lang = array(
-			'en'	=> 'English',
-			'fr'	=> 'French',
-			'de'	=> 'German',
-			'it'	=> 'Italian',
-			'es'	=> 'Spanish',
-			'ko'	=> 'Korean',
-			'ja'	=> 'Japanese',
-		);
-
 		protected $ngfb;
 
 		public function __construct( &$ngfb_plugin ) {
@@ -42,8 +32,8 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			$ret[] = $this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 			$this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Language', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_lang', $this->lang ) . '</td>';
+			$ret[] = $this->ngfb->util->th( 'Default Language', 'short' ) . '<td>' . 
+			$this->ngfb->admin->form->get_select( 'twitter_lang', $this->ngfb->util->get_lang( 'twitter' ) ) . '</td>';
 
 			$ret[] = $this->ngfb->util->th( 'Count Position', 'short' ) . '<td>' . 
 			$this->ngfb->admin->form->get_select( 'twitter_count', 
@@ -138,6 +128,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
+			$atts['lang'] = apply_filters( 'ngfb_lang', $atts['lang'], $this->ngfb->util->get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
 				if ( ! empty( $this->ngfb->options['twitter_via'] ) )
@@ -157,7 +148,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '><a href="' . $prot . 'twitter.com/share" class="twitter-share-button" lang="'. $atts['lang'] . '" data-url="' . $atts['url'] . '" data-counturl="' . $long_url . '" data-text="' . $atts['caption'] . '" data-via="' . $atts['via'] . '" data-related="' . $atts['related'] . '" data-hashtags="' . $atts['hashtags'] . '" data-count="' . $this->ngfb->options['twitter_count'] . '" data-size="' . $this->ngfb->options['twitter_size'] . '" data-dnt="' . $atts['dnt'] . '">Tweet</a></div>';
+			$html = '<!-- Twitter Button --><div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '><a href="' . $prot . 'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'] . '" data-url="' . $atts['url'] . '" data-counturl="' . $long_url . '" data-text="' . $atts['caption'] . '" data-via="' . $atts['via'] . '" data-related="' . $atts['related'] . '" data-hashtags="' . $atts['hashtags'] . '" data-count="' . $this->ngfb->options['twitter_count'] . '" data-size="' . $this->ngfb->options['twitter_size'] . '" data-dnt="' . $atts['dnt'] . '">Tweet</a></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
 			return $html;
 		}

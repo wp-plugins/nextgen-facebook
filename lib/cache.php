@@ -49,7 +49,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$url_frag = parse_url( $url, PHP_URL_FRAGMENT );
 			if ( ! empty( $url_frag ) ) $url_frag = '#' . $url_frag;
 
-			$cache_salt = __CLASS__ . '(get:' . $get_url . ')';
+			$cache_salt = __CLASS__.'(get:'.$get_url.')';
 			$cache_id = md5( $cache_salt );
 			$cache_file = $this->base_dir . $cache_id . $url_ext;
 			$cache_url = $this->base_url . $cache_id . $url_ext . $url_frag;
@@ -149,7 +149,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				case 'wp_cache' :
 				case 'transient' :
 					$cache_type = 'object cache';
-					$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );	// add a prefix to the object cache id
+					$cache_id = $this->ngfb->acronym. '_' . md5( $cache_salt );	// add a prefix to the object cache id
 					$this->ngfb->debug->log( $cache_type . ': cache_data ' . $cache_name . ' id salt "' . $cache_salt . '"' );
 					if ( $cache_name == 'wp_cache' ) 
 						$cache_data = wp_cache_get( $cache_id, __CLASS__ );

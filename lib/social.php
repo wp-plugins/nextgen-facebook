@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 			// we should always have a unique post ID
 			global $post;
-			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_type:' . $type . ')';
+			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$html = get_transient( $cache_id );
@@ -201,6 +201,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function header_js( $pos = 'id' ) {
 			$lang = empty( $this->ngfb->options['gp_lang'] ) ? 'en-US' : $this->ngfb->options['gp_lang'];
+			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "' .  $lang . '" };
 				function ngfb_header_js( script_id, url, async ) {

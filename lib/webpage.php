@@ -258,7 +258,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( empty( $post ) ) return;
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 			$this->ngfb->debug->log( 'using content from post id ' . $post->ID );
-			$cache_salt = __METHOD__ . '(post:' . $post->ID . '_' . $filter_name . ')';
+			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$this->ngfb->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );

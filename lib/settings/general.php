@@ -244,11 +244,11 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					data for <em>accounts associated with the Application ID</em>.' ) .
 					'<td>' . $this->ngfb->admin->form->get_input( 'fb_app_id' ) . '</td>';
 
-					$ret[] = $this->ngfb->util->th( 'Language / Locale', null, null, '
+					$ret[] = $this->ngfb->util->th( 'Default Language', null, null, '
 					The language / locale for your website content. This option also controls the language of the 
 					Facebook social sharing button.' ) .
 					'<td>' . $this->ngfb->admin->form->get_select( 'fb_lang', 
-						$this->ngfb->admin->settings['social']->website['facebook']->lang ) . '</td>';
+						$this->ngfb->util->get_lang( 'facebook' ) ) . '</td>';
 
 					break;
 

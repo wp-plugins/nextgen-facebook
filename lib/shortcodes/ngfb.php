@@ -49,7 +49,7 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 			if ( ! empty( $atts['buttons'] ) ) {
 				$keys = implode( '|', array_keys( $atts ) );
 				$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
-				$cache_salt = __METHOD__ . '(post:' . $post->ID . '_keys:' . $keys .  '_vals:' . $vals . ')';
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_keys:'.$keys. '_vals:'.$vals.')';
 				$cache_id = 'ngfb_' . md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
