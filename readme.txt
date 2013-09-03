@@ -651,6 +651,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.7.3 =
 
+*7670 lines in 35 files, with 41 classes and 264 functions*
+
 *Free* and Pro Versions:
 
 * Added a check for the Facebook plugin to prevent duplicate Open Graph meta tags.
@@ -662,6 +664,8 @@ Pro Version:
 * Added support for older WooCommerce v1.x functions and methods.
 
 = Version 6.7.2 =
+
+*7728 lines in 35 files, with 41 classes and 264 functions*
 
 *Free* and Pro Versions:
 
@@ -678,9 +682,13 @@ Pro Version:
 
 = Version 6.7.1 =
 
+*7642 lines in 35 files, with 41 classes and 264 functions*
+
 * Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
 
 = Version 6.7 =
+
+*7639 lines in 35 files, with 41 classes and 264 functions*
 
 *Free* and Pro Versions:
 
@@ -697,6 +705,8 @@ Pro Version:
 * Added option to include / exclude social buttons on posts, pages, attachments, and custom post types.
 
 = Version 6.6 =
+
+*7612 lines in 35 files, with 41 classes and 262 functions*
 
 *Free* and Pro Versions:
 
@@ -756,11 +766,6 @@ div.fb-share-button span {
         vertical-align:middle !important;
 }
 </pre>
-
-= Version 6.2.2 =
-
-* Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format.
-* Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
 
