@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.6
 Stable Tag: 6.7.3
 
-Adds HTML header tags for better Google Search results and Social Sharing. An essential plugin for every WordPress website.
+Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
 
 == Description ==
 
