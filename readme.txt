@@ -14,6 +14,8 @@ Complete Solution to Improve the Information Shared with Google Search, Facebook
 
 **An essential plugin for *every* WordPress website!**
 
+= Recent Reviews =
+
 What users are saying about NGFB Open Graph+:
 
 * **The Search is Over...** - By mattjabs
@@ -22,7 +24,7 @@ What users are saying about NGFB Open Graph+:
 * **Superb plugin, AMAZING support!** - By J (paradox_designs)
 * **Highly recommended!** - By dagicueppers (DagiCueppers)
 * **Powerful and well thought out** - By Stuart S (StuartSequeira)
-* [And many more great reviews](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
+* [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Improved Headers =
 
@@ -642,6 +644,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= 6.7.4-dev2 =
+
+*Free* and Pro Versions:
+
+* Fixed author description lookup for author index pages without any posts.
+* Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
+
 = Version 6.7.3 =
 
 *Free* and Pro Versions:
@@ -756,6 +765,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.7.4-dev2 =
+
+Fixed author description lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings.
 
 = 6.7.3 =
 
