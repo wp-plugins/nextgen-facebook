@@ -21,7 +21,6 @@ What users are saying about NGFB Open Graph+:
 * **Solid plugin superb support** - By robert5
 * **Superb plugin, AMAZING support!** - By J (paradox_designs)
 * **Highly recommended!** - By dagicueppers (DagiCueppers)
-* **Powerful and well thought out** - By Stuart S (StuartSequeira)
 * [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
