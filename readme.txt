@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.6
 Stable Tag: 6.7.3
 
-Adds HTML header tags for Google Search and Social Sharing. An essential plugin for every WordPress website!
+Adds HTML header tags for better Google Search results and Social Sharing. An essential plugin for every WordPress website.
 
 == Description ==
 
@@ -26,7 +26,7 @@ What users are saying about NGFB Open Graph+:
 
 = Social and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search, and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the *existing* content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
 
