@@ -1,26 +1,38 @@
 === NGFB Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce, socialgraph
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.6
-Stable Tag: 6.7.2
+Stable Tag: 6.7.3
 
-Complete Social Sharing Package for Improved Publishing on Facebook, G+, Twitter, LinkedIn, Pinterest, and Google Search Results.
+Complete Solution to Improve the Information Shared with Google Search, Facebook, Google+, Twitter, LinkedIn, Pinterest, etc.
 
 == Description ==
 
 **An essential plugin for *every* WordPress website!**
 
-= Meta Tags =
+= Recent Reviews =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/), Twitter Card, and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+What users are saying about NGFB Open Graph+:
+
+* **The Search is Over...** - By mattjabs
+* **Best Open Graph Implementation, Yet** - By barnesatl
+* **Solid plugin superb support** - By robert5
+* **Superb plugin, AMAZING support!** - By J (paradox_designs)
+* **Highly recommended!** - By dagicueppers (DagiCueppers)
+* **Powerful and well thought out** - By Stuart S (StuartSequeira)
+* [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
+
+= Improved Headers =
+
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search, and most social websites, to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the *existing* content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
 
-**NGFB Open Graph+ is a stand-alone plugin, that can also be used to extend traditional SEO plugins like Yoast WordPress SEO, All-In-One SEO, SEO Ultimate, etc.**
+**NGFB Open Graph+ is a stand-alone plugin, that can *also* be used to improve and extend traditional SEO plugins like [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/), All-In-One SEO, SEO Ultimate, etc.**
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -28,13 +40,13 @@ Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](h
 
 = Images and Videos =
 
-NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including the preview image). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/), but also works just as well with the built-in WordPress Media Library.
+NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/), but also works just as well with the built-in WordPress Media Library.
 
 = Twitter Cards =
 
 NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= eCommerce =
+= e-Commerce =
 
 NGFB Open Graph+ (Pro version) recognizes [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported.
 
@@ -192,13 +204,14 @@ NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc
 
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
+1. An image defined in the Post or Page Open Graph+ Custom Settings (Pro version).
+1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s) (Pro version).
 1. A *featured* or *attached* image from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) or the WordPress Media Library.
 1. An image from the [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
 1. A *preview* image from a [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
 1. Image(s) from expanded [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;singlepic&#93;`, `&#91;nggallery&#93;`, `&#91;nggtags&#93;` or `&#91;ngg_images&#93;` shortcodes.
-1. Image(s) from HTML `<img/>` tags in the Post or Page content text.
+1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB Open Graph+ plugin settings.
-1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s).
 
 = Q. Why does NGFB ignore the &lt;img/&gt; HTML tags in my content? =
 
@@ -631,6 +644,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= 6.7.4-dev2 =
+
+*Free* and Pro Versions:
+
+* Fixed author description lookup for author index pages without any posts.
+* Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
+
 = Version 6.7.3 =
 
 *Free* and Pro Versions:
@@ -745,6 +765,10 @@ div.fb-share-button span {
 * Fixed: Added missing 'none' option in the Default Author selection lists.
 
 == Upgrade Notice ==
+
+= 6.7.4-dev2 =
+
+Fixed author description lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings.
 
 = 6.7.3 =
 
