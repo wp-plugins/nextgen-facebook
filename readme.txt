@@ -33,7 +33,7 @@ Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](h
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
 
-NGFB Open Graph+ is a stand-alone plugin, that can *also* be used to improve and extend traditional SEO plugins like [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/), All-In-One SEO, SEO Ultimate, etc.
+NGFB Open Graph+ is a stand-alone plugin, that can *also be used to improve and extend traditional SEO plugins* like [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/), All-In-One SEO, SEO Ultimate, etc.
 
 = Images and Videos =
 
