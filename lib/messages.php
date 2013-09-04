@@ -33,6 +33,8 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 
 					$msg .= 'Customize Open Graph and Twitter Card meta tags for each <em>individual</em> Post and Page?<br/>';
 
+					$msg .= 'Dynamically change the Facebook, Google+ and Twitter social button language with the webpage language?<br/>';
+
 					$msg .= 'Add tighter integration with 3rd party plugins like WordPress SEO, All-In-One SEO and WooCommerce?<br/>';
 
 					$msg .= 'Improve page load times with file caching for <em>external</em> social images and JavaScript?<br/>';
@@ -40,7 +42,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					$msg .= '<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
 						target="_blank">purchasing the Pro version today</a>.</p>';
 
-					$msg .= '<p>Upgrading to the Pro version is easy! Simply enter the unique <em>Authentication ID</em> 
+					$msg .= '<p>Upgrading to the Pro version is easy and simple! Enter the unique <em>Authentication ID</em> 
 						(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
