@@ -33,7 +33,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 
 					$msg .= 'Customize Open Graph and Twitter Card meta tags for each <em>individual</em> Post and Page?<br/>';
 
-					$msg .= 'Dynamically change the Facebook, Google+ and Twitter social button language with the webpage language?<br/>';
+					$msg .= 'Change the Facebook, Google+ and Twitter social button language as the webpage switches language?<br/>';
 
 					$msg .= 'Add tighter integration with 3rd party plugins like WordPress SEO, All-In-One SEO and WooCommerce?<br/>';
 
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 				case 'purchase_box' :
 					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.
 						If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-						Please help continue that work by <a href="'.$this->ngfb->urls['plugin'].'" target="_blank">purchasing 
+						Please show your appreciation by <a href="'.$this->ngfb->urls['plugin'].'" target="_blank">purchasing 
 						the Pro version</a>.</p>';
 					break;
 				case 'review_plugin' :
