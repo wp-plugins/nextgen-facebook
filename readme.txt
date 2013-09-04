@@ -1,4 +1,4 @@
-=== NGFB Open Graph+ ===
+=== NextGEN Facebook (NGFB) Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce, socialgraph
