@@ -355,7 +355,7 @@ Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-fa
 
 == Debugging and Problem Solving ==
 
-NGFB Open Graph+ followed the latest recommended WordPress coding practices, but on occasion, it may break other themes and/or plugins that do not.
+NGFB Open Graph+ follows the latest recommended WordPress coding practices, but on occasion, it may break *other* themes and/or plugins that do not.
 
 = WordPress Content Filters =
 
