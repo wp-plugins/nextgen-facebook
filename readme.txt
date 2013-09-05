@@ -49,7 +49,7 @@ NGFB Open Graph+ (Pro version) recognizes [WooCommerce v1.x and v2.x](http://wor
 
 = Optional Social Buttons =
 
-NGFB Open Graph+ also comes with several multilingual social sharing buttons, that you can include above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ also comes with several social sharing buttons, that you can optionally include above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+
@@ -58,6 +58,8 @@ NGFB Open Graph+ also comes with several multilingual social sharing buttons, th
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
+
+The Facebook, Google+ and Twitter social buttons support multiple languages. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) will match the social button language with the webpage language / WordPress locale.
 
 = Best Performance =
 
@@ -639,7 +641,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.4-dev3 =
+= 6.7.4-dev4 =
 
 *Free* and Pro Versions:
 
@@ -771,7 +773,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.4-dev3 =
+= 6.7.4-dev4 =
 
 Fixed author information lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
 
