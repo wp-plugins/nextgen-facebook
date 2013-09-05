@@ -65,7 +65,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 				case 'media' :
 
-					$ret[] = $this->ngfb->util->th( 'Image Dimensions', 'highlight', null, '
+					$ret[] = $this->ngfb->util->th( __( 'Image Dimensions', NGFB_TEXTDOM ), 'highlight', null, '
 					Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
 					between ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' and 1500x1500, preferably cropped 
 					(the defaults are ' . $this->ngfb->opt->get_defaults( 'og_img_width' ) . 'x' .

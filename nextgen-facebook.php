@@ -170,6 +170,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
+			load_plugin_textdomain( NGFB_TEXTDOM, false, NGFB_PLUGINBASE . '/languages/' );
 			$this->setup_vars();
 			$this->error_checks();
 			if ( $this->debug->is_on() == true ) {
@@ -186,6 +187,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_FILEPATH', __FILE__ );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
 			define( 'NGFB_PLUGINBASE', plugin_basename( __FILE__ ) );			// since wp 1.5
+			define( 'NGFB_TEXTDOM', $this->slug );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR . 'lib/ext/markdown.php' );
