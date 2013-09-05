@@ -480,7 +480,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
 						if ( delete_transient( $cache_id ) ) {
 							$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );
-							$this->ngfb->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id.' ('.$lang.')', true );
+							// duplicate notices are ignored, so only one notice message will be shown
+							$this->ngfb->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
 						}
 					}
 					break;

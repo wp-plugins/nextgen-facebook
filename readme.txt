@@ -643,9 +643,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 *Free* and Pro Versions:
 
-* Fixed author description lookup for author index pages without any posts.
+* Fixed author information lookup for author index pages without any posts.
 * Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
-* Added the language locale to cache object IDs to segregate potentially different cached content by language.
+* Added the language locale to cache object IDs, in order to segregate potentially different cached content by language.
 
 Pro Version:
 
@@ -773,7 +773,7 @@ div.fb-share-button span {
 
 = 6.7.4-dev3 =
 
-Fixed author description lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
+Fixed author information lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
 
 = 6.7.3 =
 
