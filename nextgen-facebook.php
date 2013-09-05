@@ -438,8 +438,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
 				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
-				$this->notices->inf( 'NGFB HTML debug mode is ON. Activity messages are being added to webpages as hidden HTML comments. 
-					WP object cache expiration <em>temporarily</em> set at ' . $this->cache->object_expire . ' second(s).' );
+				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . 
+					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) .
+					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
 			// setup update checks if we have an Authentication ID
@@ -452,12 +453,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private function error_checks() {
 
+			$conflict_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
+
 			if ( $this->is_avail['mbdecnum'] !== true ) {
 				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
-				$this->notices->err( 'The <code><a href="http://php.net/manual/en/function.mb-decode-numericentity.php" 
-					target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing. 
-					This function is required to decode UTF8 entities. Please update your PHP installation 
-					(hint: you may need to install the \'php-mbstring\' package on some Linux distros).' );
+				$this->notices->err( sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ), __( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ) .
+					__( 'This function is required to decode UTF8 entities.', NGFB_TEXTDOM ) .
+					__( 'Please update your PHP installation (hint: you may need to install the \'php-mbstring\' package on some Linux distros).', NGFB_TEXTDOM ) );
 			}
 
 			// Yoast WordPress SEO
@@ -465,19 +467,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$wpseo_social = get_option( 'wpseo_social' );
 				if ( ! empty( $wpseo_social['opengraph'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo opengraph meta data option is enabled' );
-					$this->notices->err( 'Plugin conflict detected -- please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the
-						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo twitter meta data option is enabled' );
-					$this->notices->err( 'Plugin conflict detected -- please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the
-						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 
 				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo google plus publisher option is defined' );
-					$this->notices->err( 'Plugin conflict detected -- please remove the \'<em>Google Publisher Page</em>\' value entered in the
-						<a href="' . get_admin_url( null, 'admin.php?page=wpseo_social' ) . '">Yoast WordPress SEO plugin Social settings</a>.' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 			}
 
@@ -487,8 +486,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
 					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
 						$this->debug->log( 'plugin conflict detected - seo ultimate opengraph module is enabled' );
-						$this->notices->err( 'Plugin conflict detected -- please disable the \'<em>Open Graph Integrator</em>\' module in the
-							<a href="' . get_admin_url( null, 'admin.php?page=seo' ) . '">SEO Ultimate plugin Module Manager</a>.' );
+						$this->notices->err( $conflict_prefix . sprintf( __( 'please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=seo' ) ) );
 					}
 				}
 			}
@@ -498,15 +496,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$wordbooker_settings = get_option( 'wordbooker_settings' );
 				if ( empty( $wordbooker_settings['wordbooker_fb_disable_og'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wordbooker opengraph is enabled' );
-					$this->notices->err( 'Plugin conflict detected -- please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option 
-						on the <a href="' . get_admin_url( null, 'options-general.php?page=wordbooker' ) . '">Wordbooker Options Page</a>.' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
 				}
 			}
 
 			if ( class_exists( 'Facebook_Loader' ) ) {
 				$this->debug->log( 'plugin conflict detected - facebook plugin is active' );
-				$this->notices->err( 'Plugin conflict detected -- please <a href="' . get_admin_url( null, 'plugins.php' ) . '">deactivate the Facebook plugin</a> 
-					to prevent duplicate Open Graph meta tags in your webpage headers.' );
+				$this->notices->err( $conflict_prefix . sprintf( __( 'please <a href="%s">deactivate the Facebook plugin</a> to prevent duplicate Open Graph meta tags in your webpage headers.', NGFB_TEXTDOM ), get_admin_url( null, 'plugins.php' ) ) );
 			}
 		}
 
