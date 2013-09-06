@@ -454,6 +454,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			$conflict_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
 
+			// PHP
 			if ( $this->is_avail['mbdecnum'] !== true ) {
 				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
 				$this->notices->err( sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ), __( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ) . ' ' .
@@ -500,14 +501,18 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// Facebook
+  			if ( class_exists( 'Facebook_Loader' ) ) {
+                                $this->debug->log( 'plugin conflict detected - facebook plugin is active' );
+                                $this->notices->err( $conflict_prefix . sprintf( __( 'Please <a href="%s">deactivate the Facebook plugin</a> to prevent duplicate Open Graph meta tags in your webpage headers.', NGFB_TEXTDOM ), get_admin_url( null, 'plugins.php' ) ) );
+                        }
+
+			// AddThis Social Bookmarking Widget
 			if ( defined( 'ADDTHIS_INIT' ) && ADDTHIS_INIT && ( ! empty( $this->options['ngfb_filter_content'] ) || ! empty( $this->options['ngfb_filter_excerpt'] ) ) ) {
 				$this->debug->log( 'plugin conflict detected - addthis has broken excerpt / content filters' );
-				$this->notices->err( $conflict_prefix . 
-					__( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.' ) . ' ' .
+				$this->notices->err( $conflict_prefix . __( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.' ) . ' ' .
 					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  $this->util->get_admin_url( 'advanced' ), $this->fullname ) );
 			}
 
-			// AddThis Social Bookmarking Widget
 		}
 
 		// used before any class objects are created, so keep in main class
