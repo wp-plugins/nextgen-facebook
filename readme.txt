@@ -657,13 +657,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.4-dev4 =
+= 6.7.4-dev5 =
 
 *Free* and Pro Versions:
 
 * Fixed author information lookup for author index pages without any posts.
 * Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
 * Added the language locale to cache object IDs, in order to segregate potentially different cached content by language.
+* Added a check for 'AddThis Social Bookmarking Widget', which has incorrectly coded content and excerpt filters.
 
 Pro Version:
 
@@ -789,7 +790,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.4-dev4 =
+= 6.7.4-dev5 =
 
 Fixed author information lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
 
