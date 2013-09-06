@@ -59,7 +59,7 @@ NGFB Open Graph+ also comes with several social sharing buttons, that you can op
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support multiple languages. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) will match the social button language with the webpage language / WordPress locale.
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) will attempt to match the social button language with the webpage language (WordPress locale).
 
 = Best Performance =
 
@@ -281,7 +281,9 @@ After publishing a new Post or Page, a 'Validation Tools' tab will appear in the
 
 = Q14. How can I see what Facebook sees? =
 
-Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information they *already have* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+Facebook has an [Open Graph debugging tool](https://developers.facebook.com/tools/debug) where you can enter a URL and view a report of it's findings. Try it with your Posts, Pages, archive pages, author pages, search results, etc. to see how NGFB Open Graph+ presents your content. If there are Open Graph warnings, read them carefully -- usually they explain that the information Facebook *already has* for this webpage is in conflict with the Open Graph information now being presented. This might be just the published and modified times, or (if the webpage has already been liked or shared) the title and image Facebook has saved previously.
+
+When editing a *published* Post or Page, a direct link to the Facebook Debugger is also available in the Open Graph+ Custom Settings metabox, under the Validation Tools tab.
 
 = Q15. Why does Facebook play videos instead of linking them to my webpage? =
 
