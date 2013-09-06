@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
-Version: 6.7.4-dev4
+Version: 6.7.4-dev5
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.4-dev4';
+		public $version = '6.7.4-dev5';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -194,12 +194,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// allow some constants to be pre-defined in wp-config.php
 
+			// NGFB_RESET
 			// NGFB_DEBUG
 			// NGFB_WP_DEBUG
-			// NGFB_RESET
-			// NGFB_UPDATE_URL
-			// NGFB_MIN_IMG_SIZE_DISABLE
 			// NGFB_OPEN_GRAPH_DISABLE
+			// NGFB_MIN_IMG_SIZE_DISABLE
 			// NGFB_CURL_DISABLE
 			// NGFB_CURL_PROXY
 			// NGFB_CURL_PROXYUSERPWD
@@ -457,8 +456,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( $this->is_avail['mbdecnum'] !== true ) {
 				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
-				$this->notices->err( sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ), __( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ) .
-					__( 'This function is required to decode UTF8 entities.', NGFB_TEXTDOM ) .
+				$this->notices->err( sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ), __( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ) . ' ' .
+					__( 'This function is required to decode UTF8 entities.', NGFB_TEXTDOM ) . ' ' .
 					__( 'Please update your PHP installation (hint: you may need to install the \'php-mbstring\' package on some Linux distros).', NGFB_TEXTDOM ) );
 			}
 
@@ -467,16 +466,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$wpseo_social = get_option( 'wpseo_social' );
 				if ( ! empty( $wpseo_social['opengraph'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo opengraph meta data option is enabled' );
-					$this->notices->err( $conflict_prefix . sprintf( __( 'please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'Please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo twitter meta data option is enabled' );
-					$this->notices->err( $conflict_prefix . sprintf( __( 'please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'Please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 
 				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wpseo google plus publisher option is defined' );
-					$this->notices->err( $conflict_prefix . sprintf( __( 'please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'Please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 			}
 
@@ -486,7 +485,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
 					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
 						$this->debug->log( 'plugin conflict detected - seo ultimate opengraph module is enabled' );
-						$this->notices->err( $conflict_prefix . sprintf( __( 'please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=seo' ) ) );
+						$this->notices->err( $conflict_prefix . sprintf( __( 'Please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=seo' ) ) );
 					}
 				}
 			}
@@ -496,14 +495,19 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$wordbooker_settings = get_option( 'wordbooker_settings' );
 				if ( empty( $wordbooker_settings['wordbooker_fb_disable_og'] ) ) {
 					$this->debug->log( 'plugin conflict detected - wordbooker opengraph is enabled' );
-					$this->notices->err( $conflict_prefix . sprintf( __( 'please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
 				}
 			}
 
-			if ( class_exists( 'Facebook_Loader' ) ) {
-				$this->debug->log( 'plugin conflict detected - facebook plugin is active' );
-				$this->notices->err( $conflict_prefix . sprintf( __( 'please <a href="%s">deactivate the Facebook plugin</a> to prevent duplicate Open Graph meta tags in your webpage headers.', NGFB_TEXTDOM ), get_admin_url( null, 'plugins.php' ) ) );
+			// Facebook
+			if ( defined( 'ADDTHIS_INIT' ) && ADDTHIS_INIT && ( ! empty( $this->options['ngfb_filter_content'] ) || ! empty( $this->options['ngfb_filter_excerpt'] ) ) ) {
+				$this->debug->log( 'plugin conflict detected - addthis has broken excerpt / content filters' );
+				$this->notices->err( $conflict_prefix . 
+					__( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.' ) . ' ' .
+					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  $this->util->get_admin_url( 'advanced' ), $this->fullname ) );
 			}
+
+			// AddThis Social Bookmarking Widget
 		}
 
 		// used before any class objects are created, so keep in main class
