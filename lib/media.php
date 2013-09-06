@@ -134,8 +134,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$url = $this->ngfb->meta->get_options( $post_id, 'og_img_url' );
 			if ( $pid > 0 ) {
 				if ( $this->ngfb->is_avail['ngg'] == true && $pre == 'ngg' ) {
-					$this->ngfb->debug->log( 'found custom meta image id = ' . $pre . '-' . $pid );
-					$image = $this->ngg->get_image_src( $pre . '-' . $pid, $size_name, $check_dupes );
+					$this->ngfb->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
+					$image = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				} else {
 					$this->ngfb->debug->log( 'found custom meta image id = ' . $pid );
 					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
@@ -162,7 +162,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( $pid > 0 ) {
 				if ( $this->ngfb->is_avail['ngg'] == true && $pre == 'ngg' )
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pre . '-' . $pid, $size_name, $check_dupes );
+						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				else
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
@@ -192,7 +192,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			// check html tags for ngg images
 			if ( $this->ngfb->is_avail['ngg'] == true ) {
 				$og_ret = $this->ngg->get_content_images( $num, $size_name, $check_dupes, $content );
-				if ( ! empty( $og_ret ) ) return $og_ret;	// return immediately and ignore any other type of image
+				if ( $this->ngfb->util->is_maxed( $og_ret, $num ) )
+					return $og_ret;
 			}
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (data-ngfb-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
@@ -224,7 +225,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		
 								$this->ngfb->debug->log( $attr_name . ' ngg pre-v2 cache image = ' . $og_image['og:image'] );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-' . $match[1], $size_name, $check_dupes );
+									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
 		
 							} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
 								$this->ngfb->util->is_uniq_url( $og_image['og:image'] ) == true ) {
@@ -300,7 +301,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			// check for ngg gallery
 			if ( $this->ngfb->is_avail['ngg'] == true ) {
 				$og_ret = $this->ngg->get_gallery_images( $num , $size_name, $want_this, $check_dupes );
-				if ( ! empty( $og_ret ) ) return $og_ret;	// return immediately and ignore any other type of image
+				if ( $this->ngfb->util->is_maxed( $og_ret, $num ) )
+					return $og_ret;
 			}
 			$this->ngfb->util->slice_max( $og_ret, $num );
 			return $og_ret;

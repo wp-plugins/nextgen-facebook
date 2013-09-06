@@ -173,7 +173,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// if we haven't reached the limit of images yet, keep going
-			if ( ! $this->is_maxed( $og_ret, $num ) ) {
+			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->num_remains( $og_ret, $num );
 				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos(' . $num_remains . ')' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_videos( $num_remains ) );
@@ -226,7 +226,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$this->ngfb->debug->log( 'calling this->ngfb->media->get_featured(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_featured( $num_remains, $size_name, $post->ID ) );
 
-				if ( ! $this->is_maxed( $og_ret, $num ) ) {
+				if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 					$num_remains = $this->num_remains( $og_ret, $num );
 					$this->ngfb->debug->log( 'calling this->ngfb->media->get_attached_images(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
 					$og_ret = array_merge( $og_ret, $this->ngfb->media->get_attached_images( $num_remains, $size_name, $post->ID ) );
@@ -237,7 +237,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// check for ngg shortcodes and query vars
-			if ( $this->ngfb->is_avail['ngg'] == true && ! $this->is_maxed( $og_ret, $num ) ) {
+			if ( $this->ngfb->is_avail['ngg'] == true && ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 				$ngg_query_og_ret = array();
 				$num_remains = $this->num_remains( $og_ret, $num );
 				if ( version_compare( $this->ngfb->ngg_version, '2.0.0', '<' ) ) {
@@ -249,7 +249,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$this->ngfb->debug->log( count( $ngg_query_og_ret ) . ' image(s) returned - skipping additional shortcode images' );
 					$og_ret = array_merge( $og_ret, $ngg_query_og_ret );
 				// if no query images were found, continue with ngg shortcodes in content
-				} elseif ( ! $this->is_maxed( $og_ret, $num ) ) {
+				} elseif ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 					$num_remains = $this->num_remains( $og_ret, $num );
 					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_shortcode_images(' . $num_remains . ',"' . $size_name . '")' );
 					$og_ret = array_merge( $og_ret, $this->ngfb->media->ngg->get_shortcode_images( $num_remains, $size_name ) );
@@ -257,7 +257,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// if we haven't reached the limit of images yet, keep going
-			if ( ! $this->is_maxed( $og_ret, $num ) ) {
+			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->num_remains( $og_ret, $num );
 				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_images(' . $num_remains . ',"' . $size_name . '")' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_images( $num_remains, $size_name ) );
@@ -280,12 +280,6 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 			unset ( $max_name );
 			return $og_max;
-		}
-
-		private function is_maxed( &$arr, $num = 0 ) {
-			if ( ! is_array( $arr ) ) return false;
-			if ( $num > 0 && count( $arr ) >= $num ) return true;
-			return false;
 		}
 
 		private function num_remains( &$arr, $num = 0 ) {

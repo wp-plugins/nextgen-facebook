@@ -410,6 +410,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return false;
 		}
 
+		public function is_maxed( &$arr, $num = 0 ) {
+			if ( ! is_array( $arr ) ) return false;
+			if ( $num > 0 && count( $arr ) >= $num ) return true;
+			return false;
+		}
+
 		// table header with optional tooltip text
 		public function th( $title = '', $class = '', $id = '', $tooltip = '' ) {
 			$html = '<th'.
