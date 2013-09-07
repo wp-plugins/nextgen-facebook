@@ -659,11 +659,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = 6.7.4.1 =
 
-*7742 lines in 35 files, with 41 classes and 265 functions*
+*7740 lines in 35 files, with 41 classes and 265 functions.*
 
 *Free* and Pro Versions:
 
-* Added the separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use or ignore the separator.
+* Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator.
+* Moved the WordPress version check code into the plugin activation method.
 
 = 6.7.4 =
 
@@ -802,7 +803,7 @@ div.fb-share-button span {
 
 = 6.7.4.1 =
 
-Added the separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use or ignore the separator.
+Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator. Moved the WordPress version check into the activation method.
 
 = 6.7.4 =
 
