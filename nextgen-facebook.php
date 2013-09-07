@@ -128,6 +128,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function activate() {
+			$this->check_wp_version();
 			$this->setup_vars( true );
 		}
 
@@ -437,7 +438,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
 				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
-				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . 
+				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . ' ' .
 					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) .
 					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
@@ -564,6 +565,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			unset ( $id, $name );
 
 			return $is_avail;
+		}
+
+		private function check_wp_version() {
+			global $wp_version;
+			$min_wp_version = '3.0';
+			if ( version_compare( $wp_version, $min_wp_version, '<' ) ) {
+				deactivate_plugins( NGFB_PLUGINBASE );
+				error_log( NGFB_PLUGINBASE.' requires WordPress '.$min_wp_version.' or higher ('.$wp_version.' reported).' );
+				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.' ), $this->fullname, $min_wp_version ) .'</p>' );
+			}
 		}
 
 	}

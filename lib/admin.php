@@ -34,7 +34,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected $pagehook;
 		protected $readme;
 
-		private $min_wp_version = '3.0';
 		private $old_css_file = '';
 
 		public function __construct( &$ngfb_plugin ) {
@@ -44,7 +43,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$def_opts = $this->ngfb->opt->get_defaults();
 			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $def_opts );
 
-			add_action( 'admin_init', array( &$this, 'check_wp_version' ) );
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
 
@@ -65,18 +63,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function set_readme( $expire_secs = false ) {
 			if ( empty( $this->readme ) )
 				$this->readme = $this->ngfb->util->parse_readme( $expire_secs );
-		}
-
-		public function check_wp_version() {
-			global $wp_version;
-			if ( version_compare( $wp_version, $this->min_wp_version, '<' ) ) {
-				if( is_plugin_active( NGFB_PLUGINBASE ) ) {
-					deactivate_plugins( NGFB_PLUGINBASE );
-					error_log( NGFB_PLUGINBASE . ' requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated.' );
-					wp_die( $this->ngfb->fullname . ' requires WordPress ' . $this->min_wp_version .  ' or higher, and has therefore been deactivated. 
-						Please upgrade WordPress and try again. Thank you.<br /><br />Back to <a href="' . admin_url() . '">WordPress admin</a>.' );
-				}
-			}
 		}
 
 		public function add_admin_menus() {

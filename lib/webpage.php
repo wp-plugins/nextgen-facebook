@@ -98,8 +98,9 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 	
 				// by default, use the wordpress title if an seo plugin is available
 				} elseif ( $this->ngfb->is_avail['any_seo'] == true ) {
-	
-					$title = wp_title( $this->ngfb->options['og_title_sep'], false );
+
+					// use separator on right for compatibility with aioseo
+					$title = wp_title( $this->ngfb->options['og_title_sep'], false, 'right' );
 					$this->ngfb->debug->log( 'seo wp_title() = "'.$title.'"' );
 	
 				// category title, with category parents
