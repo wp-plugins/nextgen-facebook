@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.6
-Stable Tag: 6.7.4
+Stable Tag: 6.7.4.1
 
 Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
 
