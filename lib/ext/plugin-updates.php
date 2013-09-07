@@ -150,7 +150,7 @@ class ngfbUpdate {
 			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		$plugins = get_plugins();
 		if ( array_key_exists( $this->base_name, $plugins ) && 
-			array_key_exists('Version', $plugins[$this->base_name] ) )
+			array_key_exists( 'Version', $plugins[$this->base_name] ) )
 				$version = $plugins[$this->base_name]['Version'];
 		return apply_filters( 'ngfb_installed_version', $version );
 	}

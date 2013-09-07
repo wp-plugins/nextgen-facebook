@@ -657,7 +657,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.4-dev5 =
+= 6.7.4 =
 
 *Free* and Pro Versions:
 
@@ -790,7 +790,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.4-dev5 =
+= 6.7.4 =
 
 Fixed author information lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
 
