@@ -99,8 +99,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				// by default, use an seo title if an seo plugin is available
 				} elseif ( $this->ngfb->is_avail['any_seo'] == true ) {
 	
-					$title = wp_title( '', false );
-					$this->ngfb->debug->log( 'seo wp_title() = "' . $title . '"' );
+					$title = wp_title( $this->ngfb->options['og_title_sep'], false );
+					$this->ngfb->debug->log( 'seo wp_title() = "'.$title.'"' );
 	
 				// category title, with category parents
 				} elseif ( is_category() ) { 
