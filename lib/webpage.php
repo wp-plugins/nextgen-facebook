@@ -96,7 +96,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 						if ( $parent_title ) $title .= ' (' . $parent_title . ')';
 					}
 	
-				// by default, use an seo title if an seo plugin is available
+				// by default, use the wordpress title if an seo plugin is available
 				} elseif ( $this->ngfb->is_avail['any_seo'] == true ) {
 	
 					$title = wp_title( $this->ngfb->options['og_title_sep'], false );
