@@ -829,3 +829,4 @@ Added the 'Add via @username' option in the Twitter settings, and the (now depre
 = 6.2.2 =
 
 Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format. Added missing 'none' option to Default Author selects.
+
