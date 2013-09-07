@@ -659,6 +659,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = 6.7.4 =
 
+*7742 lines in 35 files, with 41 classes and 265 functions*
+
 *Free* and Pro Versions:
 
 * Fixed author information lookup for author index pages without any posts.
