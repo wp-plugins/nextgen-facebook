@@ -657,9 +657,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.5 =
+= 6.7.4.2 =
 
-* Fixed detection and removal of an old social buttons stylesheet.
+* Fixed relative path to (upcoming) language files.
+* Fixed detection and removal of old social buttons stylesheet.
 
 = 6.7.4.1 =
 
@@ -804,6 +805,10 @@ div.fb-share-button span {
 </pre>
 
 == Upgrade Notice ==
+
+= 6.7.4.2 =
+
+Fixed relative path to (upcoming) language files, and detection / removal of old social buttons stylesheet.
 
 = 6.7.4.1 =
 

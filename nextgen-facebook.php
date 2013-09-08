@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
-Version: 6.7.5-dev1
+Version: 6.7.4.2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.5-dev1';
+		public $version = '6.7.4.2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -171,7 +171,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
-			load_plugin_textdomain( NGFB_TEXTDOM, false, NGFB_PLUGINBASE . '/languages/' );
+			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ) . '/languages/' );
 			$this->setup_vars();
 			$this->error_checks();
 			if ( $this->debug->is_on() == true ) {
