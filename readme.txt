@@ -657,6 +657,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= 6.7.5 =
+
+* Fixed detection and removal of an old social buttons stylesheet.
+
 = 6.7.4.1 =
 
 *7740 lines in 35 files, with 41 classes and 265 functions.*

@@ -90,6 +90,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 	
 					$title = get_the_title( $post->ID );	// since wp 0.71 
 					$this->ngfb->debug->log( 'get_the_title() = "' . $title . '"' );
+
 					// add the parent's title if no seo package is installed
 					if ( $this->ngfb->is_avail['any_seo'] == false && ! empty( $post->post_parent ) ) {
 						$parent_title = get_the_title( $post->post_parent );
@@ -142,7 +143,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$title = $this->ngfb->util->decode( $title );
 			$title = $this->ngfb->util->cleanup_html_tags( $title );
-			$title = trim( $title, ' ' . $this->ngfb->options['og_title_sep'] );	// trim spaces and excess seperator
+			$title = trim( $title, ' '.$this->ngfb->options['og_title_sep'] );	// trim spaces and excess seperator
 
 			// seo-like title modifications
 			if ( $this->ngfb->is_avail['any_seo'] == false ) {

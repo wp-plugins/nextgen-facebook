@@ -34,8 +34,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected $pagehook;
 		protected $readme;
 
-		private $old_css_file = '';
-
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
@@ -56,8 +54,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$this->settings[$id] = new $classname( $this->ngfb, $id, $name );
 			}
 			unset ( $id, $name );
-			$upload_dir = wp_upload_dir();
-			$this->old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
 		}
 
 		public function set_readme( $expire_secs = false ) {
@@ -166,6 +162,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function load_page() {
 			wp_enqueue_script( 'postbox' );
 
+			$upload_dir = wp_upload_dir();	// returns assoc array with path info
+			$old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
+
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 				// we have a transaction ID, but we are not using the pro version (yet) - force an update
 				if ( $this->ngfb->is_avail['aop'] == false && ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
@@ -175,14 +174,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
 					case 'remove_old_css' : 
-						if ( file_exists( $this->old_css_file ) )
-							if ( @unlink( $this->old_css_file ) )
+						if ( file_exists( $old_css_file ) )
+							if ( @unlink( $old_css_file ) )
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->ngfb->acronym_uc . '</b> : The old <u>' . $this->old_css_file . '</u> 
+									'<b>' . $this->ngfb->acronym_uc . '</b> : The old <u>' . $old_css_file . '</u> 
 										stylesheet has been removed.', 'updated' );
 							else
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing the old <u>' . $this->old_css_file . '</u> 
+									'<b>' . $this->ngfb->acronym_uc . '</b> : Error removing the old <u>' . $old_css_file . '</u> 
 										stylesheet. Does the web server have sufficient privileges?', 'error' );
 
 						break;
@@ -216,11 +215,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
-			if ( file_exists( $this->old_css_file ) ) {
-				$this->ngfb->notices->inf( 'The <u>' . $this->old_css_file . '</u> stylesheet is no longer used. 
-					Styling for social buttons is now managed ' . $this->ngfb->util->get_admin_url( 'style', 
-					'on the new Social Style settings page' ) . '. If you have not customized the default CSS, or when you are ready, you may ' .
-					$this->ngfb->util->get_admin_url( '?action=remove_old_css', 'click this link to remove the old stylesheet' ) . '.' );
+			if ( file_exists( $old_css_file ) ) {
+				$this->ngfb->notices->inf( 
+					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
+						NGFB_TEXTDOM ), $old_css_file ) . ' ' .
+					sprintf( __( 'Styling for social buttons is now managed <a href="%s">on the Social Style settings page</a>.', 
+						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( 'style' ) ) . ' ' .
+					sprintf( __( 'When you are ready, you can <a href="%s">click this link to remove the old stylesheet</a>.', 
+						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( '?action=remove_old_css' ) ) 
+				);
 			}
 
 			if ( $this->ngfb->is_avail['aop'] == true )
@@ -301,8 +304,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</form>', "\n";
 		}
 
-		protected function get_submit_button( $text = 'Save All Changes', $class = 'save-all-button' ) {
-			return '<div class="' . $class . '"><input type="submit" class="button-primary" value="' . $text . '" /></div>' . "\n";
+		protected function get_submit_button( $submit_text = '', $class = 'save-all-button' ) {
+			if ( empty( $submit_text ) ) 
+				$submit_text = __( 'Save All Changes', NGFB_TEXTDOM );
+			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>' . "\n";
 		}
 
 		public function show_metabox_news() {
@@ -324,7 +329,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			echo '<div class="', $class, '"><ul>', "\n";
 			if ( $have_items == 0 ) {
-				echo '<li>No items found.</li>', "\n";
+				echo '<li>', __( 'No items found.', NGFB_TEXTDOM ), '</li>', "\n";
 			} else {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
@@ -368,16 +373,17 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<td colspan="2" id="latest_notice">
 					<p><?php echo $latest_notice; ?></p>
-					<p><?php echo $this->ngfb->util->get_admin_url( 'about', 'See the Changelog for additional details...' ); ?></p>
+					<p><?php echo $this->ngfb->util->get_admin_url( 'about', 
+						__( 'See the Changelog for additional details...', NGFB_TEXTDOM ) ); ?></p>
 				</td>
 			</tr>
 			<?php
 			echo '<tr><td colspan="2">';
 			echo '<p class="centered">';
 			if ( ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
-				echo $this->ngfb->admin->form->get_button( 'Check for Updates', 
+				echo $this->ngfb->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=check_for_updates' );
-			echo $this->ngfb->admin->form->get_button( 'Clear All Cache', 
+			echo $this->ngfb->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 				'button-primary', null, $this->ngfb->util->get_admin_url() . '&amp;action=clear_all_cache' );
 			echo '</p></td></tr></table>';
 		}
@@ -389,7 +395,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p class="centered">';
-			echo $this->ngfb->admin->form->get_button( 'Purchase the Pro Version', 
+			echo $this->ngfb->admin->form->get_button( __( 'Purchase the Pro Version', NGFB_TEXTDOM ), 
 				'button-primary', null, $this->ngfb->urls['plugin'] );
 			echo '</p></td></tr></table>';
 		}
