@@ -659,14 +659,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = 6.7.4.2 =
 
+*7747 lines in 35 files, with 41 classes and 265 functions*
+
 * Fixed relative path to (upcoming) language files.
 * Fixed detection and removal of old social buttons stylesheet.
 
 = 6.7.4.1 =
 
-*7740 lines in 35 files, with 41 classes and 265 functions.*
-
-*Free* and Pro Versions:
+*7740 lines in 35 files, with 41 classes and 265 functions*
 
 * Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator.
 * Moved the WordPress version check code into the plugin activation method.
@@ -715,13 +715,13 @@ Pro Version:
 
 * Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
 * Added support for WooCommerce product images defined in the Custom Settings metabox.
-* Fixed: Changed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
+* Fixed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
 
 = Version 6.7.1 =
 
 *7642 lines in 35 files, with 41 classes and 264 functions*
 
-* Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
+* Fixed StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
 
 = Version 6.7 =
 
