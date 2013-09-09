@@ -16,11 +16,11 @@ Adds HTML header tags for better Google Search results and Social Sharing posts.
 
 What users are saying about NGFB Open Graph+:
 
+* **Fantastic plugin, fantastic support** By Triseult
 * **Outstanding support, easy-to-use plugin** By 720creations
 * **The Search is Over...** - By mattjabs
 * **Best Open Graph Implementation, Yet** - By barnesatl
 * **Solid plugin superb support** - By robert5
-* **Superb plugin, AMAZING support!** - By J (paradox_designs)
 * [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
