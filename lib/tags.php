@@ -50,21 +50,16 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 					$tags[] = $tag_name;
 			}
 			$tags = array_map( 'strtolower', $tags );
-			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_wp_tags', $tags );
-			else return $tags;
+			return apply_filters( 'ngfb_wp_tags', $tags );
 		}
 
 		// called from the view/gallery-meta.php template
 		public function get_ngg( $pid ) {
 			$tags = array();
-			if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
+			if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
-				$tags = array_map( 'strtolower', $tags );
-			}
-			if ( $this->ngfb->is_avail['aop'] ) 
-				return apply_filters( 'ngfb_ngg_tags', $tags );
-			else return $tags;
+			$tags = array_map( 'strtolower', $tags );
+			return apply_filters( 'ngfb_ngg_tags', $tags );
 		}
 
 	}
