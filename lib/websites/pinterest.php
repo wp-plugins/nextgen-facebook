@@ -27,7 +27,8 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'pin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				$this->ngfb->admin->form->get_select( 'pin_order', 
+					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
 				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',

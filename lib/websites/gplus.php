@@ -26,7 +26,8 @@ if ( ! class_exists( 'ngfbSettingsGooglePlus' ) && class_exists( 'ngfbSettingsSo
 				$this->ngfb->admin->form->get_checkbox( 'gp_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'gp_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				$this->ngfb->admin->form->get_select( 'gp_order', 
+					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
 				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',

@@ -12,11 +12,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '68';	// increment when adding/removing default options
+		public $opts_ver = '72';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
-			'link_author_field' => 'gplus',
+			'link_author_field' => '',
 			'link_def_author_id' => 0,
 			'link_def_author_on_index' => 0,
 			'link_def_author_on_search' => 0,
@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_ngg_tags' => 0,
 			'og_page_parent_tags' => 0,
 			'og_page_title_tag' => 0,
-			'og_author_field' => 'facebook',
+			'og_author_field' => '',
 			'og_author_fallback' => 0,
 			'og_title_sep' => '-',
 			'og_title_len' => 70,
@@ -208,6 +208,27 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cdn_excl' => '',
 			'ngfb_cdn_not_https' => 1,
 			'ngfb_cdn_www_opt' => 1,
+			'ngfb_cm_fb_name' => 'facebook', 
+			'ngfb_cm_fb_label' => 'Facebook URL', 
+			'ngfb_cm_fb_enabled' => 1,
+			'ngfb_cm_gp_name' => 'gplus', 
+			'ngfb_cm_gp_label' => 'Google+ URL', 
+			'ngfb_cm_gp_enabled' => 1,
+			'ngfb_cm_linkedin_name' => 'linkedin', 
+			'ngfb_cm_linkedin_label' => 'LinkedIn URL', 
+			'ngfb_cm_linkedin_enabled' => 0,
+			'ngfb_cm_pin_name' => 'pinterest', 
+			'ngfb_cm_pin_label' => 'Pinterest URL', 
+			'ngfb_cm_pin_enabled' => 0,
+			'ngfb_cm_tumblr_name' => 'tumblr', 
+			'ngfb_cm_tumblr_label' => 'Tumblr URL', 
+			'ngfb_cm_tumblr_enabled' => 0,
+			'ngfb_cm_twitter_name' => 'twitter', 
+			'ngfb_cm_twitter_label' => 'Twitter @username', 
+			'ngfb_cm_twitter_enabled' => 1,
+			'ngfb_cm_yt_name' => 'youtube', 
+			'ngfb_cm_yt_label' => 'YouTube Channel URL', 
+			'ngfb_cm_yt_enabled' => 0,
 		);
 
 		private $renamed = array(
@@ -254,6 +275,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				}
 			}
 			$this->defaults = $this->add_to_post_types( $this->defaults );
+
+			$this->defaults['link_author_field'] = empty( $this->ngfb->options['ngfb_cm_gp_name'] ) ? 
+				$this->defaults['ngfb_cm_gp_name'] : $this->ngfb->options['ngfb_cm_gp_name'];
+
+			$this->defaults['og_author_field'] = empty( $this->ngfb->options['ngfb_cm_fb_name'] ) ? 
+				$this->defaults['ngfb_cm_fb_name'] : $this->ngfb->options['ngfb_cm_fb_name'];
+
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
 			else return $this->defaults;
@@ -461,6 +489,20 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_img_size' :
 						case 'tumblr_caption' :
 						case 'stumble_js_loc' : 
+						case 'ngfb_cm_fb_name' : 
+						case 'ngfb_cm_fb_label' : 
+						case 'ngfb_cm_gp_name' : 
+						case 'ngfb_cm_gp_label' : 
+						case 'ngfb_cm_linkedin_name' : 
+						case 'ngfb_cm_linkedin_label' : 
+						case 'ngfb_cm_pin_name' : 
+						case 'ngfb_cm_pin_label' : 
+						case 'ngfb_cm_tumblr_name' : 
+						case 'ngfb_cm_tumblr_label' : 
+						case 'ngfb_cm_twitter_name' : 
+						case 'ngfb_cm_twitter_label' : 
+						case 'ngfb_cm_yt_name' : 
+						case 'ngfb_cm_yt_label' : 
 							if ( empty( $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;

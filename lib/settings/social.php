@@ -39,16 +39,18 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
-
 			$col = 0;
 			$row = 0;
 			foreach ( $this->ngfb->website_libs as $id => $name ) {
-				$col = $col == 1 ? 2 : 1;
-				$row = $col == 1 ? $row + 1 : $row;
-				$pos_id = 'website-row-' . $row . '-col-' . $col;
-				$name = $name == 'GooglePlus' ? 'Google+' : $name;
-				add_meta_box( $this->pagehook . '_' . $id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
-				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
+				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+				if ( class_exists( $classname ) ) {
+					$col = $col == 1 ? 2 : 1;
+					$row = $col == 1 ? $row + 1 : $row;
+					$pos_id = 'website-row-' . $row . '-col-' . $col;
+					$name = $name == 'GooglePlus' ? 'Google+' : $name;
+					add_meta_box( $this->pagehook . '_' . $id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
+					add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
+				}
 			}
 			$reset_ids = array_diff( array_keys( $this->ngfb->website_libs ), array( 'facebook', 'gplus' ) );
 			$this->ngfb->user->reset_metaboxes( $this->pagehook, $reset_ids );

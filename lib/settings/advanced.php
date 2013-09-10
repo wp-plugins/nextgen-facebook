@@ -28,13 +28,15 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_plugin', 'Plugin Settings', array( &$this, 'show_metabox_plugin' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_contact', 'Contact Methods', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_cache', 'Cache Settings', array( &$this, 'show_metabox_cache' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_rewrite', 'Rewrite Settings', array( &$this, 'show_metabox_rewrite' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_plugin() {
-			echo '<table class="ngfb-settings"><tr>';
+			echo '<table class="ngfb-settings">';
 			foreach ( $this->get_pre_plugin() as $row ) echo '<tr>' . $row . '</tr>';
+			echo '<tr>';
 			echo $this->ngfb->util->th( 'Preserve Settings on Uninstall', 'highlight', null, '
 				Check this option if you would like to preserve all ' . $this->ngfb->fullname . '
 				settings when you <em>uninstall</em> the plugin (default is unchecked).' ); 
@@ -97,7 +99,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
-				$this->ngfb->util->th( 'Add Custom Settings To', null, null, '
+				$this->ngfb->util->th( 'Show Custom Settings for', null, null, '
 				The Custom Settings metabox, which allows you to enter custom Open Graph values 
 				(among other options), is available on the Post, Page, Media and most custom post 
 				type admin webpages by default. 
@@ -109,7 +111,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_cache() {
-			echo '<table class="ngfb-settings"><tr>';
+			echo '<table class="ngfb-settings">';
+			echo '<tr>';
 			echo $this->ngfb->util->th( 'Object Cache Expiry', null, null, '
 				' . $this->ngfb->fullname . ' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
 				and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
@@ -142,19 +145,16 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_rewrite() {
-			echo '<table class="ngfb-settings"><tr>';
-
+			echo '<table class="ngfb-settings">';
+			echo '<tr>';
 			echo $this->ngfb->util->th( 'Goo.gl Simple API Access Key', 'highlight', null, '
 				The "Google URL Shortener API Key" for this website. If you don\'t already have one, visit Google\'s 
 				<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring 
 				and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.
 				' );
 			echo '<td>', $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ), '</td>';
-
 			echo '</tr>';
-
 			foreach ( $this->get_more_rewrite() as $row ) echo '<tr>' . $row . '</tr>';
-
 			echo '</table>';
 		}
 
@@ -185,6 +185,32 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ) .
 				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '</td>',
 			);
+		}
+
+		public function show_metabox_contact() {
+			echo '<table class="ngfb-settings">';
+			echo '<tr><td></td>';
+			echo $this->ngfb->util->th( 'Enabled', 'left checkbox' );
+			echo $this->ngfb->util->th( 'Field Name', 'left medium' );
+			echo $this->ngfb->util->th( 'User Profile Label', 'left wide' );
+			echo '</tr>';
+			$social_prefix = $this->ngfb->social_prefix;
+			ksort( $social_prefix );
+			foreach ( $social_prefix as $id => $opt_prefix ) {
+				$cm = 'ngfb_cm_'.$opt_prefix.'_';
+				$name = empty( $this->ngfb->website_libs[$id] ) ? ucfirst( $id ) : $this->ngfb->website_libs[$id];
+				$name = $name == 'GooglePlus' ? 'Google+' : $name;
+				if ( array_key_exists( $cm.'name', $this->ngfb->options ) ) {
+					echo '<tr>';
+					echo $this->ngfb->util->th( $name );
+					echo '<td>', $this->ngfb->admin->form->get_checkbox( $cm.'enabled' ), '</td>';
+					echo '<td>', $this->ngfb->admin->form->get_input( $cm.'name' ), '</td>';
+					echo '<td>', $this->ngfb->admin->form->get_input( $cm.'label' ), '</td>';
+					echo '</tr>';
+				}
+					
+			}
+			echo '</table>';
 		}
 
 	}

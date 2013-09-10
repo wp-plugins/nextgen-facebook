@@ -26,7 +26,8 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'linkedin_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				$this->ngfb->admin->form->get_select( 'linkedin_order', 
+					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
 				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',

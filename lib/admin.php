@@ -288,7 +288,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_opts_ver', $this->ngfb->opt->opts_ver );
 			echo $this->ngfb->admin->form->get_hidden( 'ngfb_plugin_ver', $this->ngfb->version );
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
-			foreach ( range( 1, ceil( count( $this->ngfb->website_libs ) / 2 ) ) as $row ) {
+			foreach ( range( 1, ceil( count( $this->ngfb->admin->settings['social']->website ) / 2 ) ) as $row ) {
 				echo '<div class="website-row">', "\n";
 				foreach ( range( 1, 2 ) as $col ) {
 					$pos_id = 'website-row-' . $row . '-col-' . $col;
@@ -296,7 +296,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					do_meta_boxes( $this->pagehook, $pos_id, null ); 
 					echo '</div>', "\n";
 				}
-				echo '</div>';
+				echo '</div>', "\n";
 			}
 			echo '<div style="clear:both;"></div>';
 			do_meta_boxes( $this->pagehook, 'bottom', null ); 

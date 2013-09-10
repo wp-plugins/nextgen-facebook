@@ -41,9 +41,10 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				$widget_html = '';
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				$sorted_ids = array();
-				foreach ( $ngfb->social_prefix as $id => $prefix )
-					if ( (int) $instance[$id] )
-						$sorted_ids[$ngfb->options[$prefix.'_order'] . '-' . $id] = $id;
+				foreach ( $ngfb->social_prefix as $id => $opt_prefix )
+					if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
+						$sorted_ids[$ngfb->options[$opt_prefix.'_order'] . '-' . $id] = $id;
+				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
 	
 				$widget_html .= "\n<!-- " . $ngfb->fullname . " widget BEGIN -->\n";
@@ -80,22 +81,21 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $ngfb->website_libs as $id => $name ) {
-				echo '<p><label for="', $this->get_field_id( $id ), '">', 
-					'<input id="', $this->get_field_id( $id ), 
-					'" name="', $this->get_field_name( $id ), 
-					'" value="1" type="checkbox" ';
-				if ( ! empty( $instance[$id] ) )
-					echo checked( 1 , $instance[$id] );
-				echo ' /> ', $name;
-				switch ( $id ) {
-					case 'pinterest' :
-						echo ' (not added on indexes)';
-						break;
-					case 'tumblr' :
-						echo ' (shares link on indexes)';
-						break;
+				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+				if ( class_exists( $classname ) ) {
+					echo '<p><label for="', $this->get_field_id( $id ), '">', 
+						'<input id="', $this->get_field_id( $id ), 
+						'" name="', $this->get_field_name( $id ), 
+						'" value="1" type="checkbox" ';
+					if ( ! empty( $instance[$id] ) )
+						echo checked( 1 , $instance[$id] );
+					echo ' /> ', $name;
+					switch ( $id ) {
+						case 'pinterest' : echo ' (not added on indexes)'; break;
+						case 'tumblr' : echo ' (shares link on indexes)'; break;
+					}
+					echo '</label></p>', "\n";
 				}
-				echo '</label></p>', "\n";
 			}
 			unset( $id, $name );
 		}

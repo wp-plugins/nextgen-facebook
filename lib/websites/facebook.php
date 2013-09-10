@@ -42,7 +42,8 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-					$this->ngfb->admin->form->get_select( 'fb_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>';
+					$this->ngfb->admin->form->get_select( 'fb_order', 
+						range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>';
 	
 					$ret[] = $this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 					$this->ngfb->admin->form->get_select( 'fb_js_loc', $this->js_locations ) . '</td>';

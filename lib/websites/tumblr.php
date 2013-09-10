@@ -50,7 +50,8 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'tumblr_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				$this->ngfb->admin->form->get_select( 'tumblr_order', 
+					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
 				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',

@@ -77,7 +77,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 			$enabled = false;
 			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
-				if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) ) {
+				if ( ! empty( $this->ngfb->options[$opt_prefix.'_on_'.$type] ) ) {
 					$enabled = true;
 					break;
 			}
@@ -99,8 +99,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			} else {
 				$sorted_ids = array();
 				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
-					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_' . $type ] ) )
-						$sorted_ids[ $this->ngfb->options[ $opt_prefix.'_order' ] . '-' . $id ] = $id;	// sort by number, then by name
+					if ( ! empty( $this->ngfb->options[$opt_prefix.'_on_'.$type] ) )
+						$sorted_ids[$this->ngfb->options[$opt_prefix.'_order'].'-'.$id] = $id;	// sort by number, then by name
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
 
@@ -159,7 +159,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
 
 					// check for enabled buttons on settings page
-					if ( ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_content' ] ) || ! empty( $this->ngfb->options[ $opt_prefix . '_on_the_excerpt' ] ) ) {
+					if ( ! empty( $this->ngfb->options[$opt_prefix.'_on_the_content'] ) || ! empty( $this->ngfb->options[$opt_prefix.'_on_the_excerpt'] ) ) {
 						if ( is_singular() || 
 							( ! is_singular() && ! empty( $this->ngfb->options['buttons_on_index'] ) ) ||
 							( is_front_page() && ! empty( $this->ngfb->options['buttons_on_front'] ) ) )
@@ -168,7 +168,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 					// check for enabled buttons in widget
 					foreach ( $widget_settings as $instance ) {
-						if ( (int) $instance[$id] )
+						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
 							$ids[] = $id;
 					}
 				}
@@ -187,11 +187,11 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
-					$opt_name = $this->ngfb->social_prefix[$id] . '_js_loc';
-					$this->ngfb->debug->log( 'calling this->website[' . $id . ']->get_js()' );
+					$opt_name = $this->ngfb->social_prefix[$id].'_js_loc';
+					$this->ngfb->debug->log( 'calling this->website['.$id.']->get_js()' );
 					if ( method_exists( $this->website[$id], 'get_js' ) && 
-						! empty( $this->ngfb->options[ $opt_name ] ) && 
-						$this->ngfb->options[ $opt_name ] == $pos_section )
+						! empty( $this->ngfb->options[$opt_name] ) && 
+						$this->ngfb->options[$opt_name] == $pos_section )
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}

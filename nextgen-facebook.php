@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
-Version: 6.7.5-dev1
+Version: 6.7.5-dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.5-dev1';
+		public $version = '6.7.5-dev2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -80,6 +80,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'pinterest' => 'pin',
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr',
+			'youtube' => 'yt',
 		);
 
 		public $website_libs = array(
@@ -90,6 +91,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'pinterest' => 'Pinterest',
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr',
+			'youtube' => 'YouTube',
 		);
 
 		public $shortcode_libs = array(
@@ -309,18 +311,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// website classes extend both lib/social.php and lib/settings/social.php
 			foreach ( $this->website_libs as $id => $name )
-				require_once ( NGFB_PLUGINDIR . 'lib/websites/' . $id . '.php' );
+				if ( file_exists( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' ) )
+					require_once ( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' );
 			unset ( $id, $name );
 
 			// widgets are added to wp when library file is loaded
 			foreach ( $this->widget_libs as $id => $name )
-				require_once ( NGFB_PLUGINDIR . 'lib/widgets/' . $id . '.php' );
+				if ( file_exists( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' ) )
+					require_once ( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' );
 			unset ( $id, $name );
 
 			// pro version classes
 			// additional classes are loaded and created by pro construct
-			if ( file_exists( NGFB_PLUGINDIR . 'lib/pro/addon.php' ) )
-				require_once ( NGFB_PLUGINDIR . 'lib/pro/addon.php' );
+			if ( file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) )
+				require_once ( NGFB_PLUGINDIR.'lib/pro/addon.php' );
 
 		}
 
@@ -492,6 +496,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 
+			// All in One SEO Pack
+			if ( $this->is_avail['aioseop'] == true ) {
+				$aioseop_options = get_option( 'aioseop_options' );
+				if ( array_key_exists( 'aiosp_google_disable_profile', $aioseop_options ) && empty( $aioseop_options['aiosp_google_disable_profile'] ) ) {
+					$this->debug->log( 'plugin conflict detected - aioseop google plus profile is enabled' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the <a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=all-in-one-seo-pack/aioseop_class.php' ) ) );
+				}
+			}
+
 			// Wordbooker
 			if ( function_exists( 'wordbooker_og_tags' ) ) {
 				$wordbooker_settings = get_option( 'wordbooker_settings' );
@@ -530,6 +543,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// post thumbnail feature is supported by wp theme // since wp 2.9.0
 			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
+
+
+
 
 			// nextgen gallery plugin
 			// use in combination with $this->ngg_version

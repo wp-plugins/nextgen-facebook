@@ -27,7 +27,8 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' the Excerpt Text</td>';
 
 			$ret[] = $this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>';
+			$this->ngfb->admin->form->get_select( 'twitter_order', 
+				range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>';
 
 			$ret[] = $this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 			$this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>';

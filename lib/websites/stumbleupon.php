@@ -65,7 +65,8 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 				$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . ' the Excerpt Text</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'stumble_order', range( 1, count( $this->ngfb->social_prefix ) ), 'short' ) . '</td>',
+				$this->ngfb->admin->form->get_select( 'stumble_order', 
+					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
 				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
