@@ -153,8 +153,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->ngfb->style->unlink_social();
 			else $this->ngfb->style->update_social( $opts );
 
-			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : 
-				Plugin settings have been updated. Do you need these changes to appear immediately? Use the \'Clear All Cache\' button.', 'updated' );
+			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->ngfb->acronym_uc.' Info </b> : '.
+				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
+				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
+					$this->ngfb->options['ngfb_object_cache_exp'] ), 'updated' );
 
 			return $opts;
 		}
@@ -166,12 +168,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
 
 			if ( ! empty( $_GET['settings-updated'] ) ) {
+
 				// we have a transaction ID, but we are not using the pro version (yet) - force an update
 				if ( $this->ngfb->is_avail['aop'] == false && ! empty( $this->ngfb->options['ngfb_pro_tid'] ) )
 					$this->ngfb->update->check_for_updates();
-			}
 
-			if ( ! empty( $_GET['action'] ) ) {
+			} elseif ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
 					case 'remove_old_css' : 
 						if ( file_exists( $old_css_file ) )
@@ -197,7 +199,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						$deleted_transient = $this->ngfb->util->delete_expired_transients( true );
 						wp_cache_flush();
 						if ( function_exists('w3tc_pgcache_flush') ) 
-							w3tc_pgcache_flush();
+								w3tc_pgcache_flush();
 						elseif ( function_exists('wp_cache_clear_cache') ) 
 							wp_cache_clear_cache();
 						$this->ngfb->notices->inf( 'Cached files, WP object cache, transient cache, and any 
