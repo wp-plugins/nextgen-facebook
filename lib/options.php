@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '72';	// increment when adding/removing default options
+		public $opts_ver = '74';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -56,7 +56,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_add_to_attachment' => 1,
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
-			'buttons_link_css' => 0,
+			'buttons_link_css' => 1,
 			'buttons_css_excerpt' => '',
 			'buttons_css_content' => '',
 			'buttons_css_shortcode' => '',
@@ -229,6 +229,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_yt_name' => 'youtube', 
 			'ngfb_cm_yt_label' => 'YouTube Channel URL', 
 			'ngfb_cm_yt_enabled' => 0,
+			'ngfb_cm_skype_name' => 'skype', 
+			'ngfb_cm_skype_label' => 'Skype Username', 
+			'ngfb_cm_skype_enabled' => 0,
 		);
 
 		private $renamed = array(

@@ -81,6 +81,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'stumble',
 			'tumblr' => 'tumblr',
 			'youtube' => 'yt',
+			'skype' => 'skype',
 		);
 
 		public $website_libs = array(
@@ -92,6 +93,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'stumbleupon' => 'StumbleUpon',
 			'tumblr' => 'Tumblr',
 			'youtube' => 'YouTube',
+			'skype' => 'Skype',
 		);
 
 		public $shortcode_libs = array(
@@ -257,12 +259,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
 				define( 'NGFB_DEBUG_FILE_EXP', 5 );
-
-			if ( ! defined( 'NGFB_CONTACT_FIELDS' ) )
-				define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
-
-			if ( ! defined( 'NGFB_TWITTER_FIELD_ID' ) )
-				define( 'NGFB_TWITTER_FIELD_ID', 'twitter' );
 
 			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
 				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );

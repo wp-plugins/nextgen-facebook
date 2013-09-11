@@ -197,15 +197,16 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			$social_prefix = $this->ngfb->social_prefix;
 			ksort( $social_prefix );
 			foreach ( $social_prefix as $id => $opt_prefix ) {
-				$cm = 'ngfb_cm_'.$opt_prefix.'_';
-				$name = empty( $this->ngfb->website_libs[$id] ) ? ucfirst( $id ) : $this->ngfb->website_libs[$id];
-				$name = $name == 'GooglePlus' ? 'Google+' : $name;
-				if ( array_key_exists( $cm.'name', $this->ngfb->options ) ) {
+				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+				$th_val = empty( $this->ngfb->website_libs[$id] ) ? ucfirst( $id ) : $this->ngfb->website_libs[$id];
+				$th_val = $th_val == 'GooglePlus' ? 'Google+' : $th_val;
+				// not all social websites have a contact method field
+				if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
 					echo '<tr>';
-					echo $this->ngfb->util->th( $name );
-					echo '<td>', $this->ngfb->admin->form->get_checkbox( $cm.'enabled' ), '</td>';
-					echo '<td>', $this->ngfb->admin->form->get_input( $cm.'name' ), '</td>';
-					echo '<td>', $this->ngfb->admin->form->get_input( $cm.'label' ), '</td>';
+					echo $this->ngfb->util->th( $th_val );
+					echo '<td>', $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ), '</td>';
+					echo '<td>', $this->ngfb->admin->form->get_input( $cm_opt.'name' ), '</td>';
+					echo '<td>', $this->ngfb->admin->form->get_input( $cm_opt.'label' ), '</td>';
 					echo '</tr>';
 				}
 					

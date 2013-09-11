@@ -25,9 +25,18 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
-			foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
-				$field_info = preg_split( '/ *: */', $field_list );
-				$fields[$field_info[0]] = $field_info[1];
+			$social_prefix = $this->ngfb->social_prefix;
+			ksort( $social_prefix );
+			foreach ( $social_prefix as $id => $opt_prefix ) {
+				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+				// not all social websites have a contact method field
+				if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
+					$enabled = $this->ngfb->options[$cm_opt.'enabled'];
+					$name = $this->ngfb->options[$cm_opt.'name'];
+					$label = $this->ngfb->options[$cm_opt.'label'];
+					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
+						$fields[$name] = $label;
+				}
 			}
 			ksort( $fields, SORT_STRING );
 			return $fields;
@@ -35,25 +44,34 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 		public function sanitize_contact_methods( $user_id ) {
 			if ( current_user_can( 'edit_user', $user_id ) ) {
-				foreach ( preg_split( '/ *, */', NGFB_CONTACT_FIELDS ) as $field_list ) {
-					$field_info = preg_split( '/ *: */', $field_list );
-					$field_id = $field_info[0];
-					$field_val = wp_filter_nohtml_kses( $_POST[$field_id] );
-					if ( ! empty( $field_val ) ) {
-						switch ( $field_id ) {
-							case NGFB_TWITTER_FIELD_ID :
-								$field_val = substr( preg_replace( '/[^a-z0-9]/', '', 
-									strtolower( $field_val ) ), 0, 15 );
-								if ( ! empty( $field_val ) )
-									$field_val = '@' . $field_val;
-								break;
-							default :
-								if ( strpos( $field_val, '://' ) === false )
-									$field_val = '';
-								break;
+				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
+					$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+					// not all social websites have a contact method field
+					if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
+						$enabled = $this->ngfb->options[$cm_opt.'enabled'];
+						$name = $this->ngfb->options[$cm_opt.'name'];
+						$label = $this->ngfb->options[$cm_opt.'label'];
+						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
+							// sanitize values only for those enabled contact methods
+							$val = wp_filter_nohtml_kses( $_POST[$name] );
+							if ( ! empty( $val ) ) {
+								// use the social_prefix id to decide on actions
+								switch ( $id ) {
+									case 'twitter' :
+										$val = substr( preg_replace( '/[^a-z0-9_]/', '', 
+											strtolower( $val ) ), 0, 15 );
+										if ( ! empty( $val ) )
+											$val = '@' . $val;
+										break;
+									default :
+										if ( strpos( $val, '://' ) === false )
+											$val = '';
+										break;
+								}
+							}
+							$_POST[$name] = $val;
 						}
 					}
-					$_POST[$field_id] = $field_val;
 				}
 			}
 		}

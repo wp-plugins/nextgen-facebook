@@ -154,7 +154,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			else $this->ngfb->style->update_social( $opts );
 
 			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>' . $this->ngfb->acronym_uc . ' Info </b> : 
-				Settings updated.', 'updated' );
+				Plugin settings have been updated. Do you need these changes to appear immediately? Use the \'Clear All Cache\' button.', 'updated' );
 
 			return $opts;
 		}

@@ -138,7 +138,8 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
 				if ( ! empty( $this->ngfb->options['twitter_rel_author'] ) && $use_post == true )
-					$atts['related'] = preg_replace( '/^@/', '', get_the_author_meta( NGFB_TWITTER_FIELD_ID, $post->author ) );
+					$atts['related'] = preg_replace( '/^@/', '', 
+						get_the_author_meta( $this->ngfb->options['ngfb_cm_twitter_name'], $post->author ) );
 				else
 					$atts['related'] = '';
 			}

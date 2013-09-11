@@ -97,13 +97,6 @@ NGFB_MAX_CACHE_HRS
 	The maximum range shown in the "Cache Expiry in Hours" drop-down on
 	the settings page. The default value is 24.
 
-NGFB_CONTACT_FIELDS
-
-	The field names and labels for the additional user profile fields. The
-	default value is "facebook:Facebook URL,gplus:Google+ URL". See the
-	"Rename or Add Profile URL Fields" section in the readme for
-	additional information.
-
 NGFB_CURL_DISABLE
 
 	Disable all use of PHP's curl functions (all NGFB file caching
