@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				'activation' => 'Activate and Update',
 				'content' => 'Content and Filters',
 				'cache' => 'Cache',
-				'rewrite' => 'Rewrite',
+				'rewrite' => 'URL Rewrite',
 			);
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
@@ -114,15 +114,10 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
 				$this->ngfb->util->th( 'Static Content URL(s)', 'highlight', null, 
-				'<p>Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), 
-				and cached social media files (see the <em>File Cache Expiry</em> option above).
+				'<p>Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), and cached social media files.
 				Leave this option blank to disable the rewriting feature (default is disabled).</p>
-				<p>As an example, <u>http://mydomain.com/wp-content/gallery/test/image.jpg</u> could be rewritten as 
-				<u>http://static.mydomain.com/wp-content/gallery/test/image.jpg</u>. The Static Content URL setting for this example would be 
-				<em>http://static.mydomain.com/</em>. You can enter multiple comma-delimited Static Content URLs, use numbered wildcards like 
-				<em>http://cdn%3%.static.mydomain.com/</em> for example (which expands to cdn1, cdn2, and cdn3), or 
-				<em>http://cdn%4-6%.static.mydomain.com/</em> (which expands to cdn4, cdn5, and cdn6). 
-				If wildcards or multiple Static Content URLs are entered, a random URL in the range is chosen for each rewrite.</p>' ) .
+				<p>Wildcarding and multiple CDN hostnames are supported.
+				See the <a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for more information and examples.' ) .
 				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . 
 					$this->ngfb->options['ngfb_cdn_urls'] . '</td>',
 
