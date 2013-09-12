@@ -61,6 +61,22 @@ NGFB Open Graph+ also comes with several social sharing buttons, that you can op
 
 The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) will attempt to match the social button language with the webpage language (WordPress locale).
 
+= Custom Contacts =
+
+NGFB Open Graph+ (Pro version) allows you to customize the field names, label, and show / remove the following Contact Methods from the user profile page:
+
+* AIM
+* Facebook 
+* Google+ 
+* Jabber / Google Talk
+* LinkedIn 
+* Pinterest 
+* Skype 
+* Tumblr 
+* Twitter 
+* Yahoo IM
+* YouTube
+
 = Best Performance =
 
 **NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
