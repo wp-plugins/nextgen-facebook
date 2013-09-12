@@ -564,17 +564,11 @@ if ( is_search() && $nggSearch->found_images ) {
 wp_head();
 `
 
-= Rename or Add Profile URL Fields =
+= URL Rewriting =
 
-By default, NGFB adds two new URL fields to the user profiles -- the Facebook URL with a field name of "facebook" and the Google+ URL with a field name of "gplus". This is in keeping with the standard field names I've observed. If you need to change the field names, or their description, you can define the NGFB_CONTACT_FIELDS constant in your wp-config.php file. The default value for NGFB_CONTACT_FIELDS is:
+NGFB Open Graph+ (Pro version) provides advanced URL rewriting features, allowing you to rewrite URLs in the Open Graph meta tags, *encoded image URLs* shared by social buttons (Pinterest and Tumblr), and cached social media files. As an example, <u>http://mydomain.com/wp-content/gallery/test/image.jpg</u> can be rewritten as <u>http://static.mydomain.com/wp-content/gallery/test/image.jpg</u>. The <em>Static Content URL(s)</em> option value for this example would be <em>http://static.mydomain.com/</em>.
 
-`
-define( 'NGFB_CONTACT_FIELDS', 'facebook:Facebook URL,gplus:Google+ URL,twitter:Twitter @username' );
-`
-
-A comma separates the different fields, and a colon seperates each field name from it's descriptive text. You may redefine the existing fields, remove them by leaving an empty string, or add to the existing list.
-
-If you already have another plugin that adds Facebook and Google+ fields to the profile page (under different names), you can define this variable with those names. For example, if another plugin uses a "gplus_link" field, you can define the NGFB_CONTACT_FIELDS as shown above, changing the "gplus" field name to "gplus_link". This way, it will avoid having duplicate fields on the profile page, and that field will appear in the NGFB settings page.
+You can also enter multiple comma-delimited values, and use numbered wildcards like <em>http://cdn%3%.static.mydomain.com/</em> for example (which expands to cdn1, cdn2, and cdn3), or <em>http://cdn%4-6%.static.mydomain.com/</em> (which expands to cdn4, cdn5, and cdn6). If wildcards or multiple <em>Static Content URL(s)</em> are entered, a random URL in the range is chosen for each rewrite.
 
 = NGFB Filter Hooks =
 
