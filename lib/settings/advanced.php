@@ -218,7 +218,12 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = '<td></td>' .
 						$this->ngfb->util->th( 'Show', 'left checkbox' ) .
-						$this->ngfb->util->th( 'Field Name', 'left medium' ) .
+						$this->ngfb->util->th( 'Field Name', 'left medium', null,
+						'You should <em>not</em> modify the contact field names unless you have a <em>specific</em> reason to do so.
+						As an example, to match the contact field name of another plugin, you might change \'gplus\' to \'googleplus\'.
+						If you change the Facebook or Google+ field names, please make sure to update the Open Graph 
+						<em>Author Profile URL</em> and Google <em>Author Link URL</em> options on the ' .
+						$this->ngfb->util->get_admin_url( 'general', 'General Settings' ) . ' page.' ) .
 						$this->ngfb->util->th( 'User Profile Label', 'left wide' );
 
 					$social_prefix = $this->ngfb->social_prefix;
@@ -254,7 +259,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = '<td></td>' .
 						$this->ngfb->util->th( 'Show', 'left checkbox' ) .
-						$this->ngfb->util->th( 'Field Name', 'left medium' ) .
+						$this->ngfb->util->th( 'Field Name', 'left medium', null, 
+						'The built-in WordPress contact field names cannot be changed.' ) .
 						$this->ngfb->util->th( 'User Profile Label', 'left wide' );
 
 					$wp_contacts = $this->ngfb->wp_contacts;
@@ -264,7 +270,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 						if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
 							if ( $this->ngfb->is_avail['aop'] == true ) {
 								$ret[] = $this->ngfb->util->th( $th_val ) .
-									'<td>' . $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ) . '</td>' .
+									'<td class="checkbox">' . $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ) . '</td>' .
 									'<td>' . $this->ngfb->admin->form->get_fake_input( $id ) . '</td>' .
 									'<td>' . $this->ngfb->admin->form->get_input( $cm_opt.'label' ) . '</td>';
 							} else {
