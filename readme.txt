@@ -5,7 +5,7 @@ Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share,
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
-Tested Up To: 3.6
+Tested Up To: 3.6.1
 Stable Tag: 6.7.4.2
 
 Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
@@ -657,6 +657,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= 6.7.5-dev2 =
+
+* Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields.
+* Removed the NGFB_CONTACT_FIELDS constant.
+
 = 6.7.4.2 =
 
 *7747 lines in 35 files, with 41 classes and 265 functions*
@@ -805,6 +810,10 @@ div.fb-share-button span {
 </pre>
 
 == Upgrade Notice ==
+
+= 6.7.5-dev2 =
+
+Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields.
 
 = 6.7.4.2 =
 
