@@ -16,11 +16,11 @@ Adds HTML header tags for better Google Search results and Social Sharing posts.
 
 What users are saying about NGFB Open Graph+:
 
+* **I've been looking for years for this** By Mark Tuttle (markrtuttle)
 * **Fantastic plugin, fantastic support** By Triseult
 * **Outstanding support, easy-to-use plugin** By 720creations
 * **The Search is Over...** - By mattjabs
 * **Best Open Graph Implementation, Yet** - By barnesatl
-* **Solid plugin superb support** - By robert5
 * [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -657,7 +657,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.7.5-dev2 =
+= 6.7.5-dev3 =
+
+Pro Version:
 
 * Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields.
 * Removed the NGFB_CONTACT_FIELDS constant.
@@ -811,9 +813,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.7.5-dev2 =
+= 6.7.5-dev3 =
 
-Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields.
+Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields (Pro version).
 
 = 6.7.4.2 =
 

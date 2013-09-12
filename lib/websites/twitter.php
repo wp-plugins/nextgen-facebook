@@ -70,7 +70,8 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 				'Append the Website\'s @username (entered on the ' .
 				$this->ngfb->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
 				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
-				'<td class="blank"></td>';
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'twitter_via' ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['twitter_via'] ) . '</td>';
 
 			$ret[] = $this->ngfb->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 

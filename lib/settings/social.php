@@ -105,7 +105,9 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'buttons_add_to_' . $post_type->name ) . ' ' . $post_type->label . '</p>';
+				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'buttons_add_to_'.$post_type->name ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['buttons_add_to_'.$post_type->name] ) . ' ' . 
+					$post_type->label . '</p>';
 
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
@@ -114,7 +116,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
 				If your theme (or another plugin) supports additional custom post types, and you would like to <em>exclude</em> the 
 				social sharing buttons from these webpages, uncheck the appropriate options here.' ) .
-				'<td class="blank" style="padding:4px;">' . $add_to_checkboxes . '</td>',
+				'<td class="blank">' . $add_to_checkboxes . '</td>',
 			);
 		}
 	}

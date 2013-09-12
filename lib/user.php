@@ -26,7 +26,6 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 		public function add_contact_methods( $fields = array() ) { 
 			$social_prefix = $this->ngfb->social_prefix;
-			ksort( $social_prefix );
 			foreach ( $social_prefix as $id => $opt_prefix ) {
 				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
 				// not all social websites have a contact method field
@@ -36,6 +35,18 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 					$label = $this->ngfb->options[$cm_opt.'label'];
 					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
 						$fields[$name] = $label;
+				}
+			}
+			$wp_contacts = $this->ngfb->wp_contacts;
+			foreach ( $wp_contacts as $id => $th_val ) {
+				$cm_opt = 'wp_cm_'.$id.'_';
+				if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
+					$enabled = $this->ngfb->options[$cm_opt.'enabled'];
+					$label = $this->ngfb->options[$cm_opt.'label'];
+					if ( ! empty( $enabled ) ) {
+						if ( ! empty( $label ) )
+							$fields[$id] = $label;
+					} else unset( $fields[$id] );
 				}
 			}
 			ksort( $fields, SORT_STRING );

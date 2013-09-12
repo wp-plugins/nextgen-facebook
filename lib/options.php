@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '74';	// increment when adding/removing default options
+		public $opts_ver = '79';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -232,6 +232,16 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_name' => 'skype', 
 			'ngfb_cm_skype_label' => 'Skype Username', 
 			'ngfb_cm_skype_enabled' => 0,
+			'wp_cm_user_email_label' => 'E-mail', 
+			'wp_cm_user_email_enabled' => 1,
+			'wp_cm_user_url_label' => 'Website', 
+			'wp_cm_user_url_enabled' => 1,
+			'wp_cm_aim_label' => 'AIM', 
+			'wp_cm_aim_enabled' => 1,
+			'wp_cm_jabber_label' => 'Jabber / Google Talk', 
+			'wp_cm_jabber_enabled' => 1,
+			'wp_cm_yim_label' => 'Yahoo IM', 
+			'wp_cm_yim_enabled' => 1,
 		);
 
 		private $renamed = array(

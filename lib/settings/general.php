@@ -164,13 +164,13 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->ngfb->util->th( 'Title Length', null, null, '
 					The maximum length of text used in the Open Graph title tag 
 					(default is ' . $this->ngfb->opt->get_defaults( 'og_title_len' ) . ' characters).' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ) . ' Characters or less</td>';
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_title_len', 'short' ) . ' characters or less</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Description Length', null, null, '
 					The maximum length of text used in the Open Graph description tag. 
 					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more, and the
 					default is ' . $this->ngfb->opt->get_defaults( 'og_desc_len' ) . ' characters.' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ) . ' Characters or less</td>';
+					'<td>' . $this->ngfb->admin->form->get_input( 'og_desc_len', 'short' ) . ' characters or less</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Content Begins at First Paragraph', null, null, '
 					For a Page or Post <em>without</em> an excerpt, if this option is checked, 
@@ -258,7 +258,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					The maximum length of text used for the Google Search description meta tag.
 					The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
 					(the default is ' . $this->ngfb->opt->get_defaults( 'meta_desc_len' ) . ' characters).' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'meta_desc_len', 'short' ) . ' Characters or less</td>';
+					'<td>' . $this->ngfb->admin->form->get_input( 'meta_desc_len', 'short' ) . ' characters or less</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Author Link URL', null, null, 
 					$this->ngfb->fullname . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
@@ -310,47 +310,55 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				Note that your website must be \'authorized\' by Twitter for each type of Twitter Card. 
 				See the <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
 				webpage for more information on the authorization process.' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_enable' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_enable' ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['tc_enable'] ) . '</td>',
 
 				$this->ngfb->util->th( 'Description Length', null, null, '
 				The maximum length of text used for the Twitter Card description.
 				The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
 				(the default is ' . $this->ngfb->opt->get_defaults( 'tc_desc_len' ) . ' characters).' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_desc_len' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_desc_len' ) . 
+					$this->ngfb->options['tc_desc_len'] . ' characters or less</td>',
 
 				$this->ngfb->util->th( 'Website @username', 'highlight', null, 
 				'The Twitter username for your website and / or company (not your personal Twitter username).
 				As an example, the Twitter username for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
 				is <a href="https://twitter.com/surniaululacom" target="_blank">@surniaululacom</a>.' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_site' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_site' ) . 
+					$this->ngfb->options['tc_site'] . '</td>',
 
 				$this->ngfb->util->th( '<em>Summary</em> Card Image Size', null, null, 
 				'The size of content images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/summary-card" target="_blank">Summary Card</a>
 				(should be at least 120x120, larger than 60x60, and less than 1MB).' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_sum_size' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_sum_size' ) . 
+					$this->ngfb->options['tc_sum_size'] . '</td>',
 
 				$this->ngfb->util->th( '<em>Large Image Summary</em> Card Image Size', null, null, 
 				'The size of Post Meta, Featured or Attached images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/large-image-summary-card" target="_blank">Large Image Summary Card</a>
 				(must be larger than 280x150 and less than 1MB).' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_large_size' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_large_size' ) . 
+					$this->ngfb->options['tc_large_size'] . '</td>',
 
 				$this->ngfb->util->th( '<em>Photo</em> Card Image Size', 'highlight', null, 
 				'The size of ImageBrowser or Attachment Page images provided for the 
 				<a href="https://dev.twitter.com/docs/cards/types/photo-card" target="_blank">Photo Card</a> 
 				(should be at least 560x750 and less than 1MB).' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_photo_size' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_photo_size' ) .
+					$this->ngfb->options['tc_photo_size'] . '</td>',
 
 				$this->ngfb->util->th( '<em>Gallery</em> Card Image Size', null, null, 
 				'The size of gallery images provided for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) . 
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) .
+					$this->ngfb->options['tc_gal_size'] . '</td>',
 
 				$this->ngfb->util->th( 'Minimum Images for the <em>Gallery</em> Card', null, null, 
 				'The minimum number of images found in a gallery to qualify for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) .
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) .
+					$this->ngfb->options['tc_gal_min'] . '</td>',
 
 				$this->ngfb->util->th( '<em>Product</em> Card Image Size', null, null, 
 				'The size of a featured product image for the
@@ -358,7 +366,8 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				The product card requires an image of size 160 x 160 or greater. A square (aka cropped) image is better, 
 				but Twitter can crop/resize oddly shaped images to fit, as long as both dimensions are greater 
 				than or equal to 160 pixels. ' ) . 
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_prod_size' ) . '</td>',
+				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_prod_size' ) .
+					$this->ngfb->options['tc_prod_size'] . '</td>',
 
 			);
 		}

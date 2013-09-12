@@ -94,12 +94,14 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_more_plugin() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'ngfb_add_to_' . $post_type->name ) . ' ' . $post_type->label . '</p>';
+				$add_to_checkboxes .= '<p>' . $this->ngfb->admin->form->get_hidden( 'ngfb_add_to_'.$post_type->name ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['ngfb_add_to_'.$post_type->name] ) . ' ' . 
+					$post_type->label . '</p>';
 
 			return array(
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
-				$this->ngfb->util->th( 'Show Custom Settings for', null, null, '
+				$this->ngfb->util->th( 'Show Custom Settings on', null, null, '
 				The Custom Settings metabox, which allows you to enter custom Open Graph values 
 				(among other options), is available on the Post, Page, Media and most custom post 
 				type admin webpages by default. 
@@ -136,11 +138,13 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				' . $this->ngfb->fullname . ' can save social sharing images and JavaScript to a cache folder, 
 				providing URLs to these files instead of the originals. 
 				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.' ) .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . 
+					$this->ngfb->options['ngfb_file_cache_hrs'] . ' Hours</td>',
 
 				$this->ngfb->util->th( 'Verify SSL Certificates', null, null, '
 				An option to enable verification of peer SSL certificates when fetching content to be cached using HTTPS.' ) .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_verify_certs' ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['ngfb_verify_certs'] ) . '</td>',
 			);
 		}
 
@@ -165,53 +169,117 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				$this->ngfb->util->th( 'Static Content URL(s)', 'highlight', null, '
 				Rewrite image URLs in the Open Graph meta tags, image URLs shared by social buttons (Pinterest and Tumblr), 
 				and cached social media files (see the <em>File Cache Expiry</em> option above).' ) . 
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . 
+					$this->ngfb->options['ngfb_cdn_urls'] . '</td>',
 
 				$this->ngfb->util->th( 'Include Folders', null, null, '
 				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
 				(the default value is "<em>wp-content, wp-includes</em>").') .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_folders' ) . 
+					$this->ngfb->options['ngfb_cdn_folders'] . '</td>',
 
 				$this->ngfb->util->th( 'Exclude Patterns', null, null, '
 				A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
 				(the default value is blank).' ) .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_excl' ) . 
+					$this->ngfb->options['ngfb_cdn_excl'] . '</td>',
 
 				$this->ngfb->util->th( 'Not when Using HTTPS', null, null, '
 				Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ) .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['ngfb_cdn_not_https'] ) . '</td>',
 
 				$this->ngfb->util->th( 'www is Optional', null, null, '
 				The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ) .
-				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . '</td>',
+				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . 
+					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['ngfb_cdn_www_opt'] ) . '</td>',
 			);
 		}
 
 		public function show_metabox_contact() {
-			echo '<table class="ngfb-settings">';
-			echo '<tr><td></td>';
-			echo $this->ngfb->util->th( 'Enabled', 'left checkbox' );
-			echo $this->ngfb->util->th( 'Field Name', 'left medium' );
-			echo $this->ngfb->util->th( 'User Profile Label', 'left wide' );
-			echo '</tr>';
-			$social_prefix = $this->ngfb->social_prefix;
-			ksort( $social_prefix );
-			foreach ( $social_prefix as $id => $opt_prefix ) {
-				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
-				$th_val = empty( $this->ngfb->website_libs[$id] ) ? ucfirst( $id ) : $this->ngfb->website_libs[$id];
-				$th_val = $th_val == 'GooglePlus' ? 'Google+' : $th_val;
-				// not all social websites have a contact method field
-				if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
-					echo '<tr>';
-					echo $this->ngfb->util->th( $th_val );
-					echo '<td>', $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ), '</td>';
-					echo '<td>', $this->ngfb->admin->form->get_input( $cm_opt.'name' ), '</td>';
-					echo '<td>', $this->ngfb->admin->form->get_input( $cm_opt.'label' ), '</td>';
-					echo '</tr>';
-				}
+			$show_tabs = array( 
+				'custom' => 'Custom Contacts',
+				'builtin' => 'Built-In Contacts',
+			);
+			$tab_rows = array();
+			foreach ( $show_tabs as $key => $title )
+				$tab_rows[$key] = $this->get_rows( $key );
+			$this->ngfb->util->do_tabs( 'cm', $show_tabs, $tab_rows );
+
+		}
+
+		protected function get_rows( $id ) {
+			$ret = array();
+			switch ( $id ) {
+
+				case 'custom' :
+					if ( $this->ngfb->is_avail['aop'] == false )
+						$ret[] = '<td colspan="4" align="center">'.$this->ngfb->msg->get( 'pro_feature' ).'</td>';
+
+					$ret[] = '<td></td>' .
+						$this->ngfb->util->th( 'Show', 'left checkbox' ) .
+						$this->ngfb->util->th( 'Field Name', 'left medium' ) .
+						$this->ngfb->util->th( 'User Profile Label', 'left wide' );
+
+					$social_prefix = $this->ngfb->social_prefix;
+					ksort( $social_prefix );
+					foreach ( $social_prefix as $id => $opt_prefix ) {
+						$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+						$th_val = empty( $this->ngfb->website_libs[$id] ) ? ucfirst( $id ) : $this->ngfb->website_libs[$id];
+						$th_val = $th_val == 'GooglePlus' ? 'Google+' : $th_val;
+						// not all social websites have a contact method field
+						if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
+							if ( $this->ngfb->is_avail['aop'] == true ) {
+								$ret[] = $this->ngfb->util->th( $th_val ) .
+									'<td class="checkbox">' . $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ) . '</td>' .
+									'<td>' . $this->ngfb->admin->form->get_input( $cm_opt.'name' ) . '</td>' .
+									'<td>' . $this->ngfb->admin->form->get_input( $cm_opt.'label' ) . '</td>';
+							} else {
+								$ret[] = $this->ngfb->util->th( $th_val ) .
+									'<td class="blank checkbox">' . $this->ngfb->admin->form->get_hidden( $cm_opt.'enabled' ) . 
+										$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options[$cm_opt.'enabled'] ) . '</td>' .
+									'<td class="blank">' . $this->ngfb->admin->form->get_hidden( $cm_opt.'name' ) .
+										$this->ngfb->options[$cm_opt.'name'] . '</td>' .
+									'<td class="blank">' . $this->ngfb->admin->form->get_hidden( $cm_opt.'label' ) .
+										$this->ngfb->options[$cm_opt.'label'] . '</td>';
+							}
+						}
 					
+					}
+					break;
+
+				case 'builtin' :
+					if ( $this->ngfb->is_avail['aop'] == false )
+						$ret[] = '<td colspan="4" align="center">'.$this->ngfb->msg->get( 'pro_feature' ).'</td>';
+
+					$ret[] = '<td></td>' .
+						$this->ngfb->util->th( 'Show', 'left checkbox' ) .
+						$this->ngfb->util->th( 'Field Name', 'left medium' ) .
+						$this->ngfb->util->th( 'User Profile Label', 'left wide' );
+
+					$wp_contacts = $this->ngfb->wp_contacts;
+					ksort( $wp_contacts );
+					foreach ( $wp_contacts as $id => $th_val ) {
+						$cm_opt = 'wp_cm_'.$id.'_';
+						if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
+							if ( $this->ngfb->is_avail['aop'] == true ) {
+								$ret[] = $this->ngfb->util->th( $th_val ) .
+									'<td>' . $this->ngfb->admin->form->get_checkbox( $cm_opt.'enabled' ) . '</td>' .
+									'<td>' . $this->ngfb->admin->form->get_fake_input( $id ) . '</td>' .
+									'<td>' . $this->ngfb->admin->form->get_input( $cm_opt.'label' ) . '</td>';
+							} else {
+								$ret[] = $this->ngfb->util->th( $th_val ) .
+									'<td class="blank checkbox">' . $this->ngfb->admin->form->get_hidden( $cm_opt.'enabled' ) . 
+										$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options[$cm_opt.'enabled'] ) . '</td>' .
+									'<td>' . $this->ngfb->admin->form->get_fake_input( $id ) . '</td>' .
+									'<td class="blank">' . $this->ngfb->admin->form->get_hidden( $cm_opt.'label' ) .
+										$this->ngfb->options[$cm_opt.'label'] . '</td>';
+							}
+						}
+					}
+					break;
 			}
-			echo '</table>';
+			return $ret;
 		}
 
 	}

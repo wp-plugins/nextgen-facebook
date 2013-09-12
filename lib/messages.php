@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 			switch ( $name ) {
 				case 'pro_feature' :
 					$msg = '<p class="pro_feature"><a href="'.$this->ngfb->urls['plugin'].'" target="_blank">Upgrade 
-						to the Pro version to enable the following features</a>.</p>';
+						to the Pro version to enable the following features</a></p>';
 					break;
 				case 'pro_details' :
 					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 

@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
-Version: 6.7.5-dev2
+Version: 6.7.5-dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.7.5-dev2';
+		public $version = '6.7.5-dev3';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -82,6 +82,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'tumblr' => 'tumblr',
 			'youtube' => 'yt',
 			'skype' => 'skype',
+		);
+
+		public $wp_contacts = array(
+			'aim' => 'AIM',
+			'jabber' => 'Jabber / Google Talk',
+			'yim' => 'Yahoo IM',
 		);
 
 		public $website_libs = array(
@@ -439,7 +445,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->debug->log( 'NGFB HTML debug mode is ON' );
 				$this->debug->log( 'WP object cache expiration set to ' . $this->cache->object_expire . ' second(s) for new objects' );
 				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . ' ' .
-					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) .
+					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) . ' ' .
 					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
 			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
 
