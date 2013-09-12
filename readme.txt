@@ -370,7 +370,7 @@ NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile pag
 * Advanced Usage
     * Include Social Buttons from Template File(s)
     * Disable Open Graph Meta Tags
-    * Rename or Add Profile URL Fields
+    * URL Rewriting
     * NGFB Filter Hooks
     * PHP Constants
 
