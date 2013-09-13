@@ -230,8 +230,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_rate', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
 
-			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->ngfb->is_avail['aop'] == true )
