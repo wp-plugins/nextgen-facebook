@@ -667,12 +667,16 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.8-dev1 =
+= 6.8-dev2 =
+
+*Free* and Pro Versions:
+
+* Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
+* Removed the NGFB_CONTACT_FIELDS constant.
 
 Pro Version:
 
-* Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields.
-* Removed the NGFB_CONTACT_FIELDS constant.
+* Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields.
 
 = 6.7.4.2 =
 
@@ -823,9 +827,9 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.8-dev1 =
+= 6.8-dev2 =
 
-Added a Contact Methods metabox on the Advanced settings page to enable/disable social contact fields (Pro version).
+Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields (Pro version).
 
 = 6.7.4.2 =
 
