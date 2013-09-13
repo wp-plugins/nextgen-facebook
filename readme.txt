@@ -667,7 +667,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.8-dev2 =
+= Version 6.8 =
 
 *Free* and Pro Versions:
 
@@ -827,7 +827,7 @@ div.fb-share-button span {
 
 == Upgrade Notice ==
 
-= 6.8-dev2 =
+= 6.8 =
 
 Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields (Pro version).
 
