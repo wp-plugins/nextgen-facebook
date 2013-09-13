@@ -35,6 +35,8 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 				return;
 			if ( $store == true ) {
 				$user_id = get_current_user_id();	// since wp 3.0
+				if ( empty( $user_id ) )                // exclude wp-cron
+					$user = false;  
 				$msg_opt = $this->ngfb->acronym . '_notices_' . $type;
 				if ( $user == true )
 					$msg_arr = get_user_option( $msg_opt, $user_id );
