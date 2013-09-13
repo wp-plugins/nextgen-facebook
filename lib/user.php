@@ -37,16 +37,18 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 						$fields[$name] = $label;
 				}
 			}
-			$wp_contacts = $this->ngfb->wp_contacts;
-			foreach ( $wp_contacts as $id => $th_val ) {
-				$cm_opt = 'wp_cm_'.$id.'_';
-				if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
-					$enabled = $this->ngfb->options[$cm_opt.'enabled'];
-					$label = $this->ngfb->options[$cm_opt.'label'];
-					if ( ! empty( $enabled ) ) {
-						if ( ! empty( $label ) )
-							$fields[$id] = $label;
-					} else unset( $fields[$id] );
+			if ( $this->ngfb->is_avail['aop'] == true ) {
+				$wp_contacts = $this->ngfb->wp_contacts;
+				foreach ( $wp_contacts as $id => $th_val ) {
+					$cm_opt = 'wp_cm_'.$id.'_';
+					if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
+						$enabled = $this->ngfb->options[$cm_opt.'enabled'];
+						$label = $this->ngfb->options[$cm_opt.'label'];
+						if ( ! empty( $enabled ) ) {
+							if ( ! empty( $label ) )
+								$fields[$id] = $label;
+						} else unset( $fields[$id] );
+					}
 				}
 			}
 			ksort( $fields, SORT_STRING );
