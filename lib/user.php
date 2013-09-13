@@ -109,22 +109,30 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 		public function reset_metaboxes( $page, $box_ids = array(), $force = false ) {
 			$user_id = get_current_user_id();				// since wp 3.0
-
 			if ( $force == true )
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
 					delete_user_option( $user_id, $meta_name . '_' . $page, true );
-
-			$meta_key = 'closedpostboxes_' . $page;
-			$option_arr = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
-
-			if ( ! is_array( $option_arr ) )
-				$option_arr = array();
-
-			if ( empty( $option_arr ) )
+			$meta_key = 'closedpostboxes_'.$page;
+			$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
+			if ( ! is_array( $opts ) )
+				$opts = array();
+			if ( empty( $opts ) )
 				foreach ( $box_ids as $id ) 
-					$option_arr[] = $page . '_' . $id;
+					$opts[] = $page . '_' . $id;
+			update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+		}
 
-			update_user_option( $user_id, $meta_key, array_unique( $option_arr ), true );	// since wp 2.0
+		public function get_options( $user_id = false ) {
+			$user_id = $user_id == false ? get_current_user_id() : $user_id;	// since wp 3.0
+			$opts = get_user_option( NGFB_OPTIONS_NAME, $user_id );		// since wp 2.0.0 
+			if ( ! is_array( $opts ) )
+				$opts = array();
+			return $opts;
+		}
+
+		public function save_options( $opts = array(), $user_id = false ) {
+			$user_id = $user_id == false ? get_current_user_id() : $user_id;	// since wp 3.0
+			update_user_option( $user_id, NGFB_OPTIONS_NAME, array_unique( $opts ), true );	// since wp 2.0
 		}
 
 	}

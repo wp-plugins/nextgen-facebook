@@ -43,7 +43,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
-
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
@@ -62,12 +61,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function add_admin_menus() {
-
 			reset( $this->ngfb->setting_libs );
 			$this->menu_id = key( $this->ngfb->setting_libs );
 			$this->menu_name = $this->ngfb->setting_libs[$this->menu_id];
 			$this->settings[$this->menu_id]->add_menu( $this->menu_id );
-
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->settings[$id]->add_submenu( $this->menu_id );
 			unset ( $id, $name );
@@ -163,9 +160,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function load_page() {
 			wp_enqueue_script( 'postbox' );
-
 			$upload_dir = wp_upload_dir();	// returns assoc array with path info
 			$old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
+			$user_opts = $this->ngfb->user->get_options();
 
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 
@@ -175,6 +172,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
+					case 'dismiss_rate' : 
+						$user_opts['ngfb_dismiss_rate'] = 1;
+						$this->ngfb->user->save_options( $user_opts );
+						break;
 					case 'remove_old_css' : 
 						if ( file_exists( $old_css_file ) )
 							if ( @unlink( $old_css_file ) )
@@ -208,25 +209,30 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				}
 			}
 
+			if ( file_exists( $old_css_file ) ) {
+				$this->ngfb->notices->inf( 
+					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
+						NGFB_TEXTDOM ), $old_css_file ) . ' ' .
+					sprintf( __( 'Styling for social buttons is now managed on the <a href="%s">Social Style settings page</a>.', 
+						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( 'style' ) ) . ' ' .
+					sprintf( __( 'When you are ready, you can <a href="%s">click here to remove the old stylesheet</a>.', 
+						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( '?action=remove_old_css' ) ) 
+				);
+			}
+
 			$this->ngfb->admin->set_readme();	// the version info metabox on all settings pages needs this
 
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
 
+			if ( empty( $user_opts['ngfb_dismiss_rate'] ) ) {
+				add_meta_box( $this->pagehook . '_rate', 'Good Plugin?', array( &$this, 'show_metabox_rate' ), $this->pagehook, 'side' );
+				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_rate', array( &$this, 'add_class_postbox_highlight_side' ) );
+			}
+
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
-
-			if ( file_exists( $old_css_file ) ) {
-				$this->ngfb->notices->inf( 
-					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
-						NGFB_TEXTDOM ), $old_css_file ) . ' ' .
-					sprintf( __( 'Styling for social buttons is now managed <a href="%s">on the Social Style settings page</a>.', 
-						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( 'style' ) ) . ' ' .
-					sprintf( __( 'When you are ready, you can <a href="%s">click this link to remove the old stylesheet</a>.', 
-						NGFB_TEXTDOM ), $this->ngfb->util->get_admin_url( '?action=remove_old_css' ) ) 
-				);
-			}
 
 			if ( $this->ngfb->is_avail['aop'] == true )
 				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
@@ -235,15 +241,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_page() {
 			settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
-
 			$this->ngfb->debug->show_html( null, 'Debug Log' );
-
 			// add meta box here to prevent removal
 			if ( $this->ngfb->is_avail['aop'] !== true ) {
 				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
-				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_purchase_side' ) );
+				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
-
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
@@ -274,8 +277,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 		}
 
-		public function add_class_postbox_purchase_side( $classes ) {
-			array_push( $classes, 'postbox_purchase_side' );
+		public function add_class_postbox_highlight_side( $classes ) {
+			array_push( $classes, 'postbox_highlight_side' );
 			return $classes;
 		}
 
@@ -312,19 +315,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>' . "\n";
 		}
 
-		public function show_metabox_news() {
-			$this->show_feed( $this->ngfb->urls['feed'], 3, 'ngfb_feed' );
-		}
-
 		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
 			include_once( ABSPATH . WPINC . '/feed.php' );
 			$have_items = 0;
 			$rss_items = array();
-
 			add_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
 			$rss_feed = fetch_feed( $url );		// since wp 2.8
 			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
-
 			if ( ! is_wp_error( $rss_feed ) ) {
 				$have_items = $rss_feed->get_item_quantity( $max_num ); 
 				$rss_items = $rss_feed->get_items( 0, $have_items );
@@ -348,6 +345,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function feed_cache_expire( $seconds ) {
 			return $this->ngfb->update_hours * 60 * 60;
+		}
+
+		public function show_metabox_news() {
+			$this->show_feed( $this->ngfb->urls['feed'], 3, 'ngfb_feed' );
 		}
 
 		public function show_metabox_info() {
@@ -393,7 +394,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
 			echo $this->ngfb->msg->get( 'purchase_box' ), "\n";
-			echo $this->ngfb->msg->get( 'review_plugin' ), "\n";
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p class="centered">';
@@ -416,6 +416,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo $this->ngfb->msg->get( 'help_email' ), "\n";
 			else
 				echo $this->ngfb->msg->get( 'help_forum' ), "\n";
+			echo '</td></tr></table>';
+		}
+
+		public function show_metabox_rate() {
+			echo '<table class="ngfb-settings"><tr><td>';
+			echo $this->ngfb->msg->get( 'rate_plugin' ), "\n";
+			echo '<p class="centered">
+				<img src="'.NGFB_URLPATH.'images/check-mark.png" width="15" height="16" style="vertical-align:middle;" />
+				<a href="', $this->ngfb->util->get_admin_url().'&amp;action=dismiss_rate', '">Done</a></p>';
 			echo '</td></tr></table>';
 		}
 

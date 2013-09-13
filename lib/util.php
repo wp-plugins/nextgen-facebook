@@ -423,8 +423,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
 				'><p>' .  $title;
 			if ( ! empty( $tooltip ) )
-				$html .= '<img src="' . NGFB_URLPATH . 'images/question-mark.png" 
-					class="ngfb_tooltip" alt="' . esc_attr( $tooltip ) . '" />';
+				$html .= '<img src="'.NGFB_URLPATH.'images/question-mark.png" 
+					class="ngfb_tooltip" alt="'.esc_attr( $tooltip ).'" />';
 			$html .= '</p></th>' . "\n";
 			return $html;
 		}
