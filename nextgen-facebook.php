@@ -507,6 +507,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 
+			// WooCommerce ShareYourCart Extension
+			if ( class_exists( 'ShareYourCartWooCommerce' ) ) {
+				$woo_share_settings = get_option( 'woocommerce_shareyourcart_settings' );
+				if ( ! empty( $woo_share_settings['enabled'] ) ) {
+					$this->debug->log( 'plugin conflict detected - woocommerce shareyourcart extension is enabled' );
+					$this->notices->err( $conflict_prefix . sprintf( __( 'The WooCommerce ShareYourCart Extension does not provide an option to turn off its Open Graph meta tags. Please disable the extension on the <a href="%s">ShareYourCart Integration Tab</a>.', NGFB_TEXTDOM ), get_admin_url( null, 'admin.php?page=woocommerce&tab=integration&section=shareyourcart' ) ) );
+				}
+			}
+
 			// Wordbooker
 			if ( function_exists( 'wordbooker_og_tags' ) ) {
 				$wordbooker_settings = get_option( 'wordbooker_settings' );
@@ -545,9 +554,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// post thumbnail feature is supported by wp theme // since wp 2.9.0
 			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-
-
 
 			// nextgen gallery plugin
 			// use in combination with $this->ngg_version
