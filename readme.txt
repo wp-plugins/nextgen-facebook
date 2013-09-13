@@ -667,7 +667,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= 6.8-dev2 =
+= Version 6.8-dev2 =
 
 *Free* and Pro Versions:
 
@@ -678,21 +678,21 @@ Pro Version:
 
 * Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields.
 
-= 6.7.4.2 =
+= Version 6.7.4.2 =
 
 *7747 lines in 35 files, with 41 classes and 265 functions*
 
 * Fixed relative path to (upcoming) language files.
 * Fixed detection and removal of old social buttons stylesheet.
 
-= 6.7.4.1 =
+= Version 6.7.4.1 =
 
 *7740 lines in 35 files, with 41 classes and 265 functions*
 
 * Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator.
 * Moved the WordPress version check code into the plugin activation method.
 
-= 6.7.4 =
+= Version 6.7.4 =
 
 *7742 lines in 35 files, with 41 classes and 265 functions*
 
