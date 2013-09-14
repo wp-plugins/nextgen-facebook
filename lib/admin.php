@@ -42,7 +42,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->form = new ngfbForm( $this->ngfb, NGFB_OPTIONS_NAME, $this->ngfb->options, $def_opts );
 
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
-			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
+			// use priority -1 to make sure Settings sub-menus are top-most
+			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
@@ -118,7 +119,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function register_settings() {
-			register_setting( $this->ngfb->acronym . '_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+			register_setting( $this->ngfb->acronym.'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		} 
 
 		// this method receives only a partial options array, so re-create a full one
@@ -232,7 +233,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( empty( $user_opts['ngfb_dismiss_rate'] ) ) {
 				add_meta_box( $this->pagehook . '_rate', 'Good Plugin?', array( &$this, 'show_metabox_rate' ), $this->pagehook, 'side' );
-				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_rate', array( &$this, 'add_class_postbox_highlight_side' ) );
+				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_rate', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
 
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
@@ -245,12 +246,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_page() {
-			settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
+			// the settings page displays its own error messages
+			if ( $this->menu_id !== 'contact' )
+				settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
 			$this->ngfb->debug->show_html( null, 'Debug Log' );
 			// add meta box here to prevent removal
 			if ( $this->ngfb->is_avail['aop'] !== true ) {
 				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
-				add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
+				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
