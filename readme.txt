@@ -784,49 +784,6 @@ Pro Version:
 * Added support for the WordPress SEO by Yoast meta description templates.
 * Added support for the All in One SEO Pack custom home page title and description values.
 
-= Version 6.5 =
-
-* Improved the selection of YouTube video preview images by comparing all available sizes and choosing the largest.
-* Added a flush of the object cache (for that specific post ID) when a Post or Page is updated.
-* Removed the 'Apply Title Filters' option (not necessary since `wp_title()` is filtered by default).
-* If an SEO plugin is active, the WordPress title will be used as-is (trusting that the SEO plugin will return an appropriate value).
-* Added the Custom Settings metabox to the attachment pages (requires 'edit_post' capabilities).
-* Added a new 'Add Custom Settings To' option in the Advanced settings to exclude the Custom Settings on specific custom post types.
-* Fixed: Added encoding of html entities for the meta 'description' value.
-
-NGFB Open Graph+ v6.5 is compatible with the new NextGEN Gallery v2.0.0. There are *several* known bugs / issues with NextGEN Gallery v2.0.0, some of which affects NGFB Open Graph+'s ability to detect image IDs in the content, retrieve image tags for featured images, and report accurate image dimensions for the Open Graph meta tags. If you have not yet upgraded to NextGEN Gallery v2.0.0, I would suggest you wait until the next release of NextGEN Gallery from Photocrati before doing so.
-
-Changes specifically for NextGEN Gallery v2.0.0:
-
-* Added detection of the `data-image-id='#'` attribute in `<a>` and `<img>` HTML tags.
-* Fixed: Image dimensions of cached files are now read only for NextGEN Gallery pre-v2.
-
-= Version 6.4 =
-
-* Improved CSS on the Social Sharing settings page for smaller displays (metaboxes align into a single column). 
-* Major update to the embed/iframe video detection code, with full support for YouTube and Vimeo APIs.
-* Added support for sharing embedded Wistia videos. See the FAQ in order to define the required NGFB_WISTIA_API_PWD constant.
-* Added width and height meta tags for YouTube, Vimeo and Wistia preview images.
-
-= Version 6.3 =
-
-* Changed default object cache expiration from 180 to 90 seconds.
-* Disabled content caching for the custom Post / Page meta description fields, so changes to the content would appear immediately.
-* Added the 'Use HTTPS for Videos' option on the General settings page (Open Graph metabox -&gt; Image and Video tab).
-* Added 'og:image:secure_url' and 'og:video:secure_url' for HTTPS URLs.
-* Added the 'Add via @username' option to the Twitter Social Sharing settings.
-* Added the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
-* Added a tabbed layout in the Facebook settings metabox to accomodate the old / new "Share" button options.
-* Added the following CSS to the 'Buttons Style' stylesheet for the Facebook "Share" button:
-
-<pre>
-div.fb-share-button { width:105px; }
-div.fb-share-button span {
-        display:block !important;
-        vertical-align:middle !important;
-}
-</pre>
-
 == Upgrade Notice ==
 
 = 6.8 =
@@ -864,20 +821,4 @@ Added checks for conflicting Open Graph features from other plugin(s), more opti
 = 6.6 =
 
 Custom Settings box added to custom post types dynamically, Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/), improvements in image detection in the content, extended support for SEO plugins.
-
-= 6.5 =
-
-Improved selection of YouTube preview images, added flush of cache when a Post or Page is updated, added check for SEO title, added Custom Settings to custom post types, small changes for NextGEN Gallery v2.0.0 (see Changelog).
-
-= 6.4 =
-
-Improved CSS on Social Sharing settings page for smaller displays, major update to embed/iframe video detection, added image width and height meta tags for video preview images, added support for sharing Wistia embedded videos.
-
-= 6.3 =
-
-Added the 'Add via @username' option in the Twitter settings, and the (now deprecated) "Share" button for Facebook, which allows for additional options when sharing content (like posting to a Facebook Page). 
-
-= 6.2.2 =
-
-Moved the Google, Facebook, and Twitter options on the General settings page into a tabbed format. Added missing 'none' option to Default Author selects.
 
