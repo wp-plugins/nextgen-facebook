@@ -12,6 +12,8 @@ Adds HTML header tags for better Google Search results and Social Sharing posts.
 
 == Description ==
 
+Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
+
 = Recent Reviews =
 
 What users are saying about NGFB Open Graph+:
