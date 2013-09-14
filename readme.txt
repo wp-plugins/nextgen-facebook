@@ -676,7 +676,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 Pro Version:
 
-* Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields.
+* Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 = Version 6.7.4.2 =
 
@@ -829,7 +829,7 @@ div.fb-share-button span {
 
 = 6.8 =
 
-Added a Contact Methods metabox on the Advanced settings page to customize/enable/disable social contact fields (Pro version).
+Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields (Pro version).
 
 = 6.7.4.2 =
 
