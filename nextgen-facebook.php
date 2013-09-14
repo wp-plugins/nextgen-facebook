@@ -113,6 +113,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $setting_libs = array(
 			'general' => 'General',
 			'advanced' => 'Advanced',
+			'contact' => 'Contact Methods',
 			'social' => 'Social Sharing',
 			'style' => 'Social Style',
 			'about' => 'About',
