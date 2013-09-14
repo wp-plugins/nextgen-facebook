@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '79';	// increment when adding/removing default options
+		public $opts_ver = '80';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -232,10 +232,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_name' => 'skype', 
 			'ngfb_cm_skype_label' => 'Skype Username', 
 			'ngfb_cm_skype_enabled' => 0,
-			'wp_cm_user_email_label' => 'E-mail', 
-			'wp_cm_user_email_enabled' => 1,
-			'wp_cm_user_url_label' => 'Website', 
-			'wp_cm_user_url_enabled' => 1,
 			'wp_cm_aim_label' => 'AIM', 
 			'wp_cm_aim_enabled' => 1,
 			'wp_cm_jabber_label' => 'Jabber / Google Talk', 
@@ -516,6 +512,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'ngfb_cm_twitter_label' : 
 						case 'ngfb_cm_yt_name' : 
 						case 'ngfb_cm_yt_label' : 
+						case 'ngfb_cm_skype_name' : 
+						case 'ngfb_cm_skype_label' : 
+						case 'wp_cm_aim_label' : 
+						case 'wp_cm_jabber_label' : 
+						case 'wp_cm_yim_label' : 
 							if ( empty( $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
