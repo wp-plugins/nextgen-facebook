@@ -70,11 +70,14 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 							if ( ! empty( $val ) ) {
 								// use the social_prefix id to decide on actions
 								switch ( $id ) {
+									case 'skype' :
+										// no change
+										break;
 									case 'twitter' :
 										$val = substr( preg_replace( '/[^a-z0-9_]/', '', 
 											strtolower( $val ) ), 0, 15 );
-										if ( ! empty( $val ) )
-											$val = '@' . $val;
+										if ( ! empty( $val ) ) 
+											$val = '@'.$val;
 										break;
 									default :
 										if ( strpos( $val, '://' ) === false )
