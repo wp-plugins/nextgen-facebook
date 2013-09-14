@@ -73,25 +73,30 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected function add_menu( $parent_id ) {
 			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 			$this->pagehook = add_menu_page( 
-				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$this->ngfb->fullname.' : '.$this->menu_name, 
 				$this->ngfb->menuname, 
 				'manage_options', 
 				$this->ngfb->acronym . '-' . $parent_id, 
 				array( &$this, 'show_page' ), null, NGFB_MENU_PRIORITY);
-			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
 		}
 
 		protected function add_submenu( $parent_id ) {
+			if ( $this->menu_id == 'contact' )
+				$parent_slug = 'options-general.php';
+			else
+				$parent_slug = $this->ngfb->acronym.'-'.$parent_id;
+
 			// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 			$this->pagehook = add_submenu_page( 
-				$this->ngfb->acronym . '-' . $parent_id, 
-				$this->ngfb->fullname . ' Settings : ' . $this->menu_name, 
+				$parent_slug, 
+				$this->ngfb->fullname.' : '.$this->menu_name, 
 				$this->menu_name, 
 				'manage_options', 
-				$this->ngfb->acronym . '-' . $this->menu_id, 
+				$this->ngfb->acronym.'-'.$this->menu_id, 
 				array( &$this, 'show_page' ) 
 			);
-			add_action( 'load-' . $this->pagehook, array( &$this, 'load_page' ) );
+			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
 		}
 
 		protected function add_meta_boxes() {
@@ -250,7 +255,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
-				<h2><?php echo $this->ngfb->fullname; ?></h2>
+				<h2><?php echo $this->ngfb->fullname.' : '.$this->menu_name; ?></h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
 					<div id="side-info-column" class="inner-sidebar">
 						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
@@ -316,17 +321,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
-			include_once( ABSPATH . WPINC . '/feed.php' );
+			include_once( ABSPATH.WPINC.'/feed.php' );
 			$have_items = 0;
 			$rss_items = array();
-			add_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
+			add_filter( 'wp_feed_cache_transient_lifetime', array( &$this, 'feed_cache_expire' ) );
 			$rss_feed = fetch_feed( $url );		// since wp 2.8
 			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
-			if ( ! is_wp_error( $rss_feed ) ) {
+			echo '<div class="', $class, '"><ul>', "\n";
+			if ( is_wp_error( $rss_feed ) ) {
+				$error_string = $rss_feed->get_error_message();
+				echo '<li>', __( 'WordPress reported an error:', NGFB_TEXTDOM ), 
+					' ', $error_string, '</li>', "\n";
+			} else {
 				$have_items = $rss_feed->get_item_quantity( $max_num ); 
 				$rss_items = $rss_feed->get_items( 0, $have_items );
 			}
-			echo '<div class="', $class, '"><ul>', "\n";
 			if ( $have_items == 0 ) {
 				echo '<li>', __( 'No items found.', NGFB_TEXTDOM ), '</li>', "\n";
 			} else {
