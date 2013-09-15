@@ -671,6 +671,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.8 =
 
+*8074 lines in 36 files, with 42 classes and 272 functions*
+
 *Free* and Pro Versions:
 
 * Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
@@ -682,107 +684,10 @@ Pro Version:
 
 = Version 6.7.4.2 =
 
-*7747 lines in 35 files, with 41 classes and 265 functions*
+*7749 lines in 35 files, with 41 classes and 265 functions*
 
 * Fixed relative path to (upcoming) language files.
 * Fixed detection and removal of old social buttons stylesheet.
-
-= Version 6.7.4.1 =
-
-*7740 lines in 35 files, with 41 classes and 265 functions*
-
-* Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator.
-* Moved the WordPress version check code into the plugin activation method.
-
-= Version 6.7.4 =
-
-*7742 lines in 35 files, with 41 classes and 265 functions*
-
-*Free* and Pro Versions:
-
-* Fixed author information lookup for author index pages without any posts.
-* Added a Publisher Link URL option in the Open Graph settings (used in the article:publisher meta tag).
-* Added the language locale to cache object IDs, in order to segregate potentially different cached content by language.
-* Added a check for 'AddThis Social Bookmarking Widget', which has incorrectly coded content and excerpt filters.
-
-Pro Version:
-
-* Added locale filters for social buttons that support multiple languages (Facebook, Google+, and Twitter), allowing the social button language to change dynamically.
-
-= Version 6.7.3 =
-
-*7670 lines in 35 files, with 41 classes and 264 functions*
-
-*Free* and Pro Versions:
-
-* Added a check for the Facebook plugin to prevent duplicate Open Graph meta tags.
-* Allowed the definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constant values.
-* Re-formatted social button HTML to use a single line, without any newline or carriage-return characters, to avoid extra paragraph HTML tags added by WordPress.
-
-Pro Version:
-
-* Added support for older WooCommerce v1.x functions and methods.
-
-= Version 6.7.2 =
-
-*7728 lines in 35 files, with 41 classes and 264 functions*
-
-*Free* and Pro Versions:
-
-* Added a 'Recommend Author' option to the Twitter social sharing settings.
-* Added a 'ngfb_content_seed' filter hook.
-* Changed all references to 'Transaction ID' for 'Authentication ID'.
-* Fixed: Disabled content filtering for WooCommerce cart, checkout and account pages.
-
-Pro Version:
-
-* Added `onFocus()` and `onBlur()` events with default text for the Custom Settings input and textarea fields.
-* Added support for WooCommerce product images defined in the Custom Settings metabox.
-* Fixed the WooCommerce `get_product()` function call, which does not appear to be available in older versions, for a global class method call instead.
-
-= Version 6.7.1 =
-
-*7642 lines in 35 files, with 41 classes and 264 functions*
-
-* Fixed StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
-
-= Version 6.7 =
-
-*7639 lines in 35 files, with 41 classes and 264 functions*
-
-*Free* and Pro Versions:
-
-* Added a check for conflicting Open Graph features from the Wordbooker plugin.
-* Added an option to include social buttons on both top and bottom of content / excerpt.
-* Added the `data-counturl` parameter to improve counter tracking on Twitter.
-* Moved the 'Add Custom Settings To' option to the Pro version (since it's only available in the Pro version anyway).
-* Fixed: Added check for `curl_init` before creating the Google URL shortening class object.
-* Fixed: Used `$post` instead of `the_post()` (which advances The Loop), to get information for author archives.
-* Fixed: Used matching http/https protocol (instead of always using https) for social button javascripts.
-
-Pro Version:
-
-* Added option to include / exclude social buttons on posts, pages, attachments, and custom post types.
-
-= Version 6.6 =
-
-*7612 lines in 35 files, with 41 classes and 262 functions*
-
-*Free* and Pro Versions:
-
-* Added a filter on the WordPress `wp_get_attachment_image_attributes()` hook, to add an 'data-ngfb-wp-pid="#"' attribute to all image HTML tags, making it easier to find images from the Media Library in the content.
-* Added a filter on the NextGEN Gallery `ngg_image_object()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href, imageHTML, and thumbHTML image object properties.
-* Added a filter on the NextGEN Gallery `ngg_get_thumbcode()` hook to add an 'data-ngfb-ngg-pid="#"' attribute to the href of thumbnails, etc.
-* Fixed: The Custom Settings box on Posts/Pages is now added to new custom post types dynamically (not just when NGFB Open Graph+ is updated).
-* Fixed: Allowed underscores in twitter usernames.
-* **Enabled all NGFB filter hooks on the *Free* version as well (previously only available in the Pro version - see NGFB Filter Hooks in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) for more information).**
-
-Pro Version:
-
-* **Added support for [WooCommerce](http://wordpress.org/plugins/woocommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). [WooCommerce](http://wordpress.org/plugins/woocommerce/) product galleries, stock status, extended attributes, category and tag pages, are all supported.**
-* Added support for the WordPress `&#91;gallery&#93;` shortcode to create Twitter Gallery Cards for WordPress image galleries.
-* Added support for the WordPress SEO by Yoast meta description templates.
-* Added support for the All in One SEO Pack custom home page title and description values.
 
 == Upgrade Notice ==
 
@@ -793,32 +698,4 @@ Added a Contact Methods metabox on the Advanced settings page to enable / disabl
 = 6.7.4.2 =
 
 Fixed relative path to (upcoming) language files, and detection / removal of old social buttons stylesheet.
-
-= 6.7.4.1 =
-
-Added a separator value to the `wp_title()` call for titles from SEO plugins, allowing them to use (or ignore) the separator. Moved the WordPress version check into the activation method.
-
-= 6.7.4 =
-
-Fixed author information lookup for author index pages without any posts, added a Publisher Page URL option in the Open Graph settings, added language locale to cache object IDs. 
-
-= 6.7.3 =
-
-Added support for older WooCommerce v1.x (Pro version), allowed definition of custom NGFB_CACHEDIR and NGFB_CACHEURL constants, re-formatted social button HTML to use a single line to avoid extra paragraph HTML tags.
-
-= 6.7.2 =
-
-Added 'Recommend Author' to Twitter sharing options, added default text for Custom Settings input fields (Pro version), used alternate WooCommerce function call (Pro version) and disabled content filters for cart/checkout/account pages.
-
-= 6.7.1 =
-
-Fixed: StumbleUpon button URL and added matching http/https protocol to Pinterest button image.
-
-= 6.7 =
-
-Added checks for conflicting Open Graph features from other plugin(s), more options for social button locations (include/exclude by post type, and add to both top and bottom of content/excerpt).
-
-= 6.6 =
-
-Custom Settings box added to custom post types dynamically, Open Graph / Twitter Product Card for [WooCommerce](http://wordpress.org/plugins/woocommerce/), improvements in image detection in the content, extended support for SEO plugins.
 
