@@ -53,6 +53,21 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$ret = array();
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
+			$twitter_cap_len = $this->ngfb->util->tweet_max_len( get_permalink( $post->ID ) );
+			$pid = '';
+			$vid_url = '';
+
+			if ( empty( $pid ) ) {
+				if ( $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
+					$pid = get_post_thumbnail_id( $post->ID );
+				else $pid = $this->ngfb->media->get_first_attached_image_id( $post->ID );
+				if ( empty( $vid_url ) ) {
+					$videos = array();
+					$videos = $this->ngfb->media->get_content_videos( 1, false );	// get the first video, if any
+					if ( ! empty( $videos[0]['og:video'] ) ) $vid_url = $videos[0]['og:video'];
+				}
+			}
+
 			switch ( $id ) {
 
 				case 'header' :
@@ -60,64 +75,62 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 					$ret[] = '<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Topic', 'medium', null, 
-						'A custom topic for this ' . $post_type_name . ', different from the default Website Topic 
-						chosen in the General Settings.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom topic for this '.$post_type_name.', different from the default Website Topic chosen in the General Settings.' ) .
+					'<td class="blank">'.$this->ngfb->options['og_art_section'].'</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Default Title', 'medium', null, 
-						'A custom title for the Open Graph meta tags, Twitter Card meta tags (all Twitter Card formats), 
-						and possibly the Pinterest, Tumblr, and Twitter sharing caption / text, depending on some option 
-						settings. The default title value is refreshed when the (draft or published) ' . 
-						$post_type_name . ' is saved.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom title for the Open Graph meta tags, Twitter Card meta tags (all Twitter Card formats), 
+					and possibly the Pinterest, Tumblr, and Twitter sharing caption / text, depending on some option 
+					settings. The default title value is refreshed when the (draft or published) '.$post_type_name.' is saved.' ) .
+					'<td class="blank">'.$this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...', true ).'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Default Description', 'medium', null, 
-						'A custom description for the Open Graph meta tags, and the fallback description 
-						for all other meta tags and social sharing buttons.
-						The default description value is based on the content, or excerpt if one is available, 
-						and is refreshed when the (draft or published) ' . $post_type_name . ' is saved.
-						Update and save this description to change the default value of all other meta tag and 
-						social sharing button descriptions.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom description for the Open Graph meta tags, and the fallback description 
+					for all other meta tags and social sharing buttons.
+					The default description value is based on the content, or excerpt if one is available, 
+					and is refreshed when the (draft or published) ' . $post_type_name . ' is saved.
+					Update and save this description to change the default value of all other meta tag and 
+					social sharing button descriptions.' ) .
+					'<td class="blank">'.$this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...', true, false ).'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Google Description', 'medium', null, 
-						'A custom description for the Google Search description meta tag.
-						The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom description for the Google Search description meta tag.
+					The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
+					'<td class="blank">'.$this->ngfb->webpage->get_description( $this->ngfb->options['meta_desc_len'], '...', true ).'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Twitter Card Description', 'medium', null, 
-						'A custom description for the Twitter Card description meta tag (all Twitter Card formats).
-						The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom description for the Twitter Card description meta tag (all Twitter Card formats).
+					The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
+					'<td class="blank">'.$this->ngfb->webpage->get_description( $this->ngfb->options['tc_desc_len'], '...', true ).'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Image ID', 'medium', null, 
-						'A custom Image ID to include (or list first) in the Open Graph meta tags, 
-						\'Large Image Summary\' Twitter Card meta tag, Pinterest and Tumblr social
-						sharing buttons (this is the image they will share).' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom Image ID to include (or list first) in the Open Graph meta tags, 
+					\'Large Image Summary\' Twitter Card meta tag, Pinterest and Tumblr social
+					sharing buttons (this is the image they will share).' ) .
+					'<td class="blank">&nbsp;</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Image URL', 'medium', null, 
-						'A custom image URL, instead of an Image ID, to include (or list first)
-						in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom image URL, instead of an Image ID, to include (or list first)
+					in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.' ) .
+					'<td class="blank">&nbsp;</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Video URL', 'medium', null, 
-						'A custom video URL, from YouTube or Vimeo, to include (or list first) in the 
-						Open Graph meta tags, \'Player\' Twitter Card meta tag, and the Tumblr social 
-						sharing button (this is the video that will be shared).' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom video URL, from YouTube or Vimeo, to include (or list first) in the 
+					Open Graph meta tags, \'Player\' Twitter Card meta tag, and the Tumblr social 
+					sharing button (this is the video that will be shared).' ) .
+					'<td class="blank">&nbsp;</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Maximum Images', 'medium', null, 
-						'The maximum number of images to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'The maximum number of images to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
+					'<td class="blank">'.$this->ngfb->options['og_img_max'].'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Maximum Videos', 'medium', null, 
-						'The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
+					'<td class="blank">'.$this->ngfb->options['og_vid_max'].'</td>';
 		
 					$ret[] = $this->ngfb->util->th( 'Disable Social Buttons', 'medium', null, 
-						'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $post_type_name . '.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $post_type_name . '.' ) .
+					'<td class="blank">&nbsp;</td>';
 		
 					break;
 
@@ -125,25 +138,34 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 					$ret[] = '<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>';
 
-					$ret[] = $this->ngfb->util->th( 'Pinterest Image Caption', 'medium', null, 
-						'A custom caption text, used by the Pinterest social sharing button, 
-						for the custom Image ID, attached or featured image.' ) .
-						'<td class="blank">&nbsp;</td>';
+					$th = $this->ngfb->util->th( 'Pinterest Image Caption', 'medium', null, 
+					'A custom caption text, used by the Pinterest social sharing button, 
+					for the custom Image ID, attached or featured image.' );
+					if ( ! empty( $pid ) )
+						$ret[] = $th . '<td class="blank">'.$this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], 
+							$this->ngfb->options['pin_cap_len'], true ).'</td>';
+					else $ret[] = $th . '<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
 
-					$ret[] = $this->ngfb->util->th( 'Tumblr Image Caption', 'medium', null, 
-						'A custom caption, used by the Tumblr social sharing button, 
-						for the custom Image ID, attached or featured image.' ) .
-						'<td class="blank">&nbsp;</td>';
+					$th = $this->ngfb->util->th( 'Tumblr Image Caption', 'medium', null, 
+					'A custom caption, used by the Tumblr social sharing button, 
+					for the custom Image ID, attached or featured image.' );
+					if ( ! empty( $pid ) )
+						$ret[] = $th . '<td class="blank">'.$this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], 
+							$this->ngfb->options['tumblr_cap_len'], true ).'</td>';
+					else $ret[] = $th . '<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
 
-					$ret[] = $this->ngfb->util->th( 'Tumblr Video Caption', 'medium', null, 
-						'A custom caption, used by the Tumblr social sharing button, 
-						for the custom Video URL or embedded video.' ) .
-						'<td class="blank">&nbsp;</td>';
+					$th = $this->ngfb->util->th( 'Tumblr Video Caption', 'medium', null, 
+					'A custom caption, used by the Tumblr social sharing button, 
+					for the custom Video URL or embedded video.' );
+					if ( ! empty( $vid_url ) )
+						$ret[] = $th . '<td class="blank">'.$this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], 
+							$this->ngfb->options['tumblr_cap_len'], true ).'</td>';
+					else $ret[] = $th . '<td class="blank"><em>No custom Video URL or embedded video found.</em></td>';
 
 					$ret[] = $this->ngfb->util->th( 'Tweet Text', 'medium', null, 
-						'A custom Tweet text for the Twitter social sharing button. 
-						This text is in addition to any Twitter Card description.' ) .
-						'<td class="blank">&nbsp;</td>';
+					'A custom Tweet text for the Twitter social sharing button. 
+					This text is in addition to any Twitter Card description.' ) .
+					'<td class="blank">'.$this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $twitter_cap_len ).'</td>';
 
 					break;
 

@@ -20,7 +20,12 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		}
 
 		public function get() {
-			$tags = array();
+			$tags = apply_filters( 'ngfb_tags_seed', array() );
+			if ( ! empty( $tags ) ) {
+				$this->ngfb->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
+				return $tags;
+			}
+
 			if ( is_singular() ) {
 				global $post;
 				$tags = array_merge( $tags, $this->get_wp( $post->ID ) );

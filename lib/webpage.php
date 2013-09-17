@@ -77,7 +77,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( empty( $title ) ) {
 				$title = apply_filters( 'ngfb_title_seed', '' );
 				if ( ! empty( $title ) )
-					$this->ngfb->debug->log( 'title seed = "' . $title . '"' );
+					$this->ngfb->debug->log( 'title seed = "'.$title.'"' );
 			}
 			
 			// construct a title of our own

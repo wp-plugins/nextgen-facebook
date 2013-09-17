@@ -563,9 +563,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// woocommerce
 			$is_avail['woocom'] = class_exists( 'Woocommerce' ) ? true : false;
 
-			// by default, define any_seo value as false
-			$is_avail['any_seo'] = false;
+			// marketpress - wordpress ecommerce
+			$is_avail['marketpress'] = class_exists( 'MarketPress' ) ? true : false;
 
+			$is_avail['any_seo'] = false;	// by default, define any_seo value as false
 			foreach ( $this->seo_libs as $key => $name ) {
 				$func_name = '';
 				$class_name = '';

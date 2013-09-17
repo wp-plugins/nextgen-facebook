@@ -436,7 +436,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo $this->ngfb->msg->get( 'rate_plugin' ), "\n";
 			echo '<p class="centered">
 				<img src="'.NGFB_URLPATH.'images/check-mark.png" width="15" height="16" style="vertical-align:middle;" />
-				<a href="', $this->ngfb->util->get_admin_url().'&amp;action=dismiss_rate', '">Done</a></p>';
+				<a href="', $this->ngfb->util->get_admin_url().'&amp;action=dismiss_rate', '" title="Thank you!">Done</a></p>';
 			echo '</td></tr></table>';
 		}
 

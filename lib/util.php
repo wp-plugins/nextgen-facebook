@@ -169,7 +169,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = $short_url;
 				}
 			}
-			return $url;
+			return apply_filters( 'ngfb_short_url', $url );
 		}
 
 		public function fix_relative_url( $url = '' ) {
@@ -227,11 +227,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function rewrite( $url = '' ) {
-			if ( $this->ngfb->is_avail['aop'] == true ) {
+			if ( is_object( $this->rewrite ) && method_exists( $this->rewrite, 'html' ) ) {
 				$url = '"' . $url . '"';	// rewrite function uses var reference
 				$url = trim( $this->rewrite->html( $url ), '"' );
 			}
-			return $url;
+			return apply_filters( 'ngfb_rewrite_url', $url );
 		}
 
 		public function get_topics() {

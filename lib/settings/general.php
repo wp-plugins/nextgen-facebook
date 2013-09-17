@@ -227,14 +227,15 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				case 'facebook' :
 
 					$ret[] = $this->ngfb->util->th( 'Facebook Admin(s)', 'highlight', null, '
-					The <em>Facebook Admin(s)</em> user list is used by Facebook to allow access to 
-					<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
-					data for those users. 
+					The <em>Facebook Admin(s)</em> user names are used by Facebook to allow access to 
+					<a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> data.
 					Note that these are <em>user</em> account names, not Facebook <em>page</em> names.
-					Enter one or more Facebook user names, separated with commas. 
+					<p>Enter one or more Facebook user names, separated with commas. 
 					When viewing your own Facebook wall, your user name is located in the URL 
 					(example: https://www.facebook.com/<b>user_name</b>). 
-					Enter only the user user name(s), not the URL(s).' ) .
+					Enter only the user user name(s), not the URL(s).</p>
+					<a href="https://www.facebook.com/settings?tab=account&section=username&view" target="_blank">Update 
+					your user name in the Facebook General Account Settings</a>.' ) .
 					'<td>' . $this->ngfb->admin->form->get_input( 'fb_admins' ) . '</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Facebook Application ID', null, null, '

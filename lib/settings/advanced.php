@@ -114,10 +114,11 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
 				$this->ngfb->util->th( 'Static Content URL(s)', 'highlight', null, 
-				'<p>Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), and cached social media files.
-				Leave this option blank to disable the rewriting feature (default is disabled).</p>
-				<p>Wildcarding and multiple CDN hostnames are supported.
-				See the <a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for more information and examples.' ) .
+				'Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), 
+				and cached social media files. Leave this option blank to disable the rewriting feature (default is disabled).
+				Wildcarding and multiple CDN hostnames are supported -- see the 
+				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
+				more information and examples.' ) .
 				'<td class="blank">' .  $this->ngfb->admin->form->get_hidden( 'ngfb_cdn_urls' ) . 
 					$this->ngfb->options['ngfb_cdn_urls'] . '</td>',
 
