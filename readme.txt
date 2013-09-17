@@ -197,6 +197,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Q19. Does LinkedIn read the Open Graph tags?
 * Q20. The W3C Markup Validation Service says "there is no attribute '<em>property</em>'".
 * Q21. Why are there duplicate Facebook / Google fields on the user profile page?
+* Q22. Why is the Open Graph title the same for every webpage?
 
 = Q1. What is the difference between the Pro and <em>Free</em> versions? =
 
@@ -353,6 +354,12 @@ The Facebook / Open Graph meta *property* attribute is not part of the HTML5 sta
 = Q21. Why are there duplicate Facebook / Google fields on the user profile page? =
 
 NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
+
+= Q22. Why is the Open Graph title the same for every webpage? =
+
+NGFB Open Graph+ uses the WordPress `wp_title()` and `get_the_title()` functions to determine the title of most webpages. These WordPress functions are used by theme templates and plugins to retrieve the title of the current webpage, or any Page / Post ID. WordPress also provides filters for these functions -- a way for plugin authors to modify the title for various purposes. These filters are often used by SEO plugins, for example, to modify / standardize the webpage titles. See http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_title for more information.
+
+If your Open Graph and webpage titles (shown in the web browser's title bar and tabs, for example) do not show the correct information -- perhaps always showing your website name, and not the current Post / Page title -- then perhaps a plugin or theme has "hooked" into the `wp_title()` filter to manipulate its output. By default, the `wp_title()` function should return the Post / Page title, which changes from one Post / Page to another.
 
 == Other Notes ==
 
@@ -668,6 +675,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 16. Screenshot 16 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.9-dev1 =
+
+Pro Version:
+
+* Added support for All-in-One SEO custom Post / Page title, desciption and keywords.
 
 = Version 6.8 =
 
