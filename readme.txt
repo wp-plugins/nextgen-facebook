@@ -678,7 +678,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9-dev2 =
+= Version 6.9-dev3 =
 
 *Free* and Pro Versions:
 
@@ -711,7 +711,7 @@ Pro Version:
 
 == Upgrade Notice ==
 
-= 6.9-dev2 =
+= 6.9-dev3 =
 
 Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version). Added support for MarketPress product pages, including variations, sale prices and inventory levels (Pro version).
 
