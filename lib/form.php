@@ -39,7 +39,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				'<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="default is ' .
-				( $this->in_options( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ) . '" />' . "\n";
+				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ) . '" />' . "\n";
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 								$desc = '[none]';
 							break;
 					}
-					if ( $this->in_options( $name ) && $val == $this->defaults[$name] ) 
+					if ( $this->in_defaults( $name ) && $val == $this->defaults[$name] ) 
 						$desc .= ' (default)';
 				}
 				$html .= '<option value="' . $val . '"';
@@ -94,7 +94,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $size_name, false );
 				$html .= '>' . $size_name . ' [ ' . $size['width'] . 'x' . $size['height'] . ( $size['crop'] ? " cropped" : "" ) . ' ]';
-				if ( $size_name == $this->defaults[$name] ) 
+				if ( $this->in_defaults( $name ) && $size_name == $this->defaults[$name] ) 
 					$html .= ' (default)';
 				$html .= '</option>' . "\n";
 			}
@@ -186,6 +186,12 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return is_array( $this->options ) && 
 				array_key_exists( $name, $this->options ) ? true : false;
 		}
+
+		private function in_defaults( $name ) {
+			return is_array( $this->defaults ) && 
+				array_key_exists( $name, $this->defaults ) ? true : false;
+		}
+
 	}
 }
 

@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '80';	// increment when adding/removing default options
+		public $opts_ver = '82';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -106,7 +106,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_via' => 1,
 			'twitter_rel_author' => 1,
 			'twitter_dnt' => 1,
-			'twitter_shorten' => 1,
+			'twitter_shortener' => '',
 			'linkedin_on_the_excerpt' => 0,
 			'linkedin_on_the_content' => 0,
 			'linkedin_order' => 4,
@@ -203,6 +203,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 180,
 			'ngfb_googl_api_key' => '',
+			'ngfb_bitly_login' => '',
+			'ngfb_bitly_api_key' => '',
 			'ngfb_cdn_urls' => '',
 			'ngfb_cdn_folders' => 'wp-content, wp-includes',
 			'ngfb_cdn_excl' => '',
@@ -458,6 +460,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'twitter_desc' :
 						case 'ngfb_pro_tid' :
 						case 'ngfb_googl_api_key' :
+						case 'ngfb_bitly_api_key' :
 						case 'ngfb_cdn_folders' :
 						case 'ngfb_cdn_excl' :
 							if ( ! empty( $opts[$key] ) )
@@ -554,6 +557,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				unset( $opts['og_img_height'] );
 				unset( $opts['og_img_crop'] );
 			}
+
+			if ( ! empty( $opts['twitter_shorten'] ) )
+				$opts['twitter_shortener'] = 'googl';
 
 			// upgrade the old 'og_img_size' name into width / height / crop values
 			if ( array_key_exists( 'og_img_size', $opts ) ) {

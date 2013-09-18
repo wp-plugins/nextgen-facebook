@@ -17,6 +17,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		protected $ngfb;
 
 		private $goo;	// ngfbGoogl
+		private $bit;	// ngfbBitly
 		private $urls_found = array();
 
 		// executed by ngfbUtilPro() as well
@@ -28,10 +29,27 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		private function setup_vars() {
-			if ( $this->ngfb->is_avail['curl'] == true && class_exists( 'ngfbGoogl' ) ) {
-				$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ? 
-					'' : $this->ngfb->options['ngfb_googl_api_key'];
-				$this->goo = new ngfbGoogl( $api_key, $this->ngfb->debug );
+			if ( $this->ngfb->is_avail['curl'] == true ) {
+				switch ( $this->ngfb->options['twitter_shortener'] ) {
+					case 'googl' :
+						require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
+						if ( class_exists( 'ngfbGoogl' ) ) {
+							$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ?  
+								'' : $this->ngfb->options['ngfb_googl_api_key'];
+							$this->goo = new ngfbGoogl( $api_key, $this->ngfb->debug );
+						}
+						break;
+					case 'bitly' :
+						require_once ( NGFB_PLUGINDIR . 'lib/ext/bitly.php' );
+						if ( class_exists( 'ngfbBitly' ) ) {
+							$login = empty( $this->ngfb->options['ngfb_bitly_login'] ) ?  
+								'' : $this->ngfb->options['ngfb_bitly_login'];
+							$api_key = empty( $this->ngfb->options['ngfb_bitly_api_key'] ) ?  
+								'' : $this->ngfb->options['ngfb_bitly_api_key'];
+							$this->bit = new ngfbBitly( $login, $api_key, $this->ngfb->debug );
+						}
+						break;
+				}
 			}
 		}
 
@@ -140,36 +158,52 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return ( $this->ngfb->util->rewrite( $this->ngfb->cache->get( $url ) ) );
 		}
 
-		public function get_short_url( $url, $shorten = true ) {
+		public function get_short_url( $long_url, $shortener = '' ) {
 
-			// return original URL if curl not installed or disabled
-			// $shorten can be 'true' or '1', so test with empty()
-			if ( $this->ngfb->is_avail['curl'] == false || ! class_exists( 'ngfbGoogl' ) ||
-				empty( $shorten ) || ( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
-					return $url;
+			if ( empty( $shortener ) || 
+				$this->ngfb->is_avail['curl'] == false || 
+				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
+					return apply_filters( 'ngfb_short_url', false, $long_url );
 
-			$cache_salt = __METHOD__.'(url:'.$url.')';
+			$cache_salt = __METHOD__.'(url:'.$long_url.')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$short_url = get_transient( $cache_id );
 			$this->ngfb->debug->log( $cache_type . ': short_url transient id salt "' . $cache_salt . '"' );
+			$short_url = get_transient( $cache_id );
 
 			if ( $short_url !== false ) {
 				$this->ngfb->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
-				$url = $short_url;
+				return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 			} else {
-				$short_url = $this->goo->shorten( $url );
+				switch ( $shortener ) {
+					case 'googl' :
+						if ( is_object( $this->goo ) ) {
+							$short_url = $this->goo->shorten( $long_url );
+						}
+						break;
+					case 'bitly' :
+						if ( is_object( $this->bit ) ) {
+							$short_ret = $this->bit->shorten( $long_url );
+							$short_url = empty( $short_ret['url'] ) ? '' : $short_ret['url'];
+						}
+						break;
+					default :
+						$this->ngfb->debug->log( 'invalid shortener requested ('.$shortener.')' );
+						$short_url = false;
+						break;
+				}
 				if ( empty( $short_url ) )
-					$this->ngfb->debug->log( 'failed to shorten url = ' . $url );
+					$this->ngfb->debug->log( 'failed to shorten url = ' . $long_url );
 				else {
 					$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
 					set_transient( $cache_id, $short_url, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ': short_url saved to transient for id "' . 
 						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
-					$url = $short_url;
+					return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 				}
 			}
-			return apply_filters( 'ngfb_short_url', $url );
+
+			return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 		}
 
 		public function fix_relative_url( $url = '' ) {
@@ -337,8 +371,14 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function get_admin_url( $submenu = '', $link_text = '' ) {
 			$query = '';
+			$hash = '';
+
+			if ( strpos( $submenu, '#' ) !== false )
+				list( $submenu, $hash ) = explode( '#', $submenu );
+
 			if ( strpos( $submenu, '?' ) !== false )
 				list( $submenu, $query ) = explode( '?', $submenu );
+
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
@@ -348,8 +388,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
 					$submenu = 'general';
 			}
+
 			$url = get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+
 			if ( ! empty( $query ) ) $url .= '&' . $query;
+			if ( ! empty( $hash ) ) $url .= '#' . $hash;
+
 			if ( empty( $link_text ) ) return $url;
 			else return '<a href="' . $url . '">' . $link_text . '</a>';
 		}
@@ -458,8 +502,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			echo '</div>';
 		}
 
-		public function tweet_max_len( $url ) {
-			$short_url = $this->get_short_url( $url, $this->ngfb->options['twitter_shorten'] );
+		public function tweet_max_len( $long_url ) {
+			$short_url = $this->get_short_url( $long_url, $this->ngfb->options['twitter_shortener'] );
+			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 			$twitter_cap_len = $this->ngfb->options['twitter_cap_len'] - strlen( $short_url ) - 1;
 			if ( ! empty( $this->ngfb->options['tc_site'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
 				$twitter_cap_len = $twitter_cap_len - strlen( preg_replace( '/^@/', '', 
