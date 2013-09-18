@@ -57,7 +57,7 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			if ( $this->ngfb->is_avail['aop'] == true )
 				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short', null, 
 				'Append the Website\'s @username (entered on the ' .
-				$this->ngfb->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
+				$this->ngfb->util->get_admin_url( 'general#ngfb-tab_pub_twitter', 'General / Twitter' ) . ' settings tab) to the Tweet.
 				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
 				'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_via' ) . '</td>';
 			else

@@ -46,10 +46,10 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					the Pro version</a>.</p>';
 					break;
 				case 'rate_plugin' :
-					$msg = '<p><b>Help other WordPress users</b> find their way to great plugins by 
+					$msg = '<p>Help other WordPress users find their way to great plugins by 
 					<a href="'.$this->ngfb->urls['review'].'" target="_blank">rating the '.$this->ngfb->fullname.' plugin</a> on WordPress.org. 
-					A few words is all it takes, and <b>I truly appreciate your feedback!</b> ;-)</p>
-					<p class="centered"><a href="'.$this->ngfb->urls['review'].'" target="_blank">Rate the Plugin Now</a></p>';
+					A few words is all it takes, and I truly appreciate everyones feedback! ;-)</p>
+					<p class="centered"><b><a href="'.$this->ngfb->urls['review'].'" target="_blank">Please Rate the Plugin Now</a></b></p>';
 					break;
 				case 'thankyou' :
 					$msg = '<p>Thank you for your purchase! I hope the '.$this->ngfb->fullname.' plugin will exceed all of your expectations.</p>';
@@ -64,7 +64,8 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					break;
 				case 'help_email' :
 					$msg = '<p>Need help with the Pro version? Contact me by email at 
-					<a href="mailto:'.$this->ngfb->urls['email'].'" target="_blank">'.$this->ngfb->urls['email'].'</a>.</p>';
+					<a href="mailto:'.$this->ngfb->urls['email'].'?subject='.$this->ngfb->fullname.
+						' Support (AuthID '.$this->ngfb->options['ngfb_pro_tid'].')" target="_blank">'.$this->ngfb->urls['email'].'</a>.</p>';
 					break;
 			}
 			return $msg;
