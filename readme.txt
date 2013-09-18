@@ -676,7 +676,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9-dev1 =
+= Version 6.9-dev2 =
+
+*Free* and Pro Versions:
+
+* Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 
 Pro Version:
 
@@ -703,6 +707,10 @@ Pro Version:
 * Fixed detection and removal of old social buttons stylesheet.
 
 == Upgrade Notice ==
+
+= 6.9-dev2 =
+
+Added bit.ly URL shortener for Twitter in the Social Sharing settings, added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version).
 
 = 6.8 =
 
