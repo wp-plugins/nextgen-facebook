@@ -680,35 +680,38 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.9-dev3 =
 
-*Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions* <br/>
+*Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*
+
 Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
 
-*Free* and Pro Versions:
+*Free* and Pro Version Changes:
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 
-Pro Version:
+Pro Version Changes:
 
 * Added support for All-in-One SEO custom Post / Page title, desciption and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
 
 = Version 6.8 =
 
-*Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions* <br/>
+*Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions*
+
 Pro Version: *12905 lines in 50 files, with 61 classes and 431 functions*
 
-*Free* and Pro Versions:
+*Free* and Pro Version Changes:
 
 * Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
 * Removed the NGFB_CONTACT_FIELDS constant.
 
-Pro Version:
+Pro Version Changes:
 
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 = Version 6.7.4.2 =
 
-*Free* Version: *11360 lines in 40 files, with 49 classes and 386 functions* <br/>
+*Free* Version: *11360 lines in 40 files, with 49 classes and 386 functions*
+
 Pro Version: *12590 lines in 49 files, with 60 classes and 424 functions*
 
 * Fixed relative path to (upcoming) language files.
