@@ -201,7 +201,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_add_to_attachment' => 1,
 			'ngfb_verify_certs' => 0,
 			'ngfb_file_cache_hrs' => 0,
-			'ngfb_object_cache_exp' => 180,
+			'ngfb_object_cache_exp' => 300,
 			'ngfb_googl_api_key' => '',
 			'ngfb_bitly_login' => '',
 			'ngfb_bitly_api_key' => '',

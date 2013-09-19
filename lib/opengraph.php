@@ -50,6 +50,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_max = $this->get_max_nums();
 			$og = apply_filters( 'ngfb_og_seed', array() );
 
+			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en-US' : $this->ngfb->options['fb_lang'];
+			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'facebook' ) );
+
 			if ( ! array_key_exists( 'fb:admins', $og ) )
 				$og['fb:admins'] = $this->ngfb->options['fb_admins'];
 
@@ -57,7 +60,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
 
 			if ( ! array_key_exists( 'og:locale', $og ) )
-				$og['og:locale'] = $this->ngfb->options['fb_lang'];
+				$og['og:locale'] = $lang;
 
 			if ( ! array_key_exists( 'og:site_name', $og ) )
 				$og['og:site_name'] = get_bloginfo( 'name', 'display' );	

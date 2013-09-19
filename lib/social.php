@@ -177,7 +177,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->ngfb->debug->log( $pos . ' ids = ' . implode( ', ', $ids ) );
-			$js = "<!-- " . $this->ngfb->fullname . " " . $pos . " javascript BEGIN -->\n";
+			$js = "<!-- ".$this->ngfb->fullname." ".$pos." javascript BEGIN -->\n";
 			$js .= $pos == 'header' ? $this->header_js() : '';	// always add the ngfb_header_js() javascript function
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
@@ -195,7 +195,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= "<!-- " . $this->ngfb->fullname . " " . $pos . " javascript END -->\n";
+			$js .= "<!-- ".$this->ngfb->fullname." ".$pos." javascript END -->\n";
 			return $js;
 		}
 
@@ -203,7 +203,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$lang = empty( $this->ngfb->options['gp_lang'] ) ? 'en-US' : $this->ngfb->options['gp_lang'];
 			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
-				window.___gcfg = { lang: "' .  $lang . '" };
+				window.___gcfg = { lang: "'.$lang.'" };
 				function ngfb_header_js( script_id, url, async ) {
 					if ( document.getElementById( script_id + "-js" ) ) return;
 					var async = typeof async !== "undefined" ? async : true;
