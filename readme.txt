@@ -680,7 +680,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.9-dev3 =
 
-*Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*<br/>
+*Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions* <br/>
 Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
 
 *Free* and Pro Versions:
@@ -694,7 +694,7 @@ Pro Version:
 
 = Version 6.8 =
 
-*Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions*<br/>
+*Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions* <br/>
 Pro Version: *12905 lines in 50 files, with 61 classes and 431 functions*
 
 *Free* and Pro Versions:
@@ -708,7 +708,7 @@ Pro Version:
 
 = Version 6.7.4.2 =
 
-*Free* Version: *11360 lines in 40 files, with 49 classes and 386 functions*<br/>
+*Free* Version: *11360 lines in 40 files, with 49 classes and 386 functions* <br/>
 Pro Version: *12590 lines in 49 files, with 60 classes and 424 functions*
 
 * Fixed relative path to (upcoming) language files.
