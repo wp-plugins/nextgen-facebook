@@ -625,31 +625,72 @@ The following list of NGFB filters receive and must return a single *array*.
 * `ngfb_tc_woocommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WooCommerce.
 * `ngfb_tc_marketpress` : A complete, multi-dimensional array of all Twitter Card meta tags for MarketPress.
 
-As an example, here's a filter to add custom topics ("Name One" and "Name Two") to the built-in topics list.
+Here are a few example:
+
+* Replace the 'og:site_name' meta tag value.
 
 `
-add_filter( 'ngfb_topics', 'my_filter_ngfb_topics', 10, 1 );
+add_filter( 'ngfb_og', 'modify_ngfb_opengraph', 10, 1 );
 
-function my_filter_ngfb_topics( $topics = array() ) {
+function modify_ngfb_opengraph( $og = array() ) {
+	$og['og:site_name'] = 'My Custom Site Name';
+	return $og;
+}
+`
+
+* A filter to add custom topics ("Name One" and "Name Two") to the built-in topics list.
+
+`
+add_filter( 'ngfb_topics', 'add_ngfb_topics', 10, 1 );
+
+function add_ngfb_topics( $topics = array() ) {
 	$topics[] = 'Name One';
 	$topics[] = 'Name Two';
 	return $topics;
 }
 `
 
-The following filter receives *two arguments* -- an array and a text string, and must return an array.
+The 'ngfb_shortcode' filter is an exception -- it receives *two arguments*; an array, plus a text string, and must return an array.
 
 * `ngfb_shortcode` : Filters the `&#91;ngfb&#93;` shortcode attributes, and any content between the opening and closing tags (example: `&#91;ngfb&#93;some content text&#91;/ngfb&#93;`). The filter function should return the attributes array.
 
 `
 add_filter( 'ngfb_shortcode', 'my_ngfb_shortcode_filter', 10, 2 );
 
-function my_ngfb_shortcode_filter( $atts = array(), $content = null ) {
+function my_ngfb_shortcode_filter( $atts = array(), $shortcode_text = null ) {
 	/*
 	 * manipulate / extract content here
 	 */
-	$atts['url'] = $content;	// use the content text as the sharing url, for example
+	$atts['url'] = $shortcode_text;	// use the text, between the shortcode start and end tags, as the sharing url
         return $atts;
+}
+`
+
+The 'ngfb_sharing_url' filter is another exception -- it receives *two arguments*; a URL text string, plus an optional source ID text string, and must return a URL text string.
+
+* `ngfb_sharing_url` : Filters all URLs that are shared by the social buttons, including the webpage URL in the Open Graph meta tags. The filter should return the modified, or unmodified, URL for the webpage. For example, here is a filter that adds a custom tracking query to all URLs.
+
+`
+add_filter( 'ngfb_sharing_url', 'add_tracking_id', 10, 2 );
+
+function add_tracking_id( $url, $srcid ) {
+        // make sure we have something to work with
+        if ( ! empty( $srcid ) ) {
+                // check that URL does not already have a tracking query
+                if ( ! preg_match( '/[\?&]srcid=/', $url ) ) {
+                        // replace or modify some text in the source id string
+                        $srcid = preg_replace(                  
+                                array( '/-buttons-/', '/-post-/', '/-shortcode-/' ), 
+                                array( '-', '-', '-sc-' ),
+                                $srcid 
+                        );      
+                        // start or append a new query character
+                        $url .= strpos( $url, '?' ) === false ? '?' : '&';      
+                        // append the tracking query string
+                        $url .= 'srcid='.urlencode( $srcid );
+                }
+        }
+        return $url;
 }
 `
 
@@ -686,12 +727,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 ***Free* and Pro Version Changes:**
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
-* Added the 'ngfb_sharing_url' filter and standardized the CSS IDs.
+* Added the 'ngfb_sharing_url' filter and standardized the CSS IDs (see the Other Notes for usage information).
 
 **Pro Version Changes:**
 
 * Added support for All-in-One SEO custom Post / Page title, desciption and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
+* Added locale language switching support in the Open Graph meta tags.
 
 = Version 6.8 =
 
