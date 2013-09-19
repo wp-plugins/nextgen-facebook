@@ -707,14 +707,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
-= Version 6.7.4.2 =
-
-* *Free* Version: *11360 lines in 40 files, with 49 classes and 386 functions*
-* Pro Version: *12590 lines in 49 files, with 60 classes and 424 functions*
-
-* Fixed relative path to (upcoming) language files.
-* Fixed detection and removal of old social buttons stylesheet.
-
 == Upgrade Notice ==
 
 = 6.9-dev4 =
@@ -724,8 +716,4 @@ Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom 
 = 6.8 =
 
 Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields (Pro version).
-
-= 6.7.4.2 =
-
-Fixed relative path to (upcoming) language files, and detection / removal of old social buttons stylesheet.
 
