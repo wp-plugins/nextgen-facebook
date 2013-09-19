@@ -165,11 +165,19 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
 			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
 			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'facebook' ) );
 			$send = $this->ngfb->options['fb_send'] ? 'true' : 'false';
 			$show_faces = $this->ngfb->options['fb_show_faces'] ? 'true' : 'false';
+
+			$src_id = 'facebook';
+			switch ( $this->ngfb->options['fb_button'] ) {
+				case 'like' : $src_id = $this->ngfb->util->get_src_id( 'facebook', $atts ); break;
+				case 'share' : $src_id = $this->ngfb->util->get_src_id( 'fb-share', $atts ); break;
+			}
+			$atts['url'] = empty( $atts['url'] ) ? 
+				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 
 			switch ( $this->ngfb->options['fb_button'] ) {
 				case 'like' :

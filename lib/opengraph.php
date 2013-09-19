@@ -32,7 +32,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				return array();
 			}
 
-			$sharing_url = $this->ngfb->util->get_sharing_url( 'notrack' );
+			$src_id = $this->ngfb->util->get_src_id( 'opengraph' );
+			$sharing_url = $this->ngfb->util->get_sharing_url( 'notrack', null, null, $src_id );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
 			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';

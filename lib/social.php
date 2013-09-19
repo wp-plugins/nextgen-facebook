@@ -95,7 +95,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html transient id salt "' . $cache_salt . '"' );
 
 			if ( $html !== false ) {
-				$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html retrieved from transient for id "' . $cache_id . '"' );
+				$this->ngfb->debug->log( $cache_type.': '.$type.' html retrieved from transient for id "'.$cache_id.'"' );
 			} else {
 				$sorted_ids = array();
 				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
@@ -104,30 +104,30 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
 
+				$css_type = preg_replace( '/^(the_)/', '', $type ).'-buttons';
 				$this->ngfb->debug->log( 'calling this->get_html()' );
-				$html = $this->get_html( $sorted_ids );
+				$html = $this->get_html( $sorted_ids, array( 'css_id' => $css_type ) );
 
 				if ( ! empty( $html ) ) {
-					$css_type = preg_replace( '/^(the_)/', '', $type );
-					$html = "\n<!-- " . $this->ngfb->fullname . ' ' . $css_type . " buttons BEGIN -->\n" .
-						'<div class="' . $this->ngfb->acronym . '-' . $css_type . "-buttons\">\n" . $html . "</div>\n" .
-						'<!-- ' . $this->ngfb->fullname . ' ' . $css_type . " buttons END -->\n";
+					$html = "\n<!-- " . $this->ngfb->fullname . ' ' . $css_type . " BEGIN -->\n" .
+						'<div class="'.$this->ngfb->acronym.'-'.$css_type."\">\n".$html."</div>\n" .
+						'<!-- '.$this->ngfb->fullname.' '.$css_type." END -->\n";
 
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ': ' . $type . ' html saved to transient for id "' . 
 						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
 				}
 			}
-			if ( ! empty( $this->ngfb->options[ 'buttons_location_' . $type ] ) ) {
-				switch ( $this->ngfb->options[ 'buttons_location_' . $type ] ) {
+			if ( ! empty( $this->ngfb->options[ 'buttons_location_'.$type ] ) ) {
+				switch ( $this->ngfb->options[ 'buttons_location_'.$type ] ) {
 					case 'top' : 
-						$text = $this->ngfb->debug->get_html() . $html . $text; 
+						$text = $this->ngfb->debug->get_html().$html.$text; 
 						break;
 					case 'bottom' : 
-						$text = $this->ngfb->debug->get_html() . $text . $html; 
+						$text = $this->ngfb->debug->get_html().$text.$html; 
 						break;
 					case 'both' : 
-						$text = $this->ngfb->debug->get_html() . $html . $text . $html; 
+						$text = $this->ngfb->debug->get_html().$html.$text.$html; 
 						break;
 				}
 			}
@@ -142,7 +142,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				if ( method_exists( $this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
-			if ( $html ) $html = "<div class=\"" . $this->ngfb->acronym . "-buttons\">$html</div>\n";
+			if ( $html ) $html = '<div class="'.$this->ngfb->acronym.'-buttons">'.$html.'</div>';
 			return $html;
 		}
 
@@ -222,17 +222,15 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			global $post;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 
-			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
-			$atts['css_class'] = $css_name . '-' . $atts['css_class'];
+			$css_class = $css_name.'-'.( empty( $atts['css_class'] ) ? 'button' : $atts['css_class'] );
 			if ( ! empty( $css_class_other ) ) 
-				$atts['css_class'] = $css_class_other . ' ' . $atts['css_class'];
+				$css_class = $css_class_other.' '.$css_class;
 
-			$atts['css_id'] = empty( $atts['css_id'] ) ? 'button' : $atts['css_id'];
-			$atts['css_id'] = $css_name . '-' . $atts['css_id'];
+			$css_id = $css_name.'-'.( empty( $atts['css_id'] ) ? 'button' : $atts['css_id'] );
 			if ( $use_post == true && ! empty( $post ) ) 
-				$atts['css_id'] .= ' ' . $atts['css_id'] . '-post-' . $post->ID;
+				$css_id .= ' '.$css_id.'-post-'.$post->ID;
 
-			return 'class="' . $atts['css_class'] . '" id="' . $atts['css_id'] . '"';
+			return 'class="'.$css_class.'" id="'.$css_id.'"';
 		}
 
 		public function is_disabled() {

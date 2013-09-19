@@ -106,7 +106,10 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			$long_url = empty( $atts['url'] ) ?  $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post ) : $atts['url'];
+			$src_id = $this->ngfb->util->get_src_id( 'twitter', $atts );
+			$long_url = empty( $atts['url'] ) ? 
+				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			$short_url = $this->ngfb->util->get_short_url( $long_url, $this->ngfb->options['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 

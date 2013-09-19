@@ -94,7 +94,10 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$query = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
+			$src_id = $this->ngfb->util->get_src_id( 'tumblr', $atts );
+			$atts['url'] = empty( $atts['url'] ) ? 
+				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $this->ngfb->options['tumblr_button_style'];
 			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['tumblr_img_size'];
 

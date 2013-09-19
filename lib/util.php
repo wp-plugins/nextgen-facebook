@@ -99,13 +99,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		// $use_post = false when used for Open Graph meta tags and buttons in widget
 		// $use_post = true when buttons are added to individual posts on an index webpage
-		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false ) {
-			if ( ! empty( $url ) )  {
+		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false, $src_id = '' ) {
+			if ( ! empty( $url ) )
 				$url = $this->fix_relative_url( $url );
-			} else {
+			else {
 				global $post;
 				$is_nggalbum = false;
-
 				// check for ngg pre-v2 album/gallery query strings and an [nggalbum] shortcode
 				if ( is_singular() ) {
 					global $wp_query;
@@ -119,7 +118,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						$strip_query = 'notrack';	// keep the album/gallery query values
 					}
 				}
-
 				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
 				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
 					$url = get_permalink( $post->ID );
@@ -140,11 +138,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					// strip out tracking query arguments by facebook, google, etc.
 					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
 					break;
-				// leave url as-is
-				default :
-					break;
 			}
-			return $url;
+			return apply_filters( 'ngfb_sharing_url', $url, $src_id );
 		}
 
 		public function get_cache_url( $url ) {
@@ -202,7 +197,6 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 				}
 			}
-
 			return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 		}
 
@@ -510,6 +504,15 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$twitter_cap_len = $twitter_cap_len - strlen( preg_replace( '/^@/', '', 
 					$this->ngfb->options['tc_site'] ) ) - 5;	// include 'via' and 2 spaces
 			return $twitter_cap_len;
+		}
+
+		public function get_src_id( $src_name, $atts = array() ) {
+			global $post;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$src_id = $src_name.( empty( $atts['css_id'] ) ? '' : '-'.preg_replace( '/^ngfb-/','', $atts['css_id'] ) );
+			if ( $use_post == true && ! empty( $post ) ) 
+				$src_id = $src_id.'-post-'.$post->ID;
+			return $src_id;
 		}
 
 		public function flush_post_cache( $post_id ) {

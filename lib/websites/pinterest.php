@@ -73,7 +73,10 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$query = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
+			$src_id = $this->ngfb->util->get_src_id( 'pinterest', $atts );
+			$atts['url'] = empty( $atts['url'] ) ? 
+				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['pin_img_size'];
 			if ( empty( $atts['photo'] ) ) {
 				// get the pid

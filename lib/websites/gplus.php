@@ -83,7 +83,10 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			if ( empty( $atts['url'] ) ) $atts['url'] = $this->ngfb->util->get_sharing_url( 'notrack', null, $use_post );
+			$src_id = $this->ngfb->util->get_src_id( 'gplus', $atts );
+			$atts['url'] = empty( $atts['url'] ) ? 
+				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			$gp_class = $this->ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			$html = '<!-- GooglePlus Button --><div ' . $this->ngfb->social->get_css( 'gplus', $atts, 'g-plusone-button' ) . '><span '. $gp_class . ' data-size="' . $this->ngfb->options['gp_size'] . '" data-annotation="' . $this->ngfb->options['gp_annotation'] . '" data-href="' . $atts['url'] . '"></span></div>';
 			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
