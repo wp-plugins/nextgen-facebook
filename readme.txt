@@ -683,12 +683,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * *Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*
 * Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
 
-*Free* and Pro Version Changes:
+***Free* and Pro Version Changes:**
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 * Added the 'ngfb_sharing_url' filter and standardized the CSS IDs.
 
-Pro Version Changes:
+**Pro Version Changes:**
 
 * Added support for All-in-One SEO custom Post / Page title, desciption and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
