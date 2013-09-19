@@ -698,12 +698,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * *Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions*
 * Pro Version: *12905 lines in 50 files, with 61 classes and 431 functions*
 
-*Free* and Pro Version Changes:
+***Free* and Pro Version Changes:**
 
 * Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
 * Removed the NGFB_CONTACT_FIELDS constant.
 
-Pro Version Changes:
+**Pro Version Changes:**
 
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
