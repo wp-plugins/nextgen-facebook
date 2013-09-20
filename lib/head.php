@@ -151,7 +151,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
 			if ( ! empty( $this->ngfb->options['inc_' . $name] ) ) {
-				if ( ! empty( $val ) || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
+				if ( $val !== '' || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
 					$charset = get_bloginfo( 'charset' );
 					$val = htmlentities( $this->ngfb->util->cleanup_html_tags( $this->ngfb->util->decode( $val ) ), 
 						ENT_QUOTES, $charset, false );
