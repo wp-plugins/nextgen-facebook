@@ -97,7 +97,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 = Pro Version =
 
-The *Free* version is a full-featured, stable and well supported plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) builds on this solid base by adding support for [Twitter Cards](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/) and [MarketPress](http://wordpress.org/plugins/wordpress-ecommerce/) products, tighter integration with popular SEO plugins (for title and description values), enhanced customization features for *each individual Post and Page*, and dynamically changes the social button language to match the webpage. You can also enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version includes a URL rewriting feature (for encoded URLs that other plugins do not detect).
+The Standard version from WordPress.org is a full-featured, stable and well supported plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) builds on this solid base by adding support for [Twitter Cards](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/) and [MarketPress](http://wordpress.org/plugins/wordpress-ecommerce/) products, tighter integration with popular SEO plugins (for title and description values), enhanced customization features for *each individual Post and Page*, and dynamically changes the social button language to match the webpage. You can also enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version includes a URL rewriting feature (for encoded URLs that other plugins do not detect).
 
 Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Authentication ID, and update the plugin from within WordPress (like a regular plugin update).
 
@@ -105,15 +105,15 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 
 = Install Methods =
 
-To install the *Free* version from WordPress.org, follow the *Automated Install* method described bellow.
+To install the Standard version from WordPress.org, follow the *Automated Install* method described bellow.
 
-If you have purchased the Pro version, an email will be sent to you with Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page of the *Free* version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+If you have purchased the Pro version, an email will be sent to you with Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page of the Standard version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 If you downloaded the NGFB Open Graph+ plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph+ is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
 
-If you need to roll-back and re-install an older *Free* version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
+If you need to roll-back and re-install an older Standard version, you can find them all on the [WordPress Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
 
-**Automated Install** (*Free* version)
+**Automated Install** (Standard version)
 
 1. Go to the wp-admin/ section of your website
 1. Select the *Plugins* menu item
@@ -123,7 +123,7 @@ If you need to roll-back and re-install an older *Free* version, you can find th
 1. Click the *Install Now* link for "NGFB Open Graph"
 1. Click the *Activate Plugin* link
 
-**Semi-Automated Install** (*Free* and *Pro* versions)
+**Semi-Automated Install** (Standard and Pro versions)
 
 Note that if you already have NGFB Open Graph+ installed, you will have to remove it first, before you can re-install it using this method.
 
@@ -137,7 +137,7 @@ Note that if you already have NGFB Open Graph+ installed, you will have to remov
 1. Click on the *Install Now* button
 1. Click the *Activate Plugin* link
 
-**Manual Install** (*Free* and *Pro* versions)
+**Manual Install** (Standard and Pro versions)
 
 1. Download and unzip the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
 1. Upload the entire nextgen-facebook/ folder to your website's wordpress/wp-content/plugins/ directory
@@ -176,7 +176,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = TABLE OF CONTENTS =
 
-* Q1. What is the difference between the Pro and <em>Free</em> versions?
+* Q1. What is the difference between the Standard and Pro versions?
 * Q2. How do I install the Pro version?
 * Q3. Can I use the Pro version on multiple websites?
 * Q4. Can I use other social sharing buttons than those of NGFB Open Graph+?
@@ -199,7 +199,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Q21. Why are there duplicate Facebook / Google fields on the user profile page?
 * Q22. Why is the Open Graph title the same for every webpage?
 
-= Q1. What is the difference between the Pro and <em>Free</em> versions? =
+= Q1. What is the difference between the Standard and Pro versions? =
 
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Cards](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/) and [MarketPress](http://wordpress.org/plugins/wordpress-ecommerce/) products, tighter integration with popular SEO plugins (for title and description values), dynamically changes the social button language to match the webpage, allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (to further improve page load times). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature (for encoded URLs that other plugins do not detect). 
 
@@ -734,16 +734,16 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.9-dev6 =
 
-* *Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*
-* Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
+* Standard version: *12177 lines in 42 files, with 51 classes and 408 functions*
+* Pro version: *13577 lines in 52 files, with 63 classes and 452 functions*
 
-***Free* and Pro Version Changes:**
+**Standard and Pro version changes:**
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 * Added the 'ngfb_sharing_url' filter and standardized the CSS IDs for sharing buttons (see the Other Notes for filter usage information).
 * Added the 'Minimum URL Length to Shorten' option (default is 19 characters).
 
-**Pro Version Changes:**
+**Pro version changes:**
 
 * Added support for All-in-One SEO custom Post / Page titles, desciptions and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
@@ -752,15 +752,15 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.8 =
 
-* *Free* Version: *11685 lines in 41 files, with 50 classes and 393 functions*
-* Pro Version: *12905 lines in 50 files, with 61 classes and 431 functions*
+* Standard version: *11685 lines in 41 files, with 50 classes and 393 functions*
+* Pro version: *12905 lines in 50 files, with 61 classes and 431 functions*
 
-***Free* and Pro Version Changes:**
+**Standard and Pro version changes:**
 
 * Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
 * Removed the NGFB_CONTACT_FIELDS constant.
 
-**Pro Version Changes:**
+**Pro version changes:**
 
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
