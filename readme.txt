@@ -732,7 +732,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9-dev6 =
+= Version 6.9 =
 
 * Standard version: *12177 lines in 42 files, with 51 classes and 408 functions*
 * Pro version: *13577 lines in 52 files, with 63 classes and 452 functions*
@@ -766,7 +766,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.9-dev6 =
+= 6.9 =
 
 Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version). Added support for MarketPress product pages, including variations, sale prices and inventory levels (Pro version).
 
