@@ -732,7 +732,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9-dev5 =
+= Version 6.9-dev6 =
 
 * *Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*
 * Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
@@ -748,6 +748,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added support for All-in-One SEO custom Post / Page titles, desciptions and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
 * Added support for locale language switching in the Open Graph meta tags.
+* Added the 'Product Card Default 2nd Attribute' option for Twitter Cards.
 
 = Version 6.8 =
 
@@ -765,7 +766,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.9-dev5 =
+= 6.9-dev6 =
 
 Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version). Added support for MarketPress product pages, including variations, sale prices and inventory levels (Pro version).
 
