@@ -177,7 +177,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function filter_version_number( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0.' . $version . '-free';
+			else return '0.' . $version . '-std';
 		}
 
 		// called by WP init action
