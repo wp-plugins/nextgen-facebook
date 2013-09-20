@@ -314,14 +314,14 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_enable' ) . 
 					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['tc_enable'] ) . '</td>',
 
-				$this->ngfb->util->th( 'Description Length', null, null, '
+				$this->ngfb->util->th( 'Maximum Description Length', null, null, '
 				The maximum length of text used for the Twitter Card description.
 				The length should be at least ' . NGFB_MIN_DESC_LEN . ' characters or more 
 				(the default is ' . $this->ngfb->opt->get_defaults( 'tc_desc_len' ) . ' characters).' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_desc_len' ) . 
 					$this->ngfb->options['tc_desc_len'] . ' characters or less</td>',
 
-				$this->ngfb->util->th( 'Website @username', 'highlight', null, 
+				$this->ngfb->util->th( 'Website @username to Follow', 'highlight', null, 
 				'The Twitter username for your website and / or company (not your personal Twitter username).
 				As an example, the Twitter username for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
 				is <a href="https://twitter.com/surniaululacom" target="_blank">@surniaululacom</a>.' ) .
@@ -355,7 +355,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_size' ) .
 					$this->ngfb->options['tc_gal_size'] . '</td>',
 
-				$this->ngfb->util->th( 'Minimum Images for the <em>Gallery</em> Card', null, null, 
+				$this->ngfb->util->th( '<em>Gallery</em> Card Minimum Images', null, null, 
 				'The minimum number of images found in a gallery to qualify for the
 				<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_gal_min' ) .
@@ -369,6 +369,16 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				than or equal to 160 pixels. ' ) . 
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_prod_size' ) .
 					$this->ngfb->options['tc_prod_size'] . '</td>',
+
+				$this->ngfb->util->th( '<em>Product</em> Card Default 2nd Attribute', null, null, '
+				The <em>Product</em> Twitter Card needs a minimum of two product attributes.
+				The first attribute will be the product price, and if your product has additional attribute fields associated with it 
+				(weight, size, color, etc), these will be included in the <em>Product</em> Card as well (maximum of 4 attributes). 
+				If you product does not have a second attribute field, then this default second attribute label and value will be used.' ) .
+				'<td class="blank">'.
+				$this->ngfb->admin->form->get_hidden( 'tc_prod_def_l2' ).'Label: '.$this->ngfb->options['tc_prod_def_l2'].' '.
+				$this->ngfb->admin->form->get_hidden( 'tc_prod_def_d2' ).'Value:'.$this->ngfb->options['tc_prod_def_d2'].
+				'</td>',
 
 			);
 		}

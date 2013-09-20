@@ -157,6 +157,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( empty( $shortener ) || 
 				$this->ngfb->is_avail['curl'] == false || 
+				strlen( $long_url ) < $this->ngfb->options['ngfb_min_shorten'] ||
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return apply_filters( 'ngfb_short_url', false, $long_url );
 

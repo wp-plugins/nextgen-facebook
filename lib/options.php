@@ -12,7 +12,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '82';	// increment when adding/removing default options
+		public $opts_ver = '84';	// increment when adding/removing default options
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -94,6 +94,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tc_large_size' => 'medium',
 			'tc_sum_size' => 'thumbnail',
 			'tc_prod_size' => 'medium',
+			'tc_prod_def_l2' => 'Location',
+			'tc_prod_def_d2' => 'Unknown',
 			'twitter_on_the_excerpt' => 0,
 			'twitter_on_the_content' => 0,
 			'twitter_order' => 3,
@@ -202,6 +204,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_verify_certs' => 0,
 			'ngfb_file_cache_hrs' => 0,
 			'ngfb_object_cache_exp' => 300,
+			'ngfb_min_shorten' => 21,
 			'ngfb_googl_api_key' => '',
 			'ngfb_bitly_login' => '',
 			'ngfb_bitly_api_key' => '',

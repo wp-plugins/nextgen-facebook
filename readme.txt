@@ -673,25 +673,38 @@ The 'ngfb_sharing_url' filter is another exception -- it receives *two arguments
 `
 add_filter( 'ngfb_sharing_url', 'add_tracking_id', 10, 2 );
 
-function add_tracking_id( $url, $srcid ) {
-        // make sure we have something to work with
-        if ( ! empty( $srcid ) ) {
-                // check that URL does not already have a tracking query
-                if ( ! preg_match( '/[\?&]srcid=/', $url ) ) {
-                        // replace or modify some text in the source id string
-                        $srcid = preg_replace(                  
-                                array( '/-buttons-/', '/-post-/', '/-shortcode-/' ), 
-                                array( '-', '-', '-sc-' ),
-                                $srcid 
-                        );      
-                        // start or append a new query character
-                        $url .= strpos( $url, '?' ) === false ? '?' : '&';      
-                        // append the tracking query string
-                        $url .= 'srcid='.urlencode( $srcid );
-                }
-        }
-        return $url;
+function add_tracking_id( $url, $src_id ) {
+	global $ngfb;
+	// make sure we have something to work with, URL is long enough (not shortened), 
+	// and does not have a tracking query
+	if ( ! empty( $src_id ) && strlen( $url ) >= $ngfb->options['ngfb_min_shorten'] 
+		&& ! preg_match( '/[\?&]sid=/', $url ) ) {
+
+		// simplify and obfuscate the source id string
+		$src_id = preg_replace( 
+			array( 
+				'/^fb-share-/', '/^facebook-/', '/^gplus-/', '/^twitter-/', 
+				'/^linkedin-/', '/^pinterest-/', '/^stumbleupon-/', '/^tumblr-/',
+				'/-content-/', '/-widget-[0-9]+-/', '/-shortcode-/',
+				'/-buttons-/', '/-post-/', 
+			), 
+			array(
+				'fb-', 'fb-', 'gp-', 'tw-', 
+				'li-', 'pi-', 'st-', 'tu-',
+				'-c-', '-w-', '-s-',
+				'-', '-', 
+			),
+			$src_id 
+		);	
+		// start or append a new query character
+		$url .= strpos( $url, '?' ) === false ? '?' : '&';
+
+		// append the tracking query string
+		$url .= 'sid='.urlencode( $src_id );
+	}
+       	return $url;
 }
+
 `
 
 = PHP Constants =
@@ -728,6 +741,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 * Added the 'ngfb_sharing_url' filter and standardized the CSS IDs for sharing buttons (see the Other Notes for filter usage information).
+* Added the 'Minimum URL Length to Shorten' option (default is 19 characters).
 
 **Pro Version Changes:**
 

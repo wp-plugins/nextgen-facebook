@@ -292,21 +292,26 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 				case 'shorten':
 
+					$ret[] = $this->ngfb->util->th( 'Minimum URL Length to Shorten', null, null, 
+					'URLs shorter than this length will not be shortened (default is '.
+					$this->ngfb->opt->defaults['ngfb_min_shorten'].').' ).
+					'<td>'.$this->ngfb->admin->form->get_input( 'ngfb_min_shorten', 'short' ).' Characters</td>';
+
 					$ret[] = $this->ngfb->util->th( 'Goo.gl Simple API Access Key', null, null, 
 					'The "Google URL Shortener API Key" for this website. If you don\'t already have one, visit Google\'s 
 					<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring 
 					and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ) . '</td>';
+					'<td>'.$this->ngfb->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ).'</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Bit.ly Username', null, null, 
 					'The Bit.ly username for the following API key. If you don\'t already have one, see 
 					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'ngfb_bitly_login' ) . '</td>';
+					'<td>'.$this->ngfb->admin->form->get_input( 'ngfb_bitly_login' ).'</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Bit.ly API Key', null, null, 
 					'The Bit.ly API key for this website. If you don\'t already have one, see 
 					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ) .
-					'<td>' . $this->ngfb->admin->form->get_input( 'ngfb_bitly_api_key', 'wide' ) . '</td>';
+					'<td>'.$this->ngfb->admin->form->get_input( 'ngfb_bitly_api_key', 'wide' ).'</td>';
 
 					break;
 
