@@ -673,25 +673,38 @@ The 'ngfb_sharing_url' filter is another exception -- it receives *two arguments
 `
 add_filter( 'ngfb_sharing_url', 'add_tracking_id', 10, 2 );
 
-function add_tracking_id( $url, $srcid ) {
-        // make sure we have something to work with
-        if ( ! empty( $srcid ) ) {
-                // check that URL does not already have a tracking query
-                if ( ! preg_match( '/[\?&]srcid=/', $url ) ) {
-                        // replace or modify some text in the source id string
-                        $srcid = preg_replace(                  
-                                array( '/-buttons-/', '/-post-/', '/-shortcode-/' ), 
-                                array( '-', '-', '-sc-' ),
-                                $srcid 
-                        );      
-                        // start or append a new query character
-                        $url .= strpos( $url, '?' ) === false ? '?' : '&';      
-                        // append the tracking query string
-                        $url .= 'srcid='.urlencode( $srcid );
-                }
-        }
-        return $url;
+function add_tracking_id( $url, $src_id ) {
+	global $ngfb;
+	// make sure we have something to work with, URL is long enough (not shortened), 
+	// and does not have a tracking query
+	if ( ! empty( $src_id ) && strlen( $url ) >= $ngfb->options['ngfb_min_shorten'] 
+		&& ! preg_match( '/[\?&]sid=/', $url ) ) {
+
+		// simplify and obfuscate the source id string
+		$src_id = preg_replace( 
+			array( 
+				'/^fb-share-/', '/^facebook-/', '/^gplus-/', '/^twitter-/', 
+				'/^linkedin-/', '/^pinterest-/', '/^stumbleupon-/', '/^tumblr-/',
+				'/-content-/', '/-widget-[0-9]+-/', '/-shortcode-/',
+				'/-buttons-/', '/-post-/', 
+			), 
+			array(
+				'fb-', 'fb-', 'gp-', 'tw-', 
+				'li-', 'pi-', 'st-', 'tu-',
+				'-c-', '-w-', '-s-',
+				'-', '-', 
+			),
+			$src_id 
+		);	
+		// start or append a new query character
+		$url .= strpos( $url, '?' ) === false ? '?' : '&';
+
+		// append the tracking query string
+		$url .= 'sid='.urlencode( $src_id );
+	}
+       	return $url;
 }
+
 `
 
 = PHP Constants =
@@ -719,7 +732,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9-dev5 =
+= Version 6.9-dev6 =
 
 * *Free* Version: *12177 lines in 42 files, with 51 classes and 408 functions*
 * Pro Version: *13577 lines in 52 files, with 63 classes and 452 functions*
@@ -728,12 +741,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 * Added the 'ngfb_sharing_url' filter and standardized the CSS IDs for sharing buttons (see the Other Notes for filter usage information).
+* Added the 'Minimum URL Length to Shorten' option (default is 19 characters).
 
 **Pro Version Changes:**
 
 * Added support for All-in-One SEO custom Post / Page titles, desciptions and keywords.
 * Added support for MarketPress product pages, including variations, sale prices and inventory levels.
 * Added support for locale language switching in the Open Graph meta tags.
+* Added the 'Product Card Default 2nd Attribute' option for Twitter Cards.
 
 = Version 6.8 =
 
@@ -751,7 +766,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.9-dev5 =
+= 6.9-dev6 =
 
 Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version). Added support for MarketPress product pages, including variations, sale prices and inventory levels (Pro version).
 
