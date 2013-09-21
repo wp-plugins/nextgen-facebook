@@ -47,9 +47,9 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					break;
 				case 'rate_plugin' :
 					$msg = '<p>Help other WordPress users find their way to great plugins by 
-					<a href="'.$this->ngfb->urls['review'].'" target="_blank">rating the '.$this->ngfb->fullname.' plugin</a> on WordPress.org. 
-					A few words is all it takes, and I truly appreciate everyones feedback! ;-)</p>
-					<p class="centered"><b><a href="'.$this->ngfb->urls['review'].'" target="_blank">Please Rate the Plugin Now</a></b></p>';
+					<a href="'.$this->ngfb->urls['review'].'" target="_blank">rating the '.$this->ngfb->fullname.' plugin on WordPress.org</a>.
+					A few words is all it takes, and the comments and feedback are truly appreciated. ;-)</p>
+					<p class="centered"><b><a href="'.$this->ngfb->urls['review'].'" target="_blank">Rate the Plugin Now</a></b></p>';
 					break;
 				case 'thankyou' :
 					$msg = '<p>Thank you for your purchase! I hope the '.$this->ngfb->fullname.' plugin will exceed all of your expectations.</p>';
