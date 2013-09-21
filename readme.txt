@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.6.1
-Stable Tag: 6.8
+Stable Tag: 6.9
 
 Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
 
@@ -685,14 +685,14 @@ function add_tracking_id( $url, $src_id ) {
 			array( 
 				'/^fb-share-/', '/^facebook-/', '/^gplus-/', '/^twitter-/', 
 				'/^linkedin-/', '/^pinterest-/', '/^stumbleupon-/', '/^tumblr-/',
-				'/-content-/', '/-widget-[0-9]+-/', '/-shortcode-/',
-				'/-buttons-/', '/-post-/', 
+				'/-content-buttons-/', '/-shortcode-buttons-/', 
+				'/-widget-buttons-/', '/-post-/', 
 			), 
 			array(
 				'fb-', 'fb-', 'gp-', 'tw-', 
 				'li-', 'pi-', 'st-', 'tu-',
-				'-c-', '-w-', '-s-',
-				'-', '-', 
+				'-c-', '-s-', 
+				'-w', '-p',
 			),
 			$src_id 
 		);	
