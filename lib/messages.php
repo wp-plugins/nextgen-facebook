@@ -60,12 +60,13 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_forum' :
-					$msg = '<p>Need help? Visit the <a href="'.$this->ngfb->urls['support_forum'].'" target="_blank">Support Forum</a> on WordPress.org.</p>';
+					$msg = '<p><strong>Need help? Visit the <a href="'.$this->ngfb->urls['support_forum'].'" 
+						target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
 					break;
 				case 'help_email' :
-					$msg = '<p>Need help with the Pro version? Contact me by email at 
+					$msg = '<p><strong>Need help with the Pro version? Contact me by email at 
 					<a href="mailto:'.$this->ngfb->urls['email'].'?subject='.$this->ngfb->fullname.
-						' Support (AuthID '.$this->ngfb->options['ngfb_pro_tid'].')" target="_blank">'.$this->ngfb->urls['email'].'</a>.</p>';
+						' Support (Auth ID '.$this->ngfb->options['ngfb_pro_tid'].')" target="_blank">'.$this->ngfb->urls['email'].'</a></strong>.</p>';
 					break;
 			}
 			return $msg;

@@ -428,6 +428,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				echo $this->ngfb->msg->get( 'help_email' ), "\n";
 			else
 				echo $this->ngfb->msg->get( 'help_forum' ), "\n";
+			echo '<p class="centered" style="margin-top:15px;">';
+			$img_size = 32;
+			foreach ( $this->ngfb->follow as $img => $url )
+				echo '<a href="'.$url.'" target="_blank"><img 
+					src="'.NGFB_URLPATH.'images/'.$img.'" width="'.$img_size.'" height="'.$img_size.'"></a> ';
+			echo '</p>';
 			echo '</td></tr></table>';
 		}
 

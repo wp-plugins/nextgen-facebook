@@ -64,6 +64,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook',
 		);
 
+		public $follow = array(
+			'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
+			'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
+			'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
+			'twitter.png' => 'https://twitter.com/surniaululacom',
+			'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
+			'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+		);
+
 		public $css_names = array(
 			'social' => 'Buttons Style',
 			'excerpt' => 'Excerpt Style',
