@@ -18,12 +18,12 @@ NGFB Open Graph+ adds HTML header tags for better Google Search results and Soci
 
 What users are saying about NGFB Open Graph+:
 
-* 5-stars **Awesome fast support** By By Tony (beluzoni)
-* 5-stars **Excellent Plugin and Support** By Sri Shunyata
-* 5-stars **I've been looking for years for this** By Mark Tuttle (markrtuttle)
-* 5-stars **Fantastic plugin, fantastic support** By Triseult
-* 5-stars **Outstanding support, easy-to-use plugin** By 720creations
-* 5-stars **The Search is Over...** - By mattjabs
+* *5-stars* - **Awesome fast support** By By Tony (beluzoni)
+* *5-stars* - **Excellent Plugin and Support** By Sri Shunyata
+* *5-stars* - **I've been looking for years for this** By Mark Tuttle (markrtuttle)
+* *5-stars* - **Fantastic plugin, fantastic support** By Triseult
+* *5-stars* - **Outstanding support, easy-to-use plugin** By 720creations
+* *5-stars* - **The Search is Over...** By mattjabs
 * [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
