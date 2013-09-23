@@ -200,7 +200,6 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 	
 					// use the excerpt, if we have one
 					if ( has_excerpt( $post->ID ) ) {
-						$this->ngfb->debug->log( 'has_excerpt() = true' );
 						$desc = $post->post_excerpt;
 						if ( ! empty( $this->ngfb->options['ngfb_filter_excerpt'] ) ) {
 							$filter_removed = $this->ngfb->social->remove_filter( 'the_excerpt' );

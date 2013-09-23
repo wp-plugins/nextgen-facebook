@@ -67,13 +67,18 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function filter( &$text, $type = 'the_content' ) {
 
-			// don't add social buttons on index pages, unless buttons_on_index option is checked
-			if ( ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) ) || 
-				( is_front_page() && empty( $this->ngfb->options['buttons_on_front'] ) ) ) 
-					return $text;
-
-			if ( $this->is_disabled() ) 
+			if ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) ) {
+				$this->ngfb->debug->log( 'exiting early: index page without buttons_on_index enabled' . $type );
 				return $text;
+			}
+			if ( is_front_page() && empty( $this->ngfb->options['buttons_on_front'] ) ) {
+				$this->ngfb->debug->log( 'exiting early: front page without buttons_on_front enabled' . $type );
+				return $text;
+			}
+			if ( $this->is_disabled() ) {
+				$this->ngfb->debug->log( 'exiting early: buttons disabled' . $type );
+				return $text;
+			}
 
 			$enabled = false;
 			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )

@@ -18,11 +18,12 @@ NGFB Open Graph+ adds HTML header tags for better Google Search results and Soci
 
 What users are saying about NGFB Open Graph+:
 
-* **Excellent Plugin and Support** By Sri Shunyata
-* **I've been looking for years for this** By Mark Tuttle (markrtuttle)
-* **Fantastic plugin, fantastic support** By Triseult
-* **Outstanding support, easy-to-use plugin** By 720creations
-* **The Search is Over...** - By mattjabs
+* 5-stars **Awesome fast support** By By Tony (beluzoni)
+* 5-stars **Excellent Plugin and Support** By Sri Shunyata
+* 5-stars **I've been looking for years for this** By Mark Tuttle (markrtuttle)
+* 5-stars **Fantastic plugin, fantastic support** By Triseult
+* 5-stars **Outstanding support, easy-to-use plugin** By 720creations
+* 5-stars **The Search is Over...** - By mattjabs
 * [More great reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -674,11 +675,10 @@ The 'ngfb_sharing_url' filter is another exception -- it receives *two arguments
 add_filter( 'ngfb_sharing_url', 'add_tracking_id', 10, 2 );
 
 function add_tracking_id( $url, $src_id ) {
-	global $ngfb;
+
 	// make sure we have something to work with, URL is long enough (not shortened), 
 	// and does not have a tracking query
-	if ( ! empty( $src_id ) && strlen( $url ) >= $ngfb->options['ngfb_min_shorten'] 
-		&& ! preg_match( '/[\?&]sid=/', $url ) ) {
+	if ( ! empty( $src_id ) && strlen( $url ) >= 21 && ! preg_match( '/[\?&]sid=/', $url ) ) {
 
 		// simplify and obfuscate the source id string
 		$src_id = preg_replace( 
@@ -687,14 +687,12 @@ function add_tracking_id( $url, $src_id ) {
 				'/^linkedin-/', '/^pinterest-/', '/^stumbleupon-/', '/^tumblr-/',
 				'/-content-buttons-/', '/-shortcode-buttons-/', 
 				'/-widget-buttons-/', '/-post-/', 
-			), 
-			array(
+			), array(
 				'fb-', 'fb-', 'gp-', 'tw-', 
 				'li-', 'pi-', 'st-', 'tu-',
 				'-c-', '-s-', 
 				'-w', '-p',
-			),
-			$src_id 
+			), $src_id 
 		);	
 		// start or append a new query character
 		$url .= strpos( $url, '?' ) === false ? '?' : '&';
@@ -702,7 +700,7 @@ function add_tracking_id( $url, $src_id ) {
 		// append the tracking query string
 		$url .= 'sid='.urlencode( $src_id );
 	}
-       	return $url;
+	return $url;
 }
 
 `
