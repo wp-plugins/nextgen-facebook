@@ -730,6 +730,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.9.1 =
+
+* Moved the Contact Methods metabox to the Advanced settings page, and added a description for its intended use.
+
 = Version 6.9 =
 
 * Standard version: *12221 lines in 42 files, with 51 classes and 409 functions*
