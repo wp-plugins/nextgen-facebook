@@ -28,7 +28,6 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_opengraph', 'Open Graph Settings', array( &$this, 'show_metabox_opengraph' ), $this->pagehook, 'normal' );
 			add_meta_box( $this->pagehook . '_publishers', 'Publisher Settings', array( &$this, 'show_metabox_publishers' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_opengraph() {
@@ -381,50 +380,6 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'</td>',
 
 			);
-		}
-
-		public function show_metabox_taglist() {
-			?>
-			<table class="ngfb-settings" style="padding-bottom:0;">
-			<tr>
-				<td>
-				<p><?php echo $this->ngfb->fullname; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
-				If your theme or another plugin already generates one or more of these meta tags, you can uncheck them here to prevent 
-				<?php echo $this->ngfb->fullname; ?> from adding duplicate meta tags (the "description" meta tag is popular with SEO plugins, 
-				for example, so it is unchecked by default).</p>
-				</td>
-			</tr>
-			</table>
-
-			<table class="ngfb-settings" style="padding-bottom:0;">
-			<?php
-			$og_cols = 5;
-			$cells = array();
-			$rows = array();
-			foreach ( $this->ngfb->opt->get_defaults() as $opt => $val ) {
-				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
-					$cells[] = '<td class="taglist">' . $this->ngfb->admin->form->get_checkbox( $opt ) . '</td>' .
-						'<th class="taglist' . ( $opt == 'inc_description' ? ' highlight' : '' ) .
-							'">' . $match[1] . '</th>' . "\n";
-			}
-			unset( $opt, $val );
-			$per_col = ceil( count( $cells ) / $og_cols );
-			foreach ( $cells as $num => $cell ) {
-				if ( empty( $rows[ $num % $per_col ] ) )
-					$rows[ $num % $per_col ] = '';	// initialize the array
-				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
-			}
-			unset( $num, $cell );
-			foreach ( $rows as $num => $row ) 
-				echo '<tr>', $row, '</tr>', "\n";
-			unset( $num, $row );
-
-			echo '<table class="ngfb-settings"><tr>';
-			echo $this->ngfb->util->th( 'Include Empty og:* Meta Tags', null, null, '
-				Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_empty_tags' ), '</td>';
-			echo '</tr></table>';
-
 		}
 
 		private function author_fields() {

@@ -28,7 +28,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook . '_plugin', 'Plugin Settings', array( &$this, 'show_metabox_plugin' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_contact', 'Contact Methods', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_contact', 'Profile Contact Methods', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook . '_taglist', 'Meta Tag List', array( &$this, 'show_metabox_taglist' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_plugin() {
@@ -46,6 +47,14 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_contact() {
+			echo '<table class="ngfb-settings" style="padding-bottom:0"><tr><td>
+			<p>The following options allow you to customize the contact field names and labels shown on the <a href="'.get_admin_url( null, 'profile.php' ).'">user profile page</a>.
+			'.$this->ngfb->fullname.' uses the Facebook, Google+ and Twitter contact field values for Open Graph and Twitter Card meta tags (along with the Twitter social sharing button).
+			<strong>You should not modify the <em>Contact Field Name</em> unless you have a very good reason to do so.</strong>
+			The <em>Profile Contact Label</em> is for display purposes and may be changed as you wish.
+			Although contact methods may be shown on user profile pages, your theme is responsible for displaying their values in the appropriate locations
+			(see <a href="http://codex.wordpress.org/Function_Reference/get_the_author_meta" target="_blank">get_the_author_meta()</a> for examples).</p>
+			</td></tr></table>';
 			$show_tabs = array( 
 				'custom' => 'Custom Contacts',
 				'builtin' => 'Built-In Contacts',
@@ -60,7 +69,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			return array(
 				$this->ngfb->util->th( 'Authentication ID', 'highlight', null, '
 				After purchasing of the Pro version, an email will be sent to you with an Authentication ID and installation instructions.
-				Enter your unique Authentication ID here, and after saving the changes, an update for \'' . $this->ngfb->fullname . '\' 
+				Enter your unique Authentication ID here, and after saving the changes, an update for ' . $this->ngfb->fullname . ' 
 				will appear on the <a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
 				Update the \'' . $this->ngfb->fullname . '\' plugin to download and activate the new Pro version.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_input( 'ngfb_pro_tid' ) . '</td>',
@@ -159,13 +168,13 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = '<td></td>' .
 					$this->ngfb->util->th( 'Show', 'left checkbox' ) .
-					$this->ngfb->util->th( 'Field Name', 'left medium', null,
+					$this->ngfb->util->th( 'Contact Field Name', 'left medium', null,
 					'You should not modify the contact field names unless you have a specific reason to do so.
 					As an example, to match the contact field name of a theme or other plugin, you might change \'gplus\' to \'googleplus\'.
 					If you change the Facebook or Google+ field names, please make sure to update the Open Graph 
 					<em>Author Profile URL</em> and Google <em>Author Link URL</em> options on the ' .
 					$this->ngfb->util->get_admin_url( 'general', 'General Settings' ) . ' page.' ) .
-					$this->ngfb->util->th( 'User Profile Label', 'left wide' );
+					$this->ngfb->util->th( 'Profile Contact Label', 'left wide' );
 
 					$social_prefix = $this->ngfb->social_prefix;
 					ksort( $social_prefix );
@@ -200,9 +209,9 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = '<td></td>' .
 					$this->ngfb->util->th( 'Show', 'left checkbox' ) .
-					$this->ngfb->util->th( 'Field Name', 'left medium', null, 
+					$this->ngfb->util->th( 'Contact Field Name', 'left medium', null, 
 					'The built-in WordPress contact field names cannot be changed.' ) .
-					$this->ngfb->util->th( 'User Profile Label', 'left wide' );
+					$this->ngfb->util->th( 'Profile Contact Label', 'left wide' );
 
 					$wp_contacts = $this->ngfb->wp_contacts;
 					ksort( $wp_contacts );
@@ -322,6 +331,50 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					break;
 			}
 			return $ret;
+		}
+
+		public function show_metabox_taglist() {
+			?>
+			<table class="ngfb-settings" style="padding-bottom:0;">
+			<tr>
+				<td>
+				<p><?php echo $this->ngfb->fullname; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
+				If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to prevent 
+				<?php echo $this->ngfb->fullname; ?> from adding duplicate meta tags (for example, the "description" meta tag is popular
+				with SEO plugins, so it is unchecked by default).</p>
+				</td>
+			</tr>
+			</table>
+
+			<table class="ngfb-settings" style="padding-bottom:0;">
+			<?php
+			$og_cols = 5;
+			$cells = array();
+			$rows = array();
+			foreach ( $this->ngfb->opt->get_defaults() as $opt => $val ) {
+				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
+					$cells[] = '<td class="taglist">' . $this->ngfb->admin->form->get_checkbox( $opt ) . '</td>' .
+						'<th class="taglist' . ( $opt == 'inc_description' ? ' highlight' : '' ) .
+							'">' . $match[1] . '</th>' . "\n";
+			}
+			unset( $opt, $val );
+			$per_col = ceil( count( $cells ) / $og_cols );
+			foreach ( $cells as $num => $cell ) {
+				if ( empty( $rows[ $num % $per_col ] ) )
+					$rows[ $num % $per_col ] = '';	// initialize the array
+				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
+			}
+			unset( $num, $cell );
+			foreach ( $rows as $num => $row ) 
+				echo '<tr>', $row, '</tr>', "\n";
+			unset( $num, $row );
+
+			echo '<table class="ngfb-settings"><tr>';
+			echo $this->ngfb->util->th( 'Include Empty og:* Meta Tags', null, null, '
+				Include meta property tags of type og:* without any content (default is unchecked).' );
+			echo '<td>', $this->ngfb->admin->form->get_checkbox( 'og_empty_tags' ), '</td>';
+			echo '</tr></table>';
+
 		}
 
 	}

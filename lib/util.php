@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		private function setup_vars() {
-			if ( $this->ngfb->is_avail['curl'] == true ) {
+			if ( $this->ngfb->is_avail['curl'] == true && ! empty( $this->ngfb->options['twitter_shortener'] ) ) {
 				switch ( $this->ngfb->options['twitter_shortener'] ) {
 					case 'googl' :
 						require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
