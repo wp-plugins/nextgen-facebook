@@ -743,7 +743,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added bit.ly URL shortener for Twitter in the Social Sharing settings.
 * Added the 'ngfb_sharing_url' filter and standardized the CSS IDs for sharing buttons (see the Other Notes for filter usage information).
-* Added the 'Minimum URL Length to Shorten' option (default is 19 characters).
+* Added the 'Minimum URL Length to Shorten' option (default is 21 or more characters).
 
 **Pro version changes:**
 
