@@ -21,9 +21,6 @@ NGFB Open Graph+ adds HTML header tags for better Google Search results and Soci
 * **Excellent Plugin and Support** by Sri Shunyata, September 15
 * **I've been looking for years for this** by Mark Tuttle (markrtuttle), September 10
 * **Fantastic plugin, fantastic support** by Triseult, September 9
-* **Outstanding support, easy-to-use plugin** by 720creations, September 8
-* **The Search is Over...** by mattjabs, August 14
-* **Best Open Graph Implementation, Yet** by barnesatl, August 11
 * [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -83,6 +80,8 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 = Best Performance =
 
 **NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
+
+NGFB Open Graph+ also includes and creates only the library files and objects it needs, thus having a much smaller footprint than one would assume for such a full featured plugin.
 
 = Clean Uninstall =
 
@@ -734,6 +733,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
 * Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
+* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (conversion of older post meta options is automatic).
 
 = Version 6.9 =
 
