@@ -444,7 +444,7 @@ define('NGFB_WISTIA_API_PWD', '****************************************');
 
 == Twitter Cards ==
 
-Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), and [Player](https://dev.twitter.com/docs/cards/types/player-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
+Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
 
 1. Make sure the 'Enable Twitter Cards' option is checked on NGFB Open Graph+ Pro's General settings page.
 1. Go to Twitter's [Card Validator](https://dev.twitter.com/docs/cards/validation/validator).
@@ -730,9 +730,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.9.1-dev1 =
+= Version 6.10-dev1 =
 
-* Moved the Contact Methods metabox to the Advanced settings page, and added a description for its intended use.
+* Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
+* Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
 
 = Version 6.9 =
 
