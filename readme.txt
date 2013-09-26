@@ -79,9 +79,9 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Best Performance =
 
-**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
+NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
 
-NGFB Open Graph+ also includes and creates only the library files and objects it needs, thus having a much smaller footprint than one would assume for such a full featured plugin.
+NGFB Open Graph+ also includes and creates only the PHP library files and object classes it needs, thus having a much smaller footprint than most other full featured plugins.
 
 = Clean Uninstall =
 
