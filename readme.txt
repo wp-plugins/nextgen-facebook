@@ -731,9 +731,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.10-dev1 =
 
+***Free* and Pro version changes:**
+
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
-* Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
-* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (conversion of older post meta options is automatic).
+* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
+
+**Pro version changes:**
+
+* Fixed the Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
 
 = Version 6.9 =
 
