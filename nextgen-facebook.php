@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
-Version: 6.9.1-dev1
+Version: 6.10-dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.9.1-dev1';
+		public $version = '6.10-dev2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -129,9 +129,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		);
 
 		public $seo_libs = array(
-			'aioseop' => 'All in One SEO Pack',
-			'seou' => 'SEO Ultimate',
-			'wpseo' => 'WordPress SEO',
+			'aioseop' => 'AllinOneSEOPack',
+			'seou' => 'SEOUltimate',
+			'wpseo' => 'WordPressSEO',
+		);
+
+		public $ecom_libs = array(
+			'woocommerce' => 'WooCommerce',
+			'marketpress' => 'MarketPress',
+			'wpecommerce' => 'WPeCommerce',
 		);
 
 		public function __construct() {
@@ -186,7 +192,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function filter_version_number( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0.' . $version . '-std';
+			else return '0.'.$version;
 		}
 
 		// called by WP init action
@@ -235,7 +241,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
 
 			if ( ! defined( 'NGFB_META_NAME' ) )
-				define( 'NGFB_META_NAME', 'ngfb_meta' );
+				define( 'NGFB_META_NAME', '_ngfb_meta' );
 
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.10' );
@@ -304,7 +310,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
 				// settings classes extend lib/admin.php and are created by lib/admin.php
 				foreach ( $this->setting_libs as $id => $name )
-					require_once ( NGFB_PLUGINDIR . 'lib/settings/' . $id . '.php' );
+					require_once ( NGFB_PLUGINDIR . 'lib/settings/'.$id.'.php' );
 				unset ( $id, $name );
 				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
@@ -316,7 +322,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 				// ngfb_shortcode class object is created by lib/webpage.php
 				foreach ( $this->shortcode_libs as $id => $name )
-					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/' . $id . '.php' );
+					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/'.$id.'.php' );
 				unset ( $id, $name );
 			}
 
@@ -568,33 +574,42 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// use in combination with $this->ngg_version
 			$is_avail['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
 
-			// woocommerce
-			$is_avail['woocom'] = class_exists( 'Woocommerce' ) ? true : false;
-
-			// marketpress - wordpress ecommerce
-			$is_avail['marketpress'] = class_exists( 'MarketPress' ) ? true : false;
-
+			/*
+			 * Supported SEO Plugins
+			 */
 			$is_avail['any_seo'] = false;	// by default, define any_seo value as false
-			foreach ( $this->seo_libs as $key => $name ) {
+			foreach ( $this->seo_libs as $id => $name ) {
 				$func_name = '';
 				$class_name = '';
-				switch ( $key ) {
-					case 'aioseop' :
-						$class_name = 'All_in_One_SEO_Pack';
-						break;
-					case 'seou' :
-						$class_name = 'SEO_Ultimate';
-						break;
-					case 'wpseo' :
-						$func_name = 'wpseo_init';
-						break;
+				switch ( $id ) {
+					case 'aioseop':	$class_name = 'All_in_One_SEO_Pack'; break;
+					case 'seou':	$class_name = 'SEO_Ultimate'; break;
+					case 'wpseo':	$func_name = 'wpseo_init'; break;
 				}
 				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$key] = true;
+					$is_avail['any_seo'] = $is_avail[$id] = true;
 				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$key] = true;
-				else
-					$is_avail[$key] = false;
+					$is_avail['any_seo'] = $is_avail[$id] = true;
+				else $is_avail[$id] = false;
+			}
+			unset ( $id, $name );
+
+			/*
+			 * Supported eCommerce Plugins
+			 */
+			foreach ( $this->ecom_libs as $id => $name ) {
+				$func_name = '';
+				$class_name = '';
+				switch ( $id ) {
+					case 'woocommerce':	$class_name = 'Woocommerce'; break;
+					case 'marketpress':	$class_name = 'MarketPress'; break;
+					case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
+				}
+				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
+					$is_avail['any_ecom'] = $is_avail[$id] = true;
+				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
+					$is_avail['any_ecom'] = $is_avail[$id] = true;
+				else $is_avail[$id] = false;
 			}
 			unset ( $id, $name );
 

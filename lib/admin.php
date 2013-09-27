@@ -381,7 +381,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><th class="side">Installed:</th>
 			<td><?php 
 				echo $this->ngfb->version; 
-				echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ' (Standard)'; 
+				echo $this->ngfb->is_avail['aop'] ? ' (Pro)' : ' (Free)'; 
 			?></td></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>

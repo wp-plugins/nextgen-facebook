@@ -65,12 +65,12 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				case 'media' :
 
 					$ret[] = $this->ngfb->util->th( __( 'Image Dimensions', NGFB_TEXTDOM ), 'highlight', null, '
-					Enter the dimension of images used in the Open Graph meta tags. The width and height must be 
+					The dimension of images used in the Open Graph meta tags. The width and height must be 
 					between ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' and 1500x1500, preferably cropped 
-					(the defaults are ' . $this->ngfb->opt->get_defaults( 'og_img_width' ) . 'x' .
+					(defaults is ' . $this->ngfb->opt->get_defaults( 'og_img_width' ) . 'x' .
 					$this->ngfb->opt->get_defaults( 'og_img_height' ) . ', ' .
 					( $this->ngfb->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ) . 'cropped). 
-					Note that Facebook prefers larger images for use in backgrounds and banners.
+					<strong>Facebook prefers larger images for use on high resolution devices (1200x630 is recommended)</strong>.
 					The default values are purposefully low in consideration of photography websites, 
 					who may not want to share larger images of their work.' ) .
 					'<td>Width ' . $this->ngfb->admin->form->get_input( 'og_img_width', 'short' ) . ' x ' .
@@ -231,7 +231,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					Note that these are <em>user</em> account names, not Facebook <em>page</em> names.
 					<p>Enter one or more Facebook user names, separated with commas. 
 					When viewing your own Facebook wall, your user name is located in the URL 
-					(example: https://www.facebook.com/<b>user_name</b>). 
+					(example: https://www.facebook.com/<strong>user_name</strong>). 
 					Enter only the user user name(s), not the URL(s).</p>
 					<a href="https://www.facebook.com/settings?tab=account&section=username&view" target="_blank">Update 
 					your user name in the Facebook General Account Settings</a>.' ) .
@@ -306,10 +306,10 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td colspan="2" align="center">' . $this->ngfb->msg->get( 'pro_feature' ) . '</td>',
 
 				$this->ngfb->util->th( 'Enable Twitter Cards', 'highlight', null, 
-				'Add Twitter Card meta tags to all webpage headers (cards include Summary, Large Image, Photo, and Gallery).
-				Note that your website must be \'authorized\' by Twitter for each type of Twitter Card. 
+				'Add Twitter Card meta tags to all webpage headers.
+				<strong>Your website must be authorized by Twitter for each type of Twitter Card you support</strong>. 
 				See the <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
-				webpage for more information on the authorization process.' ) .
+				for more information on the authorization process.' ) .
 				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'tc_enable' ) . 
 					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['tc_enable'] ) . '</td>',
 

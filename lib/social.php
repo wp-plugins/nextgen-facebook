@@ -66,20 +66,18 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function filter( &$text, $type = 'the_content' ) {
-
 			if ( ! is_singular() && empty( $this->ngfb->options['buttons_on_index'] ) ) {
-				$this->ngfb->debug->log( 'exiting early: index page without buttons_on_index enabled' . $type );
+				$this->ngfb->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
 				return $text;
 			}
 			if ( is_front_page() && empty( $this->ngfb->options['buttons_on_front'] ) ) {
-				$this->ngfb->debug->log( 'exiting early: front page without buttons_on_front enabled' . $type );
+				$this->ngfb->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
 				return $text;
 			}
 			if ( $this->is_disabled() ) {
-				$this->ngfb->debug->log( 'exiting early: buttons disabled' . $type );
+				$this->ngfb->debug->log( $type.' filter skipped: buttons disabled' );
 				return $text;
 			}
-
 			$enabled = false;
 			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
 				if ( ! empty( $this->ngfb->options[$opt_prefix.'_on_'.$type] ) ) {
@@ -87,10 +85,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					break;
 			}
 			if ( $enabled == false ) {
-				$this->ngfb->debug->log( 'exiting early: no buttons enabled for ' . $type );
+				$this->ngfb->debug->log( $type.' filter exiting early: no buttons enabled' );
 				return $text;
 			}
-
 			// we should always have a unique post ID
 			global $post;
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
@@ -155,7 +152,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'footer', $ids = array() ) {
 			if ( empty( $ids ) ) {
 
-				if ( $this->ngfb->social->is_disabled() ) return;
+				if ( $this->ngfb->social->is_disabled() ) {
+					$this->ngfb->debug->log( $pos.' javascript skipped: buttons disabled' );
+					return;
+				}
 
 				$widget = new ngfbWidgetSocialSharing();
 		 		$widget_settings = $widget->get_settings();

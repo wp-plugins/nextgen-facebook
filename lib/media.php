@@ -47,6 +47,38 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
+		public function num_remains( &$arr, $num = 0 ) {
+			$remains = 0;
+			if ( ! is_array( $arr ) ) return false;
+			if ( $num > 0 && $num >= count( $arr ) ) {
+				$remains = $num - count( $arr );
+				$this->ngfb->debug->log( 'images count: '.count( $arr ).' of '.$num.' max ('.$remains.' remaining)' );
+			}
+			return $remains;
+		}
+
+		public function get_post_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
+			$og_ret = array();
+			$log_args = ',"'.$size_name.'",'.$post_id.( $check_dupes ? 'true' : 'false' );
+
+			$num_remains = $this->num_remains( $og_ret, $num );
+			$this->ngfb->debug->log( 'calling this->get_meta_image('.$num_remains.$log_args.')' );
+			$og_ret = array_merge( $og_ret, $this->get_meta_image( $num_remains, $size_name, $post_id, $check_dupes ) );
+
+			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
+				$num_remains = $this->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->get_featured('.$num_remains.$log_args.')' );
+				$og_ret = array_merge( $og_ret, $this->get_featured( $num_remains, $size_name, $post_id, $check_dupes ) );
+			}
+
+			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
+				$num_remains = $this->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->get_attached_images('.$num_remains.$log_args.')' );
+				$og_ret = array_merge( $og_ret, $this->get_attached_images( $num_remains, $size_name, $post_id, $check_dupes ) );
+			}
+			return $og_ret;
+		}
+
 		public function get_featured( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$og_ret = array();
 			$og_image = array();

@@ -25,8 +25,10 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 	
 		public function widget( $args, $instance ) {
 			global $ngfb;
-			if ( is_object( $ngfb->social ) && 
-				$ngfb->social->is_disabled() ) return;
+			if ( is_object( $ngfb->social ) && $ngfb->social->is_disabled() ) {
+				$ngfb->debug->log( 'widget buttons skipped: buttons disabled' );
+				return;
+			}
 			extract( $args );
 			$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';

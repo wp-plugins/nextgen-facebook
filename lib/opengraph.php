@@ -21,8 +21,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			add_filter( 'language_attributes', array( &$this, 'add_doctype' ) );
 		}
 	
-		public function add_doctype( $out ) {
-			return $out . ' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
+		public function add_doctype( $doctype ) {
+			return $doctype.' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
 		public function get() {
@@ -171,15 +171,15 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_ret = array();
 
 			if ( ! empty( $post ) ) {
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_meta_video(' . $num_remains . ',' . $post->ID . ')' );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_meta_video('.$num_remains.','.$post->ID.')' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_meta_video( $num_remains, $post->ID ) );
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos(' . $num_remains . ')' );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos('.$num_remains.')' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_videos( $num_remains ) );
 			}
 
@@ -192,17 +192,16 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_ret = array();
 
 			// check for attachment page
-			// since wp 2.0.0 
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_attachment_image(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_attachment_image('.$num_remains.',"'.$size_name.'",'.$post->ID.')' );
 				$og_image = $this->ngfb->media->get_attachment_image( $num_remains, $size_name, $post->ID );
 
 				// if an attachment is not an image, then use the default image instead
 				if ( empty( $og_ret ) ) {
-					$num_remains = $this->num_remains( $og_ret, $num );
-					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $num_remains . ',"' . $size_name . '")' );
+					$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image('.$num_remains.',"'.$size_name.'")' );
 					$og_ret = array_merge( $og_ret, $this->ngfb->media->get_default_image( $num_remains, $size_name ) );
 				} else $og_ret = array_merge( $og_ret, $og_image );
 
@@ -213,28 +212,18 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_img_on_index'] ) ) || 
 				( is_search() && ! empty( $this->ngfb->options['og_def_img_on_search'] ) ) ) {
 
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $num_remains . ',"' . $size_name . '")' );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image('.$num_remains.',"'.$size_name.'")' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_default_image( $num_remains, $size_name ) );
 				return $og_ret;	// stop here and return the image array
 			}
 
 			// check for custom meta, featured, or attached image(s)
 			if ( ! empty( $post ) ) {
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_post_images('.$num_remains.',"'.$size_name.'",'.$post->ID.')' );
+				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_post_images( $num_remains, $size_name, $post->ID ) );
 
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_meta_image(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_meta_image( $num_remains, $size_name, $post->ID ) );
-
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_featured(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_featured( $num_remains, $size_name, $post->ID ) );
-
-				if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-					$num_remains = $this->num_remains( $og_ret, $num );
-					$this->ngfb->debug->log( 'calling this->ngfb->media->get_attached_images(' . $num_remains . ',"' . $size_name . '",' . $post->ID . ')' );
-					$og_ret = array_merge( $og_ret, $this->ngfb->media->get_attached_images( $num_remains, $size_name, $post->ID ) );
-				}
 				// keep going to find more images
 				// the featured / attached image(s) will be listed first in the open graph meta property tags
 				// and duplicates will be filtered out
@@ -243,9 +232,9 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			// check for ngg shortcodes and query vars
 			if ( $this->ngfb->is_avail['ngg'] == true && ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
 				$ngg_query_og_ret = array();
-				$num_remains = $this->num_remains( $og_ret, $num );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
 				if ( version_compare( $this->ngfb->ngg_version, '2.0.0', '<' ) ) {
-					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_query_images(' . $num_remains . ',"' . $size_name . '")' );
+					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_query_images('.$num_remains.',"'.$size_name.'")' );
 					$ngg_query_og_ret = $this->ngfb->media->ngg->get_query_images( $num_remains, $size_name );
 				}
 				// if we found images in the query, skip content shortcodes
@@ -254,16 +243,16 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$og_ret = array_merge( $og_ret, $ngg_query_og_ret );
 				// if no query images were found, continue with ngg shortcodes in content
 				} elseif ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-					$num_remains = $this->num_remains( $og_ret, $num );
-					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_shortcode_images(' . $num_remains . ',"' . $size_name . '")' );
+					$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_shortcode_images('.$num_remains.',"'.$size_name.'")' );
 					$og_ret = array_merge( $og_ret, $this->ngfb->media->ngg->get_shortcode_images( $num_remains, $size_name ) );
 				}
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_images(' . $num_remains . ',"' . $size_name . '")' );
+				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
+				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_images('.$num_remains.',"'.$size_name.'")' );
 				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_images( $num_remains, $size_name ) );
 			}
 
@@ -279,22 +268,13 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 					$num_meta = $this->ngfb->meta->get_options( $post->ID, $max_name );
 				if ( $num_meta !== false ) {
 					$og_max[$max_name] = $num_meta;
-					$this->ngfb->debug->log( 'found custom meta ' . $max_name . ' = ' . $num_meta );
+					$this->ngfb->debug->log( 'found custom meta '.$max_name.' = '.$num_meta );
 				} else $og_max[$max_name] = $this->ngfb->options[$max_name];
 			}
 			unset ( $max_name );
 			return $og_max;
 		}
 
-		private function num_remains( &$arr, $num = 0 ) {
-			$remains = 0;
-			if ( ! is_array( $arr ) ) return false;
-			if ( $num > 0 && $num >= count( $arr ) ) {
-				$remains = $num - count( $arr );
-				$this->ngfb->debug->log( 'images count = ' . count( $arr ) . ' of ' . $num . ' max (' . $remains . ' remaining)' );
-			}
-			return $remains;
-		}
 	}
 }
 

@@ -279,7 +279,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->ngfb->debug->log( 'content seed = "' . $content . '"' );
 
 			// exceptions for some woocommerce pages
-			if ( empty( $content ) && ! empty( $this->ngfb->is_avail['woocom'] ) ) {
+			if ( empty( $content ) && ! empty( $this->ngfb->is_avail['woocommerce'] ) ) {
 				if ( is_cart() )
 					$content = 'Shopping Cart';
 				elseif ( is_checkout() )

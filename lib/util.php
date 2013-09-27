@@ -77,13 +77,19 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $found;
 		}
 
+		public function reset_urls_found() {
+			$this->urls_found = array();
+			return;
+		}
+
 		public function get_urls_found() {
 			return $this->urls_found;
 		}
 
 		public function is_uniq_url( $url = '' ) {
 
-			if ( empty( $url ) ) return false;
+			if ( empty( $url ) ) 
+				return false;
 
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
 				$this->ngfb->debug->log( 'incomplete url given: ' . $url );
@@ -92,7 +98,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->urls_found[$url] = 1;
 				return true;
 			} else {
-				$this->ngfb->debug->log( 'duplicate image rejected: ' . $url ); 
+				$this->ngfb->debug->log( 'duplicate url rejected: ' . $url ); 
 				return false;
 			}
 		}
