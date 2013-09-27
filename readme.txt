@@ -729,7 +729,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.10-dev1 =
+= Version 6.10-dev2 =
 
 ***Free* and Pro version changes:**
 
@@ -774,6 +774,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 == Upgrade Notice ==
+
+= Version 6.10-dev2 =
+
+Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products.
 
 = 6.9 =
 
