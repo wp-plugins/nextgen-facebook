@@ -739,6 +739,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 **Pro version changes:**
 
 * Fixed the Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
+* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products.
 
 = Version 6.9 =
 
