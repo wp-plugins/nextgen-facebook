@@ -81,8 +81,8 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			If you select a URL shortening service, you must also enter your API Key for that service on the '.
 			$this->ngfb->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Advanced / URL Shortening' ).' settings tab.' ) .
 			'<td>' . $this->ngfb->admin->form->get_select( 'twitter_shortener', 
-				array( '' => 'none', 'googl' => 'Goo.gl', 'bitly' => 'Bit.ly' ), 'medium' ) . ' ' .
-				$this->ngfb->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Your API Keys' ) . '</td>';
+				array( '' => 'none', 'googl' => 'Goo.gl', 'bitly' => 'Bit.ly' ), 'medium' ) . '&nbsp;&nbsp;' .
+				$this->ngfb->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Enter your API Keys' ) . '</td>';
 
 			return $ret;
 		}
