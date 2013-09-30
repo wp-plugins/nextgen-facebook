@@ -729,12 +729,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.10-dev2 =
+= Version 6.10-dev3 =
 
 ***Free* and Pro version changes:**
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
 * Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
+* Fixed: Removed newline characters from the shortcode HTML to prevent WordPress from adding excessive line-breaks and paragraph HTML tags.
 
 **Pro version changes:**
 
@@ -775,7 +776,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= Version 6.10-dev2 =
+= Version 6.10-dev3 =
 
 Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products.
 

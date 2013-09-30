@@ -57,12 +57,12 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 					if ( ! empty( $atts['buttons'] ) && $this->ngfb->social->is_disabled() == false ) {
 						$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
 						unset ( $atts['buttons'] );
-						$html .= "\n<!-- " . $this->ngfb->fullname.' '.$atts['css_id']." BEGIN -->\n" .
-							$this->ngfb->social->get_js( 'pre-shortcode', $ids ) .
-							'<div class="'.$this->ngfb->acronym.'-'.$atts['css_id']."\">\n" . 
-							$this->ngfb->social->get_html( $ids, $atts ) . "</div>\n" .
-							$this->ngfb->social->get_js( 'post-shortcode', $ids ) .
-							'<!-- '.$this->ngfb->fullname.' '.$atts['css_id']." END -->\n";
+						$html .= '<!-- '.$this->ngfb->fullname.' '.$atts['css_id'].' BEGIN -->'.
+							$this->ngfb->social->get_js( 'pre-shortcode', $ids ).
+							'<div class="'.$this->ngfb->acronym.'-'.$atts['css_id'].'">'.
+								$this->ngfb->social->get_html( $ids, $atts ).'</div>'.
+							$this->ngfb->social->get_js( 'post-shortcode', $ids ).
+							'<!-- '.$this->ngfb->fullname.' '.$atts['css_id'].' END -->';
 					}
 					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
 					$this->ngfb->debug->log( $cache_type . ': html saved to transient for id "' . 

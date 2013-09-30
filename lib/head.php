@@ -43,7 +43,11 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				//$this->ngfb->debug->show_html( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 
 				$opts = $this->ngfb->options;
-				foreach ( array( 'ngfb_pro_tid', 'ngfb_googl_api_key', ) as $key ) $opts[$key] = '********';
+				foreach ( array( 
+					'ngfb_pro_tid', 
+					'ngfb_googl_api_key', 
+					'ngfb_bitly_api_key',
+				) as $key ) $opts[$key] = '********';
 
 				$this->ngfb->debug->show_html( $this->ngfb->is_avail, 'Available Features' );
 				$this->ngfb->debug->show_html( null, 'Debug Log' );
