@@ -729,12 +729,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.10-dev2 =
+= Version 6.10-dev4 =
 
 ***Free* and Pro version changes:**
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
 * Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
+* Fixed: Added test for disabled buttons javascript only on singular pages (to avoid disabling javascript for all posts on index pages).
+* Fixed: Added a test to make sure the WordPress `wpautop()` has a priority of 10 or less (higher priorities will interfere with shortcode output).
 
 **Pro version changes:**
 
@@ -775,9 +777,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= Version 6.10-dev2 =
+= Version 6.10-dev4 =
 
-Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products.
+Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products, plus a few minor fixes.
 
 = 6.9 =
 
