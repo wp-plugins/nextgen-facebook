@@ -48,6 +48,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function add_header() {
+			echo $this->header_js();
 			echo $this->get_js( 'header' );
 			$this->ngfb->debug->show_html( null, 'Debug Log' );
 		}
@@ -151,12 +152,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
 			if ( empty( $ids ) ) {
-
-				if ( $this->ngfb->social->is_disabled() ) {
+				if ( is_singular() && $this->ngfb->social->is_disabled() ) {
 					$this->ngfb->debug->log( $pos.' javascript skipped: buttons disabled' );
 					return;
 				}
-
 				$widget = new ngfbWidgetSocialSharing();
 		 		$widget_settings = $widget->get_settings();
 
@@ -170,7 +169,6 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							( is_front_page() && ! empty( $this->ngfb->options['buttons_on_front'] ) ) )
 								$ids[] = $id;
 					}
-
 					// check for enabled buttons in widget
 					foreach ( $widget_settings as $instance ) {
 						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
@@ -182,8 +180,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->ngfb->debug->log( $pos . ' ids = ' . implode( ', ', $ids ) );
-			$js = "<!-- ".$this->ngfb->fullname." ".$pos." javascript BEGIN -->\n";
-			$js .= $pos == 'header' ? $this->header_js() : '';	// always add the ngfb_header_js() javascript function
+			$js = '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript BEGIN -->';
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
 			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
@@ -200,7 +197,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= "<!-- ".$this->ngfb->fullname." ".$pos." javascript END -->\n";
+			$js .= '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript END -->';
 			return $js;
 		}
 

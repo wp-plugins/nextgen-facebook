@@ -207,11 +207,11 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
 			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'facebook' ) );
 			$app_id = empty( $this->ngfb->options['fb_app_id'] ) ? '' : $this->ngfb->options['fb_app_id'];
-			$html .= '<script type="text/javascript" id="facebook-script-' . $pos . '">
-				ngfb_header_js( "facebook-script-' . $pos . '", "' . 
+			$html .= '<script type="text/javascript" id="facebook-script-'.$pos.'">
+				ngfb_header_js( "facebook-script-'.$pos.'", "' . 
 					$this->ngfb->util->get_cache_url( $prot . 'connect.facebook.net/' . 
 					$lang . '/all.js#xfbml=1&appId=' . $app_id ) . '" );
-			</script>' . "\n";
+			</script>';
 			return $html;
 		}
 

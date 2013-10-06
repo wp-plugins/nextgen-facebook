@@ -8,7 +8,7 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
+if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 
 	class ngfbShortCodeNgfb {
 
@@ -18,7 +18,24 @@ if ( ! class_exists( 'ngfbShortCodeNGFB' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
+			$this->wpautop();
 			$this->add();
+		}
+
+		public function wpautop() {
+			// make sure wpautop() does not have a higher priority than 10, otherwise it will 
+			// format the shortcode output (shortcodes filters are run at priority 11).
+			if ( ! empty( $this->ngfb->options[$this->name . '_enable_shortcode'] ) ) {
+				$default_priority = 10;
+				foreach ( array( 'the_excerpt', 'the_content' ) as $tag ) {
+					$filter_priority = has_filter( $tag, 'wpautop' );
+					if ( $filter_priority > $default_priority ) {
+						remove_filter( 'the_content', 'wpautop' );
+						add_filter( 'the_content', 'wpautop' , $default_priority );
+						$this->ngfb->debug->log( 'wpautop() priority changed from '.$filter_priority.' to '.$default_priority );
+					}
+				}
+			}
 		}
 
 		public function add() {

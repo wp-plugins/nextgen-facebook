@@ -95,9 +95,9 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 		
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="gplus-script-' . $pos . '">
+			return '<script type="text/javascript" id="gplus-script-'.$pos.'">
 				ngfb_header_js( "gplus-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'apis.google.com/js/plusone.js' ) . '" );
-			</script>' . "\n";
+			</script>';
 		}
 		
 	}
