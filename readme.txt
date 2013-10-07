@@ -45,7 +45,11 @@ NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.c
 
 = e-Commerce Products =
 
-NGFB Open Graph+ (Pro version) recognizes [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/) and [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). WooCommerce product galleries, stock status, extended attributes, category and tag pages, are all supported. MarketPress WordPress eCommerce product variations, sale prices, and inventory levels are all supported as well.
+NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). 
+
+* WooCommerce support offers product prices, currency, image galleries, stock status, weight, dimensions, extended attributes, category and tag pages.
+* MarketPress WordPress eCommerce support offers product prices, currency, variations, sale prices, images and inventory levels.
+* WP e-Commerce support features product prices, currency, images and custom meta.
 
 = Optional Social Buttons =
 
@@ -97,7 +101,7 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 = Pro Version =
 
-The *Free* version from WordPress.org is a full-featured, stable and well supported plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) builds on this solid base by adding support for [Twitter Cards](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/) and [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) products, tighter integration with popular SEO plugins (for title and description values), enhanced customization features for *each individual Post and Page*, and dynamically changes the social button language to match the webpage. You can also enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version includes a URL rewriting feature (for encoded URLs that other plugins do not detect).
+The *Free* version from WordPress.org is a full-featured, stable and well supported plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) builds on this solid base by adding support for [Twitter Cards](https://dev.twitter.com/docs/cards), e-commerce products ([WooCommerce](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/)), tighter integration with SEO plugins ([WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/)), enhanced customization features for *each individual Post and Page*, and dynamically changes the social button language to match the webpage. You can also enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version includes a URL rewriting feature (for encoded URLs that other plugins do not detect).
 
 Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Authentication ID, and update the plugin from within WordPress (like a regular plugin update).
 
@@ -201,7 +205,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q1. What is the difference between the *Free* and Pro versions? =
 
-[The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Cards](https://dev.twitter.com/docs/cards), [WooCommerce](http://wordpress.org/plugins/woocommerce/) and [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) products, tighter integration with popular SEO plugins (for title and description values), dynamically changes the social button language to match the webpage, allows you to customize the Open Graph title, description, image, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (to further improve page load times). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature (for encoded URLs that other plugins do not detect). 
+[The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Cards](https://dev.twitter.com/docs/cards), e-commerce products ([WooCommerce](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/)), tighter integration with SEO plugins ([WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/)), dynamically changes the social button language to match the webpage, allows you to customize the Open Graph title, description, image, video, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (to further improve page load times). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature (for encoded URLs that other plugins do not detect). 
 
 = Q2. How do I install the Pro version? =
 
@@ -235,7 +239,7 @@ NextGEN Open Graph+ was written specifically to support features of NextGEN Gall
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
 1. An image defined in the Post or Page Open Graph+ Custom Settings (Pro version).
-1. [WooCommerce](http://wordpress.org/plugins/woocommerce/) product gallery image(s) (Pro version).
+1. E-commerce product image(s) (Pro version).
 1. A *featured* or *attached* image from [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) or the WordPress Media Library.
 1. An image from the [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) *ImageBrowser* (in combination with an `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode).
 1. A *preview* image from a [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) `&#91;nggalbum&#93;` or `&#91;nggallery&#93;` shortcode.
@@ -620,10 +624,12 @@ The following list of NGFB filters receive and must return a single *array*.
 * `ngfb_og_seed` : An empty array that will be used to build the Open Graph meta tags.
 * `ngfb_og_woocommerce` : A complete, multi-dimensional array of all Open Graph meta tags for WooCommerce.
 * `ngfb_og_marketpress` : A complete, multi-dimensional array of all Open Graph meta tags for MarketPress WordPress eCommerce.
+* `ngfb_og_wpecommerce` : A complete, multi-dimensional array of all Open Graph meta tags for WP e-Commerce.
 * `ngfb_tc` : A complete, multi-dimensional array of all Twitter Card meta tags.
 * `ngfb_tc_seed` : An empty array that will be used to build the Twitter Card meta tags.
 * `ngfb_tc_woocommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WooCommerce.
 * `ngfb_tc_marketpress` : A complete, multi-dimensional array of all Twitter Card meta tags for MarketPress WordPress eCommerce.
+* `ngfb_tc_wpecommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WP e-Commerce.
 
 Here are a few example:
 
@@ -729,7 +735,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.10-dev4 =
+= Version 6.10-dev5 =
 
 ***Free* and Pro version changes:**
 
@@ -741,7 +747,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 **Pro version changes:**
 
 * Fixed the Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
-* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products.
+* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products (currency, prices, images, and custom meta fields).
 
 = Version 6.9 =
 
@@ -777,7 +783,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= Version 6.10-dev4 =
+= Version 6.10-dev5 =
 
 Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products, plus a few minor fixes.
 
