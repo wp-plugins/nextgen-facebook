@@ -149,18 +149,16 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div ' . $this->ngfb->social->get_css( 'twitter', $atts ) . '><a href="' . $prot . 'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'] . '" data-url="' . $short_url . '" data-counturl="' . $long_url . '" data-text="' . $atts['caption'] . '" data-via="' . $atts['via'] . '" data-related="' . $atts['related'] . '" data-hashtags="' . $atts['hashtags'] . '" data-count="' . $this->ngfb->options['twitter_count'] . '" data-size="' . $this->ngfb->options['twitter_size'] . '" data-dnt="' . $atts['dnt'] . '">Tweet</a></div>';
+			$html = '<!-- Twitter Button --><div '.$this->ngfb->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$this->ngfb->options['twitter_count'].'" data-size="'.$this->ngfb->options['twitter_size'].'" data-dnt="'.$atts['dnt'].'">Tweet</a></div>'."\n";
 
-			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
+			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="twitter-script-'.$pos.'">
-				ngfb_header_js( "twitter-script-'.$pos.'", "' . $this->ngfb->util->get_cache_url( $prot . 'platform.twitter.com/widgets.js' ) . '" );
-			</script>';
+			return '<script type="text/javascript" id="twitter-script-'.$pos.'">ngfb_header_js( "twitter-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' ).'" );</script>'."\n";
 		}
 
 	}

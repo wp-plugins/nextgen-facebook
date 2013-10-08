@@ -145,7 +145,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				if ( method_exists( $this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts );
 			}
-			if ( $html ) $html = '<div class="'.$this->ngfb->acronym.'-buttons">'.$html.'</div>';
+			if ( ! empty( $html ) ) 
+				$html = '<div class="'.$this->ngfb->acronym.'-buttons">'."\n".$html.'</div>'."\n";
 			return $html;
 		}
 
@@ -180,7 +181,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$this->ngfb->debug->log( $pos . ' ids = ' . implode( ', ', $ids ) );
-			$js = '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript BEGIN -->';
+			$js = '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript BEGIN -->'."\n";
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
 			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
@@ -197,7 +198,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript END -->';
+			$js .= '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript END -->'."\n";
 			return $js;
 		}
 

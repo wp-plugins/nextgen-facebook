@@ -27,14 +27,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		// called by WP wp_head action
 		public function add_header() {
 
-			if ( $this->ngfb->debug->is_on() ) {
-				$this->ngfb->debug->log( 'is_archive() = ' . ( is_archive() ? 'true' : 'false' ) );
-				$this->ngfb->debug->log( 'is_attachment() = ' . ( is_attachment() ? 'true' : 'false' ) );
-				$this->ngfb->debug->log( 'is_category() = ' . ( is_category() ? 'true' : 'false' ) );
-				$this->ngfb->debug->log( 'is_home() = ' . ( is_home() ? 'true' : 'false' ) );
-				$this->ngfb->debug->log( 'is_search() = ' . ( is_search() ? 'true' : 'false' ) );
-				$this->ngfb->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-			}
+			if ( $this->ngfb->debug->is_on() )
+				foreach ( array( 'is_archive', 'is_category', 'is_tag', 'is_home', 'is_search', 'is_singular', 'is_attachment' ) as $func )
+					$this->ngfb->debug->log( $func.'() = ' . ( $func() ? 'true' : 'false' ) );
 
 			$this->html( $this->og->get() );
 

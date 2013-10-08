@@ -88,16 +88,14 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			$gp_class = $this->ngfb->options['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
-			$html = '<!-- GooglePlus Button --><div ' . $this->ngfb->social->get_css( 'gplus', $atts, 'g-plusone-button' ) . '><span '. $gp_class . ' data-size="' . $this->ngfb->options['gp_size'] . '" data-annotation="' . $this->ngfb->options['gp_annotation'] . '" data-href="' . $atts['url'] . '"></span></div>';
-			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
+			$html = '<!-- GooglePlus Button --><div '.$this->ngfb->social->get_css( 'gplus', $atts, 'g-plusone-button' ).'><span '.$gp_class.' data-size="'.$this->ngfb->options['gp_size'].'" data-annotation="'.$this->ngfb->options['gp_annotation'].'" data-href="'.$atts['url'].'"></span></div>'."\n";
+			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="gplus-script-'.$pos.'">
-				ngfb_header_js( "gplus-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'apis.google.com/js/plusone.js' ) . '" );
-			</script>';
+			return '<script type="text/javascript" id="gplus-script-'.$pos.'">ngfb_header_js( "gplus-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'apis.google.com/js/plusone.js' ).'" );</script>'."\n";
 		}
 		
 	}

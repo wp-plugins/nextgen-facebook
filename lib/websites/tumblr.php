@@ -190,15 +190,14 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			}
 			if ( empty( $query ) ) return;
 
-			$html = '<!-- Tumblr Button --><div ' . $this->ngfb->social->get_css( 'tumblr', $atts ) . '><a href="http://www.tumblr.com/share/'. $query . '" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/' . $atts['tumblr_button_style'] . '.png' ) . '" /></a></div>';
-			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
+			$html = '<!-- Tumblr Button --><div '.$this->ngfb->social->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>'."\n";
+			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		public function get_js( $pos = 'id' ) {
-			return '<script type="text/javascript" id="tumblr-script-'.$pos.'"
-				src="' . $this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ) . '"></script>';
+			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$this->ngfb->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ).'"></script>'."\n";
 		}
 		
 	}

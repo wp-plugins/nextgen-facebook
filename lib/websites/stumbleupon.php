@@ -98,16 +98,14 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
-			$html = '<!-- StumbleUpon Button --><div ' . $this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ) . '><su:badge layout="' . $atts['stumble_badge'] . '" location="' . $atts['url'] . '"></su:badge></div>';
-			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
+			$html = '<!-- StumbleUpon Button --><div '.$this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>'."\n";
+			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">
-				ngfb_header_js( "stumbleupon-script-'.$pos.'", "' . $this->ngfb->util->get_cache_url( $prot . 'platform.stumbleupon.com/1/widgets.js' ) . '" );
-			</script>';
+			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">ngfb_header_js( "stumbleupon-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'platform.stumbleupon.com/1/widgets.js' ).'" );</script>'."\n";
 		}
 
 	}

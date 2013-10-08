@@ -68,24 +68,22 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			$html = '<!-- LinkedIn Button --><div ' . $this->ngfb->social->get_css( 'linkedin', $atts ) . '><script type="IN/Share" data-url="' . $atts['url'] . '"';
+			$html = '<!-- LinkedIn Button --><div '.$this->ngfb->social->get_css( 'linkedin', $atts ).'><script type="IN/Share" data-url="'.$atts['url'].'"';
 
 			if ( ! empty( $this->ngfb->options['linkedin_counter'] ) ) 
-				$html .= ' data-counter="' . $this->ngfb->options['linkedin_counter'] . '"';
+				$html .= ' data-counter="'.$this->ngfb->options['linkedin_counter'].'"';
 
 			if ( ! empty( $this->ngfb->options['linkedin_showzero'] ) ) 
 				$html .= ' data-showzero="true"';
 
-			$html .= '></script></div>';
-			$this->ngfb->debug->log( 'returning html (' . strlen( $html ) . ' chars)' );
+			$html .= '></script></div>'."\n";
+			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">
-				ngfb_header_js( "linkedin-script-' . $pos . '", "' . $this->ngfb->util->get_cache_url( $prot . 'platform.linkedin.com/in.js' ) . '" );
-			</script>';
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">ngfb_header_js( "linkedin-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
 		}
 
 	}

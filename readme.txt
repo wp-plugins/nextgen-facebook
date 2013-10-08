@@ -16,11 +16,11 @@ NGFB Open Graph+ adds HTML header tags to improve Google Search results and Soci
 
 = Recent Reviews =
 
+* **Very well made** by lucaferr, September 26
 * **Jean's Support is Flawless, as is his Plugin** by rynep, September 24
 * **Awesome fast support** by Tony (beluzoni), September 20
 * **Excellent Plugin and Support** by Sri Shunyata, September 15
 * **I've been looking for years for this** by Mark Tuttle (markrtuttle), September 10
-* **Fantastic plugin, fantastic support** by Triseult, September 9
 * [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -49,7 +49,7 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 * WooCommerce support offers product prices, currency, image galleries, stock status, weight, dimensions, extended attributes, category and tag pages.
 * MarketPress WordPress eCommerce support offers product prices, currency, variations, sale prices, images and inventory levels.
-* WP e-Commerce support features product prices, currency, images and custom meta.
+* WP e-Commerce support features product prices, currency, images, custom meta and category pages.
 
 = Optional Social Buttons =
 
@@ -735,19 +735,19 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.10-dev5 =
+= Version 6.10 =
 
 ***Free* and Pro version changes:**
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
-* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
-* Fixed: Added test for disabled buttons javascript only on singular pages (to avoid disabling javascript for all posts on index pages).
-* Fixed: Added a test to make sure the WordPress `wpautop()` has a priority of 10 or less (higher priorities will interfere with shortcode output).
+* Added a test for disabled buttons javascript only on singular pages (to avoid disabling javascript for all posts on index pages).
+* Added a test to make sure the WordPress `wpautop()` has a priority of 10 or less (higher priorities will interfere with shortcode output).
 
 **Pro version changes:**
 
+* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
 * Fixed the Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
-* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products (currency, prices, images, and custom meta fields).
+* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products (currency, prices, images, custom meta fields and category pages).
 
 = Version 6.9 =
 
@@ -783,7 +783,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= Version 6.10-dev5 =
+= Version 6.10 =
 
 Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products, plus a few minor fixes.
 
