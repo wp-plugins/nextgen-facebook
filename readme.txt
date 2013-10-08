@@ -737,6 +737,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.10 =
 
+* *Free* version: *12285 lines in 42 files, with 51 classes and 412 functions*
+* Pro version: *13916 lines in 53 files, with 64 classes and 460 functions*
+
 ***Free* and Pro version changes:**
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
@@ -783,7 +786,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= Version 6.10 =
+= 6.10 =
 
 Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products, plus a few minor fixes.
 
