@@ -178,10 +178,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				switch ( $_GET['action'] ) {
-					case 'dismiss_rate' : 
-						$user_opts['ngfb_dismiss_rate'] = 1;
-						$this->ngfb->user->save_options( $user_opts );
-						break;
 					case 'remove_old_css' : 
 						if ( file_exists( $old_css_file ) )
 							if ( @unlink( $old_css_file ) )
@@ -230,11 +226,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			foreach ( $this->ngfb->setting_libs as $id => $name )
 				$this->ngfb->admin->settings[$id]->add_meta_boxes();
-
-			if ( empty( $user_opts['ngfb_dismiss_rate'] ) ) {
-				add_meta_box( $this->pagehook . '_rate', 'Good Plugin?', array( &$this, 'show_metabox_rate' ), $this->pagehook, 'side' );
-				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_rate', array( &$this, 'add_class_postbox_highlight_side' ) );
-			}
 
 			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
@@ -437,18 +428,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</td></tr></table>';
 		}
 
-		public function show_metabox_rate() {
-			echo '<table class="ngfb-settings"><tr><td>';
-			echo $this->ngfb->msg->get( 'rate_plugin' ), "\n";
-			echo '<p class="centered">
-				<a href="', $this->ngfb->util->get_admin_url().'&amp;action=dismiss_rate', '"><img 
-					src="'.NGFB_URLPATH.'images/check-mark.png" width="15" height="16" style="vertical-align:middle;" /></a>
-				<a href="', $this->ngfb->util->get_admin_url().'&amp;action=dismiss_rate', '">All done</a></p>';
-			echo '<p class="centered">Thank you!</p>';
-			echo '</td></tr></table>';
-		}
-
 	}
+
 }
 
 ?>
