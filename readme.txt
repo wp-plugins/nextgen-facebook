@@ -12,7 +12,7 @@ Improve the appearance and ranking of your Posts, Pages and eCommerce Products i
 
 == Description ==
 
-NGFB Open Graph+ adds header tags (Open Graph, Twitter Cards and Rich Pins) to your webpages, in order to improve Google Search results and social sharing posts on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website.
+NGFB Open Graph+ adds header HTML tags (Open Graph, Twitter Cards and Rich Pins) to your webpages in order to improve Google Search results and social sharing posts on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website.
 
 = Recent Reviews =
 
