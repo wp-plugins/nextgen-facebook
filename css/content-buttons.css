@@ -5,6 +5,7 @@
 
 	/* center the buttons with a 15px margin top/bottom */
 	margin:15px auto 15px auto;
+	text-align:center;
 
 	/* un-comment to created a shadowed box for the buttons */
 	/*

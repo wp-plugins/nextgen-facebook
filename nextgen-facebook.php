@@ -6,7 +6,7 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
-Description: Adds HTML header tags for better Google Search results and Social Sharing posts. An essential plugin for every WordPress website!
+Description: Improve how your Posts, Pages, and Products appear on social sharing websites. An essential plugin for every WordPress website!
 Version: 6.10
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
