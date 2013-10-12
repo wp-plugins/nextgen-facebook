@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'gp_action' => 'share',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
-			'gp_expandto' => 'left',
+			'gp_expandto' => '',
 			'twitter_count' => 'horizontal',
 			'twitter_size' => 'medium',
 			'linkedin_counter' => 'right',
@@ -473,10 +473,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 						// needs to be filtered
 						case 'og_title_sep' :
-							$opts[$key] = $this->ngfb->util->decode( trim( wptexturize( ' ' . $opts[$key] . ' ' ) ) );
+							$opts[$key] = $this->ngfb->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
 
 						// text strings that can be blank
 						case 'fb_app_id' :
+						case 'gp_expandto' :
 						case 'og_title' :
 						case 'og_desc' :
 						case 'meta_desc' :

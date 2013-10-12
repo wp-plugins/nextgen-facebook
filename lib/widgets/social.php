@@ -48,11 +48,12 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 						$sorted_ids[$ngfb->options[$opt_prefix.'_order'] . '-' . $id] = $id;
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
+				$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
 	
 				$widget_html .= "\n<!-- ".$ngfb->fullname.' '.$args['widget_id']." BEGIN -->\n";
 				$widget_html .= $before_widget."\n";
 				if ( $title ) $widget_html .= $before_title.$title.$after_title."\n";
-				$widget_html .= $ngfb->social->get_html( $sorted_ids, array( 'is_widget' => 1, 'css_id' => $args['widget_id'] ) );
+				$widget_html .= $ngfb->social->get_html( $sorted_ids, $atts );
 				$widget_html .= $after_widget."\n";
 				$widget_html .= "<!-- ".$ngfb->fullname.' '.$args['widget_id']." END -->\n";
 	
