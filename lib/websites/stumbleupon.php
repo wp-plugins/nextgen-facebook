@@ -60,9 +60,11 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 			$badge .= '</div>';
 
 			return array(
-				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_content' ) . ' the Content and / or ' . 
-				$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . ' the Excerpt Text</td>',
+				$this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_content' ) . ' Content&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'stumble_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'stumble_on_admin_sharing' ) . ' Admin Sharing' . 
+				'</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'stumble_order', 
@@ -89,7 +91,8 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
@@ -97,7 +100,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $this->ngfb->options['stumble_badge'];
+			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $opts['stumble_badge'];
 			$html = '<!-- StumbleUpon Button --><div '.$this->ngfb->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>'."\n";
 			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;

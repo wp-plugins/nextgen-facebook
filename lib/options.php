@@ -12,7 +12,23 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
-		public $opts_ver = '84';	// increment when adding/removing default options
+		public $opts_ver = '86';	// increment when adding/removing default options
+
+		public $admin_sharing = array(
+			'fb_button' => 'share',
+			'fb_type' => 'button_count',
+			'gp_action' => 'share',
+			'gp_size' => 'medium',
+			'gp_annotation' => 'bubble',
+			'gp_expandto' => 'left',
+			'twitter_count' => 'horizontal',
+			'twitter_size' => 'medium',
+			'linkedin_counter' => 'right',
+			'linkedin_showzero' => 1,
+			'pin_count_layout' => 'horizontal',
+			'tumblr_button_style' => 'share_1',
+			'stumble_badge' => 1,
+		);
 
 		public $defaults = array(
 			'meta_desc_len' => 156,
@@ -64,6 +80,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_css_widget' => '',
 			'fb_on_the_excerpt' => 0,
 			'fb_on_the_content' => 0,
+			'fb_on_admin_sharing' => 1,
 			'fb_order' => 1,
 			'fb_js_loc' => 'header',
 			'fb_lang' => 'en_US',
@@ -79,12 +96,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'fb_type' => 'button_count',
 			'gp_on_the_excerpt' => 0,
 			'gp_on_the_content' => 0,
+			'gp_on_admin_sharing' => 1,
 			'gp_order' => 2,
 			'gp_js_loc' => 'header',
 			'gp_lang' => 'en-US',
 			'gp_action' => 'plusone',
 			'gp_size' => 'medium',
 			'gp_annotation' => 'bubble',
+			'gp_expandto' => '',
 			'tc_enable' => 0,
 			'tc_site' => '',
 			'tc_desc_len' => 200,
@@ -98,6 +117,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tc_prod_def_d2' => 'Unknown',
 			'twitter_on_the_excerpt' => 0,
 			'twitter_on_the_content' => 0,
+			'twitter_on_admin_sharing' => 1,
 			'twitter_order' => 3,
 			'twitter_js_loc' => 'header',
 			'twitter_lang' => 'en',
@@ -111,12 +131,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_shortener' => '',
 			'linkedin_on_the_excerpt' => 0,
 			'linkedin_on_the_content' => 0,
+			'linkedin_on_admin_sharing' => 1,
 			'linkedin_order' => 4,
 			'linkedin_js_loc' => 'header',
 			'linkedin_counter' => 'right',
 			'linkedin_showzero' => 1,
 			'pin_on_the_excerpt' => 0,
 			'pin_on_the_content' => 0,
+			'pin_on_admin_sharing' => 1,
 			'pin_order' => 5,
 			'pin_js_loc' => 'header',
 			'pin_count_layout' => 'horizontal',
@@ -125,6 +147,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'pin_cap_len' => 500,
 			'tumblr_on_the_excerpt' => 0,
 			'tumblr_on_the_content' => 0,
+			'tumblr_on_admin_sharing' => 1,
 			'tumblr_order' => 7,
 			'tumblr_js_loc' => 'footer',
 			'tumblr_button_style' => 'share_1',
@@ -135,6 +158,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tumblr_cap_len' => 500,
 			'stumble_on_the_excerpt' => 0,
 			'stumble_on_the_content' => 0,
+			'stumble_on_admin_sharing' => 1,
 			'stumble_order' => 6,
 			'stumble_js_loc' => 'header',
 			'stumble_badge' => 1,

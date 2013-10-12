@@ -21,9 +21,11 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 		public function get_rows() {
 			return array(
-				$this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' the Content and / or ' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' the Excerpt Text</td>',
+				$this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' Content&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_admin_sharing' ) . ' Admin Sharing' . 
+				'</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'linkedin_order', 
@@ -60,7 +62,8 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
@@ -70,10 +73,10 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			$html = '<!-- LinkedIn Button --><div '.$this->ngfb->social->get_css( 'linkedin', $atts ).'><script type="IN/Share" data-url="'.$atts['url'].'"';
 
-			if ( ! empty( $this->ngfb->options['linkedin_counter'] ) ) 
-				$html .= ' data-counter="'.$this->ngfb->options['linkedin_counter'].'"';
+			if ( ! empty( $opts['linkedin_counter'] ) ) 
+				$html .= ' data-counter="'.$opts['linkedin_counter'].'"';
 
-			if ( ! empty( $this->ngfb->options['linkedin_showzero'] ) ) 
+			if ( ! empty( $opts['linkedin_showzero'] ) ) 
 				$html .= ' data-showzero="true"';
 
 			$html .= '></script></div>'."\n";

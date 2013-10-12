@@ -19,7 +19,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function __construct( &$ngfb_plugin ) {
 			$this->ngfb =& $ngfb_plugin;
 			$this->ngfb->debug->mark();
-			$this->og = new ngfbOpenGraph( $ngfb_plugin );
+			if ( class_exists( 'ngfbOpenGraph' ) )
+				$this->og = new ngfbOpenGraph( $ngfb_plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
@@ -31,7 +32,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				foreach ( array( 'is_archive', 'is_category', 'is_tag', 'is_home', 'is_search', 'is_singular', 'is_attachment' ) as $func )
 					$this->ngfb->debug->log( $func.'() = ' . ( $func() ? 'true' : 'false' ) );
 
-			$this->html( $this->og->get() );
+			if ( method_exists( $this->og, 'get' ) )
+				$this->html( $this->og->get() );
 
 			if ( $this->ngfb->debug->is_on() ) {
 				//$defined_constants = get_defined_constants( true );

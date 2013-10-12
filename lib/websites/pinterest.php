@@ -21,10 +21,12 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 
 		public function get_rows() {
 			return array(
-				$this->ngfb->util->th( 'Add Button to', 'short', null,
+				$this->ngfb->util->th( 'Show Button in', 'short', null,
 				'The Pinterest "Pin It" button appears only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_content' ) . ' the Content and / or ' . 
-				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' the Excerpt Text</td>',
+				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_content' ) . ' Content&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'pin_on_admin_sharing' ) . ' Admin Sharing' . 
+				'</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'pin_order', 
@@ -67,7 +69,8 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$query = '';
@@ -77,7 +80,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['pin_img_size'];
+			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['pin_img_size'];
 			if ( empty( $atts['photo'] ) ) {
 				// get the pid
 				if ( empty( $atts['pid'] ) ) {
@@ -110,14 +113,14 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['photo'] ) ) return;
 
 			if ( empty( $atts['pin_count_layout'] ) ) 
-				$atts['pin_count_layout'] = $this->ngfb->options['pin_count_layout'];
+				$atts['pin_count_layout'] = $opts['pin_count_layout'];
 
 			if ( empty( $atts['caption'] ) && $use_post == true ) 
 				$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'pin_desc' );
 
 			if ( empty( $atts['caption'] ) ) 
-				$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['pin_caption'], 
-					$this->ngfb->options['pin_cap_len'], $use_post );
+				$atts['caption'] = $this->ngfb->webpage->get_caption( $opts['pin_caption'], 
+					$opts['pin_cap_len'], $use_post );
 
 			$query .= 'url=' . urlencode( $atts['url'] );
 			$query .= '&amp;media='. urlencode( $atts['photo'] );

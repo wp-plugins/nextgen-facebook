@@ -22,9 +22,11 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 		public function get_rows() {
 			$ret = array();
 			
-			$ret[] = $this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' the Content and / or ' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' the Excerpt Text</td>';
+			$ret[] = $this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
+			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' Content&nbsp; ' . 
+			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+			$this->ngfb->admin->form->get_checkbox( 'twitter_on_admin_sharing' ) . ' Admin Sharing' . 
+			'</td>';
 
 			$ret[] = $this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 			$this->ngfb->admin->form->get_select( 'twitter_order', 
@@ -101,7 +103,8 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
@@ -110,7 +113,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			$long_url = empty( $atts['url'] ) ? 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			$short_url = $this->ngfb->util->get_short_url( $long_url, $this->ngfb->options['twitter_shortener'] );
+			$short_url = $this->ngfb->util->get_short_url( $long_url, $opts['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 
 			if ( array_key_exists( 'tweet', $atts ) )
@@ -122,23 +125,23 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 				if ( empty( $atts['caption'] ) ) {
 					$cap_len = $this->ngfb->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice
-					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['twitter_caption'], $cap_len, $use_post );
+					$atts['caption'] = $this->ngfb->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
 				}
 			}
 
 			if ( ! array_key_exists( 'lang', $atts ) )
-				$atts['lang'] = empty( $this->ngfb->options['twitter_lang'] ) ? 'en' : $this->ngfb->options['twitter_lang'];
+				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
 			$atts['lang'] = apply_filters( 'ngfb_lang', $atts['lang'], $this->ngfb->util->get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
-				if ( ! empty( $this->ngfb->options['twitter_via'] ) )
-					$atts['via'] = preg_replace( '/^@/', '', $this->ngfb->options['tc_site'] );
+				if ( ! empty( $opts['twitter_via'] ) )
+					$atts['via'] = preg_replace( '/^@/', '', $opts['tc_site'] );
 			}
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
-				if ( ! empty( $this->ngfb->options['twitter_rel_author'] ) && $use_post == true )
+				if ( ! empty( $opts['twitter_rel_author'] ) && $use_post == true )
 					$atts['related'] = preg_replace( '/^@/', '', 
-						get_the_author_meta( $this->ngfb->options['ngfb_cm_twitter_name'], $post->author ) );
+						get_the_author_meta( $opts['ngfb_cm_twitter_name'], $post->author ) );
 				else
 					$atts['related'] = '';
 			}
@@ -147,9 +150,9 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				$atts['hashtags'] = '';
 
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
-				$atts['dnt'] = $this->ngfb->options['twitter_dnt'] ? 'true' : 'false';
+				$atts['dnt'] = $opts['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div '.$this->ngfb->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$this->ngfb->options['twitter_count'].'" data-size="'.$this->ngfb->options['twitter_size'].'" data-dnt="'.$atts['dnt'].'">Tweet</a></div>'."\n";
+			$html = '<!-- Twitter Button --><div '.$this->ngfb->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'">Tweet</a></div>'."\n";
 
 			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 

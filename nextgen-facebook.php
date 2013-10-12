@@ -6,8 +6,8 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
-Description: Improve how your Posts, Pages, and Products appear on social sharing websites. An essential plugin for every WordPress website!
-Version: 6.10
+Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
+Version: 6.11-dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.10';
+		public $version = '6.11-dev1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -300,6 +300,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
@@ -319,7 +320,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
 				// ngfb_shortcode class object is created by lib/webpage.php
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/'.$id.'.php' );
@@ -408,6 +408,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->media = new ngfbMedia( $this );
 			$this->webpage = new ngfbWebPage( $this );		// title, desc, etc., plus shortcodes
 			$this->meta = new ngfbPostMeta( $this );
+			$this->social = new ngfbSocial( $this );		// wp_head and wp_footer js and buttons
 			$this->style = new ngfbStyle( $this );
 			$this->script = new ngfbScript( $this );
 			$this->cache = new ngfbCache( $this );
@@ -418,7 +419,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			} else {
 				$this->head = new ngfbHead( $this );		// wp_head / opengraph
 				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
-				$this->social = new ngfbSocial( $this );	// wp_head and wp_footer js and buttons
 			}
 
 			// create pro class object last - it extends several previous classes

@@ -32,9 +32,24 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		public function add_metaboxes() {
 			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
-				if ( ! empty( $this->ngfb->options[ 'ngfb_add_to_' . $post_type->name ] ) )
-					add_meta_box( NGFB_META_NAME, $this->ngfb->menuname . ' Custom Settings', 
+				if ( ! empty( $this->ngfb->options[ 'ngfb_add_to_' . $post_type->name ] ) ) {
+					add_meta_box( NGFB_META_NAME, $this->ngfb->menuname.' Custom Settings', 
 						array( &$this->ngfb->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
+					add_meta_box( '_ngfb_share', $this->ngfb->menuname.' Sharing', 
+						array( &$this->ngfb->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
+				}
+		}
+
+		public function show_sharing( $post ) {
+			$post_type = get_post_type_object( $post->post_type );	// since 3.0
+			$post_type_name = ucfirst( $post_type->name );
+			echo '<table class="ngfb-settings side"><tr><td>';
+			if ( get_post_status( $post->ID ) == 'publish' ) {
+				$content = '';
+				$opts = array_merge( $this->ngfb->options, $this->ngfb->opt->admin_sharing );
+				echo $this->ngfb->social->filter( $content, 'admin_sharing', $opts );
+			} else echo '<p class="centered">In order to share this '.$post_type_name.', it must first be published with public visibility.</p>';
+			echo '</td></tr></table>';
 		}
 
 		public function show_metabox( $post ) {
@@ -203,7 +218,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 					'<td><p>The Twitter Card Validator does not accept query arguments. Copy-paste the following URL into the validation input field.</p>' . 
 					ngfbForm::get_text( get_permalink( $post->ID ), 'wide' ) . '</td>';
 
-			} else $tools[] = '<td><p class="centered">The ' . $post_type_name . ' must be published with public visibility to access the validation tools.</p></td>';
+			} else $tools[] = '<td><p class="centered">In order to access the Validation Tools, the '.$post_type_name.' must first be published with public visibility.</p></td>';
 
 			return $tools;
 		}

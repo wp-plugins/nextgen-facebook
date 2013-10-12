@@ -536,6 +536,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						'og array' => 'ngfbOpenGraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
 						'the_excerpt html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
 						'the_content html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
+						'admin_sharing html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
 					) as $cache_origin => $cache_salt ) {
 						$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
 						$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );

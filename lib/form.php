@@ -33,10 +33,13 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />' . "\n";
 		}
 
-		public function get_checkbox( $name, $check = array( '1', '0' ) ) {
+		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
+			if ( ! is_array( $check ) ) $check = array( 1, 0 );
 			return $this->get_hidden( 'is_checkbox_' . $name, 1 ) .
 				'<input type="checkbox" name="' . $this->options_name . '[' . $name . ']" value="' . $check[0] . '"' .
+				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
+				( empty( $id ) ? '' : ' id="'.$id.'"' ) .
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ) . 
 				' title="default is ' .
 				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ) . '" />' . "\n";

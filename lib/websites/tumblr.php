@@ -42,12 +42,14 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 			$buttons .= '</div>' . "\n";
 
 			return array(
-				$this->ngfb->util->th( 'Add Button to', 'short', null,
+				$this->ngfb->util->th( 'Show Button in', 'short', null,
 				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
 				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
 				custom Posts, or the webpage link.' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' the Content and / or ' . 
-				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' the Excerpt Text</td>',
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' Content&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+				$this->ngfb->admin->form->get_checkbox( 'tumblr_on_admin_sharing' ) . ' Admin Sharing' . 
+				'</td>',
 
 				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->ngfb->admin->form->get_select( 'tumblr_order', 
@@ -89,7 +91,8 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$query = '';
@@ -98,11 +101,11 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $this->ngfb->options['tumblr_button_style'];
-			if ( empty( $atts['size'] ) ) $atts['size'] = $this->ngfb->options['tumblr_img_size'];
+			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $opts['tumblr_button_style'];
+			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['tumblr_img_size'];
 
 			// only use featured image if 'tumblr_photo' option allows it
-			if ( empty( $atts['photo'] ) && $this->ngfb->options['tumblr_photo'] ) {
+			if ( empty( $atts['photo'] ) && $opts['tumblr_photo'] ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
@@ -163,13 +166,13 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 					$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 
 						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
 				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $this->ngfb->webpage->get_caption( $this->ngfb->options['tumblr_caption'], 
-						$this->ngfb->options['tumblr_cap_len'], $use_post );
+					$atts['caption'] = $this->ngfb->webpage->get_caption( $opts['tumblr_caption'], 
+						$opts['tumblr_cap_len'], $use_post );
 			} else {
 				if ( empty( $atts['title'] ) ) 
 					$atts['title'] = $this->ngfb->webpage->get_title( null, null, $use_post);
 				if ( empty( $atts['description'] ) ) 
-					$atts['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['tumblr_desc_len'], '...', $use_post );
+					$atts['description'] = $this->ngfb->webpage->get_description( $opts['tumblr_desc_len'], '...', $use_post );
 			}
 
 			// define the button, based on what we have

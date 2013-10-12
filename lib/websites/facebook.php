@@ -37,9 +37,11 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 
 				case 'all' :
 
-					$ret[] = $this->ngfb->util->th( 'Add Button to', 'short' ) . '<td>' . 
-					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' the Content and / or ' . 
-					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' the Excerpt Text</td>';
+					$ret[] = $this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
+					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_content' ) . ' Content&nbsp; ' . 
+					$this->ngfb->admin->form->get_checkbox( 'fb_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+					$this->ngfb->admin->form->get_checkbox( 'fb_on_admin_sharing' ) . ' Admin Sharing' . 
+					'</td>';
 
 					$ret[] = $this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 					$this->ngfb->admin->form->get_select( 'fb_order', 
@@ -161,17 +163,18 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$this->ngfb->debug->mark();
 		}
 
-		public function get_html( $atts = array() ) {
+		public function get_html( $atts = array(), $opts = array() ) {
+			if ( empty( $opts ) ) $opts = $this->ngfb->options;
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en_US' : $this->ngfb->options['fb_lang'];
+			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
 			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'facebook' ) );
-			$send = $this->ngfb->options['fb_send'] ? 'true' : 'false';
-			$show_faces = $this->ngfb->options['fb_show_faces'] ? 'true' : 'false';
+			$send = $opts['fb_send'] ? 'true' : 'false';
+			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
 
 			$src_id = 'facebook';
-			switch ( $this->ngfb->options['fb_button'] ) {
+			switch ( $opts['fb_button'] ) {
 				case 'like' : $src_id = $this->ngfb->util->get_src_id( 'facebook', $atts ); break;
 				case 'share' : $src_id = $this->ngfb->util->get_src_id( 'fb-share', $atts ); break;
 			}
@@ -179,22 +182,22 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 
-			switch ( $this->ngfb->options['fb_button'] ) {
+			switch ( $opts['fb_button'] ) {
 				case 'like' :
-					switch ( $this->ngfb->options['fb_markup'] ) {
+					switch ( $opts['fb_markup'] ) {
 						case 'xfbml' :
 							// XFBML
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$this->ngfb->options['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$this->ngfb->options['fb_font'].'" action="'.$this->ngfb->options['fb_action'].'" colorscheme="'.$this->ngfb->options['fb_colorscheme'].'"></fb:like></div>'."\n";
+							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$opts['fb_font'].'" action="'.$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>'."\n";
 							break;
 						case 'html5' :
 						default :
 							// HTML5
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$this->ngfb->options['fb_layout'].'" data-width="'.$this->ngfb->options['fb_width'].'" data-show-faces="'.$show_faces.'" data-font="'.$this->ngfb->options['fb_font'].'" data-action="'.$this->ngfb->options['fb_action'].'" data-colorscheme="'.$this->ngfb->options['fb_colorscheme'].'"></div>'."\n";
+							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->ngfb->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$opts['fb_layout'].'" data-width="'.$opts['fb_width'].'" data-show-faces="'.$show_faces.'" data-font="'.$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.$opts['fb_colorscheme'].'"></div>'."\n";
 							break;
 					}
 					break;
 				case 'share' :
-					$html .= '<!-- Facebook Share Button --><div '.$this->ngfb->social->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.$atts['url'].'" font="'.$this->ngfb->options['fb_font'].'" type="'.$this->ngfb->options['fb_type'].'"></fb:share-button></div>'."\n";
+					$html .= '<!-- Facebook Share Button --><div '.$this->ngfb->social->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>'."\n";
 					break;
 			}
 			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
