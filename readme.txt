@@ -735,6 +735,13 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.11-dev1 =
+
+***Free* and Pro version changes:**
+
+* Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
+* Added and 'Expand to' option for the Google+ social sharing button.
+
 = Version 6.10 =
 
 * *Free* version: 12266 lines in 42 files, with 51 classes and 411 functions
@@ -785,6 +792,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 == Upgrade Notice ==
+
+= 6.11-dev1 =
+
+Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface, and 'Expand to' option for the Google+ social sharing button.
 
 = 6.10 =
 
