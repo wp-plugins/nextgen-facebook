@@ -12,34 +12,34 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 
 	class ngfbSettingsTwitter extends ngfbSettingsSocialSharing {
 
-		protected $ngfb;
+		protected $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get_rows() {
 			$ret = array();
 			
-			$ret[] = $this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' Content&nbsp; ' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-			$this->ngfb->admin->form->get_checkbox( 'twitter_on_admin_sharing' ) . ' Admin Sharing' . 
+			$ret[] = $this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' Content&nbsp; ' . 
+			$this->p->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+			$this->p->admin->form->get_checkbox( 'twitter_on_admin_sharing' ) . ' Admin Sharing' . 
 			'</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_order', 
-				range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>';
+			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_order', 
+				range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>';
+			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_js_loc', $this->js_locations ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Default Language', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_lang', $this->ngfb->util->get_lang( 'twitter' ) ) . '</td>';
+			$ret[] = $this->p->util->th( 'Default Language', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_lang', $this->p->util->get_lang( 'twitter' ) ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Count Position', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_count', 
+			$ret[] = $this->p->util->th( 'Count Position', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_count', 
 				array( 
 					'none' => '',
 					'horizontal' => 'Horizontal',
@@ -47,44 +47,44 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 				) 
 			) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Button Size', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ) . '</td>';
+			$ret[] = $this->p->util->th( 'Button Size', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Tweet Text', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>';
+			$ret[] = $this->p->util->th( 'Tweet Text', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_select( 'twitter_caption', $this->captions ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Text Length', 'short' ) . '<td>' . 
-			$this->ngfb->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>';
+			$ret[] = $this->p->util->th( 'Text Length', 'short' ) . '<td>' . 
+			$this->p->admin->form->get_input( 'twitter_cap_len', 'short' ) . ' Characters or less</td>';
 
-			if ( $this->ngfb->is_avail['aop'] == true )
-				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short', null, 
+			if ( $this->p->is_avail['aop'] == true )
+				$ret[] = $this->p->util->th( 'Add via @username', 'short', null, 
 				'Append the Website\'s @username (entered on the ' .
-				$this->ngfb->util->get_admin_url( 'general#ngfb-tab_pub_twitter', 'General / Twitter' ) . ' settings tab) to the Tweet.
+				$this->p->util->get_admin_url( 'general#ngfb-tab_pub_twitter', 'General / Twitter' ) . ' settings tab) to the Tweet.
 				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
-				'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_via' ) . '</td>';
+				'<td>' . $this->p->admin->form->get_checkbox( 'twitter_via' ) . '</td>';
 			else
-				$ret[] = $this->ngfb->util->th( 'Add via @username', 'short', null,
+				$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
 				'Append the Website\'s @username (entered on the ' .
-				$this->ngfb->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
+				$this->p->util->get_admin_url( 'general', 'General settings page\'s' ) . ' Twitter tab) to the Tweet.
 				The Website @username will also be recommended for following after the Post / Page is shared.' ) . 
-				'<td class="blank">' . $this->ngfb->admin->form->get_hidden( 'twitter_via' ) . 
-					$this->ngfb->admin->form->get_fake_checkbox( $this->ngfb->options['twitter_via'] ) . '</td>';
+				'<td class="blank">' . $this->p->admin->form->get_hidden( 'twitter_via' ) . 
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['twitter_via'] ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Recommend Author', 'short', null, 
+			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ) . 
-			'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_rel_author' ) . '</td>';
+			'<td>' . $this->p->admin->form->get_checkbox( 'twitter_rel_author' ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Do Not Track', 'short', null,
+			$ret[] = $this->p->util->th( 'Do Not Track', 'short', null,
 			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ) . 
-			'<td>' . $this->ngfb->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>';
+			'<td>' . $this->p->admin->form->get_checkbox( 'twitter_dnt' ) . '</td>';
 
-			$ret[] = $this->ngfb->util->th( 'Shorten URLs with', 'short', null, '
+			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
 			If you select a URL shortening service, you must also enter your API Key for that service on the '.
-			$this->ngfb->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Advanced / URL Shortening' ).' settings tab.' ) .
-			'<td>' . $this->ngfb->admin->form->get_select( 'twitter_shortener', 
+			$this->p->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Advanced / URL Shortening' ).' settings tab.' ) .
+			'<td>' . $this->p->admin->form->get_select( 'twitter_shortener', 
 				array( '' => 'none', 'googl' => 'Goo.gl', 'bitly' => 'Bit.ly' ), 'medium' ) . '&nbsp;&nbsp;' .
-				$this->ngfb->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Enter your API Keys' ) . '</td>';
+				$this->p->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Enter your API Keys' ) . '</td>';
 
 			return $ret;
 		}
@@ -96,24 +96,25 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialTwitter {
 
-		protected $ngfb;
+		protected $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->ngfb->options;
+			$this->p->debug->mark();
+			if ( empty( $opts ) ) $opts = $this->p->options;
 			global $post; 
 			$html = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			$src_id = $this->ngfb->util->get_src_id( 'twitter', $atts );
+			$src_id = $this->p->util->get_src_id( 'twitter', $atts );
 			$long_url = empty( $atts['url'] ) ? 
-				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			$short_url = $this->ngfb->util->get_short_url( $long_url, $opts['twitter_shortener'] );
+				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+			$short_url = $this->p->util->get_short_url( $long_url, $opts['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 
 			if ( array_key_exists( 'tweet', $atts ) )
@@ -121,17 +122,17 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 			if ( ! array_key_exists( 'caption', $atts ) ) {
 				if ( $use_post == true ) 
-					$atts['caption'] = $this->ngfb->meta->get_options( $post->ID, 'twitter_desc' );
+					$atts['caption'] = $this->p->meta->get_options( $post->ID, 'twitter_desc' );
 
 				if ( empty( $atts['caption'] ) ) {
-					$cap_len = $this->ngfb->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice
-					$atts['caption'] = $this->ngfb->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
+					$cap_len = $this->p->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice
+					$atts['caption'] = $this->p->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
 				}
 			}
 
 			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
-			$atts['lang'] = apply_filters( 'ngfb_lang', $atts['lang'], $this->ngfb->util->get_lang( 'twitter' ) );
+			$atts['lang'] = apply_filters( 'ngfb_lang', $atts['lang'], $this->p->util->get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
 				if ( ! empty( $opts['twitter_via'] ) )
@@ -152,16 +153,17 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $opts['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div '.$this->ngfb->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'">Tweet</a></div>'."\n";
+			$html = '<!-- Twitter Button --><div '.$this->p->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'">Tweet</a></div>'."\n";
 
-			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
+			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
+			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="twitter-script-'.$pos.'">ngfb_header_js( "twitter-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' ).'" );</script>'."\n";
+			return '<script type="text/javascript" id="twitter-script-'.$pos.'">ngfb_header_js( "twitter-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' ).'" );</script>'."\n";
 		}
 
 	}

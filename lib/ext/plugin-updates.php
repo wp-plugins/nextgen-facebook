@@ -17,6 +17,8 @@ http://www.gnu.org/licenses/.
 if (!class_exists('ngfbUpdate')) {
 class ngfbUpdate {
 
+	private $p;
+
 	public $json_url = '';
 	public $file_path = '';
 	public $base_name = '';
@@ -27,15 +29,16 @@ class ngfbUpdate {
 	public $update_info_option = '';
 	public $debug;
 
-	public function __construct( &$ngfb_plugin ) {
-		$this->ngfb =& $ngfb_plugin;
-		$this->ngfb->debug->mark();
-		$this->json_url = $this->ngfb->urls['update'] . '?transaction=' . $this->ngfb->options['ngfb_pro_tid'];
+	public function __construct( &$plugin ) {
+		$this->p =& $plugin;
+		$this->p->debug->mark();
+
+		$this->json_url = $this->p->urls['update'] . '?transaction=' . $this->p->options['ngfb_pro_tid'];
 		$this->file_path = NGFB_FILEPATH;
 		$this->base_name = plugin_basename( $this->file_path );
-		$this->slug = $this->ngfb->slug;
+		$this->slug = $this->p->slug;
 		$this->cron_hook = 'plugin_updates-' . $this->slug;
-		$this->time_period = $this->ngfb->update_hours;
+		$this->time_period = $this->p->update_hours;
 		$this->sched_name = 'every' . $this->time_period . 'hours';
 		$this->update_info_option = 'external_updates-' . $this->slug;
 		$this->install_hooks();
@@ -137,7 +140,7 @@ class ngfbUpdate {
 			&& ! empty( $result['body'] ) ) {
 
 			if ( ! empty( $result['headers']['x-smp-error'] ) )
-				$this->ngfb->notices->err( json_decode( $result['body'] ), true, false );
+				$this->p->notices->err( json_decode( $result['body'] ), true, false );
 			else
 				$plugin_data = ngfbPluginData::from_json( $result['body'] );
 		}

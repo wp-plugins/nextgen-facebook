@@ -12,18 +12,18 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 
 	class ngfbMessages {
 
-		private $ngfb;		// ngfbPlugin
+		private $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get( $name = '' ) {
 			$msg = '';
 			switch ( $name ) {
 				case 'pro_feature' :
-					$msg = '<p class="pro_feature"><a href="'.$this->ngfb->urls['plugin'].'" target="_blank">Upgrade 
+					$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
 						to the Pro version to enable the following features</a></p>';
 					break;
 				case 'pro_details' :
@@ -34,25 +34,25 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					$msg .= 'Change the Facebook, Google+ and Twitter social button language as the webpage switches language?<br/>';
 					$msg .= 'Add tighter integration with 3rd party plugins like WordPress SEO, All-In-One SEO and WooCommerce?<br/>';
 					$msg .= 'Improve page load times with file caching for <em>external</em> social images and JavaScript?<br/>';
-					$msg .= '<p style="font-size:1.2em;">Help support '.$this->ngfb->fullname.' by <a href="'.$this->ngfb->urls['plugin'].'" 
+					$msg .= '<p style="font-size:1.2em;">Help support '.$this->p->fullname.' by <a href="'.$this->p->urls['plugin'].'" 
 					target="_blank">purchasing the Pro version today</a>.</p>';
 					$msg .= '<p>Upgrading to the Pro version is easy and simple! Enter the unique <em>Authentication ID</em> 
 					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
-					$msg = '<p>'.$this->ngfb->fullname.' has taken many, many months of long days to develop and fine-tune.
+					$msg = '<p>'.$this->p->fullname.' has taken many, many months of long days to develop and fine-tune.
 					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					Please show your appreciation by <a href="'.$this->ngfb->urls['plugin'].'" target="_blank">purchasing 
+					Please show your appreciation by <a href="'.$this->p->urls['plugin'].'" target="_blank">purchasing 
 					the Pro version</a>.</p>';
 					break;
 				case 'rate_plugin' :
 					$msg = '<p>Help other WordPress users find their way to great plugins by 
-					<a href="'.$this->ngfb->urls['review'].'" target="_blank">rating the '.$this->ngfb->fullname.' plugin on WordPress.org</a>.
+					<a href="'.$this->p->urls['review'].'" target="_blank">rating the '.$this->p->fullname.' plugin on WordPress.org</a>.
 					A few words is all it takes, and the comments and feedback are truly appreciated. ;-)</p>
-					<p class="centered"><b><a href="'.$this->ngfb->urls['review'].'" target="_blank">Rate the Plugin Now</a></b></p>';
+					<p class="centered"><b><a href="'.$this->p->urls['review'].'" target="_blank">Rate the Plugin Now</a></b></p>';
 					break;
 				case 'thankyou' :
-					$msg = '<p>Thank you for your purchase! I hope the '.$this->ngfb->fullname.' plugin will exceed all of your expectations.</p>';
+					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->fullname.' plugin will exceed all of your expectations.</p>';
 					break;
 				case 'help_boxes' :
 					$msg = '<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
@@ -60,13 +60,13 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_forum' :
-					$msg = '<p><strong>Need help? Visit the <a href="'.$this->ngfb->urls['support_forum'].'" 
+					$msg = '<p><strong>Need help? Visit the <a href="'.$this->p->urls['support_forum'].'" 
 						target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
 					break;
 				case 'help_email' :
 					$msg = '<p><strong>Need help with the Pro version? Contact me by email at 
-					<a href="mailto:'.$this->ngfb->urls['email'].'?subject='.$this->ngfb->fullname.
-						' Support (Auth ID '.$this->ngfb->options['ngfb_pro_tid'].')" target="_blank">'.$this->ngfb->urls['email'].'</a></strong>.</p>';
+					<a href="mailto:'.$this->p->urls['email'].'?subject='.$this->p->fullname.
+						' Support (Auth ID '.$this->p->options['ngfb_pro_tid'].')" target="_blank">'.$this->p->urls['email'].'</a></strong>.</p>';
 					break;
 			}
 			return $msg;

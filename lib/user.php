@@ -12,11 +12,11 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 	class ngfbUser {
 
-		private $ngfb;		// ngfbPlugin
+		private $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 
 			add_action( 'edit_user_profile_update', array( &$this, 'sanitize_contact_methods' ) );
 			add_action( 'personal_options_update', array( &$this, 'sanitize_contact_methods' ) );
@@ -25,25 +25,25 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
-			$social_prefix = $this->ngfb->social_prefix;
+			$social_prefix = $this->p->social_prefix;
 			foreach ( $social_prefix as $id => $opt_prefix ) {
 				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
 				// not all social websites have a contact method field
-				if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
-					$enabled = $this->ngfb->options[$cm_opt.'enabled'];
-					$name = $this->ngfb->options[$cm_opt.'name'];
-					$label = $this->ngfb->options[$cm_opt.'label'];
+				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+					$enabled = $this->p->options[$cm_opt.'enabled'];
+					$name = $this->p->options[$cm_opt.'name'];
+					$label = $this->p->options[$cm_opt.'label'];
 					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
 						$fields[$name] = $label;
 				}
 			}
-			if ( $this->ngfb->is_avail['aop'] == true ) {
-				$wp_contacts = $this->ngfb->wp_contacts;
+			if ( $this->p->is_avail['aop'] == true ) {
+				$wp_contacts = $this->p->wp_contacts;
 				foreach ( $wp_contacts as $id => $th_val ) {
 					$cm_opt = 'wp_cm_'.$id.'_';
-					if ( array_key_exists( $cm_opt.'enabled', $this->ngfb->options ) ) {
-						$enabled = $this->ngfb->options[$cm_opt.'enabled'];
-						$label = $this->ngfb->options[$cm_opt.'label'];
+					if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
+						$enabled = $this->p->options[$cm_opt.'enabled'];
+						$label = $this->p->options[$cm_opt.'label'];
 						if ( ! empty( $enabled ) ) {
 							if ( ! empty( $label ) )
 								$fields[$id] = $label;
@@ -57,13 +57,13 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 
 		public function sanitize_contact_methods( $user_id ) {
 			if ( current_user_can( 'edit_user', $user_id ) ) {
-				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
+				foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
 					$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
 					// not all social websites have a contact method field
-					if ( array_key_exists( $cm_opt.'name', $this->ngfb->options ) ) {
-						$enabled = $this->ngfb->options[$cm_opt.'enabled'];
-						$name = $this->ngfb->options[$cm_opt.'name'];
-						$label = $this->ngfb->options[$cm_opt.'label'];
+					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+						$enabled = $this->p->options[$cm_opt.'enabled'];
+						$name = $this->p->options[$cm_opt.'name'];
+						$label = $this->p->options[$cm_opt.'label'];
 						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
 							// sanitize values only for those enabled contact methods
 							$val = wp_filter_nohtml_kses( $_POST[$name] );
@@ -103,7 +103,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 				default :
 					$url = get_the_author_meta( $field_id, $author_id );	// since wp 2.8.0 
 					// if empty or not a url, then fallback to the author index page
-					if ( $this->ngfb->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
+					if ( $this->p->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
 						$url = get_author_posts_url( $author_id );
 					break;
 			}

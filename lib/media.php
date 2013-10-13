@@ -12,15 +12,16 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 	class ngfbMedia {
 
-		public $ngg;		// ngfbMediaNgg
-		private $ngfb;		// ngfbPlugin
+		private $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public $ngg;
+
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 
 			require_once ( NGFB_PLUGINDIR . 'lib/ngg.php' );
-			$this->ngg = new ngfbMediaNgg( $ngfb_plugin );
+			$this->ngg = new ngfbMediaNgg( $plugin );
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 		}
@@ -52,41 +53,37 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( ! is_array( $arr ) ) return false;
 			if ( $num > 0 && $num >= count( $arr ) ) {
 				$remains = $num - count( $arr );
-				$this->ngfb->debug->log( 'images count: '.count( $arr ).' of '.$num.' max ('.$remains.' remaining)' );
+				$this->p->debug->log( 'images count: '.count( $arr ).' of '.$num.' max ('.$remains.' remaining)' );
 			}
 			return $remains;
 		}
 
 		public function get_post_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			$log_args = ',"'.$size_name.'",'.$post_id.( $check_dupes ? 'true' : 'false' );
-
 			$num_remains = $this->num_remains( $og_ret, $num );
-			$this->ngfb->debug->log( 'calling this->get_meta_image('.$num_remains.$log_args.')' );
 			$og_ret = array_merge( $og_ret, $this->get_meta_image( $num_remains, $size_name, $post_id, $check_dupes ) );
-
-			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
+			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->get_featured('.$num_remains.$log_args.')' );
 				$og_ret = array_merge( $og_ret, $this->get_featured( $num_remains, $size_name, $post_id, $check_dupes ) );
 			}
-
-			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
+			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->get_attached_images('.$num_remains.$log_args.')' );
 				$og_ret = array_merge( $og_ret, $this->get_attached_images( $num_remains, $size_name, $post_id, $check_dupes ) );
 			}
 			return $og_ret;
 		}
 
 		public function get_featured( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			$og_image = array();
 			$size_info = $this->get_size_info( $size_name );
-			if ( ! empty( $post_id ) && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
+			if ( ! empty( $post_id ) && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 				// featured images from ngg pre-v2 had 'ngg-' prefix
-				if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
+				if ( $this->p->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
 				} else {
@@ -94,7 +91,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
 				if ( ! empty( $og_image['og:image'] ) )
-					$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+					$this->p->util->push_max( $og_ret, $og_image, $num );
 			}
 			return $og_ret;
 		}
@@ -110,6 +107,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '', $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {
 				if ( wp_attachment_is_image( $attach_id ) ) {	// since wp 2.1.0 
@@ -117,13 +115,14 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attach_id, $size_name, $check_dupes );
 					if ( ! empty( $og_image['og:image'] ) )
-						$this->ngfb->util->push_max( $og_ret, $og_image, $num );
-				} else $this->ngfb->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
+						$this->p->util->push_max( $og_ret, $og_image, $num );
+				} else $this->p->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
 			}
 			return $og_ret;
 		}
 
 		public function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
@@ -134,7 +133,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attachment->ID, $size_name, $check_dupes );
 							if ( ! empty( $og_image['og:image'] ) )
-								$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+								$this->p->util->push_max( $og_ret, $og_image, $num );
 						}
 					}
 			}
@@ -148,51 +147,53 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$img_height = 0;
 			$img_crop = $size_info['crop'] == 1 ? 'true' : 'false';	// visual feedback, not a real true / false
 			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->ngfb->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . $img_url . ' (' . $img_width . 'x' . $img_height . ')' );
-			$img_url = $this->ngfb->util->fix_relative_url( $img_url );
+			$this->p->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . $img_url . ' (' . $img_width . 'x' . $img_height . ')' );
+			$img_url = $this->p->util->fix_relative_url( $img_url );
 			if ( ! empty( $img_url ) ) {
-				if ( $check_dupes == false || $this->ngfb->util->is_uniq_url( $img_url ) )
-					return array( $this->ngfb->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
-			} else $this->ngfb->debug->log( 'image rejected: image url is empty' );
+				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
+					return array( $this->p->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
+			} else $this->p->debug->log( 'image rejected: image url is empty' );
 			return array( null, null, null, null );
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
+			$this->p->debug->mark();
 			$image = array();
 			$og_ret = array();
 			if ( empty( $post_id ) ) return $og_ret;
-			$pid = $this->ngfb->meta->get_options( $post_id, 'og_img_id' );
-			$pre = $this->ngfb->meta->get_options( $post_id, 'og_img_id_pre' );
-			$url = $this->ngfb->meta->get_options( $post_id, 'og_img_url' );
+			$pid = $this->p->meta->get_options( $post_id, 'og_img_id' );
+			$pre = $this->p->meta->get_options( $post_id, 'og_img_id_pre' );
+			$url = $this->p->meta->get_options( $post_id, 'og_img_url' );
 			if ( $pid > 0 ) {
-				if ( $this->ngfb->is_avail['ngg'] == true && $pre == 'ngg' ) {
-					$this->ngfb->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
+				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' ) {
+					$this->p->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
 					$image = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				} else {
-					$this->ngfb->debug->log( 'found custom meta image id = ' . $pid );
+					$this->p->debug->log( 'found custom meta image id = ' . $pid );
 					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
 			} elseif ( ! empty( $url ) ) {
-				$this->ngfb->debug->log( 'found custom meta image url = ' . $url );
+				$this->p->debug->log( 'found custom meta image url = ' . $url );
 				$image[] = $url;
 			}
 			if ( ! empty( $image ) ) {
 				list( $og_image['og:image'], $og_image['og:image:width'], 
 					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
 				if ( ! empty( $og_image['og:image'] ) )
-					if ( $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
 			}
 			return $og_ret;
 		}
 
 		public function get_default_image( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			$og_image = array();
-			$pid = empty( $this->ngfb->options['og_def_img_id'] ) ? '' : $this->ngfb->options['og_def_img_id'];
-			$pre = empty( $this->ngfb->options['og_def_img_id_pre'] ) ? '' : $this->ngfb->options['og_def_img_id_pre'];
-			$url = empty( $this->ngfb->options['og_def_img_url'] ) ? '' : $this->ngfb->options['og_def_img_url'];
+			$pid = empty( $this->p->options['og_def_img_id'] ) ? '' : $this->p->options['og_def_img_id'];
+			$pre = empty( $this->p->options['og_def_img_id_pre'] ) ? '' : $this->p->options['og_def_img_id_pre'];
+			$url = empty( $this->p->options['og_def_img_url'] ) ? '' : $this->p->options['og_def_img_url'];
 			if ( $pid > 0 ) {
-				if ( $this->ngfb->is_avail['ngg'] == true && $pre == 'ngg' )
+				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' )
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				else
@@ -202,10 +203,10 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
 				$og_image = array();	// clear all array values
 				$og_image['og:image'] = $url;
-				$this->ngfb->debug->log( 'using default img url = ' . $og_image['og:image'] );
+				$this->p->debug->log( 'using default img url = ' . $og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
-			$this->ngfb->util->push_max( $og_ret, $og_image, $num );
+			$this->p->util->push_max( $og_ret, $og_image, $num );
 			return $og_ret;
 		}
 
@@ -213,24 +214,22 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$og_ret = array();
 			$size_info = $this->get_size_info( $size_name );
 			// allow custom content to be passed
-			if ( empty( $content ) ) {
-				$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
-				$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
-			}
+			if ( empty( $content ) )
+				$content = $this->p->webpage->get_content( $this->p->options['ngfb_filter_content'] );
 			if ( empty( $content ) ) { 
-				$this->ngfb->debug->log( 'exiting early: empty post content' ); 
+				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
 			// check html tags for ngg images
-			if ( $this->ngfb->is_avail['ngg'] == true ) {
+			if ( $this->p->is_avail['ngg'] == true ) {
 				$og_ret = $this->ngg->get_content_images( $num, $size_name, $check_dupes, $content );
-				if ( $this->ngfb->util->is_maxed( $og_ret, $num ) )
+				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
 			}
 			// img attributes in order of preference
 			if ( preg_match_all( '/<img[^>]*? (data-ngfb-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
 				preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->ngfb->debug->log( count( $match ) . ' x matching <img/> html tag(s) found' );
+				$this->p->debug->log( count( $match ) . ' x matching <img/> html tag(s) found' );
 				foreach ( $match as $img ) {
 					$tag_value = $img[0];
 					$attr_name = $img[1];
@@ -240,27 +239,27 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attr_value, $size_name, $check_dupes );
 
-							if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) ) 
+							if ( ! empty( $og_image['og:image'] ) && $this->p->util->push_max( $og_ret, $og_image, $num ) ) 
 								break 2;	// exit the foreach if we have enough images
 
 							break;
 						default :
 							$og_image = array(
-								'og:image' => $this->ngfb->util->get_sharing_url( 'asis', $attr_value ),
+								'og:image' => $this->p->util->get_sharing_url( 'asis', $attr_value ),
 								'og:image:width' => '',
 								'og:image:height' => '',
 								'og:image:cropped' => '',
 							);
 							// check for ngg pre-v2 image pids in the url
-							if ( $this->ngfb->is_avail['ngg'] == true && 
+							if ( $this->p->is_avail['ngg'] == true && 
 								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
 		
-								$this->ngfb->debug->log( $attr_name . ' ngg pre-v2 cache image = ' . $og_image['og:image'] );
+								$this->p->debug->log( $attr_name . ' ngg pre-v2 cache image = ' . $og_image['og:image'] );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
 		
 							} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
-								$this->ngfb->util->is_uniq_url( $og_image['og:image'] ) == true ) {
+								$this->p->util->is_uniq_url( $og_image['og:image'] ) == true ) {
 		
 								// try and get the width and height from the image tag
 								if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
@@ -276,22 +275,22 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							if ( ! is_numeric( $og_image['og:image:height'] ) ) 
 								$og_image['og:image:height'] = 0;
 
-							$this->ngfb->debug->log( $attr_name . ' = ' . $og_image['og:image'] . 
+							$this->p->debug->log( $attr_name . ' = ' . $og_image['og:image'] . 
 								' (' . $og_image['og:image:width'] . 'x' . $og_image['og:image:height'] . ')' );
 
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
 							if ( $attr_name == 'share-' . $size_name || $attr_name == 'share' || 
 								( $attr_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
-								( $attr_name == 'src' && empty( $this->ngfb->options['ngfb_skip_small_img'] ) ) ||
+								( $attr_name == 'src' && empty( $this->p->options['ngfb_skip_small_img'] ) ) ||
 								( $attr_name == 'src' && $size_info['crop'] == 1 && 
 									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
 									( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
 		
-								if ( ! empty( $og_image['og:image'] ) && $this->ngfb->util->push_max( $og_ret, $og_image, $num ) )
+								if ( ! empty( $og_image['og:image'] ) && $this->p->util->push_max( $og_ret, $og_image, $num ) )
 									break 2;	// exit the foreach if we have enough images
 		
-							} else $this->ngfb->debug->log( $attr_name . ' image rejected: width and height attributes missing or too small' );
+							} else $this->p->debug->log( $attr_name . ' image rejected: width and height attributes missing or too small' );
 
 							break;
 					}
@@ -300,7 +299,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				}
 				return $og_ret;	// return immediately and ignore any other type of image
 			}
-			$this->ngfb->debug->log( 'no matching <img/> html tag(s) found' );
+			$this->p->debug->log( 'no matching <img/> html tag(s) found' );
 
 			return $og_ret;
 		}
@@ -311,43 +310,44 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$og_ret = array();
 			if ( $want_this == 'gallery' ) {
 				if ( empty( $post ) ) { 
-					$this->ngfb->debug->log( 'exiting early: empty post object' ); 
+					$this->p->debug->log( 'exiting early: empty post object' ); 
 					return $og_ret;
 				} elseif ( empty( $post->post_content ) ) { 
-					$this->ngfb->debug->log( 'exiting early: empty post content' ); 
+					$this->p->debug->log( 'exiting early: empty post content' ); 
 					return $og_ret;
 				}
 				if ( preg_match( '/\[(gallery)[^\]]*\]/im', $post->post_content, $match ) ) {
 					$shortcode_type = strtolower( $match[1] );
-					$this->ngfb->debug->log( '[' . $shortcode_type . '] shortcode found' );
+					$this->p->debug->log( '[' . $shortcode_type . '] shortcode found' );
 					switch ( $shortcode_type ) {
 						case 'gallery' :
 							$content = do_shortcode( $match[0] );
 							$content = preg_replace( '/\[' . $shortcode_type . '[^\]]*\]/', '', $content );	// prevent loops, just in case
-							$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_images( $num, $size_name, $check_dupes, $content ) );
+							$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num, $size_name, $check_dupes, $content ) );
 							if ( ! empty( $og_ret ) ) return $og_ret;	// return immediately and ignore any other type of image
 							break;
 					}
-				} else $this->ngfb->debug->log( '[gallery] shortcode not found' );
+				} else $this->p->debug->log( '[gallery] shortcode not found' );
 			}
 			// check for ngg gallery
-			if ( $this->ngfb->is_avail['ngg'] == true ) {
+			if ( $this->p->is_avail['ngg'] == true ) {
 				$og_ret = $this->ngg->get_gallery_images( $num , $size_name, $want_this, $check_dupes );
-				if ( $this->ngfb->util->is_maxed( $og_ret, $num ) )
+				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
 			}
-			$this->ngfb->util->slice_max( $og_ret, $num );
+			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
 		public function get_meta_video( $num = 0, $post_id = '', $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
-				$embed_url = $this->ngfb->meta->get_options( $post_id, 'og_vid_url' );
-				if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->ngfb->util->is_uniq_url( $embed_url ) ) {
-					$this->ngfb->debug->log( 'found custom meta video url = ' . $embed_url );
+				$embed_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
+				if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
+					$this->p->debug->log( 'found custom meta video url = ' . $embed_url );
 					$og_video = $this->get_video_info( $embed_url );
-					if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
+					if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 				}
 			}
 			return $og_ret;
@@ -355,23 +355,23 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 		// called from the OpenGraph and Tumblr classes
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
+			$this->p->debug->mark();
 			$og_ret = array();
-			$this->ngfb->debug->log( 'calling this->ngfb->webpage->get_content()' );
-			$content = $this->ngfb->webpage->get_content( $this->ngfb->options['ngfb_filter_content'] );
-			if ( empty( $content ) ) { $this->ngfb->debug->log( 'exiting early: empty post content' ); return $og_ret; }
+			$content = $this->p->webpage->get_content( $this->p->options['ngfb_filter_content'] );
+			if ( empty( $content ) ) { $this->p->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
-				$this->ngfb->debug->log( count( $match_all ) . ' x video html tag(s) found' );
+				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
-					$this->ngfb->debug->log( '<' . $media[1] . '/> html tag found = ' . $media[2] );
-					$embed_url = $this->ngfb->util->get_sharing_url( 'noquery', $media[2] );
-					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->ngfb->util->is_uniq_url( $embed_url ) ) {
+					$this->p->debug->log( '<' . $media[1] . '/> html tag found = ' . $media[2] );
+					$embed_url = $this->p->util->get_sharing_url( 'noquery', $media[2] );
+					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
 						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
 						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
 						$og_video = $this->get_video_info( $embed_url, $embed_width, $embed_height );
-						if ( $this->ngfb->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
+						if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
 					}
 				}
-			} else $this->ngfb->debug->log( 'no <iframe|embed/> html tag(s) found' );
+			} else $this->p->debug->log( 'no <iframe|embed/> html tag(s) found' );
 			return $og_ret;
 		}
 
@@ -386,15 +386,15 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				'og:image:width' => '',
 				'og:image:height' => '',
 			);
-			$prot = empty( $this->ngfb->options['og_vid_https'] ) ? 'http://' : 'https://';
+			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
 
 			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD ) {
 						$api_url = $prot . 'api.wistia.com/v1/medias/' . $vid_name . '.xml';
-						$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-						$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
+						$this->p->debug->log( 'fetching video details from ' . $api_url );
+						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
 						if ( ! empty( $xml->embedCode ) ) {
 							$embed = preg_match( '/<embed(.*)><\/embed>/i', (string) $xml->embedCode, $match ) ? $match[1] : '';
 							$embed_src = preg_match( '/ src=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
@@ -406,14 +406,14 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						}
 					}
 					$api_url = $prot . 'fast.wistia.com/oembed.xml?url=http%3A//home.wistia.com/medias/' . $vid_name;
-					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->thumbnail_url ) ) {
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
 						$og_video['og:image:width'] = (string) $xml->thumbnail_width;
 						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
 					}
-					if ( ! empty( $this->ngfb->options['og_vid_https'] ) ) {
+					if ( ! empty( $this->p->options['og_vid_https'] ) ) {
 						$og_video['og:video:secure_url'] = preg_replace( '/http:\/\/embed[^\.]*\./', 'https://embed-ssl.', $og_video['og:video'] );
 						$og_video['og:image:secure_url'] = preg_replace( '/http:\/\/embed[^\.]*\./', 'https://embed-ssl.', $og_video['og:image'] );
 					}
@@ -424,10 +424,10 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';	// 0, hqdefault, maxresdefault
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name . '&max-results=1&format=5';
-					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->entry[0] ) ) {
-						$this->ngfb->debug->log( 'setting og:video and og:image from youtube api xml' );
+						$this->p->debug->log( 'setting og:video and og:image from youtube api xml' );
 						$media = $xml->entry[0]->children( 'media', true );
 						$content = $media->group->content[0]->attributes();
 						if ( $content['type'] == 'application/x-shockwave-flash' )
@@ -451,10 +451,10 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$og_video['og:video'] = $prot . 'vimeo.com/moogaloop.swf?clip_id=' . $vid_name;
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					$api_url = $prot . 'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/' . $vid_name;
-					$this->ngfb->debug->log( 'fetching video details from ' . $api_url );
-					$xml = @simplexml_load_string( $this->ngfb->cache->get( $api_url, 'raw', 'transient' ) );
+					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->thumbnail_url ) ) {
-						$this->ngfb->debug->log( 'setting og:video and og:image from vimeo api xml' );
+						$this->p->debug->log( 'setting og:video and og:image from vimeo api xml' );
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
 						$og_video['og:image:width'] = (string) $xml->thumbnail_width;
 						$og_video['og:image:height'] = (string) $xml->thumbnail_height;
@@ -463,8 +463,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					}
 				}
 			}
-			$this->ngfb->debug->log( 'image = ' . $og_video['og:image'] . ' (' . $og_video['og:image:width'] .  'x' . $og_video['og:image:height'] . ')' );
-			$this->ngfb->debug->log( 'video = ' . $og_video['og:video'] . ' (' . $og_video['og:video:width'] .  'x' . $og_video['og:video:height'] . ')' );
+			$this->p->debug->log( 'image = '.$og_video['og:image'].' ('.$og_video['og:image:width'].'x'.$og_video['og:image:height'].')' );
+			$this->p->debug->log( 'video = '.$og_video['og:video'].' ('.$og_video['og:video:width'].'x'.$og_video['og:video:height'].')' );
 
 			if ( empty( $og_video['og:video'] ) ) {
 				unset ( 

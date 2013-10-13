@@ -25,7 +25,6 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 
 	class ngfbGoogl {
 
-		public $extended;
 		private $target;
 		private $apiKey;
 		private $ch;
@@ -33,6 +32,8 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 
 		private static $buffer = array();
 	
+		public $extended;
+
 		function __construct( $apiKey = null, &$debug = '' ) {
 
 			// check for logging object with mark() method

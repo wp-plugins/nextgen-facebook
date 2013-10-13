@@ -12,41 +12,41 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 	class ngfbUtil {
 
-		public $rewrite;
-
-		protected $ngfb;
-
 		private $goo;	// ngfbGoogl
 		private $bit;	// ngfbBitly
 		private $urls_found = array();
 
+		protected $p;
+
+		public $rewrite;
+
 		// executed by ngfbUtilPro() as well
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 			$this->setup_vars();
 			$this->add_actions();
 		}
 
 		private function setup_vars() {
-			if ( $this->ngfb->is_avail['curl'] == true && ! empty( $this->ngfb->options['twitter_shortener'] ) ) {
-				switch ( $this->ngfb->options['twitter_shortener'] ) {
+			if ( $this->p->is_avail['curl'] == true && ! empty( $this->p->options['twitter_shortener'] ) ) {
+				switch ( $this->p->options['twitter_shortener'] ) {
 					case 'googl' :
 						require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 						if ( class_exists( 'ngfbGoogl' ) ) {
-							$api_key = empty( $this->ngfb->options['ngfb_googl_api_key'] ) ?  
-								'' : $this->ngfb->options['ngfb_googl_api_key'];
-							$this->goo = new ngfbGoogl( $api_key, $this->ngfb->debug );
+							$api_key = empty( $this->p->options['ngfb_googl_api_key'] ) ?  
+								'' : $this->p->options['ngfb_googl_api_key'];
+							$this->goo = new ngfbGoogl( $api_key, $this->p->debug );
 						}
 						break;
 					case 'bitly' :
 						require_once ( NGFB_PLUGINDIR . 'lib/ext/bitly.php' );
 						if ( class_exists( 'ngfbBitly' ) ) {
-							$login = empty( $this->ngfb->options['ngfb_bitly_login'] ) ?  
-								'' : $this->ngfb->options['ngfb_bitly_login'];
-							$api_key = empty( $this->ngfb->options['ngfb_bitly_api_key'] ) ?  
-								'' : $this->ngfb->options['ngfb_bitly_api_key'];
-							$this->bit = new ngfbBitly( $login, $api_key, $this->ngfb->debug );
+							$login = empty( $this->p->options['ngfb_bitly_login'] ) ?  
+								'' : $this->p->options['ngfb_bitly_login'];
+							$api_key = empty( $this->p->options['ngfb_bitly_api_key'] ) ?  
+								'' : $this->p->options['ngfb_bitly_api_key'];
+							$this->bit = new ngfbBitly( $login, $api_key, $this->p->debug );
 						}
 						break;
 				}
@@ -92,13 +92,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				return false;
 
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
-				$this->ngfb->debug->log( 'incomplete url given: ' . $url );
+				$this->p->debug->log( 'incomplete url given: ' . $url );
 
 			if ( empty( $this->urls_found[$url] ) ) {
 				$this->urls_found[$url] = 1;
 				return true;
 			} else {
-				$this->ngfb->debug->log( 'duplicate url rejected: ' . $url ); 
+				$this->p->debug->log( 'duplicate url rejected: ' . $url ); 
 				return false;
 			}
 		}
@@ -119,7 +119,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
 					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
 						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
-						$this->ngfb->debug->log( 'is_singular with nggalbum shortcode and query' );
+						$this->p->debug->log( 'is_singular with nggalbum shortcode and query' );
 						$is_nggalbum = true;
 						$strip_query = 'notrack';	// keep the album/gallery query values
 					}
@@ -151,30 +151,30 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_cache_url( $url ) {
 
 			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $this->ngfb->cache->file_expire ) ) return $url;
+			if ( empty( $this->p->cache->file_expire ) ) return $url;
 
 			// facebook javascript sdk doesn't work when hosted locally
 			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
 
-			return ( $this->ngfb->util->rewrite( $this->ngfb->cache->get( $url ) ) );
+			return ( $this->p->util->rewrite( $this->p->cache->get( $url ) ) );
 		}
 
 		public function get_short_url( $long_url, $shortener = '' ) {
 
 			if ( empty( $shortener ) || 
-				$this->ngfb->is_avail['curl'] == false || 
-				strlen( $long_url ) < $this->ngfb->options['ngfb_min_shorten'] ||
+				$this->p->is_avail['curl'] == false || 
+				strlen( $long_url ) < $this->p->options['ngfb_min_shorten'] ||
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return apply_filters( 'ngfb_short_url', false, $long_url );
 
 			$cache_salt = __METHOD__.'(url:'.$long_url.')';
-			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
+			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$this->ngfb->debug->log( $cache_type . ': short_url transient id salt "' . $cache_salt . '"' );
+			$this->p->debug->log( $cache_type . ': short_url transient id salt "' . $cache_salt . '"' );
 			$short_url = get_transient( $cache_id );
 
 			if ( $short_url !== false ) {
-				$this->ngfb->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
+				$this->p->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
 				return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 			} else {
 				switch ( $shortener ) {
@@ -190,17 +190,17 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						}
 						break;
 					default :
-						$this->ngfb->debug->log( 'invalid shortener requested ('.$shortener.')' );
+						$this->p->debug->log( 'invalid shortener requested ('.$shortener.')' );
 						$short_url = false;
 						break;
 				}
 				if ( empty( $short_url ) )
-					$this->ngfb->debug->log( 'failed to shorten url = ' . $long_url );
+					$this->p->debug->log( 'failed to shorten url = ' . $long_url );
 				else {
-					$this->ngfb->debug->log( 'url successfully shortened = ' . $short_url );
-					set_transient( $cache_id, $short_url, $this->ngfb->cache->object_expire );
-					$this->ngfb->debug->log( $cache_type . ': short_url saved to transient for id "' . 
-						$cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)' );
+					$this->p->debug->log( 'url successfully shortened = ' . $short_url );
+					set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
+					$this->p->debug->log( $cache_type . ': short_url saved to transient for id "' . 
+						$cache_id . '" (' . $this->p->cache->object_expire . ' seconds)' );
 					return apply_filters( 'ngfb_short_url', $short_url, $long_url );
 				}
 			}
@@ -209,11 +209,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function fix_relative_url( $url = '' ) {
 			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
-				$this->ngfb->debug->log( 'relative url found = ' . $url );
+				$this->p->debug->log( 'relative url found = ' . $url );
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
 				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ) . $url;
-				$this->ngfb->debug->log( 'relative url fixed = ' . $url );
+				$this->p->debug->log( 'relative url fixed = ' . $url );
 			}
 			return $url;
 		}
@@ -226,7 +226,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$str = preg_replace( '/&#8230;/', '...', $str );
 
 			// if mb_decode_numericentity is not available, return the string un-converted
-			if ( $this->ngfb->is_avail['mbdecnum'] != true ) return $str;
+			if ( $this->p->is_avail['mbdecnum'] != true ) return $str;
 
 			return preg_replace( '/&#\d{2,5};/ue', 'ngfbUtil::decode_utf8_entity( \'$0\' )', $str );
 		}
@@ -336,19 +336,19 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function parse_readme( $url, $expire_secs = false ) {
-			$cache_salt = __METHOD__.'(file:'.$this->ngfb->urls['readme'].')';
-			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
+			$cache_salt = __METHOD__.'(file:'.$this->p->urls['readme'].')';
+			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
 			$plugin_info = get_transient( $cache_id );
-			$this->ngfb->debug->log( $cache_type . ': plugin_info transient id salt "' . $cache_salt . '"' );
+			$this->p->debug->log( $cache_type . ': plugin_info transient id salt "' . $cache_salt . '"' );
 
 			if ( $plugin_info !== false ) {
-				$this->ngfb->debug->log( $cache_type . ': plugin_info retrieved from transient for id "' . $cache_id . '"' );
+				$this->p->debug->log( $cache_type . ': plugin_info retrieved from transient for id "' . $cache_id . '"' );
 				return $plugin_info;
 			}
 
 			$using_local = false;
-			$readme = $this->ngfb->cache->get( $this->ngfb->urls['readme'], 'raw', 'file', $expire_secs );
+			$readme = $this->p->cache->get( $this->p->urls['readme'], 'raw', 'file', $expire_secs );
 			// fallback to local readme.txt file
 			if ( empty( $readme ) && $fh = @fopen( NGFB_PLUGINDIR . 'readme.txt', 'rb' ) ) {
 				$using_local = true;
@@ -356,7 +356,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				fclose( $fh );
 			}
 			if ( ! empty( $readme ) ) {
-				$parser = new ngfb_parse_readme( $this->ngfb->debug );
+				$parser = new ngfb_parse_readme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
 				if ( $using_local == true ) {
 					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
@@ -365,8 +365,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				}
 			}
 
-			set_transient( $cache_id, $plugin_info, $this->ngfb->cache->object_expire );
-			$this->ngfb->debug->log( $cache_type . ': plugin_info saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+			set_transient( $cache_id, $plugin_info, $this->p->cache->object_expire );
+			$this->p->debug->log( $cache_type . ': plugin_info saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
 			return $plugin_info;
 		}
 
@@ -382,15 +382,15 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
-				if ( preg_match( '/^.*\?page=' . $this->ngfb->acronym . '-([^&]*).*$/', $current, $match ) )
+				if ( preg_match( '/^.*\?page=' . $this->p->acronym . '-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
 				else $submenu = 'general';
 			} else {
-				if ( ! array_key_exists( $submenu, $this->ngfb->setting_libs ) )
+				if ( ! array_key_exists( $submenu, $this->p->setting_libs ) )
 					$submenu = 'general';
 			}
 
-			$url = get_admin_url( null, 'admin.php?page=' . $this->ngfb->acronym . '-' . $submenu );
+			$url = get_admin_url( null, 'admin.php?page=' . $this->p->acronym . '-' . $submenu );
 
 			if ( ! empty( $query ) ) $url .= '&' . $query;
 			if ( ! empty( $hash ) ) $url .= '#' . $hash;
@@ -405,7 +405,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			if ( $_wp_using_ext_object_cache ) return; 
 			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
 		
-			$dbquery = 'SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'_transient_timeout_' . $this->ngfb->acronym . '_%\'';
+			$dbquery = 'SELECT option_name FROM ' . $wpdb->options . ' WHERE option_name LIKE \'_transient_timeout_' . $this->p->acronym . '_%\'';
 			$dbquery .= $clear_all === true ? ';' : ' AND option_value < ' . $time . ';'; 
 			$expired = $wpdb->get_col( $dbquery ); 
 			
@@ -422,7 +422,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			if ( $dh = opendir( NGFB_CACHEDIR ) ) {
 				while ( $fn = readdir( $dh ) ) {
 					if ( ! preg_match( '/^(\.|index\.php)/', $fn ) && is_file( NGFB_CACHEDIR . $fn ) && 
-						( $clear_all === true || filemtime( NGFB_CACHEDIR . $fn ) < time() - $this->ngfb->cache->file_expire ) ) {
+						( $clear_all === true || filemtime( NGFB_CACHEDIR . $fn ) < time() - $this->p->cache->file_expire ) ) {
 
 						unlink( NGFB_CACHEDIR . $fn );
 						$deleted++;
@@ -444,10 +444,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$has = count( $arr );
 			if ( $num > 0 ) {
 				if ( $has == $num ) {
-					$this->ngfb->debug->log( 'max values reached (' . $has . ' == ' . $num . ')' );
+					$this->p->debug->log( 'max values reached (' . $has . ' == ' . $num . ')' );
 					return true;
 				} elseif ( $has > $num ) {
-					$this->ngfb->debug->log( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
+					$this->p->debug->log( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
 					$arr = array_slice( $arr, 0, $num );
 					return true;
 				}
@@ -504,12 +504,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function tweet_max_len( $long_url ) {
-			$short_url = $this->get_short_url( $long_url, $this->ngfb->options['twitter_shortener'] );
+			$short_url = $this->get_short_url( $long_url, $this->p->options['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
-			$twitter_cap_len = $this->ngfb->options['twitter_cap_len'] - strlen( $short_url ) - 1;
-			if ( ! empty( $this->ngfb->options['tc_site'] ) && ! empty( $this->ngfb->options['twitter_via'] ) )
+			$twitter_cap_len = $this->p->options['twitter_cap_len'] - strlen( $short_url ) - 1;
+			if ( ! empty( $this->p->options['tc_site'] ) && ! empty( $this->p->options['twitter_via'] ) )
 				$twitter_cap_len = $twitter_cap_len - strlen( preg_replace( '/^@/', '', 
-					$this->ngfb->options['tc_site'] ) ) - 5;	// include 'via' and 2 spaces
+					$this->p->options['tc_site'] ) ) - 5;	// include 'via' and 2 spaces
 			return $twitter_cap_len;
 		}
 
@@ -531,19 +531,19 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$lang = get_locale();
 					$name = is_page( $post_id ) ? 'Page' : 'Post';
 					$cache_type = 'object cache';
-					$sharing_url = $this->ngfb->util->get_sharing_url( 'none', get_permalink( $post_id ) );
+					$sharing_url = $this->p->util->get_sharing_url( 'none', get_permalink( $post_id ) );
 					foreach ( array(
 						'og array' => 'ngfbOpenGraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
 						'the_excerpt html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
 						'the_content html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
 						'admin_sharing html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
 					) as $cache_origin => $cache_salt ) {
-						$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
-						$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
+						$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
+						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
 						if ( delete_transient( $cache_id ) ) {
-							$this->ngfb->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );
+							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );
 							// duplicate notices are ignored, so only one notice message will be shown
-							$this->ngfb->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
+							$this->p->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
 						}
 					}
 					break;

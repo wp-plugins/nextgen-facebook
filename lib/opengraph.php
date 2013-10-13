@@ -12,11 +12,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 	class ngfbOpenGraph {
 
-		private $ngfb;
+		private $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 
 			add_filter( 'language_attributes', array( &$this, 'add_doctype' ) );
 		}
@@ -28,19 +28,19 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		public function get() {
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-				echo "\n<!-- ", $this->ngfb->fullname, " meta tags DISABLED -->\n\n";
+				echo "\n<!-- ", $this->p->fullname, " meta tags DISABLED -->\n\n";
 				return array();
 			}
 
-			$src_id = $this->ngfb->util->get_src_id( 'opengraph' );
-			$sharing_url = $this->ngfb->util->get_sharing_url( 'notrack', null, null, $src_id );
+			$src_id = $this->p->util->get_src_id( 'opengraph' );
+			$sharing_url = $this->p->util->get_sharing_url( 'notrack', null, null, $src_id );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
-			$cache_id = $this->ngfb->acronym . '_' . md5( $cache_salt );
+			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
 			$cache_type = 'object cache';
-			$this->ngfb->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
+			$this->p->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
 			$og = get_transient( $cache_id );
 			if ( $og !== false ) {
-				$this->ngfb->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
+				$this->p->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
 				return $og;
 			}
 
@@ -50,14 +50,14 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og_max = $this->get_max_nums();
 			$og = apply_filters( 'ngfb_og_seed', array() );
 
-			$lang = empty( $this->ngfb->options['fb_lang'] ) ? 'en-US' : $this->ngfb->options['fb_lang'];
-			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'facebook' ) );
+			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
+			$lang = apply_filters( 'ngfb_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 
 			if ( ! array_key_exists( 'fb:admins', $og ) )
-				$og['fb:admins'] = $this->ngfb->options['fb_admins'];
+				$og['fb:admins'] = $this->p->options['fb_admins'];
 
 			if ( ! array_key_exists( 'fb:app_id', $og ) )
-				$og['fb:app_id'] = $this->ngfb->options['fb_app_id'];
+				$og['fb:app_id'] = $this->p->options['fb_app_id'];
 
 			if ( ! array_key_exists( 'og:locale', $og ) )
 				$og['og:locale'] = $lang;
@@ -69,10 +69,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['og:url'] = $sharing_url;
 
 			if ( ! array_key_exists( 'og:title', $og ) )
-				$og['og:title'] = $this->ngfb->webpage->get_title( $this->ngfb->options['og_title_len'], '...' );
+				$og['og:title'] = $this->p->webpage->get_title( $this->p->options['og_title_len'], '...' );
 
 			if ( ! array_key_exists( 'og:description', $og ) )
-				$og['og:description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['og_desc_len'], '...' );
+				$og['og:description'] = $this->p->webpage->get_description( $this->p->options['og_desc_len'], '...' );
 
 			if ( ! array_key_exists( 'og:type', $og ) ) {
 				// singular posts/pages are articles by default
@@ -89,13 +89,13 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 							break;
 					}
 				// check for default author info on indexes and searches
-				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_author_on_index'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) )
-					|| ( is_search() && ! empty( $this->ngfb->options['og_def_author_on_search'] ) && ! empty( $this->ngfb->options['og_def_author_id'] ) ) ) {
+				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['og_def_author_on_index'] ) && ! empty( $this->p->options['og_def_author_id'] ) )
+					|| ( is_search() && ! empty( $this->p->options['og_def_author_on_search'] ) && ! empty( $this->p->options['og_def_author_id'] ) ) ) {
 	
 					$og['og:type'] = "article";
 					if ( ! array_key_exists( 'article:author', $og ) )
-						$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
-							$this->ngfb->options['og_author_field'] );
+						$og['article:author'] = $this->p->user->get_author_url( $this->p->options['og_def_author_id'], 
+							$this->p->options['og_author_field'] );
 
 				// default for everything else is 'website'
 				} else $og['og:type'] = 'website';
@@ -105,20 +105,20 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( array_key_exists( 'og:type', $og ) && $og['og:type'] == 'article' ) {
 				if ( is_singular() && ! array_key_exists( 'article:author', $og ) ) {
 					if ( ! empty( $post ) && $post->post_author )
-						$og['article:author'] = $this->ngfb->user->get_author_url( $post->post_author, 
-							$this->ngfb->options['og_author_field'] );
-					elseif ( ! empty( $this->ngfb->options['og_def_author_id'] ) )
-						$og['article:author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['og_def_author_id'], 
-							$this->ngfb->options['og_author_field'] );
+						$og['article:author'] = $this->p->user->get_author_url( $post->post_author, 
+							$this->p->options['og_author_field'] );
+					elseif ( ! empty( $this->p->options['og_def_author_id'] ) )
+						$og['article:author'] = $this->p->user->get_author_url( $this->p->options['og_def_author_id'], 
+							$this->p->options['og_author_field'] );
 				}
 				if ( ! array_key_exists( 'article:publisher', $og ) )
-					$og['article:publisher'] = $this->ngfb->options['og_publisher_url'];
+					$og['article:publisher'] = $this->p->options['og_publisher_url'];
 
 				if ( ! array_key_exists( 'article:tag', $og ) )
-					$og['article:tag'] = $this->ngfb->tags->get();
+					$og['article:tag'] = $this->p->tags->get();
 
 				if ( ! array_key_exists( 'article:section', $og ) )
-					$og['article:section'] = $this->ngfb->webpage->get_section();
+					$og['article:section'] = $this->p->webpage->get_section();
 
 				if ( ! array_key_exists( 'article:published_time', $og ) )
 					$og['article:published_time'] = get_the_date('c');
@@ -131,59 +131,51 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			// check first, to add video preview images
 			if ( ! array_key_exists( 'og:video', $og ) ) {
 				if ( $og_max['og_vid_max'] > 0 ) {
-					$this->ngfb->debug->log( 'calling this->get_all_videos(' . $og_max['og_vid_max'] . ')' );
 					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
 					if ( is_array( $og['og:video'] ) ) {
 						foreach ( $og['og:video'] as $val ) {
 							if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
-								$this->ngfb->debug->log( 'og:image found in og:video array (no default image required)' );
+								$this->p->debug->log( 'og:image found in og:video array (no default image required)' );
 								$has_video_image = 1;
 							}
 						}
 						unset ( $vid );
 					}
-				} else $this->ngfb->debug->log( 'videos disabled: maximum videos = 0' );
+				} else $this->p->debug->log( 'videos disabled: maximum videos = 0' );
 			}
 
 			// get all images
 			if ( ! array_key_exists( 'og:image', $og ) ) {
 				if ( $og_max['og_img_max'] > 0 ) {
-					$this->ngfb->debug->log( 'calling this->get_all_images(' . $og_max['og_img_max'] . ',"' . NGFB_OG_SIZE_NAME . '")' );
 					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-	
 					// if we didn't find any images, then use the default image
-					if ( empty( $og['og:image'] ) && empty( $has_video_image ) ) {
-						$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image(' . $og_max['og_img_max'] . ',"' . NGFB_OG_SIZE_NAME . '")' );
-						$og['og:image'] = $this->ngfb->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-					}
-				} else $this->ngfb->debug->log( 'images disabled: maximum images = 0' );
+					if ( empty( $og['og:image'] ) && empty( $has_video_image ) )
+						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+	
+				} else $this->p->debug->log( 'images disabled: maximum images = 0' );
 			}
 
 			// run filter before saving to transient cache
 			$og = apply_filters( 'ngfb_og', $og );
-			set_transient( $cache_id, $og, $this->ngfb->cache->object_expire );
-			$this->ngfb->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->ngfb->cache->object_expire . ' seconds)');
+			set_transient( $cache_id, $og, $this->p->cache->object_expire );
+			$this->p->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
 			return $og;
 		}
 
 		private function get_all_videos( $num = 0 ) {
 			global $post;
 			$og_ret = array();
-
 			if ( ! empty( $post ) ) {
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_meta_video('.$num_remains.','.$post->ID.')' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_meta_video( $num_remains, $post->ID ) );
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post->ID ) );
 			}
 
 			// if we haven't reached the limit of images yet, keep going
-			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_videos('.$num_remains.')' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_videos( $num_remains ) );
+			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_content_videos( $num_remains ) );
 			}
-
-			$this->ngfb->util->slice_max( $og_ret, $num );
+			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -194,35 +186,31 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			// check for attachment page
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_attachment_image('.$num_remains.',"'.$size_name.'",'.$post->ID.')' );
-				$og_image = $this->ngfb->media->get_attachment_image( $num_remains, $size_name, $post->ID );
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_image = $this->p->media->get_attachment_image( $num_remains, $size_name, $post->ID );
 
 				// if an attachment is not an image, then use the default image instead
 				if ( empty( $og_ret ) ) {
-					$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-					$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image('.$num_remains.',"'.$size_name.'")' );
-					$og_ret = array_merge( $og_ret, $this->ngfb->media->get_default_image( $num_remains, $size_name ) );
+					$num_remains = $this->p->media->num_remains( $og_ret, $num );
+					$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name ) );
 				} else $og_ret = array_merge( $og_ret, $og_image );
 
 				return $og_ret;
 			}
 
 			// check for attachment page without an image, or index-type pages with og_def_img_on_index enabled to force a default image
-			if ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['og_def_img_on_index'] ) ) || 
-				( is_search() && ! empty( $this->ngfb->options['og_def_img_on_search'] ) ) ) {
+			if ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['og_def_img_on_index'] ) ) || 
+				( is_search() && ! empty( $this->p->options['og_def_img_on_search'] ) ) ) {
 
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_default_image('.$num_remains.',"'.$size_name.'")' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_default_image( $num_remains, $size_name ) );
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name ) );
 				return $og_ret;	// stop here and return the image array
 			}
 
 			// check for custom meta, featured, or attached image(s)
 			if ( ! empty( $post ) ) {
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_post_images('.$num_remains.',"'.$size_name.'",'.$post->ID.')' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_post_images( $num_remains, $size_name, $post->ID ) );
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post->ID ) );
 
 				// keep going to find more images
 				// the featured / attached image(s) will be listed first in the open graph meta property tags
@@ -230,33 +218,30 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// check for ngg shortcodes and query vars
-			if ( $this->ngfb->is_avail['ngg'] == true && ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
+			if ( $this->p->is_avail['ngg'] == true && ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$ngg_query_og_ret = array();
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				if ( version_compare( $this->ngfb->ngg_version, '2.0.0', '<' ) ) {
-					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_query_images('.$num_remains.',"'.$size_name.'")' );
-					$ngg_query_og_ret = $this->ngfb->media->ngg->get_query_images( $num_remains, $size_name );
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
+					$ngg_query_og_ret = $this->p->media->ngg->get_query_images( $num_remains, $size_name );
 				}
 				// if we found images in the query, skip content shortcodes
 				if ( count( $ngg_query_og_ret ) > 0 ) {
-					$this->ngfb->debug->log( count( $ngg_query_og_ret ) . ' image(s) returned - skipping additional shortcode images' );
+					$this->p->debug->log( count( $ngg_query_og_ret ) . ' image(s) returned - skipping additional shortcode images' );
 					$og_ret = array_merge( $og_ret, $ngg_query_og_ret );
 				// if no query images were found, continue with ngg shortcodes in content
-				} elseif ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-					$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-					$this->ngfb->debug->log( 'calling this->ngfb->media->ngg->get_shortcode_images('.$num_remains.',"'.$size_name.'")' );
-					$og_ret = array_merge( $og_ret, $this->ngfb->media->ngg->get_shortcode_images( $num_remains, $size_name ) );
+				} elseif ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
+					$num_remains = $this->p->media->num_remains( $og_ret, $num );
+					$og_ret = array_merge( $og_ret, $this->p->media->ngg->get_shortcode_images( $num_remains, $size_name ) );
 				}
 			}
 
 			// if we haven't reached the limit of images yet, keep going
-			if ( ! $this->ngfb->util->is_maxed( $og_ret, $num ) ) {
-				$num_remains = $this->ngfb->media->num_remains( $og_ret, $num );
-				$this->ngfb->debug->log( 'calling this->ngfb->media->get_content_images('.$num_remains.',"'.$size_name.'")' );
-				$og_ret = array_merge( $og_ret, $this->ngfb->media->get_content_images( $num_remains, $size_name ) );
+			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
+				$num_remains = $this->p->media->num_remains( $og_ret, $num );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num_remains, $size_name ) );
 			}
 
-			$this->ngfb->util->slice_max( $og_ret, $num );
+			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
@@ -265,11 +250,11 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			foreach ( array( 'og_vid_max', 'og_img_max' ) as $max_name ) {
 				$num_meta = false;
 				if ( ! empty( $post ) )
-					$num_meta = $this->ngfb->meta->get_options( $post->ID, $max_name );
+					$num_meta = $this->p->meta->get_options( $post->ID, $max_name );
 				if ( $num_meta !== false ) {
 					$og_max[$max_name] = $num_meta;
-					$this->ngfb->debug->log( 'found custom meta '.$max_name.' = '.$num_meta );
-				} else $og_max[$max_name] = $this->ngfb->options[$max_name];
+					$this->p->debug->log( 'found custom meta '.$max_name.' = '.$num_meta );
+				} else $og_max[$max_name] = $this->p->options[$max_name];
 			}
 			unset ( $max_name );
 			return $og_max;

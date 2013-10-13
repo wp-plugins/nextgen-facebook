@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.11-dev1
+Version: 6.11dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.11-dev1';
+		public $version = '6.11dev2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -148,7 +148,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// activates the plugin and not when an automatic plugin update occurs
 			register_activation_hook( __FILE__, array( &$this, 'activate' ) );		// since wp 2.0
 			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );		// since wp 2.0
-			register_uninstall_hook( __FILE__, array( 'ngfbPlugin', 'uninstall' ) );	// since wp 2.7
+			register_uninstall_hook( __FILE__, array( $this->acronym.'Plugin', 'uninstall' ) );	// since wp 2.7
 
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
 		}
@@ -165,13 +165,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// delete options table entries only when plugin deactivated and deleted
 		public static function uninstall() {
-			$options = get_option( NGFB_OPTIONS_NAME );
-			if ( empty( $options['ngfb_preserve'] ) ) {
-				delete_option( NGFB_OPTIONS_NAME );
-				delete_option( 'external_updates-nextgen-facebook' );
+			$slug = 'nextgen-facebook';
+			$acronym = 'ngfb';
+			$options = get_option( $acronym.'_options' );
+			if ( empty( $options[$acronym.'_preserve'] ) ) {
+				delete_option( $acronym.'_options' );
+				delete_option( 'external_updates-'.$slug );
 				// remove all "stored" admin notices
 				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-					$msg_opt = 'ngfb_notices_' . $type;
+					$msg_opt = $acronym.'_notices_'.$type;
 					delete_option( $msg_opt );
 					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
 						delete_user_option( $user->ID, $msg_opt );
@@ -180,7 +182,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
 						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
-							$meta_key = $meta_name . '_' . $page_prefix . '_ngfb-' . $settings_page;
+							$meta_key = $meta_name.'_'.$page_prefix.'_'.$acronym.'-'.$settings_page;
 							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
 								delete_user_option( $user->ID, $meta_key, true );
 						}
@@ -232,16 +234,16 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_WISTIA_API_PWD
 
 			if ( ! defined( 'NGFB_CACHEDIR' ) )
-				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR . 'cache/' );
+				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR.'cache/' );
 
 			if ( ! defined( 'NGFB_CACHEURL' ) )
-				define( 'NGFB_CACHEURL', NGFB_URLPATH . 'cache/' );
+				define( 'NGFB_CACHEURL', NGFB_URLPATH.'cache/' );
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
-				define( 'NGFB_OPTIONS_NAME', 'ngfb_options' );
+				define( 'NGFB_OPTIONS_NAME', $this->acronym.'_options' );
 
 			if ( ! defined( 'NGFB_META_NAME' ) )
-				define( 'NGFB_META_NAME', '_ngfb_meta' );
+				define( 'NGFB_META_NAME', '_'.$this->acronym.'_meta' );
 
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.10' );
@@ -259,7 +261,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_FOOTER_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_OG_SIZE_NAME' ) )
-				define( 'NGFB_OG_SIZE_NAME', 'ngfb-open-graph' );
+				define( 'NGFB_OG_SIZE_NAME', $this->acronym.'-open-graph' );
 
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 156 );
@@ -286,7 +288,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
 
 			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
-				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR . 'share/curl/cacert.pem' );
+				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR.'share/curl/cacert.pem' );
 
 		}
 
@@ -320,7 +322,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
-				// ngfb_shortcode class object is created by lib/webpage.php
+				// the ngfb_shortcode class object is created by lib/webpage.php
 				foreach ( $this->shortcode_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/'.$id.'.php' );
 				unset ( $id, $name );
@@ -371,7 +373,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 * create essential class objects
 			 */
 			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 
-					'html' => ( ! empty( $this->options['ngfb_debug'] ) || 
+					'html' => ( ! empty( $this->options[$this->acronym.'_debug'] ) || 
 						( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false ),
 					'wp' => ( defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false ),
 				)
@@ -388,10 +390,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				! empty( $_GET['plugin'] ) && $_GET['plugin'] == NGFB_PLUGINBASE ) ) {
 				$this->debug->log( 'plugin activation detected' );
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
-					! empty( $this->options['ngfb_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
+					! empty( $this->options[$this->acronym.'_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
 					$this->options = $this->opt->get_defaults();
-					$this->options['ngfb_opts_ver'] = $this->opt->opts_ver;
-					$this->options['ngfb_plugin_ver'] = $this->version;
+					$this->options[$this->acronym.'_opts_ver'] = $this->opt->opts_ver;
+					$this->options[$this->acronym.'_plugin_ver'] = $this->version;
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );
@@ -445,8 +447,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->update_hours * 60 * 60;
 			elseif ( $this->is_avail['aop'] == true )
-				$this->cache->file_expire = ! empty( $this->options['ngfb_file_cache_hrs'] ) ? 
-					$this->options['ngfb_file_cache_hrs'] * 60 * 60 : 0;
+				$this->cache->file_expire = ! empty( $this->options[$this->acronym.'_file_cache_hrs'] ) ? 
+					$this->options[$this->acronym.'_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
 
 			if ( $this->debug->is_on( 'wp' ) == true ) {
@@ -462,11 +464,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . ' ' .
 					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) . ' ' .
 					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
-			} else $this->cache->object_expire = $this->options['ngfb_object_cache_exp'];
+			} else $this->cache->object_expire = $this->options[$this->acronym.'_object_cache_exp'];
 
-			// setup update checks if we have an Authentication ID
-			if ( ! empty( $this->options['ngfb_pro_tid'] ) ) {
-				add_filter( 'ngfb_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
+			// setup the update checks if we have an Authentication ID
+			if ( ! empty( $this->options[$this->acronym.'_pro_tid'] ) ) {
+				add_filter( $this->acronym.'_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );
 			}
 
@@ -547,10 +549,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
                         }
 
 			// AddThis Social Bookmarking Widget
-			if ( defined( 'ADDTHIS_INIT' ) && ADDTHIS_INIT && ( ! empty( $this->options['ngfb_filter_content'] ) || ! empty( $this->options['ngfb_filter_excerpt'] ) ) ) {
+			if ( defined( 'ADDTHIS_INIT' ) && ADDTHIS_INIT && 
+				( ! empty( $this->options[$this->acronym.'_filter_content'] ) || ! empty( $this->options[$this->acronym.'_filter_excerpt'] ) ) ) {
+
 				$this->debug->log( 'plugin conflict detected - addthis has broken excerpt / content filters' );
 				$this->notices->err( $conflict_prefix . __( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.' ) . ' ' .
-					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  $this->util->get_admin_url( 'advanced' ), $this->fullname ) );
+					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>. Disabling content filters will prevent shortcodes from being expanded, which may lead to incorrect / incomplete description meta tags.', NGFB_TEXTDOM ),  $this->util->get_admin_url( 'advanced' ), $this->fullname ) );
 			}
 
 		}
@@ -559,7 +563,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function check_deps( $is_avail = array() ) {
 
 			// ngfb pro
-			$is_avail['aop'] = class_exists( 'ngfbAddOnPro' ) ? true : false;
+			$is_avail['aop'] = class_exists( $this->acronym.'AddOnPro' ) ? true : false;
 
 			// available since php v4.0.6+
 			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;

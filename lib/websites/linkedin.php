@@ -12,30 +12,30 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 
 	class ngfbSettingsLinkedIn extends ngfbSettingsSocialSharing {
 
-		protected $ngfb;
+		protected $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get_rows() {
 			return array(
-				$this->ngfb->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' Content&nbsp; ' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_on_admin_sharing' ) . ' Admin Sharing' . 
+				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' Content&nbsp; ' . 
+				$this->p->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
+				$this->p->admin->form->get_checkbox( 'linkedin_on_admin_sharing' ) . ' Admin Sharing' . 
 				'</td>',
 
-				$this->ngfb->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'linkedin_order', 
-					range( 1, count( $this->ngfb->admin->settings['social']->website ) ), 'short' ) . '</td>',
+				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_select( 'linkedin_order', 
+					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>',
 
-				$this->ngfb->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
+				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
 
-				$this->ngfb->util->th( 'Counter Mode', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_select( 'linkedin_counter', 
+				$this->p->util->th( 'Counter Mode', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_select( 'linkedin_counter', 
 					array( 
 						'none' => '',
 						'right' => 'Horizontal',
@@ -43,8 +43,8 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 					)
 				) . '</td>',
 
-				$this->ngfb->util->th( 'Zero in Counter', 'short' ) . '<td>' . 
-				$this->ngfb->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
+				$this->p->util->th( 'Zero in Counter', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
 			);
 		}
 
@@ -55,23 +55,24 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocialLinkedIn {
 
-		protected $ngfb;
+		protected $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->ngfb->options;
+			$this->p->debug->mark();
+			if ( empty( $opts ) ) $opts = $this->p->options;
 			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			$src_id = $this->ngfb->util->get_src_id( 'linkedin', $atts );
+			$src_id = $this->p->util->get_src_id( 'linkedin', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->ngfb->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->ngfb->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
-			$html = '<!-- LinkedIn Button --><div '.$this->ngfb->social->get_css( 'linkedin', $atts ).'><script type="IN/Share" data-url="'.$atts['url'].'"';
+				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
+				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+			$html = '<!-- LinkedIn Button --><div '.$this->p->social->get_css( 'linkedin', $atts ).'><script type="IN/Share" data-url="'.$atts['url'].'"';
 
 			if ( ! empty( $opts['linkedin_counter'] ) ) 
 				$html .= ' data-counter="'.$opts['linkedin_counter'].'"';
@@ -80,13 +81,14 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 				$html .= ' data-showzero="true"';
 
 			$html .= '></script></div>'."\n";
-			$this->ngfb->debug->log( 'returning html ('.strlen( $html ).' chars)' );
+			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 		
 		public function get_js( $pos = 'id' ) {
+			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">ngfb_header_js( "linkedin-script-'.$pos.'", "'.$this->ngfb->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">ngfb_header_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
 		}
 
 	}

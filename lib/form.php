@@ -12,15 +12,15 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 	class ngfbForm {
 	
-		public $options_name;
-
-		private $ngfb;
+		private $p;
 		private $options = array();
 		private $defaults = array();
 
-		public function __construct( &$ngfb_plugin, $opts_name, &$opts, &$def_opts ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public $options_name;
+
+		public function __construct( &$plugin, $opts_name, &$opts, &$def_opts ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 			$this->options_name =& $opts_name;
 			$this->options =& $opts;
 			$this->defaults =& $def_opts;
@@ -47,7 +47,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) || ! is_array( $values ) ) return;
-			if ( $is_assoc == false ) $is_assoc = $this->ngfb->util->is_assoc( $values );
+			if ( $is_assoc == false ) $is_assoc = $this->p->util->is_assoc( $values );
 			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
 				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
 				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
@@ -92,7 +92,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			$html = '<select name="' . $this->options_name . '[' . $name . ']">' . "\n";
 			foreach ( $size_names as $size_name ) {
 				if ( is_integer( $size_name ) ) continue;
-				$size = $this->ngfb->media->get_size_info( $size_name );
+				$size = $this->p->media->get_size_info( $size_name );
 				$html .= '<option value="' . $size_name . '" ';
 				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $size_name, false );

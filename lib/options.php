@@ -12,6 +12,31 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 	class ngfbOptions {
 
+		private $p;
+
+		private $renamed = array(
+			'add_meta_desc' => 'inc_description',
+			'og_def_img' => 'og_def_img_url',
+			'og_def_home' => 'og_def_img_on_index',
+			'og_def_on_home' => 'og_def_img_on_index',
+			'og_def_on_search' => 'og_def_img_on_search',
+			'buttons_on_home' => 'buttons_on_index',
+			'buttons_lang' => 'gp_lang',
+			'ngfb_cache_hours' => 'ngfb_file_cache_hrs',
+			'fb_enable' => 'fb_on_the_content', 
+			'gp_enable' => 'gp_on_the_content',
+			'twitter_enable' => 'twitter_on_the_content',
+			'linkedin_enable' => 'linkedin_on_the_content',
+			'pin_enable' => 'pin_on_the_content',
+			'stumble_enable' => 'stumble_on_the_content',
+			'tumblr_enable' => 'tumblr_on_the_content',
+			'buttons_location' => 'buttons_location_the_content',
+			'og_admins' => 'fb_admins',
+			'og_app_id' => 'fb_app_id',
+			'ngfb_version' => 'ngfb_opts_ver',
+			'link_desc_len' => 'meta_desc_len',
+		);
+
 		public $opts_ver = '86';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
@@ -269,56 +294,31 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'wp_cm_yim_enabled' => 1,
 		);
 
-		private $renamed = array(
-			'add_meta_desc' => 'inc_description',
-			'og_def_img' => 'og_def_img_url',
-			'og_def_home' => 'og_def_img_on_index',
-			'og_def_on_home' => 'og_def_img_on_index',
-			'og_def_on_search' => 'og_def_img_on_search',
-			'buttons_on_home' => 'buttons_on_index',
-			'buttons_lang' => 'gp_lang',
-			'ngfb_cache_hours' => 'ngfb_file_cache_hrs',
-			'fb_enable' => 'fb_on_the_content', 
-			'gp_enable' => 'gp_on_the_content',
-			'twitter_enable' => 'twitter_on_the_content',
-			'linkedin_enable' => 'linkedin_on_the_content',
-			'pin_enable' => 'pin_on_the_content',
-			'stumble_enable' => 'stumble_on_the_content',
-			'tumblr_enable' => 'tumblr_on_the_content',
-			'buttons_location' => 'buttons_location_the_content',
-			'og_admins' => 'fb_admins',
-			'og_app_id' => 'fb_app_id',
-			'ngfb_version' => 'ngfb_opts_ver',
-			'link_desc_len' => 'meta_desc_len',
-		);
-
-		private $ngfb;		// ngfbPlugin
-
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get_defaults( $idx = '' ) {
-			foreach ( $this->ngfb->css_names as $css_id => $css_name ) {
+			foreach ( $this->p->css_names as $css_id => $css_name ) {
 				$css_file = NGFB_PLUGINDIR . 'css/' . $css_id . '-buttons.css';
 				if ( empty( $this->defaults['buttons_css_' . $css_id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->ngfb->notices->err( 'Failed to open <u>' . $css_file . '</u> for reading.' );
+						$this->p->notices->err( 'Failed to open <u>' . $css_file . '</u> for reading.' );
 					else {
 						$this->defaults['buttons_css_' . $css_id] = fread( $fh, filesize( $css_file ) );
-						$this->ngfb->debug->log( 'read css from file ' . $css_file );
+						$this->p->debug->log( 'read css from file ' . $css_file );
 						fclose( $fh );
 					}
 				}
 			}
 			$this->defaults = $this->add_to_post_types( $this->defaults );
 
-			$this->defaults['link_author_field'] = empty( $this->ngfb->options['ngfb_cm_gp_name'] ) ? 
-				$this->defaults['ngfb_cm_gp_name'] : $this->ngfb->options['ngfb_cm_gp_name'];
+			$this->defaults['link_author_field'] = empty( $this->p->options[$this->p->acronym.'_cm_gp_name'] ) ? 
+				$this->defaults[$this->p->acronym.'_cm_gp_name'] : $this->p->options[$this->p->acronym.'_cm_gp_name'];
 
-			$this->defaults['og_author_field'] = empty( $this->ngfb->options['ngfb_cm_fb_name'] ) ? 
-				$this->defaults['ngfb_cm_fb_name'] : $this->ngfb->options['ngfb_cm_fb_name'];
+			$this->defaults['og_author_field'] = empty( $this->p->options[$this->p->acronym.'_cm_fb_name'] ) ? 
+				$this->defaults[$this->p->acronym.'_cm_fb_name'] : $this->p->options[$this->p->acronym.'_cm_fb_name'];
 
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
@@ -326,7 +326,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function add_to_post_types( &$opts = array() ) {
-			foreach ( array( 'buttons_add_to', 'ngfb_add_to' ) as $opt_prefix ) {
+			foreach ( array( 'buttons_add_to', $this->p->acronym.'_add_to' ) as $opt_prefix ) {
 				foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
 					$key = $opt_prefix . '_' . $post_type->name;
 					if ( ! array_key_exists( $key, $opts ) ) {
@@ -350,9 +350,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// add support for post types that may have been added
 				$opts = $this->add_to_post_types( $opts );
 
-				if ( ( empty( $opts['ngfb_plugin_ver'] ) || $opts['ngfb_plugin_ver'] !== $this->ngfb->version ) ||
-					( empty( $opts['ngfb_opts_ver'] ) || $opts['ngfb_opts_ver'] !== $this->opts_ver ) ) {
-					$this->ngfb->debug->log( 'plugin version different than options version: calling upgrade() method.' );
+				if ( ( empty( $opts[$this->p->acronym.'_plugin_ver'] ) || $opts[$this->p->acronym.'_plugin_ver'] !== $this->p->version ) ||
+					( empty( $opts[$this->p->acronym.'_opts_ver'] ) || $opts[$this->p->acronym.'_opts_ver'] !== $this->opts_ver ) ) {
+
+					$this->p->debug->log( 'plugin version different than options version: calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
 			} else {
@@ -365,26 +366,26 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				else 
 					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
 
-				$this->ngfb->debug->log( 'WordPress ' . $err_msg . ' the options database table.' );
+				$this->p->debug->log( 'WordPress ' . $err_msg . ' the options database table.' );
 				$opts = $this->get_defaults();
 			}
 			if ( is_admin() ) {
 				if ( ! empty( $err_msg ) ) {
-					$url = $this->ngfb->util->get_admin_url( 'general' );
-					$this->ngfb->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
+					$url = $this->p->util->get_admin_url( 'general' );
+					$this->p->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
 						All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="' . $url . '">Please visit the plugin settings pages to review and save the options</a>.' );
 				}
-				if ( $this->ngfb->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->ngfb->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
-					$url = $this->ngfb->util->get_admin_url( 'general' );
-					$size_desc = $this->ngfb->options['og_img_width'] . 'x' . $this->ngfb->options['og_img_height'];
-					$this->ngfb->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
+				if ( $this->p->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->p->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
+					$url = $this->p->util->get_admin_url( 'general' );
+					$size_desc = $this->p->options['og_img_width'] . 'x' . $this->p->options['og_img_height'];
+					$this->p->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
 						is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
 						<a href="' . $url . '">Please enter a larger Image Size on the General Settings page</a>.' );
 				}
-				if ( $this->ngfb->is_avail['aop'] == true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-					$url = $this->ngfb->util->get_admin_url( 'advanced' );
-					$this->ngfb->notices->nag( '<p>The ' . $this->ngfb->fullname . ' <em>Authentication ID</em> option value is empty. 
+				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) ) {
+					$url = $this->p->util->get_admin_url( 'advanced' );
+					$this->p->notices->nag( '<p>The ' . $this->p->fullname . ' <em>Authentication ID</em> option value is empty. 
 						In order for the plugin to authenticate itself for future updates,<br/><a href="' . $url . '">please enter 
 						the unique Authenticaton ID you received by email on the Advanced Settings page</a>.</p>' );
 				}
@@ -473,7 +474,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 						// needs to be filtered
 						case 'og_title_sep' :
-							$opts[$key] = $this->ngfb->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
+							$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
 
 						// text strings that can be blank
 						case 'fb_app_id' :
@@ -573,14 +574,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 			// make sure we have something to work with
 			if ( empty( $opts ) || ! is_array( $opts ) ) {
-				$this->ngfb->debug->log( 'exiting early: options variable is empty and/or not array' );
+				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
 				return $opts;
 			}
 
 			$opts = $this->rename_keys( $this->renamed, $opts );
 
 			// these option names may have been used in the past, so remove them, just in case
-			if ( $opts['ngfb_opts_ver'] < 30 ) {
+			if ( $opts[$this->p->acronym.'_opts_ver'] < 30 ) {
 				unset( $opts['og_img_width'] );
 				unset( $opts['og_img_height'] );
 				unset( $opts['og_img_crop'] );
@@ -592,7 +593,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			// upgrade the old 'og_img_size' name into width / height / crop values
 			if ( array_key_exists( 'og_img_size', $opts ) ) {
 				if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
-					$size_info = $this->ngfb->media->get_size_info( $opts['og_img_size'] );
+					$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
 					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
 						$opts['og_img_width'] = $size_info['width'];
 						$opts['og_img_height'] = $size_info['height'];
@@ -606,8 +607,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			foreach ( $opts as $key => $val )
 				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
 				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-					if ( $this->ngfb->debug->is_on() == true )
-						$this->ngfb->notices->inf( 'Removing deprecated option \'' . 
+					if ( $this->p->debug->is_on() == true )
+						$this->p->notices->inf( 'Removing deprecated option \'' . 
 							$key . '\' with a value of \'' . $val . '\'.' );
 					unset( $opts[$key] );
 				}
@@ -616,7 +617,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			// add missing options and set to defaults
 			foreach ( $def_opts as $key => $def_val ) {
 				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-					$this->ngfb->debug->log( 'adding missing ' . $key . ' option.' );
+					$this->p->debug->log( 'adding missing ' . $key . ' option.' );
 					$opts[$key] = $def_val;
 				}
 			}
@@ -625,9 +626,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$opts = $this->sanitize( $opts, $def_opts );
 
 			// mark the new options as current
-			$old_opts_ver = $opts['ngfb_opts_ver'];
-			$opts['ngfb_opts_ver'] = $this->opts_ver;
-			$opts['ngfb_plugin_ver'] = $this->ngfb->version;
+			$old_opts_ver = $opts[$this->p->acronym.'_opts_ver'];
+			$opts[$this->p->acronym.'_opts_ver'] = $this->opts_ver;
+			$opts[$this->p->acronym.'_plugin_ver'] = $this->p->version;
 
 			// don't save unless someone is there to see the success / error messages
 			// plugin activation may hide notices, so main plugin class tests for activation and exits early
@@ -637,26 +638,26 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
-					if ( $this->ngfb->is_avail['aop'] !== true && empty( $this->ngfb->options['ngfb_pro_tid'] ) ) {
-						$this->ngfb->debug->log( 'adding notices message update-nag \'pro_details\'' );
-						$this->ngfb->notices->nag( $this->ngfb->msg->get( 'pro_details' ) );
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) ) {
+						$this->p->debug->log( 'adding notices message update-nag \'pro_details\'' );
+						$this->p->notices->nag( $this->p->msg->get( 'pro_details' ) );
 					}
 
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
 						if ( $old_opts_ver !== $this->opts_ver ) {
-							$this->ngfb->debug->log( 'upgraded plugin options have been saved' );
-							$this->ngfb->notices->inf( 'Plugin settings have been upgraded and saved.' );
+							$this->p->debug->log( 'upgraded plugin options have been saved' );
+							$this->p->notices->inf( 'Plugin settings have been upgraded and saved.' );
 						}
 					} else {
-						$this->ngfb->debug->log( 'failed to save the upgraded plugin options' );
-						$this->ngfb->notices->err( 'The plugin settings have been upgraded, 
+						$this->p->debug->log( 'failed to save the upgraded plugin options' );
+						$this->p->notices->err( 'The plugin settings have been upgraded, 
 							but WordPress returned an error when saving them.' );
 						return $opts;
 					}
-				} else $this->ngfb->debug->log( 'new and old options array is identical' );
-			} else $this->ngfb->debug->log( 'not in admin interface: postponing options save' );
+				} else $this->p->debug->log( 'new and old options array is identical' );
+			} else $this->p->debug->log( 'not in admin interface: postponing options save' );
 
-			$this->ngfb->debug->log( 'options successfully upgraded' );
+			$this->p->debug->log( 'options successfully upgraded' );
 			return $opts;
 		}
 
@@ -665,8 +666,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			foreach ( $renamed as $old => $new )
 				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-					if ( $this->ngfb->debug->is_on() == true )
-						$this->ngfb->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
+					if ( $this->p->debug->is_on() == true )
+						$this->p->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
 							$new . '\' with a value of \'' . $opts[$old] . '\'.' );
 					$opts[$new] = $opts[$old];
 					unset( $opts[$old] );

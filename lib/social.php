@@ -12,12 +12,12 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 	class ngfbSocial {
 
-		protected $ngfb;
+		protected $p;
 		protected $website = array();
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 			$this->setup_vars();
 
 			if ( is_admin() ) {
@@ -33,115 +33,114 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		private function setup_vars() {
-			foreach ( $this->ngfb->website_libs as $id => $name ) {
+			foreach ( $this->p->website_libs as $id => $name ) {
 				$classname = 'ngfbSocial'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
-					$this->website[$id] = new $classname( $this->ngfb );
+					$this->website[$id] = new $classname( $this->p );
 			}
 			unset ( $id, $name );
 		}
 
 		public function add_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'filter_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->ngfb->debug->log( 'this->filter_'.$type.'() added' );
+			$this->p->debug->log( 'this->filter_'.$type.'() added' );
 		}
 
 		public function remove_filter( $type = 'the_content' ) {
 			$rc = remove_filter( $type, array( &$this, 'filter_'. $type ), NGFB_SOCIAL_PRIORITY );
-			$this->ngfb->debug->log( 'this->filter_'.$type.'() removed = '.( $rc  ? 'true' : 'false' ) );
+			$this->p->debug->log( 'this->filter_'.$type.'() removed = '.( $rc  ? 'true' : 'false' ) );
 			return $rc;
 		}
 
 		public function add_header() {
 			echo $this->header_js();
 			echo $this->get_js( 'header' );
-			$this->ngfb->debug->show_html( null, 'Debug Log' );
+			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
 		public function add_footer() {
 			echo $this->get_js( 'footer' );
-			$this->ngfb->debug->show_html( null, 'Debug Log' );
+			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
 		public function filter_the_excerpt( $text ) {
-			return $this->filter( $text, 'the_excerpt', $this->ngfb->options );
+			return $this->filter( $text, 'the_excerpt', $this->p->options );
 		}
 
 		public function filter_the_content( $text ) {
-			return $this->filter( $text, 'the_content', $this->ngfb->options );
+			return $this->filter( $text, 'the_content', $this->p->options );
 		}
 
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->ngfb->options;
+			if ( empty( $opts ) ) $opts = $this->p->options;
 			if ( ! is_admin() ) {
 				if ( ! is_singular() && empty( $opts['buttons_on_index'] ) ) {
-					$this->ngfb->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
+					$this->p->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
 					return $text;
 				}
 				if ( is_front_page() && empty( $opts['buttons_on_front'] ) ) {
-					$this->ngfb->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
+					$this->p->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
 					return $text;
 				}
 				if ( $this->is_disabled() ) {
-					$this->ngfb->debug->log( $type.' filter skipped: buttons disabled' );
+					$this->p->debug->log( $type.' filter skipped: buttons disabled' );
 					return $text;
 				}
 			}
 			$enabled = false;
-			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
+			foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
 				if ( ! empty( $opts[$opt_prefix.'_on_'.$type] ) ) {
 					$enabled = true;
 					break;
 				}
 			}
 			if ( $enabled == false ) {
-				$this->ngfb->debug->log( $type.' filter exiting early: no buttons enabled' );
+				$this->p->debug->log( $type.' filter exiting early: no buttons enabled' );
 				return $text;
 			}
 			// we should always have a unique post ID
 			global $post;
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
-			$cache_id = $this->ngfb->acronym.'_'.md5( $cache_salt );
+			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 			$cache_type = 'object cache';
 			$html = get_transient( $cache_id );
-			$this->ngfb->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
+			$this->p->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
 
 			if ( $html !== false ) {
-				$this->ngfb->debug->log( $cache_type.': '.$type.' html retrieved from transient for id "'.$cache_id.'"' );
+				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient for id "'.$cache_id.'"' );
 			} else {
 				$sorted_ids = array();
-				foreach ( $this->ngfb->social_prefix as $id => $opt_prefix )
+				foreach ( $this->p->social_prefix as $id => $opt_prefix )
 					if ( ! empty( $opts[$opt_prefix.'_on_'.$type] ) )
 						$sorted_ids[$opts[$opt_prefix.'_order'].'-'.$id] = $id;	// sort by number, then by name
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
 
 				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
-				$this->ngfb->debug->log( 'calling this->get_html()' );
 				$html = $this->get_html( $sorted_ids, $atts, $opts );
 
 				if ( ! empty( $html ) ) {
-					$html = "\n<!-- ".$this->ngfb->fullname.' '.$css_type." BEGIN -->\n" .
-						'<div class="'.$this->ngfb->acronym.'-'.$css_type."\">\n".$html."</div>\n" .
-						'<!-- '.$this->ngfb->fullname.' '.$css_type." END -->\n";
+					$html = "\n<!-- ".$this->p->fullname.' '.$css_type." BEGIN -->\n" .
+						'<div class="'.$this->p->acronym.'-'.$css_type."\">\n".$html."</div>\n" .
+						'<!-- '.$this->p->fullname.' '.$css_type." END -->\n";
 
-					set_transient( $cache_id, $html, $this->ngfb->cache->object_expire );
-					$this->ngfb->debug->log( $cache_type.': '.$type.' html saved to transient for id "'.
-						$cache_id.'" ('.$this->ngfb->cache->object_expire.' seconds)' );
+					set_transient( $cache_id, $html, $this->p->cache->object_expire );
+					$this->p->debug->log( $cache_type.': '.$type.' html saved to transient for id "'.
+						$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
 				}
 			}
 			if ( $type == 'admin_sharing' )
-				$text = $this->ngfb->debug->get_html().$text.$html; 
+				$text = $this->p->debug->get_html().$text.$html; 
 			elseif ( ! empty( $opts[ 'buttons_location_'.$type ] ) ) {
 				switch ( $opts[ 'buttons_location_'.$type ] ) {
 					case 'top' : 
-						$text = $this->ngfb->debug->get_html().$html.$text; 
+						$text = $this->p->debug->get_html().$html.$text; 
 						break;
 					case 'bottom' : 
-						$text = $this->ngfb->debug->get_html().$text.$html; 
+						$text = $this->p->debug->get_html().$text.$html; 
 						break;
 					case 'both' : 
-						$text = $this->ngfb->debug->get_html().$html.$text.$html; 
+						$text = $this->p->debug->get_html().$html.$text.$html; 
 						break;
 				}
 			}
@@ -149,41 +148,41 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->ngfb->options;
+			$this->p->debug->mark();
+			if ( empty( $opts ) ) $opts = $this->p->options;
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize
-				$this->ngfb->debug->log( 'calling this->website['.$id.']->get_html()' );
 				if ( method_exists( $this->website[$id], 'get_html' ) )
 					$html .= $this->website[$id]->get_html( $atts, $opts );
 			}
 			if ( ! empty( $html ) ) 
-				$html = '<div class="'.$this->ngfb->acronym.'-buttons">'."\n".$html.'</div>'."\n";
+				$html = '<div class="'.$this->p->acronym.'-buttons">'."\n".$html.'</div>'."\n";
 			return $html;
 		}
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
-			if ( is_singular() && $this->ngfb->social->is_disabled() ) {
-				$this->ngfb->debug->log( $pos.' javascript skipped: buttons disabled' );
+			if ( is_singular() && $this->p->social->is_disabled() ) {
+				$this->p->debug->log( $pos.' javascript skipped: buttons disabled' );
 				return;
 			}
 			$widget = new ngfbWidgetSocialSharing();
 		 	$widget_settings = $widget->get_settings();
 
 			// determine which (if any) social buttons are enabled
-			foreach ( $this->ngfb->social_prefix as $id => $opt_prefix ) {
+			foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
 
 				// check for enabled buttons on settings page
-				if ( is_admin() && ! empty( $this->ngfb->options[$opt_prefix.'_on_admin_sharing'] ) ) {
+				if ( is_admin() && ! empty( $this->p->options[$opt_prefix.'_on_admin_sharing'] ) ) {
 					$ids[] = $id;
 
 				} elseif ( is_singular() 
-					|| ( ! is_singular() && ! empty( $this->ngfb->options['buttons_on_index'] ) ) 
-					|| ( is_front_page() && ! empty( $this->ngfb->options['buttons_on_front'] ) ) ) {
+					|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
+					|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
 
-					if ( ! empty( $this->ngfb->options[$opt_prefix.'_on_the_content'] ) 
-						|| ! empty( $this->ngfb->options[$opt_prefix.'_on_the_excerpt'] ) ) {
+					if ( ! empty( $this->p->options[$opt_prefix.'_on_the_content'] ) 
+						|| ! empty( $this->p->options[$opt_prefix.'_on_the_excerpt'] ) ) {
 							$ids[] = $id;
 					}
 				}
@@ -196,8 +195,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			unset ( $id, $opt_prefix );
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$this->ngfb->debug->log( $pos.' ids = '.implode( ', ', $ids ) );
-			$js = '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript BEGIN -->'."\n";
+			$this->p->debug->log( $pos.' ids = '.implode( ', ', $ids ) );
+			$js = '<!-- '.$this->p->fullname.' '.$pos.' javascript BEGIN -->'."\n";
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
 			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
@@ -206,21 +205,20 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
 					$id = preg_replace( '/[^a-z]/', '', $id );
-					$opt_name = $this->ngfb->social_prefix[$id].'_js_loc';
-					$this->ngfb->debug->log( 'calling this->website['.$id.']->get_js()' );
+					$opt_name = $this->p->social_prefix[$id].'_js_loc';
 					if ( method_exists( $this->website[$id], 'get_js' ) && 
-						! empty( $this->ngfb->options[$opt_name] ) && 
-						$this->ngfb->options[$opt_name] == $pos_section )
+						! empty( $this->p->options[$opt_name] ) && 
+						$this->p->options[$opt_name] == $pos_section )
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= '<!-- '.$this->ngfb->fullname.' '.$pos.' javascript END -->'."\n";
+			$js .= '<!-- '.$this->p->fullname.' '.$pos.' javascript END -->'."\n";
 			return $js;
 		}
 
 		public function header_js( $pos = 'id' ) {
-			$lang = empty( $this->ngfb->options['gp_lang'] ) ? 'en-US' : $this->ngfb->options['gp_lang'];
-			$lang = apply_filters( 'ngfb_lang', $lang, $this->ngfb->util->get_lang( 'gplus' ) );
+			$lang = empty( $this->p->options['gp_lang'] ) ? 'en-US' : $this->p->options['gp_lang'];
+			$lang = apply_filters( 'ngfb_lang', $lang, $this->p->util->get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "'.$lang.'" };
 				function ngfb_header_js( script_id, url, async ) {
@@ -256,11 +254,11 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			global $post;
 			if ( ! empty( $post ) ) {
 				$post_type = $post->post_type;
-				if ( $this->ngfb->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
-					$this->ngfb->debug->log( 'found custom meta buttons disabled = true' );
+				if ( $this->p->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
+					$this->p->debug->log( 'found custom meta buttons disabled = true' );
 					return true;
-				} elseif ( ! empty( $post_type ) && empty( $this->ngfb->options['buttons_add_to_'.$post_type] ) ) {
-					$this->ngfb->debug->log( 'social buttons disabled for post type '.$post_type );
+				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
+					$this->p->debug->log( 'social buttons disabled for post type '.$post_type );
 					return true;
 				}
 			}

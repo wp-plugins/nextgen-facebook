@@ -12,24 +12,24 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 
 	class ngfbTags {
 
-		private $ngfb;		// ngfbPlugin
+		private $p;
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 		}
 
 		public function get() {
 			$tags = apply_filters( 'ngfb_tags_seed', array() );
 			if ( ! empty( $tags ) ) {
-				$this->ngfb->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
+				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
 				return $tags;
 			}
 
 			if ( is_singular() ) {
 				global $post;
 				$tags = array_merge( $tags, $this->get_wp( $post->ID ) );
-				if ( $this->ngfb->options['og_ngg_tags'] && $this->ngfb->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
+				if ( $this->p->options['og_ngg_tags'] && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) ) {
 					$pid = get_post_thumbnail_id( $post->ID );
 					// featured images from ngg pre-v2 had 'ngg-' prefix
 					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
@@ -46,10 +46,10 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		public function get_wp( $post_id ) {
 			$tags = array();
 			$post_ids = array ( $post_id );	// array of one
-			if ( $this->ngfb->options['og_page_parent_tags'] && is_page( $post_id ) )
+			if ( $this->p->options['og_page_parent_tags'] && is_page( $post_id ) )
 				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
 			foreach ( $post_ids as $id ) {
-				if ( $this->ngfb->options['og_page_title_tag'] && is_page( $id ) )
+				if ( $this->p->options['og_page_title_tag'] && is_page( $id ) )
 					$tags[] = get_the_title( $id );
 				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name )
 					$tags[] = $tag_name;
@@ -61,7 +61,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		// called from the view/gallery-meta.php template
 		public function get_ngg( $pid ) {
 			$tags = array();
-			if ( $this->ngfb->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+			if ( $this->p->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			$tags = array_map( 'strtolower', $tags );
 			return apply_filters( 'ngfb_ngg_tags', $tags );

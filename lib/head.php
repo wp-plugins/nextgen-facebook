@@ -12,15 +12,16 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 	class ngfbHead {
 
+		private $p;
+
 		public $og;
 
-		private $ngfb;
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 
-		public function __construct( &$ngfb_plugin ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
 			if ( class_exists( 'ngfbOpenGraph' ) )
-				$this->og = new ngfbOpenGraph( $ngfb_plugin );
+				$this->og = new ngfbOpenGraph( $plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
@@ -28,27 +29,27 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		// called by WP wp_head action
 		public function add_header() {
 
-			if ( $this->ngfb->debug->is_on() )
+			if ( $this->p->debug->is_on() )
 				foreach ( array( 'is_archive', 'is_category', 'is_tag', 'is_home', 'is_search', 'is_singular', 'is_attachment' ) as $func )
-					$this->ngfb->debug->log( $func.'() = ' . ( $func() ? 'true' : 'false' ) );
+					$this->p->debug->log( $func.'() = ' . ( $func() ? 'true' : 'false' ) );
 
 			if ( method_exists( $this->og, 'get' ) )
 				$this->html( $this->og->get() );
 
-			if ( $this->ngfb->debug->is_on() ) {
+			if ( $this->p->debug->is_on() ) {
 				//$defined_constants = get_defined_constants( true );
-				//$this->ngfb->debug->show_html( $this->ngfb->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				//$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 
-				$opts = $this->ngfb->options;
+				$opts = $this->p->options;
 				foreach ( array( 
 					'ngfb_pro_tid', 
 					'ngfb_googl_api_key', 
 					'ngfb_bitly_api_key',
 				) as $key ) $opts[$key] = '********';
 
-				$this->ngfb->debug->show_html( $this->ngfb->is_avail, 'Available Features' );
-				$this->ngfb->debug->show_html( null, 'Debug Log' );
-				$this->ngfb->debug->show_html( $opts, 'NGFB Settings' );
+				$this->p->debug->show_html( $this->p->is_avail, 'Available Features' );
+				$this->p->debug->show_html( null, 'Debug Log' );
+				$this->p->debug->show_html( $opts, 'NGFB Settings' );
 			}
 		}
 
@@ -57,13 +58,13 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", $this->ngfb->fullname, " meta tags BEGIN -->\n";
+			echo "\n<!-- ", $this->p->fullname, " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
-			$this->ngfb->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
-			$this->ngfb->debug->show_html( print_r( $this->ngfb->util->get_urls_found(), true ), 'Media URLs Found' );
+			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
+			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
 
-			echo '<meta name="generator" content="', $this->ngfb->fullname, ' ', $this->ngfb->version, '" />', "\n";
+			echo '<meta name="generator" content="', $this->p->fullname, ' ', $this->p->version, '" />', "\n";
 
 			/*
 			 * Meta Tags for Google
@@ -72,8 +73,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			if ( array_key_exists( 'link:publisher', $meta_tags ) ) {
 				$link_rel['publisher'] = $meta_tags['link:publisher'];
 				unset ( $meta_tags['link:publisher'] );
-			} elseif ( ! empty( $this->ngfb->options['link_publisher_url'] ) )
-				$link_rel['publisher'] = $this->ngfb->options['link_publisher_url'];
+			} elseif ( ! empty( $this->p->options['link_publisher_url'] ) )
+				$link_rel['publisher'] = $this->p->options['link_publisher_url'];
 
 			if ( array_key_exists( 'link:author', $meta_tags ) ) {
 				$link_rel['author'] = $meta_tags['link:author'];
@@ -81,17 +82,17 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			} else {
 				if ( is_singular() ) {
 					if ( ! empty( $post ) && $post->post_author )
-						$link_rel['author'] = $this->ngfb->user->get_author_url( $post->post_author, 
-							$this->ngfb->options['link_author_field'] );
-					elseif ( ! empty( $this->ngfb->options['link_def_author_id'] ) )
-						$link_rel['author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
-							$this->ngfb->options['link_author_field'] );
+						$link_rel['author'] = $this->p->user->get_author_url( $post->post_author, 
+							$this->p->options['link_author_field'] );
+					elseif ( ! empty( $this->p->options['link_def_author_id'] ) )
+						$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
+							$this->p->options['link_author_field'] );
 				// check for default author info on indexes and searches
-				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->ngfb->options['link_def_author_on_index'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) )
-					|| ( is_search() && ! empty( $this->ngfb->options['link_def_author_on_search'] ) && ! empty( $this->ngfb->options['link_def_author_id'] ) ) ) {
+				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['link_def_author_on_index'] ) && ! empty( $this->p->options['link_def_author_id'] ) )
+					|| ( is_search() && ! empty( $this->p->options['link_def_author_on_search'] ) && ! empty( $this->p->options['link_def_author_id'] ) ) ) {
 
-					$link_rel['author'] = $this->ngfb->user->get_author_url( $this->ngfb->options['link_def_author_id'], 
-						$this->ngfb->options['link_author_field'] );
+					$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
+						$this->p->options['link_author_field'] );
 				}
 			}
 			$link_rel = apply_filters( 'ngfb_link_rel', $link_rel );
@@ -99,12 +100,12 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				if ( ! empty( $val ) )
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
 
-			if ( ! empty( $this->ngfb->options['inc_description'] ) ) {
+			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
 					if ( is_singular() && ! empty( $post ) )
-						$meta_tags['description'] = $this->ngfb->meta->get_options( $post->ID, 'meta_desc' );
+						$meta_tags['description'] = $this->p->meta->get_options( $post->ID, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
-						$meta_tags['description'] = $this->ngfb->webpage->get_description( $this->ngfb->options['meta_desc_len'], '...' );
+						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...' );
 				}
 				if ( ! empty( $meta_tags['description'] ) ) {
 					// get_description is already decoded and html clean, so just encode html entities
@@ -116,54 +117,54 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			/*
 			 * Print the Multi-Dimensional Array as HTML
 			 */
-			$this->ngfb->debug->log( count( $meta_tags ) . ' meta_tags to process' );
+			$this->p->debug->log( count( $meta_tags ) . ' meta_tags to process' );
 			foreach ( $meta_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
 					if ( empty( $first_val ) ) {
 						echo $this->get_meta_html( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
 					} else {
-						//$this->ngfb->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
+						//$this->p->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
 						foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
-							if ( $this->ngfb->util->is_assoc( $second_val ) ) {
-								//$this->ngfb->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
+							if ( $this->p->util->is_assoc( $second_val ) ) {
+								//$this->p->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
 								ksort( $second_val );
 								foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
-									//$this->ngfb->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
+									//$this->p->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
 									echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
 								}
 								unset ( $third_name, $third_val );
 							} else {
-								//$this->ngfb->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
+								//$this->p->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
 								echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
 							}
 						}
 						unset ( $second_num, $second_val );
 					}
 				} else {
-					//$this->ngfb->debug->log( 'formatting 1st-dimension element: ' . $first_name );
+					//$this->p->debug->log( 'formatting 1st-dimension element: ' . $first_name );
 					echo $this->get_meta_html( $first_name, $first_val );
 				}
 			}
 			unset ( $first_name, $first_val );
 
-			echo "<!-- ", $this->ngfb->fullname, " meta tags END -->\n";
+			echo "<!-- ", $this->p->fullname, " meta tags END -->\n";
 		}
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->ngfb->options['inc_' . $name] ) ) {
-				if ( $val !== '' || ( ! empty( $this->ngfb->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
+			if ( ! empty( $this->p->options['inc_' . $name] ) ) {
+				if ( $val !== '' || ( ! empty( $this->p->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
 					$charset = get_bloginfo( 'charset' );
-					$val = htmlentities( $this->ngfb->util->cleanup_html_tags( $this->ngfb->util->decode( $val ) ), 
+					$val = htmlentities( $this->p->util->cleanup_html_tags( $this->p->util->decode( $val ) ), 
 						ENT_QUOTES, $charset, false );
-					$this->ngfb->debug->log( 'meta ' . $name . ' = "' . $val . '"' );
+					$this->p->debug->log( 'meta ' . $name . ' = "' . $val . '"' );
 					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 
 					// by default, echo a <meta property="" content=""> html tag
 					if ( $name == 'description' || strpos( $name, 'twitter:' ) === 0 ) {
 						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
 					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
-						strpos( $val, 'https:' ) === 0 && ! empty( $this->ngfb->options['inc_'.$name] ) ) {
+						strpos( $val, 'https:' ) === 0 && ! empty( $this->p->options['inc_'.$name] ) ) {
 
 						$non_sec = preg_replace( '/^https:/', 'http:', $val );
 						$meta_html .= '<meta property="' . $name . '" content="' . $non_sec . '" />' . "\n";
@@ -173,8 +174,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					} else {
 						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
 					}
-				} else $this->ngfb->debug->log( 'meta ' . $name . ' is empty - skipping' );
-			} else $this->ngfb->debug->log( 'meta ' . $name . ' is disabled - skipping' );
+				} else $this->p->debug->log( 'meta ' . $name . ' is empty - skipping' );
+			} else $this->p->debug->log( 'meta ' . $name . ' is disabled - skipping' );
 			return $meta_html;
 		}
 

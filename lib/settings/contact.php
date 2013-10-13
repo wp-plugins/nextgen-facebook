@@ -12,15 +12,15 @@ if ( ! class_exists( 'ngfbSettingsContactMethods' ) && class_exists( 'ngfbSettin
 
 	class ngfbSettingsContactMethods extends ngfbSettingsAdvanced {
 
-		protected $ngfb;
+		protected $p;
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
 
 		// executed by ngfbSettingsAdvancedPro() as well
-		public function __construct( &$ngfb_plugin, $id, $name ) {
-			$this->ngfb =& $ngfb_plugin;
-			$this->ngfb->debug->mark();
+		public function __construct( &$plugin, $id, $name ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
 		}
