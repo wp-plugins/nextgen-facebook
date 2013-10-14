@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 
 		public function add_metaboxes() {
 			foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $post_type )
-				if ( ! empty( $this->p->options[ 'ngfb_add_to_' . $post_type->name ] ) ) {
+				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
 					add_meta_box( NGFB_META_NAME, $this->p->menuname.' Custom Settings', 
 						array( &$this->p->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
 					add_meta_box( '_ngfb_share', $this->p->menuname.' Sharing', 

@@ -159,7 +159,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->acronym_uc.' Info </b> : '.
 				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
-					$this->p->options[$this->p->acronym.'_object_cache_exp'] ), 'updated' );
+					$this->p->options['plugin_object_cache_exp'] ), 'updated' );
 
 			return $opts;
 		}
@@ -173,7 +173,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 
 				// we have a transaction ID, but we are not using the pro version (yet) - force an update
-				if ( $this->p->is_avail['aop'] == false && ! empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) )
+				if ( $this->p->is_avail['aop'] == false && ! empty( $this->p->options['plugin_pro_tid'] ) )
 					$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
@@ -191,7 +191,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 						break;
 					case 'check_for_updates' : 
-						if ( ! empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) ) {
+						if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
 							$this->p->update->check_for_updates();
 							$this->p->admin->set_readme( 0 );
 							$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
@@ -289,8 +289,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
 			// always include the version number of the options
-			echo $this->p->admin->form->get_hidden( $this->p->acronym.'_opts_ver', $this->p->opt->opts_ver );
-			echo $this->p->admin->form->get_hidden( $this->p->acronym.'_plugin_ver', $this->p->version );
+			echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
+			echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->version );
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
 			foreach ( range( 1, ceil( count( $this->p->admin->settings['social']->website ) / 2 ) ) as $row ) {
 				echo '<div class="website-row">', "\n";
@@ -386,7 +386,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<?php
 			echo '<tr><td colspan="2">';
 			echo '<p class="centered">';
-			if ( ! empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) )
+			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				echo $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, $this->p->util->get_admin_url() . '&amp;action=check_for_updates' );
 			echo $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 

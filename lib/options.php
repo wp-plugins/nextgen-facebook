@@ -22,7 +22,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_def_on_search' => 'og_def_img_on_search',
 			'buttons_on_home' => 'buttons_on_index',
 			'buttons_lang' => 'gp_lang',
-			'ngfb_cache_hours' => 'ngfb_file_cache_hrs',
+			'ngfb_cache_hours' => 'plugin_file_cache_hrs',
 			'fb_enable' => 'fb_on_the_content', 
 			'gp_enable' => 'gp_on_the_content',
 			'twitter_enable' => 'twitter_on_the_content',
@@ -33,11 +33,27 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_location' => 'buttons_location_the_content',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
-			'ngfb_version' => 'ngfb_opts_ver',
+			'ngfb_version' => 'options_version',
 			'link_desc_len' => 'meta_desc_len',
+			'ngfb_opts_ver' => 'options_version',
+			'ngfb_plugin_ver' => 'plugin_version',
+			'ngfb_pro_tid' => 'plugin_pro_tid',
+			'ngfb_preserve' => 'plugin_preserve',
+			'ngfb_reset' => 'plugin_reset',
+			'ngfb_debug' => 'plugin_debug',
+			'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
+			'ngfb_skip_small_img' => 'plugin_ignore_small_img',
+			'ngfb_filter_content' => 'plugin_filter_content',
+			'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
+			'ngfb_add_to_post' => 'plugin_add_to_post',
+			'ngfb_add_to_page' => 'plugin_add_to_page',
+			'ngfb_add_to_attachment' => 'plugin_add_to_attachment',
+			'ngfb_verify_certs' => 'plugin_verify_certs',
+			'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
+			'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
 		);
 
-		public $opts_ver = '86';	// increment when adding/removing default options
+		public $options_version = '89';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -237,22 +253,22 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'inc_twitter:label3' => 1,
 			'inc_twitter:data4' => 1,
 			'inc_twitter:label4' => 1,
-			'ngfb_opts_ver' => '',
-			'ngfb_plugin_ver' => '',
-			'ngfb_pro_tid' => '',
-			'ngfb_preserve' => 0,
-			'ngfb_reset' => 0,
-			'ngfb_debug' => 0,
-			'ngfb_enable_shortcode' => 0,
-			'ngfb_skip_small_img' => 1,
-			'ngfb_filter_content' => 1,
-			'ngfb_filter_excerpt' => 0,
-			'ngfb_add_to_post' => 1,
-			'ngfb_add_to_page' => 1,
-			'ngfb_add_to_attachment' => 1,
-			'ngfb_verify_certs' => 0,
-			'ngfb_file_cache_hrs' => 0,
-			'ngfb_object_cache_exp' => 300,
+			'options_version' => '',
+			'plugin_version' => '',
+			'plugin_pro_tid' => '',
+			'plugin_preserve' => 0,
+			'plugin_reset' => 0,
+			'plugin_debug' => 0,
+			'plugin_shortcode_ngfb' => 0,
+			'plugin_ignore_small_img' => 1,
+			'plugin_filter_content' => 1,
+			'plugin_filter_excerpt' => 0,
+			'plugin_add_to_post' => 1,
+			'plugin_add_to_page' => 1,
+			'plugin_add_to_attachment' => 1,
+			'plugin_verify_certs' => 0,
+			'plugin_file_cache_hrs' => 0,
+			'plugin_object_cache_exp' => 300,
 			'ngfb_min_shorten' => 21,
 			'ngfb_googl_api_key' => '',
 			'ngfb_bitly_login' => '',
@@ -314,11 +330,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			}
 			$this->defaults = $this->add_to_post_types( $this->defaults );
 
-			$this->defaults['link_author_field'] = empty( $this->p->options[$this->p->acronym.'_cm_gp_name'] ) ? 
-				$this->defaults[$this->p->acronym.'_cm_gp_name'] : $this->p->options[$this->p->acronym.'_cm_gp_name'];
+			$this->defaults['link_author_field'] = empty( $this->p->options['ngfb_cm_gp_name'] ) ? 
+				$this->defaults['ngfb_cm_gp_name'] : $this->p->options['ngfb_cm_gp_name'];
 
-			$this->defaults['og_author_field'] = empty( $this->p->options[$this->p->acronym.'_cm_fb_name'] ) ? 
-				$this->defaults[$this->p->acronym.'_cm_fb_name'] : $this->p->options[$this->p->acronym.'_cm_fb_name'];
+			$this->defaults['og_author_field'] = empty( $this->p->options['ngfb_cm_fb_name'] ) ? 
+				$this->defaults['ngfb_cm_fb_name'] : $this->p->options['ngfb_cm_fb_name'];
 
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
@@ -326,9 +342,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function add_to_post_types( &$opts = array() ) {
-			foreach ( array( 'buttons_add_to', $this->p->acronym.'_add_to' ) as $opt_prefix ) {
+			foreach ( array( 'buttons_add_to_', 'plugin_add_to_' ) as $opt_prefix ) {
 				foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
-					$key = $opt_prefix . '_' . $post_type->name;
+					$key = $opt_prefix.$post_type->name;
 					if ( ! array_key_exists( $key, $opts ) ) {
 						switch ( $post_type->name ) {
 							case 'shop_coupon' :
@@ -350,8 +366,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// add support for post types that may have been added
 				$opts = $this->add_to_post_types( $opts );
 
-				if ( ( empty( $opts[$this->p->acronym.'_plugin_ver'] ) || $opts[$this->p->acronym.'_plugin_ver'] !== $this->p->version ) ||
-					( empty( $opts[$this->p->acronym.'_opts_ver'] ) || $opts[$this->p->acronym.'_opts_ver'] !== $this->opts_ver ) ) {
+				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ) ||
+					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
 					$this->p->debug->log( 'plugin version different than options version: calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
@@ -383,7 +399,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
 						<a href="' . $url . '">Please enter a larger Image Size on the General Settings page</a>.' );
 				}
-				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) ) {
+				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$url = $this->p->util->get_admin_url( 'advanced' );
 					$this->p->notices->nag( '<p>The ' . $this->p->fullname . ' <em>Authentication ID</em> option value is empty. 
 						In order for the plugin to authenticate itself for future updates,<br/><a href="' . $url . '">please enter 
@@ -443,7 +459,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_img_id' :
 						case 'og_def_img_id' :
 						case 'og_def_author_id' :
-						case 'ngfb_file_cache_hrs' :
+						case 'plugin_file_cache_hrs' :
 							if ( ! empty( $opts[$key] ) && 
 								! is_numeric( $opts[$key] ) )
 									$opts[$key] = $def_val;
@@ -487,7 +503,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_img_desc' :
 						case 'tumblr_vid_desc' :
 						case 'twitter_desc' :
-						case 'ngfb_pro_tid' :
+						case 'plugin_pro_tid' :
 						case 'ngfb_googl_api_key' :
 						case 'ngfb_bitly_api_key' :
 						case 'ngfb_cdn_folders' :
@@ -581,7 +597,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$opts = $this->rename_keys( $this->renamed, $opts );
 
 			// these option names may have been used in the past, so remove them, just in case
-			if ( $opts[$this->p->acronym.'_opts_ver'] < 30 ) {
+			if ( $opts['options_version'] < 30 ) {
 				unset( $opts['og_img_width'] );
 				unset( $opts['og_img_height'] );
 				unset( $opts['og_img_crop'] );
@@ -626,9 +642,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$opts = $this->sanitize( $opts, $def_opts );
 
 			// mark the new options as current
-			$old_opts_ver = $opts[$this->p->acronym.'_opts_ver'];
-			$opts[$this->p->acronym.'_opts_ver'] = $this->opts_ver;
-			$opts[$this->p->acronym.'_plugin_ver'] = $this->p->version;
+			$old_opts_ver = $opts['options_version'];
+			$opts['options_version'] = $this->options_version;
+			$opts['plugin_version'] = $this->p->version;
 
 			// don't save unless someone is there to see the success / error messages
 			// plugin activation may hide notices, so main plugin class tests for activation and exits early
@@ -638,13 +654,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options[$this->p->acronym.'_pro_tid'] ) ) {
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_pro_tid'] ) ) {
 						$this->p->debug->log( 'adding notices message update-nag \'pro_details\'' );
 						$this->p->notices->nag( $this->p->msg->get( 'pro_details' ) );
 					}
 
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
-						if ( $old_opts_ver !== $this->opts_ver ) {
+						if ( $old_opts_ver !== $this->options_version ) {
 							$this->p->debug->log( 'upgraded plugin options have been saved' );
 							$this->p->notices->inf( 'Plugin settings have been upgraded and saved.' );
 						}

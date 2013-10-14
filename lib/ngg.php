@@ -98,7 +98,7 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 			$og_ret = array();
 			// allow custom content to be passed
 			if ( empty( $content ) )
-				$content = $this->p->webpage->get_content( $this->p->options['ngfb_filter_content'] );
+				$content = $this->p->webpage->get_content( $this->p->options['plugin_filter_content'] );
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 

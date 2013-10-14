@@ -53,13 +53,13 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( ! is_array( $arr ) ) return false;
 			if ( $num > 0 && $num >= count( $arr ) ) {
 				$remains = $num - count( $arr );
-				$this->p->debug->log( 'images count: '.count( $arr ).' of '.$num.' max ('.$remains.' remaining)' );
+				//$this->p->debug->log( 'images count: '.count( $arr ).' of '.$num.' max' );
 			}
 			return $remains;
 		}
 
 		public function get_post_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			$log_args = ',"'.$size_name.'",'.$post_id.( $check_dupes ? 'true' : 'false' );
 			$num_remains = $this->num_remains( $og_ret, $num );
@@ -76,7 +76,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_featured( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			$og_image = array();
 			$size_info = $this->get_size_info( $size_name );
@@ -107,7 +107,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '', $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'attach_id' => $attach_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {
 				if ( wp_attachment_is_image( $attach_id ) ) {	// since wp 2.1.0 
@@ -122,7 +122,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
@@ -157,7 +157,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$image = array();
 			$og_ret = array();
 			if ( empty( $post_id ) ) return $og_ret;
@@ -186,7 +186,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_default_image( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			$og_image = array();
 			$pid = empty( $this->p->options['og_def_img_id'] ) ? '' : $this->p->options['og_def_img_id'];
@@ -215,7 +215,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 			// allow custom content to be passed
 			if ( empty( $content ) )
-				$content = $this->p->webpage->get_content( $this->p->options['ngfb_filter_content'] );
+				$content = $this->p->webpage->get_content( $this->p->options['plugin_filter_content'] );
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
@@ -281,7 +281,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
 							if ( $attr_name == 'share-' . $size_name || $attr_name == 'share' || 
 								( $attr_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
-								( $attr_name == 'src' && empty( $this->p->options['ngfb_skip_small_img'] ) ) ||
+								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
 								( $attr_name == 'src' && $size_info['crop'] == 1 && 
 									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
@@ -340,7 +340,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_meta_video( $num = 0, $post_id = '', $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
 				$embed_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
@@ -355,9 +355,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 
 		// called from the OpenGraph and Tumblr classes
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
-			$this->p->debug->mark();
+			$this->p->debug->args( array( 'num' => $num, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			$content = $this->p->webpage->get_content( $this->p->options['ngfb_filter_content'] );
+			$content = $this->p->webpage->get_content( $this->p->options['plugin_filter_content'] );
 			if ( empty( $content ) ) { $this->p->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );

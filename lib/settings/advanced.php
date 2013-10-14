@@ -72,26 +72,26 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				Enter your unique Authentication ID here, and after saving the changes, an update for ' . $this->p->fullname . ' 
 				will appear on the <a href="' . get_admin_url( null, 'update-core.php' ) . '">WordPress Updates</a> page. 
 				Update the \'' . $this->p->fullname . '\' plugin to download and activate the new Pro version.' ) .
-				'<td class="blank">' . $this->p->admin->form->get_input( 'ngfb_pro_tid' ) . '</td>',
+				'<td class="blank">' . $this->p->admin->form->get_input( 'plugin_pro_tid' ) . '</td>',
 			);
 		}
 
 		protected function get_more_content() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>' . $this->p->admin->form->get_hidden( 'ngfb_add_to_'.$post_type->name ) . 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['ngfb_add_to_'.$post_type->name] ) . ' ' . 
+				$add_to_checkboxes .= '<p>' . $this->p->admin->form->get_hidden( 'plugin_add_to_'.$post_type->name ) . 
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_add_to_'.$post_type->name] ) . ' ' . 
 					$post_type->label . '</p>';
 
 			return array(
-				'<td colspan="2" align="center">' . $this->p->msg->get( 'pro_feature' ) . '</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'Show Custom Settings on', null, null, 
 				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
 				is available on the Posts, Pages, Media, and most custom post type admin pages by default. 
 				If your theme (or another plugin) supports additional custom post types, and you would like to 
 				<em>exclude</em> the Custom Settings metabox from these admin pages, uncheck the appropriate options here.' ) . 
-				'<td class="blank">' . $add_to_checkboxes . '</td>',
+				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}
 
@@ -105,17 +105,17 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				A value of \'0\' hours (the default) disables this feature. 
 				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
 				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. 
-				The cached files are served from the ' . NGFB_CACHEURL . ' folder.' ) .
-				'<td class="blank">' . $this->p->admin->form->get_hidden( 'ngfb_file_cache_hrs' ) . 
-					$this->p->options['ngfb_file_cache_hrs'] . ' Hours</td>',
+				The cached files are served from the '.NGFB_CACHEURL.' folder.' ) .
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_file_cache_hrs' ). 
+					$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
 
 				$this->p->util->th( 'Verify SSL Certificates', null, null, 
 				'Enable verification of peer SSL certificates when fetching content to be cached using HTTPS. 
 				The PHP \'curl\' function will use the ' .  NGFB_CURL_CAINFO . ' certificate file by default. 
 				You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
 				alternate certificate file (see the constants.txt file in the plugin folder for additional information).' ) . 
-				'<td class="blank">' . $this->p->admin->form->get_hidden( 'ngfb_verify_certs' ) . 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['ngfb_verify_certs'] ) . '</td>',
+				'<td class="blank">' . $this->p->admin->form->get_hidden( 'plugin_verify_certs' ) . 
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_verify_certs'] ) . '</td>',
 			);
 		}
 
@@ -242,17 +242,17 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Preserve Settings on Uninstall', 'highlight', null, 
 					'Check this option if you would like to preserve all ' . $this->p->fullname . 
 					' settings when you <em>uninstall</em> the plugin (default is unchecked).' ) . 
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_preserve' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_preserve' ) . '</td>';
 
 					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, null, 
 					'Check this option if you would like to reset the ' . $this->p->fullname . 
 					' settings to their default values when you <em>deactivate</em>, and then 
 					<em>re-activate</em> the plugin (default is unchecked).' ) .  
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_reset' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_reset' ) . '</td>';
 
 					$ret[] = $this->p->util->th( 'Add Hidden Debug Info', null, null, 
 					'Include hidden debug information with the Open Graph meta tags (default is unchecked).' ) . 
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_debug' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_debug' ) . '</td>';
 
 					break;
 
@@ -260,7 +260,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
 					'Enable the ' . $this->p->fullname . ' content shortcode(s) (default is unchecked).' ) .
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_enable_shortcode' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_shortcode_ngfb' ) . '</td>';
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', 'highlight', null, 
 					$this->p->fullname . ' will attempt to include images from img html tags it finds in the content.
@@ -269,18 +269,18 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					You can uncheck this option to include smaller images from the content, 
 					or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
 					for additional solutions.' ) . 
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_skip_small_img' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_ignore_small_img' ) . '</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
 					'Apply the standard WordPress filters to render the content (default is checked).
 					This renders all shortcodes, and allows ' . $this->p->fullname . ' to detect images and 
 					embedded videos that may be provided by these.' ) . 
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_filter_content' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_filter_content' ) . '</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
 					'Apply the standard WordPress filters to render the excerpt (default is unchecked).
 					Check this option if you use shortcodes in your excerpt, for example.' ) . 
-					'<td>' . $this->p->admin->form->get_checkbox( 'ngfb_filter_excerpt' ) . '</td>';
+					'<td>' . $this->p->admin->form->get_checkbox( 'plugin_filter_excerpt' ) . '</td>';
 
 					$ret = array_merge( $ret, $this->get_more_content() );
 
@@ -291,9 +291,9 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, null, 
 					$this->p->fullname . ' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
 					and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
-					The default is ' . $this->p->opt->defaults['ngfb_object_cache_exp'] . ' seconds, and the minimum value is 
-					1 second (such a low value is not recommended).' ) .
-					'<td nowrap>' . $this->p->admin->form->get_input( 'ngfb_object_cache_exp', 'short' ) . ' Seconds</td>';
+					The default is '.$this->p->opt->defaults['plugin_object_cache_exp'].' seconds, and the minimum value is 
+					1 second (such a low value is not recommended).' ).
+					'<td nowrap>'.$this->p->admin->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
 
 					$ret = array_merge( $ret, $this->get_more_cache() );
 

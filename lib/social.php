@@ -148,7 +148,6 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
-			$this->p->debug->mark();
 			if ( empty( $opts ) ) $opts = $this->p->options;
 			$html = '';
 			foreach ( $ids as $id ) {
@@ -195,7 +194,6 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			unset ( $id, $opt_prefix );
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$this->p->debug->log( $pos.' ids = '.implode( ', ', $ids ) );
 			$js = '<!-- '.$this->p->fullname.' '.$pos.' javascript BEGIN -->'."\n";
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';

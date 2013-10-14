@@ -66,7 +66,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 				case 'help_email' :
 					$msg = '<p><strong>Need help with the Pro version? Contact me by email at 
 					<a href="mailto:'.$this->p->urls['email'].'?subject='.$this->p->fullname.
-						' Support (Auth ID '.$this->p->options['ngfb_pro_tid'].')" target="_blank">'.$this->p->urls['email'].'</a></strong>.</p>';
+						' Support (Auth ID '.$this->p->options['plugin_pro_tid'].')" target="_blank">'.$this->p->urls['email'].'</a></strong>.</p>';
 					break;
 			}
 			return $msg;

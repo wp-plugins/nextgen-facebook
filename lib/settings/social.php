@@ -110,13 +110,13 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 					$post_type->label . '</p>';
 
 			return array(
-				'<td colspan="2" align="center">' . $this->p->msg->get( 'pro_feature' ) . '</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'Include on Post Types', null, null, '
 				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
 				If your theme (or another plugin) supports additional custom post types, and you would like to <em>exclude</em> the 
 				social sharing buttons from these webpages, uncheck the appropriate options here.' ) .
-				'<td class="blank">' . $add_to_checkboxes . '</td>',
+				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}
 	}

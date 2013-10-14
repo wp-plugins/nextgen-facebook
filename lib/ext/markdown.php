@@ -1473,7 +1473,6 @@ class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
 	# Predefined abbreviations.
 	var $predef_abbr = array();
 
-
 	function __construct( &$debug = '' ) {
 
 		// check for logging object with mark() method

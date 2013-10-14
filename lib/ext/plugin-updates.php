@@ -33,7 +33,7 @@ class ngfbUpdate {
 		$this->p =& $plugin;
 		$this->p->debug->mark();
 
-		$this->json_url = $this->p->urls['update'] . '?transaction=' . $this->p->options['ngfb_pro_tid'];
+		$this->json_url = $this->p->urls['update'].'?transaction='.$this->p->options['plugin_pro_tid'];
 		$this->file_path = NGFB_FILEPATH;
 		$this->base_name = plugin_basename( $this->file_path );
 		$this->slug = $this->p->slug;

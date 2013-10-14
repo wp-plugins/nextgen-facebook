@@ -42,9 +42,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 				$opts = $this->p->options;
 				foreach ( array( 
-					'ngfb_pro_tid', 
-					'ngfb_googl_api_key', 
-					'ngfb_bitly_api_key',
+					'plugin_pro_tid', 
+					'plugin_googl_api_key', 
+					'plugin_bitly_api_key',
 				) as $key ) $opts[$key] = '********';
 
 				$this->p->debug->show_html( $this->p->is_avail, 'Available Features' );

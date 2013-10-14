@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 	class ngfbShortCodeNgfb {
 
 		private $p;
-		private $name = 'ngfb';
+		private $sc_name = 'ngfb';
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 		public function wpautop() {
 			// make sure wpautop() does not have a higher priority than 10, otherwise it will 
 			// format the shortcode output (shortcodes filters are run at priority 11).
-			if ( ! empty( $this->p->options[$this->name . '_enable_shortcode'] ) ) {
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
 				$default_priority = 10;
 				foreach ( array( 'the_excerpt', 'the_content' ) as $tag ) {
 					$filter_priority = has_filter( $tag, 'wpautop' );
@@ -39,16 +39,16 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 		}
 
 		public function add() {
-			if ( ! empty( $this->p->options[$this->name . '_enable_shortcode'] ) ) {
-        			add_shortcode( $this->name, array( &$this, 'shortcode' ) );
-				$this->p->debug->log( '[' . $this->name . '] shortcode added' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
+        			add_shortcode( $this->sc_name, array( &$this, 'shortcode' ) );
+				$this->p->debug->log( '['.$this->sc_name.'] shortcode added' );
 			}
 		}
 
 		public function remove() {
-			if ( ! empty( $this->p->options[$this->name . '_enable_shortcode'] ) ) {
-				remove_shortcode( $this->name );
-				$this->p->debug->log( '[' . $this->name . '] shortcode removed' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
+				remove_shortcode( $this->sc_name );
+				$this->p->debug->log( '['.$this->sc_name.'] shortcode removed' );
 			}
 		}
 
@@ -64,12 +64,12 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 				$keys = implode( '|', array_keys( $atts ) );
 				$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_keys:'.$keys. '_vals:'.$vals.')';
-				$cache_id = 'ngfb_' . md5( $cache_salt );
+				$cache_id = 'ngfb_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
-				$this->p->debug->log( $cache_type . ': shortcode transient id salt "' . $cache_salt . '"' );
+				$this->p->debug->log( $cache_type.': shortcode transient id salt "'.$cache_salt.'"' );
 				if ( $html !== false ) {
-					$this->p->debug->log( $cache_type . ': html retrieved from transient for id "' . $cache_id . '"' );
+					$this->p->debug->log( $cache_type.': html retrieved from transient for id "'.$cache_id.'"' );
 				} else {
 					if ( ! empty( $atts['buttons'] ) && $this->p->social->is_disabled() == false ) {
 						$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
@@ -82,11 +82,11 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 							'<!-- '.$this->p->fullname.' '.$atts['css_id'].' END -->';
 					}
 					set_transient( $cache_id, $html, $this->p->cache->object_expire );
-					$this->p->debug->log( $cache_type . ': html saved to transient for id "' . 
-						$cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
+					$this->p->debug->log( $cache_type.': html saved to transient for id "'.
+						$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
 				}
 			}
-			return $this->p->debug->get_html() . $html;
+			return $this->p->debug->get_html().$html;
 		}
 	}
 }

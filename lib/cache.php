@@ -29,8 +29,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 			$this->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->base_url = trailingslashit( NGFB_CACHEURL );
-			$this->verify_certs = empty( $this->p->options['ngfb_verify_certs'] ) ? 
-				false : $this->p->options['ngfb_verify_certs'];
+			$this->verify_certs = empty( $this->p->options['plugin_verify_certs'] ) ? 0 : 1;
 			$this->ignore_urls = get_transient( $this->p->acronym . '_' . md5( 'ignore_urls' ) );
 			if ( $this->ignore_urls == false ) $this->ignore_urls = array();
 		}

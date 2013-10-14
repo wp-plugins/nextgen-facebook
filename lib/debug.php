@@ -46,8 +46,12 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			return $this->switch_to( $subsys_name, false );
 		}
 
-		public function mark() {
-			$this->log( 'mark', 2 );
+		public function mark() { 
+			$this->log( 'mark', 2 ); 
+		}
+
+		public function args( $args = array() ) { 
+			$this->log( 'args '.$this->fmt_array( $args ), 2 ); 
 		}
 
 		public function log( $input = '', $backtrace = 1 ) {
@@ -70,7 +74,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 				$this->buffer[] = $log_msg;
 
 			if ( $this->subsys['wp'] == true )
-				error_log( $this->shortname . ' ' . $log_msg );
+				error_log( $this->shortname.' '.$log_msg );
 		}
 
 		public function show_html( $data = null, $title = null ) {
@@ -129,6 +133,21 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
+		private function fmt_array( $input ) {
+			if ( is_array( $input ) ) {
+				$line = '';
+				foreach ( $input as $key => $val ) {
+					if ( is_array( $val ) )
+						$val = $this->fmt_array( $val );
+					elseif ( $val === false )
+						$val = 'false';
+					elseif ( $val === true )
+						$val = 'true';
+					$line .= $key.' = '.$val.', ';
+				}
+				return '( '.trim( $line, ', ' ).' )'; 
+			} else return $input;
+		}	
 
 	}
 }

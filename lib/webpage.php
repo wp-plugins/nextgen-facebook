@@ -201,7 +201,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					// use the excerpt, if we have one
 					if ( has_excerpt( $post->ID ) ) {
 						$desc = $post->post_excerpt;
-						if ( ! empty( $this->p->options['ngfb_filter_excerpt'] ) ) {
+						if ( ! empty( $this->p->options['plugin_filter_excerpt'] ) ) {
 							$filter_removed = $this->p->social->remove_filter( 'the_excerpt' );
 							$this->p->debug->log( 'calling apply_filters()' );
 							$desc = apply_filters( 'the_excerpt', $desc );
@@ -211,7 +211,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					} 
 			
 					if ( empty( $desc ) )
-						$desc = $this->get_content( $this->p->options['ngfb_filter_content'], $use_cache );
+						$desc = $this->get_content( $this->p->options['plugin_filter_content'], $use_cache );
 			
 					// ignore everything until the first paragraph tag if $this->p->options['og_desc_strip'] is true
 					if ( $this->p->options['og_desc_strip'] ) 
@@ -253,15 +253,14 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		}
 
 		public function get_content( $filter_content = true, $use_cache = true ) {
-			$this->p->debug->mark();
 			global $post;
 			if ( empty( $post ) ) return;
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
-			$this->p->debug->log( 'using content from post id ' . $post->ID );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
-			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
+			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 			$cache_type = 'object cache';
-			$this->p->debug->log( $cache_type . ': ' . $filter_name . ' content wp_cache id salt "' . $cache_salt . '"' );
+			$this->p->debug->log( 'using content from post id '.$post->ID );
+			$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache id salt "'.$cache_salt.'"' );
 
 			/***************************************************************************
 			 * Retrieve the content                                                    *
