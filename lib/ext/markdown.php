@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! function_exists( 'ngfb_markdown' ) ) {
 	function ngfb_markdown( $text, &$debug = '' ) {
 		static $parser;
-		if (!isset($parser))
+		if ( ! isset( $parser ) )
 			$parser = new ngfb_markdown_extra_parser( $debug );
 		return $parser->transform( $text );
 	}

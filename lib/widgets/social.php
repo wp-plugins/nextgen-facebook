@@ -18,7 +18,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			global $ngfb;
 			$widget_ops = array( 
 				'classname' => 'ngfb-widget-buttons',
-				'description' => 'The ' . $ngfb->fullname . ' social sharing buttons widget.'
+				'description' => 'The '.$ngfb->fullname.' social sharing buttons widget.'
 			);
 			$this->WP_Widget( 'ngfb-widget-buttons', self::$fullname, $widget_ops );
 		}
@@ -32,20 +32,20 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			extract( $args );
 			$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
-			$cache_id = 'ngfb_' . md5( $cache_salt );
+			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 			$cache_type = 'object cache';
 			$widget_html = get_transient( $cache_id );
-			$ngfb->debug->log( $cache_type . ': widget_html transient id salt "' . $cache_salt . '"' );
+			$ngfb->debug->log( $cache_type.': widget_html transient id salt "'.$cache_salt.'"' );
 
 			if ( $widget_html !== false ) {
-				$ngfb->debug->log( $cache_type . ': widget_html retrieved from transient for id "' . $cache_id . '"' );
+				$ngfb->debug->log( $cache_type.': widget_html retrieved from transient for id "'.$cache_id.'"' );
 			} else {
 				$widget_html = '';
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				$sorted_ids = array();
 				foreach ( $ngfb->social_prefix as $id => $opt_prefix )
 					if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
-						$sorted_ids[$ngfb->options[$opt_prefix.'_order'] . '-' . $id] = $id;
+						$sorted_ids[$ngfb->options[$opt_prefix.'_order'].'-'.$id] = $id;
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
 				$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				$widget_html .= "<!-- ".$ngfb->fullname.' '.$args['widget_id']." END -->\n";
 	
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
-				$ngfb->debug->log( $cache_type . ': widget_html saved to transient for id "' . $cache_id . '" (' . $ngfb->cache->object_expire . ' seconds)');
+				$ngfb->debug->log( $cache_type.': widget_html saved to transient for id "'.$cache_id.'" ('.$ngfb->cache->object_expire.' seconds)');
 			}
 			$ngfb->debug->show_html();
 			echo $widget_html;
@@ -84,7 +84,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $ngfb->website_libs as $id => $name ) {
-				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+				$classname = 'ngfbSettings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
 						'<input id="', $this->get_field_id( $id ), 

@@ -48,10 +48,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
-			$og = apply_filters( 'ngfb_og_seed', array() );
+			$og = apply_filters( $this->p->acronym.'_og_seed', array() );
 
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
-			$lang = apply_filters( 'ngfb_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
+			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 
 			if ( ! array_key_exists( 'fb:admins', $og ) )
 				$og['fb:admins'] = $this->p->options['fb_admins'];
@@ -156,7 +156,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// run filter before saving to transient cache
-			$og = apply_filters( 'ngfb_og', $og );
+			$og = apply_filters( $this->p->acronym.'_og', $og );
 			set_transient( $cache_id, $og, $this->p->cache->object_expire );
 			$this->p->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
 			return $og;

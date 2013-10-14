@@ -34,18 +34,18 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					case 'googl' :
 						require_once ( NGFB_PLUGINDIR . 'lib/ext/googl.php' );
 						if ( class_exists( 'ngfbGoogl' ) ) {
-							$api_key = empty( $this->p->options['ngfb_googl_api_key'] ) ?  
-								'' : $this->p->options['ngfb_googl_api_key'];
+							$api_key = empty( $this->p->options['plugin_googl_api_key'] ) ?  
+								'' : $this->p->options['plugin_googl_api_key'];
 							$this->goo = new ngfbGoogl( $api_key, $this->p->debug );
 						}
 						break;
 					case 'bitly' :
 						require_once ( NGFB_PLUGINDIR . 'lib/ext/bitly.php' );
 						if ( class_exists( 'ngfbBitly' ) ) {
-							$login = empty( $this->p->options['ngfb_bitly_login'] ) ?  
-								'' : $this->p->options['ngfb_bitly_login'];
-							$api_key = empty( $this->p->options['ngfb_bitly_api_key'] ) ?  
-								'' : $this->p->options['ngfb_bitly_api_key'];
+							$login = empty( $this->p->options['plugin_bitly_login'] ) ?  
+								'' : $this->p->options['plugin_bitly_login'];
+							$api_key = empty( $this->p->options['plugin_bitly_api_key'] ) ?  
+								'' : $this->p->options['plugin_bitly_api_key'];
 							$this->bit = new ngfbBitly( $login, $api_key, $this->p->debug );
 						}
 						break;
@@ -145,7 +145,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
 					break;
 			}
-			return apply_filters( 'ngfb_sharing_url', $url, $src_id );
+			return apply_filters( $this->p->acronym.'_sharing_url', $url, $src_id );
 		}
 
 		public function get_cache_url( $url ) {
@@ -163,9 +163,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( empty( $shortener ) || 
 				$this->p->is_avail['curl'] == false || 
-				strlen( $long_url ) < $this->p->options['ngfb_min_shorten'] ||
+				strlen( $long_url ) < $this->p->options['plugin_min_shorten'] ||
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
-					return apply_filters( 'ngfb_short_url', false, $long_url );
+					return apply_filters( $this->p->acronym.'_short_url', false, $long_url );
 
 			$cache_salt = __METHOD__.'(url:'.$long_url.')';
 			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
@@ -175,7 +175,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( $short_url !== false ) {
 				$this->p->debug->log( $cache_type . ': short_url retrieved from transient for id "' . $cache_id . '"' );
-				return apply_filters( 'ngfb_short_url', $short_url, $long_url );
+				return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
 			} else {
 				switch ( $shortener ) {
 					case 'googl' :
@@ -201,10 +201,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
 					$this->p->debug->log( $cache_type . ': short_url saved to transient for id "' . 
 						$cache_id . '" (' . $this->p->cache->object_expire . ' seconds)' );
-					return apply_filters( 'ngfb_short_url', $short_url, $long_url );
+					return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
 				}
 			}
-			return apply_filters( 'ngfb_short_url', $short_url, $long_url );
+			return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
 		}
 
 		public function fix_relative_url( $url = '' ) {
@@ -266,7 +266,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$url = '"' . $url . '"';	// rewrite function uses var reference
 				$url = trim( $this->rewrite->html( $url ), '"' );
 			}
-			return apply_filters( 'ngfb_rewrite_url', $url );
+			return apply_filters( $this->p->acronym.'_rewrite_url', $url );
 		}
 
 		public function get_topics() {
@@ -328,7 +328,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				'Webmail',
 				'Women\'s',
 			);
-			$website_topics = apply_filters( 'ngfb_topics', $website_topics );			// since wp 0.71 
+			$website_topics = apply_filters( $this->p->acronym.'_topics', $website_topics );			// since wp 0.71 
 			natsort( $website_topics );
 			// after sorting the array, put 'none' first
 			$website_topics = array_merge( array( 'none' ), $website_topics );
@@ -356,7 +356,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				fclose( $fh );
 			}
 			if ( ! empty( $readme ) ) {
-				$parser = new ngfb_parse_readme( $this->p->debug );
+				$parser = new ngfbParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
 				if ( $using_local == true ) {
 					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
@@ -462,14 +462,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		// table header with optional tooltip text
-		public function th( $title = '', $class = '', $id = '', $tooltip = '' ) {
-			$html = '<th'.
-				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
-				( empty( $id ) ? '' : ' id="'.$id.'"' ) . 
-				'><p>' .  $title;
-			if ( ! empty( $tooltip ) )
+		public function th( $title = '', $class = '', $id = '', $tooltip_text = '' ) {
+			$tooltip_class = $this->p->acronym.'_tooltip';
+			$html = '<th'.( empty( $class ) ? '' : ' class="'.$class.'"' ).
+				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title;
+			if ( ! empty( $tooltip_text ) )
 				$html .= '<img src="'.NGFB_URLPATH.'images/question-mark.png" 
-					class="ngfb_tooltip" alt="'.esc_attr( $tooltip ).'" />';
+					class="'.$tooltip_class.'" alt="'.esc_attr( $tooltip_text ).'" />';
 			$html .= '</p></th>' . "\n";
 			return $html;
 		}

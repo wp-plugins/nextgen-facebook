@@ -1,14 +1,14 @@
 <?php
 
-if ( !defined('NGFB_README_MARKDOWN') )
-	define('NGFB_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
+if ( ! defined( 'NGFB_README_MARKDOWN' ) )
+	define( 'NGFB_README_MARKDOWN', dirname(__FILE__).'/markdown.php' );
 
 if ( ! defined( 'ABSPATH' ) )
         die( 'Sorry, you cannot call this webpage directly.' );
 
-if ( ! class_exists( 'ngfb_parse_readme' ) ) {
+if ( ! class_exists( 'ngfbParseReadme' ) ) {
 
-class ngfb_parse_readme {
+class ngfbParseReadme {
 
 	private $debug;
 
@@ -39,34 +39,24 @@ class ngfb_parse_readme {
 		$name = $this->sanitize_text( $name );
 		$file_contents = $this->chop_string( $file_contents, $_name[0] );
 
-		// Requires at least: 1.5
 		if ( preg_match('|Requires at least:(.*)|i', $file_contents, $_requires_at_least) )
 			$requires_at_least = $this->sanitize_text($_requires_at_least[1]);
-		else
-			$requires_at_least = NULL;
+		else $requires_at_least = NULL;
 
-		// Tested up to: 2.1
 		if ( preg_match('|Tested up to:(.*)|i', $file_contents, $_tested_up_to) )
 			$tested_up_to = $this->sanitize_text( $_tested_up_to[1] );
-		else
-			$tested_up_to = NULL;
+		else $tested_up_to = NULL;
 
-		// Stable tag: 10.4-ride-the-fire-eagle-danger-day
 		if ( preg_match('|Stable tag:(.*)|i', $file_contents, $_stable_tag) )
 			$stable_tag = $this->sanitize_text( $_stable_tag[1] );
-		else
-			$stable_tag = NULL; // we assume trunk, but don't set it here to tell the difference between specified trunk and default trunk
+		else $stable_tag = NULL;
 
-		// Tags: some tag, another tag, we like tags
 		if ( preg_match('|Tags:(.*)|i', $file_contents, $_tags) ) {
 			$tags = preg_split('|,[\s]*?|', trim($_tags[1]));
 			foreach ( array_keys($tags) as $t )
 				$tags[$t] = $this->sanitize_text( $tags[$t] );
-		} else {
-			$tags = array();
-		}
+		} else $tags = array();
 
-		// Contributors: markjaquith, mdawaffe, zefrank
 		$contributors = array();
 		if ( preg_match('|Contributors:(.*)|i', $file_contents, $_contributors) ) {
 			$temp_contributors = preg_split('|,[\s]*|', trim($_contributors[1]));
@@ -78,37 +68,28 @@ class ngfb_parse_readme {
 			}
 		}
 
-		// Donate Link: URL
 		if ( preg_match('|Donate link:(.*)|i', $file_contents, $_donate_link) )
-			//$donate_link = clean_url( $_donate_link[1] ); depreciated since 3.0
 			$donate_link = esc_url( $_donate_link[1] );
-		else
-			$donate_link = NULL;
+		else $donate_link = NULL;
 
-		// License: Type
 		if ( preg_match('|License:(.*)|i', $file_contents, $_license) )
 			$license = $this->sanitize_text( $_license[1] );
-		else
-			$license = NULL;
+		else $license = NULL;
 
-		// License URI: URL
 		if ( preg_match('|License URI:(.*)|i', $file_contents, $_license_uri) )
 			$license_uri = esc_url( $_license_uri[1] );
-		else
-			$license_uri = NULL;
+		else $license_uri = NULL;
 
-		// togs, conts, etc are optional and order shouldn't matter.  So we chop them only after we've grabbed their values.
 		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'license', 'license_uri') as $chop ) {
 			if ( $$chop ) {
-				$_chop = '_' . $chop;
+				$_chop = '_'.$chop;
 				$file_contents = $this->chop_string( $file_contents, ${$_chop}[0] );
 			}
 		}
 
-		$file_contents = trim($file_contents);
+		$file_contents = trim( $file_contents );
 
-		// short-description fu
-		if ( !preg_match('/(^(.*?))^[\s]*=+?[\s]*.+?[\s]*=+?/ms', $file_contents, $_short_description) )
+		if ( ! preg_match( '/(^(.*?))^[\s]*=+?[\s]*.+?[\s]*=+?/ms', $file_contents, $_short_description ) )
 			$_short_description = array( 1 => &$file_contents, 2 => &$file_contents );
 		$short_desc_filtered = $this->sanitize_text( $_short_description[2] );
 		$short_desc_length = strlen($short_desc_filtered);
@@ -118,7 +99,7 @@ class ngfb_parse_readme {
 		else
 			$truncated = false;
 		if ( $_short_description[1] )
-			$file_contents = $this->chop_string( $file_contents, $_short_description[1] ); // yes, the [1] is intentional
+			$file_contents = $this->chop_string( $file_contents, $_short_description[1] );
 
 		// == Section ==
 		// Break into sections
@@ -244,9 +225,9 @@ class ngfb_parse_readme {
 	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown );
 
 		if ( $markdown ) {
-			if ( !function_exists('ngfb_markdown') )
+			if ( ! function_exists( 'ngfb_markdown' ) )
 				require_once( NGFB_README_MARKDOWN );
-			$text = ngfb_markdown($text, $this->debug );
+			$text = ngfb_markdown( $text, $this->debug );
 		}
 
 		$allowed = array(

@@ -95,7 +95,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 						$this->p->options['link_author_field'] );
 				}
 			}
-			$link_rel = apply_filters( 'ngfb_link_rel', $link_rel );
+			$link_rel = apply_filters( $this->p->acronym.'_link_rel', $link_rel );
 			foreach ( $link_rel as $key => $val )
 				if ( ! empty( $val ) )
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";

@@ -216,10 +216,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function header_js( $pos = 'id' ) {
 			$lang = empty( $this->p->options['gp_lang'] ) ? 'en-US' : $this->p->options['gp_lang'];
-			$lang = apply_filters( 'ngfb_lang', $lang, $this->p->util->get_lang( 'gplus' ) );
+			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "'.$lang.'" };
-				function ngfb_header_js( script_id, url, async ) {
+				function '.$this->p->acronym.'_insert_js( script_id, url, async ) {
 					if ( document.getElementById( script_id + "-js" ) ) return;
 					var async = typeof async !== "undefined" ? async : true;
 					var script_pos = document.getElementById( script_id );

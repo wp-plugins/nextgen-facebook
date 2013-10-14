@@ -53,7 +53,7 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 		}
 
 		public function shortcode( $atts, $content = null ) { 
-			$atts = apply_filters( 'ngfb_shortcode', $atts, $content );
+			$atts = apply_filters( $this->sc_name.'_shortcode', $atts, $content );
 			global $post;
 			$html = '';
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( 'notrack', null, true ) : $atts['url'];
@@ -63,8 +63,8 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 				$atts['css_id'] .= '-buttons';
 				$keys = implode( '|', array_keys( $atts ) );
 				$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_keys:'.$keys. '_vals:'.$vals.')';
-				$cache_id = 'ngfb_'.md5( $cache_salt );
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$html = get_transient( $cache_id );
 				$this->p->debug->log( $cache_type.': shortcode transient id salt "'.$cache_salt.'"' );

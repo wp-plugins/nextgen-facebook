@@ -35,7 +35,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
 					add_meta_box( NGFB_META_NAME, $this->p->menuname.' Custom Settings', 
 						array( &$this->p->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
-					add_meta_box( '_ngfb_share', $this->p->menuname.' Sharing', 
+					add_meta_box( '_'.$this->p->acronym.'_share', $this->p->menuname.' Sharing', 
 						array( &$this->p->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
 				}
 		}
@@ -61,7 +61,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
 				$tab_rows[$key] = $this->get_rows( $key, $post );
-			$this->p->util->do_tabs( 'meta', $show_tabs, $tab_rows, '#ngfb_meta' );
+			$this->p->util->do_tabs( 'meta', $show_tabs, $tab_rows, '#'.$this->p->acronym.'_meta' );
 		}
 
 		protected function get_rows( $id, $post ) {

@@ -38,7 +38,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );	// since wp 2.3.0, since wp 0.71 
 			else $quote = $post->post_content;					// fallback to regular content
 			$quote = $this->p->util->cleanup_html_tags( $quote, false );		// remove shortcodes, etc., but don't strip html tags
-			return apply_filters( 'ngfb_quote', $quote );			// since wp 0.71 
+			return apply_filters( $this->p->acronym.'_quote', $quote );		// since wp 0.71 
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
@@ -56,7 +56,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
 					break;
 			}
-			return apply_filters( 'ngfb_caption', $caption );
+			return apply_filters( $this->p->acronym.'_caption', $caption );
 		}
 
 		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
@@ -75,7 +75,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			// get seed if no custom meta title
 			if ( empty( $title ) ) {
-				$title = apply_filters( 'ngfb_title_seed', '' );
+				$title = apply_filters( $this->p->acronym.'_title_seed', '' );
 				if ( ! empty( $title ) )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// append the text number after the trailing character string
 			if ( ! empty( $page_num_suffix ) ) $title .= $page_num_suffix;
 
-			return apply_filters( 'ngfb_title', $title );
+			return apply_filters( $this->p->acronym.'_title', $title );
 		}
 
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
@@ -185,7 +185,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			// get seed if no custom meta description
 			if ( empty( $desc ) ) {
-				$desc = apply_filters( 'ngfb_description_seed', '' );
+				$desc = apply_filters( $this->p->acronym.'_description_seed', '' );
 				if ( ! empty( $desc ) )
 					$this->p->debug->log( 'description seed = "' . $desc . '"' );
 			}
@@ -249,7 +249,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( $textlen > 0 ) 
 				$desc = $this->p->util->limit_text_length( $desc, $textlen, '...' );
 
-			return apply_filters( 'ngfb_description', $desc );
+			return apply_filters( $this->p->acronym.'_description', $desc );
 		}
 
 		public function get_content( $filter_content = true, $use_cache = true ) {
@@ -272,7 +272,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				return $content;
 			} 
 
-			$content = apply_filters( 'ngfb_content_seed', '' );
+			$content = apply_filters( $this->p->acronym.'_content_seed', '' );
 			if ( ! empty( $content ) )
 				$this->p->debug->log( 'content seed = "' . $content . '"' );
 
@@ -340,7 +340,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$this->p->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
 
 			// apply filters before caching
-			$content = apply_filters( 'ngfb_content', $content );
+			$content = apply_filters( $this->p->acronym.'_content', $content );
 
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
 			$this->p->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
@@ -356,7 +356,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$this->p->debug->log( 'found custom meta section = "' . $section . '"' );
 			else $section = $this->p->options['og_art_section'];
 			if ( $section == 'none' ) $section = '';
-			return apply_filters( 'ngfb_section', $section );
+			return apply_filters( $this->p->acronym.'_section', $section );
 		}
 
 	}

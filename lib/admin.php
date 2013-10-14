@@ -351,7 +351,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_news() {
-			$this->show_feed( $this->p->urls['feed'], 3, 'ngfb_feed' );
+			$this->show_feed( $this->p->urls['feed'], 3, $this->p->acronym.'_feed' );
 		}
 
 		public function show_metabox_info() {

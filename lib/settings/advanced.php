@@ -128,33 +128,33 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				and cached social media files. Leave this option blank to disable the rewriting feature (default is disabled).
 				Wildcarding and multiple CDN hostnames are supported -- see the 
 				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
-				more information and examples.' ) .
-				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'ngfb_cdn_urls' ) . 
-					$this->p->options['ngfb_cdn_urls'] . '</td>',
+				more information and examples.' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_urls' ). 
+					$this->p->options['plugin_cdn_urls'].'</td>',
 
 				$this->p->util->th( 'Include Folders', null, null, '
 				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
-				(the default value is "<em>wp-content, wp-includes</em>").') .
-				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'ngfb_cdn_folders' ) . 
-					$this->p->options['ngfb_cdn_folders'] . '</td>',
+				(the default value is "<em>wp-content, wp-includes</em>").').
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_folders' ). 
+					$this->p->options['plugin_cdn_folders'].'</td>',
 
 				$this->p->util->th( 'Exclude Patterns', null, null,
 				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
 				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
 				the URLs to this cached content will be rewritten as well. To exclude the ' . $this->p->fullname . ' cache folder 
-				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ) .
-				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'ngfb_cdn_excl' ) . 
-					$this->p->options['ngfb_cdn_excl'] . '</td>',
+				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_excl' ).
+					$this->p->options['plugin_cdn_excl'].'</td>',
 
 				$this->p->util->th( 'Not when Using HTTPS', null, null, 
 				'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ) .
-				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'ngfb_cdn_not_https' ) . 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['ngfb_cdn_not_https'] ) . '</td>',
+				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'plugin_cdn_not_https' ) . 
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_cdn_not_https'] ) . '</td>',
 
 				$this->p->util->th( 'www is Optional', null, null, 
 				'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ) .
-				'<td class="blank">' .  $this->p->admin->form->get_hidden( 'ngfb_cdn_www_opt' ) . 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['ngfb_cdn_www_opt'] ) . '</td>',
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_www_opt' ). 
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_cdn_www_opt'] ).'</td>',
 			);
 		}
 
@@ -179,7 +179,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					$social_prefix = $this->p->social_prefix;
 					ksort( $social_prefix );
 					foreach ( $social_prefix as $id => $opt_prefix ) {
-						$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+						$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
 						$th_val = empty( $this->p->website_libs[$id] ) ? ucfirst( $id ) : $this->p->website_libs[$id];
 						$th_val = $th_val == 'GooglePlus' ? 'Google+' : $th_val;
 						// not all social websites have a contact method field
@@ -303,24 +303,24 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Minimum URL Length to Shorten', null, null, 
 					'URLs shorter than this length will not be shortened (default is '.
-					$this->p->opt->defaults['ngfb_min_shorten'].').' ).
-					'<td>'.$this->p->admin->form->get_input( 'ngfb_min_shorten', 'short' ).' Characters</td>';
+					$this->p->opt->defaults['plugin_min_shorten'].').' ).
+					'<td>'.$this->p->admin->form->get_input( 'plugin_min_shorten', 'short' ).' Characters</td>';
 
 					$ret[] = $this->p->util->th( 'Goo.gl Simple API Access Key', null, null, 
 					'The "Google URL Shortener API Key" for this website. If you don\'t already have one, visit Google\'s 
 					<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring 
 					and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.' ) .
-					'<td>'.$this->p->admin->form->get_input( 'ngfb_googl_api_key', 'wide' ).'</td>';
+					'<td>'.$this->p->admin->form->get_input( 'plugin_googl_api_key', 'wide' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Bit.ly Username', null, null, 
 					'The Bit.ly username for the following API key. If you don\'t already have one, see 
 					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ) .
-					'<td>'.$this->p->admin->form->get_input( 'ngfb_bitly_login' ).'</td>';
+					'<td>'.$this->p->admin->form->get_input( 'plugin_bitly_login' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Bit.ly API Key', null, null, 
 					'The Bit.ly API key for this website. If you don\'t already have one, see 
 					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ) .
-					'<td>'.$this->p->admin->form->get_input( 'ngfb_bitly_api_key', 'wide' ).'</td>';
+					'<td>'.$this->p->admin->form->get_input( 'plugin_bitly_api_key', 'wide' ).'</td>';
 
 					break;
 

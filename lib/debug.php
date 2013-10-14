@@ -12,17 +12,16 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 	class ngfbDebug {
 
-		private $longname = '';
-		private $shortname = '';
+		private $fullname = '';
+		private $acronym = '';
 		private $active = false;	// true if at least one subsys is true
 		private $buffer = array();	// accumulate text strings going to html output
 		private $subsys = array();	// associative array to enable various outputs 
 
-		public function __construct( $longname = '', $shortname = '', 
+		public function __construct( $fullname = '', $acronym = '', 
 			$subsys = array( 'html' => false, 'wp' => false ) ) {
-
-			$this->longname = $longname;
-			$this->shortname = $shortname;
+			$this->fullname = $fullname;
+			$this->acronym = $acronym;
 			$this->subsys = $subsys;
 			$this->set_active();
 			$this->mark();
@@ -56,25 +55,19 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 
 		public function log( $input = '', $backtrace = 1 ) {
 			if ( $this->active !== true ) return;
-
 			$log_msg = '';
 			$stack = debug_backtrace();
-
 			$log_msg .= sprintf( '%-26s:: ', 
 				( empty( $stack[$backtrace]['class'] ) ? '' : $stack[$backtrace]['class'] ) );
-
 			$log_msg .= sprintf( '%-24s : ', 
 				( empty( $stack[$backtrace]['function'] ) ? '' : $stack[$backtrace]['function'] ) );
-
 			if ( is_array( $input ) || is_object( $input ) )
 				$log_msg .= print_r( $input, true );
 			else $log_msg .= $input;
-
 			if ( $this->subsys['html'] == true )
 				$this->buffer[] = $log_msg;
-
 			if ( $this->subsys['wp'] == true )
-				error_log( $this->shortname.' '.$log_msg );
+				error_log( $this->acronym.' '.$log_msg );
 		}
 
 		public function show_html( $data = null, $title = null ) {
@@ -85,10 +78,10 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 			$html = '';
 			$from = '';
 			if ( $this->active ) {
-				$html .= "<!-- " . $this->longname . " debug";
+				$html .= '<!-- '.$this->fullname.' debug';
 				$stack = debug_backtrace();
 				if ( ! empty( $stack[$backtrace]['class'] ) ) 
-					$from .= $stack[$backtrace]['class'] . '::';
+					$from .= $stack[$backtrace]['class'].'::';
 				if ( ! empty( $stack[$backtrace]['function'] ) )
 					$from .= $stack[$backtrace]['function'];
 				if ( empty( $data ) ) {
@@ -96,8 +89,8 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 					$data = $this->buffer;
 					$this->buffer = array();
 				}
-				if ( ! empty( $from ) ) $html .= ' from ' . $from . '()';
-				if ( ! empty( $title ) ) $html .= ' ' . $title;
+				if ( ! empty( $from ) ) $html .= ' from '.$from.'()';
+				if ( ! empty( $title ) ) $html .= ' '.$title;
 				if ( ! empty( $data ) ) {
 					$html .= ' : ';
 					if ( is_array( $data ) ) {
@@ -112,7 +105,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 						$html .= $data;
 					}
 				}
-				$html .= ' -->' . "\n";
+				$html .= ' -->'."\n";
 			}
 			return $html;
 		}

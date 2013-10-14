@@ -51,9 +51,42 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_verify_certs' => 'plugin_verify_certs',
 			'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
 			'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
+			'ngfb_min_shorten' => 'plugin_min_shorten',
+			'ngfb_googl_api_key' => 'plugin_googl_api_key',
+			'ngfb_bitly_login' => 'plugin_bitly_login',
+			'ngfb_bitly_api_key' => 'plugin_bitly_api_key',
+			'ngfb_cdn_urls' => 'plugin_cdn_urls',
+			'ngfb_cdn_folders' => 'plugin_cdn_folders',
+			'ngfb_cdn_excl' => 'plugin_cdn_excl',
+			'ngfb_cdn_not_https' => 'plugin_cdn_not_https',
+			'ngfb_cdn_www_opt' => 'plugin_cdn_www_opt',
+			'ngfb_cm_fb_name' => 'plugin_cm_fb_name', 
+			'ngfb_cm_fb_label' => 'plugin_cm_fb_label', 
+			'ngfb_cm_fb_enabled' => 'plugin_cm_fb_enabled',
+			'ngfb_cm_gp_name' => 'plugin_cm_gp_name', 
+			'ngfb_cm_gp_label' => 'plugin_cm_gp_label', 
+			'ngfb_cm_gp_enabled' => 'plugin_cm_gp_enabled',
+			'ngfb_cm_linkedin_name' => 'plugin_cm_linkedin_name', 
+			'ngfb_cm_linkedin_label' => 'plugin_cm_linkedin_label', 
+			'ngfb_cm_linkedin_enabled' => 'plugin_cm_linkedin_enabled',
+			'ngfb_cm_pin_name' => 'plugin_cm_pin_name', 
+			'ngfb_cm_pin_label' => 'plugin_cm_pin_label', 
+			'ngfb_cm_pin_enabled' => 'plugin_cm_pin_enabled',
+			'ngfb_cm_tumblr_name' => 'plugin_cm_tumblr_name', 
+			'ngfb_cm_tumblr_label' => 'plugin_cm_tumblr_label', 
+			'ngfb_cm_tumblr_enabled' => 'plugin_cm_tumblr_enabled',
+			'ngfb_cm_twitter_name' => 'plugin_cm_twitter_name', 
+			'ngfb_cm_twitter_label' => 'plugin_cm_twitter_label', 
+			'ngfb_cm_twitter_enabled' => 'plugin_cm_twitter_enabled',
+			'ngfb_cm_yt_name' => 'plugin_cm_yt_name', 
+			'ngfb_cm_yt_label' => 'plugin_cm_yt_label', 
+			'ngfb_cm_yt_enabled' => 'plugin_cm_yt_enabled',
+			'ngfb_cm_skype_name' => 'plugin_cm_skype_name', 
+			'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
+			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '89';	// increment when adding/removing default options
+		public $options_version = '91';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -269,39 +302,39 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'plugin_verify_certs' => 0,
 			'plugin_file_cache_hrs' => 0,
 			'plugin_object_cache_exp' => 300,
-			'ngfb_min_shorten' => 21,
-			'ngfb_googl_api_key' => '',
-			'ngfb_bitly_login' => '',
-			'ngfb_bitly_api_key' => '',
-			'ngfb_cdn_urls' => '',
-			'ngfb_cdn_folders' => 'wp-content, wp-includes',
-			'ngfb_cdn_excl' => '',
-			'ngfb_cdn_not_https' => 1,
-			'ngfb_cdn_www_opt' => 1,
-			'ngfb_cm_fb_name' => 'facebook', 
-			'ngfb_cm_fb_label' => 'Facebook URL', 
-			'ngfb_cm_fb_enabled' => 1,
-			'ngfb_cm_gp_name' => 'gplus', 
-			'ngfb_cm_gp_label' => 'Google+ URL', 
-			'ngfb_cm_gp_enabled' => 1,
-			'ngfb_cm_linkedin_name' => 'linkedin', 
-			'ngfb_cm_linkedin_label' => 'LinkedIn URL', 
-			'ngfb_cm_linkedin_enabled' => 0,
-			'ngfb_cm_pin_name' => 'pinterest', 
-			'ngfb_cm_pin_label' => 'Pinterest URL', 
-			'ngfb_cm_pin_enabled' => 0,
-			'ngfb_cm_tumblr_name' => 'tumblr', 
-			'ngfb_cm_tumblr_label' => 'Tumblr URL', 
-			'ngfb_cm_tumblr_enabled' => 0,
-			'ngfb_cm_twitter_name' => 'twitter', 
-			'ngfb_cm_twitter_label' => 'Twitter @username', 
-			'ngfb_cm_twitter_enabled' => 1,
-			'ngfb_cm_yt_name' => 'youtube', 
-			'ngfb_cm_yt_label' => 'YouTube Channel URL', 
-			'ngfb_cm_yt_enabled' => 0,
-			'ngfb_cm_skype_name' => 'skype', 
-			'ngfb_cm_skype_label' => 'Skype Username', 
-			'ngfb_cm_skype_enabled' => 0,
+			'plugin_min_shorten' => 21,
+			'plugin_googl_api_key' => '',
+			'plugin_bitly_login' => '',
+			'plugin_bitly_api_key' => '',
+			'plugin_cdn_urls' => '',
+			'plugin_cdn_folders' => 'wp-content, wp-includes',
+			'plugin_cdn_excl' => '',
+			'plugin_cdn_not_https' => 1,
+			'plugin_cdn_www_opt' => 1,
+			'plugin_cm_fb_name' => 'facebook', 
+			'plugin_cm_fb_label' => 'Facebook URL', 
+			'plugin_cm_fb_enabled' => 1,
+			'plugin_cm_gp_name' => 'gplus', 
+			'plugin_cm_gp_label' => 'Google+ URL', 
+			'plugin_cm_gp_enabled' => 1,
+			'plugin_cm_linkedin_name' => 'linkedin', 
+			'plugin_cm_linkedin_label' => 'LinkedIn URL', 
+			'plugin_cm_linkedin_enabled' => 0,
+			'plugin_cm_pin_name' => 'pinterest', 
+			'plugin_cm_pin_label' => 'Pinterest URL', 
+			'plugin_cm_pin_enabled' => 0,
+			'plugin_cm_tumblr_name' => 'tumblr', 
+			'plugin_cm_tumblr_label' => 'Tumblr URL', 
+			'plugin_cm_tumblr_enabled' => 0,
+			'plugin_cm_twitter_name' => 'twitter', 
+			'plugin_cm_twitter_label' => 'Twitter @username', 
+			'plugin_cm_twitter_enabled' => 1,
+			'plugin_cm_yt_name' => 'youtube', 
+			'plugin_cm_yt_label' => 'YouTube Channel URL', 
+			'plugin_cm_yt_enabled' => 0,
+			'plugin_cm_skype_name' => 'skype', 
+			'plugin_cm_skype_label' => 'Skype Username', 
+			'plugin_cm_skype_enabled' => 0,
 			'wp_cm_aim_label' => 'AIM', 
 			'wp_cm_aim_enabled' => 1,
 			'wp_cm_jabber_label' => 'Jabber / Google Talk', 
@@ -330,11 +363,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			}
 			$this->defaults = $this->add_to_post_types( $this->defaults );
 
-			$this->defaults['link_author_field'] = empty( $this->p->options['ngfb_cm_gp_name'] ) ? 
-				$this->defaults['ngfb_cm_gp_name'] : $this->p->options['ngfb_cm_gp_name'];
+			$this->defaults['link_author_field'] = empty( $this->p->options['plugin_cm_gp_name'] ) ? 
+				$this->defaults['plugin_cm_gp_name'] : $this->p->options['plugin_cm_gp_name'];
 
-			$this->defaults['og_author_field'] = empty( $this->p->options['ngfb_cm_fb_name'] ) ? 
-				$this->defaults['ngfb_cm_fb_name'] : $this->p->options['ngfb_cm_fb_name'];
+			$this->defaults['og_author_field'] = empty( $this->p->options['plugin_cm_fb_name'] ) ? 
+				$this->defaults['plugin_cm_fb_name'] : $this->p->options['plugin_cm_fb_name'];
 
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
@@ -363,15 +396,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function quick_check( &$opts = array() ) {
 			$err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-				// add support for post types that may have been added
-				$opts = $this->add_to_post_types( $opts );
-
-				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ) ||
-					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
+				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ||
+					empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 
 					$this->p->debug->log( 'plugin version different than options version: calling upgrade() method.' );
 					$opts = $this->upgrade( $opts, $this->get_defaults() );
 				}
+				// add support for post types that may have been added
+				$opts = $this->add_to_post_types( $opts );
 			} else {
 				if ( $opts === false )
 					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
@@ -445,7 +477,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_def_img_url' :
 						case 'og_publisher_url' :
 						case 'link_publisher_url' :
-						case 'ngfb_cdn_urls' :
+						case 'plugin_cdn_urls' :
 							if ( ! empty( $opts[$key] ) && 
 								strpos( $opts[$key], '://' ) === false ) 
 									$opts[$key] = $def_val;
@@ -482,7 +514,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_cap_len' :
 						case 'stumble_order' : 
 						case 'stumble_badge' :
-						case 'ngfb_object_cache_exp' :
+						case 'plugin_object_cache_exp' :
+						case 'plugin_min_shorten' :
 							if ( empty( $opts[$key] ) || 
 								! is_numeric( $opts[$key] ) )
 									$opts[$key] = $def_val;
@@ -504,10 +537,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_vid_desc' :
 						case 'twitter_desc' :
 						case 'plugin_pro_tid' :
-						case 'ngfb_googl_api_key' :
-						case 'ngfb_bitly_api_key' :
-						case 'ngfb_cdn_folders' :
-						case 'ngfb_cdn_excl' :
+						case 'plugin_googl_api_key' :
+						case 'plugin_bitly_api_key' :
+						case 'plugin_cdn_folders' :
+						case 'plugin_cdn_excl' :
 							if ( ! empty( $opts[$key] ) )
 								$opts[$key] = trim( $opts[$key] );
 							break;
@@ -546,22 +579,22 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_img_size' :
 						case 'tumblr_caption' :
 						case 'stumble_js_loc' : 
-						case 'ngfb_cm_fb_name' : 
-						case 'ngfb_cm_fb_label' : 
-						case 'ngfb_cm_gp_name' : 
-						case 'ngfb_cm_gp_label' : 
-						case 'ngfb_cm_linkedin_name' : 
-						case 'ngfb_cm_linkedin_label' : 
-						case 'ngfb_cm_pin_name' : 
-						case 'ngfb_cm_pin_label' : 
-						case 'ngfb_cm_tumblr_name' : 
-						case 'ngfb_cm_tumblr_label' : 
-						case 'ngfb_cm_twitter_name' : 
-						case 'ngfb_cm_twitter_label' : 
-						case 'ngfb_cm_yt_name' : 
-						case 'ngfb_cm_yt_label' : 
-						case 'ngfb_cm_skype_name' : 
-						case 'ngfb_cm_skype_label' : 
+						case 'plugin_cm_fb_name' : 
+						case 'plugin_cm_fb_label' : 
+						case 'plugin_cm_gp_name' : 
+						case 'plugin_cm_gp_label' : 
+						case 'plugin_cm_linkedin_name' : 
+						case 'plugin_cm_linkedin_label' : 
+						case 'plugin_cm_pin_name' : 
+						case 'plugin_cm_pin_label' : 
+						case 'plugin_cm_tumblr_name' : 
+						case 'plugin_cm_tumblr_label' : 
+						case 'plugin_cm_twitter_name' : 
+						case 'plugin_cm_twitter_label' : 
+						case 'plugin_cm_yt_name' : 
+						case 'plugin_cm_yt_label' : 
+						case 'plugin_cm_skype_name' : 
+						case 'plugin_cm_skype_label' : 
 						case 'wp_cm_aim_label' : 
 						case 'wp_cm_jabber_label' : 
 						case 'wp_cm_yim_label' : 

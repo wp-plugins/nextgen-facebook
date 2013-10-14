@@ -132,7 +132,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 
 			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
-			$atts['lang'] = apply_filters( 'ngfb_lang', $atts['lang'], $this->p->util->get_lang( 'twitter' ) );
+			$atts['lang'] = apply_filters( $this->p->acronym.'_lang', $atts['lang'], $this->p->util->get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
 				if ( ! empty( $opts['twitter_via'] ) )
@@ -142,7 +142,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! array_key_exists( 'related', $atts ) ) {
 				if ( ! empty( $opts['twitter_rel_author'] ) && $use_post == true )
 					$atts['related'] = preg_replace( '/^@/', '', 
-						get_the_author_meta( $opts['ngfb_cm_twitter_name'], $post->author ) );
+						get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
 				else
 					$atts['related'] = '';
 			}
@@ -163,7 +163,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="twitter-script-'.$pos.'">ngfb_header_js( "twitter-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' ).'" );</script>'."\n";
+			return '<script type="text/javascript" id="twitter-script-'.$pos.'">'.$this->p->acronym.'_insert_js( "twitter-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' ).'" );</script>'."\n";
 		}
 
 	}

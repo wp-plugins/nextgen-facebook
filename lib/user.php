@@ -27,7 +27,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		public function add_contact_methods( $fields = array() ) { 
 			$social_prefix = $this->p->social_prefix;
 			foreach ( $social_prefix as $id => $opt_prefix ) {
-				$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+				$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
 				// not all social websites have a contact method field
 				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
 					$enabled = $this->p->options[$cm_opt.'enabled'];
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		public function sanitize_contact_methods( $user_id ) {
 			if ( current_user_can( 'edit_user', $user_id ) ) {
 				foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
-					$cm_opt = 'ngfb_cm_'.$opt_prefix.'_';
+					$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
 					// not all social websites have a contact method field
 					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
 						$enabled = $this->p->options[$cm_opt.'enabled'];

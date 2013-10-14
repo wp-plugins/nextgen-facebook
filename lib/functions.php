@@ -13,7 +13,7 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url( 'notrack' ).'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
-		$cache_id = 'ngfb_' . md5( $cache_salt );
+		$cache_id = $ngfb->acronym.'_'.md5( $cache_salt );
 		$cache_type = 'object cache';
 		$ngfb->debug->log( $cache_type . ': social buttons transient id salt "' . $cache_salt . '"' );
 		$html = get_transient( $cache_id );

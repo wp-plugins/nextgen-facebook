@@ -88,7 +88,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">ngfb_header_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->acronym.'_insert_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
 		}
 
 	}

@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.11dev3
+Version: 6.11dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.11dev3';
+		public $version = '6.11dev4';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -160,7 +160,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public function deactivate() {
 			$this->debug->mark();
-			wp_clear_scheduled_hook( 'plugin_updates-' . $this->slug );	// since wp 2.1.0
+			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );	// since wp 2.1.0
 		}
 
 		// delete options table entries only when plugin deactivated and deleted
@@ -306,7 +306,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/ext/plugin-updates.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/update.php' );
 
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR . 'lib/messages.php' );
@@ -372,13 +372,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * create essential class objects
 			 */
-			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', 
-				array( 
-					'html' => ( ! empty( $this->options['plugin_debug'] ) || 
-						( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false ),
-					'wp' => ( defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false ),
-				)
-			);
+			$html_debug = ! empty( $this->options['plugin_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false;
+			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
+			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
