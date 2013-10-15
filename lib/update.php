@@ -30,10 +30,10 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			$this->file_path = NGFB_FILEPATH;
 			$this->base_name = plugin_basename( $this->file_path );
 			$this->slug = $this->p->slug;
-			$this->cron_hook = 'plugin_updates-' . $this->slug;
+			$this->cron_hook = 'plugin_updates-'.$this->slug;
 			$this->time_period = $this->p->update_hours;
-			$this->sched_name = 'every' . $this->time_period . 'hours';
-			$this->update_info_option = 'external_updates-' . $this->slug;
+			$this->sched_name = 'every'.$this->time_period.'hours';
+			$this->update_info_option = 'external_updates-'.$this->slug;
 			$this->install_hooks();
 		}
 	
@@ -117,10 +117,12 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function get_json( $query = array() ) {
+			global $wp_version;
 			$query['installed_version'] = $this->get_installed_version();
 			$options = array(
 				'timeout' => 10, 
-				'headers' => array( 'Accept' => 'application/json' )
+				'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo( 'url' ).'; '.$this->slug,
+				'headers' => array( 'Accept' => 'application/json', ),
 			);
 			$url = $this->json_url;
 			if ( ! empty( $query ) ) 
@@ -264,12 +266,12 @@ if ( ! class_exists( 'ngfbPluginUpdate' ) ) {
 		public function json_to_wp() {
 			$data = new StdClass;
 			$fields = array(
-				'id'=>'id',
-				'slug'=>'slug',
-				'new_version'=>'version',
-				'url'=>'homepage',
-				'package'=>'download_url',
-				'upgrade_notice'=>'upgrade_notice');
+				'id' => 'id',
+				'slug' => 'slug',
+				'new_version' => 'version',
+				'url' => 'homepage',
+				'package' => 'download_url',
+				'upgrade_notice' => 'upgrade_notice');
 			foreach ( $fields as $new_field => $old_field ) {
 				if ( isset( $this->$old_field ) )
 					$data->$new_field = $this->$old_field;
