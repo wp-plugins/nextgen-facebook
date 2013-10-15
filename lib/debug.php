@@ -46,10 +46,12 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		public function mark() { 
+			if ( $this->active !== true ) return;
 			$this->log( 'mark', 2 ); 
 		}
 
 		public function args( $args = array() ) { 
+			if ( $this->active !== true ) return;
 			$this->log( 'args '.$this->fmt_array( $args ), 2 ); 
 		}
 
@@ -71,42 +73,41 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		public function show_html( $data = null, $title = null ) {
+			if ( $this->active !== true ) return;
 			echo $this->get_html( $data, $title, 2 );
 		}
 
 		public function get_html( $data = null, $title = null, $backtrace = 1 ) {
-			$html = '';
+			if ( $this->active !== true ) return;
 			$from = '';
-			if ( $this->active ) {
-				$html .= '<!-- '.$this->fullname.' debug';
-				$stack = debug_backtrace();
-				if ( ! empty( $stack[$backtrace]['class'] ) ) 
-					$from .= $stack[$backtrace]['class'].'::';
-				if ( ! empty( $stack[$backtrace]['function'] ) )
-					$from .= $stack[$backtrace]['function'];
-				if ( empty( $data ) ) {
-					$this->log( 'truncating debug log' );
-					$data = $this->buffer;
-					$this->buffer = array();
-				}
-				if ( ! empty( $from ) ) $html .= ' from '.$from.'()';
-				if ( ! empty( $title ) ) $html .= ' '.$title;
-				if ( ! empty( $data ) ) {
-					$html .= ' : ';
-					if ( is_array( $data ) ) {
-						$html .= "\n";
-						$is_assoc = $this->is_assoc( $data );
-						if ( $is_assoc ) ksort( $data );
-						foreach ( $data as $key => $val ) 
-							$html .= $is_assoc ? "\t$key = $val\n" : "\t$val\n";
-						unset ( $key, $val );
-					} else {
-						if ( preg_match( '/^Array/', $data ) ) $html .= "\n";	// check for print_r() output
-						$html .= $data;
-					}
-				}
-				$html .= ' -->'."\n";
+			$html = '<!-- '.$this->fullname.' debug';
+			$stack = debug_backtrace();
+			if ( ! empty( $stack[$backtrace]['class'] ) ) 
+				$from .= $stack[$backtrace]['class'].'::';
+			if ( ! empty( $stack[$backtrace]['function'] ) )
+				$from .= $stack[$backtrace]['function'];
+			if ( empty( $data ) ) {
+				$this->log( 'truncating debug log' );
+				$data = $this->buffer;
+				$this->buffer = array();
 			}
+			if ( ! empty( $from ) ) $html .= ' from '.$from.'()';
+			if ( ! empty( $title ) ) $html .= ' '.$title;
+			if ( ! empty( $data ) ) {
+				$html .= ' : ';
+				if ( is_array( $data ) ) {
+					$html .= "\n";
+					$is_assoc = $this->is_assoc( $data );
+					if ( $is_assoc ) ksort( $data );
+					foreach ( $data as $key => $val ) 
+						$html .= $is_assoc ? "\t$key = $val\n" : "\t$val\n";
+					unset ( $key, $val );
+					} else {
+					if ( preg_match( '/^Array/', $data ) ) $html .= "\n";	// check for print_r() output
+					$html .= $data;
+				}
+			}
+			$html .= ' -->'."\n";
 			return $html;
 		}
 

@@ -73,8 +73,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				unset( $updates->response[$this->base_name] );
 			}
 			$option_data = get_site_option($this->update_info_option);
-			if (!empty($option_data) && is_object($option_data->update) && !empty($option_data->update)) {
-				if (version_compare($option_data->update->version, $this->get_installed_version(), '>')) {
+			if ( ! empty( $option_data ) && is_object( $option_data->update ) && ! empty( $option_data->update ) ) {
+				if ( version_compare( $option_data->update->version, $this->get_installed_version(), '>' ) ) {
 					$updates->response[$this->base_name] = $option_data->update->json_to_wp();
 				}
 			}
@@ -121,7 +121,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			$query['installed_version'] = $this->get_installed_version();
 			$options = array(
 				'timeout' => 10, 
-				'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo( 'url' ).'; '.$this->slug,
+				'user-agent' => 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.get_bloginfo( 'url' ),
 				'headers' => array( 'Accept' => 'application/json', ),
 			);
 			$url = $this->json_url;
