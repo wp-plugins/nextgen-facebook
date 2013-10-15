@@ -30,8 +30,19 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 		public function add_header() {
 
 			if ( $this->p->debug->is_on() )
-				foreach ( array( 'is_archive', 'is_category', 'is_tag', 'is_home', 'is_search', 'is_singular', 'is_attachment' ) as $func )
-					$this->p->debug->log( $func.'() = ' . ( $func() ? 'true' : 'false' ) );
+				foreach ( array( 
+					'is_archive',
+					'is_category',
+					'is_tag',
+					'is_home',
+					'is_search',
+					'is_singular',
+					'is_attachment',
+					'is_product',
+					'is_product_category',
+					'is_product_tag',
+					) as $func ) if ( function_exists( $func ) )
+						$this->p->debug->log( $func.'() = '.( $func() ? 'true' : 'false' ) );
 
 			if ( method_exists( $this->og, 'get' ) )
 				$this->html( $this->og->get() );
@@ -117,31 +128,31 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			/*
 			 * Print the Multi-Dimensional Array as HTML
 			 */
-			$this->p->debug->log( count( $meta_tags ) . ' meta_tags to process' );
+			$this->p->debug->log( count( $meta_tags ).' meta_tags to process' );
 			foreach ( $meta_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
 					if ( empty( $first_val ) ) {
 						echo $this->get_meta_html( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
 					} else {
-						//$this->p->debug->log( 'foreach 1st-dimension element: ' . $first_name . ' (array)' );
+						//$this->p->debug->log( 'foreach 1st-dimension element: '.$first_name.' (array)' );
 						foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
 							if ( $this->p->util->is_assoc( $second_val ) ) {
-								//$this->p->debug->log( 'foreach 2nd-dimension element: ' . $second_num . ' (array)' );
+								//$this->p->debug->log( 'foreach 2nd-dimension element: '.$second_num.' (array)' );
 								ksort( $second_val );
 								foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
-									//$this->p->debug->log( 'formatting 3rd-dimension element: ' . $third_name );
-									echo $this->get_meta_html( $third_name, $third_val, $first_name . ':' . ( $second_num + 1 ) );
+									//$this->p->debug->log( 'formatting 3rd-dimension element: '.$third_name );
+									echo $this->get_meta_html( $third_name, $third_val, $first_name.':'.( $second_num + 1 ) );
 								}
 								unset ( $third_name, $third_val );
 							} else {
-								//$this->p->debug->log( 'formatting 2nd-dimension element: ' . $second_num );
-								echo $this->get_meta_html( $first_name, $second_val, $first_name . ':' . ( $second_num + 1 ) );
+								//$this->p->debug->log( 'formatting 2nd-dimension element: '.$second_num );
+								echo $this->get_meta_html( $first_name, $second_val, $first_name.':'.( $second_num + 1 ) );
 							}
 						}
 						unset ( $second_num, $second_val );
 					}
 				} else {
-					//$this->p->debug->log( 'formatting 1st-dimension element: ' . $first_name );
+					//$this->p->debug->log( 'formatting 1st-dimension element: '.$first_name );
 					echo $this->get_meta_html( $first_name, $first_val );
 				}
 			}
@@ -152,30 +163,30 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->p->options['inc_' . $name] ) ) {
+			if ( ! empty( $this->p->options['inc_'.$name] ) ) {
 				if ( $val !== '' || ( ! empty( $this->p->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
 					$charset = get_bloginfo( 'charset' );
 					$val = htmlentities( $this->p->util->cleanup_html_tags( $this->p->util->decode( $val ) ), 
 						ENT_QUOTES, $charset, false );
-					$this->p->debug->log( 'meta ' . $name . ' = "' . $val . '"' );
+					$this->p->debug->log( 'meta '.$name.' = "'.$val.'"' );
 					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 
 					// by default, echo a <meta property="" content=""> html tag
 					if ( $name == 'description' || strpos( $name, 'twitter:' ) === 0 ) {
-						$meta_html .= '<meta name="' . $name . '" content="' . $val . '" />' . "\n";
+						$meta_html .= '<meta name="'.$name.'" content="'.$val.'" />'."\n";
 					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
 						strpos( $val, 'https:' ) === 0 && ! empty( $this->p->options['inc_'.$name] ) ) {
 
 						$non_sec = preg_replace( '/^https:/', 'http:', $val );
-						$meta_html .= '<meta property="' . $name . '" content="' . $non_sec . '" />' . "\n";
+						$meta_html .= '<meta property="'.$name.'" content="'.$non_sec.'" />'."\n";
 						// add an additional secure_url meta tag
 						if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-						$meta_html .= '<meta property="' . $name . ':secure_url" content="' . $val . '" />' . "\n";
+						$meta_html .= '<meta property="'.$name.':secure_url" content="'.$val.'" />'."\n";
 					} else {
-						$meta_html .= '<meta property="' . $name . '" content="' . $val . '" />' . "\n";
+						$meta_html .= '<meta property="'.$name.'" content="'.$val.'" />'."\n";
 					}
-				} else $this->p->debug->log( 'meta ' . $name . ' is empty - skipping' );
-			} else $this->p->debug->log( 'meta ' . $name . ' is disabled - skipping' );
+				} else $this->p->debug->log( 'meta '.$name.' is empty - skipping' );
+			} else $this->p->debug->log( 'meta '.$name.' is disabled - skipping' );
 			return $meta_html;
 		}
 
