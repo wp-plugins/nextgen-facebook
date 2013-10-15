@@ -66,16 +66,14 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( __( 'Image Dimensions', NGFB_TEXTDOM ), 'highlight', null, '
 					The dimension of images used in the Open Graph meta tags. The width and height must be 
-					between ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . ' and 1500x1500, preferably cropped 
-					(defaults is ' . $this->p->opt->get_defaults( 'og_img_width' ) . 'x' .
-					$this->p->opt->get_defaults( 'og_img_height' ) . ', ' .
-					( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ) . 'cropped). 
+					between '.NGFB_MIN_IMG_SIZE.'x'.NGFB_MIN_IMG_SIZE.' and 1500x1500, preferably cropped 
+					(defaults is '.$this->p->opt->get_defaults( 'og_img_width' ).'x'.$this->p->opt->get_defaults( 'og_img_height' ).', '.
+					( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ).'cropped). 
 					<strong>Facebook prefers larger images for use on high resolution devices (1200x630 is recommended)</strong>.
-					The default values are purposefully low in consideration of photography websites, 
-					who may not want to share larger images of their work.' ) .
-					'<td>Width ' . $this->p->admin->form->get_input( 'og_img_width', 'short' ) . ' x ' .
-					'Height ' . $this->p->admin->form->get_input( 'og_img_height', 'short' ) . 
-					'Cropped ' . $this->p->admin->form->get_checkbox( 'og_img_crop' ) . '</td>';
+					If the original image dimensions are less than the dimensions emntered here, then the original full-size image will be used instead.' ).
+					'<td>Width '.$this->p->admin->form->get_input( 'og_img_width', 'short' ).' x '.
+					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).
+					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'</td>';
 	
 					$id_pre = array( 'wp' => 'Media Library' );
 					if ( $this->p->is_avail['ngg'] == true ) $id_pre['ngg'] = 'NextGEN Gallery';

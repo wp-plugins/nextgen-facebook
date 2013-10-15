@@ -51,10 +51,8 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		public function num_remains( &$arr, $num = 0 ) {
 			$remains = 0;
 			if ( ! is_array( $arr ) ) return false;
-			if ( $num > 0 && $num >= count( $arr ) ) {
+			if ( $num > 0 && $num >= count( $arr ) )
 				$remains = $num - count( $arr );
-				//$this->p->debug->log( 'images count: '.count( $arr ).' of '.$num.' max' );
-			}
 			return $remains;
 		}
 
@@ -141,18 +139,55 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 		}
 
 		public function get_attachment_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
+			$this->p->debug->args( array( 'pid' => $pid, 'size_name' => $size_name, 'check_dupes' => $check_dupes ) );
 			$size_info = $this->get_size_info( $size_name );
 			$img_url = '';
 			$img_width = 0;
 			$img_height = 0;
-			$img_crop = $size_info['crop'] == 1 ? 'true' : 'false';	// visual feedback, not a real true / false
+			$img_crop = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true / false
 			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->p->debug->log( 'image for pid:' . $pid . ' size:' . $size_name . ' = ' . $img_url . ' (' . $img_width . 'x' . $img_height . ')' );
-			$img_url = $this->p->util->fix_relative_url( $img_url );
-			if ( ! empty( $img_url ) ) {
+
+			if ( empty( $img_url ) )
+				$this->p->debug->log( 'image rejected: returned image url is empty' );
+			else {
+				$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+
+				// make sure the returned image size matches the size we requested, if not then (possibly) resize the image
+				// if the image is not cropped, then both sizes have to be off
+				// if the image is supposed to be cropped, then only one size needs to be off
+				if ( ( empty( $size_info['crop'] ) && ( $img_width != $size_info['width'] && $img_height != $size_info['height'] ) ) ||
+					( ! empty( $size_info['crop'] ) && ( $img_width != $size_info['width'] || $img_height != $size_info['height'] ) ) ) {
+
+					$this->p->debug->log( 'width and/or height does not match the size requested ('.$size_info['width'].'x'.$size_info['height'].')' );
+					$img_meta = wp_get_attachment_metadata( $pid );
+
+					// if the original image is too small, log the event and continue
+					if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
+
+						$this->p->debug->log( 'original image ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
+							$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
+
+					// if existing metadata sizes aren't what they should be, then resize the image
+					} elseif ( ( empty( $size_info['crop'] ) && ( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
+						( ! empty( $size_info['crop'] ) && ( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
+	
+						include_once( ABSPATH.'wp-admin/includes/image.php' );
+						$fullsizepath = get_attached_file( $pid );
+						$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
+						if ( ! is_wp_error( $new_meta ) && ! empty( $new_meta ) ) {
+							wp_update_attachment_metadata( $pid, $new_meta );
+							list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
+							if ( empty( $img_url ) ) {
+								$this->p->debug->log( 'image rejected: returned image url after resize is empty' );
+								return array( null, null, null, null );
+							}
+						}
+					}
+				}
+				$img_url = $this->p->util->fix_relative_url( $img_url );
 				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
 					return array( $this->p->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
-			} else $this->p->debug->log( 'image rejected: image url is empty' );
+			} 
 			return array( null, null, null, null );
 		}
 

@@ -139,7 +139,7 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 						$val = 'true';
 					$line .= $key.' = '.$val.', ';
 				}
-				return '( '.trim( $line, ', ' ).' )'; 
+				return '('.trim( $line, ', ' ).')'; 
 			} else return $input;
 		}	
 

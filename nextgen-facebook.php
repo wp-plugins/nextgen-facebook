@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.11dev7
+Version: 6.11dev8
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.11dev7';
+		public $version = '6.11dev8';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -432,6 +432,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * setup class properties, etc. based on option values
 			 */
+			$this->debug->log( 'calling add_image_size('.NGFB_OG_SIZE_NAME.', '.
+				$this->options['og_img_width'].', '.
+				$this->options['og_img_height'].', '.
+				$this->options['og_img_crop'].')' );
+			add_theme_support( 'post-thumbnails' );		// needed to allow custom image sizes
 			add_image_size( NGFB_OG_SIZE_NAME, 
 				$this->options['og_img_width'], 
 				$this->options['og_img_height'], 
@@ -449,16 +454,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			else $this->cache->file_expire = 0;
 
 			if ( $this->debug->is_on( 'wp' ) == true ) {
-				$this->debug->log( 'NGFB WP debug mode is ON' );
-				$this->debug->log( 'File cache expiration set to ' . $this->cache->file_expire . ' second(s)' );
+				$this->debug->log( 'WP debug mode on: file cache expiration set to ' . $this->cache->file_expire . ' second(s)' );
 			}
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
-				$this->debug->log( 'NGFB HTML debug mode is ON' );
-				$this->debug->log( 'WP object cache expiration set to '.$this->cache->object_expire.' second(s) for new objects' );
-				$this->notices->inf( __( 'NGFB HTML debug mode is ON.', NGFB_TEXTDOM ) . ' ' .
+				$this->debug->log( 'HTML debug mode on: wp object cache expiration set to '.$this->cache->object_expire.' second(s) for new objects' );
+				$this->notices->inf( __( 'NGFB HTML debug mode is on.', NGFB_TEXTDOM ) . ' ' .
 					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) . ' ' .
 					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
 			} else $this->cache->object_expire = $this->options['plugin_object_cache_exp'];
