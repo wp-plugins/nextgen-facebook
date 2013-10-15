@@ -735,7 +735,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11dev4 =
+= Version 6.11dev7 =
 
 ***Free* and Pro version changes:**
 
@@ -743,6 +743,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
 * Added an 'Expand to' option for the Google+ social sharing button.
 * Renamed several internal variables and options.
+
+**Pro version changes:**
+
+* Fixed detection of WP e-Commerce single products (vs categories).
+* Fixed a potentially empty WordPress identification string on update checks.
 
 = Version 6.10 =
 
@@ -795,7 +800,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11dev4 =
+= 6.11dev7 =
 
 Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface, and 'Expand to' option for the Google+ social sharing button.
 
