@@ -26,7 +26,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 	
-			$this->json_url = $this->p->urls['update'].'?transaction='.$this->p->options['plugin_pro_tid'];
+			$this->json_url = $this->p->urls['update'].'?tid='.$this->p->options['plugin_pro_tid'];
 			$this->file_path = NGFB_FILEPATH;
 			$this->base_name = plugin_basename( $this->file_path );
 			$this->slug = $this->p->slug;
@@ -119,10 +119,14 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public function get_json( $query = array() ) {
 			global $wp_version;
 			$query['installed_version'] = $this->get_installed_version();
+			$user_agent = 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.get_bloginfo( 'url' );
 			$options = array(
 				'timeout' => 10, 
-				'user-agent' => 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.get_bloginfo( 'url' ),
-				'headers' => array( 'Accept' => 'application/json', ),
+				'user-agent' => $user_agent,
+				'headers' => array( 
+					'Accept' => 'application/json',
+					'X-WordPress-Id' => $user_agent,
+				),
 			);
 			$url = $this->json_url;
 			if ( ! empty( $query ) ) 
