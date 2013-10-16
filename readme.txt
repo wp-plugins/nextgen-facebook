@@ -735,11 +735,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11dev8 =
+= Version 6.11dev9 =
 
 ***Free* and Pro version changes:**
 
-* **Added dynamic image resizing for Media Library images when image dimentions are changed in the settings.**
+* Added dynamic image resizing for Media Library images when image dimentions are changed in the settings.
 * Added a 'Show Button in: Admin Sharing' option for all social sharing websites.
 * Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
 * Added an 'Expand to' option for the Google+ social sharing button.
@@ -801,7 +801,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11dev8 =
+= 6.11dev9 =
 
 **Added dynamic image resizing for Media Library images**, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
 
