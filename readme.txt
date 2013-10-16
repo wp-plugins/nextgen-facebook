@@ -203,7 +203,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Q21. Why are there duplicate Facebook / Google fields on the user profile page?
 * Q22. Why is the Open Graph title the same for every webpage?
 
-= Q1. What is the difference between the *Free* and Pro versions? =
+= Q1. What is the difference between the Free and Pro versions? =
 
 [The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) adds support for [Twitter Cards](https://dev.twitter.com/docs/cards), e-commerce products ([WooCommerce](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/)), tighter integration with SEO plugins ([WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/)), dynamically changes the social button language to match the webpage, allows you to customize the Open Graph title, description, image, video, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (to further improve page load times). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature (for encoded URLs that other plugins do not detect). 
 
@@ -736,6 +736,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 == Changelog ==
 
 = Version 6.11.0 =
+
+* *Free* version: 12485 lines in 42 files, with 51 classes and 414 functions
+* Pro version: 14170 lines in 53 files, with 64 classes and 462 functions
 
 ***Free* and Pro version changes:**
 
