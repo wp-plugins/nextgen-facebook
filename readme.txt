@@ -740,7 +740,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 ***Free* and Pro version changes:**
 
 * Added dynamic image resizing for Media Library images when image dimentions are changed in the settings.
-* Added a 'Show Button in: Admin Sharing' option for all social sharing websites.
+* Added a 'Show Button in: Edit Post/Page' option for all social sharing websites.
 * Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
 * Added an 'Expand to' option for the Google+ social sharing button.
 * Renamed several internal variables and options.
