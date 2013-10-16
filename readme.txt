@@ -735,7 +735,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11dev9 =
+= Version 6.11.0 =
 
 ***Free* and Pro version changes:**
 
@@ -747,6 +747,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 **Pro version changes:**
 
+* Fixed WP e-Commerce price formatting for older versions.
 * Fixed detection of WP e-Commerce single products vs categories.
 * Fixed a potentially empty WordPress identification string on update checks.
 
@@ -801,7 +802,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11dev9 =
+= 6.11.0 =
 
 **Added dynamic image resizing for Media Library images**, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
 
