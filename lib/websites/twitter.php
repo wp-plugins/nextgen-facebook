@@ -23,9 +23,9 @@ if ( ! class_exists( 'ngfbSettingsTwitter' ) && class_exists( 'ngfbSettingsSocia
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-			$this->p->admin->form->get_checkbox( 'twitter_on_the_content' ) . ' Content&nbsp; ' . 
-			$this->p->admin->form->get_checkbox( 'twitter_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-			$this->p->admin->form->get_checkbox( 'twitter_on_admin_sharing' ) . ' Admin Sharing' . 
+			'Content '.$this->p->admin->form->get_checkbox( 'twitter_on_the_content' ).'&nbsp;'.
+			'Excerpt '.$this->p->admin->form->get_checkbox( 'twitter_on_the_excerpt' ).'&nbsp;'.
+			'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'twitter_on_admin_sharing' ). 
 			'</td>';
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 

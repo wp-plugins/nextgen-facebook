@@ -22,9 +22,9 @@ if ( ! class_exists( 'ngfbSettingsLinkedIn' ) && class_exists( 'ngfbSettingsSoci
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_checkbox( 'linkedin_on_the_content' ) . ' Content&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'linkedin_on_admin_sharing' ) . ' Admin Sharing' . 
+				'Content '.$this->p->admin->form->get_checkbox( 'linkedin_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->p->admin->form->get_checkbox( 'linkedin_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'linkedin_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 

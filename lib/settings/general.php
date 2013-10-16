@@ -70,10 +70,11 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					(defaults is '.$this->p->opt->get_defaults( 'og_img_width' ).'x'.$this->p->opt->get_defaults( 'og_img_height' ).', '.
 					( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ).'cropped). 
 					<strong>Facebook prefers larger images for use on high resolution devices (1200x630 is recommended)</strong>.
-					If the original image dimensions are less than the dimensions emntered here, then the original full-size image will be used instead.' ).
+					If the original image dimensions are less than the dimensions entered here, then the original full-size image will be used instead.' ).
 					'<td>Width '.$this->p->admin->form->get_input( 'og_img_width', 'short' ).' x '.
-					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).
-					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'</td>';
+					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).'&nbsp;'.
+					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'&nbsp;'.
+					'</td>';
 	
 					$id_pre = array( 'wp' => 'Media Library' );
 					if ( $this->p->is_avail['ngg'] == true ) $id_pre['ngg'] = 'NextGEN Gallery';

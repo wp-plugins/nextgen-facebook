@@ -23,9 +23,9 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
 				'The Pinterest "Pin It" button appears only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
-				$this->p->admin->form->get_checkbox( 'pin_on_the_content' ) . ' Content&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'pin_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'pin_on_admin_sharing' ) . ' Admin Sharing' . 
+				'Content '.$this->p->admin->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->p->admin->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'pin_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 

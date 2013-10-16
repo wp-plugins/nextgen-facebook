@@ -46,9 +46,9 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
 				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
 				custom Posts, or the webpage link.' ) . '<td>' . 
-				$this->p->admin->form->get_checkbox( 'tumblr_on_the_content' ) . ' Content&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ) . ' Excerpt&nbsp; ' . 
-				$this->p->admin->form->get_checkbox( 'tumblr_on_admin_sharing' ) . ' Admin Sharing' . 
+				'Content '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'tumblr_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
