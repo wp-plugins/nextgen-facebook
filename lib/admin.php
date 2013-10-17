@@ -110,10 +110,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				foreach ( $links as $num => $val )
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
-				array_push( $links, '<a href="' . $this->p->util->get_admin_url( 'about' ) . '">' . __( 'About' ) . '</a>' );
-				array_push( $links, '<a href="' . $this->p->urls['support_forum'] . '">' . __( 'Support' ) . '</a>' );
+				array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About' ).'</a>' );
+				array_push( $links, '<a href="'.$this->p->urls['support_forum'].'">'.__( 'Support' ).'</a>' );
 				if ( $this->p->is_avail['aop'] == false ) 
-					array_push( $links, '<a href="' . $this->p->urls['plugin'] . '">' . __( 'Purchase Pro' ) . '</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro' ).'</a>' );
 			}
 			return $links;
 		}
