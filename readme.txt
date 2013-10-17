@@ -392,11 +392,12 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
 
 * [@surniaululacom on Twitter](https://twitter.com/surniaululacom)
-* [#ngfbog HashTag on Twitter](https://twitter.com/search?q=%23ngfbog)
+* [#ngfbog hashtag on Twitter](https://twitter.com/search?q=%23ngfbog)
+* [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom)
 * [Surnia Ulula on Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977)
 * [Surnia Ulula on Google+](https://plus.google.com/u/2/103457833348046432604/posts)
-* [SurniaUlulaCom's Channel on YouTube](https://www.youtube.com/user/SurniaUlulaCom)
-* [RSS Feed from surniaulula.com](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
+* [RSS Feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
+* [Surnia Ulula's Support Website[(http://support.surniaulula.com/) (Pro version only)
 
 Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchasing the Pro version).
 
@@ -410,11 +411,11 @@ WordPress allows plugins and themes to hook into various filters, which are then
 
 On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
 
-If you have the Pro version, instead of disabling the use of content / excerpt filters, you can enter a custom 'Default Description' in the Custom Settings metabox, located on most Pages and Posts. NGFB Open Graph+ will then use the custom description instead of applying filters to generate a description from the content.
+As an alternative to disabling content / excerpt filters, you can also use a custom 'Default Description' in the Custom Settings metabox located on most Pages and Posts. NGFB Open Graph+ will then use the custom description instead of applying filters to generate a description from the content.
 
 = Debug and Error Messages =
 
-Turning on the WordPress debug log can be highly illuminating -- your theme templates and/or plugins may be generating many errors, which you would never see unless you turn on the WordPress debug log. To enable the WordPress debug log, without displaying the errors to your visitors, add the following to your `wp-config.php` file.
+Turning on the WordPress debug log can be highly illuminating -- your theme and plugins may be generating many errors, which you would never see unless you turn on the WordPress debug log. To enable the WordPress debug log, without displaying the errors to your visitors, add the following to your `wp-config.php` file.
 
 `
 define('WP_DEBUG', true);
@@ -425,7 +426,7 @@ if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
 }
 `
 
-NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug mesages will be added directly to the webpage, as HTML comments, to allow debugging remotely. You can also define the following constant to enable the same behavior.
+NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug messages will be added directly to the webpage as HTML comments, to allow debugging issues remotely. You can also define the following constant to enable the same behavior.
 
 `
 define('NGFB_DEBUG', true);
@@ -457,8 +458,9 @@ Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB
 1. If the Twitter Card type has not been approved yet, you may click on the 'Request Approval' button.
 1. Fill-in and submit the form.
 
-NGFB Open Graph+ creates the Twitter Cards based on the content of your webpages.
+NGFB Open Graph+ Pro creates the Twitter Cards based on the content of your webpages.
 
+* Product : Product information from a supported e-commerce plugin.
 * Player : An embedded video in the content from YouTube, Vimeo, or Wistia.
 * Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
 * Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
@@ -514,7 +516,7 @@ You could use any of these class names to hide one or more NGFB social buttons e
 .format-status .ngfb-buttons { display:none; }
 `
 
-[The Pro version of NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) includes customized settings for each Post and Page, which allows you to enable / disable social buttons for each particular Post and Page without the use of CSS.
+[The Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also includes a Custom Settings checkbox to enable/disable social buttons on each Post and Page without the use of CSS.
 
 == Performance Tuning ==
 
