@@ -737,9 +737,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11.1 =
+= Version 6.11.1dev1 =
 
-* Compensate for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
+* Work-around for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
 
 = Version 6.11.0 =
 
@@ -811,9 +811,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11.1 =
+= 6.11.1dev1 =
 
-Compensate for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
+Work-around for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
 
 = 6.11.0 =
 
