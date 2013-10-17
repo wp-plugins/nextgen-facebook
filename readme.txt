@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.6.1
-Stable Tag: 6.11.0
+Stable Tag: 6.11.1
 
 Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
 
