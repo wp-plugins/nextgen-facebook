@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			extract( $args );
 			$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
-			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+			$cache_id = $ngfb->acronym.'_'.md5( $cache_salt );
 			$cache_type = 'object cache';
 			$widget_html = get_transient( $cache_id );
 			$ngfb->debug->log( $cache_type.': widget_html transient id salt "'.$cache_salt.'"' );

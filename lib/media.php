@@ -151,57 +151,60 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' );
 				return $ret_empty;
 			}
-			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
 
+			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
+			$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 			if ( empty( $img_url ) ) {
 				$this->p->debug->log( 'exiting early: returned image url is empty' );
 				return $ret_empty;
-			} else {
-				$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+			}
 
-				// make sure the returned ngfb image size matches the size we requested, if not then (possibly) resize the image
-				if ( $size_name == NGFB_OG_SIZE_NAME ) {
-					// if the image is not cropped, then both sizes have to be off
-					// if the image is supposed to be cropped, then only one size needs to be off
-					if ( ( empty( $size_info['crop'] ) && ( $img_width != $size_info['width'] && $img_height != $size_info['height'] ) ) ||
-						( ! empty( $size_info['crop'] ) && ( $img_width != $size_info['width'] || $img_height != $size_info['height'] ) ) ) {
-	
-						$this->p->debug->log( 'width and/or height does not match the size requested ('.$size_info['width'].'x'.$size_info['height'].')' );
-						$img_meta = wp_get_attachment_metadata( $pid );
-	
-						// if the original image is too small, log the event and continue
-						if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
-	
-							$this->p->debug->log( 'original image ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
-								$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
-	
-						// if existing metadata sizes aren't what they should be, then resize the image
-						} elseif ( ( empty( $size_info['crop'] ) && 
-							( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && 
-								$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
-									( ! empty( $size_info['crop'] ) && 
-										( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || 
-											$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
-		
-							include_once( ABSPATH.'wp-admin/includes/image.php' );
-							$fullsizepath = get_attached_file( $pid );
-							$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
-							if ( ! is_wp_error( $new_meta ) && ! empty( $new_meta ) ) {
-								wp_update_attachment_metadata( $pid, $new_meta );
-								list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
-								if ( empty( $img_url ) ) {
-									$this->p->debug->log( 'exiting early: returned image url after resize is empty' );
-									return $ret_empty;
-								}
-							}
+			// make sure the returned ngfb image size matches the size we requested, 
+			// if not then possibly resize the image
+			if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
+
+				$img_meta = wp_get_attachment_metadata( $pid );
+
+				// wp_generate_attachment_metadata() does not upscale images
+				// if the full size image is too small, log the event and continue
+				// url returned will be for full size image
+				if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
+
+					$this->p->debug->log( 'original image ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
+						$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
+
+				// if the image is not cropped, then both sizes have to be off
+				// if the image is supposed to be cropped, then only one size needs to be off
+				} elseif ( ( empty( $size_info['crop'] ) && 
+					( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && 
+						$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
+							( ! empty( $size_info['crop'] ) && 
+								( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || 
+									$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
+
+					$this->p->debug->log( 'image metadata for '.$size_name.
+						' ('.$img_meta['sizes'][$size_name]['width'].'x'.$img_meta['sizes'][$size_name]['height'].')'.
+						' does not match ('.$size_info['width'].'x'.$size_info['height'].')' );
+					$this->p->debug->log( 'calling wp_generate_attachment_metadata()' );
+
+					include_once( ABSPATH.'wp-admin/includes/image.php' );
+					$fullsizepath = get_attached_file( $pid );
+					$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
+
+					if ( ! is_wp_error( $new_meta ) && ! empty( $new_meta ) ) {
+						wp_update_attachment_metadata( $pid, $new_meta );
+						list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
+						$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+						if ( empty( $img_url ) ) {
+							$this->p->debug->log( 'exiting early: returned image url after resize is empty' );
+							return $ret_empty;
 						}
 					}
 				}
-				$img_url = $this->p->util->fix_relative_url( $img_url );
-				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-					return array( $this->p->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
-			} 
-			return $ret_empty;
+			}
+			$img_url = $this->p->util->fix_relative_url( $img_url );
+			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
+				return array( $this->p->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {

@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '91';	// increment when adding/removing default options
+		public $options_version = '92';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -118,6 +118,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_img_width' => 600,
 			'og_img_height' => 600,
 			'og_img_crop' => 1,
+			'og_img_resize' => 0,
 			'og_img_max' => 1,
 			'og_vid_max' => 1,
 			'og_vid_https' => 1,
@@ -350,13 +351,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 		public function get_defaults( $idx = '' ) {
 			foreach ( $this->p->css_names as $css_id => $css_name ) {
-				$css_file = NGFB_PLUGINDIR . 'css/' . $css_id . '-buttons.css';
-				if ( empty( $this->defaults['buttons_css_' . $css_id] ) ) {
+				$css_file = NGFB_PLUGINDIR.'css/'.$css_id.'-buttons.css';
+				if ( empty( $this->defaults['buttons_css_'.$css_id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->p->notices->err( 'Failed to open <u>' . $css_file . '</u> for reading.' );
+						$this->p->notices->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
 					else {
-						$this->defaults['buttons_css_' . $css_id] = fread( $fh, filesize( $css_file ) );
-						$this->p->debug->log( 'read css from file ' . $css_file );
+						$this->defaults['buttons_css_'.$css_id] = fread( $fh, filesize( $css_file ) );
+						$this->p->debug->log( 'read css from file '.$css_file );
 						fclose( $fh );
 					}
 				}
@@ -406,35 +407,35 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$opts = $this->add_to_post_types( $opts );
 			} else {
 				if ( $opts === false )
-					$err_msg = 'did not find an "' . NGFB_OPTIONS_NAME . '" entry in';
+					$err_msg = 'did not find an "'.NGFB_OPTIONS_NAME.'" entry in';
 				elseif ( ! is_array( $opts ) )
-					$err_msg = 'returned a non-array value when reading "' . NGFB_OPTIONS_NAME . '" from';
+					$err_msg = 'returned a non-array value when reading "'.NGFB_OPTIONS_NAME.'" from';
 				elseif ( empty( $opts ) )
-					$err_msg = 'returned an empty array when reading "' . NGFB_OPTIONS_NAME . '" from';
+					$err_msg = 'returned an empty array when reading "'.NGFB_OPTIONS_NAME.'" from';
 				else 
-					$err_msg = 'returned an unknown condition when reading "' . NGFB_OPTIONS_NAME . '" from';
+					$err_msg = 'returned an unknown condition when reading "'.NGFB_OPTIONS_NAME.'" from';
 
-				$this->p->debug->log( 'WordPress ' . $err_msg . ' the options database table.' );
+				$this->p->debug->log( 'WordPress '.$err_msg.' the options database table.' );
 				$opts = $this->get_defaults();
 			}
 			if ( is_admin() ) {
 				if ( ! empty( $err_msg ) ) {
 					$url = $this->p->util->get_admin_url( 'general' );
-					$this->p->notices->err( 'WordPress ' . $err_msg . ' the options database table. 
+					$this->p->notices->err( 'WordPress '.$err_msg.' the options database table. 
 						All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
-						<a href="' . $url . '">Please visit the plugin settings pages to review and save the options</a>.' );
+						<a href="'.$url.'">Please visit the plugin settings pages to review and save the options</a>.' );
 				}
 				if ( $this->p->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->p->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
 					$url = $this->p->util->get_admin_url( 'general' );
-					$size_desc = $this->p->options['og_img_width'] . 'x' . $this->p->options['og_img_height'];
-					$this->p->notices->inf( 'The image size of ' . $size_desc . ' for images in the Open Graph meta tags
-						is smaller than the minimum of ' . NGFB_MIN_IMG_SIZE . 'x' . NGFB_MIN_IMG_SIZE . '. 
-						<a href="' . $url . '">Please enter a larger Image Size on the General Settings page</a>.' );
+					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
+					$this->p->notices->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
+						is smaller than the minimum of '.NGFB_MIN_IMG_SIZE.'x'.NGFB_MIN_IMG_SIZE.'. 
+						<a href="'.$url.'">Please enter a larger Image Size on the General Settings page</a>.' );
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$url = $this->p->util->get_admin_url( 'advanced' );
-					$this->p->notices->nag( '<p>The ' . $this->p->fullname . ' <em>Authentication ID</em> option value is empty. 
-						In order for the plugin to authenticate itself for future updates,<br/><a href="' . $url . '">please enter 
+					$this->p->notices->nag( '<p>The '.$this->p->fullname.' <em>Authentication ID</em> option value is empty. 
+						In order for the plugin to authenticate itself for future updates,<br/><a href="'.$url.'">please enter 
 						the unique Authenticaton ID you received by email on the Advanced Settings page</a>.</p>' );
 				}
 
@@ -657,8 +658,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
 				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
 					if ( $this->p->debug->is_on() == true )
-						$this->p->notices->inf( 'Removing deprecated option \'' . 
-							$key . '\' with a value of \'' . $val . '\'.' );
+						$this->p->notices->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
 					unset( $opts[$key] );
 				}
 			unset ( $key, $val );
@@ -666,7 +666,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			// add missing options and set to defaults
 			foreach ( $def_opts as $key => $def_val ) {
 				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-					$this->p->debug->log( 'adding missing ' . $key . ' option.' );
+					$this->p->debug->log( 'adding missing '.$key.' option.' );
 					$opts[$key] = $def_val;
 				}
 			}
@@ -716,8 +716,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
 					if ( $this->p->debug->is_on() == true )
-						$this->p->notices->inf( 'Renamed \'' . $old . '\' option to \'' . 
-							$new . '\' with a value of \'' . $opts[$old] . '\'.' );
+						$this->p->notices->inf( 'Renamed \''.$old.'\' option to \''.
+							$new.'\' with a value of \''.$opts[$old].'\'.' );
 					$opts[$new] = $opts[$old];
 					unset( $opts[$old] );
 				}
