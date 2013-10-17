@@ -60,8 +60,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'support_forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-			'support_feed' => 'http://wordpress.org/support/rss/plugin/nextgen-facebook',
-			'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook',
+			'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
 		);
 
 		public $follow = array(
