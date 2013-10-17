@@ -227,7 +227,6 @@ if ( ! class_exists( 'ngfbPluginData' ) ) {
 				$data->sections = get_object_vars( $this->sections );
 			else 
 				$data->sections = array( 'description' => '' );
-			return apply_filters( $this->p->acronym.'_wp_plugin_data', $data );
 		}
 
 	}
@@ -280,7 +279,6 @@ if ( ! class_exists( 'ngfbPluginUpdate' ) ) {
 				if ( isset( $this->$old_field ) )
 					$data->$new_field = $this->$old_field;
 			}
-			return apply_filters( $this->p->acronym.'_wp_plugin_update', $data );
 		}
 	}
 
