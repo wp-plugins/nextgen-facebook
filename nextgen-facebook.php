@@ -59,7 +59,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'plugin' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
 			'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
-			'support_forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+			'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
+			'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
+			'forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+			'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
+			'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
+			'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
 			'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
 		);
 

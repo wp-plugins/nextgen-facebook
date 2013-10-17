@@ -24,7 +24,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 			switch ( $name ) {
 				case 'pro_feature' :
 					$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
-						to the Pro version to enable the following features</a></p>';
+					to the Pro version to enable the following features</a></p>';
 					break;
 				case 'pro_details' :
 					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 
@@ -53,14 +53,17 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					moved and re-ordered by dragging them, and removed / added from the <em>Screen Options</em> tab (top-right).
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
-				case 'help_forum' :
-					$msg = '<p><strong>Need help? Visit the <a href="'.$this->p->urls['support_forum'].'" 
-						target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
+				case 'help_free' :
+					$msg = '<p><strong>Need help with the <em>Free</em> version? 
+					See the <a href="'.$this->p->urls['faq'].'" target="_blank">FAQ</a>, 
+					the <a href="'.$this->p->urls['notes'].'" target="_blank">Other Notes</a>, or visit the 
+					<a href="'.$this->p->urls['forum'].'" target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
 					break;
-				case 'help_email' :
-					$msg = '<p><strong>Need help with the Pro version? Contact me by email at 
-					<a href="mailto:'.$this->p->urls['email'].'?subject='.$this->p->fullname.
-						' Support (Auth ID '.$this->p->options['plugin_pro_tid'].')" target="_blank">'.$this->p->urls['email'].'</a></strong>.</p>';
+				case 'help_pro' :
+					$msg = '<p><strong>Need help with the Pro version? 
+					See the <a href="'.$this->p->urls['pro_faq'].'" target="_blank">FAQ</a>, 
+					the <a href="'.$this->p->urls['pro_notes'].'" target="_blank">Other Notes</a>, or 
+					<a href="'.$this->p->urls['pro_request'].'" target="_blank">Submit a Request</a>.</p>';
 					break;
 			}
 			return $msg;

@@ -111,7 +111,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
 				array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About' ).'</a>' );
-				array_push( $links, '<a href="'.$this->p->urls['support_forum'].'">'.__( 'Support' ).'</a>' );
+				array_push( $links, '<a href="'.$this->p->urls['forum'].'">'.__( 'Support' ).'</a>' );
 				if ( $this->p->is_avail['aop'] == false ) 
 					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro' ).'</a>' );
 			}
@@ -416,9 +416,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<table class="ngfb-settings"><tr><td>';
 			echo $this->p->msg->get( 'help_boxes' ), "\n";
 			if ( $this->p->is_avail['aop'] == true )
-				echo $this->p->msg->get( 'help_email' ), "\n";
+				echo $this->p->msg->get( 'help_pro' ), "\n";
 			else
-				echo $this->p->msg->get( 'help_forum' ), "\n";
+				echo $this->p->msg->get( 'help_free' ), "\n";
 			echo '<p class="centered" style="margin-top:15px;">';
 			$img_size = 32;
 			foreach ( $this->p->follow as $img => $url )
