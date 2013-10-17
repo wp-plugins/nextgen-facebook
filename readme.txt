@@ -739,6 +739,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.11.1 =
 
+* *Free* version: 12493 lines in 42 files, with 51 classes and 414 functions
+* Pro version: 14183 lines in 53 files, with 64 classes and 462 functions
+
+***Free* and Pro version changes:**
+
 * Added the "WP Auto-Resize" option (default is unchecked) to enable/disable generating missing or incorrect image sizes.
 * Added a work-around for the WordPress `wp_get_attachment_image_src()` function, which returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
 
