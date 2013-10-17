@@ -735,6 +735,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.11.1 =
+
+* Compensate for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
+
 = Version 6.11.0 =
 
 * *Free* version: 12485 lines in 42 files, with 51 classes and 414 functions
@@ -804,6 +808,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 == Upgrade Notice ==
+
+= 6.11.1 =
+
+Compensate for a buggy WordPress `wp_get_attachment_image_src()` function, that returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
 
 = 6.11.0 =
 
