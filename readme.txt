@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.6.1
-Stable Tag: 6.11.0
+Stable Tag: 6.11.1
 
 Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
 
@@ -737,7 +737,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11.1=
+= Version 6.11.1 =
 
 * Added the "WP Auto-Resize" option (default is unchecked) to enable/disable generating missing or incorrect image sizes.
 * Added a work-around for the WordPress `wp_get_attachment_image_src()` function, which returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
@@ -812,7 +812,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11.1=
+= 6.11.1 =
 
 Added "WP Auto-Resize" option to enable/disable generating missing or incorrect image sizes, added a work-around for the WordPress `wp_get_attachment_image_src()` function (which returns faulty image sizes on occasion).
 
