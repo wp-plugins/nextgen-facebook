@@ -20,7 +20,6 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public $time_period = 12;
 		public $sched_name = 'every12hours';
 		public $update_info_option = '';
-		public $debug;
 	
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -46,7 +45,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				$schedule = wp_get_schedule( $this->cron_hook );
 				// check for schedule mismatch
 				if ( ! empty( $schedule ) && $schedule !== $this->sched_name ) {
-					$this->debug->log('changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name);
+					$this->p->debug->log('changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name);
 					wp_clear_scheduled_hook($this->cron_hook);
 				}
 				// add schedule if it doesn't exist
@@ -138,10 +137,14 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				&& ( $result['response']['code'] == 200 )
 				&& ! empty( $result['body'] ) ) {
 	
-				if ( ! empty( $result['headers']['x-smp-error'] ) )
+				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
+					if ( ! empty( $result['headers']['x-error-msg'] ) )
+						update_option( $this->p->acronym.'_update_error', $result['headers']['x-error-msg'] );
 					$this->p->notices->err( json_decode( $result['body'] ), true, false );
-				else
+				} else {
+					delete_option( $this->p->acronym.'_update_error' );
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );
+				}
 			}
 			return $plugin_data;
 		}
