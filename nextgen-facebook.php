@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.11.1
+Version: 6.11.2dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.11.1';
+		public $version = '6.11.2dev1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -27,6 +27,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $fullname_pro = 'NGFB Open Graph+ Pro';
 		public $slug = 'nextgen-facebook';
 		public $update_hours = 12;
+		public $min_wp_version = '3.0';
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -158,7 +159,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		public function activate() {
-			$this->check_wp_version();
+			$this->check = new ngfbCheck( $this );
+			$this->check->wp_version();
 			$this->setup_vars( true );
 		}
 
@@ -205,7 +207,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function init_plugin() {
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ) . '/languages/' );
 			$this->setup_vars();
-			$this->error_checks();
+			$this->check->conflicts();
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -299,6 +301,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function load_libs() {
 
 			require_once ( NGFB_PLUGINDIR . 'lib/debug.php' );
+			require_once ( NGFB_PLUGINDIR . 'lib/check.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/util.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/notices.php' );
 			require_once ( NGFB_PLUGINDIR . 'lib/options.php' );
@@ -363,7 +366,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * load all plugin options
 			 */
-			$this->is_avail = $this->check_deps();
+			$this->check = new ngfbCheck( $this );
+			$this->is_avail = $this->check->available();
+
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
 			if ( $this->is_avail['ngg'] == true ) {
@@ -379,6 +384,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
 			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			$this->check = new ngfbCheck( $this );
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
@@ -440,7 +446,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->options['og_img_width'].', '.
 				$this->options['og_img_height'].', '.
 				$this->options['og_img_crop'].')' );
-			add_theme_support( 'post-thumbnails' );		// needed to allow custom image sizes
 			add_image_size( NGFB_OG_SIZE_NAME, 
 				$this->options['og_img_width'], 
 				$this->options['og_img_height'], 
@@ -476,184 +481,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->update = new ngfbUpdate( $this );
 			}
 
-		}
-
-		private function error_checks() {
-
-			$conflict_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
-
-			// PHP
-			if ( $this->is_avail['mbdecnum'] !== true ) {
-				$this->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
-				$this->notices->err( 
-					sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ),
-						__( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ).' '.
-					__( 'This function is required to decode UTF8 entities.', NGFB_TEXTDOM ).' '.
-					__( 'Please update your PHP installation (hint: you may need to install the \'php-mbstring\' package on some Linux distros).', NGFB_TEXTDOM ) );
-			}
-
-			// Yoast WordPress SEO
-			if ( $this->is_avail['wpseo'] == true ) {
-				$wpseo_social = get_option( 'wpseo_social' );
-				if ( ! empty( $wpseo_social['opengraph'] ) ) {
-					$this->debug->log( 'plugin conflict detected - wpseo opengraph meta data option is enabled' );
-					$this->notices->err( $conflict_prefix.
-						sprintf( __( 'Please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
-				}
-				if ( ! empty( $this->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
-					$this->debug->log( 'plugin conflict detected - wpseo twitter meta data option is enabled' );
-					$this->notices->err( $conflict_prefix.
-						sprintf( __( 'Please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
-				}
-
-				if ( ! empty( $this->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
-					$this->debug->log( 'plugin conflict detected - wpseo google plus publisher option is defined' );
-					$this->notices->err( $conflict_prefix.
-						sprintf( __( 'Please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
-				}
-			}
-
-			// SEO Ultimate
-			if ( $this->is_avail['seou'] == true ) {
-				$seo_ultimate = get_option( 'seo_ultimate' );
-				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
-					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
-						$this->debug->log( 'plugin conflict detected - seo ultimate opengraph module is enabled' );
-						$this->notices->err( $conflict_prefix.
-							sprintf( __( 'Please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), 
-								get_admin_url( null, 'admin.php?page=seo' ) ) );
-					}
-				}
-			}
-
-			// All in One SEO Pack
-			if ( $this->is_avail['aioseop'] == true ) {
-				$aioseop_options = get_option( 'aioseop_options' );
-				if ( array_key_exists( 'aiosp_google_disable_profile', $aioseop_options ) && empty( $aioseop_options['aiosp_google_disable_profile'] ) ) {
-					$this->debug->log( 'plugin conflict detected - aioseop google plus profile is enabled' );
-					$this->notices->err( $conflict_prefix.
-						sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the <a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'admin.php?page=all-in-one-seo-pack/aioseop_class.php' ) ) );
-				}
-			}
-
-			// WooCommerce ShareYourCart Extension
-			if ( class_exists( 'ShareYourCartWooCommerce' ) ) {
-				$woo_share_settings = get_option( 'woocommerce_shareyourcart_settings' );
-				if ( ! empty( $woo_share_settings['enabled'] ) ) {
-					$this->debug->log( 'plugin conflict detected - woocommerce shareyourcart extension is enabled' );
-					$this->notices->err( $conflict_prefix.
-						__( 'The WooCommerce ShareYourCart Extension does not provide an option to turn off its Open Graph meta tags.', NGFB_TEXTDOM ).' '.
-						sprintf( __( 'Please disable the extension on the <a href="%s">ShareYourCart Integration Tab</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'admin.php?page=woocommerce&tab=integration&section=shareyourcart' ) ) );
-				}
-			}
-
-			// Wordbooker
-			if ( function_exists( 'wordbooker_og_tags' ) ) {
-				$wordbooker_settings = get_option( 'wordbooker_settings' );
-				if ( empty( $wordbooker_settings['wordbooker_fb_disable_og'] ) ) {
-					$this->debug->log( 'plugin conflict detected - wordbooker opengraph is enabled' );
-					$this->notices->err( $conflict_prefix.
-						sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
-				}
-			}
-
-			// Facebook
-  			if ( class_exists( 'Facebook_Loader' ) ) {
-                                $this->debug->log( 'plugin conflict detected - facebook plugin is active' );
-                                $this->notices->err( $conflict_prefix. 
-					sprintf( __( 'Please <a href="%s">deactivate the Facebook plugin</a> to prevent duplicate Open Graph meta tags in your webpage headers.', NGFB_TEXTDOM ), 
-						get_admin_url( null, 'plugins.php' ) ) );
-                        }
-
-			// AddThis Social Bookmarking Widget
-			if ( defined( 'ADDTHIS_INIT' ) && ADDTHIS_INIT && 
-				( ! empty( $this->options['plugin_filter_content'] ) || ! empty( $this->options['plugin_filter_excerpt'] ) ) ) {
-
-				$this->debug->log( 'plugin conflict detected - addthis has broken excerpt / content filters' );
-				$this->notices->err( $conflict_prefix. 
-					__( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.', NGFB_TEXTDOM ).' '.
-					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  
-						$this->util->get_admin_url( 'advanced' ), $this->fullname ) ).' '.
-					__( 'Disabling content filters will prevent shortcodes from being expanded, which may lead to incorrect / incomplete description meta tags.', NGFB_TEXTDOM );
-			}
-
-		}
-
-		// used before any class objects are created, so keep in main class
-		private function check_deps( $is_avail = array() ) {
-
-			// ngfb pro
-			$is_avail['aop'] = class_exists( $this->acronym.'AddOnPro' ) ? true : false;
-
-			// available since php v4.0.6+
-			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
-			// php curl
-			$is_avail['curl'] = function_exists( 'curl_init' ) ? true : false;
-
-			// post thumbnail feature is supported by wp theme // since wp 2.9.0
-			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			// nextgen gallery plugin
-			// use in combination with $this->ngg_version
-			$is_avail['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
-
-			/*
-			 * Supported SEO Plugins
-			 */
-			$is_avail['any_seo'] = false;	// by default, define any_seo value as false
-			foreach ( $this->seo_libs as $id => $name ) {
-				$func_name = '';
-				$class_name = '';
-				switch ( $id ) {
-					case 'aioseop':	$class_name = 'All_in_One_SEO_Pack'; break;
-					case 'seou':	$class_name = 'SEO_Ultimate'; break;
-					case 'wpseo':	$func_name = 'wpseo_init'; break;
-				}
-				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$id] = true;
-				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$id] = true;
-				else $is_avail[$id] = false;
-			}
-			unset ( $id, $name );
-
-			/*
-			 * Supported eCommerce Plugins
-			 */
-			foreach ( $this->ecom_libs as $id => $name ) {
-				$func_name = '';
-				$class_name = '';
-				switch ( $id ) {
-					case 'woocommerce':	$class_name = 'Woocommerce'; break;
-					case 'marketpress':	$class_name = 'MarketPress'; break;
-					case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
-				}
-				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$is_avail['any_ecom'] = $is_avail[$id] = true;
-				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$is_avail['any_ecom'] = $is_avail[$id] = true;
-				else $is_avail[$id] = false;
-			}
-			unset ( $id, $name );
-
-			return $is_avail;
-		}
-
-		private function check_wp_version() {
-			global $wp_version;
-			$min_wp_version = '3.0';
-			if ( version_compare( $wp_version, $min_wp_version, '<' ) ) {
-				deactivate_plugins( NGFB_PLUGINBASE );
-				error_log( NGFB_PLUGINBASE.' requires WordPress '.$min_wp_version.' or higher ('.$wp_version.' reported).' );
-				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.' ), $this->fullname, $min_wp_version ) .'</p>' );
-			}
 		}
 
 	}

@@ -87,7 +87,7 @@ if ( ! class_exists( 'ngfbBitly' ) ) {
 		 * @param	string $login	The login (username) that has to be used for authenticating.
 		 * @param	string $apiKey	The API-key that has to be used for authentication (see http://bit.ly/account).
 		 */
-		public function __construct($login, $apiKey, &$debug = '' ) {
+		public function __construct( $login, $apiKey, &$debug = '' ) {
 
 			$this->setLogin($login);
 			$this->setApiKey($apiKey);
