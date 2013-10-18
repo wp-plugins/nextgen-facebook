@@ -16,11 +16,11 @@ NGFB Open Graph+ adds header HTML tags (Open Graph, Twitter Cards and Rich Pins)
 
 = Recent Reviews =
 
+* **Great plugin and better support** by cocinaor, October 18
 * **Very well made** by lucaferr, September 26
 * **Jean's Support is Flawless, as is his Plugin** by rynep, September 24
 * **Awesome fast support** by Tony (beluzoni), September 20
 * **Excellent Plugin and Support** by Sri Shunyata, September 15
-* **I've been looking for years for this** by Mark Tuttle (markrtuttle), September 10
 * [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -737,7 +737,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.11.2dev2 =
+= Version 6.11.2dev3 =
 
 ***Free* and Pro version changes:**
 
@@ -823,7 +823,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.11.2dev2 =
+= 6.11.2dev3 =
 
 Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 
