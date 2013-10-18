@@ -23,8 +23,11 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 			$msg = '';
 			switch ( $name ) {
 				case 'pro_feature' :
-					$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
-					to the Pro version to enable the following features</a></p>';
+					if ( $this->p->is_avail['aop'] == true )
+						$msg = '<p class="pro_feature">Pro features are temporarily disabled: '.$this->p->update_error.'.</p>';
+					else
+						$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
+						to the Pro version to enable the following features</a></p>';
 					break;
 				case 'pro_details' :
 					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 

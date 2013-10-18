@@ -20,8 +20,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			if ( class_exists( 'ngfbOpenGraph' ) )
-				$this->og = new ngfbOpenGraph( $plugin );
+			$classname = $this->p->acronym.'OpenGraph';
+			if ( class_exists( $classname ) )
+				$this->og = new $classname( $plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
@@ -48,8 +49,8 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 				$this->html( $this->og->get() );
 
 			if ( $this->p->debug->is_on() ) {
-				//$defined_constants = get_defined_constants( true );
-				//$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				$defined_constants = get_defined_constants( true );
+				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 
 				$opts = $this->p->options;
 				foreach ( array( 

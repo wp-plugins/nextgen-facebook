@@ -368,6 +368,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			$this->check = new ngfbCheck( $this );
 			$this->is_avail = $this->check->available();
+			$this->update_error = get_option( $this->acronym.'_update_error' );
 
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
@@ -457,7 +458,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->update_hours * 60 * 60;
-			elseif ( $this->is_avail['aop'] == true )
+			elseif ( $this->is_avail['aop'] == true && empty( $this->update_error ) )
 				$this->cache->file_expire = ! empty( $this->options['plugin_file_cache_hrs'] ) ? 
 					$this->options['plugin_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
