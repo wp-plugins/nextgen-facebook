@@ -444,10 +444,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$has = count( $arr );
 			if ( $num > 0 ) {
 				if ( $has == $num ) {
-					$this->p->debug->log( 'max values reached (' . $has . ' == ' . $num . ')' );
+					$this->p->debug->log( 'max values reached ('.$has.' == '.$num.')' );
 					return true;
 				} elseif ( $has > $num ) {
-					$this->p->debug->log( 'max values reached (' . $has . ' > ' . $num . ') - slicing array' );
+					$this->p->debug->log( 'max values reached ('.$has.' > '.$num.') - slicing array' );
 					$arr = array_slice( $arr, 0, $num );
 					return true;
 				}

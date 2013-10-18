@@ -108,8 +108,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 				foreach ( $match as $img ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $img[3], $size_name, $check_dupes );
-					if ( ! empty( $og_image['og:image'] ) && $this->p->util->push_max( $og_ret, $og_image, $num ) ) 
-						break;
+					if ( ! empty( $og_image['og:image'] ) && 
+						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+							return $og_ret;
 				}
 				return $og_ret;	// return immediately and ignore any other type of image
 			}
@@ -191,7 +192,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 									foreach ( array_slice( $nggdb->get_ids_from_gallery( $ngg_gallery, 'sortorder', 'ASC', true ), 0, $num ) as $pid ) {
 										list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 											$og_image['og:image:cropped'] )= $this->get_image_src( 'ngg-' . $pid, $size_name, $check_dupes );
-										if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+										if ( ! empty( $og_image['og:image'] ) && 
+											$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+												return $og_ret;
 									}
 								}
 								break;
@@ -199,7 +202,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 								if ( $ngg_pid > 0 ) {
 									list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 										$og_image['og:image:cropped'] )= $this->get_image_src( 'ngg-' . $ngg_pid, $size_name, $check_dupes );
-									if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+									if ( ! empty( $og_image['og:image'] ) && 
+										$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+											return $og_ret;
 								}
 								break;
 						}
@@ -273,7 +278,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 					$this->p->debug->log( 'getting image for ngg query pid:' . $ngg_pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $ngg_pid, $size_name, $check_dupes );
-					if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( ! empty( $og_image['og:image'] ) && 
+						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+							return $og_ret;
 				} elseif ( $ngg_gallery > 0 ) {
 					$gallery = $nggdb->find_gallery( $ngg_gallery );
 					if ( ! empty( $gallery ) ) {
@@ -281,7 +288,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 							$this->p->debug->log( 'getting previewpic:' . $gallery->previewpic . ' for gallery:' . $ngg_gallery );
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $gallery->previewpic, $size_name, $check_dupes );
-							if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+							if ( ! empty( $og_image['og:image'] ) && 
+								$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+									return $og_ret;
 						} else $this->p->debug->log( 'no previewpic for gallery:' . $ngg_gallery );
 					} else $this->p->debug->log( 'no gallery:' . $ngg_gallery . ' found' );
 				} elseif ( $ngg_album > 0 ) {
@@ -291,7 +300,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 							$this->p->debug->log( 'getting previewpic:' . $album->previewpic . ' for album:' . $ngg_album );
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $album->previewpic, $size_name, $check_dupes );
-							if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+							if ( ! empty( $og_image['og:image'] ) && 
+								$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+									return $og_ret;
 						} else $this->p->debug->log( 'no previewpic for album:' . $ngg_album );
 					} else $this->p->debug->log( 'no album:' . $ngg_album . ' found' );
 				}
@@ -333,7 +344,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 								$this->p->debug->log( 'getting previewpic:' . $row->previewpic . ' for album:' . $row->id );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $row->previewpic, $size_name, $check_dupes );
-								if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( ! empty( $og_image['og:image'] ) && 
+									$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+										return $og_ret;
 							} else $this->p->debug->log( 'no previewpic for album:' . $row->id );
 						}
 					} else $this->p->debug->log( 'no album(s) found' );
@@ -352,7 +365,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 								$this->p->debug->log( 'getting previewpic:' . $row->previewpic . ' for gallery:' . $row->gid );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 									$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $row->previewpic, $size_name, $check_dupes );
-								if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+								if ( ! empty( $og_image['og:image'] ) && 
+									$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+										return $og_ret;
 							} else $this->p->debug->log( 'no previewpic for gallery:' . $row->gid );
 						}
 					} else $this->p->debug->log( 'no gallery:' . $ngg_gallery . ' found' );
@@ -367,7 +382,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 					$this->p->debug->log( 'getting image for singlepic:' . $pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $pid, $size_name, $check_dupes );
-					if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( ! empty( $og_image['og:image'] ) && 
+						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+							return $og_ret;
 				}
 			} else $this->p->debug->log( 'no [singlepic] shortcode found' );
 
@@ -398,7 +415,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 					$this->p->debug->log( 'getting image for singlepic:' . $pid );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $pid, $size_name, $check_dupes );
-					if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+					if ( ! empty( $og_image['og:image'] ) && 
+						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+							return $og_ret;
 				}
 			} else $this->p->debug->log( 'no [singlepic] shortcode found' );
 
@@ -417,7 +436,9 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 						$og_image = array();
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 							$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-' . $image->pid, $size_name );
-						$this->p->util->push_max( $og_ret, $og_image, $num );
+						if ( ! empty( $og_image['og:image'] ) && 
+							$this->p->util->push_max( $og_ret, $og_image, $num ) )
+								return $og_ret;
 					}
 				}
 			}

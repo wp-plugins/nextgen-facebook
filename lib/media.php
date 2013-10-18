@@ -88,8 +88,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
-				if ( ! empty( $og_image['og:image'] ) )
-					$this->p->util->push_max( $og_ret, $og_image, $num );
+				if ( ! empty( $og_image['og:image'] ) &&
+					$this->p->util->push_max( $og_ret, $og_image, $num ) )
+						return $og_ret;
 			}
 			return $og_ret;
 		}
@@ -112,8 +113,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					$og_image = array();
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attach_id, $size_name, $check_dupes );
-					if ( ! empty( $og_image['og:image'] ) )
-						$this->p->util->push_max( $og_ret, $og_image, $num );
+					if ( ! empty( $og_image['og:image'] ) &&
+						$this->p->util->push_max( $og_ret, $og_image, $num ) )
+							return $og_ret;
 				} else $this->p->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
 			}
 			return $og_ret;
@@ -130,8 +132,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							$og_image = array();
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attachment->ID, $size_name, $check_dupes );
-							if ( ! empty( $og_image['og:image'] ) )
-								$this->p->util->push_max( $og_ret, $og_image, $num );
+							if ( ! empty( $og_image['og:image'] ) &&
+								$this->p->util->push_max( $og_ret, $og_image, $num ) )
+									return $og_ret;
 						}
 					}
 			}
@@ -230,8 +233,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( ! empty( $image ) ) {
 				list( $og_image['og:image'], $og_image['og:image:width'], 
 					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
-				if ( ! empty( $og_image['og:image'] ) )
-					if ( $this->p->util->push_max( $og_ret, $og_image, $num ) ) return $og_ret;
+				if ( ! empty( $og_image['og:image'] ) &&
+					$this->p->util->push_max( $og_ret, $og_image, $num ) )
+						return $og_ret;
 			}
 			return $og_ret;
 		}
@@ -257,7 +261,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$this->p->debug->log( 'using default img url = ' . $og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
-			$this->p->util->push_max( $og_ret, $og_image, $num );
+			if ( ! empty( $og_image['og:image'] ) && 
+				$this->p->util->push_max( $og_ret, $og_image, $num ) )
+					return $og_ret;
 			return $og_ret;
 		}
 
@@ -289,10 +295,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						case 'data-ngfb-wp-pid' :
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attr_value, $size_name, $check_dupes );
-
-							if ( ! empty( $og_image['og:image'] ) && $this->p->util->push_max( $og_ret, $og_image, $num ) ) 
-								break 2;	// exit the foreach if we have enough images
-
+							if ( ! empty( $og_image['og:image'] ) && 
+								$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
+									return $og_ret;
 							break;
 						default :
 							$og_image = array(
@@ -326,11 +331,11 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 							if ( ! is_numeric( $og_image['og:image:height'] ) ) 
 								$og_image['og:image:height'] = 0;
 
-							$this->p->debug->log( $attr_name . ' = ' . $og_image['og:image'] . 
-								' (' . $og_image['og:image:width'] . 'x' . $og_image['og:image:height'] . ')' );
+							$this->p->debug->log( $attr_name.' = '.$og_image['og:image'].
+								' ('.$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
 
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
-							if ( $attr_name == 'share-' . $size_name || $attr_name == 'share' || 
+							if ( $attr_name == 'share-'.$size_name || $attr_name == 'share' || 
 								( $attr_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
 								( $attr_name == 'src' && $size_info['crop'] == 1 && 
@@ -338,20 +343,20 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
 									( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
 		
-								if ( ! empty( $og_image['og:image'] ) && $this->p->util->push_max( $og_ret, $og_image, $num ) )
-									break 2;	// exit the foreach if we have enough images
+								if ( ! empty( $og_image['og:image'] ) && 
+									$this->p->util->push_max( $og_ret, $og_image, $num ) )
+										return $og_ret;
 		
-							} else $this->p->debug->log( $attr_name . ' image rejected: width and height attributes missing or too small' );
+							} else $this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small' );
 
 							break;
 					}
 
 
 				}
-				return $og_ret;	// return immediately and ignore any other type of image
+				return $og_ret;
 			}
 			$this->p->debug->log( 'no matching <img/> html tag(s) found' );
-
 			return $og_ret;
 		}
 
@@ -369,7 +374,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				}
 				if ( preg_match( '/\[(gallery)[^\]]*\]/im', $post->post_content, $match ) ) {
 					$shortcode_type = strtolower( $match[1] );
-					$this->p->debug->log( '[' . $shortcode_type . '] shortcode found' );
+					$this->p->debug->log( '['.$shortcode_type.'] shortcode found' );
 					switch ( $shortcode_type ) {
 						case 'gallery' :
 							$content = do_shortcode( $match[0] );
@@ -525,7 +530,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 					$og_video['og:video:height']
 				);
 			}
-			if ( empty( $og_video['og:video'] ) && empty( $og_video['og:image'] ) ) return array();
+			if ( empty( $og_video['og:video'] ) && 
+				empty( $og_video['og:image'] ) ) 
+					return array();
 			else return $og_video;
 		}
 		

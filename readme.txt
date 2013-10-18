@@ -737,6 +737,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.11.2dev2 =
+
+***Free* and Pro version changes:**
+
+* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
+
 = Version 6.11.1 =
 
 * *Free* version: 12493 lines in 42 files, with 51 classes and 414 functions
@@ -816,6 +822,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
 
 == Upgrade Notice ==
+
+= 6.11.2dev2 =
+
+Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 
 = 6.11.1 =
 

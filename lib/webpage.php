@@ -53,7 +53,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					break;
 				case 'both' :
 					$title = $this->get_title( null, null, $use_post);
-					$caption = $title . ' : ' . $this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
+					$caption = $title.' : '.$this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
 					break;
 			}
 			return apply_filters( $this->p->acronym.'_caption', $caption );
@@ -61,40 +61,41 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
 			global $post, $page, $paged;
+			$title = '';
 			$parent_title = '';
 			$page_num_suffix = '';
 
 			// check for custom meta title
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 				$meta_title = $this->p->meta->get_options( $post->ID, 'og_title' );
-				if ( ! empty( $meta_title ) ) {
-					$this->p->debug->log( 'custom meta title = "' . $meta_title . '"' );
+				if ( $meta_title != "" ) {
+					$this->p->debug->log( 'custom meta title = "'.$meta_title.'"' );
 					$title = $meta_title;
 				}
 			}
 
 			// get seed if no custom meta title
-			if ( empty( $title ) ) {
+			if ( $title == "" ) {
 				$title = apply_filters( $this->p->acronym.'_title_seed', '' );
-				if ( ! empty( $title ) )
+				if ( $title != "" )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 			
 			// construct a title of our own
-			if ( empty( $title ) ) {
+			if ( $title == "" ) {
 				// we are on an index, but need individual titles from the posts (probably for social buttons)
 				if ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
 	
-					$this->p->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
+					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
+					$this->p->debug->log( 'use_post = '.( $use_post  ? 'true' : 'false' ) );
 	
 					$title = get_the_title( $post->ID );	// since wp 0.71 
-					$this->p->debug->log( 'get_the_title() = "' . $title . '"' );
+					$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
 
 					// add the parent's title if no seo package is installed
 					if ( $this->p->is_avail['any_seo'] == false && ! empty( $post->post_parent ) ) {
 						$parent_title = get_the_title( $post->post_parent );
-						if ( $parent_title ) $title .= ' (' . $parent_title . ')';
+						if ( $parent_title ) $title .= ' ('.$parent_title.')';
 					}
 	
 				// by default, use the wordpress title if an seo plugin is available
@@ -108,19 +109,19 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				} elseif ( is_category() ) { 
 	
 					$title = single_cat_title( '', false );		// since wp 0.71
-					$this->p->debug->log( 'single_cat_title() = "' . $title . '"' );
+					$this->p->debug->log( 'single_cat_title() = "'.$title.'"' );
 					$cat_parents = get_category_parents( get_cat_ID( $title ), false, 
-						' ' . $this->p->options['og_title_sep'] . ' ', false );
+						' '.$this->p->options['og_title_sep'].' ', false );
 	
 					// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
 					if ( is_wp_error( $cat_parents ) ) {
 						$this->p->debug->log( 'get_category_parents() returned WP_Error object.' );
 					} else {
-						$this->p->debug->log( 'get_category_parents() = "' . $cat_parents . '"' );
+						$this->p->debug->log( 'get_category_parents() = "'.$cat_parents.'"' );
 						if ( ! empty( $cat_parents ) ) {
-							$title = trim( $cat_parents, ' ' . $this->p->options['og_title_sep'] );
+							$title = trim( $cat_parents, ' '.$this->p->options['og_title_sep'] );
 							// special fix for category names that end with three dots
-							$title = preg_replace( '/\.\.\. \\' . $this->p->options['og_title_sep'] . ' /', '... ', $title );
+							$title = preg_replace( '/\.\.\. \\'.$this->p->options['og_title_sep'].' /', '... ', $title );
 						}
 					}
 					unset ( $cat_parents );
@@ -133,11 +134,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					 *	author page = the public name of the user 
 					 */
 					$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
-					$this->p->debug->log( 'wp_title() = "' . $title . '"' );
+					$this->p->debug->log( 'wp_title() = "'.$title.'"' );
 				}
 	
 				// just in case
-				if ( empty( $title ) )
+				if ( $title == "" )
 					$title = get_bloginfo( 'name', 'display' );
 			}
 
@@ -150,13 +151,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				// append the parent's title 
 				if ( is_singular() && ! empty( $post->post_parent ) ) {
 					$parent_title = get_the_title( $post->post_parent );
-					if ( $parent_title ) $title .= ' (' . $parent_title . ')';
+					if ( $parent_title ) $title .= ' ('.$parent_title.')';
 				}
 				// add a page number
 				if ( $paged >= 2 || $page >= 2 ) {
 					if ( ! empty( $this->p->options['og_title_sep'] ) )
-						$page_num_suffix .= ' ' . $this->p->options['og_title_sep'];
-					$page_num_suffix .= ' ' . sprintf( 'Page %s', max( $paged, $page ) );
+						$page_num_suffix .= ' '.$this->p->options['og_title_sep'];
+					$page_num_suffix .= ' '.sprintf( 'Page %s', max( $paged, $page ) );
 					$textlen = $textlen - strlen( $page_num_suffix );	// make room for the page number
 				}
 			}
@@ -178,7 +179,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 				$meta_desc = $this->p->meta->get_options( $post->ID, 'og_desc' );
 				if ( ! empty( $meta_desc ) ) {
-					$this->p->debug->log( 'custom meta description = "' . $meta_desc . '"' );
+					$this->p->debug->log( 'custom meta description = "'.$meta_desc.'"' );
 					$desc = $meta_desc;
 				}
 			}
@@ -187,16 +188,16 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( empty( $desc ) ) {
 				$desc = apply_filters( $this->p->acronym.'_description_seed', '' );
 				if ( ! empty( $desc ) )
-					$this->p->debug->log( 'description seed = "' . $desc . '"' );
+					$this->p->debug->log( 'description seed = "'.$desc.'"' );
 			}
 			
 			// if there's no custom description, and no pre-seed, then go ahead and generate the description value
 			if ( empty( $desc ) ) {
 				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 	
-					$this->p->debug->log( 'use_post = ' . ( $use_post  ? 'true' : 'false' ) );
-					$this->p->debug->log( 'is_singular() = ' . ( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'has_excerpt() = ' . ( has_excerpt( $post->ID ) ? 'true' : 'false' ) );
+					$this->p->debug->log( 'use_post = '.( $use_post  ? 'true' : 'false' ) );
+					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
+					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post->ID ) ? 'true' : 'false' ) );
 	
 					// use the excerpt, if we have one
 					if ( has_excerpt( $post->ID ) ) {
@@ -268,13 +269,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
 			if ( $content !== false ) {
-				$this->p->debug->log( $cache_type . ': ' . $filter_name . ' content retrieved from wp_cache for id "' . $cache_id . '"' );
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache for id "'.$cache_id.'"' );
 				return $content;
 			} 
 
 			$content = apply_filters( $this->p->acronym.'_content_seed', '' );
 			if ( ! empty( $content ) )
-				$this->p->debug->log( 'content seed = "' . $content . '"' );
+				$this->p->debug->log( 'content seed = "'.$content.'"' );
 
 			// exceptions for some woocommerce pages
 			if ( empty( $content ) && ! empty( $this->p->is_avail['woocommerce'] ) ) {
@@ -299,7 +300,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// remove singlepics, which we detect and use before-hand 
 			$content = preg_replace( '/\[singlepic[^\]]+\]/', '', $content, -1, $count );
 			if ( $count > 0 ) 
-				$this->p->debug->log( $count . ' [singlepic] shortcode(s) removed from content' );
+				$this->p->debug->log( $count.' [singlepic] shortcode(s) removed from content' );
 
 			if ( $filter_content == true ) {
 
@@ -337,13 +338,13 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			$content = str_replace( ']]>', ']]&gt;', $content );
 
 			$content_strlen_after = strlen( $content );
-			$this->p->debug->log( 'content strlen() before = ' . $content_strlen_before . ', after = ' . $content_strlen_after );
+			$this->p->debug->log( 'content strlen() before = '.$content_strlen_before.', after = '.$content_strlen_after );
 
 			// apply filters before caching
 			$content = apply_filters( $this->p->acronym.'_content', $content );
 
 			wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
-			$this->p->debug->log( $cache_type . ': ' . $filter_name . ' content saved to wp_cache for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
+			$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
 			return $content;
 		}
 
@@ -353,7 +354,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			if ( is_singular() && ! empty( $post ) )
 				$section = $this->p->meta->get_options( $post->ID, 'og_art_section' );
 			if ( ! empty( $section ) ) 
-				$this->p->debug->log( 'found custom meta section = "' . $section . '"' );
+				$this->p->debug->log( 'found custom meta section = "'.$section.'"' );
 			else $section = $this->p->options['og_art_section'];
 			if ( $section == 'none' ) $section = '';
 			return apply_filters( $this->p->acronym.'_section', $section );
