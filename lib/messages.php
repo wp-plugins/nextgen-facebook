@@ -26,15 +26,24 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					// only displayed when the Free version classes are not extended
 					// or when Pro version is installed, but classes not loaded because of an update error
 					if ( $this->p->is_avail['aop'] == true ) {
-						$msg = '<p class="pro_feature">Pro version features have been temporarily disabled';
+						$msg = '<p class="pro_feature">Pro version features are disabled';
 						if ( empty( $this->p->options['plugin_pro_tid'] ) )
-							$msg .= ': missing Authentication ID';
+							$msg .= ': Missing Authentication ID';
 						elseif ( ! empty( $this->p->update_error ) )
-							$msg .= ': authentication error found';
+							$msg .= ': Authentication error found';
 						$msg .= '.</p>';
 					} else
 						$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
 						to the Pro version to enable the following features</a></p>';
+					break;
+				case 'pro_activate' :
+					if ( ! is_multisite() || ( is_multisite() && preg_match( '/^.*\?page='.$this->p->acronym.'-/', $_SERVER['REQUEST_URI'] ) ) ) {
+						$url = $this->p->util->get_admin_url( 'advanced' );
+						$msg = '<p>The '.$this->p->fullname.' Authentication ID option value is empty.<br/>
+						To activate Pro version features, and allow the plugin to authenticate itself for updates,<br/>
+						<a href="'.$url.'">enter the unique Authenticaton ID you receive following your purchase
+						on the Advanced Settings page</a>.</p>';
+					}
 					break;
 				case 'pro_details' :
 					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 

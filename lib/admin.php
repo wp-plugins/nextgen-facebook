@@ -77,7 +77,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->p->fullname.' : '.$this->menu_name, 
 				$this->p->menuname, 
 				'manage_options', 
-				$this->p->acronym . '-' . $parent_id, 
+				$this->p->acronym.'-'.$parent_id, 
 				array( &$this, 'show_page' ), null, NGFB_MENU_PRIORITY);
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
 		}

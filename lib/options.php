@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '93';	// increment when adding/removing default options
+		public $options_version = '94';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -291,6 +291,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'options_version' => '',
 			'plugin_version' => '',
 			'plugin_pro_tid' => '',
+			'plugin_pro_tid_multi' => 0,
 			'plugin_preserve' => 0,
 			'plugin_reset' => 0,
 			'plugin_debug' => 0,
@@ -435,13 +436,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						is smaller than the minimum of '.NGFB_MIN_IMG_SIZE.'x'.NGFB_MIN_IMG_SIZE.'. 
 						<a href="'.$url.'">Please enter a larger Image Size on the General Settings page</a>.' );
 				}
-				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) ) {
-					$url = $this->p->util->get_admin_url( 'advanced' );
-					$this->p->notices->nag( '<p>The '.$this->p->fullname.' <em>Authentication ID</em> option value is empty.<br/>
-						To activate Pro version features, and allow the plugin to authenticate itself for updates,<br/>
-						<a href="'.$url.'">enter the unique Authenticaton ID you receive following your purchase
-						on the Advanced Settings page</a>.</p>' );
-				}
+				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) )
+					$this->p->notices->nag( $this->p->msg->get( 'pro_activate' ) );
 
 			}
 			return $opts;
@@ -691,10 +687,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_pro_tid'] ) ) {
-						$this->p->debug->log( 'adding notices message update-nag \'pro_details\'' );
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_pro_tid'] ) )
 						$this->p->notices->nag( $this->p->msg->get( 'pro_details' ) );
-					}
 
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
 						if ( $old_opts_ver !== $this->options_version ) {
