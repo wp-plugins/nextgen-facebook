@@ -39,6 +39,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public function install_hooks() {
 			add_filter( 'plugins_api', array( &$this, 'inject_data' ), 10, 3 );
 			add_filter( 'site_transient_update_plugins', array(&$this,'inject_update'));
+
+			// in a multisite environment, each site will (unfortunately) check for updates
 			if ($this->time_period > 0) {
 				add_filter('cron_schedules', array(&$this, 'custom_schedule'));
 				add_action($this->cron_hook, array(&$this, 'check_for_updates'));
@@ -71,7 +73,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( ! empty( $updates->response[$this->base_name] ) ) {
 				unset( $updates->response[$this->base_name] );
 			}
-			$option_data = get_site_option($this->update_info_option);
+			$option_data = get_site_option( $this->update_info_option );
 			if ( ! empty( $option_data ) && is_object( $option_data->update ) && ! empty( $option_data->update ) ) {
 				if ( version_compare( $option_data->update->version, $this->get_installed_version(), '>' ) ) {
 					$updates->response[$this->base_name] = $option_data->update->json_to_wp();
@@ -142,6 +144,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 					$this->p->update_error = $error_msg;
 					update_option( $this->p->acronym.'_update_error', $error_msg );
 				} else {
+					$this->p->update_error = '';
 					delete_option( $this->p->acronym.'_update_error' );
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );
 				}

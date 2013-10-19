@@ -200,6 +200,14 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 		}
 
+		public function pro_active() {
+			if ( $this->p->is_avail['aop'] == true && 
+				! empty( $this->p->options['plugin_pro_tid'] ) && 
+					empty( $this->p->update_error ) )
+						return true;
+			return false;
+		}
+
 	}
 
 }

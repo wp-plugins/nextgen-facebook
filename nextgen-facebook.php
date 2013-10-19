@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.12dev1
+Version: 6.12dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.12dev1';
+		public $version = '6.12dev2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -50,6 +50,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
+		public $options_multi = array();
 		public $ngg_options = array();
 		public $ngg_version = 0;
 
@@ -359,7 +360,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function setup_vars( $activate = false ) {
 
 			/*
-			 * Allow override of default variables
+			 * Allow override of default plugin variables
 			 */
 			if ( defined( 'NGFB_UPDATE_URL' ) && NGFB_UPDATE_URL )
 				$this->urls['update'] = NGFB_UPDATE_URL;
@@ -369,6 +370,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			$this->check = new ngfbCheck( $this );
 			$this->is_avail = $this->check->available();
+			$this->options = $this->get_options();	// local method for early load
 			$this->update_error = get_option( $this->acronym.'_update_error' );
 
 			if ( $this->is_avail['aop'] == true ) 
@@ -378,7 +380,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( defined( 'NEXTGEN_GALLERY_PLUGIN_VERSION' ) && NEXTGEN_GALLERY_PLUGIN_VERSION )
 					$this->ngg_version = NEXTGEN_GALLERY_PLUGIN_VERSION;
 			}
-			$this->options = get_option( NGFB_OPTIONS_NAME );
 	
 			/*
 			 * create essential class objects
@@ -459,7 +460,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->update_hours * 60 * 60;
-			elseif ( $this->is_avail['aop'] == true && ! empty( $this->options['plugin_pro_tid'] ) && empty( $this->update_error ) )
+			elseif ( $this->check->pro_active() )
 				$this->cache->file_expire = ! empty( $this->options['plugin_file_cache_hrs'] ) ? 
 					$this->options['plugin_file_cache_hrs'] * 60 * 60 : 0;
 			else $this->cache->file_expire = 0;
@@ -483,6 +484,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->update = new ngfbUpdate( $this );
 			}
 
+		}
+
+		public function get_options() {
+			$opts = get_option( NGFB_OPTIONS_NAME );
+			// if multisite options are found, then allow those to overwrite the site specific options
+			if ( is_array( $opts ) && is_multisite() ) {
+				$this->options_multi = get_option( NGFB_OPTIONS_NAME.'_multi' );
+				if ( is_array( $this->options_multi ) ) {
+					foreach ( $this->options_multi as $key => $val ) {
+						switch ( $key ) {
+							case 'plugin_pro_tid' :
+								if ( empty( $opts['plugin_pro_tid'] ) ) {
+									$opts['plugin_pro_tid'] = $this->options_multi['plugin_pro_tid'];
+									$opts['plugin_pro_tid_multi'] = 1;
+								}
+								break;
+						}
+					}
+				}
+			}
+			return $opts;
 		}
 
 	}

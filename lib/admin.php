@@ -112,7 +112,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						unset ( $links[$num] );
 				array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About' ).'</a>' );
 				array_push( $links, '<a href="'.$this->p->urls['forum'].'">'.__( 'Support' ).'</a>' );
-				if ( $this->p->is_avail['aop'] == false ) 
+				if ( ! $this->p->check->pro_active() ) 
 					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro' ).'</a>' );
 			}
 			return $links;
@@ -123,10 +123,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		} 
 
 		// this method receives only a partial options array, so re-create a full one
+		// wordpress handles the actual saving of the options
 		public function sanitize_options( $opts ) {
 
 			if ( ! is_array( $opts ) ) {
-				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>' . $this->p->acronym_uc . ' Error </b> : 
+				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>'.$this->p->acronym_uc.' Error</b> : 
 					Submitted settings are not an array.', 'error' );
 				return $opts;
 			}
@@ -156,7 +157,18 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->p->style->unlink_social();
 			else $this->p->style->update_social( $opts );
 
-			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->acronym_uc.' Info </b> : '.
+			// the pro version authentication id can be applied to all sites within a multisite
+			if ( is_multisite() ) {
+				if ( ! empty( $opts['plugin_pro_tid_multi'] ) ) {
+					if ( ! empty( $opts['plugin_pro_tid'] ) ) {
+						update_site_option( NGFB_OPTIONS_NAME.'_multi', 
+							array( 'plugin_pro_tid' => $opts['plugin_pro_tid'], ) );
+						$opts['plugin_pro_tid'] = '';	// always trunc to inherit multisite value
+					} else delete_site_option( NGFB_OPTIONS_NAME.'_multi' );
+				}
+			}
+
+			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->acronym_uc.' Info</b> : '.
 				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
 					$this->p->options['plugin_object_cache_exp'] ), 'updated' );
@@ -167,39 +179,41 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function load_page() {
 			wp_enqueue_script( 'postbox' );
 			$upload_dir = wp_upload_dir();	// returns assoc array with path info
-			$old_css_file = trailingslashit( $upload_dir['basedir'] ) . 'ngfb-social-buttons.css';
+			$old_css_file = trailingslashit( $upload_dir['basedir'] ).'ngfb-social-buttons.css';
 			$user_opts = $this->p->user->get_options();
 
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 
-				// we have a transaction ID, but we are not using the pro version (yet) - force an update
-				if ( $this->p->is_avail['aop'] == false && ! empty( $this->p->options['plugin_pro_tid'] ) )
-					$this->p->update->check_for_updates();
+				if ( empty( $this->p->options['plugin_pro_tid'] ) ) {
+					$this->p->update_error = '';
+					delete_option( $this->p->acronym.'_update_error' );
+				} elseif ( ! $this->p->check->pro_active() && 
+					! empty( $this->p->options['plugin_pro_tid'] ) )
+						$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
+
 				switch ( $_GET['action'] ) {
 					case 'remove_old_css' : 
 						if ( file_exists( $old_css_file ) )
 							if ( @unlink( $old_css_file ) )
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->p->acronym_uc . '</b> : The old <u>' . $old_css_file . '</u> 
+									'<b>'.$this->p->acronym_uc.' Info</b> : The old <u>'.$old_css_file.'</u> 
 										stylesheet has been removed.', 'updated' );
 							else
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>' . $this->p->acronym_uc . '</b> : Error removing the old <u>' . $old_css_file . '</u> 
+									'<b>'.$this->p->acronym_uc.' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
 										stylesheet. Does the web server have sufficient privileges?', 'error' );
 
 						break;
 					case 'check_for_updates' : 
 						if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
-							delete_option( $this->p->acronym.'_update_error' );
 							$this->p->update->check_for_updates();
 							$this->p->admin->set_readme( 0 );
 							$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
 						}
 						break;
 					case 'clear_all_cache' : 
-						delete_option( $this->p->acronym.'_update_error' );
 						$deleted_cache = $this->p->util->delete_expired_file_cache( true );
 						$deleted_transient = $this->p->util->delete_expired_transients( true );
 						wp_cache_flush();
@@ -216,9 +230,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( file_exists( $old_css_file ) ) {
 				$this->p->notices->inf( 
 					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
-						NGFB_TEXTDOM ), $old_css_file ) . ' ' .
+						NGFB_TEXTDOM ), $old_css_file ).' '.
 					sprintf( __( 'Styling for social buttons is now managed on the <a href="%s">Social Style settings page</a>.', 
-						NGFB_TEXTDOM ), $this->p->util->get_admin_url( 'style' ) ) . ' ' .
+						NGFB_TEXTDOM ), $this->p->util->get_admin_url( 'style' ) ).' '.
 					sprintf( __( 'When you are ready, you can <a href="%s">click here to remove the old stylesheet</a>.', 
 						NGFB_TEXTDOM ), $this->p->util->get_admin_url( '?action=remove_old_css' ) ) 
 				);
@@ -229,12 +243,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( $this->p->setting_libs as $id => $name )
 				$this->p->admin->settings[$id]->add_meta_boxes();
 
-			add_meta_box( $this->pagehook . '_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook . '_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
-			if ( $this->p->is_avail['aop'] == true )
-				add_meta_box( $this->pagehook . '_thankyou', 'Pro Installed', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
+			if ( $this->p->check->pro_active() )
+				add_meta_box( $this->pagehook.'_thankyou', 'Pro Version', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
 		}
 
@@ -244,8 +258,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
 			$this->p->debug->show_html( null, 'Debug Log' );
 			// add meta box here to prevent removal
-			if ( $this->p->is_avail['aop'] !== true ) {
-				add_meta_box( $this->pagehook . '_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
+			if ( ! $this->p->check->pro_active() ) {
+				add_meta_box( $this->pagehook.'_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
 			?>
@@ -285,7 +299,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		protected function show_form() {
 			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
-			settings_fields( $this->p->acronym . '_settings' ); 
+			settings_fields( $this->p->acronym.'_settings' ); 
 			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
@@ -297,7 +311,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( range( 1, ceil( count( $this->p->admin->settings['social']->website ) / 2 ) ) as $row ) {
 				echo '<div class="website-row">', "\n";
 				foreach ( range( 1, 2 ) as $col ) {
-					$pos_id = 'website-row-' . $row . '-col-' . $col;
+					$pos_id = 'website-row-'.$row.'-col-'.$col;
 					echo '<div class="website-col-', $col, '" id="', $pos_id, '" >';
 					do_meta_boxes( $this->pagehook, $pos_id, null ); 
 					echo '</div>', "\n";
@@ -313,7 +327,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected function get_submit_button( $submit_text = '', $class = 'save-all-button' ) {
 			if ( empty( $submit_text ) ) 
 				$submit_text = __( 'Save All Changes', NGFB_TEXTDOM );
-			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>' . "\n";
+			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>'."\n";
 		}
 
 		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
@@ -373,8 +387,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr><th class="side">Installed:</th>
 			<td><?php 
-				echo $this->p->version; 
-				echo $this->p->is_avail['aop'] ? ' (Pro)' : ' (Free)'; 
+				echo $this->p->version;
+				if ( $this->p->check->pro_active() )
+					echo ' (Pro)';
+				elseif ( $this->p->is_avail['aop'] )
+					echo ' (Pro)';
+				else
+					echo ' (Free)'; 
 			?></td></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>
@@ -390,9 +409,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p class="centered">';
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				echo $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
-					'button-primary', null, $this->p->util->get_admin_url() . '&amp;action=check_for_updates' );
+					'button-primary', null, $this->p->util->get_admin_url().'&amp;action=check_for_updates' );
 			echo $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
-				'button-primary', null, $this->p->util->get_admin_url() . '&amp;action=clear_all_cache' );
+				'button-primary', null, $this->p->util->get_admin_url().'&amp;action=clear_all_cache' );
 			echo '</p></td></tr></table>';
 		}
 

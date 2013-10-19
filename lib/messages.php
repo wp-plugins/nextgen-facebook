@@ -23,20 +23,18 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 			$msg = '';
 			switch ( $name ) {
 				case 'pro_feature' :
-					// only displayed when the Free version classes are not extended
-					// or when Pro version is installed, but classes not loaded because of an update error
+					// only displayed when the Free version classes are not extended by Pro classes,
+					// either when Free version install, or when Pro is installed but classes not 
+					// loaded because of an update error
 					if ( $this->p->is_avail['aop'] == true ) {
-						$msg = '<p class="pro_feature">Pro version features are disabled';
-						if ( empty( $this->p->options['plugin_pro_tid'] ) )
-							$msg .= ': Missing Authentication ID';
-						elseif ( ! empty( $this->p->update_error ) )
-							$msg .= ': Authentication error found';
-						$msg .= '.</p>';
+						$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Purchase 
+						additional licence(s) to enable Pro version features</p>';
 					} else
 						$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
 						to the Pro version to enable the following features</a></p>';
 					break;
 				case 'pro_activate' :
+					// in multisite, only show activation message on our own plugin pages
 					if ( ! is_multisite() || ( is_multisite() && preg_match( '/^.*\?page='.$this->p->acronym.'-/', $_SERVER['REQUEST_URI'] ) ) ) {
 						$url = $this->p->util->get_admin_url( 'advanced' );
 						$msg = '<p>The '.$this->p->fullname.' Authentication ID option value is empty.<br/>
@@ -61,8 +59,11 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 				case 'purchase_box' :
 					$msg = '<p>'.$this->p->fullname.' has taken many, many months of long days to develop and fine-tune.
 					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					Please show your appreciation by <a href="'.$this->p->urls['plugin'].'" target="_blank">purchasing 
-					the Pro version</a>.</p>';
+					<a href="'.$this->p->urls['plugin'].'" target="_blank">Please show your appreciation by purchasing';
+					if ( $this->p->is_avail['aop'] == true )
+						$msg .= ' a Pro version license</a>.</p>';
+					else
+						$msg .= ' the Pro version</a>.</p>';
 					break;
 				case 'thankyou' :
 					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->fullname.' plugin will exceed all of your expectations.</p>';
