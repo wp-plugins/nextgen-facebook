@@ -737,12 +737,16 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.12dev1 =
+= Version 6.12dev2 =
 
 ***Free* and Pro version changes:**
 
-* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 * Added the "Site Name" option on the General settings page.
+* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
+
+**Pro version changes:**
+
+* Added support for a multisite Authentication ID default value.
 
 = Version 6.11.1 =
 
@@ -824,9 +828,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.12dev1 =
+= 6.12dev2 =
 
-Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags, added a "Site Name" option on the General settings page.
+Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph tags, added a "Site Name" option on the General settings page, added support for a multisite Authentication ID default value (Pro version).
 
 = 6.11.1 =
 
