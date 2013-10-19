@@ -741,8 +741,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 ***Free* and Pro version changes:**
 
-* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 * Added the "Site Name" option on the General settings page.
+* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 
 **Pro version changes:**
 
