@@ -25,12 +25,14 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 				case 'pro_feature' :
 					// only displayed when the Free version classes are not extended
 					// or when Pro version is installed, but classes not loaded because of an update error
-					if ( $this->p->is_avail['aop'] == true )
-						if ( ! empty( $this->p->update_error ) )
-							$msg = '<p class="pro_feature">Pro features are temporarily disabled: '.$this->p->update_error.'.</p>';
-						else
-							$msg = '<p class="pro_feature">Pro version features are disabled for an unknown reason.</p>';	// just in case
-					else
+					if ( $this->p->is_avail['aop'] == true ) {
+						$msg = '<p class="pro_feature">Pro version features have been temporarily disabled';
+						if ( empty( $this->p->options['plugin_pro_tid'] ) )
+							$msg .= ': missing Authentication ID';
+						elseif ( ! empty( $this->p->update_error ) )
+							$msg .= ': authentication error found';
+						$msg .= '.</p>';
+					} else
 						$msg = '<p class="pro_feature"><a href="'.$this->p->urls['plugin'].'" target="_blank">Upgrade 
 						to the Pro version to enable the following features</a></p>';
 					break;

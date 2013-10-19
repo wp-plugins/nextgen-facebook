@@ -63,7 +63,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['og:locale'] = $lang;
 
 			if ( ! array_key_exists( 'og:site_name', $og ) )
-				$og['og:site_name'] = get_bloginfo( 'name', 'display' );	
+				$og['fb:site_name'] = $this->p->options['site_name'];
 
 			if ( ! array_key_exists( 'og:url', $og ) )
 				$og['og:url'] = $sharing_url;

@@ -158,6 +158,11 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					Topic for each individual Post and Page.' ) .
 					'<td>' . $this->p->admin->form->get_select( 'og_art_section', $this->p->util->get_topics() ) . '</td>';
 
+					$ret[] = $this->p->util->th( 'Site Name', 'highlight', null, '
+					By default, the Site Title from the <a href="'.get_admin_url( null, 'options-general.php' ).'">WordPress General Settings</a>, 
+					is used for the Open Graph Site Name. You may override that value here.' ) . 
+					'<td>' . $this->p->admin->form->get_input( 'og_site_name' ) . '</td>';
+
 					$ret[] = $this->p->util->th( 'Title Separator', 'highlight', null, '
 					One or more characters used to separate values (category parent names, page numbers, etc.) 
 					within the Open Graph title string (default is \'' . 

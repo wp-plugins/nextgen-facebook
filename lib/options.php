@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '92';	// increment when adding/removing default options
+		public $options_version = '93';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -113,6 +113,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'link_publisher_url' => '',
 			'fb_admins' => '',
 			'fb_app_id' => '',
+			'og_site_name' => '',
 			'og_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_width' => 600,
@@ -370,6 +371,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$this->defaults['og_author_field'] = empty( $this->p->options['plugin_cm_fb_name'] ) ? 
 				$this->defaults['plugin_cm_fb_name'] : $this->p->options['plugin_cm_fb_name'];
 
+			$this->defaults['og_site_name'] = get_bloginfo( 'name', 'display' );
+
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];
 			else return $this->defaults;
@@ -395,7 +398,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function quick_check( &$opts = array() ) {
-			$err_msg = '';
+			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ||
 					empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
@@ -407,21 +410,21 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$opts = $this->add_to_post_types( $opts );
 			} else {
 				if ( $opts === false )
-					$err_msg = 'did not find an "'.NGFB_OPTIONS_NAME.'" entry in';
+					$opts_err_msg = 'did not find an "'.NGFB_OPTIONS_NAME.'" entry in';
 				elseif ( ! is_array( $opts ) )
-					$err_msg = 'returned a non-array value when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned a non-array value when reading "'.NGFB_OPTIONS_NAME.'" from';
 				elseif ( empty( $opts ) )
-					$err_msg = 'returned an empty array when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned an empty array when reading "'.NGFB_OPTIONS_NAME.'" from';
 				else 
-					$err_msg = 'returned an unknown condition when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned an unknown condition when reading "'.NGFB_OPTIONS_NAME.'" from';
 
-				$this->p->debug->log( 'WordPress '.$err_msg.' the options database table.' );
+				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
 				$opts = $this->get_defaults();
 			}
 			if ( is_admin() ) {
-				if ( ! empty( $err_msg ) ) {
+				if ( ! empty( $opts_err_msg ) ) {
 					$url = $this->p->util->get_admin_url( 'general' );
-					$this->p->notices->err( 'WordPress '.$err_msg.' the options database table. 
+					$this->p->notices->err( 'WordPress '.$opts_err_msg.' the options database table. 
 						All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please visit the plugin settings pages to review and save the options</a>.' );
 				}
@@ -434,9 +437,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$url = $this->p->util->get_admin_url( 'advanced' );
-					$this->p->notices->nag( '<p>The '.$this->p->fullname.' <em>Authentication ID</em> option value is empty. 
-						In order for the plugin to authenticate itself for future updates,<br/><a href="'.$url.'">please enter 
-						the unique Authenticaton ID you received by email on the Advanced Settings page</a>.</p>' );
+					$this->p->notices->nag( '<p>The '.$this->p->fullname.' <em>Authentication ID</em> option value is empty.<br/>
+						To activate Pro version features, and allow the plugin to authenticate itself for updates,<br/>
+						<a href="'.$url.'">enter the unique Authenticaton ID you receive following your purchase
+						on the Advanced Settings page</a>.</p>' );
 				}
 
 			}

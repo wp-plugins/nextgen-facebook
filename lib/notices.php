@@ -80,6 +80,10 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 					$this->log[$type] 
 				);
 				$this->trunc( $type );
+				if ( $type == 'err' ) {
+					if ( ! empty( $this->p->update_error ) )
+						$msg_arr[] = $this->p->update_error;
+				}
 				if ( ! empty( $msg_arr ) ) {
 					if ( $type == 'nag' ) {
 						echo '

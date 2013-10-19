@@ -382,7 +382,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
-				if ( preg_match( '/^.*\?page=' . $this->p->acronym . '-([^&]*).*$/', $current, $match ) )
+				if ( preg_match( '/^.*\?page='.$this->p->acronym.'-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
 				else $submenu = 'general';
 			} else {
@@ -390,13 +390,13 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$submenu = 'general';
 			}
 
-			$url = get_admin_url( null, 'admin.php?page=' . $this->p->acronym . '-' . $submenu );
+			$url = get_admin_url( null, 'admin.php?page='.$this->p->acronym.'-'.$submenu );
 
-			if ( ! empty( $query ) ) $url .= '&' . $query;
-			if ( ! empty( $hash ) ) $url .= '#' . $hash;
+			if ( ! empty( $query ) ) $url .= '&'.$query;
+			if ( ! empty( $hash ) ) $url .= '#'.$hash;
 
 			if ( empty( $link_text ) ) return $url;
-			else return '<a href="' . $url . '">' . $link_text . '</a>';
+			else return '<a href="'.$url.'">'.$link_text.'</a>';
 		}
 
 		public function delete_expired_transients( $clear_all = false ) { 

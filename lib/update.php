@@ -138,9 +138,9 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				&& ! empty( $result['body'] ) ) {
 	
 				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
-					if ( ! empty( $result['headers']['x-error-msg'] ) )
-						update_option( $this->p->acronym.'_update_error', $result['headers']['x-error-msg'] );
-					$this->p->notices->err( json_decode( $result['body'] ), true, false );
+					$error_msg = json_decode( $result['body'] );
+					$this->p->update_error = $error_msg;
+					update_option( $this->p->acronym.'_update_error', $error_msg );
 				} else {
 					delete_option( $this->p->acronym.'_update_error' );
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );

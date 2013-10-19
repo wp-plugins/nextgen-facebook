@@ -192,17 +192,19 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						break;
 					case 'check_for_updates' : 
 						if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
+							delete_option( $this->p->acronym.'_update_error' );
 							$this->p->update->check_for_updates();
 							$this->p->admin->set_readme( 0 );
 							$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
 						}
 						break;
 					case 'clear_all_cache' : 
+						delete_option( $this->p->acronym.'_update_error' );
 						$deleted_cache = $this->p->util->delete_expired_file_cache( true );
 						$deleted_transient = $this->p->util->delete_expired_transients( true );
 						wp_cache_flush();
 						if ( function_exists('w3tc_pgcache_flush') ) 
-								w3tc_pgcache_flush();
+							w3tc_pgcache_flush();
 						elseif ( function_exists('wp_cache_clear_cache') ) 
 							wp_cache_clear_cache();
 						$this->p->notices->inf( 'Cached files, WP object cache, transient cache, and any 
