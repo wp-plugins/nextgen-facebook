@@ -753,15 +753,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * *Free* version: 12493 lines in 42 files, with 51 classes and 414 functions
 * Pro version: 14183 lines in 53 files, with 64 classes and 462 functions
 
-***Free* and Pro version changes:**
-
 * Added the "WP Auto-Resize" option (default is unchecked) to enable/disable generating missing or incorrect image sizes.
 * Added a work-around for the WordPress `wp_get_attachment_image_src()` function, which returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
 
 = Version 6.11.0 =
-
-* *Free* version: 12485 lines in 42 files, with 51 classes and 414 functions
-* Pro version: 14170 lines in 53 files, with 64 classes and 462 functions
 
 ***Free* and Pro version changes:**
 
@@ -779,9 +774,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.10 =
 
-* *Free* version: 12266 lines in 42 files, with 51 classes and 411 functions
-* Pro version: 13897 lines in 53 files, with 64 classes and 459 functions
-
 ***Free* and Pro version changes:**
 
 * Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
@@ -795,9 +787,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products (currency, prices, images, custom meta fields and category pages).
 
 = Version 6.9 =
-
-* *Free* version: 12221 lines in 42 files, with 51 classes and 409 functions
-* Pro version: 13659 lines in 52 files, with 63 classes and 453 functions
 
 ***Free* and Pro version changes:**
 
@@ -813,9 +802,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added the 'Product Card Default 2nd Attribute' option for Twitter Cards.
 
 = Version 6.8 =
-
-* *Free* version: 11685 lines in 41 files, with 50 classes and 393 functions
-* Pro version: 12905 lines in 50 files, with 61 classes and 431 functions
 
 ***Free* and Pro version changes:**
 
