@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '94';	// increment when adding/removing default options
+		public $options_version = '95';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -531,6 +531,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'gp_expandto' :
 						case 'og_title' :
 						case 'og_desc' :
+						case 'og_site_name' :
 						case 'meta_desc' :
 						case 'tc_desc' :
 						case 'pin_desc' :

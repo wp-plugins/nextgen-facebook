@@ -62,8 +62,12 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			if ( ! array_key_exists( 'og:locale', $og ) )
 				$og['og:locale'] = $lang;
 
-			if ( ! array_key_exists( 'og:site_name', $og ) )
-				$og['fb:site_name'] = $this->p->options['site_name'];
+			if ( ! array_key_exists( 'og:site_name', $og ) ) {
+				if ( ! empty( $this->p->options['site_name'] ) )
+					$og['fb:site_name'] = $this->p->options['site_name'];
+				else
+					$og['fb:site_name'] = get_bloginfo( 'name', 'display' );
+			}
 
 			if ( ! array_key_exists( 'og:url', $og ) )
 				$og['og:url'] = $sharing_url;
