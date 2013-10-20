@@ -209,7 +209,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 					target="_blank">Google Structured Data Testing Tool</a>' ) .
 					'<td><p>Check that Google can correctly parse your structured data markup and display it in search results.</p></td>';
 	
-				$tools[] = $this->p->util->th( '<a href="http://developers.pinterest.com/developer/rich_pins/validator/?link=' . urlencode( get_permalink( $post->ID ) ) . '" 
+				$tools[] = $this->p->util->th( '<a href="http://developers.pinterest.com/rich_pins/validator/?link=' . urlencode( get_permalink( $post->ID ) ) . '" 
 					target="_blank">Pinterest Rich Pin Validator</a>' ) .
 					'<td><p>Validate the Rich Pins meta tags and apply to get them on Pinterest.</p></td>';
 	
