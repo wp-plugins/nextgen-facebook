@@ -139,7 +139,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_fake_checkbox( $value, $check = array( '1', '0' ) ) {
 			return '<input type="checkbox" disabled="disabled"' .
-				( checked( $value, $check[0], false ) ) . ' " />' . "\n";
+				( checked( $value, $check[0], false ) ) . ' />' . "\n";
 		}
 
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
