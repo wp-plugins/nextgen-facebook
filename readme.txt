@@ -743,6 +743,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added the "Site Name" option on the General settings page.
 * Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
+* Updated the Rich Pin Validator URL in the Custom Settings, Validation Tools tab.
 
 **Pro version changes:**
 
