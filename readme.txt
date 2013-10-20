@@ -103,7 +103,11 @@ NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods 
 
 The *Free* version from WordPress.org is a full-featured, stable and well supported plugin. The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) builds on this solid base by adding support for [Twitter Cards](https://dev.twitter.com/docs/cards), e-commerce products ([WooCommerce](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/)), tighter integration with SEO plugins ([WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/)), enhanced customization features for *each individual Post and Page*, and dynamically changes the social button language to match the webpage. You can also enable a file cache for social images and JavaScripts (to further improve the page load times), and if you use a CDN or dedicated server to handle static content, the Pro version includes a URL rewriting feature (for encoded URLs that other plugins do not detect).
 
-Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Authentication ID, and update the plugin from within WordPress (like a regular plugin update).
+Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pro Version" button located on any NGFB Open Graph+ settings page, purchase the plugin through Paypal, then receive an email with your Authentication ID and update the plugin from within WordPress (like a regular plugin update).
+
+= Multisite Aware =
+
+The Pro version license(s) can be assigned to the whole multisite network and/or to specific sites within the multisite network.
 
 == Installation ==
 
