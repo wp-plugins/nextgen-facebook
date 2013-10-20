@@ -746,7 +746,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 **Pro version changes:**
 
-* Added support for a multisite Authentication ID default value.
+* Added support for a multisite Authentication ID default site-wide value.
 
 = Version 6.11.1 =
 
@@ -816,7 +816,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = 6.12dev2 =
 
-Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph tags, added a "Site Name" option on the General settings page, added support for a multisite Authentication ID default value (Pro version).
+Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph tags, added a "Site Name" option on the General settings page, added support for a multisite Authentication ID default site-wide value (Pro version).
 
 = 6.11.1 =
 
@@ -824,7 +824,7 @@ Added "WP Auto-Resize" option to enable/disable generating missing or incorrect 
 
 = 6.11.0 =
 
-**Added dynamic image resizing for Media Library images**, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
+Added dynamic image resizing for Media Library images, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
 
 = 6.10 =
 
