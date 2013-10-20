@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.12dev2
+Version: 6.12.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.12dev2';
+		public $version = '6.12.0';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -50,7 +50,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
-		public $options_multi = array();
+		public $options_site = array();
 		public $ngg_options = array();
 		public $ngg_version = 0;
 
@@ -179,6 +179,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				delete_option( $acronym.'_options' );
 				delete_option( $acronym.'_update_error' );
 				delete_option( 'external_updates-'.$slug );
+				delete_site_option( $acronym.'_options_site' );
 				// remove all "stored" admin notices
 				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 					$msg_opt = $acronym.'_notices_'.$type;
@@ -490,14 +491,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$opts = get_option( NGFB_OPTIONS_NAME );
 			// if multisite options are found, then allow those to overwrite the site specific options
 			if ( is_array( $opts ) && is_multisite() ) {
-				$this->options_multi = get_option( NGFB_OPTIONS_NAME.'_multi' );
-				if ( is_array( $this->options_multi ) ) {
-					foreach ( $this->options_multi as $key => $val ) {
+				$this->options_site = get_option( NGFB_OPTIONS_NAME.'_site' );
+				if ( is_array( $this->options_site ) ) {
+					foreach ( $this->options_site as $key => $val ) {
 						switch ( $key ) {
 							case 'plugin_pro_tid' :
 								if ( empty( $opts['plugin_pro_tid'] ) ) {
-									$opts['plugin_pro_tid'] = $this->options_multi['plugin_pro_tid'];
-									$opts['plugin_pro_tid_multi'] = 1;
+									$opts['plugin_pro_tid'] = $this->options_site['plugin_pro_tid'];
+									$opts['plugin_pro_tid_site'] = 1;
 								}
 								break;
 						}

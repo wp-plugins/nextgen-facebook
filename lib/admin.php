@@ -159,12 +159,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			// the pro version authentication id can be applied to all sites within a multisite
 			if ( is_multisite() ) {
-				if ( ! empty( $opts['plugin_pro_tid_multi'] ) ) {
+				if ( ! empty( $opts['plugin_pro_tid_site'] ) ) {
 					if ( ! empty( $opts['plugin_pro_tid'] ) ) {
-						update_site_option( NGFB_OPTIONS_NAME.'_multi', 
+						update_site_option( NGFB_OPTIONS_NAME.'_site', 
 							array( 'plugin_pro_tid' => $opts['plugin_pro_tid'], ) );
 						$opts['plugin_pro_tid'] = '';	// always trunc to inherit multisite value
-					} else delete_site_option( NGFB_OPTIONS_NAME.'_multi' );
+					} else delete_site_option( NGFB_OPTIONS_NAME.'_site' );
 				}
 			}
 

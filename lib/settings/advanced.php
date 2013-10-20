@@ -68,7 +68,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_pre_activation() {
 			$ret = array();
 			$pro_msg = '';
-			$pro_multi = '';
+			$pro_site = '';
 			if ( $this->p->is_avail['aop'] )
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
@@ -79,15 +79,15 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
 
 			if ( is_multisite() )
-				$pro_multi = '&nbsp;Save as Multisite Default <img src="'.NGFB_URLPATH.'images/question-mark.png" 
+				$pro_site = '&nbsp;Save as Multisite Default <img src="'.NGFB_URLPATH.'images/question-mark.png" 
 				class="'.$this->p->acronym.'_tooltip'.'" alt="'.esc_attr( 'Save this Authentication ID value, empty or not, 
 				as the multisite default. All sites without an existing Authentication ID, saved in their settings 
 				(ie. without this option checked), will inherit this value. Saving an empty Authentication ID as the multisite 
 				default, will remove the multisite default.' ).'" /> '.
-				$this->p->admin->form->get_checkbox( 'plugin_pro_tid_multi' );
+				$this->p->admin->form->get_checkbox( 'plugin_pro_tid_site' );
 
 			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
-			'<td>'.$this->p->admin->form->get_input( 'plugin_pro_tid' ).$pro_multi.'</td>';
+			'<td>'.$this->p->admin->form->get_input( 'plugin_pro_tid' ).$pro_site.'</td>';
 
 			return $ret;
 		}

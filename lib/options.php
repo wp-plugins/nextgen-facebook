@@ -291,7 +291,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'options_version' => '',
 			'plugin_version' => '',
 			'plugin_pro_tid' => '',
-			'plugin_pro_tid_multi' => 0,
+			'plugin_pro_tid_site' => 0,
 			'plugin_preserve' => 0,
 			'plugin_reset' => 0,
 			'plugin_debug' => 0,
