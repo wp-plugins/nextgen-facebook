@@ -15,7 +15,6 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		protected $p;
 
 		// executed by ngfbPostMetaPro() as well
-		// children executing this __construct() should have an empty add_actions() method
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -25,8 +24,8 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 		protected function add_actions() {
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
-				add_action( 'save_post', array( &$this, 'save_options' ) );
-				add_action( 'edit_attachment', array( &$this, 'save_options' ) );
+				add_action( 'save_post', array( &$this, 'flush_cache' ), 20 );
+				add_action( 'edit_attachment', array( &$this, 'flush_cache' ), 20 );
 			}
 		}
 
@@ -47,7 +46,9 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
 				$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );
+				$this->p->social->add_header();
 				echo $this->p->social->filter( $content, 'admin_sharing', $opts );
+				$this->p->social->add_footer();
 			} else echo '<p class="centered">In order to share this '.$post_type_name.', it must first be published with public visibility.</p>';
 			echo '</td></tr></table>';
 		}
@@ -228,7 +229,7 @@ if ( ! class_exists( 'ngfbPostMeta' ) ) {
 			else return array();
 		}
 
-		public function save_options( $post_id ) {
+		public function flush_cache( $post_id ) {
 			$this->p->util->flush_post_cache( $post_id );
 		}
 	}

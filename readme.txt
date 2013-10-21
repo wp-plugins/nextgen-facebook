@@ -741,10 +741,14 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.12.1dev1 =
+= Version 6.12.1 =
 
 ***Free* and Pro version changes:**
 
+* Fixed the update check method to return missing version data.
+* Fixed duplicate cache flush when updating a Post or Page.
+* Forced plugin readme.txt file cache updates to 12 hours.
+* Moved admin sharing javascript to sharing metabox instead of headers/footers.
 * Added 'Nature' and 'Pets' to the website topics list.
 
 = Version 6.12.0 =
@@ -824,9 +828,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.12.1dev1 =
+= 6.12.1 =
 
-Added 'Nature' and 'Pets' to the website topics list.
+Fixed the update check method to return missing version data, other minor fixes, and added 'Nature' and 'Pets' to the website topics list.
 
 = 6.12.0 =
 

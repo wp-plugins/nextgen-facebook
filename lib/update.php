@@ -24,8 +24,10 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-	
-			$this->json_url = $this->p->urls['update'].'?tid='.$this->p->options['plugin_pro_tid'];
+
+			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
+				$this->json_url = $this->p->urls['update'].'?tid='.$this->p->options['plugin_pro_tid'];
+
 			$this->file_path = NGFB_FILEPATH;
 			$this->base_name = plugin_basename( $this->file_path );
 			$this->slug = $this->p->slug;
@@ -42,19 +44,19 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 
 			// in a multisite environment, each site will (unfortunately) check for updates
 			if ($this->time_period > 0) {
-				add_filter('cron_schedules', array(&$this, 'custom_schedule'));
-				add_action($this->cron_hook, array(&$this, 'check_for_updates'));
+				add_filter( 'cron_schedules', array( &$this, 'custom_schedule' ) );
+				add_action( $this->cron_hook, array( &$this, 'check_for_updates' ) );
 				$schedule = wp_get_schedule( $this->cron_hook );
 				// check for schedule mismatch
 				if ( ! empty( $schedule ) && $schedule !== $this->sched_name ) {
-					$this->p->debug->log('changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name);
-					wp_clear_scheduled_hook($this->cron_hook);
+					$this->p->debug->log( 'changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name );
+					wp_clear_scheduled_hook( $this->cron_hook );
 				}
 				// add schedule if it doesn't exist
 				if ( ! defined('WP_INSTALLING') && ! wp_next_scheduled( $this->cron_hook ) ) {
 					// remove old schedule name (if it exists)
-					if ( wp_get_schedule( 'pcfu_updates-' . $this->slug ) )
-						wp_clear_scheduled_hook( 'pcfu_updates-' . $this->slug );
+					if ( wp_get_schedule( 'pcfu_updates-'.$this->slug ) )
+						wp_clear_scheduled_hook( 'pcfu_updates-'.$this->slug );
 					wp_schedule_event( time(), $this->sched_name, $this->cron_hook );	// since wp 2.1.0
 				}
 			} else wp_clear_scheduled_hook( $this->cron_hook );
@@ -109,16 +111,20 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function get_update() {
-			$plugin_data = $this->get_json(
-				array( 'checking_for_updates' => '1' )
-			);
+			$plugin_data = $this->get_json( array( 'checking_for_updates' => '1' ) );
 			if ( $plugin_data == null ) return null;
 			$plugin_data = ngfbPluginUpdate::from_plugin_data( $plugin_data );
 			return $plugin_data;
 		}
 	
 		public function get_json( $query = array() ) {
+			$plugin_data = null;
+			if ( empty( $this->json_url ) ) {
+				$this->p->debug->log( 'exiting early: empty json_url' );
+				return $plugin_data;
+			}
 			global $wp_version;
+			$url = $this->json_url;
 			$query['installed_version'] = $this->get_installed_version();
 			$user_agent = 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.get_bloginfo( 'url' );
 			$options = array(
@@ -129,11 +135,9 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 					'X-WordPress-Id' => $user_agent,
 				),
 			);
-			$url = $this->json_url;
 			if ( ! empty( $query ) ) 
 				$url = add_query_arg( $query, $url );
 			$result = wp_remote_get( $url, $options );
-			$plugin_data = null;
 			if ( ! is_wp_error( $result )
 				&& isset( $result['response']['code'] )
 				&& ( $result['response']['code'] == 200 )
@@ -155,7 +159,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public function get_installed_version() {
 			$version = 0;
 			if ( ! function_exists( 'get_plugins' ) ) 
-				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+				require_once( ABSPATH.'/wp-admin/includes/plugin.php' );
 			$plugins = get_plugins();
 			if ( array_key_exists( $this->base_name, $plugins ) && 
 				array_key_exists( 'Version', $plugins[$this->base_name] ) )
@@ -233,6 +237,7 @@ if ( ! class_exists( 'ngfbPluginData' ) ) {
 				$data->sections = get_object_vars( $this->sections );
 			else 
 				$data->sections = array( 'description' => '' );
+			return $data;
 		}
 
 	}
@@ -285,6 +290,7 @@ if ( ! class_exists( 'ngfbPluginUpdate' ) ) {
 				if ( isset( $this->$old_field ) )
 					$data->$new_field = $this->$old_field;
 			}
+			return $data;
 		}
 	}
 

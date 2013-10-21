@@ -56,7 +56,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			unset ( $id, $name );
 		}
 
-		public function set_readme( $expire_secs = false ) {
+		public function set_readme( $expire_secs = 0 ) {
 			if ( empty( $this->readme ) )
 				$this->readme = $this->p->util->parse_readme( $expire_secs );
 		}
@@ -208,8 +208,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						break;
 					case 'check_for_updates' : 
 						if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
-							$this->p->update->check_for_updates();
 							$this->p->admin->set_readme( 0 );
+							$this->p->update->check_for_updates();
 							$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
 						}
 						break;
@@ -238,7 +238,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				);
 			}
 
-			$this->p->admin->set_readme();	// the version info metabox on all settings pages needs this
+			$this->p->admin->set_readme( $this->p->update_hours * 60 * 60 );	// the version info metabox on all settings pages needs this
 
 			foreach ( $this->p->setting_libs as $id => $name )
 				$this->p->admin->settings[$id]->add_meta_boxes();

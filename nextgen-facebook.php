@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.12.1dev1
+Version: 6.12.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.12.1dev1';
+		public $version = '6.12.1';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -200,7 +200,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 		}
 
-		public function filter_version_number( $version ) {
+		public function filter_installed_version( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
 			else return '0.'.$version;
@@ -208,14 +208,14 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
-			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ) . '/languages/' );
+			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
 			$this->setup_vars();
 			$this->check->conflicts();
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- " . $this->fullname . " add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
+							"echo '<!-- ".$this->fullname." add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 			}
 		}
@@ -228,7 +228,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_TEXTDOM', $this->slug );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
-			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR . 'lib/ext/markdown.php' );
+			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR.'lib/ext/markdown.php' );
 
 			// allow some constants to be pre-defined in wp-config.php
 
@@ -303,38 +303,38 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private function load_libs() {
 
-			require_once ( NGFB_PLUGINDIR . 'lib/debug.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/check.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/util.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/notices.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/options.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/user.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/media.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/webpage.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/postmeta.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/social.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/style.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/script.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/cache.php' );
-			require_once ( NGFB_PLUGINDIR . 'lib/update.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/debug.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/check.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/util.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/notices.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/options.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/user.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/media.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/webpage.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/postmeta.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/social.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/style.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/script.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/cache.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/update.php' );
 
 			if ( is_admin() ) {
-				require_once ( NGFB_PLUGINDIR . 'lib/messages.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/admin.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/messages.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/admin.php' );
 				// settings classes extend lib/admin.php and are created by lib/admin.php
 				foreach ( $this->setting_libs as $id => $name )
-					require_once ( NGFB_PLUGINDIR . 'lib/settings/'.$id.'.php' );
+					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
 				unset ( $id, $name );
-				require_once ( NGFB_PLUGINDIR . 'lib/form.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/ext/parse-readme.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/form.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/ext/parse-readme.php' );
 			} else {
-				require_once ( NGFB_PLUGINDIR . 'lib/head.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/opengraph.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/tags.php' );
-				require_once ( NGFB_PLUGINDIR . 'lib/functions.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/head.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/opengraph.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/tags.php' );
+				require_once ( NGFB_PLUGINDIR.'lib/functions.php' );
 				// the ngfb_shortcode class object is created by lib/webpage.php
 				foreach ( $this->shortcode_libs as $id => $name )
-					require_once ( NGFB_PLUGINDIR . 'lib/shortcodes/'.$id.'.php' );
+					require_once ( NGFB_PLUGINDIR.'lib/shortcodes/'.$id.'.php' );
 				unset ( $id, $name );
 			}
 
@@ -457,31 +457,29 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			);
 
 			// set the file cache expiration value
-			if ( is_admin() )
-				if ( $this->debug->is_on( 'wp' ) == true ) 
-					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
-				else $this->cache->file_expire = $this->update_hours * 60 * 60;
-			elseif ( $this->check->pro_active() )
-				$this->cache->file_expire = ! empty( $this->options['plugin_file_cache_hrs'] ) ? 
-					$this->options['plugin_file_cache_hrs'] * 60 * 60 : 0;
-			else $this->cache->file_expire = 0;
-
-			if ( $this->debug->is_on( 'wp' ) == true ) {
-				$this->debug->log( 'WP debug mode on: file cache expiration set to ' . $this->cache->file_expire . ' second(s)' );
-			}
+			if ( $this->check->pro_active() ) {
+				if ( empty( $this->options['plugin_file_cache_hrs'] ) ) {
+					$this->cache->file_expire = 0;
+				} else {
+					if ( $this->debug->is_on( 'wp' ) == true ) 
+						$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
+					else
+						$this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
+				}
+			} else $this->cache->file_expire = 0;
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
 				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
 				$this->debug->log( 'HTML debug mode on: wp object cache expiration set to '.$this->cache->object_expire.' second(s) for new objects' );
-				$this->notices->inf( __( 'NGFB HTML debug mode is on.', NGFB_TEXTDOM ) . ' ' .
-					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) . ' ' .
+				$this->notices->inf( __( 'NGFB HTML debug mode is on.', NGFB_TEXTDOM ).' '.
+					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ).' '.
 					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
 			} else $this->cache->object_expire = $this->options['plugin_object_cache_exp'];
 
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
-				add_filter( $this->acronym.'_installed_version', array( &$this, 'filter_version_number' ), 10, 1 );
+				add_filter( $this->acronym.'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );
 			}
 
@@ -491,12 +489,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$opts = get_option( NGFB_OPTIONS_NAME );
 			// if multisite options are found, then allow those to overwrite the site specific options
 			if ( is_array( $opts ) && is_multisite() ) {
-				$this->options_site = get_option( NGFB_OPTIONS_NAME.'_site' );
+				$this->options_site = get_site_option( NGFB_OPTIONS_NAME.'_site' );
 				if ( is_array( $this->options_site ) ) {
 					foreach ( $this->options_site as $key => $val ) {
 						switch ( $key ) {
 							case 'plugin_pro_tid' :
-								if ( empty( $opts['plugin_pro_tid'] ) ) {
+								if ( empty( $opts['plugin_pro_tid'] ) && 
+									! empty( $this->options_site['plugin_pro_tid'] ) ) {
 									$opts['plugin_pro_tid'] = $this->options_site['plugin_pro_tid'];
 									$opts['plugin_pro_tid_site'] = 1;
 								}

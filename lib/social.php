@@ -20,16 +20,11 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			$this->p->debug->mark();
 			$this->setup_vars();
 
-			if ( is_admin() ) {
-				add_action( 'admin_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
-				add_action( 'admin_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
-			} else {
-				add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
-				add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
+			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
+			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
-				$this->add_filter( 'the_excerpt' );
-				$this->add_filter( 'the_content' );
-			}
+			$this->add_filter( 'the_excerpt' );
+			$this->add_filter( 'the_content' );
 		}
 
 		private function setup_vars() {
@@ -72,7 +67,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->p->options;
+			if ( empty( $opts ) ) 
+				$opts = $this->p->options;
 			if ( ! is_admin() ) {
 				if ( ! is_singular() && empty( $opts['buttons_on_index'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
@@ -162,36 +158,43 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
-			if ( is_singular() && $this->p->social->is_disabled() ) {
-				$this->p->debug->log( $pos.' javascript skipped: buttons disabled' );
+			// is_singular = false on admin edit page
+			if ( ! is_admin() && is_singular() && $this->p->social->is_disabled() ) {
+				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
 			}
+			global $post;
 			$widget = new ngfbWidgetSocialSharing();
 		 	$widget_settings = $widget->get_settings();
 
 			// determine which (if any) social buttons are enabled
 			foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
-
 				// check for enabled buttons on settings page
-				if ( is_admin() && ! empty( $this->p->options[$opt_prefix.'_on_admin_sharing'] ) ) {
-					$ids[] = $id;
-
-				} elseif ( is_singular() 
-					|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
-					|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
-
-					if ( ! empty( $this->p->options[$opt_prefix.'_on_the_content'] ) 
-						|| ! empty( $this->p->options[$opt_prefix.'_on_the_excerpt'] ) ) {
+				if ( is_admin() && ! empty( $post ) ) {
+					if ( ! empty( $this->p->options[$opt_prefix.'_on_admin_sharing'] ) )
+						$ids[] = $id;
+				} else {
+					if ( is_singular() 
+						|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
+						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
+	
+						if ( ! empty( $this->p->options[$opt_prefix.'_on_the_content'] ) 
+							|| ! empty( $this->p->options[$opt_prefix.'_on_the_excerpt'] ) ) {
+								$ids[] = $id;
+						}
+					}
+					// check for enabled buttons in widget
+					foreach ( $widget_settings as $instance ) {
+						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
 							$ids[] = $id;
 					}
 				}
-				// check for enabled buttons in widget
-				foreach ( $widget_settings as $instance ) {
-					if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
-						$ids[] = $id;
-				}
 			}
 			unset ( $id, $opt_prefix );
+			if ( empty( $ids ) ) {
+				$this->p->debug->log( 'exiting early: no buttons enabled' );
+				return;
+			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$js = '<!-- '.$this->p->fullname.' '.$pos.' javascript BEGIN -->'."\n";
