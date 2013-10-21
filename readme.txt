@@ -786,46 +786,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Fixed detection of WP e-Commerce single products vs categories.
 * Fixed a potentially empty WordPress identification string on update checks.
 
-= Version 6.10 =
-
-***Free* and Pro version changes:**
-
-* Moved the Contact Methods metabox to the Advanced settings page and added a description for its intended use.
-* Added a test for disabled buttons javascript only on singular pages (to avoid disabling javascript for all posts on index pages).
-* Added a test to make sure the WordPress `wpautop()` has a priority of 10 or less (higher priorities will interfere with shortcode output).
-
-**Pro version changes:**
-
-* Renamed the 'ngfb_meta' post meta options name to '_ngfb_meta' for greater compatibility (the conversion of older post meta options is transparent).
-* Fixed the Open Graph price formatting for MarketPress by ignoring the "locale" setting and using `number_format()` instead of `number_format_i18n()`.
-* Added support for [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) products (currency, prices, images, custom meta fields and category pages).
-
-= Version 6.9 =
-
-***Free* and Pro version changes:**
-
-* Added bit.ly URL shortener for Twitter in the Social Sharing settings.
-* Added the 'ngfb_sharing_url' filter and standardized the CSS IDs for sharing buttons (see the Other Notes for filter usage information).
-* Added the 'Minimum URL Length to Shorten' option (default is 21 or more characters).
-
-**Pro version changes:**
-
-* Added support for All-in-One SEO custom Post / Page titles, desciptions and keywords.
-* Added support for MarketPress WordPress eCommerce product pages, including variations, sale prices and inventory levels.
-* Added support for locale language switching in the Open Graph meta tags.
-* Added the 'Product Card Default 2nd Attribute' option for Twitter Cards.
-
-= Version 6.8 =
-
-***Free* and Pro version changes:**
-
-* Added a check for the WooCommerce ShareYourCart Extension, which must be disabled to avoid duplicate Open Graph meta tags.
-* Removed the NGFB_CONTACT_FIELDS constant.
-
-**Pro version changes:**
-
-* Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields.
-
 == Upgrade Notice ==
 
 = 6.12.1 =
@@ -843,16 +803,4 @@ Added "WP Auto-Resize" option to enable/disable generating missing or incorrect 
 = 6.11.0 =
 
 Added dynamic image resizing for Media Library images, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
-
-= 6.10 =
-
-Moved Contact Methods metabox to the Advanced settings page, renamed 'ngfb_meta' options name to '_ngfb_meta' for compatibility, fixed price formatting for MarketPress non-US locale, added support for WP e-Commerce products, plus a few minor fixes.
-
-= 6.9 =
-
-Added bit.ly URL shortener for Twitter. Added support for All-in-One SEO custom Post / Page title, description and keywords (Pro version). Added support for MarketPress WordPress eCommerce product pages, including variations, sale prices and inventory levels (Pro version).
-
-= 6.8 =
-
-Added a Contact Methods metabox on the Advanced settings page to enable / disable / rename social contact fields (Pro version).
 
