@@ -7,19 +7,19 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev2
+Version: 6.13dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev2';
+		public $version = '6.13dev3';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -156,52 +156,43 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// since wp 3.1 : register_activation_hook is now fired only when the user 
 			// activates the plugin and not when an automatic plugin update occurs
-			register_activation_hook( __FILE__, array( &$this, 'activate' ) );		// since wp 2.0
-			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );		// since wp 2.0
-			register_uninstall_hook( __FILE__, array( $this->acronym.'Plugin', 'uninstall' ) );	// since wp 2.7
+			register_activation_hook( __FILE__, array( &$this, 'network_activate' ) );		// since wp 2.0
+			register_deactivation_hook( __FILE__, array( &$this, 'network_deactivate' ) );		// since wp 2.0
 
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
 		}
 
-		public function activate() {
+		public function network_activate( $network_wide ) {
+			$this->do_multisite( $network_wide, array( &$this, 'activate_plugin' ) );
+		}
+
+		public function network_deactivate( $network_wide ) {
+			$this->do_multisite( $network_wide, array( &$this, 'deactivate_plugin' ) );
+		}
+
+		private static function do_multisite( $network_wide, $method ) {
+			if ( is_multisite() && $network_wide ) {
+				global $wpdb;
+				$blogid  = $wpdb->blogid;
+				$dbquery = 'SELECT blog_id FROM '.$wpdb->blogs;
+				$ids = $wpdb->get_col( $dbquery );
+				foreach ( $ids as $id ) {
+					switch_to_blog( $id );
+					call_user_func_array( $method, array() );
+				}
+				switch_to_blog( $blogid );
+			} else call_user_func_array( $method, array() );
+		}
+
+		private function activate_plugin() {
 			$this->check = new ngfbCheck( $this );
 			$this->check->wp_version();
 			$this->setup_vars( true );
 		}
 
-		public function deactivate() {
+		public function deactivate_plugin() {
 			$this->debug->mark();
 			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );	// since wp 2.1.0
-		}
-
-		// delete options table entries only when plugin deactivated and deleted
-		public static function uninstall() {
-			$slug = 'nextgen-facebook';
-			$acronym = 'ngfb';
-			$options = get_option( $acronym.'_options' );
-			if ( empty( $options['plugin_preserve'] ) ) {
-				delete_option( $acronym.'_options' );
-				delete_option( $acronym.'_update_error' );
-				delete_option( 'external_updates-'.$slug );
-				delete_site_option( $acronym.'_options_site' );
-				// remove all stored admin notices
-				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-					$msg_opt = $acronym.'_notices_'.$type;
-					delete_option( $msg_opt );
-					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
-						delete_user_option( $user->ID, $msg_opt );
-				}
-				// remove metabox preferences from all users
-				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
-					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
-						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
-							$meta_key = $meta_name.'_'.$page_prefix.'_'.$acronym.'-'.$settings_page;
-							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
-								delete_user_option( $user->ID, $meta_key, true );
-						}
-					}
-				}
-			}
 		}
 
 		public function filter_installed_version( $version ) {
