@@ -34,19 +34,20 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$src_id = $this->p->util->get_src_id( 'opengraph' );
 			$sharing_url = $this->p->util->get_sharing_url( 'notrack', null, null, $src_id );
 
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE ) {
+			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
-			} else {
+			else {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
-				$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
+				$this->p->debug->log( $cache_type.': og array transient id salt "'.$cache_salt.'"' );
 				$og = get_transient( $cache_id );
 				if ( $og !== false ) {
-					$this->p->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
+					$this->p->debug->log( $cache_type.': og array retrieved from transient for id "'.$cache_id.'"' );
 					return $og;
 				}
 			}
+
 			global $post;
 			$post_type = '';
 			$has_video_image = '';
@@ -166,7 +167,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og = apply_filters( $this->p->acronym.'_og', $og );
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
+				$this->p->debug->log( $cache_type.': og array saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $og;
 		}
@@ -235,7 +236,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				}
 				// if we found images in the query, skip content shortcodes
 				if ( count( $ngg_query_og_ret ) > 0 ) {
-					$this->p->debug->log( count( $ngg_query_og_ret ) . ' image(s) returned - skipping additional shortcode images' );
+					$this->p->debug->log( count( $ngg_query_og_ret ).' image(s) returned - skipping additional shortcode images' );
 					$og_ret = array_merge( $og_ret, $ngg_query_og_ret );
 				// if no query images were found, continue with ngg shortcodes in content
 				} elseif ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {

@@ -59,28 +59,36 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( 'notrack', null, true ) : $atts['url'];
 			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post->ID ) ? 'shortcode' : $atts['css_id'];
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
-			if ( ! empty( $atts['buttons'] ) ) {
+
+			if ( ! empty( $atts['buttons'] ) && $this->p->social->is_disabled() == false ) {
 				$atts['css_id'] .= '-buttons';
-				$keys = implode( '|', array_keys( $atts ) );
-				$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
-				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
-				$cache_type = 'object cache';
-				$html = get_transient( $cache_id );
-				$this->p->debug->log( $cache_type.': shortcode transient id salt "'.$cache_salt.'"' );
-				if ( $html !== false ) {
-					$this->p->debug->log( $cache_type.': html retrieved from transient for id "'.$cache_id.'"' );
-				} else {
-					if ( ! empty( $atts['buttons'] ) && $this->p->social->is_disabled() == false ) {
-						$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
-						unset ( $atts['buttons'] );
-						$html .= '<!-- '.$this->p->fullname.' '.$atts['css_id'].' BEGIN -->'.
-							$this->p->social->get_js( 'pre-shortcode', $ids ).
-							'<div class="'.$this->p->acronym.'-'.$atts['css_id'].'">'.
-								$this->p->social->get_html( $ids, $atts ).'</div>'.
-							$this->p->social->get_js( 'post-shortcode', $ids ).
-							'<!-- '.$this->p->fullname.' '.$atts['css_id'].' END -->';
+
+				if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
+					$this->p->debug->log( 'transient cache is disabled' );
+				else {
+					$keys = implode( '|', array_keys( $atts ) );
+					$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
+					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
+					$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+					$cache_type = 'object cache';
+					$this->p->debug->log( $cache_type.': shortcode transient id salt "'.$cache_salt.'"' );
+					$html = get_transient( $cache_id );
+					if ( $html !== false ) {
+						$this->p->debug->log( $cache_type.': html retrieved from transient for id "'.$cache_id.'"' );
+						return $this->p->debug->get_html().$html;
 					}
+				}
+
+				$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
+				unset ( $atts['buttons'] );
+				$html .= '<!-- '.$this->p->fullname.' '.$atts['css_id'].' BEGIN -->'.
+					$this->p->social->get_js( 'pre-shortcode', $ids ).
+					'<div class="'.$this->p->acronym.'-'.$atts['css_id'].'">'.
+						$this->p->social->get_html( $ids, $atts ).'</div>'.
+					$this->p->social->get_js( 'post-shortcode', $ids ).
+					'<!-- '.$this->p->fullname.' '.$atts['css_id'].' END -->';
+
+				if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 					set_transient( $cache_id, $html, $this->p->cache->object_expire );
 					$this->p->debug->log( $cache_type.': html saved to transient for id "'.
 						$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');

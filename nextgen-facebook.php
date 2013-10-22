@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev1
+Version: 6.13dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev1';
+		public $version = '6.13dev2';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -134,6 +134,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'about' => 'About',
 		);
 
+		public $network_setting_libs = array(
+			'network' => 'Network',
+		);
+
 		public $seo_libs = array(
 			'aioseop' => 'AllinOneSEOPack',
 			'seou' => 'SEOUltimate',
@@ -180,7 +184,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				delete_option( $acronym.'_update_error' );
 				delete_option( 'external_updates-'.$slug );
 				delete_site_option( $acronym.'_options_site' );
-				// remove all "stored" admin notices
+				// remove all stored admin notices
 				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 					$msg_opt = $acronym.'_notices_'.$type;
 					delete_option( $msg_opt );
@@ -326,6 +330,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				require_once ( NGFB_PLUGINDIR.'lib/admin.php' );
 				// settings classes extend lib/admin.php and are created by lib/admin.php
 				foreach ( $this->setting_libs as $id => $name )
+					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
+				unset ( $id, $name );
+				foreach ( $this->network_setting_libs as $id => $name )
 					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
 				unset ( $id, $name );
 				require_once ( NGFB_PLUGINDIR.'lib/form.php' );

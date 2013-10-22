@@ -73,12 +73,10 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				if ( ! is_singular() && empty( $opts['buttons_on_index'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
 					return $text;
-				}
-				if ( is_front_page() && empty( $opts['buttons_on_front'] ) ) {
+				} elseif ( is_front_page() && empty( $opts['buttons_on_front'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
 					return $text;
-				}
-				if ( $this->is_disabled() ) {
+				} elseif ( $this->is_disabled() ) {
 					$this->p->debug->log( $type.' filter skipped: buttons disabled' );
 					return $text;
 				}
@@ -96,33 +94,39 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			// we should always have a unique post ID
 			global $post;
-			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
-			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
-			$cache_type = 'object cache';
-			$html = get_transient( $cache_id );
-			$this->p->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
+			$html = false;
 
-			if ( $html !== false ) {
+			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
+				$this->p->debug->log( 'transient cache is disabled' );
+			else {
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_type = 'object cache';
+				$this->p->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
+				$html = get_transient( $cache_id );
+			}
+
+			if ( $html !== false )
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient for id "'.$cache_id.'"' );
-			} else {
+			else {
 				$sorted_ids = array();
 				foreach ( $this->p->social_prefix as $id => $opt_prefix )
 					if ( ! empty( $opts[$opt_prefix.'_on_'.$type] ) )
 						$sorted_ids[$opts[$opt_prefix.'_order'].'-'.$id] = $id;	// sort by number, then by name
 				unset ( $id, $opt_prefix );
 				ksort( $sorted_ids );
-
 				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
 				$html = $this->get_html( $sorted_ids, $atts, $opts );
-
 				if ( ! empty( $html ) ) {
 					$html = "\n<!-- ".$this->p->fullname.' '.$css_type." BEGIN -->\n" .
 						'<div class="'.$this->p->acronym.'-'.$css_type."\">\n".$html."</div>\n" .
 						'<!-- '.$this->p->fullname.' '.$css_type." END -->\n";
 
-					set_transient( $cache_id, $html, $this->p->cache->object_expire );
-					$this->p->debug->log( $cache_type.': '.$type.' html saved to transient for id "'.
-						$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+						set_transient( $cache_id, $html, $this->p->cache->object_expire );
+						$this->p->debug->log( $cache_type.': '.$type.' html saved to transient for id "'.
+							$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+					}
 				}
 			}
 			if ( $type == 'admin_sharing' )

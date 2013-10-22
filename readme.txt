@@ -765,11 +765,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13dev1 =
+= Version 6.13dev2 =
 
 ***Free* and Pro version changes:**
 
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants.
+* Fixed the Google+ sharing button "data-expandTo" value, which when set to "none" would disable the button.
 
 = Version 6.12.1 =
 

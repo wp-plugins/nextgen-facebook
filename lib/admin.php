@@ -44,11 +44,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
 			// use priority -1 to make sure Settings sub-menus are top-most
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
+			add_action( 'network_admin_menu', array( &$this, 'add_network_admin_menus' ), -1 );
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
 		}
 
 		private function setup_vars() {
-			foreach ( $this->p->setting_libs as $id => $name ) {
+			foreach ( array_merge( $this->p->setting_libs, $this->p->network_setting_libs ) as $id => $name ) {
 				$classname = 'ngfbSettings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
@@ -61,17 +62,22 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->readme = $this->p->util->parse_readme( $expire_secs );
 		}
 
-		public function add_admin_menus() {
-			reset( $this->p->setting_libs );
-			$this->menu_id = key( $this->p->setting_libs );
-			$this->menu_name = $this->p->setting_libs[$this->menu_id];
-			$this->settings[$this->menu_id]->add_menu( $this->menu_id );
-			foreach ( $this->p->setting_libs as $id => $name )
-				$this->settings[$id]->add_submenu( $this->menu_id );
+		public function add_admin_menus( $libs = array() ) {
+			if ( empty( $libs ) ) 
+				$libs = $this->p->setting_libs;
+			$this->menu_id = key( $libs );
+			$this->menu_name = $libs[$this->menu_id];
+			$this->settings[$this->menu_id]->add_menu_page( $this->menu_id );
+			foreach ( $libs as $id => $name )
+				$this->settings[$id]->add_submenu_page( $this->menu_id );
 			unset ( $id, $name );
 		}
 
-		protected function add_menu( $parent_id ) {
+		public function add_network_admin_menus() {
+			$this->add_admin_menus( $libs = $this->p->network_setting_libs );
+		}
+
+		protected function add_menu_page( $parent_id ) {
 			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 			$this->pagehook = add_menu_page( 
 				$this->p->fullname.' : '.$this->menu_name, 
@@ -82,7 +88,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
 		}
 
-		protected function add_submenu( $parent_id ) {
+		protected function add_submenu_page( $parent_id ) {
 			if ( $this->menu_id == 'contact' )
 				$parent_slug = 'options-general.php';
 			else

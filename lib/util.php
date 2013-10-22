@@ -167,11 +167,17 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
 					return apply_filters( $this->p->acronym.'_short_url', false, $long_url );
 
-			$cache_salt = __METHOD__.'(url:'.$long_url.')';
-			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
-			$cache_type = 'object cache';
-			$this->p->debug->log( $cache_type.': short_url transient id salt "'.$cache_salt.'"' );
-			$short_url = get_transient( $cache_id );
+			$short_url = false;
+
+			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
+				$this->p->debug->log( 'transient cache is disabled' );
+			else {
+				$cache_salt = __METHOD__.'(url:'.$long_url.')';
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_type = 'object cache';
+				$this->p->debug->log( $cache_type.': short_url transient id salt "'.$cache_salt.'"' );
+				$short_url = get_transient( $cache_id );
+			}
 
 			if ( $short_url !== false ) {
 				$this->p->debug->log( $cache_type.': short_url retrieved from transient for id "'.$cache_id.'"' );
@@ -179,9 +185,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			} else {
 				switch ( $shortener ) {
 					case 'googl' :
-						if ( is_object( $this->goo ) ) {
+						if ( is_object( $this->goo ) )
 							$short_url = $this->goo->shorten( $long_url );
-						}
 						break;
 					case 'bitly' :
 						if ( is_object( $this->bit ) ) {
@@ -198,9 +203,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$this->p->debug->log( 'failed to shorten url = '.$long_url );
 				else {
 					$this->p->debug->log( 'url successfully shortened = '.$short_url );
-					set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
-					$this->p->debug->log( $cache_type.': short_url saved to transient for id "'.
-						$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+						set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
+						$this->p->debug->log( $cache_type.': short_url saved to transient for id "'.
+							$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+					}
 					return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
 				}
 			}
@@ -339,37 +346,50 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function parse_readme( $expire_secs = 0 ) {
 			$this->p->debug->args( array( 'expire_secs' => $expire_secs ) );
-			$cache_salt = __METHOD__.'(file:'.$this->p->urls['readme'].')';
-			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
-			$cache_type = 'object cache';
-			$plugin_info = get_transient( $cache_id );
-			$this->p->debug->log( $cache_type.': plugin_info transient id salt "'.$cache_salt.'"' );
+			$readme = '';
+			$use_local = false;
+			$plugin_info = false;
 
-			if ( $plugin_info !== false ) {
-				$this->p->debug->log( $cache_type.': plugin_info retrieved from transient for id "'.$cache_id.'"' );
-				return $plugin_info;
+			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE ) {
+				$this->p->debug->log( 'transient cache is disabled' );
+				$use_local = true;
+			} else {
+				$cache_salt = __METHOD__.'(file:'.$this->p->urls['readme'].')';
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_type = 'object cache';
+				$this->p->debug->log( $cache_type.': plugin_info transient id salt "'.$cache_salt.'"' );
+				$plugin_info = get_transient( $cache_id );
+				if ( $plugin_info !== false ) {
+					$this->p->debug->log( $cache_type.': plugin_info retrieved from transient for id "'.$cache_id.'"' );
+					return $plugin_info;
+				}
 			}
 
-			$using_local = false;
-			$readme = $this->p->cache->get( $this->p->urls['readme'], 'raw', 'file', $expire_secs );
+			if ( $use_local == false )
+				$readme = $this->p->cache->get( $this->p->urls['readme'], 'raw', 'file', $expire_secs );
+
 			// fallback to local readme.txt file
 			if ( empty( $readme ) && $fh = @fopen( NGFB_PLUGINDIR.'readme.txt', 'rb' ) ) {
-				$using_local = true;
+				$use_local = true;
 				$readme = fread( $fh, filesize( NGFB_PLUGINDIR.'readme.txt' ) );
 				fclose( $fh );
 			}
+
 			if ( ! empty( $readme ) ) {
 				$parser = new ngfbParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
-				if ( $using_local == true ) {
+				if ( $use_local == true ) {
 					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
 						if ( array_key_exists( $key, $plugin_info ) )
 							unset( $plugin_info[$key] );
 				}
 			}
 
-			set_transient( $cache_id, $plugin_info, $this->p->cache->object_expire );
-			$this->p->debug->log( $cache_type.': plugin_info saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+			// save the parsed readme (aka $plugin_info) to the transient cache
+			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+				set_transient( $cache_id, $plugin_info, $this->p->cache->object_expire );
+				$this->p->debug->log( $cache_type.': plugin_info saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+			}
 			return $plugin_info;
 		}
 

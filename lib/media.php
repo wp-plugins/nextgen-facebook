@@ -179,23 +179,40 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
 				} elseif ( ( empty( $size_info['crop'] ) && 
+
 					( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && 
 						$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
 							( ! empty( $size_info['crop'] ) && 
 								( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || 
 									$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
 
-					$this->p->debug->log( 'image metadata for '.$size_name.
-						' ('.$img_meta['sizes'][$size_name]['width'].'x'.$img_meta['sizes'][$size_name]['height'].')'.
-						' does not match ('.$size_info['width'].'x'.$size_info['height'].')' );
-					$this->p->debug->log( 'calling wp_generate_attachment_metadata()' );
+					$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
+						$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
+						' ('.$size_info['width'].'x'.$size_info['height'].')' );
 
 					include_once( ABSPATH.'wp-admin/includes/image.php' );
 					$fullsizepath = get_attached_file( $pid );
-					$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
+					$resized = false;
 
-					if ( ! is_wp_error( $new_meta ) && ! empty( $new_meta ) ) {
-						wp_update_attachment_metadata( $pid, $new_meta );
+					$this->p->debug->log( 'calling image_make_intermediate_size()' );
+					$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
+					$this->p->debug->log( 'image resize '.( $resized == true ? 'was successful' : 'failed' ) );
+
+					/*
+					if ( $resized == false ) {
+						$this->p->debug->log( 'calling wp_generate_attachment_metadata()' );
+						$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
+						if ( is_wp_error( $new_meta ) || empty( $new_meta ) ) {
+							$this->p->debug->log( 'exiting early: wp_generate_attachment_metadata() returned an error' );
+							return $ret_empty;
+						} else {
+							wp_update_attachment_metadata( $pid, $new_meta );
+							$resized = true;
+						}
+					}
+					*/
+
+					if ( $resized == true ) {
 						list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
 						$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 						if ( empty( $img_url ) ) {
