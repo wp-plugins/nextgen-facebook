@@ -6,7 +6,7 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbAdmin' ) ) {
 
@@ -57,6 +57,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			unset ( $id, $name );
 		}
 
+		public function register_settings() {
+			register_setting( $this->p->acronym.'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+		} 
+
 		public function set_readme( $expire_secs = 0 ) {
 			if ( empty( $this->readme ) )
 				$this->readme = $this->p->util->parse_readme( $expire_secs );
@@ -74,7 +78,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function add_network_admin_menus() {
-			$this->add_admin_menus( $libs = $this->p->network_setting_libs );
+			$this->add_admin_menus( $this->p->network_setting_libs );
 		}
 
 		protected function add_menu_page( $parent_id ) {
@@ -123,10 +127,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			return $links;
 		}
-
-		public function register_settings() {
-			register_setting( $this->p->acronym.'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
-		} 
 
 		// this method receives only a partial options array, so re-create a full one
 		// wordpress handles the actual saving of the options
