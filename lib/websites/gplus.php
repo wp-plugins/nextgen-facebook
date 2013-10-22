@@ -109,7 +109,7 @@ if ( ! class_exists( 'ngfbSocialGooglePlus' ) && class_exists( 'ngfbSocial' ) ) 
 			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 			$html = '<!-- GooglePlus Button --><div '.$this->p->social->get_css( 'gplus', $atts, 'g-plusone-button' ).'><span '.$gp_class;
 			$html .= ' data-size="'.$opts['gp_size'].'" data-annotation="'.$opts['gp_annotation'].'" data-href="'.$atts['url'].'"';
-			$html .= empty( $opts['gp_expandto'] ) ? '' : ' data-expandTo="'.$opts['gp_expandto'].'"';
+			$html .= empty( $opts['gp_expandto'] ) || $opts['gp_expandto'] == 'none' ? '' : ' data-expandTo="'.$opts['gp_expandto'].'"';
 			$html .= '></span></div>'."\n";
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
