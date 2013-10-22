@@ -6,7 +6,7 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbNotices' ) ) {
 

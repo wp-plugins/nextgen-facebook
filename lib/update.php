@@ -6,6 +6,9 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 Plugin Update Class, Copyright (c) 2012 by Rob Landry
 */
 
+if ( ! defined( 'ABSPATH' ) ) 
+	die( 'These aren\'t the droids you\'re looking for...' );
+
 if ( ! class_exists( 'ngfbUpdate' ) ) {
 
 	class ngfbUpdate {

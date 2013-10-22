@@ -6,7 +6,7 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbUtil' ) ) {
 
@@ -427,11 +427,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$deleted = 0;
 			if ( $_wp_using_ext_object_cache ) return; 
 			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
-		
 			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$this->p->acronym.'_%\'';
 			$dbquery .= $clear_all === true ? ';' : ' AND option_value < '.$time.';'; 
 			$expired = $wpdb->get_col( $dbquery ); 
-			
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
 				delete_transient( $key );

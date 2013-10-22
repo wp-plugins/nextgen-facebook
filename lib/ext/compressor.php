@@ -5,7 +5,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbMinifyCssCompressor' ) ) {
 

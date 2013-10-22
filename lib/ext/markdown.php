@@ -8,7 +8,7 @@
 @define( 'NGFB_MARKDOWN_FN_BACKLINK_CLASS', '' );
 
 if ( ! defined( 'ABSPATH' ) ) 
-	die( 'Sorry, you cannot call this webpage directly.' );
+	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! function_exists( 'ngfb_markdown' ) ) {
 	function ngfb_markdown( $text, &$debug = '' ) {
