@@ -526,13 +526,13 @@ You could use any of these class names to hide one or more NGFB social buttons e
 
 == Performance Tuning ==
 
-= Tuning the Plugin Settings =
-
 The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. And unlike most plugins, NGFB Open Graph+ makes full use of all available caching techniques:
 
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
 * Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
 * Using an optional file / disk based cache for javascript and images from social websites (Pro version).
+
+= Tuning the Plugin Settings =
 
 You may consider the following option settings to fine-tune the plugin for optimal performance.
 
