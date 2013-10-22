@@ -384,6 +384,8 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
     * Social Buttons Style
     * Hide Social Buttons
 * Performance Tuning
+    * Tuning the Plugin Settings
+    * Defragment the Database
 * Advanced Usage
     * Include Social Buttons from Template File(s)
     * Disable Open Graph Meta Tags
@@ -524,6 +526,8 @@ You could use any of these class names to hide one or more NGFB social buttons e
 
 == Performance Tuning ==
 
+= Tuning the Plugin Settings =
+
 The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. And unlike most plugins, NGFB Open Graph+ makes full use of all available caching techniques:
 
 * Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
@@ -542,7 +546,27 @@ You may consider the following option settings to fine-tune the plugin for optim
 
 * If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option in the Pro version to several hours (the default of "0" hours disables this option).
 
-* If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 60 seconds to several minutes.
+* If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 300 seconds (the default) to 600 or even 900 seconds.
+
+= Defragment the Database =
+
+The database tables in MySQL can become fragmented as entries are added/removed/updated, especially the options table which holds the transient object cache entries. You should defragment you database tables at least daily. I use [Phil Dufault's `mysqlfragfinder.sh`](https://github.com/pdufault/mysqlfragfinder) script for my own databases.
+
+Here is an example crontab entry:
+
+`
+# defragment mysql tables
+0 3 * * *       export TERM=vt100; /usr/local/bin/mysqlfragfinder.sh >/var/tmp/mysqlfragfinder.log
+`
+
+And to prevent the script from stopping for a password, add an entry for it in the `~/.my.cnf` file:
+
+`
+[mysqlfragfinder.sh]
+host="127.0.0.1"
+user="********"
+pass="********"
+`
 
 == Advanced Usage ==
 
