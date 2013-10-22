@@ -770,6 +770,8 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 ***Free* and Pro version changes:**
 
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants.
+* Removed the NGFB_DEBUG_FILE_EXP constant.
+* Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
 * Fixed the Google+ sharing button "data-expandTo" value, which when set to "none" would disable the button.
 
 = Version 6.12.1 =
