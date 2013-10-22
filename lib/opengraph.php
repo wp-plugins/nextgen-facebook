@@ -28,22 +28,25 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		public function get() {
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
 				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
-				echo "\n<!-- ", $this->p->fullname, " meta tags DISABLED -->\n\n";
+				$this->p->debug->log( 'open graph is disabled' );
 				return array();
 			}
-
 			$src_id = $this->p->util->get_src_id( 'opengraph' );
 			$sharing_url = $this->p->util->get_sharing_url( 'notrack', null, null, $src_id );
-			$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
-			$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
-			$cache_type = 'object cache';
-			$this->p->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
-			$og = get_transient( $cache_id );
-			if ( $og !== false ) {
-				$this->p->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
-				return $og;
-			}
 
+			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE ) {
+				$this->p->debug->log( 'transient cache is disabled' );
+			} else {
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
+				$cache_id = $this->p->acronym . '_' . md5( $cache_salt );
+				$cache_type = 'object cache';
+				$this->p->debug->log( $cache_type . ': og array transient id salt "' . $cache_salt . '"' );
+				$og = get_transient( $cache_id );
+				if ( $og !== false ) {
+					$this->p->debug->log( $cache_type . ': og array retrieved from transient for id "' . $cache_id . '"' );
+					return $og;
+				}
+			}
 			global $post;
 			$post_type = '';
 			$has_video_image = '';
@@ -161,8 +164,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 
 			// run filter before saving to transient cache
 			$og = apply_filters( $this->p->acronym.'_og', $og );
-			set_transient( $cache_id, $og, $this->p->cache->object_expire );
-			$this->p->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
+			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+				set_transient( $cache_id, $og, $this->p->cache->object_expire );
+				$this->p->debug->log( $cache_type . ': og array saved to transient for id "' . $cache_id . '" (' . $this->p->cache->object_expire . ' seconds)');
+			}
 			return $og;
 		}
 

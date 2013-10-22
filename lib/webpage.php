@@ -256,22 +256,26 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		public function get_content( $filter_content = true, $use_cache = true ) {
 			global $post;
 			if ( empty( $post ) ) return;
-			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
-			$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
-			$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
-			$cache_type = 'object cache';
 			$this->p->debug->log( 'using content from post id '.$post->ID );
-			$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache id salt "'.$cache_salt.'"' );
+			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 
 			/***************************************************************************
 			 * Retrieve the content                                                    *
 			 ***************************************************************************/
 
-			$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
-			if ( $content !== false ) {
-				$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache for id "'.$cache_id.'"' );
-				return $content;
-			} 
+			if ( defined( 'NGFB_OBJECT_CACHE_DISABLE' ) && NGFB_OBJECT_CACHE_DISABLE )
+				$this->p->debug->log( 'object cache is disabled' );
+			else {
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
+				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_type = 'object cache';
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache id salt "'.$cache_salt.'"' );
+				$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
+				if ( $content !== false ) {
+					$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache for id "'.$cache_id.'"' );
+					return $content;
+				}
+			}
 
 			$content = apply_filters( $this->p->acronym.'_content_seed', '' );
 			if ( ! empty( $content ) )
@@ -343,8 +347,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// apply filters before caching
 			$content = apply_filters( $this->p->acronym.'_content', $content );
 
-			wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
-			$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+			if ( ! defined( 'NGFB_OBJECT_CACHE_DISABLE' ) || ! NGFB_OBJECT_CACHE_DISABLE ) {
+				wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+			}
 			return $content;
 		}
 

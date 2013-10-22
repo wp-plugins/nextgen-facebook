@@ -35,9 +35,16 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 
 		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
-			if ( $this->p->is_avail['curl'] == false || 
-				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
-					return $want_this == 'url' ? $url : '';
+			if ( $this->p->is_avail['curl'] == false ) {
+				$this->p->debug->log( 'curl is not available: '.$url );
+				return $want_this == 'url' ? $url : '';
+			} elseif ( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) {
+				$this->p->debug->log( 'curl is disabled: '.$url );
+				return $want_this == 'url' ? $url : '';
+			} elseif ( defined( 'NGFB_FILE_CACHE_DISABLE' ) && NGFB_FILE_CACHE_DISABLE ) {
+				$this->p->debug->log( 'file cache is disabled: '.$url );
+				return $want_this == 'url' ? $url : '';
+			}
 
 			$get_url = preg_replace( '/#.*$/', '', $url );	// remove the fragment
 			$url_path = parse_url( $get_url, PHP_URL_PATH );
@@ -128,8 +135,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				}
 			} else {
 				if ( is_admin() )
-					$this->p->notices->err( 'Error connecting to <a href="'.$get_url.'" 
-						target="_blank">'.$get_url.'</a> for caching. 
+					$this->p->notices->err( 'Error connecting to <a href="'.$get_url.'" target="_blank">'.$get_url.'</a> for caching. 
 						Ignoring requests to cache this URL for '.$this->ignore_time.' second(s)' );
 
 				$this->p->debug->log( 'error connecting to URL '.$get_url.' for caching. ' );
@@ -146,16 +152,27 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$cache_data = '';
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-				case 'transient' :
-					$cache_type = 'object cache';
-					$cache_id = $this->p->acronym. '_'.md5( $cache_salt );	// add a prefix to the object cache id
-					$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
-					if ( $cache_name == 'wp_cache' ) 
+					if ( defined( 'NGFB_OBJECT_CACHE_DISABLE' ) && NGFB_OBJECT_CACHE_DISABLE )
+						$this->p->debug->log( 'object cache is disabled' );
+					else {
+						$cache_type = 'object cache';
+						$cache_id = $this->p->acronym. '_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$cache_data = wp_cache_get( $cache_id, __CLASS__ );
-					elseif ( $cache_name == 'transient' ) 
+						if ( $cache_data !== false )
+							$this->p->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' for id "'.$cache_id.'"' );
+					}
+					break;
+				case 'transient' :
+					if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
+						$this->p->debug->log( 'transient cache is disabled' );
+					else {
+						$cache_type = 'object cache';
+						$cache_id = $this->p->acronym. '_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$cache_data = get_transient( $cache_id );
-					if ( $cache_data !== false ) {
-						$this->p->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' for id "'.$cache_id.'"' );
+						if ( $cache_data !== false )
+							$this->p->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' for id "'.$cache_id.'"' );
 					}
 					break;
 				case 'file' :
@@ -164,19 +181,16 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_file = $this->base_dir.$cache_id.$url_ext;
 					$this->p->debug->log( $cache_type.': filename id salt "'.$cache_salt.'"' );
 					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
-					if ( ! file_exists( $cache_file ) ) {
-						$this->p->debug->log( $cache_file.' does not exist yet.' ); break;
-					}
-					if ( ! is_readable( $cache_file ) ) {
-						$this->p->notices->err( '<u>'.$cache_file.'</u> is not readable.' ); break;
-					}
-					if ( $this->p->is_avail['aop'] !== true && ! is_admin() ) {
-						$this->p->debug->log( 'file cache disabled: must be pro or admin.' ); break;
-					}
-					if ( filemtime( $cache_file ) < time() - $file_expire ) {
-						$this->p->debug->log( $cache_file.' has expired (file expiration = '.$file_expire.').' ); break;
-					}
-					if ( ! $fh = @fopen( $cache_file, 'rb' ) )
+
+					if ( ! file_exists( $cache_file ) )
+						$this->p->debug->log( $cache_file.' does not exist yet.' );
+					elseif ( ! is_readable( $cache_file ) )
+						$this->p->notices->err( '<u>'.$cache_file.'</u> is not readable.' );
+					elseif ( $this->p->is_avail['aop'] !== true && ! is_admin() )
+						$this->p->debug->log( 'file cache disabled: must be pro or admin.' );
+					elseif ( filemtime( $cache_file ) < time() - $file_expire )
+						$this->p->debug->log( $cache_file.' is expired (file expiration = '.$file_expire.').' );
+					elseif ( ! $fh = @fopen( $cache_file, 'rb' ) )
 						$this->p->notices->err( 'Failed to open <u>'.$cache_file.'</u> for reading.' );
 					else {
 						$cache_data = fread( $fh, filesize( $cache_file ) );
@@ -193,21 +207,36 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 		}
 
 		private function save_cache_data( $cache_salt, $cache_data = '', $cache_name = 'file', $url_ext = '', $expire_secs = false ) {
-			if ( empty( $cache_data ) ) return false;
 			$ret_status = false;
+			if ( empty( $cache_data ) ) 
+				return $ret_status;
+
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-				case 'transient' :
-					$cache_type = 'object cache';
-					$cache_id = $this->p->acronym.'_'.md5( $cache_salt );	// add a prefix to the object cache id
-					$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
-					$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
-					if ( $cache_name == 'wp_cache' ) 
+					if ( defined( 'NGFB_OBJECT_CACHE_DISABLE' ) && NGFB_OBJECT_CACHE_DISABLE )
+						$this->p->debug->log( 'object cache is disabled' );
+					else {
+						$cache_type = 'object cache';
+						$cache_id = $this->p->acronym.'_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						wp_cache_set( $cache_id, $cache_data, __CLASS__, $object_expire );
-					elseif ( $cache_name == 'transient' ) 
+						$this->p->debug->log( $cache_type.': cache_data saved to '.$cache_name.' for id "'.$cache_id.'" ('.$object_expire.' seconds)' );
+						$ret_status = true;	// success
+					}
+					break;
+				case 'transient' :
+					if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
+						$this->p->debug->log( 'transient cache is disabled' );
+					else {
+						$cache_type = 'object cache';
+						$cache_id = $this->p->acronym.'_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						set_transient( $cache_id, $cache_data, $object_expire );
-					$this->p->debug->log( $cache_type.': cache_data saved to '.$cache_name.' for id "'.$cache_id.'" ('.$object_expire.' seconds)' );
-					$ret_status = true;	// success
+						$this->p->debug->log( $cache_type.': cache_data saved to '.$cache_name.' for id "'.$cache_id.'" ('.$object_expire.' seconds)' );
+						$ret_status = true;	// success
+					}
 					break;
 				case 'file' :
 					$cache_type = 'file cache';

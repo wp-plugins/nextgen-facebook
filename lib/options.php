@@ -411,13 +411,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$opts = $this->add_to_post_types( $opts );
 			} else {
 				if ( $opts === false )
-					$opts_err_msg = 'did not find an "'.NGFB_OPTIONS_NAME.'" entry in';
+					$opts_err_msg = 'could not find an entry for '.NGFB_OPTIONS_NAME.' in';
 				elseif ( ! is_array( $opts ) )
-					$opts_err_msg = 'returned a non-array value when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned a non-array value when reading '.NGFB_OPTIONS_NAME.' from';
 				elseif ( empty( $opts ) )
-					$opts_err_msg = 'returned an empty array when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned an empty array when reading '.NGFB_OPTIONS_NAME.' from';
 				else 
-					$opts_err_msg = 'returned an unknown condition when reading "'.NGFB_OPTIONS_NAME.'" from';
+					$opts_err_msg = 'returned an unknown condition when reading '.NGFB_OPTIONS_NAME.' from';
 
 				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
 				$opts = $this->get_defaults();
@@ -425,9 +425,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			if ( is_admin() ) {
 				if ( ! empty( $opts_err_msg ) ) {
 					$url = $this->p->util->get_admin_url( 'general' );
-					$this->p->notices->err( 'WordPress '.$opts_err_msg.' the options database table. 
-						All plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
-						<a href="'.$url.'">Please visit the plugin settings pages to review and save the options</a>.' );
+					$this->p->notices->err( 'WordPress '.$opts_err_msg.' the options table. 
+						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
+						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
 				if ( $this->p->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->p->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
 					$url = $this->p->util->get_admin_url( 'general' );

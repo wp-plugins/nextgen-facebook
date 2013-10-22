@@ -34,8 +34,7 @@ NGFB_RESET
 NGFB_OPEN_GRAPH_DISABLE
 
 	Set this contant to 'true' to prevent the plugin from adding Open
-	Graph meta tags in the webpage head section. See "Disable Open Graph
-	Meta Tags" above for an example of it's use.
+	Graph meta tags in the webpage head section.
 
 NGFB_MIN_IMG_SIZE_DISABLE
 
@@ -44,6 +43,12 @@ NGFB_MIN_IMG_SIZE_DISABLE
 	their size, will be added to the Open Graph meta tags. See "Why does
 	NGFB ignore the <img/> HTML tags in my content?" on the FAQ page
 	for additional information.
+
+NGFB_OBJECT_CACHE_DISABLE
+NGFB_TRANSIENT_CACHE_DISABLE
+NGFB_FILE_CACHE_DISABLE
+
+	Disable one or more types of cache.
 
 NGFB_OPTIONS_NAME
 

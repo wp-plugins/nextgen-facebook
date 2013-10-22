@@ -765,6 +765,12 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.13dev1 =
+
+***Free* and Pro version changes:**
+
+* Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants.
+
 = Version 6.12.1 =
 
 ***Free* and Pro version changes:**
