@@ -147,28 +147,25 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			$img_url = '';
 			$img_width = 0;
 			$img_height = 0;
+			$img_inter = true;
 			$img_crop = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true / false
 			$ret_empty = array( null, null, null, null );
 
-			if ( ! wp_attachment_is_image( $pid ) ) {
-				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' );
-				return $ret_empty;
-			}
+			if ( ! wp_attachment_is_image( $pid ) ) {	// since wp 2.1.0
+				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); return $ret_empty; }
 
-			list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
-			$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-			if ( empty( $img_url ) ) {
-				$this->p->debug->log( 'exiting early: returned image url is empty' );
-				return $ret_empty;
-			}
+			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+			if ( empty( $img_url ) ) { 
+				$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
+			$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 
 			// make sure the returned ngfb image size matches the size we requested, 
 			// if not then possibly resize the image
 			if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
 
+				// get the actual image sizes
 				$img_meta = wp_get_attachment_metadata( $pid );
 
-				// wp_generate_attachment_metadata() does not upscale images
 				// if the full size image is too small, log the event and continue
 				// url returned will be for full size image
 				if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
@@ -179,7 +176,6 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
 				} elseif ( ( empty( $size_info['crop'] ) && 
-
 					( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && 
 						$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
 							( ! empty( $size_info['crop'] ) && 
@@ -190,35 +186,17 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 						$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
 						' ('.$size_info['width'].'x'.$size_info['height'].')' );
 
-					include_once( ABSPATH.'wp-admin/includes/image.php' );
 					$fullsizepath = get_attached_file( $pid );
-					$resized = false;
-
 					$this->p->debug->log( 'calling image_make_intermediate_size()' );
 					$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
-					$this->p->debug->log( 'image resize '.( $resized == true ? 'was successful' : 'failed' ) );
-
-					/*
-					if ( $resized == false ) {
-						$this->p->debug->log( 'calling wp_generate_attachment_metadata()' );
-						$new_meta = wp_generate_attachment_metadata( $pid, $fullsizepath );
-						if ( is_wp_error( $new_meta ) || empty( $new_meta ) ) {
-							$this->p->debug->log( 'exiting early: wp_generate_attachment_metadata() returned an error' );
-							return $ret_empty;
-						} else {
-							wp_update_attachment_metadata( $pid, $new_meta );
-							$resized = true;
-						}
-					}
-					*/
-
-					if ( $resized == true ) {
-						list( $img_url, $img_width, $img_height ) = wp_get_attachment_image_src( $pid, $size_name );
-						$this->p->debug->log( 'image returned: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+					if ( $resized === false )
+						$this->p->debug->log( 'image resize failed' );
+					else {
+						$this->p->debug->log( 'image resize was successful' );
+						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+						$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 						if ( empty( $img_url ) ) {
-							$this->p->debug->log( 'exiting early: returned image url after resize is empty' );
-							return $ret_empty;
-						}
+							$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
 					}
 				}
 			}

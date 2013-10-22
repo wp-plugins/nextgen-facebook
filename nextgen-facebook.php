@@ -294,11 +294,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! defined( 'NGFB_MAX_CACHE_HRS' ) )
 				define( 'NGFB_MAX_CACHE_HRS', 24 );
 
-			if ( ! defined( 'NGFB_DEBUG_OBJ_EXP' ) )
-				define( 'NGFB_DEBUG_OBJ_EXP', 3 );
-
 			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
-				define( 'NGFB_DEBUG_FILE_EXP', 5 );
+				define( 'NGFB_DEBUG_FILE_EXP', 30 );
 
 			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
 				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
@@ -459,33 +456,31 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->debug->log( 'calling add_image_size('.NGFB_OG_SIZE_NAME.', '.
 				$this->options['og_img_width'].', '.
 				$this->options['og_img_height'].', '.
-				$this->options['og_img_crop'].')' );
+				( empty( $this->options['og_img_crop'] ) ? 'false' : 'true' ).')' );
 			add_image_size( NGFB_OG_SIZE_NAME, 
 				$this->options['og_img_width'], 
 				$this->options['og_img_height'], 
-				$this->options['og_img_crop'] 
-			);
+				( empty( $this->options['og_img_crop'] ) ? false : true ) );
 
-			// set the file cache expiration value
+			// set the file cache expiration values
+			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
+			$this->cache->file_expire = 0;
 			if ( $this->check->pro_active() ) {
-				if ( empty( $this->options['plugin_file_cache_hrs'] ) ) {
-					$this->cache->file_expire = 0;
-				} else {
-					if ( $this->debug->is_on( 'wp' ) == true ) 
-						$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
-					else
-						$this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
-				}
-			} else $this->cache->file_expire = 0;
+				if ( $this->debug->is_on( 'wp' ) == true ) 
+					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
+				else
+					$this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
+			}
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
-				$this->cache->object_expire = NGFB_DEBUG_OBJ_EXP;
-				$this->debug->log( 'HTML debug mode on: wp object cache expiration set to '.$this->cache->object_expire.' second(s) for new objects' );
-				$this->notices->inf( __( 'NGFB HTML debug mode is on.', NGFB_TEXTDOM ).' '.
-					__( 'Activity messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ).' '.
-					sprintf( __( 'WP object cache expiration has been <em>temporarily</em> set at %d second(s).' ), $this->cache->object_expire ) );
-			} else $this->cache->object_expire = $this->options['plugin_object_cache_exp'];
+				if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) )
+					define( 'NGFB_TRANSIENT_CACHE_DISABLE', true );
+				$this->debug->log( 'HTML debug mode active: transient cache '.
+					( NGFB_TRANSIENT_CACHE_DISABLE ? 'is' : 'could not be' ).' disabled' );
+				$this->notices->inf( __( 'HTML debug mode is active, transient object cache is disabled.', NGFB_TEXTDOM ).' '.
+					__( 'Activity information is being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
+			}
 
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
