@@ -59,10 +59,10 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 				case 'purchase_box' :
 					$msg = '<p>'.$this->p->fullname.' has taken many, many months of long days to develop and fine-tune.
 					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					<a href="'.$this->p->cf['url']['plugin'].'" target="_blank">Please show your appreciation by purchasing';
+					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Please show your appreciation by purchasing ';
 					if ( $this->p->is_avail['aop'] == true )
-						$msg .= ' a Pro version license</a>.</p>';
-					else $msg .= ' the Pro version</a>.</p>';
+						$msg .= 'a Pro version license</a>.</p>';
+					else $msg .= 'the Pro version</a>.</p>';
 					break;
 				case 'thankyou' :
 					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->fullname.' plugin will exceed all of your expectations.</p>';

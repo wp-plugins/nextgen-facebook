@@ -84,7 +84,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function add_network_admin_menus() {
-			$this->add_admin_menus( $this->p->network_setting_libs );
+			$this->add_admin_menus( $this->p->cf['lib']['network_setting'] );
 		}
 
 		protected function add_menu_page( $parent_id ) {
