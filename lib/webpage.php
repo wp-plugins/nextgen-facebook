@@ -22,8 +22,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 		}
 
 		private function setup_vars() {
-			foreach ( $this->p->shortcode_libs as $id => $name ) {
-				$classname = 'ngfbShortCode'.preg_replace( '/ /', '', $name );
+			foreach ( $this->p->cf['lib']['shortcode'] as $id => $name ) {
+				$classname = $this->p->acronym.'ShortCode'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->shortcode[$id] = new $classname( $this->p );
 			}
@@ -313,9 +313,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$filter_removed = $this->p->social->remove_filter( 'the_content' );
 
 				// remove all of our shortcodes
-				foreach ( $this->p->shortcode_libs as $id => $name )
-					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
-						$this->shortcode[$id]->remove();
+				foreach ( $this->p->cf['lib']['shortcode'] as $id => $name )
+					if ( array_key_exists( $id, $this->shortcode ) && 
+						is_object( $this->shortcode[$id] ) )
+							$this->shortcode[$id]->remove();
 				unset ( $id, $name );
 
 				$this->p->debug->log( 'calling apply_filters()' );
@@ -330,9 +331,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					$this->p->social->add_filter( 'the_content' );
 
 				// add our shortcodes back
-				foreach ( $this->p->shortcode_libs as $id => $name )
-					if ( array_key_exists( $id, $this->shortcode ) && is_object( $this->shortcode[$id] ) )
-						$this->shortcode[$id]->add();
+				foreach ( $this->p->cf['lib']['shortcode'] as $id => $name )
+					if ( array_key_exists( $id, $this->shortcode ) && 
+						is_object( $this->shortcode[$id] ) )
+							$this->shortcode[$id]->add();
 				unset ( $id, $name );
 			}
 

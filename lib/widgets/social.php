@@ -48,19 +48,21 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				}
 			}
 
-			$widget_html = '';
-			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+			// sort enabled social buttons by their prefered order
 			$sorted_ids = array();
-			foreach ( $ngfb->social_prefix as $id => $opt_prefix )
+			foreach ( $ngfb->cf['opt']['pre'] as $id => $pre )
 				if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
-					$sorted_ids[$ngfb->options[$opt_prefix.'_order'].'-'.$id] = $id;
-			unset ( $id, $opt_prefix );
+					$sorted_ids[$ngfb->options[$pre.'_order'].'-'.$id] = $id;
+			unset ( $id, $pre );
 			ksort( $sorted_ids );
-			$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
 
-			$widget_html .= "\n<!-- ".$ngfb->fullname.' '.$args['widget_id']." BEGIN -->\n";
+			$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
+			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+
+			$widget_html = "\n<!-- ".$ngfb->fullname.' '.$args['widget_id']." BEGIN -->\n";
 			$widget_html .= $before_widget."\n";
-			if ( $title ) $widget_html .= $before_title.$title.$after_title."\n";
+			if ( $title ) 
+				$widget_html .= $before_title.$title.$after_title."\n";
 			$widget_html .= $ngfb->social->get_html( $sorted_ids, $atts );
 			$widget_html .= $after_widget."\n";
 			$widget_html .= "<!-- ".$ngfb->fullname.' '.$args['widget_id']." END -->\n";
@@ -78,9 +80,8 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			global $ngfb;
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $ngfb->website_libs as $id => $name ) {
+			foreach ( $ngfb->cf['lib']['website'] as $id => $name )
 				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
-			}
 			unset( $name, $id );
 			return $instance;
 		}
@@ -93,8 +94,8 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $ngfb->website_libs as $id => $name ) {
-				$classname = 'ngfbSettings'.preg_replace( '/ /', '', $name );
+			foreach ( $ngfb->cf['lib']['website'] as $id => $name ) {
+				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
 						'<input id="', $this->get_field_id( $id ), 

@@ -25,25 +25,31 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
-			$social_prefix = $this->p->social_prefix;
-			foreach ( $social_prefix as $id => $opt_prefix ) {
-				$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
+			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+				$cm_opt = 'plugin_cm_'.$pre.'_';
+
 				// not all social websites have a contact method field
 				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+
 					$enabled = $this->p->options[$cm_opt.'enabled'];
 					$name = $this->p->options[$cm_opt.'name'];
 					$label = $this->p->options[$cm_opt.'label'];
+
 					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
 						$fields[$name] = $label;
 				}
 			}
+			unset( $id, $pre );
+
 			if ( $this->p->is_avail['aop'] == true ) {
-				$wp_contacts = $this->p->wp_contacts;
-				foreach ( $wp_contacts as $id => $th_val ) {
+				foreach ( $this->p->cf['wp']['contact'] as $id => $name ) {
 					$cm_opt = 'wp_cm_'.$id.'_';
+
 					if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
+
 						$enabled = $this->p->options[$cm_opt.'enabled'];
 						$label = $this->p->options[$cm_opt.'label'];
+
 						if ( ! empty( $enabled ) ) {
 							if ( ! empty( $label ) )
 								$fields[$id] = $label;
@@ -51,24 +57,31 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 					}
 				}
 			}
+			unset( $id, $name );
+
 			ksort( $fields, SORT_STRING );
 			return $fields;
 		}
 
 		public function sanitize_contact_methods( $user_id ) {
 			if ( current_user_can( 'edit_user', $user_id ) ) {
-				foreach ( $this->p->social_prefix as $id => $opt_prefix ) {
-					$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					$cm_opt = 'plugin_cm_'.$pre.'_';
+
 					// not all social websites have a contact method field
 					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+
 						$enabled = $this->p->options[$cm_opt.'enabled'];
 						$name = $this->p->options[$cm_opt.'name'];
 						$label = $this->p->options[$cm_opt.'label'];
+
 						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
+
 							// sanitize values only for those enabled contact methods
 							$val = wp_filter_nohtml_kses( $_POST[$name] );
+
 							if ( ! empty( $val ) ) {
-								// use the social_prefix id to decide on actions
+								// use the social prefix id to decide on actions
 								switch ( $id ) {
 									case 'skype' :
 										// no change

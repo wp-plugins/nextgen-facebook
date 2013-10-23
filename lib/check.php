@@ -54,7 +54,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 			 * Supported SEO Plugins
 			 */
 			$is_avail['any_seo'] = false;	// by default, define any_seo value as false
-			foreach ( $this->p->seo_libs as $id => $name ) {
+			foreach ( $this->p->cf['lib']['seo'] as $id => $name ) {
 				$func_name = '';
 				$class_name = '';
 				switch ( $id ) {
@@ -73,7 +73,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 			/*
 			 * Supported eCommerce Plugins
 			 */
-			foreach ( $this->p->ecom_libs as $id => $name ) {
+			foreach ( $this->p->cf['lib']['ecom'] as $id => $name ) {
 				$func_name = '';
 				$class_name = '';
 				switch ( $id ) {

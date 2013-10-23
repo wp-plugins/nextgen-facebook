@@ -52,7 +52,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		private function setup_vars() {
-			foreach ( array_merge( $this->p->setting_libs, $this->p->network_setting_libs ) as $id => $name ) {
+			foreach ( array_merge( 
+				$this->p->cf['lib']['setting'], 
+				$this->p->cf['lib']['network_setting'] ) as $id => $name ) {
+
 				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
@@ -71,7 +74,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function add_admin_menus( $libs = array() ) {
 			if ( empty( $libs ) ) 
-				$libs = $this->p->setting_libs;
+				$libs = $this->p->cf['lib']['setting'];
 			$this->menu_id = key( $libs );
 			$this->menu_name = $libs[$this->menu_id];
 			$this->settings[$this->menu_id]->add_menu_page( $this->menu_id );
@@ -130,16 +133,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				//array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About', NGFB_TEXTDOM ).'</a>' );
 
 				if ( $this->p->is_avail['aop'] ) {
-					array_push( $links, '<a href="'.$this->p->urls['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->urls['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->urls['pro_request'].'">'.__( 'Support Request', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['pro_request'].'">'.__( 'Support Request', NGFB_TEXTDOM ).'</a>' );
 					if ( ! $this->p->check->pro_active() ) 
-						array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase License', NGFB_TEXTDOM ).'</a>' );
+						array_push( $links, '<a href="'.$this->p->cf['url']['purchase'].'">'.__( 'Purchase License', NGFB_TEXTDOM ).'</a>' );
 				} else {
-					array_push( $links, '<a href="'.$this->p->urls['faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->urls['notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->urls['support'].'">'.__( 'Forum', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['support'].'">'.__( 'Forum', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['purchase'].'">'.__( 'Purchase Pro', NGFB_TEXTDOM ).'</a>' );
 				}
 
 			}
@@ -264,7 +267,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			$this->p->admin->set_readme( $this->p->update_hours * 60 * 60 );	// the version info metabox on all settings pages needs this
 
-			foreach ( $this->p->setting_libs as $id => $name )
+			foreach ( $this->p->cf['lib']['setting'] as $id => $name )
 				$this->p->admin->settings[$id]->add_meta_boxes();
 
 			add_meta_box( $this->pagehook.'_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
@@ -391,7 +394,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_news() {
-			$this->show_feed( $this->p->urls['feed'], 3, $this->p->acronym.'_feed' );
+			$this->show_feed( $this->p->cf['url']['feed'], 3, $this->p->acronym.'_feed' );
 		}
 
 		public function show_metabox_info() {
@@ -446,7 +449,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p class="centered">';
 			echo $this->p->admin->form->get_button( __( 'Purchase the Pro Version', NGFB_TEXTDOM ), 
-				'button-primary', null, $this->p->urls['plugin'] );
+				'button-primary', null, $this->p->cf['url']['purchase'] );
 			echo '</p></td></tr></table>';
 		}
 
@@ -465,10 +468,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			else
 				echo $this->p->msg->get( 'help_free' ), "\n";
 			echo '<p class="centered" style="margin-top:15px;">';
-			$img_size = 32;
-			foreach ( $this->p->follow as $img => $url )
-				echo '<a href="'.$url.'" target="_blank"><img 
-					src="'.NGFB_URLPATH.'images/'.$img.'" width="'.$img_size.'" height="'.$img_size.'"></a> ';
+			$img_size = $this->p->cf['img']['follow']['size'];
+			foreach ( $this->p->cf['img']['follow']['src'] as $img => $url )
+				echo '<a href="'.$url.'" target="_blank"><img src="'.NGFB_URLPATH.'images/'.$img.'" 
+					width="'.$img_size.'" height="'.$img_size.'"></a> ';
 			echo '</p>';
 			echo '</td></tr></table>';
 		}

@@ -184,28 +184,33 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret[] = '<td></td>'.
 					$this->p->util->th( 'Show', 'left checkbox' ).
 					$this->p->util->th( 'Contact Field Name', 'left medium', null,
-					'You should not modify the contact field names unless you have a specific reason to do so.
+					'<strong>You should not modify the contact field names unless you have a specific reason to do so.</strong>
 					As an example, to match the contact field name of a theme or other plugin, you might change \'gplus\' to \'googleplus\'.
 					If you change the Facebook or Google+ field names, please make sure to update the Open Graph 
-					<em>Author Profile URL</em> and Google <em>Author Link URL</em> options on the '.
-					$this->p->util->get_admin_url( 'general', 'General Settings' ).' page.' ).
+					<em>Author Profile URL</em> and Google <em>Author Link URL</em> options in the '.
+					$this->p->util->get_admin_url( 'general', 'General Settings' ).' as well.' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
-					$social_prefix = $this->p->social_prefix;
-					ksort( $social_prefix );
-					foreach ( $social_prefix as $id => $opt_prefix ) {
-						$cm_opt = 'plugin_cm_'.$opt_prefix.'_';
-						$th_val = empty( $this->p->website_libs[$id] ) ? ucfirst( $id ) : $this->p->website_libs[$id];
-						$th_val = $th_val == 'GooglePlus' ? 'Google+' : $th_val;
+					$sorted_opt_pre = $this->p->cf['opt']['pre'];
+					ksort( $sorted_opt_pre );
+
+					foreach ( $sorted_opt_pre as $id => $pre ) {
+						$cm_opt = 'plugin_cm_'.$pre.'_';
+
+						// check for the lib website classname for a nice 'display name'
+						$name = empty( $this->p->cf['lib']['website'][$id] ) ? 
+							ucfirst( $id ) : $this->p->cf['lib']['website'][$id];
+						$name = $name == 'GooglePlus' ? 'Google+' : $name;
+
 						// not all social websites have a contact method field
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->is_avail['aop'] == true ) {
-								$ret[] = $this->p->util->th( $th_val ).
+								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'name' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
-								$ret[] = $this->p->util->th( $th_val ).
+								$ret[] = $this->p->util->th( $name ).
 								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
 									$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'name' ).
@@ -228,18 +233,18 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					'The built-in WordPress contact field names cannot be changed.' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
-					$wp_contacts = $this->p->wp_contacts;
-					ksort( $wp_contacts );
-					foreach ( $wp_contacts as $id => $th_val ) {
+					$sorted_wp_contact = $this->p->cf['wp']['contact'];
+					ksort( $sorted_wp_contact );
+					foreach ( $sorted_wp_contact as $id => $name ) {
 						$cm_opt = 'wp_cm_'.$id.'_';
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->is_avail['aop'] == true ) {
-								$ret[] = $this->p->util->th( $th_val ).
+								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
-								$ret[] = $this->p->util->th( $th_val ).
+								$ret[] = $this->p->util->th( $name ).
 								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
 									$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
 								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.

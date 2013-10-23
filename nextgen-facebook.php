@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev4
+Version: 6.13dev5
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev4';
+		public $version = '6.13dev5';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -54,100 +54,100 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $ngg_options = array();
 		public $ngg_version = 0;
 
-		public $urls = array(
-			'email' => 'jsm@surniaulula.com',
-			'website' => 'http://surniaulula.com/',
-			'feed' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-			'plugin' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
-			'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
-			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
-			'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
-			'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
-			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-			'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
-			'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
-			'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
-			'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
-		);
-
-		public $follow = array(
-			'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
-			'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
-			'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
-			'twitter.png' => 'https://twitter.com/surniaululacom',
-			'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
-			'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-		);
-
-		public $css_names = array(
-			'social' => 'Buttons Style',
-			'excerpt' => 'Excerpt Style',
-			'content' => 'Content Style',
-			'shortcode' => 'Shortcode Style',
-			'widget' => 'Widget Style',
-		);
-
-		public $social_prefix = array(
-			'facebook' => 'fb', 
-			'gplus' => 'gp',
-			'twitter' => 'twitter',
-			'linkedin' => 'linkedin',
-			'pinterest' => 'pin',
-			'stumbleupon' => 'stumble',
-			'tumblr' => 'tumblr',
-			'youtube' => 'yt',
-			'skype' => 'skype',
-		);
-
-		public $wp_contacts = array(
-			'aim' => 'AIM',
-			'jabber' => 'Jabber / Google Talk',
-			'yim' => 'Yahoo IM',
-		);
-
-		public $website_libs = array(
-			'facebook' => 'Facebook', 
-			'gplus' => 'GooglePlus',
-			'twitter' => 'Twitter',
-			'linkedin' => 'LinkedIn',
-			'pinterest' => 'Pinterest',
-			'stumbleupon' => 'StumbleUpon',
-			'tumblr' => 'Tumblr',
-			'youtube' => 'YouTube',
-			'skype' => 'Skype',
-		);
-
-		public $shortcode_libs = array(
-			'ngfb' => 'Ngfb',
-		);
-
-		public $widget_libs = array(
-			'social' => 'SocialSharing',
-		);
-
-		public $setting_libs = array(
-			'general' => 'General',
-			'advanced' => 'Advanced',
-			'contact' => 'Contact Methods',
-			'social' => 'Social Sharing',
-			'style' => 'Social Style',
-			'about' => 'About',
-		);
-
-		public $network_setting_libs = array(
-			'network' => 'Network',
-		);
-
-		public $seo_libs = array(
-			'aioseop' => 'AllinOneSEOPack',
-			'seou' => 'SEOUltimate',
-			'wpseo' => 'WordPressSEO',
-		);
-
-		public $ecom_libs = array(
-			'woocommerce' => 'WooCommerce',
-			'marketpress' => 'MarketPress',
-			'wpecommerce' => 'WPeCommerce',
+		public $cf = array(
+			'lib' => array(
+				'setting' => array (
+					'general' => 'General',
+					'advanced' => 'Advanced',
+					'contact' => 'Contact Methods',
+					'social' => 'Social Sharing',
+					'style' => 'Social Style',
+					'about' => 'About',
+				),
+				'network_setting' => array(
+					'network' => 'Network',
+				),
+				'website' => array(
+					'facebook' => 'Facebook', 
+					'gplus' => 'GooglePlus',
+					'twitter' => 'Twitter',
+					'linkedin' => 'LinkedIn',
+					'pinterest' => 'Pinterest',
+					'stumbleupon' => 'StumbleUpon',
+					'tumblr' => 'Tumblr',
+					'youtube' => 'YouTube',
+					'skype' => 'Skype',
+				),
+				'shortcode' => array(
+					'ngfb' => 'Ngfb',
+				),
+				'widget' => array(
+					'social' => 'SocialSharing',
+				),
+				'ecom' => array(
+					'woocommerce' => 'WooCommerce',
+					'marketpress' => 'MarketPress',
+					'wpecommerce' => 'WPeCommerce',
+				),
+				'seo' => array(
+					'aioseop' => 'AllinOneSEOPack',
+					'seou' => 'SEOUltimate',
+					'wpseo' => 'WordPressSEO',
+				),
+			),
+			'opt' => array(
+				'pre' => array(
+					'facebook' => 'fb', 
+					'gplus' => 'gp',
+					'twitter' => 'twitter',
+					'linkedin' => 'linkedin',
+					'pinterest' => 'pin',
+					'stumbleupon' => 'stumble',
+					'tumblr' => 'tumblr',
+					'youtube' => 'yt',
+					'skype' => 'skype',
+				),
+			),
+			'wp' => array(
+				'contact' => array(
+					'aim' => 'AIM',
+					'jabber' => 'Jabber / Google Talk',
+					'yim' => 'Yahoo IM',
+				),
+			),
+			'css' => array(
+				'social' => 'Buttons Style',
+				'excerpt' => 'Excerpt Style',
+				'content' => 'Content Style',
+				'shortcode' => 'Shortcode Style',
+				'widget' => 'Widget Style',
+			),
+			'url' => array(
+				'feed' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
+				'purchase' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
+				'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
+				'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
+				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+				'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
+				'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
+				'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
+				'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
+				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
+			),
+			'img' => array(
+				'follow' => array(
+					'size' => 32,
+					'src' => array(
+						'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
+						'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
+						'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
+						'twitter.png' => 'https://twitter.com/surniaululacom',
+						'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
+						'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+					),
+				),
+			),
 		);
 
 		public function __construct() {
@@ -355,34 +355,42 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_admin() ) {
 				require_once ( NGFB_PLUGINDIR.'lib/messages.php' );
 				require_once ( NGFB_PLUGINDIR.'lib/admin.php' );
-				// settings classes extend lib/admin.php and are created by lib/admin.php
-				foreach ( $this->setting_libs as $id => $name )
+
+				// settings classes extend lib/admin.php and objects are created by lib/admin.php
+				foreach ( $this->cf['lib']['setting'] as $id => $name )
 					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
 				unset ( $id, $name );
-				foreach ( $this->network_setting_libs as $id => $name )
-					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
-				unset ( $id, $name );
+
+				if ( is_multisite() ) {
+					foreach ( $this->cf['lib']['network_setting'] as $id => $name )
+						require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
+					unset ( $id, $name );
+				}
+
 				require_once ( NGFB_PLUGINDIR.'lib/form.php' );
 				require_once ( NGFB_PLUGINDIR.'lib/ext/parse-readme.php' );
+
 			} else {
+
 				require_once ( NGFB_PLUGINDIR.'lib/head.php' );
 				require_once ( NGFB_PLUGINDIR.'lib/opengraph.php' );
 				require_once ( NGFB_PLUGINDIR.'lib/tags.php' );
 				require_once ( NGFB_PLUGINDIR.'lib/functions.php' );
+
 				// the ngfb_shortcode class object is created by lib/webpage.php
-				foreach ( $this->shortcode_libs as $id => $name )
+				foreach ( $this->cf['lib']['shortcode'] as $id => $name )
 					require_once ( NGFB_PLUGINDIR.'lib/shortcodes/'.$id.'.php' );
 				unset ( $id, $name );
 			}
 
 			// website classes extend both lib/social.php and lib/settings/social.php
-			foreach ( $this->website_libs as $id => $name )
+			foreach ( $this->cf['lib']['website'] as $id => $name )
 				if ( file_exists( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' ) )
 					require_once ( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' );
 			unset ( $id, $name );
 
 			// widgets are added to wp when library file is loaded
-			foreach ( $this->widget_libs as $id => $name )
+			foreach ( $this->cf['lib']['widget'] as $id => $name )
 				if ( file_exists( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' ) )
 					require_once ( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' );
 			unset ( $id, $name );
@@ -401,7 +409,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 * Allow override of default plugin variables
 			 */
 			if ( defined( 'NGFB_UPDATE_URL' ) && NGFB_UPDATE_URL )
-				$this->urls['update'] = NGFB_UPDATE_URL;
+				$this->cf['url']['pro_update'] = NGFB_UPDATE_URL;
 
 			/*
 			 * load all plugin options

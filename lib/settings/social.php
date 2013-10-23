@@ -28,8 +28,8 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 		}
 
 		private function setup_vars() {
-			foreach ( $this->p->website_libs as $id => $name ) {
-				$classname = 'ngfbSettings'.preg_replace( '/ /', '', $name );
+			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
+				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
@@ -38,21 +38,21 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook . '_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
 			$col = 0;
 			$row = 0;
-			foreach ( $this->p->website_libs as $id => $name ) {
-				$classname = 'ngfbSettings' . preg_replace( '/ /', '', $name );
+			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
+				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					$col = $col == 1 ? 2 : 1;
 					$row = $col == 1 ? $row + 1 : $row;
-					$pos_id = 'website-row-' . $row . '-col-' . $col;
+					$pos_id = 'website-row-'.$row.'-col-'.$col;
 					$name = $name == 'GooglePlus' ? 'Google+' : $name;
-					add_meta_box( $this->pagehook . '_' . $id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
-					add_filter( 'postbox_classes_' . $this->pagehook . '_' . $this->pagehook . '_' . $id, array( &$this, 'add_class_postbox_website' ) );
+					add_meta_box( $this->pagehook.'_'.$id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
+					add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_'.$id, array( &$this, 'add_class_postbox_website' ) );
 				}
 			}
-			$reset_ids = array_diff( array_keys( $this->p->website_libs ), array( 'facebook', 'gplus' ) );
+			$reset_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
 			$this->p->user->reset_metaboxes( $this->pagehook, $reset_ids );
 		}
 
@@ -98,16 +98,16 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				social sharing buttons to the static homepage as well (default is checked).' ); 
 			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
 			echo '</tr>';
-			foreach ( $this->get_more_social() as $row ) echo '<tr>' . $row . '</tr>';
+			foreach ( $this->get_more_social() as $row ) echo '<tr>'.$row.'</tr>';
 			echo '</table>';
 		}
 
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>' . $this->p->admin->form->get_hidden( 'buttons_add_to_'.$post_type->name ) . 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['buttons_add_to_'.$post_type->name] ) . ' ' . 
-					$post_type->label . '</p>';
+				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_hidden( 'buttons_add_to_'.$post_type->name ).
+					$this->p->admin->form->get_fake_checkbox( $this->p->options['buttons_add_to_'.$post_type->name] ).' '.
+					$post_type->label.'</p>';
 
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',

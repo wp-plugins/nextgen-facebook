@@ -352,18 +352,20 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function get_defaults( $idx = '' ) {
-			foreach ( $this->p->css_names as $css_id => $css_name ) {
-				$css_file = NGFB_PLUGINDIR.'css/'.$css_id.'-buttons.css';
-				if ( empty( $this->defaults['buttons_css_'.$css_id] ) ) {
+			foreach ( $this->p->cf['css'] as $id => $name ) {
+				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
+				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
 						$this->p->notices->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
 					else {
-						$this->defaults['buttons_css_'.$css_id] = fread( $fh, filesize( $css_file ) );
+						$this->defaults['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
 						$this->p->debug->log( 'read css from file '.$css_file );
 						fclose( $fh );
 					}
 				}
 			}
+			unset ( $id, $name );
+
 			$this->defaults = $this->add_to_post_types( $this->defaults );
 
 			$this->defaults['link_author_field'] = empty( $this->p->options['plugin_cm_gp_name'] ) ? 
@@ -380,9 +382,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function add_to_post_types( &$opts = array() ) {
-			foreach ( array( 'buttons_add_to_', 'plugin_add_to_' ) as $opt_prefix ) {
+			foreach ( array( 'buttons_add_to_', 'plugin_add_to_' ) as $pre ) {
 				foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
-					$key = $opt_prefix.$post_type->name;
+					$key = $pre.$post_type->name;
 					if ( ! array_key_exists( $key, $opts ) ) {
 						switch ( $post_type->name ) {
 							case 'shop_coupon' :

@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			$this->p->debug->mark();
 
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
-				$this->json_url = $this->p->urls['update'].'?tid='.$this->p->options['plugin_pro_tid'];
+				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_pro_tid'];
 
 			$this->file_path = NGFB_FILEPATH;
 			$this->base_name = plugin_basename( $this->file_path );

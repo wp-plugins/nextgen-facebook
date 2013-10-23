@@ -354,7 +354,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->p->debug->log( 'transient cache is disabled' );
 				$use_local = true;
 			} else {
-				$cache_salt = __METHOD__.'(file:'.$this->p->urls['readme'].')';
+				$cache_salt = __METHOD__.'(file:'.$this->p->cf['url']['readme'].')';
 				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': plugin_info transient id salt "'.$cache_salt.'"' );
@@ -366,7 +366,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			}
 
 			if ( $use_local == false )
-				$readme = $this->p->cache->get( $this->p->urls['readme'], 'raw', 'file', $expire_secs );
+				$readme = $this->p->cache->get( $this->p->cf['url']['readme'], 'raw', 'file', $expire_secs );
 
 			// fallback to local readme.txt file
 			if ( empty( $readme ) && $fh = @fopen( NGFB_PLUGINDIR.'readme.txt', 'rb' ) ) {
@@ -407,10 +407,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page='.$this->p->acronym.'-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
-				else $submenu = 'general';
+				else $submenu = key( $this->p->cf['lib']['setting'] );
 			} else {
-				if ( ! array_key_exists( $submenu, $this->p->setting_libs ) )
-					$submenu = 'general';
+				if ( ! array_key_exists( $submenu, $this->p->cf['lib']['setting'] ) )
+					$submenu = key( $this->p->cf['lib']['setting'] );
 			}
 
 			$url = get_admin_url( null, 'admin.php?page='.$this->p->acronym.'-'.$submenu );
