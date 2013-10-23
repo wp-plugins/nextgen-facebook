@@ -56,16 +56,23 @@ if ( ! class_exists( 'ngfbDebug' ) ) {
 		}
 
 		public function log( $input = '', $backtrace = 1 ) {
-			if ( $this->active !== true ) return;
+			if ( $this->active !== true ) 
+				return;
+
 			$log_msg = '';
 			$stack = debug_backtrace();
 			$log_msg .= sprintf( '%-26s:: ', 
 				( empty( $stack[$backtrace]['class'] ) ? '' : $stack[$backtrace]['class'] ) );
 			$log_msg .= sprintf( '%-24s : ', 
 				( empty( $stack[$backtrace]['function'] ) ? '' : $stack[$backtrace]['function'] ) );
+
+			if ( is_multisite() ) {
+				global $blog_id; $log_msg .= '[blog '.$blog_id.'] '; }
+
 			if ( is_array( $input ) || is_object( $input ) )
 				$log_msg .= print_r( $input, true );
 			else $log_msg .= $input;
+
 			if ( $this->subsys['html'] == true )
 				$this->buffer[] = $log_msg;
 			if ( $this->subsys['wp'] == true )

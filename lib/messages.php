@@ -77,13 +77,13 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					$msg = '<p><strong>Need help with the <em>Free</em> version? 
 					See the <a href="'.$this->p->urls['faq'].'" target="_blank">FAQ</a>, 
 					the <a href="'.$this->p->urls['notes'].'" target="_blank">Other Notes</a>, or visit the 
-					<a href="'.$this->p->urls['forum'].'" target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
+					<a href="'.$this->p->urls['support'].'" target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
 					break;
 				case 'help_pro' :
 					$msg = '<p><strong>Need help with the Pro version? 
 					See the <a href="'.$this->p->urls['pro_faq'].'" target="_blank">FAQ</a>, 
 					the <a href="'.$this->p->urls['pro_notes'].'" target="_blank">Other Notes</a>, or 
-					<a href="'.$this->p->urls['pro_request'].'" target="_blank">Submit a Request</a>.</p>';
+					submit a <a href="'.$this->p->urls['pro_request'].'" target="_blank">Support Request</a>.</p>';
 					break;
 			}
 			return $msg;

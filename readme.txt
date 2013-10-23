@@ -435,7 +435,7 @@ if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
 NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug messages will be added directly to the webpage as HTML comments, to allow debugging issues remotely. You can also define the following constant to enable the same behavior.
 
 `
-define('NGFB_DEBUG', true);
+define('NGFB_HTML_DEBUG', true);
 `
 
 If you would like to send NGFB Open Graph+ debug messages to the WordPress log file instead (or as well), you can define the following constant.
@@ -765,12 +765,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13dev3 =
+= Version 6.13dev4 =
 
 ***Free* and Pro version changes:**
 
-* Added support for multisite activate and deactivate.
-* Moved the uninstall() method to an uninstall.php file.
+* Added support for multisite network-wide activate, deactivate, and uninstall.
 * Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
 * Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button.
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants, and removed the NGFB_DEBUG_FILE_EXP constant.
@@ -821,6 +820,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Fixed a potentially empty WordPress identification string on update checks.
 
 == Upgrade Notice ==
+
+= 6.13dev4 =
+
+Added support for multisite network-wide activate, deactivate, and uninstall, fixed the Google+ sharing button 'data-expandTo' value, added constants to (optionally) disable various caching features.
 
 = 6.12.1 =
 

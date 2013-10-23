@@ -45,12 +45,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// use priority -1 to make sure Settings sub-menus are top-most
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
 			add_action( 'network_admin_menu', array( &$this, 'add_network_admin_menus' ), -1 );
-			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_links' ), 10, 2 );
+			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_action_links' ), 10, 2 );
+
+			if ( is_multisite() )
+				add_filter( 'network_admin_plugin_action_links', array( &$this, 'add_plugin_action_links' ), 10, 2 );
 		}
 
 		private function setup_vars() {
 			foreach ( array_merge( $this->p->setting_libs, $this->p->network_setting_libs ) as $id => $name ) {
-				$classname = 'ngfbSettings'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
 			}
@@ -114,16 +117,31 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		// display a settings link on the main plugins page
-		public function add_plugin_links( $links, $file ) {
+		public function add_plugin_action_links( $links, $file ) {
+
 			// only add links when filter is called for this plugin
 			if ( $file == NGFB_PLUGINBASE ) {
-				foreach ( $links as $num => $val )
+
+				// removed the Edit link
+				foreach ( $links as $num => $val ) {
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
-				array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About' ).'</a>' );
-				array_push( $links, '<a href="'.$this->p->urls['forum'].'">'.__( 'Support' ).'</a>' );
-				if ( ! $this->p->check->pro_active() ) 
-					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro' ).'</a>' );
+				}
+				//array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About', NGFB_TEXTDOM ).'</a>' );
+
+				if ( $this->p->is_avail['aop'] ) {
+					array_push( $links, '<a href="'.$this->p->urls['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['pro_request'].'">'.__( 'Support Request', NGFB_TEXTDOM ).'</a>' );
+					if ( ! $this->p->check->pro_active() ) 
+						array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase License', NGFB_TEXTDOM ).'</a>' );
+				} else {
+					array_push( $links, '<a href="'.$this->p->urls['faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['support'].'">'.__( 'Forum', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->urls['plugin'].'">'.__( 'Purchase Pro', NGFB_TEXTDOM ).'</a>' );
+				}
+
 			}
 			return $links;
 		}

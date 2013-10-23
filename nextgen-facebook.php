@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev3
+Version: 6.13dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev3';
+		public $version = '6.13dev4';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -63,11 +63,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 			'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
 			'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
-			'forum' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+			'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 			'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
 			'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
-			'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
 			'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
+			'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
 		);
 
 		public $follow = array(
@@ -154,45 +154,81 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
-			// since wp 3.1 : register_activation_hook is now fired only when the user 
-			// activates the plugin and not when an automatic plugin update occurs
-			register_activation_hook( __FILE__, array( &$this, 'network_activate' ) );		// since wp 2.0
-			register_deactivation_hook( __FILE__, array( &$this, 'network_deactivate' ) );		// since wp 2.0
+			register_activation_hook( __FILE__, array( &$this, 'network_activate' ) );
+			register_deactivation_hook( __FILE__, array( &$this, 'network_deactivate' ) );
+			register_uninstall_hook( __FILE__, array( __CLASS__, 'network_uninstall' ) );
 
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
 		}
 
 		public function network_activate( $network_wide ) {
-			$this->do_multisite( $network_wide, array( &$this, 'activate_plugin' ) );
+			self::do_multisite( $network_wide, array( &$this, 'activate_plugin' ) );
 		}
 
 		public function network_deactivate( $network_wide ) {
-			$this->do_multisite( $network_wide, array( &$this, 'deactivate_plugin' ) );
+			self::do_multisite( $network_wide, array( &$this, 'deactivate_plugin' ) );
+		}
+
+		public static function network_uninstall() {
+			$network_wide = true;
+			$slug = 'nextgen-facebook';
+			$acronym = 'ngfb';
+			self::do_multisite( $network_wide, array( __CLASS__, 'uninstall_plugin' ) );
+			delete_site_option( $acronym.'_options_site' );
 		}
 
 		private static function do_multisite( $network_wide, $method ) {
 			if ( is_multisite() && $network_wide ) {
-				global $wpdb;
-				$blogid  = $wpdb->blogid;
+				global $wpdb, $blog_id;
 				$dbquery = 'SELECT blog_id FROM '.$wpdb->blogs;
 				$ids = $wpdb->get_col( $dbquery );
 				foreach ( $ids as $id ) {
 					switch_to_blog( $id );
 					call_user_func_array( $method, array() );
 				}
-				switch_to_blog( $blogid );
+				switch_to_blog( $blog_id );
 			} else call_user_func_array( $method, array() );
 		}
 
 		private function activate_plugin() {
-			$this->check = new ngfbCheck( $this );
+			$classname = $this->acronym.'Check';
+			$this->check = new $classname( $this );
 			$this->check->wp_version();
 			$this->setup_vars( true );
 		}
 
-		public function deactivate_plugin() {
-			$this->debug->mark();
-			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );	// since wp 2.1.0
+		private function deactivate_plugin() {
+			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );
+		}
+
+		public static function uninstall_plugin() {
+			$slug = 'nextgen-facebook';
+			$acronym = 'ngfb';
+			$options = get_option( $acronym.'_options' );
+			if ( empty( $options['plugin_preserve'] ) ) {
+
+				delete_option( $acronym.'_options' );
+				delete_option( $acronym.'_update_error' );
+				delete_option( 'external_updates-'.$slug );
+
+				// remove all stored admin notices
+				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
+					$msg_opt = $acronym.'_notices_'.$type;
+					delete_option( $msg_opt );
+					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
+						delete_user_option( $user->ID, $msg_opt );
+				}
+				// remove metabox preferences from all users
+				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
+					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
+						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
+							$meta_key = $meta_name.'_'.$page_prefix.'_'.$acronym.'-'.$settings_page;
+							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
+								delete_user_option( $user->ID, $meta_key, true );
+						}
+					}
+				}
+			}
 		}
 
 		public function filter_installed_version( $version ) {
@@ -228,8 +264,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// allow some constants to be pre-defined in wp-config.php
 
 			// NGFB_RESET
-			// NGFB_DEBUG
 			// NGFB_WP_DEBUG
+			// NGFB_HTML_DEBUG
 			// NGFB_OPEN_GRAPH_DISABLE
 			// NGFB_MIN_IMG_SIZE_DISABLE
 			// NGFB_OBJECT_CACHE_DISABLE
@@ -239,6 +275,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// NGFB_CURL_PROXY
 			// NGFB_CURL_PROXYUSERPWD
 			// NGFB_WISTIA_API_PWD
+
+			if ( defined( 'NGFB_DEBUG' ) && ! defined( 'NGFB_HTML_DEBUG' ) )
+				define( 'NGFB_HTML_DEBUG', NGFB_DEBUG );	// backwards compat
 
 			if ( ! defined( 'NGFB_CACHEDIR' ) )
 				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR.'cache/' );
@@ -383,7 +422,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * create essential class objects
 			 */
-			$html_debug = ! empty( $this->options['plugin_debug'] ) || ( defined( 'NGFB_DEBUG' ) && NGFB_DEBUG ) ? true : false;
+			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
+				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
 			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
 			$this->check = new ngfbCheck( $this );
@@ -469,7 +509,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 					define( 'NGFB_TRANSIENT_CACHE_DISABLE', true );
 				$this->debug->log( 'HTML debug mode active: transient cache '.
 					( NGFB_TRANSIENT_CACHE_DISABLE ? 'is' : 'could not be' ).' disabled' );
-				$this->notices->inf( __( 'HTML debug mode is active, transient object cache is disabled.', NGFB_TEXTDOM ).' '.
+				$this->notices->inf( ( NGFB_TRANSIENT_CACHE_DISABLE ?
+						__( 'HTML debug mode is active, transient cache is disabled.', NGFB_TEXTDOM ) :
+						__( 'HTML debug mode is active, transient cache could not be disabled.', NGFB_TEXTDOM ) ).' '.
 					__( 'Activity information is being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
 			}
 
