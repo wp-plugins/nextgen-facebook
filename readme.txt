@@ -765,7 +765,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13dev6 =
+= Version 6.13dev7 =
 
 ***Free* and Pro version changes:**
 
@@ -774,6 +774,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
 * Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button.
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants and removed the NGFB_DEBUG_FILE_EXP constant.
+* Added removal of post meta and transient cache entries when uninstalling the plugin.
 * Restructured the internal plugin configuration variables into a single variable of multi-dimensional arrays.
 
 = Version 6.12.1 =
@@ -823,7 +824,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.13dev6 =
+= 6.13dev7 =
 
 Added support for multisite network-wide activate, deactivate, and uninstall, fixed the Google+ sharing button 'data-expandTo' value, added constants to (optionally) disable various caching features.
 
