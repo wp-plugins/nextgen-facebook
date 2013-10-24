@@ -17,7 +17,6 @@ if ( ! class_exists( 'ngfbSettingsAbout' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected $menu_name;
 		protected $pagehook;
 
-		// executed by ngfbSettingsAbout() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();

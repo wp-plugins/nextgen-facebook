@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev5
+Version: 6.13dev6
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev5';
+		public $version = '6.13dev6';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -50,7 +50,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public $is_avail = array();	// assoc array for function/class/method/etc. checks
 		public $options = array();
-		public $options_site = array();
+		public $site_options = array();
 		public $ngg_options = array();
 		public $ngg_version = 0;
 
@@ -128,6 +128,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				'purchase' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
 				'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
 				'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
+				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
 				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
 				'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
 				'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
@@ -161,33 +162,33 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
 		}
 
-		public function network_activate( $network_wide ) {
-			self::do_multisite( $network_wide, array( &$this, 'activate_plugin' ) );
+		public function network_activate( $sitewide ) {
+			self::do_multisite( $sitewide, array( &$this, 'activate_plugin' ) );
 		}
 
-		public function network_deactivate( $network_wide ) {
-			self::do_multisite( $network_wide, array( &$this, 'deactivate_plugin' ) );
+		public function network_deactivate( $sitewide ) {
+			self::do_multisite( $sitewide, array( &$this, 'deactivate_plugin' ) );
 		}
 
 		public static function network_uninstall() {
-			$network_wide = true;
+			$sitewide = true;
 			$slug = 'nextgen-facebook';
 			$acronym = 'ngfb';
-			self::do_multisite( $network_wide, array( __CLASS__, 'uninstall_plugin' ) );
-			delete_site_option( $acronym.'_options_site' );
+			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
+			delete_site_option( $acronym.'_site_options' );
 		}
 
-		private static function do_multisite( $network_wide, $method ) {
-			if ( is_multisite() && $network_wide ) {
+		private static function do_multisite( $sitewide, $method, $args = array() ) {
+			if ( is_multisite() && $sitewide ) {
 				global $wpdb, $blog_id;
 				$dbquery = 'SELECT blog_id FROM '.$wpdb->blogs;
 				$ids = $wpdb->get_col( $dbquery );
 				foreach ( $ids as $id ) {
 					switch_to_blog( $id );
-					call_user_func_array( $method, array() );
+					call_user_func_array( $method, array( $args ) );
 				}
 				switch_to_blog( $blog_id );
-			} else call_user_func_array( $method, array() );
+			} else call_user_func_array( $method, array( $args ) );
 		}
 
 		private function activate_plugin() {
@@ -287,6 +288,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
 				define( 'NGFB_OPTIONS_NAME', $this->acronym.'_options' );
+
+			if ( ! defined( 'NGFB_SITE_OPTIONS_NAME' ) )
+				define( 'NGFB_SITE_OPTIONS_NAME', $this->acronym.'_site_options' );
 
 			if ( ! defined( 'NGFB_META_NAME' ) )
 				define( 'NGFB_META_NAME', '_'.$this->acronym.'_meta' );
@@ -416,8 +420,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			$this->check = new ngfbCheck( $this );
 			$this->is_avail = $this->check->available();
-			$this->options = $this->get_options();	// local method for early load
 			$this->update_error = get_option( $this->acronym.'_update_error' );
+			$this->set_options();		// local method for early load
 
 			if ( $this->is_avail['aop'] == true ) 
 				$this->fullname = $this->fullname_pro;
@@ -445,9 +449,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $activate == true || ( 
 				! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' &&
 				! empty( $_GET['plugin'] ) && $_GET['plugin'] == NGFB_PLUGINBASE ) ) {
+
 				$this->debug->log( 'plugin activation detected' );
+
 				if ( ! is_array( $this->options ) || empty( $this->options ) ||
 					! empty( $this->options['plugin_reset'] ) || ( defined( 'NGFB_RESET' ) && NGFB_RESET ) ) {
+
 					$this->options = $this->opt->get_defaults();
 					$this->options['options_version'] = $this->opt->options_version;
 					$this->options['plugin_version'] = $this->version;
@@ -459,6 +466,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// no need to continue, init_plugin() will handle the rest
 				return;
 			}
+			if ( is_multisite() && ( ! is_array( $this->site_options ) || empty( $this->site_options ) ) )
+				$this->site_options = $this->opt->get_site_defaults();
 
 			/*
 			 * continue creating remaining object classes
@@ -487,7 +496,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * check options array read from database - upgrade options if necessary
 			 */
-			$this->options = $this->opt->quick_check( $this->options );
+			$this->options = $this->opt->check_options( $this->options );
 
 			/*
 			 * setup class properties, etc. based on option values
@@ -531,26 +540,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		}
 
-		public function get_options() {
-			$opts = get_option( NGFB_OPTIONS_NAME );
-			// if multisite options are found, then allow those to overwrite the site specific options
-			if ( is_array( $opts ) && is_multisite() ) {
-				$this->options_site = get_site_option( NGFB_OPTIONS_NAME.'_site' );
-				if ( is_array( $this->options_site ) ) {
-					foreach ( $this->options_site as $key => $val ) {
+		public function set_options() {
+			$this->options = get_option( NGFB_OPTIONS_NAME );
+			if ( is_multisite() ) {
+				$this->site_options = get_site_option( NGFB_SITE_OPTIONS_NAME );
+
+				// if multisite options are found, allow those to overwrite the site specific options
+				if ( is_array( $this->options ) && is_array( $this->site_options ) ) {
+					foreach ( $this->site_options as $key => $val ) {
 						switch ( $key ) {
 							case 'plugin_pro_tid' :
-								if ( empty( $opts['plugin_pro_tid'] ) && 
-									! empty( $this->options_site['plugin_pro_tid'] ) ) {
-									$opts['plugin_pro_tid'] = $this->options_site['plugin_pro_tid'];
-									$opts['plugin_pro_tid_site'] = 1;
-								}
+								if ( $this->site_options['plugin_pro_tid_use'] == 'force' || 
+									empty( $this->options['plugin_pro_tid'] ) )
+										$this->options['plugin_pro_tid'] = $this->site_options['plugin_pro_tid'];
 								break;
 						}
 					}
 				}
 			}
-			return $opts;
 		}
 
 	}

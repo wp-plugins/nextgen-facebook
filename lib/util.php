@@ -396,29 +396,30 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_admin_url( $submenu = '', $link_text = '' ) {
 			$query = '';
 			$hash = '';
-
 			if ( strpos( $submenu, '#' ) !== false )
 				list( $submenu, $hash ) = explode( '#', $submenu );
-
 			if ( strpos( $submenu, '?' ) !== false )
 				list( $submenu, $query ) = explode( '?', $submenu );
-
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
 				if ( preg_match( '/^.*\?page='.$this->p->acronym.'-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
 				else $submenu = key( $this->p->cf['lib']['setting'] );
-			} else {
-				if ( ! array_key_exists( $submenu, $this->p->cf['lib']['setting'] ) )
-					$submenu = key( $this->p->cf['lib']['setting'] );
 			}
+			$page = 'admin.php?page='.$this->p->acronym.'-'.$submenu;
+			if ( array_key_exists( $submenu, $this->p->cf['lib']['setting'] ) )
+				$url = admin_url( $page );
+			elseif ( array_key_exists( $submenu, $this->p->cf['lib']['network_setting'] ) )
+				$url = network_admin_url( $page );
 
-			$url = get_admin_url( null, 'admin.php?page='.$this->p->acronym.'-'.$submenu );
+			if ( ! empty( $query ) ) 
+				$url .= '&'.$query;
 
-			if ( ! empty( $query ) ) $url .= '&'.$query;
-			if ( ! empty( $hash ) ) $url .= '#'.$hash;
+			if ( ! empty( $hash ) ) 
+				$url .= '#'.$hash;
 
-			if ( empty( $link_text ) ) return $url;
+			if ( empty( $link_text ) ) 
+				return $url;
 			else return '<a href="'.$url.'">'.$link_text.'</a>';
 		}
 

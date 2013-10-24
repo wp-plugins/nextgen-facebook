@@ -104,6 +104,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'stumble_badge' => 1,
 		);
 
+		public $site_defaults = array(
+			'options_version' => '',
+			'plugin_version' => '',
+			'plugin_pro_tid' => '',
+			'plugin_pro_tid_use' => 'default',	// use empty tid by default
+		);
+
 		public $defaults = array(
 			'meta_desc_len' => 156,
 			'link_author_field' => '',
@@ -291,7 +298,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'options_version' => '',
 			'plugin_version' => '',
 			'plugin_pro_tid' => '',
-			'plugin_pro_tid_site' => 0,
 			'plugin_preserve' => 0,
 			'plugin_reset' => 0,
 			'plugin_debug' => 0,
@@ -351,6 +357,12 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$this->p->debug->mark();
 		}
 
+		public function get_site_defaults( $idx = '' ) {
+			if ( ! empty( $idx ) ) 
+				return $this->site_defaults[$idx];
+			else return $this->site_defaults;
+		}
+
 		public function get_defaults( $idx = '' ) {
 			foreach ( $this->p->cf['css'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
@@ -400,7 +412,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			return $opts;
 		}
 
-		public function quick_check( &$opts = array() ) {
+		public function check_options( &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ||

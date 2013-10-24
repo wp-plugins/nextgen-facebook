@@ -24,6 +24,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 			$this->p->debug->mark();
 
 			add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
+			add_action( 'network_admin_notices', array( &$this, 'admin_notices' ) );
 		}
 
 		public function nag( $msg = '', $store = false, $user = true ) { $this->log( 'nag', $msg, $store, $user ); }

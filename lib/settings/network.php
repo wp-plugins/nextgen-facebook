@@ -13,6 +13,7 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 	class ngfbSettingsNetwork extends ngfbAdmin {
 
 		protected $p;
+		protected $form;
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
@@ -23,13 +24,44 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
+			$def_site_opts = $this->p->opt->get_site_defaults();
+			$this->form = new ngfbForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
 		}
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			//add_meta_box( $this->pagehook . '_contact', 'Profile Contact Methods', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_network', 'Network-Wide Settings', array( &$this, 'show_metabox_network' ), $this->pagehook, 'normal' );
 		}
 
+		public function show_metabox_network() {
+			echo '<table class="ngfb-settings">';
+			foreach ( $this->get_rows( 'network' ) as $row )
+				echo '<tr>'.$row.'</tr>';
+			echo '</table>';
+		}
+
+		protected function get_rows( $id ) {
+			$ret = array();
+			switch ( $id ) {
+				case 'network' :
+					if ( $this->p->is_avail['aop'] )
+						$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
+						and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
+					else
+						$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
+						and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
+						for '.$this->p->fullname.' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
+						Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
+		
+					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
+					'<td>'.$this->form->get_input( 'plugin_pro_tid' ).'</td>'.
+					'<td>Site Use '.$this->form->get_select( 'plugin_pro_tid_use', array( 'default' => 'Default Value', 'force' => 'Force Update' ) ).'</td>';
+
+					break;
+
+			}
+			return $ret;
+		}
 	}
 }
 

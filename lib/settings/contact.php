@@ -17,7 +17,6 @@ if ( ! class_exists( 'ngfbSettingsContactMethods' ) && class_exists( 'ngfbSettin
 		protected $menu_name;
 		protected $pagehook;
 
-		// executed by ngfbSettingsAdvancedPro() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();

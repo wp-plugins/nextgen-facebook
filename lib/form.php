@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 			if ( empty( $name ) ) return;	// just in case
 			// hide the current options value, unless one is given as an argument to the method
 			$value = empty( $value ) && $this->in_options( $name ) ? $this->options[$name] : $value;
-			return '<input type="hidden" name="' . $this->options_name . '[' . $name . ']" value="' . $value . '" />' . "\n";
+			return '<input type="hidden" name="'.$this->options_name.'['.$name.']" value="'.$value.'" />' . "\n";
 		}
 
 		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
@@ -47,10 +47,11 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
 			if ( empty( $name ) || ! is_array( $values ) ) return;
-			if ( $is_assoc == false ) $is_assoc = $this->p->util->is_assoc( $values );
-			$html = '<select name="' . $this->options_name . '[' . $name . ']"' .
-				( empty( $class ) ? '' : ' class="'.$class.'"' ) .
-				( empty( $id ) ? '' : ' id="'.$id.'"' ) . '>' . "\n";
+			if ( $is_assoc == false ) 
+				$is_assoc = $this->p->util->is_assoc( $values );
+			$html = '<select name="'.$this->options_name.'['.$name.']"'.
+				( empty( $class ) ? '' : ' class="'.$class.'"' ).
+				( empty( $id ) ? '' : ' id="'.$id.'"' ).'>'."\n";
 			foreach ( $values as $val => $desc ) {
 				// if the array is NOT associative (so regular numered array), 
 				// then the description is used as the saved value as well
@@ -75,12 +76,12 @@ if ( ! class_exists( 'ngfbForm' ) ) {
 					if ( $this->in_defaults( $name ) && $val == $this->defaults[$name] ) 
 						$desc .= ' (default)';
 				}
-				$html .= '<option value="' . $val . '"';
+				$html .= '<option value="'.$val.'"';
 				if ( $this->in_options( $name ) )
 					$html .= selected( $this->options[$name], $val, false );
-				$html .= '>' . $desc . '</option>' . "\n";
+				$html .= '>'.$desc.'</option>'."\n";
 			}
-			$html .= '</select>' . "\n";
+			$html .= '</select>'."\n";
 			return $html;
 		}
 

@@ -42,20 +42,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->form = new ngfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
 
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
-			// use priority -1 to make sure Settings sub-menus are top-most
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
-			add_action( 'network_admin_menu', array( &$this, 'add_network_admin_menus' ), -1 );
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_action_links' ), 10, 2 );
 
-			if ( is_multisite() )
+			if ( is_multisite() ) {
+				add_action( 'network_admin_menu', array( &$this, 'add_network_admin_menus' ), -1 );
+				add_action( 'network_admin_edit_'.NGFB_SITE_OPTIONS_NAME, array( &$this, 'save_site_options' ) );
 				add_filter( 'network_admin_plugin_action_links', array( &$this, 'add_plugin_action_links' ), 10, 2 );
+			}
 		}
 
 		private function setup_vars() {
-			foreach ( array_merge( 
-				$this->p->cf['lib']['setting'], 
-				$this->p->cf['lib']['network_setting'] ) as $id => $name ) {
-
+			$libs = $this->p->cf['lib']['setting'];
+			if ( is_multisite() )
+				$libs = array_merge( $libs, $this->p->cf['lib']['network_setting'] );
+			foreach ( $libs as $id => $name ) {
 				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
@@ -94,7 +95,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->p->menuname, 
 				'manage_options', 
 				$this->p->acronym.'-'.$parent_id, 
-				array( &$this, 'show_page' ), null, NGFB_MENU_PRIORITY);
+				array( &$this, 'show_page' ), 
+				null, 
+				NGFB_MENU_PRIORITY
+			);
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
 		}
 
@@ -125,13 +129,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			// only add links when filter is called for this plugin
 			if ( $file == NGFB_PLUGINBASE ) {
 
-				// removed the Edit link
+				// remove the Edit link
 				foreach ( $links as $num => $val ) {
 					if ( preg_match( '/>Edit</', $val ) )
 						unset ( $links[$num] );
 				}
-				//array_push( $links, '<a href="'.$this->p->util->get_admin_url( 'about' ).'">'.__( 'About', NGFB_TEXTDOM ).'</a>' );
-
 				if ( $this->p->is_avail['aop'] ) {
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
@@ -152,24 +154,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// this method receives only a partial options array, so re-create a full one
 		// wordpress handles the actual saving of the options
 		public function sanitize_options( $opts ) {
-
 			if ( ! is_array( $opts ) ) {
 				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>'.$this->p->acronym_uc.' Error</b> : 
 					Submitted settings are not an array.', 'error' );
 				return $opts;
 			}
-
 			// get default values, including css from default stylesheets
 			$def_opts = $this->p->opt->get_defaults();
-
-			// unchecked checkboxes are not provided, so re-create them here based on hidden values
-			$checkbox = $this->p->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
-			foreach ( $checkbox as $key => $val ) {
-				if ( ! array_key_exists( $key, $opts ) )
-					$opts[$key] = 0;	// add missing checkbox as empty
-				unset ( $opts['is_checkbox_'.$key] );
-			}
-
+			$opts = $this->restore_checkboxes( $opts );
 			$opts = array_merge( $this->p->options, $opts );
 			$opts = $this->p->opt->sanitize( $opts, $def_opts );
 
@@ -184,23 +176,29 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->p->style->unlink_social();
 			else $this->p->style->update_social( $opts );
 
-			// the pro version authentication id can be applied to all sites within a multisite
-			if ( is_multisite() ) {
-				if ( ! empty( $opts['plugin_pro_tid_site'] ) ) {
-					if ( ! empty( $opts['plugin_pro_tid'] ) ) {
-						update_site_option( NGFB_OPTIONS_NAME.'_site', 
-							array( 'plugin_pro_tid' => $opts['plugin_pro_tid'], ) );
-						$opts['plugin_pro_tid'] = '';	// always trunc to inherit multisite value
-					} else delete_site_option( NGFB_OPTIONS_NAME.'_site' );
-				}
-			}
-
 			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->acronym_uc.' Info</b> : '.
 				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
 					$this->p->options['plugin_object_cache_exp'] ), 'updated' );
 
 			return $opts;
+		}
+
+		public function save_site_options() {
+
+			$page = empty( $_POST['page'] ) ? 
+				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
+
+			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ? 
+				array() : $this->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
+
+			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
+
+			// store message in user options table
+			$this->p->notices->inf( 'Plugin settings have been updated.', true );
+
+			wp_redirect( $this->p->util->get_admin_url( $page ).'&settings-updated=true' );
+			exit;
 		}
 
 		public function load_page() {
@@ -265,30 +263,31 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				);
 			}
 
-			$this->p->admin->set_readme( $this->p->update_hours * 60 * 60 );	// the version info metabox on all settings pages needs this
+			$this->p->admin->settings[$this->menu_id]->add_meta_boxes();
 
-			foreach ( $this->p->cf['lib']['setting'] as $id => $name )
-				$this->p->admin->settings[$id]->add_meta_boxes();
-
-			add_meta_box( $this->pagehook.'_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->p->check->pro_active() )
 				add_meta_box( $this->pagehook.'_thankyou', 'Pro Version', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
+			$this->p->admin->set_readme( $this->p->update_hours * 60 * 60 );	// the version info metabox on all settings pages needs this
 		}
 
 		public function show_page() {
-			// the settings page displays its own error messages
-			if ( $this->menu_id !== 'contact' )
-				settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
+			if ( $this->menu_id !== 'contact' ) {		// the "settings" page displays its own error messages
+				// display "error" and "updated" messages
+				settings_errors( NGFB_OPTIONS_NAME );
+			}
 			$this->p->debug->show_html( null, 'Debug Log' );
+
 			// add meta box here to prevent removal
 			if ( ! $this->p->check->pro_active() ) {
 				add_meta_box( $this->pagehook.'_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
+
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
@@ -325,36 +324,43 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		protected function show_form() {
-			echo '<form name="ngfb" method="post" action="options.php" id="settings">', "\n";
-			settings_fields( $this->p->acronym.'_settings' ); 
+			if ( ! empty( $this->p->cf['lib']['setting'][$this->menu_id] ) ) {
+				echo '<form name="ngfb" id="settings" method="post" action="options.php">';
+				echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->version );
+				settings_fields( $this->p->acronym.'_settings' ); 
+
+			} elseif ( ! empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
+				echo '<form name="ngfb" id="settings" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
+				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
+				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->form->get_hidden( 'plugin_version', $this->p->version );
+			}
 			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
-			// always include the version number of the options
-			echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
-			echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->version );
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
-			foreach ( range( 1, ceil( count( $this->p->admin->settings['social']->website ) / 2 ) ) as $row ) {
-				echo '<div class="website-row">', "\n";
-				foreach ( range( 1, 2 ) as $col ) {
-					$pos_id = 'website-row-'.$row.'-col-'.$col;
-					echo '<div class="website-col-', $col, '" id="', $pos_id, '" >';
-					do_meta_boxes( $this->pagehook, $pos_id, null ); 
+
+			// if we're displaying the "social" page, then do the social website metaboxes
+			if ( $this->menu_id == 'social' ) {
+				foreach ( range( 1, ceil( count( $this->p->admin->settings[$this->menu_id]->website ) / 2 ) ) as $row ) {
+					echo '<div class="website-row">', "\n";
+					foreach ( range( 1, 2 ) as $col ) {
+						$pos_id = 'website-row-'.$row.'-col-'.$col;
+						echo '<div class="website-col-', $col, '" id="', $pos_id, '" >';
+						do_meta_boxes( $this->pagehook, $pos_id, null ); 
+						echo '</div>', "\n";
+					}
 					echo '</div>', "\n";
 				}
-				echo '</div>', "\n";
+				echo '<div style="clear:both;"></div>';
 			}
-			echo '<div style="clear:both;"></div>';
+
 			do_meta_boxes( $this->pagehook, 'bottom', null ); 
+
 			echo $this->get_submit_button();
 			echo '</form>', "\n";
-		}
-
-		protected function get_submit_button( $submit_text = '', $class = 'save-all-button' ) {
-			if ( empty( $submit_text ) ) 
-				$submit_text = __( 'Save All Changes', NGFB_TEXTDOM );
-			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>'."\n";
 		}
 
 		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
@@ -415,31 +421,33 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<tr><th class="side">Installed:</th>
 			<td><?php 
 				echo $this->p->version;
-				if ( $this->p->check->pro_active() )
-					echo ' (Pro)';
-				elseif ( $this->p->is_avail['aop'] )
-					echo ' (Pro)';
-				else
-					echo ' (Free)'; 
+				if ( $this->p->check->pro_active() ) echo ' (Pro)';
+				elseif ( $this->p->is_avail['aop'] ) echo ' (Unlicensed Pro)';
+				else echo ' (Free)'; 
 			?></td></tr>
 			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
 			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>
 			<tr>
 				<td colspan="2" id="latest_notice">
 					<p><?php echo $latest_notice; ?></p>
-					<p><?php echo $this->p->util->get_admin_url( 'about', 
-						__( 'See the Changelog for additional details...', NGFB_TEXTDOM ) ); ?></p>
+					<p><a href="<?php echo $this->p->cf['url']['changelog']; ?>" 
+						target="_blank">See the Changelog for additional details...</a></p>
 				</td>
 			</tr>
 			<?php
-			echo '<tr><td colspan="2">';
-			echo '<p class="centered">';
+			$action_buttons = '';
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
-				echo $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
+				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, $this->p->util->get_admin_url().'&amp;action=check_for_updates' );
-			echo $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
-				'button-primary', null, $this->p->util->get_admin_url().'&amp;action=clear_all_cache' );
-			echo '</p></td></tr></table>';
+
+			// don't show the 'Clear All Cache' on network admin pages
+			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) )
+				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
+					'button-primary', null, $this->p->util->get_admin_url().'&amp;action=clear_all_cache' );
+
+			if ( ! empty( $action_buttons ) )
+				echo '<tr><td colspan="2"><p class="centered">', $action_buttons, '</p></td></tr>';
+			echo '</table>';
 		}
 
 		public function show_metabox_purchase() {
@@ -448,7 +456,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '<p>Thank you,</p>', "\n";
 			echo '<p class="sig">js.</p>', "\n";
 			echo '<p class="centered">';
-			echo $this->p->admin->form->get_button( __( 'Purchase the Pro Version', NGFB_TEXTDOM ), 
+			echo $this->p->admin->form->get_button( 
+				( $this->p->is_avail['aop'] ? 
+					__( 'Purchase a Pro License', NGFB_TEXTDOM ) :
+					__( 'Purchase the Pro Version', NGFB_TEXTDOM ) ), 
 				'button-primary', null, $this->p->cf['url']['purchase'] );
 			echo '</p></td></tr></table>';
 		}
@@ -462,11 +473,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_metabox_help() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo $this->p->msg->get( 'help_boxes' ), "\n";
+			echo $this->p->msg->get( 'help_boxes' );
 			if ( $this->p->is_avail['aop'] == true )
-				echo $this->p->msg->get( 'help_pro' ), "\n";
-			else
-				echo $this->p->msg->get( 'help_free' ), "\n";
+				echo $this->p->msg->get( 'help_pro' );
+			else echo $this->p->msg->get( 'help_free' );
 			echo '<p class="centered" style="margin-top:15px;">';
 			$img_size = $this->p->cf['img']['follow']['size'];
 			foreach ( $this->p->cf['img']['follow']['src'] as $img => $url )
@@ -476,8 +486,23 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			echo '</td></tr></table>';
 		}
 
-	}
+		protected function get_submit_button( $submit_text = '', $class = 'save-all-button' ) {
+			if ( empty( $submit_text ) ) 
+				$submit_text = __( 'Save All Changes', NGFB_TEXTDOM );
+			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>'."\n";
+		}
 
+		protected function restore_checkboxes( &$opts ) {
+			// unchecked checkboxes are not provided, so re-create them here based on hidden values
+			$checkbox = $this->p->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
+			foreach ( $checkbox as $key => $val ) {
+				if ( ! array_key_exists( $key, $opts ) )
+					$opts[$key] = 0;	// add missing checkbox as empty
+				unset ( $opts['is_checkbox_'.$key] );
+			}
+			return $opts;
+		}
+	}
 }
 
 ?>

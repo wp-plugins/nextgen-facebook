@@ -68,25 +68,17 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_pre_activation() {
 			$ret = array();
 			$pro_msg = '';
-			$pro_site = '';
 			if ( $this->p->is_avail['aop'] )
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
 			else
-				$pro_msg = 'After purchasing of the Pro version, an email will be sent to you with a unique Authentication ID 
+				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
 				for '.$this->p->fullname.' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
 				Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
 
-			if ( is_multisite() )
-				$pro_site = '&nbsp;&nbsp;MultiSite Default&nbsp;<img src="'.NGFB_URLPATH.'images/question-mark.png" 
-				class="'.$this->p->acronym.'_tooltip'.'" alt="'.esc_attr( 'Save this Authentication ID value (empty or not)
-				as the multisite default. All sites without an existing Authentication ID will inherit this value. 
-				Saving an empty Authentication ID as the multisite default, will remove the multisite default.' ).'" />&nbsp;'.
-				$this->p->admin->form->get_checkbox( 'plugin_pro_tid_site' );
-
 			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
-			'<td>'.$this->p->admin->form->get_input( 'plugin_pro_tid' ).$pro_site.'</td>';
+			'<td>'.$this->p->admin->form->get_input( 'plugin_pro_tid' ).'</td>';
 
 			return $ret;
 		}
