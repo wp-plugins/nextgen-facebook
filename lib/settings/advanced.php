@@ -68,17 +68,23 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected function get_pre_activation() {
 			$ret = array();
 			$pro_msg = '';
-			if ( $this->p->is_avail['aop'] )
+			$input = '';
+			if ( is_multisite() && ! empty( $this->p->site_options['plugin_pro_tid_use'] ) && $this->p->site_options['plugin_pro_tid_use'] == 'force' ) {
+				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
+				$input = $this->p->admin->form->get_fake_input( $this->p->options['plugin_pro_tid'] );
+			} elseif ( $this->p->is_avail['aop'] ) {
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
-			else
+				$input = $this->p->admin->form->get_input( 'plugin_pro_tid' );
+			} else {
 				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
 				for '.$this->p->fullname.' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
 				Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
+				$input = $this->p->admin->form->get_input( 'plugin_pro_tid' );
+			}
 
-			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
-			'<td>'.$this->p->admin->form->get_input( 'plugin_pro_tid' ).'</td>';
+			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
 
 			return $ret;
 		}

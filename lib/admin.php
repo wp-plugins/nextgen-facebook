@@ -38,8 +38,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 			$this->setup_vars();
-			$def_opts = $this->p->opt->get_defaults();
-			$this->form = new ngfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
 
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
@@ -53,6 +51,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		private function setup_vars() {
+			$def_opts = $this->p->opt->get_defaults();
+			$this->form = new ngfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
+
 			$libs = $this->p->cf['lib']['setting'];
 			if ( is_multisite() )
 				$libs = array_merge( $libs, $this->p->cf['lib']['network_setting'] );
@@ -189,8 +190,24 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$page = empty( $_POST['page'] ) ? 
 				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
 
+			if ( ! current_user_can( 'manage_network_options' ) ) {
+				$this->p->notices->err( 'Insufficient privileges to modify network options.', true );
+				wp_redirect( $this->p->util->get_admin_url( $page ) );
+				exit;
+			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
+				! wp_verify_nonce( $_POST[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) ) {
+				$this->p->notices->err( 'Token validation has failed.', true );
+				wp_redirect( $this->p->util->get_admin_url( $page ) );
+				exit;
+			}
+
 			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ? 
 				array() : $this->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
+
+			if ( empty( $this->p->site_options['plugin_pro_tid'] ) ) {
+				$this->p->update_error = '';
+				delete_option( $this->p->acronym.'_update_error' );
+			}
 
 			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
 

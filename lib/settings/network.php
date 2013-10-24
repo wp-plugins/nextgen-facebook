@@ -24,6 +24,10 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
+			$this->setup_vars();
+		}
+
+		private function setup_vars() {
 			$def_site_opts = $this->p->opt->get_site_defaults();
 			$this->form = new ngfbForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
 		}
@@ -42,6 +46,7 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		protected function get_rows( $id ) {
 			$ret = array();
+			$use = array( 'default' => 'As Default Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' );
 			switch ( $id ) {
 				case 'network' :
 					if ( $this->p->is_avail['aop'] )
@@ -55,7 +60,7 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 		
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
 					'<td>'.$this->form->get_input( 'plugin_pro_tid' ).'</td>'.
-					'<td>Site Use '.$this->form->get_select( 'plugin_pro_tid_use', array( 'default' => 'Default Value', 'force' => 'Force Update' ) ).'</td>';
+					'<td>All Sites Use '.$this->form->get_select( 'plugin_pro_tid_use', $use ).'</td>';
 
 					break;
 

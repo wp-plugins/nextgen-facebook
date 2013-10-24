@@ -108,7 +108,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'options_version' => '',
 			'plugin_version' => '',
 			'plugin_pro_tid' => '',
-			'plugin_pro_tid_use' => 'default',	// use empty tid by default
+			'plugin_pro_tid_use' => 'default',
 		);
 
 		public $defaults = array(
@@ -364,6 +364,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function get_defaults( $idx = '' ) {
+
+			// css files are only loaded once into defaults
 			foreach ( $this->p->cf['css'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
@@ -387,6 +389,18 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 				$this->defaults['plugin_cm_fb_name'] : $this->p->options['plugin_cm_fb_name'];
 
 			$this->defaults['og_site_name'] = get_bloginfo( 'name', 'display' );
+
+			// check for default values from network admin settings
+			if ( is_array( $this->p->site_options ) ) {
+				foreach ( $this->p->site_options as $key => $val ) {
+					if ( array_key_exists( $key, $this->defaults ) && 
+						array_key_exists( $key.'_use', $this->p->site_options ) ) {
+
+						if ( $this->p->site_options[$key.'_use'] == 'default' )
+							$this->defaults[$key] = $this->p->site_options[$key];
+					}
+				}
+			}
 
 			if ( ! empty( $idx ) ) 
 				return $this->defaults[$idx];

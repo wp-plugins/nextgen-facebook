@@ -64,8 +64,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function preg_grep_keys( $preg, $arr, $invert = false, $trunc = false, $rep = '' ) {
-			if ( ! is_array( $arr ) ) return false;
-			$invert = $invert == false ? null : PREG_GREP_INVERT;
+			if ( ! is_array( $arr ) ) 
+				return false;
+			$invert = $invert == false ? 
+				null : PREG_GREP_INVERT;
 			$match = preg_grep( $preg, array_keys( $arr ), $invert );
 			$found = array();
 			foreach ( $match as $key ) {
@@ -425,12 +427,14 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		public function delete_expired_transients( $clear_all = false ) { 
 			global $wpdb, $_wp_using_ext_object_cache;
-			$deleted = 0;
 			if ( $_wp_using_ext_object_cache ) return; 
+
+			$deleted = 0;
 			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
 			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$this->p->acronym.'_%\'';
 			$dbquery .= $clear_all === true ? ';' : ' AND option_value < '.$time.';'; 
 			$expired = $wpdb->get_col( $dbquery ); 
+
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
 				delete_transient( $key );

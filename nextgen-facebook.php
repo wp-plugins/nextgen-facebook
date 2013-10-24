@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13dev6
+Version: 6.13dev7
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13dev6';
+		public $version = '6.13dev7';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -172,7 +172,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public static function network_uninstall() {
 			$sitewide = true;
-			$slug = 'nextgen-facebook';
 			$acronym = 'ngfb';
 			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
 			delete_site_option( $acronym.'_site_options' );
@@ -202,24 +201,21 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );
 		}
 
-		public static function uninstall_plugin() {
+		private static function uninstall_plugin() {
+			global $wpdb;
 			$slug = 'nextgen-facebook';
 			$acronym = 'ngfb';
 			$options = get_option( $acronym.'_options' );
+
 			if ( empty( $options['plugin_preserve'] ) ) {
 
+				// delete plugin settings
 				delete_option( $acronym.'_options' );
-				delete_option( $acronym.'_update_error' );
-				delete_option( 'external_updates-'.$slug );
 
-				// remove all stored admin notices
-				foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-					$msg_opt = $acronym.'_notices_'.$type;
-					delete_option( $msg_opt );
-					foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
-						delete_user_option( $user->ID, $msg_opt );
-				}
-				// remove metabox preferences from all users
+				// delete all custom post meta
+				delete_post_meta_by_key( '_'.$acronym.'_meta' );
+
+				// delete metabox preferences for all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
 						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
@@ -229,6 +225,27 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 						}
 					}
 				}
+
+			}
+
+			// delete update related options
+			delete_option( $acronym.'_update_error' );
+			delete_option( 'external_updates-'.$slug );
+
+			// delete all stored admin notices
+			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
+				$msg_opt = $acronym.'_notices_'.$type;
+				delete_option( $msg_opt );
+				foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
+					delete_user_option( $user->ID, $msg_opt );
+			}
+
+			// delete transients
+			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$acronym.'_%\';';
+			$expired = $wpdb->get_col( $dbquery ); 
+			foreach( $expired as $transient ) { 
+				$key = str_replace('_transient_timeout_', '', $transient);
+				delete_transient( $key );
 			}
 		}
 
@@ -443,6 +460,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$this->notices = new ngfbNotices( $this );
 			$this->opt = new ngfbOptions( $this );
 
+			// uses ngfbOptions class, so must be after object creation
+			if ( is_multisite() && ( ! is_array( $this->site_options ) || empty( $this->site_options ) ) )
+				$this->site_options = $this->opt->get_site_defaults();
+
 			/*
 			 * plugin is being activated - create default options, if necessary, and exit
 			 */
@@ -466,8 +487,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// no need to continue, init_plugin() will handle the rest
 				return;
 			}
-			if ( is_multisite() && ( ! is_array( $this->site_options ) || empty( $this->site_options ) ) )
-				$this->site_options = $this->opt->get_site_defaults();
 
 			/*
 			 * continue creating remaining object classes
@@ -545,15 +564,15 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( is_multisite() ) {
 				$this->site_options = get_site_option( NGFB_SITE_OPTIONS_NAME );
 
-				// if multisite options are found, allow those to overwrite the site specific options
+				// if multisite options are found, check for overwrite of site specific options
 				if ( is_array( $this->options ) && is_array( $this->site_options ) ) {
 					foreach ( $this->site_options as $key => $val ) {
-						switch ( $key ) {
-							case 'plugin_pro_tid' :
-								if ( $this->site_options['plugin_pro_tid_use'] == 'force' || 
-									empty( $this->options['plugin_pro_tid'] ) )
-										$this->options['plugin_pro_tid'] = $this->site_options['plugin_pro_tid'];
-								break;
+						if ( array_key_exists( $key, $this->options ) && 
+							array_key_exists( $key.'_use', $this->site_options ) ) {
+
+							if ( $this->site_options[$key.'_use'] == 'force' ||
+								( $this->site_options[$key.'_use'] == 'empty' && empty( $this->options[$key] ) ) )
+									$this->options[$key] = $this->site_options[$key];
 						}
 					}
 				}
