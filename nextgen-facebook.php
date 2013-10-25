@@ -152,8 +152,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		);
 
 		public function __construct() {
-			if ( is_feed() ) return;	// nothing to do in the feeds
-
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
@@ -259,9 +257,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
+			if ( is_feed() ) return;	// nothing to do in the feeds
+
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
+
 			$this->setup_vars();
 			$this->check->conflicts();
+
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
