@@ -813,29 +813,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added support for a multisite Authentication ID default site-wide value.
 
-= Version 6.11.1 =
-
-***Free* and Pro version changes:**
-
-* Added the "WP Auto-Resize" option (default is unchecked) to enable/disable generating missing or incorrect image sizes.
-* Added a work-around for the WordPress `wp_get_attachment_image_src()` function, which returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
-
-= Version 6.11.0 =
-
-***Free* and Pro version changes:**
-
-* Added dynamic image resizing for Media Library images when image dimentions are changed in the settings.
-* Added a 'Show Button in: Edit Post/Page' option for all social sharing websites.
-* Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
-* Added an 'Expand to' option for the Google+ social sharing button.
-* Renamed several internal variables and options.
-
-**Pro version changes:**
-
-* Fixed WP e-Commerce price formatting for older versions.
-* Fixed detection of WP e-Commerce single products vs categories.
-* Fixed a potentially empty WordPress identification string on update checks.
-
 == Upgrade Notice ==
 
 = 6.13rc1 =
