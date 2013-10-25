@@ -208,6 +208,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		// called by WP init action
 		public function init_plugin() {
+			if ( is_feed() ) return;	// nothing to do in the feeds
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
 			$this->setup_vars();
 			$this->check->conflicts();
