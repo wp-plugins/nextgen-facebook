@@ -378,6 +378,8 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
 * Debugging and Problem Solving
     * WordPress Content Filters
     * Debug and Error Messages
+* Multisite
+    * License Management
 * Support for Wistia Videos
 * Twitter Cards
 * Shortcodes
@@ -443,6 +445,18 @@ If you would like to send NGFB Open Graph+ debug messages to the WordPress log f
 
 `
 define('NGFB_WP_DEBUG', true);
+`
+
+== Multisite ==
+
+NGFB Open Graph+ is multisite aware and provides a network settings page in the Network Admin interface.
+
+= License Management =
+
+Pro version licensing can be managed network-wide, providing a default or forced Authentication ID to individual blogs. The default site / blog must be licensed to allow Pro version updates from the Network Admin interface. Blog ID 1 is usually the default Network Admin blog, but this can be changed using the `BLOG_ID_CURRENT_SITE` constant in `wp-config.php`.
+
+`
+define( 'BLOG_ID_CURRENT_SITE', 1 );
 `
 
 == Support for Wistia Videos ==
