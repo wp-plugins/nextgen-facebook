@@ -846,15 +846,3 @@ Added support for multisite network-wide activate, deactivate, and uninstall, fi
 
 Fixed the update check method to return missing version data, other minor fixes, and added 'Nature' and 'Pets' to the website topics list.
 
-= 6.12.0 =
-
-Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph tags, added a "Site Name" option on the General settings page, added support for a multisite Authentication ID default site-wide value (Pro version).
-
-= 6.11.1 =
-
-Added "WP Auto-Resize" option to enable/disable generating missing or incorrect image sizes, added a work-around for the WordPress `wp_get_attachment_image_src()` function (which returns faulty image sizes on occasion).
-
-= 6.11.0 =
-
-Added dynamic image resizing for Media Library images, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
-
