@@ -765,7 +765,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13dev7 =
+= Version 6.13rc1 =
 
 ***Free* and Pro version changes:**
 
@@ -824,7 +824,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.13dev7 =
+= 6.13rc1 =
 
 Added support for multisite network-wide activate, deactivate, and uninstall, fixed the Google+ sharing button 'data-expandTo' value, added constants to (optionally) disable various caching features.
 
