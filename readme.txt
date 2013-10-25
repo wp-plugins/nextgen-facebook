@@ -5,7 +5,7 @@ Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share,
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
-Tested Up To: 3.6.1
+Tested Up To: 3.7
 Stable Tag: 6.12.1
 
 Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
@@ -377,6 +377,8 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
 * Debugging and Problem Solving
     * WordPress Content Filters
     * Debug and Error Messages
+* Multisite
+    * License Management
 * Support for Wistia Videos
 * Twitter Cards
 * Shortcodes
@@ -442,6 +444,18 @@ If you would like to send NGFB Open Graph+ debug messages to the WordPress log f
 
 `
 define('NGFB_WP_DEBUG', true);
+`
+
+== Multisite ==
+
+NGFB Open Graph+ is multisite aware and provides a network settings page in the Network Admin interface.
+
+= License Management =
+
+Pro version licensing can be managed network-wide, providing a default or forced Authentication ID to individual blogs. The default site / blog must be licensed to allow Pro version updates from the Network Admin interface. Blog ID 1 is usually the default Network Admin blog, but this can be changed using the `BLOG_ID_CURRENT_SITE` constant in `wp-config.php`.
+
+`
+define( 'BLOG_ID_CURRENT_SITE', 1 );
 `
 
 == Support for Wistia Videos ==
@@ -799,29 +813,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 * Added support for a multisite Authentication ID default site-wide value.
 
-= Version 6.11.1 =
-
-***Free* and Pro version changes:**
-
-* Added the "WP Auto-Resize" option (default is unchecked) to enable/disable generating missing or incorrect image sizes.
-* Added a work-around for the WordPress `wp_get_attachment_image_src()` function, which returns faulty image sizes on occasion, by calling `wp_get_attachment_metadata()` to verify the image size.
-
-= Version 6.11.0 =
-
-***Free* and Pro version changes:**
-
-* Added dynamic image resizing for Media Library images when image dimentions are changed in the settings.
-* Added a 'Show Button in: Edit Post/Page' option for all social sharing websites.
-* Added an 'Open Graph+ Sharing' side metabox to the Posts and Pages admin interface.
-* Added an 'Expand to' option for the Google+ social sharing button.
-* Renamed several internal variables and options.
-
-**Pro version changes:**
-
-* Fixed WP e-Commerce price formatting for older versions.
-* Fixed detection of WP e-Commerce single products vs categories.
-* Fixed a potentially empty WordPress identification string on update checks.
-
 == Upgrade Notice ==
 
 = 6.13rc1 =
@@ -831,16 +822,4 @@ Added support for multisite network-wide activate, deactivate, and uninstall, fi
 = 6.12.1 =
 
 Fixed the update check method to return missing version data, other minor fixes, and added 'Nature' and 'Pets' to the website topics list.
-
-= 6.12.0 =
-
-Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph tags, added a "Site Name" option on the General settings page, added support for a multisite Authentication ID default site-wide value (Pro version).
-
-= 6.11.1 =
-
-Added "WP Auto-Resize" option to enable/disable generating missing or incorrect image sizes, added a work-around for the WordPress `wp_get_attachment_image_src()` function (which returns faulty image sizes on occasion).
-
-= 6.11.0 =
-
-Added dynamic image resizing for Media Library images, an 'Open Graph+ Sharing' side metabox to Posts / Pages admin interface, and 'Expand to' option for the Google+ social sharing button, WP e-Commerce fix for product identification.
 
