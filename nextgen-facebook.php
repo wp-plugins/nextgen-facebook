@@ -147,8 +147,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		);
 
 		public function __construct() {
-			if ( is_feed() ) return;	// nothing to do in the feeds
-
 			$this->define_constants();	// define constants first for option defaults
 			$this->load_libs();		// keep in __construct() to extend widgets etc.
 
