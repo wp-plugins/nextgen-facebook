@@ -78,7 +78,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( ! empty( $updates->response[$this->base_name] ) ) {
 				unset( $updates->response[$this->base_name] );
 			}
-			$option_data = get_option( $this->update_info_option );
+			$option_data = get_site_option( $this->update_info_option );
 			if ( ! empty( $option_data ) && is_object( $option_data->update ) && ! empty( $option_data->update ) ) {
 				if ( version_compare( $option_data->update->version, $this->get_installed_version(), '>' ) ) {
 					$updates->response[$this->base_name] = $option_data->update->json_to_wp();
@@ -98,7 +98,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function check_for_updates() {
-			$option_data = get_option( $this->update_info_option );
+			$option_data = get_site_option( $this->update_info_option );
 			if ( empty( $option_data ) ) {
 				$option_data = new StdClass;
 				$option_data->lastCheck = 0;
@@ -107,10 +107,10 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			}
 			$option_data->lastCheck = time();
 			$option_data->checkedVersion = $this->get_installed_version();
-			update_option( $this->update_info_option, $option_data );
+			update_site_option( $this->update_info_option, $option_data );
 	
 			$option_data->update = $this->get_update();
-			update_option( $this->update_info_option, $option_data );
+			update_site_option( $this->update_info_option, $option_data );
 		}
 	
 		public function get_update() {
@@ -146,6 +146,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				&& ( $result['response']['code'] == 200 )
 				&& ! empty( $result['body'] ) ) {
 	
+				update_option( $this->p->acronym.'_update_time', time() );
+
 				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
 					$error_msg = json_decode( $result['body'] );
 					$this->p->update_error = $error_msg;

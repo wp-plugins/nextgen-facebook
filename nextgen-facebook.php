@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
-Version: 6.13rc1
+Version: 6.13.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,7 +19,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $version = '6.13rc1';
+		public $version = '6.13.0';
 		public $acronym = 'ngfb';
 		public $acronym_uc = 'NGFB';
 		public $menuname = 'Open Graph+';
@@ -431,12 +431,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		private function setup_vars( $activate = false ) {
 
 			/*
-			 * Allow override of default plugin variables
-			 */
-			if ( defined( 'NGFB_UPDATE_URL' ) && NGFB_UPDATE_URL )
-				$this->cf['url']['pro_update'] = NGFB_UPDATE_URL;
-
-			/*
 			 * load all plugin options
 			 */
 			$this->check = new ngfbCheck( $this );
@@ -539,8 +533,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( $this->check->pro_active() ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
-				else
-					$this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
+				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
 			}
 
 			// set the object cache expiration value
@@ -559,6 +552,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
 				add_filter( $this->acronym.'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );
+				if ( is_admin() ) {
+					$last_update = get_option( $this->acronym.'_update_time' );
+					if ( empty( $last_update ) || $last_update + ( 86400 ) < time() )
+						$this->update->check_for_updates();
+				}
 			}
 
 		}
