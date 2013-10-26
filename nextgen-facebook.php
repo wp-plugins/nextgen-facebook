@@ -555,7 +555,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->update = new ngfbUpdate( $this );
 				if ( is_admin() ) {
 					$last_update = get_option( $this->acronym.'_update_time' );
-					if ( empty( $last_update ) || $last_update + ( $this->update_hours * 2 ) < time() )
+					if ( empty( $last_update ) || $last_update + ( $this->update_hours * 2 * 3600 ) < time() )
 						$this->update->check_for_updates();
 				}
 			}
