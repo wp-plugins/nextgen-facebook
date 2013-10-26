@@ -53,7 +53,7 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 = Optional Social Buttons =
 
-NGFB Open Graph+ also comes with several social sharing buttons, that you can optionally include on the Post/Page edit webpage, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ also comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+
@@ -213,7 +213,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Q2. How do I install the Pro version? =
 
-Updating to the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After your purchase, an email will be sent to you with an Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+Updating to the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After your purchase, an email will be sent to you with an Authentication ID and installation instructions. Enter your Authentication ID on the plugin's Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 = Q3. Can I use the Pro version on multiple websites? =
 
@@ -779,9 +779,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13.0 =
+= Version 6.13.1dev1 =
 
-***Free* and Pro version changes:**
+* Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
+
+= Version 6.13.0 =
 
 * Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses.
 * Added support for multisite network-wide activate, deactivate, and uninstall methods.
@@ -793,8 +795,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.12.1 =
 
-***Free* and Pro version changes:**
-
 * Fixed the update check method to return missing version data.
 * Fixed duplicate cache flush when updating a Post or Page.
 * Forced plugin readme.txt file cache updates to 12 hours.
@@ -803,17 +803,16 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.12.0 =
 
-***Free* and Pro version changes:**
-
 * Added the "Site Name" option on the General settings page.
 * Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
 * Updated the Rich Pin Validator URL in the Custom Settings, Validation Tools tab.
-
-**Pro version changes:**
-
-* Added support for a multisite Authentication ID default site-wide value.
+* Added support for a multisite Authentication ID default site-wide value (Pro version).
 
 == Upgrade Notice ==
+
+= 6.13.1dev1 =
+
+Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
 
 = 6.13.0 =
 
