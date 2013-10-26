@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.7
 Stable Tag: 6.13.0
 
-Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
+Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social websites.
 
 == Description ==
 
