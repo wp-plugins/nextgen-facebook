@@ -22,7 +22,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		public $cron_hook = 'plugin_updates';
 		public $time_period = 12;
 		public $sched_name = 'every12hours';
-		public $update_info_option = '';
+		public $option_name = '';
+		public $update_timestamp = '';
 	
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -37,7 +38,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			$this->cron_hook = 'plugin_updates-'.$this->slug;
 			$this->time_period = $this->p->update_hours;
 			$this->sched_name = 'every'.$this->time_period.'hours';
-			$this->update_info_option = 'external_updates-'.$this->slug;
+			$this->option_name = 'external_updates-'.$this->slug;
 			$this->install_hooks();
 		}
 	
@@ -78,7 +79,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( ! empty( $updates->response[$this->base_name] ) ) {
 				unset( $updates->response[$this->base_name] );
 			}
-			$option_data = get_site_option( $this->update_info_option );
+			$option_data = get_site_option( $this->option_name );
 			if ( ! empty( $option_data ) && is_object( $option_data->update ) && ! empty( $option_data->update ) ) {
 				if ( version_compare( $option_data->update->version, $this->get_installed_version(), '>' ) ) {
 					$updates->response[$this->base_name] = $option_data->update->json_to_wp();
@@ -98,7 +99,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function check_for_updates() {
-			$option_data = get_site_option( $this->update_info_option );
+			$option_data = get_site_option( $this->option_name );
 			if ( empty( $option_data ) ) {
 				$option_data = new StdClass;
 				$option_data->lastCheck = 0;
@@ -107,10 +108,10 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			}
 			$option_data->lastCheck = time();
 			$option_data->checkedVersion = $this->get_installed_version();
-			update_site_option( $this->update_info_option, $option_data );
+			update_site_option( $this->option_name, $option_data );
 	
 			$option_data->update = $this->get_update();
-			update_site_option( $this->update_info_option, $option_data );
+			update_site_option( $this->option_name, $option_data );
 		}
 	
 		public function get_update() {
@@ -146,8 +147,6 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				&& ( $result['response']['code'] == 200 )
 				&& ! empty( $result['body'] ) ) {
 	
-				update_option( $this->p->acronym.'_update_time', time() );
-
 				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
 					$error_msg = json_decode( $result['body'] );
 					$this->p->update_error = $error_msg;
@@ -158,6 +157,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );
 				}
 			}
+			$this->update_timestamp = time();
+			update_option( $this->p->acronym.'_update_time', $this->update_timestamp );
 			return $plugin_data;
 		}
 	

@@ -229,8 +229,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// delete update related options
-			delete_option( $acronym.'_update_error' );
 			delete_option( 'external_updates-'.$slug );
+			delete_option( $acronym.'_update_error' );
+			delete_option( $acronym.'_update_time' );
 
 			// delete all stored admin notices
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
@@ -554,7 +555,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->update = new ngfbUpdate( $this );
 				if ( is_admin() ) {
 					$last_update = get_option( $this->acronym.'_update_time' );
-					if ( empty( $last_update ) || $last_update + ( 86400 ) < time() )
+					if ( empty( $last_update ) || $last_update + ( $this->update_hours * 2 ) < time() )
 						$this->update->check_for_updates();
 				}
 			}
