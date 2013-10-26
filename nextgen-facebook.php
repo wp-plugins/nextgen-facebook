@@ -6,7 +6,7 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
-Description: Improve the appearance and ranking of your Posts, Pages and eCommerce Products in Google Search and social websites.
+Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social websites.
 Version: 6.13.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
