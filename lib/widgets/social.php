@@ -32,7 +32,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			extract( $args );
 
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$this->p->debug->log( 'transient cache is disabled' );
+				$ngfb->debug->log( 'transient cache is disabled' );
 			else {
 				$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
@@ -95,7 +95,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $ngfb->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $ngfb->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
 						'<input id="', $this->get_field_id( $id ), 
