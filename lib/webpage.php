@@ -67,22 +67,20 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			// check for custom meta title
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-				$meta_title = $this->p->meta->get_options( $post->ID, 'og_title' );
-				if ( ! empty( $meta_title ) ) {
-					$this->p->debug->log( 'custom meta title = "'.$meta_title.'"' );
-					$title = $meta_title;
-				}
+				$title = $this->p->meta->get_options( $post->ID, 'og_title' );
+				if ( $title != '' )
+					$this->p->debug->log( 'custom meta title = "'.$title.'"' );
 			}
 
 			// get seed if no custom meta title
-			if ( empty( $title ) ) {
+			if ( $title == '' ) {
 				$title = apply_filters( $this->p->cf['lca'].'_title_seed', '' );
-				if ( ! empty( $title ) )
+				if ( $title != '' )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 			
 			// construct a title of our own
-			if ( empty( $title ) ) {
+			if ( $title == '' ) {
 				// we are on an index, but need individual titles from the posts (probably for social buttons)
 				if ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
 	
@@ -138,7 +136,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				}
 	
 				// just in case
-				if ( empty( $title ) )
+				if ( $title == '' )
 					$title = get_bloginfo( 'name', 'display' );
 			}
 
@@ -174,26 +172,25 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
 			global $post;
+			$desc = '';
 
 			// check for custom meta description
 			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
-				$meta_desc = $this->p->meta->get_options( $post->ID, 'og_desc' );
-				if ( ! empty( $meta_desc ) ) {
-					$this->p->debug->log( 'custom meta description = "'.$meta_desc.'"' );
-					$desc = $meta_desc;
-				}
+				$desc = $this->p->meta->get_options( $post->ID, 'og_desc' );
+				if ( $desc != '' )
+					$this->p->debug->log( 'custom meta description = "'.$desc.'"' );
 			}
 
 			// get seed if no custom meta description
-			if ( empty( $desc ) ) {
+			if ( $desc == '' ) {
 				$desc = apply_filters( $this->p->cf['lca'].'_description_seed', '' );
-				if ( ! empty( $desc ) )
+				if ( $desc != '' )
 					$this->p->debug->log( 'description seed = "'.$desc.'"' );
 			}
 			
 			// if there's no custom description, and no pre-seed, then go ahead and generate the description value
-			if ( empty( $desc ) ) {
+			if ( $desc == '' ) {
 				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post  ? 'true' : 'false' ) );
