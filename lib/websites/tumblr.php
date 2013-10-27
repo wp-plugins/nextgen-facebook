@@ -150,8 +150,8 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			// if no image or video, then check for a 'quote'
 			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && empty( $atts['quote'] ) ) {
 				// allow on index pages only if in content (not a widget)
-				if ( $use_post == true ) {
-					if ( ! empty( $post ) && get_post_format( $post->ID ) == 'quote' ) 
+				if ( ! empty( $post ) && $use_post == true ) {
+					if ( get_post_format( $post->ID ) == 'quote' ) 
 						$atts['quote'] = $this->p->webpage->get_quote();
 				}
 			}
@@ -159,7 +159,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			// we only need the caption, title, or description for some types of shares
 			if ( ! empty( $atts['photo'] ) || ! empty( $atts['embed'] ) ) {
 				// check for custom image or video caption
-				if ( empty( $atts['caption'] ) && $use_post == true ) 
+				if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
 					$atts['caption'] = $this->p->meta->get_options( $post->ID, 
 						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
 				if ( empty( $atts['caption'] ) ) 

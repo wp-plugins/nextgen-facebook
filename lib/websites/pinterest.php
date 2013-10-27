@@ -112,7 +112,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( empty( $atts['pin_count_layout'] ) ) 
 				$atts['pin_count_layout'] = $opts['pin_count_layout'];
 
-			if ( empty( $atts['caption'] ) && $use_post == true ) 
+			if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
 				$atts['caption'] = $this->p->meta->get_options( $post->ID, 'pin_desc' );
 
 			if ( empty( $atts['caption'] ) ) 

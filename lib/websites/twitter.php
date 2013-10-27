@@ -121,7 +121,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 				$atts['caption'] = $atts['tweet'];
 
 			if ( ! array_key_exists( 'caption', $atts ) ) {
-				if ( $use_post == true ) 
+				if ( ! empty( $post ) && $use_post == true ) 
 					$atts['caption'] = $this->p->meta->get_options( $post->ID, 'twitter_desc' );
 
 				if ( empty( $atts['caption'] ) ) {
@@ -140,7 +140,7 @@ if ( ! class_exists( 'ngfbSocialTwitter' ) && class_exists( 'ngfbSocial' ) ) {
 			}
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
-				if ( ! empty( $opts['twitter_rel_author'] ) && $use_post == true )
+				if ( ! empty( $opts['twitter_rel_author'] ) && ! empty( $post ) && $use_post == true )
 					$atts['related'] = preg_replace( '/^@/', '', 
 						get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
 				else

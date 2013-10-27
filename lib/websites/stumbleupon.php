@@ -94,7 +94,6 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) $opts = $this->p->options;
-			global $post; 
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'stumbleupon', $atts );
