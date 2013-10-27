@@ -155,9 +155,9 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); return $ret_empty; }
 
 			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+			$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 			if ( empty( $img_url ) ) { 
 				$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
-			$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 
 			// make sure the returned ngfb image size matches the size we requested, 
 			// if not then possibly resize the image
@@ -166,12 +166,16 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				// get the actual image sizes
 				$img_meta = wp_get_attachment_metadata( $pid );
 
-				// if the full size image is too small, log the event and continue
-				// url returned will be for full size image
+				// if the full size image is too small, get the full size image instead
 				if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
 
 					$this->p->debug->log( 'original image ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
 						$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
+
+					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
+					$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+					if ( empty( $img_url ) ) { 
+						$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
 
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
