@@ -147,7 +147,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
 					break;
 			}
-			return apply_filters( $this->p->acronym.'_sharing_url', $url, $src_id );
+			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $src_id );
 		}
 
 		public function get_cache_url( $url ) {
@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->p->is_avail['curl'] == false || 
 				strlen( $long_url ) < $this->p->options['plugin_min_shorten'] ||
 				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
-					return apply_filters( $this->p->acronym.'_short_url', false, $long_url );
+					return apply_filters( $this->p->cf['lca'].'_short_url', false, $long_url );
 
 			$short_url = false;
 
@@ -175,7 +175,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
 				$cache_salt = __METHOD__.'(url:'.$long_url.')';
-				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': short_url transient id salt "'.$cache_salt.'"' );
 				$short_url = get_transient( $cache_id );
@@ -183,7 +183,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			if ( $short_url !== false ) {
 				$this->p->debug->log( $cache_type.': short_url retrieved from transient for id "'.$cache_id.'"' );
-				return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
+				return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
 			} else {
 				switch ( $shortener ) {
 					case 'googl' :
@@ -210,10 +210,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						$this->p->debug->log( $cache_type.': short_url saved to transient for id "'.
 							$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
 					}
-					return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
+					return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
 				}
 			}
-			return apply_filters( $this->p->acronym.'_short_url', $short_url, $long_url );
+			return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
 		}
 
 		public function fix_relative_url( $url = '' ) {
@@ -275,7 +275,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$url = '"'.$url.'"';	// rewrite function uses var reference
 				$url = trim( $this->rewrite->html( $url ), '"' );
 			}
-			return apply_filters( $this->p->acronym.'_rewrite_url', $url );
+			return apply_filters( $this->p->cf['lca'].'_rewrite_url', $url );
 		}
 
 		public function get_topics() {
@@ -339,7 +339,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				'Webmail',
 				'Women\'s',
 			);
-			$website_topics = apply_filters( $this->p->acronym.'_topics', $website_topics );			// since wp 0.71 
+			$website_topics = apply_filters( $this->p->cf['lca'].'_topics', $website_topics );			// since wp 0.71 
 			natsort( $website_topics );
 			// after sorting the array, put 'none' first
 			$website_topics = array_merge( array( 'none' ), $website_topics );
@@ -357,7 +357,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$use_local = true;
 			} else {
 				$cache_salt = __METHOD__.'(file:'.$this->p->cf['url']['readme'].')';
-				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': plugin_info transient id salt "'.$cache_salt.'"' );
 				$plugin_info = get_transient( $cache_id );
@@ -404,11 +404,11 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				list( $submenu, $query ) = explode( '?', $submenu );
 			if ( $submenu == '' ) {
 				$current = $_SERVER['REQUEST_URI'];
-				if ( preg_match( '/^.*\?page='.$this->p->acronym.'-([^&]*).*$/', $current, $match ) )
+				if ( preg_match( '/^.*\?page='.$this->p->cf['lca'].'-([^&]*).*$/', $current, $match ) )
 					$submenu = $match[1];
 				else $submenu = key( $this->p->cf['lib']['setting'] );
 			}
-			$page = 'admin.php?page='.$this->p->acronym.'-'.$submenu;
+			$page = 'admin.php?page='.$this->p->cf['lca'].'-'.$submenu;
 			if ( array_key_exists( $submenu, $this->p->cf['lib']['setting'] ) )
 				$url = admin_url( $page );
 			elseif ( array_key_exists( $submenu, $this->p->cf['lib']['network_setting'] ) )
@@ -431,7 +431,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 			$deleted = 0;
 			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
-			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$this->p->acronym.'_%\'';
+			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$this->p->cf['lca'].'_%\'';
 			$dbquery .= $clear_all === true ? ';' : ' AND option_value < '.$time.';'; 
 			$expired = $wpdb->get_col( $dbquery ); 
 
@@ -489,7 +489,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		// table header with optional tooltip text
 		public function th( $title = '', $class = '', $id = '', $tooltip_text = '' ) {
-			$tooltip_class = $this->p->acronym.'_tooltip';
+			$tooltip_class = $this->p->cf['lca'].'_tooltip';
 			$html = '<th'.( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title;
 			if ( ! empty( $tooltip_text ) )
@@ -563,7 +563,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						'the_content html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
 						'admin_sharing html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
 					) as $cache_origin => $cache_salt ) {
-						$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
 						if ( delete_transient( $cache_id ) ) {
 							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );

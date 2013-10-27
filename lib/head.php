@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			$classname = $this->p->acronym.'OpenGraph';
+			$classname = $this->p->cf['lca'].'OpenGraph';
 			if ( class_exists( $classname ) )
 				$this->og = new $classname( $plugin );
 
@@ -70,13 +70,13 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", $this->p->fullname, " meta tags BEGIN -->\n";
+			echo "\n<!-- ", $this->p->cf['full'], " meta tags BEGIN -->\n";
 
 			// show the array structure before the html block
 			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
 			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
 
-			echo '<meta name="generator" content="', $this->p->fullname, ' ', $this->p->version, '" />', "\n";
+			echo '<meta name="generator" content="', $this->p->cf['full'], ' ', $this->p->cf['version'], '" />', "\n";
 
 			/*
 			 * Meta Tags for Google
@@ -107,7 +107,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 						$this->p->options['link_author_field'] );
 				}
 			}
-			$link_rel = apply_filters( $this->p->acronym.'_link_rel', $link_rel );
+			$link_rel = apply_filters( $this->p->cf['lca'].'_link_rel', $link_rel );
 			foreach ( $link_rel as $key => $val )
 				if ( ! empty( $val ) )
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
@@ -159,7 +159,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			}
 			unset ( $first_name, $first_val );
 
-			echo "<!-- ", $this->p->fullname, " meta tags END -->\n";
+			echo "<!-- ", $this->p->cf['full'], " meta tags END -->\n";
 		}
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {

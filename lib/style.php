@@ -21,46 +21,46 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			$this->social_css_min_url = NGFB_URLPATH.'cache/'.$this->p->acronym.'-social-styles.min.css';
-			$this->social_css_min_file = NGFB_PLUGINDIR.'cache/'.$this->p->acronym.'-social-styles.min.css';
+			$this->social_css_min_url = NGFB_URLPATH.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
+			$this->social_css_min_file = NGFB_PLUGINDIR.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
-			wp_register_style( $this->p->acronym.'_settings_pages', NGFB_URLPATH.'css/settings-pages.min.css', false, $this->p->version );
-			wp_register_style( $this->p->acronym.'_table_settings', NGFB_URLPATH.'css/table-settings.min.css', false, $this->p->version );
-			wp_register_style( $this->p->acronym.'_metabox_tabs', NGFB_URLPATH.'css/metabox-tabs.min.css', false, $this->p->version );
+			wp_register_style( $this->p->cf['lca'].'_settings_pages', NGFB_URLPATH.'css/settings-pages.min.css', false, $this->p->cf['version'] );
+			wp_register_style( $this->p->cf['lca'].'_table_settings', NGFB_URLPATH.'css/table-settings.min.css', false, $this->p->cf['version'] );
+			wp_register_style( $this->p->cf['lca'].'_metabox_tabs', NGFB_URLPATH.'css/metabox-tabs.min.css', false, $this->p->cf['version'] );
 
 			switch ( $hook ) {
 				case 'post.php' :
 				case 'post-new.php' :
-					wp_enqueue_style( $this->p->acronym.'_table_settings' );
-					wp_enqueue_style( $this->p->acronym.'_metabox_tabs' );
+					wp_enqueue_style( $this->p->cf['lca'].'_table_settings' );
+					wp_enqueue_style( $this->p->cf['lca'].'_metabox_tabs' );
 					break;
-				case ( preg_match( '/_page_'.$this->p->acronym.'-/', $hook ) ? true : false ) :
-					wp_enqueue_style( $this->p->acronym.'_settings_pages' );
-					wp_enqueue_style( $this->p->acronym.'_table_settings' );
-					wp_enqueue_style( $this->p->acronym.'_metabox_tabs' );
+				case ( preg_match( '/_page_'.$this->p->cf['lca'].'-/', $hook ) ? true : false ) :
+					wp_enqueue_style( $this->p->cf['lca'].'_settings_pages' );
+					wp_enqueue_style( $this->p->cf['lca'].'_table_settings' );
+					wp_enqueue_style( $this->p->cf['lca'].'_metabox_tabs' );
 					break;
 			}
 		}
 
 		public function wp_enqueue_styles( $hook ) {
 			if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
-				wp_register_style( $this->p->acronym.'_social_buttons', $this->social_css_min_url, false, $this->p->version );
+				wp_register_style( $this->p->cf['lca'].'_social_buttons', $this->social_css_min_url, false, $this->p->cf['version'] );
 				if ( ! file_exists( $this->social_css_min_file ) ) 
 					$this->update_social( $this->p->options );
-				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->acronym.'_social_buttons' );
-				wp_enqueue_style( $this->p->acronym.'_social_buttons' );
+				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_social_buttons' );
+				wp_enqueue_style( $this->p->cf['lca'].'_social_buttons' );
 			}
 		}
 
 		public function update_social( &$opts ) {
 			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
 				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
-					'<b>'.$this->p->acronym_uc.' Error</b> : Error opening 
+					'<b>'.$this->p->cf['uca'].' Error</b> : Error opening 
 						<u>'.$this->social_css_min_file.'</u> for writing.', 'error' );
 			else {
 				$css_data = '';
@@ -79,7 +79,7 @@ if ( ! class_exists( 'ngfbStyle' ) ) {
 			if ( file_exists( $this->social_css_min_file ) ) {
 				if ( ! @unlink( $this->social_css_min_file ) )
 					add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-						'<b>'.$this->p->acronym_uc.' Error</b> : Error removing minimized stylesheet. 
+						'<b>'.$this->p->cf['uca'].' Error</b> : Error removing minimized stylesheet. 
 							Does the web server have sufficient privileges?', 'error' );
 			}
 		}

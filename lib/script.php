@@ -23,18 +23,18 @@ if ( ! class_exists( 'ngfbScript' ) ) {
 
 		public function admin_enqueue_scripts( $hook ) {
 			wp_register_script( 'jquery-qtip', NGFB_URLPATH . 'js/jquery-qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
-			wp_register_script( $this->p->acronym . '_tooltips', NGFB_URLPATH . 'js/jquery-tooltips.min.js', array( 'jquery' ), $this->p->version, true );
-			wp_register_script( $this->p->acronym . '_postmeta', NGFB_URLPATH . 'js/jquery-postmeta.min.js', array( 'jquery' ), $this->p->version, true );
+			wp_register_script( $this->p->cf['lca'] . '_tooltips', NGFB_URLPATH . 'js/jquery-tooltips.min.js', array( 'jquery' ), $this->p->cf['version'], true );
+			wp_register_script( $this->p->cf['lca'] . '_postmeta', NGFB_URLPATH . 'js/jquery-postmeta.min.js', array( 'jquery' ), $this->p->cf['version'], true );
 
 			// don't load our javascript where we don't need it
 			switch ( $hook ) {
 				case 'post.php' :
 				case 'post-new.php' :
-				case ( preg_match( '/_page_' . $this->p->acronym . '-/', $hook ) ? true : false ) :
+				case ( preg_match( '/_page_' . $this->p->cf['lca'] . '-/', $hook ) ? true : false ) :
 					wp_enqueue_script( 'jquery' );
 					wp_enqueue_script( 'jquery-qtip' );
-					wp_enqueue_script( $this->p->acronym . '_tooltips' );
-					wp_enqueue_script( $this->p->acronym . '_postmeta' );
+					wp_enqueue_script( $this->p->cf['lca'] . '_tooltips' );
+					wp_enqueue_script( $this->p->cf['lca'] . '_postmeta' );
 					break;
 			}
 		}

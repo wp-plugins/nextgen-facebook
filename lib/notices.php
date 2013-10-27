@@ -38,7 +38,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 				$user_id = get_current_user_id();	// since wp 3.0
 				if ( empty( $user_id ) )		// exclude wp-cron
 					$user = false;
-				$msg_opt = $this->p->acronym.'_notices_'.$type;
+				$msg_opt = $this->p->cf['lca'].'_notices_'.$type;
 				if ( $user == true )
 					$msg_arr = get_user_option( $msg_opt, $user_id );
 				else $msg_arr = get_option( $msg_opt );
@@ -58,7 +58,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 
 		public function trunc( $type ) {
 			$user_id = get_current_user_id();	// since wp 3.0
-			$msg_opt = $this->p->acronym.'_notices_'.$type;
+			$msg_opt = $this->p->cf['lca'].'_notices_'.$type;
 			// delete doesn't always work, so set an empty value first
 			if ( get_option( $msg_opt ) ) {
 				update_option( $msg_opt, array() );
@@ -74,7 +74,7 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 		public function admin_notices() {
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 				$user_id = get_current_user_id();	// since wp 3.0
-				$msg_opt = $this->p->acronym.'_notices_'.$type;
+				$msg_opt = $this->p->cf['lca'].'_notices_'.$type;
 				$msg_arr = array_merge( 
 					(array) get_option( $msg_opt ), 
 					(array) get_user_option( $msg_opt, $user_id ), 
@@ -115,11 +115,11 @@ if ( ! class_exists( 'ngfbNotices' ) ) {
 								break;
 							case 'err' :
 								echo '<div class="error"><div style="float:left;"><p><b>', 
-									$this->p->acronym_uc, ' Warning</b> :</p></div><p>', $msg, '</p></div>', "\n";
+									$this->p->cf['uca'], ' Warning</b> :</p></div><p>', $msg, '</p></div>', "\n";
 								break;
 							case 'inf' :
 								echo '<div class="updated fade"><div style="float:left;"><p><b>', 
-									$this->p->acronym_uc, ' Info</b> :</p></div><p>', $msg, '</p></div>', "\n";
+									$this->p->cf['uca'], ' Info</b> :</p></div><p>', $msg, '</p></div>', "\n";
 								break;
 						}
 					}

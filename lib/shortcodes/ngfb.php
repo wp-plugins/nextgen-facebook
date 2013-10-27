@@ -69,7 +69,7 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 					$keys = implode( '|', array_keys( $atts ) );
 					$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
 					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
-					$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					$cache_type = 'object cache';
 					$this->p->debug->log( $cache_type.': shortcode transient id salt "'.$cache_salt.'"' );
 					$html = get_transient( $cache_id );
@@ -81,12 +81,12 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 
 				$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
 				unset ( $atts['buttons'] );
-				$html .= '<!-- '.$this->p->fullname.' '.$atts['css_id'].' BEGIN -->'.
+				$html .= '<!-- '.$this->p->cf['full'].' '.$atts['css_id'].' BEGIN -->'.
 					$this->p->social->get_js( 'pre-shortcode', $ids ).
-					'<div class="'.$this->p->acronym.'-'.$atts['css_id'].'">'.
+					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.
 						$this->p->social->get_html( $ids, $atts ).'</div>'.
 					$this->p->social->get_js( 'post-shortcode', $ids ).
-					'<!-- '.$this->p->fullname.' '.$atts['css_id'].' END -->';
+					'<!-- '.$this->p->cf['full'].' '.$atts['css_id'].' END -->';
 
 				if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 					set_transient( $cache_id, $html, $this->p->cache->object_expire );

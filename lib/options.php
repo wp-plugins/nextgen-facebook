@@ -429,7 +429,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		public function check_options( &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->version ||
+				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ||
 					empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 
 					$this->p->debug->log( 'plugin version different than options version: calling upgrade() method.' );
@@ -706,7 +706,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			// mark the new options as current
 			$old_opts_ver = $opts['options_version'];
 			$opts['options_version'] = $this->options_version;
-			$opts['plugin_version'] = $this->p->version;
+			$opts['plugin_version'] = $this->p->cf['version'];
 
 			// don't save unless someone is there to see the success / error messages
 			// plugin activation may hide notices, so main plugin class tests for activation and exits early

@@ -23,11 +23,11 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 		public function wp_version() {
 			global $wp_version;
-			if ( version_compare( $wp_version, $this->p->min_wp_version, '<' ) ) {
+			if ( version_compare( $wp_version, $this->p->cf['min_wp'], '<' ) ) {
 				deactivate_plugins( NGFB_PLUGINBASE );
-				error_log( NGFB_PLUGINBASE.' requires WordPress '.$this->p->min_wp_version.' or higher ('.$wp_version.' reported).' );
+				error_log( NGFB_PLUGINBASE.' requires WordPress '.$this->p->cf['min_wp'].' or higher ('.$wp_version.' reported).' );
 				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.' ), 
-					$this->p->fullname, $this->p->min_wp_version ) .'</p>' );
+					$this->p->cf['full'], $this->p->cf['min_wp'] ) .'</p>' );
 			}
 		}
 
@@ -35,7 +35,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 		public function available( $is_avail = array() ) {
 
 			// ngfb pro
-			$is_avail['aop'] = class_exists( $this->p->acronym.'AddOnPro' ) ? true : false;
+			$is_avail['aop'] = class_exists( $this->p->cf['lca'].'AddOnPro' ) ? true : false;
 
 			// available since php v4.0.6+
 			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
@@ -92,7 +92,10 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 			return $is_avail;
 		}
 
+		// called from ngfbAdmin
 		public function conflicts() {
+
+			if ( ! is_admin() ) return;	// warnings are only shown on admin pages anyway
 
 			$conflict_log_prefix =  __( 'plugin conflict detected', NGFB_TEXTDOM ) . ' - ';
 			$conflict_err_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
@@ -109,21 +112,21 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 			// Yoast WordPress SEO
 			if ( $this->p->is_avail['wpseo'] == true ) {
-				$wpseo_social = get_option( 'wpseo_social' );
-				if ( ! empty( $wpseo_social['opengraph'] ) ) {
+				$opts = get_option( 'wpseo_social' );
+				if ( ! empty( $opts['opengraph'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo opengraph meta data option is enabled' );
 					$this->p->notices->err( $conflict_err_prefix.
 						sprintf( __( 'Please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
-				if ( ! empty( $this->p->options['tc_enable'] ) && ! empty( $wpseo_social['twitter'] ) ) {
+				if ( ! empty( $this->p->options['tc_enable'] ) && ! empty( $opts['twitter'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo twitter meta data option is enabled' );
 					$this->p->notices->err( $conflict_err_prefix.
 						sprintf( __( 'Please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 
-				if ( ! empty( $this->p->options['link_publisher_url'] ) && ! empty( $wpseo_social['plus-publisher'] ) ) {
+				if ( ! empty( $this->p->options['link_publisher_url'] ) && ! empty( $opts['plus-publisher'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo google plus publisher option is defined' );
 					$this->p->notices->err( $conflict_err_prefix.
 						sprintf( __( 'Please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
@@ -133,9 +136,9 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 			// SEO Ultimate
 			if ( $this->p->is_avail['seou'] == true ) {
-				$seo_ultimate = get_option( 'seo_ultimate' );
-				if ( ! empty( $seo_ultimate['modules'] ) && is_array( $seo_ultimate['modules'] ) ) {
-					if ( array_key_exists( 'opengraph', $seo_ultimate['modules'] ) && $seo_ultimate['modules']['opengraph'] !== -10 ) {
+				$opts = get_option( 'seo_ultimate' );
+				if ( ! empty( $opts['modules'] ) && is_array( $opts['modules'] ) ) {
+					if ( array_key_exists( 'opengraph', $opts['modules'] ) && $opts['modules']['opengraph'] !== -10 ) {
 						$this->p->debug->log( $conflict_log_prefix.'seo ultimate opengraph module is enabled' );
 						$this->p->notices->err( $conflict_err_prefix.
 							sprintf( __( 'Please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), 
@@ -146,8 +149,8 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 			// All in One SEO Pack
 			if ( $this->p->is_avail['aioseop'] == true ) {
-				$aioseop_options = get_option( 'aioseop_options' );
-				if ( array_key_exists( 'aiosp_google_disable_profile', $aioseop_options ) && empty( $aioseop_options['aiosp_google_disable_profile'] ) ) {
+				$opts = get_option( 'aioseop_options' );
+				if ( array_key_exists( 'aiosp_google_disable_profile', $opts ) && empty( $opts['aiosp_google_disable_profile'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'aioseop google plus profile is enabled' );
 					$this->p->notices->err( $conflict_err_prefix.
 						sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the <a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), 
@@ -157,8 +160,8 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 			// WooCommerce ShareYourCart Extension
 			if ( class_exists( 'ShareYourCartWooCommerce' ) ) {
-				$woo_share_settings = get_option( 'woocommerce_shareyourcart_settings' );
-				if ( ! empty( $woo_share_settings['enabled'] ) ) {
+				$opts = get_option( 'woocommerce_shareyourcart_settings' );
+				if ( ! empty( $opts['enabled'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'woocommerce shareyourcart extension is enabled' );
 					$this->p->notices->err( $conflict_err_prefix.
 						__( 'The WooCommerce ShareYourCart Extension does not provide an option to turn off its Open Graph meta tags.', NGFB_TEXTDOM ).' '.
@@ -169,8 +172,8 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 
 			// Wordbooker
 			if ( function_exists( 'wordbooker_og_tags' ) ) {
-				$wordbooker_settings = get_option( 'wordbooker_settings' );
-				if ( empty( $wordbooker_settings['wordbooker_fb_disable_og'] ) ) {
+				$opts = get_option( 'wordbooker_settings' );
+				if ( empty( $opts['wordbooker_fb_disable_og'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wordbooker opengraph is enabled' );
 					$this->p->notices->err( $conflict_err_prefix.
 						sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), 
@@ -194,8 +197,19 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 				$this->p->notices->err( $conflict_err_prefix. 
 					__( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.', NGFB_TEXTDOM ).' '.
 					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  
-						$this->p->util->get_admin_url( 'advanced' ), $this->p->fullname ) ).' '.
+						$this->p->util->get_admin_url( 'advanced' ), $this->p->cf['full'] ) ).' '.
 					__( 'Disabling content filters will prevent shortcodes from being expanded, which may lead to incorrect / incomplete description meta tags.', NGFB_TEXTDOM );
+			}
+
+			// 
+			if ( class_exists( 'dc_jqslicksocial_buttons' ) ) {
+				$opts = get_option( 'dcssb_options' );
+				if ( empty( $opts['disable_opengraph'] ) ) {
+					$this->p->debug->log( $conflict_log_prefix.'slick social share buttons opengraph is enabled' );
+					$this->p->notices->err( $conflict_err_prefix.
+						sprintf( __( 'Please check the \'<em>Disable Opengraph</em>\' option on the <a href="%s">Slick Social Share Buttons</a>.', NGFB_TEXTDOM ), 
+							get_admin_url( null, 'admin.php?page=slick-social-share-buttons' ) ) );
+				}
 			}
 
 		}

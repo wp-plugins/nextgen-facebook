@@ -49,7 +49,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		public function show_metabox_contact() {
 			echo '<table class="ngfb-settings" style="padding-bottom:0"><tr><td>
 			<p>The following options allow you to customize the contact field names and labels shown on the <a href="'.get_admin_url( null, 'profile.php' ).'">user profile page</a>.
-			'.$this->p->fullname.' uses the Facebook, Google+ and Twitter contact field values for Open Graph and Twitter Card meta tags (along with the Twitter social sharing button).
+			'.$this->p->cf['full'].' uses the Facebook, Google+ and Twitter contact field values for Open Graph and Twitter Card meta tags (along with the Twitter social sharing button).
 			<strong>You should not modify the <em>Contact Field Name</em> unless you have a very good reason to do so.</strong>
 			The <em>Profile Contact Label</em> on the other hand, is for display purposes only, and its text can be changed as you wish.
 			Although the following contact methods may be shown on user profile pages, your theme is responsible for displaying their values in the appropriate template locations
@@ -79,8 +79,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			} else {
 				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
-				for '.$this->p->fullname.' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
-				Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
+				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
+				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
 				$input = $this->p->admin->form->get_input( 'plugin_pro_tid' );
 			}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
-				$this->p->fullname.' can save social sharing images and JavaScript to a cache folder, 
+				$this->p->cf['full'].' can save social sharing images and JavaScript to a cache folder, 
 				providing URLs to these cached files instead of the originals. 
 				A value of \'0\' hours (the default) disables this feature. 
 				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
@@ -154,7 +154,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				$this->p->util->th( 'Exclude Patterns', null, null,
 				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
 				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
-				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->fullname.' cache folder 
+				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->cf['full'].' cache folder 
 				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
 				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_excl' ).
 					$this->p->options['plugin_cdn_excl'].'</td>',
@@ -258,12 +258,12 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					$ret = array_merge( $ret, $this->get_pre_activation() );
 
 					$ret[] = $this->p->util->th( 'Preserve Settings on Uninstall', 'highlight', null, 
-					'Check this option if you would like to preserve all '.$this->p->fullname.
+					'Check this option if you would like to preserve all '.$this->p->cf['full'].
 					' settings when you <em>uninstall</em> the plugin (default is unchecked).' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_preserve' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, null, 
-					'Check this option if you would like to reset the '.$this->p->fullname.
+					'Check this option if you would like to reset the '.$this->p->cf['full'].
 					' settings to their default values when you <em>deactivate</em>, and then 
 					<em>re-activate</em> the plugin (default is unchecked).' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_reset' ).'</td>';
@@ -277,11 +277,11 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				case 'content':
 
 					$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
-					'Enable the '.$this->p->fullname.' content shortcode(s) (default is unchecked).' ).
+					'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', 'highlight', null, 
-					$this->p->fullname.' will attempt to include images from img html tags it finds in the content.
+					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
 					The img html tags must have a width and height attribute, and their size must be equal to or larger than the 
 					<em>Image Dimensions</em> you\'ve chosen (on the General Settings page). 
 					You can uncheck this option to include smaller images from the content, 
@@ -291,7 +291,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
 					'Apply the standard WordPress filters to render the content (default is checked).
-					This renders all shortcodes, and allows '.$this->p->fullname.' to detect images and 
+					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
 					embedded videos that may be provided by these.' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_content' ).'</td>';
 
@@ -307,7 +307,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 				case 'cache':
 
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, null, 
-					$this->p->fullname.' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
+					$this->p->cf['full'].' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
 					and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
 					The default is '.$this->p->opt->defaults['plugin_object_cache_exp'].' seconds, and the minimum value is 
 					1 second (such a low value is not recommended).' ).
@@ -356,9 +356,9 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings" style="padding-bottom:0;">
 			<tr>
 				<td>
-				<p><?php echo $this->p->fullname; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
+				<p><?php echo $this->p->cf['full']; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
 				If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to prevent 
-				<?php echo $this->p->fullname; ?> from adding duplicate meta tags (for example, the "description" meta tag is popular
+				<?php echo $this->p->cf['full']; ?> from adding duplicate meta tags (for example, the "description" meta tag is popular
 				with SEO plugins, so it is unchecked by default).</p>
 				</td>
 			</tr>

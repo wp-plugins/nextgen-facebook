@@ -74,7 +74,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					'<td>Width '.$this->p->admin->form->get_input( 'og_img_width', 'short' ).' x '.
 					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).'&nbsp;'.
 					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'&nbsp;'.
-					 'WP Auto-Resize <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->acronym.'_tooltip'.'" alt="'.
+					 'WP Auto-Resize <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->cf['lca'].'_tooltip'.'" alt="'.
 					 esc_attr( 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
 					 WordPress Media Library (default is unchecked). You should enable this option unless you have custom /
 					 manually cropped images, which will be lost when re-generating image sizes.' ).'" /> '.
@@ -103,7 +103,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 	
 					$ret[] = $this->p->util->th( 'Default Image on Indexes', null, null, '
 					Check this option if you would like to use the default image on index webpages (homepage, archives, categories, author, etc.). 
-					If you leave this unchecked, ' . $this->p->fullname . ' will attempt to use image(s) from the first entry on the webpage 
+					If you leave this unchecked, ' . $this->p->cf['full'] . ' will attempt to use image(s) from the first entry on the webpage 
 					(default is checked).' ) .
 					'<td>' . $this->p->admin->form->get_checkbox( 'og_def_img_on_index' ) . '</td>';
 	
@@ -201,7 +201,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Fallback to Author Index', null, null, '
 					If the <em>Author Profile URL</em> (and the <em>Author Link URL</em> in the Google Settings below) 
-					is not a valid URL, then ' . $this->p->fullname . ' can fallback to using the author index on this 
+					is not a valid URL, then ' . $this->p->cf['full'] . ' can fallback to using the author index on this 
 					website (\'' . trailingslashit( site_url() ) . 'author/username\' for example). 
 					Uncheck this option to disable the fallback feature (default is unchecked).' ) .
 					'<td>' . $this->p->admin->form->get_checkbox( 'og_author_fallback' ) . '</td>';
@@ -270,7 +270,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					'<td>' . $this->p->admin->form->get_input( 'meta_desc_len', 'short' ) . ' characters or less</td>';
 
 					$ret[] = $this->p->util->th( 'Author Link URL', null, null, 
-					$this->p->fullname . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
+					$this->p->cf['full'] . ' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
 					These are not Open Graph meta property tags - they are used primarily by Google\'s search engine to associate Google+
 					profiles with search results.' ) .
 					'<td>' . $this->p->admin->form->get_select( 'link_author_field', $this->author_fields() ) . '</td>';

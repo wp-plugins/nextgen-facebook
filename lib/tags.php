@@ -20,7 +20,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		}
 
 		public function get() {
-			$tags = apply_filters( $this->p->acronym.'_tags_seed', array() );
+			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array() );
 			if ( ! empty( $tags ) ) {
 				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
 				return $tags;
@@ -40,7 +40,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 		
 			// filter for duplicate (lowercase) element values - just in case
 			$tags = array_unique( array_map( 'strtolower', $tags ) );
-			return apply_filters( $this->p->acronym.'_tags', $tags );
+			return apply_filters( $this->p->cf['lca'].'_tags', $tags );
 		}
 
 		public function get_wp( $post_id ) {
@@ -55,7 +55,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 					$tags[] = $tag_name;
 			}
 			$tags = array_map( 'strtolower', $tags );
-			return apply_filters( $this->p->acronym.'_wp_tags', $tags );
+			return apply_filters( $this->p->cf['lca'].'_wp_tags', $tags );
 		}
 
 		// called from the view/gallery-meta.php template
@@ -64,7 +64,7 @@ if ( ! class_exists( 'ngfbTags' ) ) {
 			if ( $this->p->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
 			$tags = array_map( 'strtolower', $tags );
-			return apply_filters( $this->p->acronym.'_ngg_tags', $tags );
+			return apply_filters( $this->p->cf['lca'].'_ngg_tags', $tags );
 		}
 
 	}

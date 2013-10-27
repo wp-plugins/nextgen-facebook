@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.13.0
+Version: 6.13.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -18,16 +18,6 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
-
-		public $version = '6.13.0';
-		public $acronym = 'ngfb';
-		public $acronym_uc = 'NGFB';
-		public $menuname = 'Open Graph+';
-		public $fullname = 'NGFB Open Graph+';
-		public $fullname_pro = 'NGFB Open Graph+ Pro';
-		public $slug = 'nextgen-facebook';
-		public $update_hours = 12;
-		public $min_wp_version = '3.0';
 
 		public $debug;		// ngfbDebug
 		public $util;		// ngfbUtil
@@ -48,13 +38,26 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $pro;		// ngfbAddOnPro
 		public $update;		// ngfbUpdate
 
-		public $is_avail = array();	// assoc array for function/class/method/etc. checks
+		public $is_avail = array();	// assoc array for other plugin checks
 		public $options = array();
 		public $site_options = array();
 		public $ngg_options = array();
 		public $ngg_version = 0;
 
+		// static variables for uninstall method
+		private static $lca = 'ngfb';
+		private static $slug = 'nextgen-facebook';
+
 		public $cf = array(
+			'version' => '6.13.1',
+			'lca' => 'ngfb',			// lowercase acronym
+			'uca' => 'NGFB',			// uppercase acronym
+			'slug' => 'nextgen-facebook',
+			'menu' => 'Open Graph+',		// menu item label
+			'full' => 'NGFB Open Graph+',		// full plugin name
+			'full_pro' => 'NGFB Open Graph+ Pro',
+			'upd_hrs' => 12,			// check for pro updates
+			'min_wp' => '3.0',			// minimum wordpress version
 			'lib' => array(
 				'setting' => array (
 					'general' => 'General',
@@ -172,9 +175,8 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		public static function network_uninstall() {
 			$sitewide = true;
-			$acronym = 'ngfb';
 			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
-			delete_site_option( $acronym.'_site_options' );
+			delete_site_option( self::$lca.'_site_options' );
 		}
 
 		private static function do_multisite( $sitewide, $method, $args = array() ) {
@@ -191,35 +193,33 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		}
 
 		private function activate_plugin() {
-			$classname = $this->acronym.'Check';
+			$classname = $this->cf['lca'].'Check';
 			$this->check = new $classname( $this );
 			$this->check->wp_version();
 			$this->setup_vars( true );
 		}
 
 		private function deactivate_plugin() {
-			wp_clear_scheduled_hook( 'plugin_updates-'.$this->slug );
+			wp_clear_scheduled_hook( 'plugin_updates-'.$this->cf['slug'] );
 		}
 
 		private static function uninstall_plugin() {
 			global $wpdb;
-			$slug = 'nextgen-facebook';
-			$acronym = 'ngfb';
-			$options = get_option( $acronym.'_options' );
+			$options = get_option( self::$lca.'_options' );
 
 			if ( empty( $options['plugin_preserve'] ) ) {
 
 				// delete plugin settings
-				delete_option( $acronym.'_options' );
+				delete_option( self::$lca.'_options' );
 
 				// delete all custom post meta
-				delete_post_meta_by_key( '_'.$acronym.'_meta' );
+				delete_post_meta_by_key( '_'.self::$lca.'_meta' );
 
 				// delete metabox preferences for all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
 						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
-							$meta_key = $meta_name.'_'.$page_prefix.'_'.$acronym.'-'.$settings_page;
+							$meta_key = $meta_name.'_'.$page_prefix.'_'.self::$lca.'-'.$settings_page;
 							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
 								delete_user_option( $user->ID, $meta_key, true );
 						}
@@ -229,20 +229,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// delete update related options
-			delete_option( 'external_updates-'.$slug );
-			delete_option( $acronym.'_update_error' );
-			delete_option( $acronym.'_update_time' );
+			delete_option( 'external_updates-'.self::$slug );
+			delete_option( self::$lca.'_update_error' );
+			delete_option( self::$lca.'_update_time' );
 
 			// delete all stored admin notices
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-				$msg_opt = $acronym.'_notices_'.$type;
+				$msg_opt = self::$lca.'_notices_'.$type;
 				delete_option( $msg_opt );
 				foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
 					delete_user_option( $user->ID, $msg_opt );
 			}
 
 			// delete transients
-			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$acronym.'_%\';';
+			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.self::$lca.'_%\';';
 			$expired = $wpdb->get_col( $dbquery ); 
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
@@ -259,17 +259,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		// called by WP init action
 		public function init_plugin() {
 			if ( is_feed() ) return;	// nothing to do in the feeds
-
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-
 			$this->setup_vars();
-			$this->check->conflicts();
-
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
 						add_action( $action, create_function( '', 
-							"echo '<!-- ".$this->fullname." add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
+							"echo '<!-- ".$this->cf['full']." add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 			}
 		}
@@ -279,7 +275,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			define( 'NGFB_FILEPATH', __FILE__ );
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
 			define( 'NGFB_PLUGINBASE', plugin_basename( __FILE__ ) );			// since wp 1.5
-			define( 'NGFB_TEXTDOM', $this->slug );
+			define( 'NGFB_TEXTDOM', $this->cf['slug'] );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
 			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR.'lib/ext/markdown.php' );
@@ -309,13 +305,13 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_CACHEURL', NGFB_URLPATH.'cache/' );
 
 			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
-				define( 'NGFB_OPTIONS_NAME', $this->acronym.'_options' );
+				define( 'NGFB_OPTIONS_NAME', $this->cf['lca'].'_options' );
 
 			if ( ! defined( 'NGFB_SITE_OPTIONS_NAME' ) )
-				define( 'NGFB_SITE_OPTIONS_NAME', $this->acronym.'_site_options' );
+				define( 'NGFB_SITE_OPTIONS_NAME', $this->cf['lca'].'_site_options' );
 
 			if ( ! defined( 'NGFB_META_NAME' ) )
-				define( 'NGFB_META_NAME', '_'.$this->acronym.'_meta' );
+				define( 'NGFB_META_NAME', '_'.$this->cf['lca'].'_meta' );
 
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.10' );
@@ -333,7 +329,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				define( 'NGFB_FOOTER_PRIORITY', 100 );
 			
 			if ( ! defined( 'NGFB_OG_SIZE_NAME' ) )
-				define( 'NGFB_OG_SIZE_NAME', $this->acronym.'-open-graph' );
+				define( 'NGFB_OG_SIZE_NAME', $this->cf['lca'].'-open-graph' );
 
 			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
 				define( 'NGFB_MIN_DESC_LEN', 156 );
@@ -436,11 +432,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			 */
 			$this->check = new ngfbCheck( $this );
 			$this->is_avail = $this->check->available();
-			$this->update_error = get_option( $this->acronym.'_update_error' );
+			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
 			$this->set_options();		// local method for early load
 
 			if ( $this->is_avail['aop'] == true ) 
-				$this->fullname = $this->fullname_pro;
+				$this->cf['full'] = $this->cf['full_pro'];
 			if ( $this->is_avail['ngg'] == true ) {
 				$this->ngg_options = get_option( 'ngg_options' );
 				if ( defined( 'NEXTGEN_GALLERY_PLUGIN_VERSION' ) && NEXTGEN_GALLERY_PLUGIN_VERSION )
@@ -453,7 +449,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
-			$this->debug = new ngfbDebug( $this->fullname, 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			$this->debug = new ngfbDebug( $this->cf['full'], 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
 			$this->check = new ngfbCheck( $this );
 			$this->util = new ngfbUtil( $this );
 			$this->notices = new ngfbNotices( $this );
@@ -477,7 +473,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 					$this->options = $this->opt->get_defaults();
 					$this->options['options_version'] = $this->opt->options_version;
-					$this->options['plugin_version'] = $this->version;
+					$this->options['plugin_version'] = $this->cf['version'];
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );
@@ -551,11 +547,11 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
-				add_filter( $this->acronym.'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
+				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );
 				if ( is_admin() ) {
-					$last_update = get_option( $this->acronym.'_update_time' );
-					if ( empty( $last_update ) || $last_update + ( $this->update_hours * 2 * 3600 ) < time() )
+					$last_update = get_option( $this->cf['lca'].'_update_time' );
+					if ( empty( $last_update ) || $last_update + ( $this->cf['upd_hrs'] * 2 * 3600 ) < time() )
 						$this->update->check_for_updates();
 				}
 			}

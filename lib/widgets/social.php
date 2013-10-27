@@ -18,7 +18,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			global $ngfb;
 			$widget_ops = array( 
 				'classname' => 'ngfb-widget-buttons',
-				'description' => 'The '.$ngfb->fullname.' social sharing buttons widget.'
+				'description' => 'The '.$ngfb->cf['full'].' social sharing buttons widget.'
 			);
 			$this->WP_Widget( 'ngfb-widget-buttons', self::$fullname, $widget_ops );
 		}
@@ -36,7 +36,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			else {
 				$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
-				$cache_id = $ngfb->acronym.'_'.md5( $cache_salt );
+				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$ngfb->debug->log( $cache_type.': widget_html transient id salt "'.$cache_salt.'"' );
 				$widget_html = get_transient( $cache_id );
@@ -59,13 +59,13 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-			$widget_html = "\n<!-- ".$ngfb->fullname.' '.$args['widget_id']." BEGIN -->\n";
+			$widget_html = "\n<!-- ".$ngfb->cf['full'].' '.$args['widget_id']." BEGIN -->\n";
 			$widget_html .= $before_widget."\n";
 			if ( $title ) 
 				$widget_html .= $before_title.$title.$after_title."\n";
 			$widget_html .= $ngfb->social->get_html( $sorted_ids, $atts );
 			$widget_html .= $after_widget."\n";
-			$widget_html .= "<!-- ".$ngfb->fullname.' '.$args['widget_id']." END -->\n";
+			$widget_html .= "<!-- ".$ngfb->cf['full'].' '.$args['widget_id']." END -->\n";
 
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
@@ -95,7 +95,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $ngfb->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
 						'<input id="', $this->get_field_id( $id ), 

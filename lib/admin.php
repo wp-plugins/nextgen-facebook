@@ -37,6 +37,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->p->check->conflicts();
 			$this->setup_vars();
 
 			add_action( 'admin_init', array( &$this, 'register_settings' ) );
@@ -58,7 +59,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( is_multisite() )
 				$libs = array_merge( $libs, $this->p->cf['lib']['network_setting'] );
 			foreach ( $libs as $id => $name ) {
-				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
 			}
@@ -66,7 +67,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function register_settings() {
-			register_setting( $this->p->acronym.'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+			register_setting( $this->p->cf['lca'].'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		} 
 
 		public function set_readme( $expire_secs = 0 ) {
@@ -92,10 +93,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		protected function add_menu_page( $parent_id ) {
 			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 			$this->pagehook = add_menu_page( 
-				$this->p->fullname.' : '.$this->menu_name, 
-				$this->p->menuname, 
+				$this->p->cf['full'].' : '.$this->menu_name, 
+				$this->p->cf['menu'], 
 				'manage_options', 
-				$this->p->acronym.'-'.$parent_id, 
+				$this->p->cf['lca'].'-'.$parent_id, 
 				array( &$this, 'show_page' ), 
 				null, 
 				NGFB_MENU_PRIORITY
@@ -107,15 +108,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( $this->menu_id == 'contact' )
 				$parent_slug = 'options-general.php';
 			else
-				$parent_slug = $this->p->acronym.'-'.$parent_id;
+				$parent_slug = $this->p->cf['lca'].'-'.$parent_id;
 
 			// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 			$this->pagehook = add_submenu_page( 
 				$parent_slug, 
-				$this->p->fullname.' : '.$this->menu_name, 
+				$this->p->cf['full'].' : '.$this->menu_name, 
 				$this->menu_name, 
 				'manage_options', 
-				$this->p->acronym.'-'.$this->menu_id, 
+				$this->p->cf['lca'].'-'.$this->menu_id, 
 				array( &$this, 'show_page' ) 
 			);
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
@@ -156,7 +157,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		// wordpress handles the actual saving of the options
 		public function sanitize_options( $opts ) {
 			if ( ! is_array( $opts ) ) {
-				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>'.$this->p->acronym_uc.' Error</b> : 
+				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', '<b>'.$this->p->cf['uca'].' Error</b> : 
 					Submitted settings are not an array.', 'error' );
 				return $opts;
 			}
@@ -177,7 +178,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				$this->p->style->unlink_social();
 			else $this->p->style->update_social( $opts );
 
-			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->acronym_uc.' Info</b> : '.
+			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->cf['uca'].' Info</b> : '.
 				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
 					$this->p->options['plugin_object_cache_exp'] ), 'updated' );
@@ -206,7 +207,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( empty( $this->p->site_options['plugin_pro_tid'] ) ) {
 				$this->p->update_error = '';
-				delete_option( $this->p->acronym.'_update_error' );
+				delete_option( $this->p->cf['lca'].'_update_error' );
 			}
 
 			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
@@ -228,7 +229,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 				if ( empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$this->p->update_error = '';
-					delete_option( $this->p->acronym.'_update_error' );
+					delete_option( $this->p->cf['lca'].'_update_error' );
 				} elseif ( ! $this->p->check->pro_active() && 
 					! empty( $this->p->options['plugin_pro_tid'] ) )
 						$this->p->update->check_for_updates();
@@ -240,11 +241,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						if ( file_exists( $old_css_file ) )
 							if ( @unlink( $old_css_file ) )
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>'.$this->p->acronym_uc.' Info</b> : The old <u>'.$old_css_file.'</u> 
+									'<b>'.$this->p->cf['uca'].' Info</b> : The old <u>'.$old_css_file.'</u> 
 										stylesheet has been removed.', 'updated' );
 							else
 								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>'.$this->p->acronym_uc.' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
+									'<b>'.$this->p->cf['uca'].' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
 										stylesheet. Does the web server have sufficient privileges?', 'error' );
 
 						break;
@@ -289,7 +290,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( $this->p->check->pro_active() )
 				add_meta_box( $this->pagehook.'_thankyou', 'Pro Version', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
-			$this->p->admin->set_readme( $this->p->update_hours * 60 * 60 );	// the version info metabox on all settings pages needs this
+			$this->p->admin->set_readme( $this->p->cf['upd_hrs'] * 3600 );	// the version info metabox on all settings pages needs this
 		}
 
 		public function show_page() {
@@ -308,7 +309,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
-				<h2><?php echo $this->p->fullname.' : '.$this->menu_name; ?></h2>
+				<h2><?php echo $this->p->cf['full'].' : '.$this->menu_name; ?></h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
 					<div id="side-info-column" class="inner-sidebar">
 						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
@@ -344,14 +345,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( ! empty( $this->p->cf['lib']['setting'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="settings" method="post" action="options.php">';
 				echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
-				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->version );
-				settings_fields( $this->p->acronym.'_settings' ); 
+				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
+				settings_fields( $this->p->cf['lca'].'_settings' ); 
 
 			} elseif ( ! empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="settings" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
-				echo $this->form->get_hidden( 'plugin_version', $this->p->version );
+				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 			}
 			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
@@ -413,11 +414,11 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function feed_cache_expire( $seconds ) {
-			return $this->p->update_hours * 60 * 60;
+			return $this->p->cf['upd_hrs'] * 3600;
 		}
 
 		public function show_metabox_news() {
-			$this->show_feed( $this->p->cf['url']['feed'], 3, $this->p->acronym.'_feed' );
+			$this->show_feed( $this->p->cf['url']['feed'], 3, $this->p->cf['lca'].'_feed' );
 		}
 
 		public function show_metabox_info() {
@@ -437,7 +438,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			<table class="ngfb-settings">
 			<tr><th class="side">Installed:</th>
 			<td><?php 
-				echo $this->p->version;
+				echo $this->p->cf['version'];
 				if ( $this->p->check->pro_active() ) echo ' (Pro)';
 				elseif ( $this->p->is_avail['aop'] ) echo ' (Unlicensed Pro)';
 				else echo ' (Free)'; 

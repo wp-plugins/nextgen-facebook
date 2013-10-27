@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 
 		private function setup_vars() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
@@ -42,7 +42,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 			$col = 0;
 			$row = 0;
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->acronym.'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) ) {
 					$col = $col == 1 ? 2 : 1;
 					$row = $col == 1 ? $row + 1 : $row;

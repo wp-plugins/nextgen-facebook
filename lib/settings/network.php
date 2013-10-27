@@ -58,12 +58,12 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 					else
 						$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 						and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
-						for '.$this->p->fullname.' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
-						Updates</a> page. Update the \''.$this->p->fullname.'\' plugin to download and activate the Pro version.';
+						for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
+						Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
 		
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
 					'<td>'.$this->form->get_input( 'plugin_pro_tid' ).'</td>'.
-					'<td>All Sites Use <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->acronym.'_tooltip'.'" alt="'.
+					'<td>All Sites Use <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->cf['lca'].'_tooltip'.'" alt="'.
 					$use_msg.'" /> '.$this->form->get_select( 'plugin_pro_tid_use', $use ).'</td>';
 
 					break;

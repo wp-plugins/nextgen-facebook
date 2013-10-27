@@ -30,7 +30,7 @@ if ( ! class_exists( 'ngfbSettingsSocialStyle' ) && class_exists( 'ngfbAdmin' ) 
 		}
 
 		public function show_metabox_style() {
-			echo '<table class="'.$this->p->acronym.'-settings"><tr>';
+			echo '<table class="'.$this->p->cf['lca'].'-settings"><tr>';
 			echo $this->p->util->th( 'Use the Social Styles', 'highlight', null, '
 				Add the following styles to all webpages (default is checked).
 				All styles will be minimized into a single stylesheet with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 
@@ -51,7 +51,7 @@ if ( ! class_exists( 'ngfbSettingsSocialStyle' ) && class_exists( 'ngfbAdmin' ) 
 			switch ( $id ) {
 				case 'social' :
 					$ret[] = '<td class="textinfo">
-					<p>'.$this->p->fullname.' uses the \'ngfb-buttons\' class to wrap all its 
+					<p>'.$this->p->cf['full'].' uses the \'ngfb-buttons\' class to wrap all its 
 					social buttons, and each button has it\'s own individual class name as well. 
 					Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" 
 					target="_blank">Other Notes</a> webpage for additional stylesheet information, 

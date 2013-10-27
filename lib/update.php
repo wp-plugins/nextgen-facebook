@@ -34,9 +34,9 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 
 			$this->file_path = NGFB_FILEPATH;
 			$this->base_name = plugin_basename( $this->file_path );
-			$this->slug = $this->p->slug;
+			$this->slug = $this->p->cf['slug'];
 			$this->cron_hook = 'plugin_updates-'.$this->slug;
-			$this->time_period = $this->p->update_hours;
+			$this->time_period = $this->p->cf['upd_hrs'];
 			$this->sched_name = 'every'.$this->time_period.'hours';
 			$this->option_name = 'external_updates-'.$this->slug;
 			$this->install_hooks();
@@ -150,15 +150,15 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
 					$error_msg = json_decode( $result['body'] );
 					$this->p->update_error = $error_msg;
-					update_option( $this->p->acronym.'_update_error', $error_msg );
+					update_option( $this->p->cf['lca'].'_update_error', $error_msg );
 				} else {
 					$this->p->update_error = '';
-					delete_option( $this->p->acronym.'_update_error' );
+					delete_option( $this->p->cf['lca'].'_update_error' );
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );
 				}
 			}
 			$this->update_timestamp = time();
-			update_option( $this->p->acronym.'_update_time', $this->update_timestamp );
+			update_option( $this->p->cf['lca'].'_update_time', $this->update_timestamp );
 			return $plugin_data;
 		}
 	
@@ -170,7 +170,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( array_key_exists( $this->base_name, $plugins ) && 
 				array_key_exists( 'Version', $plugins[$this->base_name] ) )
 					$version = $plugins[$this->base_name]['Version'];
-			return apply_filters( $this->p->acronym.'_installed_version', $version );
+			return apply_filters( $this->p->cf['lca'].'_installed_version', $version );
 		}
 
 	}

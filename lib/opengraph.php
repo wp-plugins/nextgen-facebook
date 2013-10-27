@@ -38,7 +38,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
-				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': og array transient id salt "'.$cache_salt.'"' );
 				$og = get_transient( $cache_id );
@@ -52,10 +52,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
-			$og = apply_filters( $this->p->acronym.'_og_seed', array() );
+			$og = apply_filters( $this->p->cf['lca'].'_og_seed', array() );
 
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
-			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 
 			if ( ! array_key_exists( 'fb:admins', $og ) )
 				$og['fb:admins'] = $this->p->options['fb_admins'];
@@ -67,8 +67,8 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$og['og:locale'] = $lang;
 
 			if ( ! array_key_exists( 'og:site_name', $og ) ) {
-				if ( ! empty( $this->p->options['site_name'] ) )
-					$og['fb:site_name'] = $this->p->options['site_name'];
+				if ( ! empty( $this->p->options['og_site_name'] ) )
+					$og['fb:site_name'] = $this->p->options['og_site_name'];
 				else
 					$og['fb:site_name'] = get_bloginfo( 'name', 'display' );
 			}
@@ -164,7 +164,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			}
 
 			// run filter before saving to transient cache
-			$og = apply_filters( $this->p->acronym.'_og', $og );
+			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': og array saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');

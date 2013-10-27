@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		private function setup_vars() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->acronym.'Social'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['lca'].'Social'.preg_replace( '/ /', '', $name );
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
-				$cache_id = $this->p->acronym.'_'.md5( $cache_salt );
+				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
 				$html = get_transient( $cache_id );
@@ -121,9 +121,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
 				$html = $this->get_html( $sorted_ids, $atts, $opts );
 				if ( ! empty( $html ) ) {
-					$html = "\n<!-- ".$this->p->fullname.' '.$css_type." BEGIN -->\n" .
-						'<div class="'.$this->p->acronym.'-'.$css_type."\">\n".$html."</div>\n" .
-						'<!-- '.$this->p->fullname.' '.$css_type." END -->\n";
+					$html = "\n<!-- ".$this->p->cf['full'].' '.$css_type." BEGIN -->\n" .
+						'<div class="'.$this->p->cf['lca'].'-'.$css_type."\">\n".$html."</div>\n" .
+						'<!-- '.$this->p->cf['full'].' '.$css_type." END -->\n";
 
 					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
@@ -159,7 +159,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					$html .= $this->website[$id]->get_html( $atts, $opts );
 			}
 			if ( ! empty( $html ) ) 
-				$html = '<div class="'.$this->p->acronym.'-buttons">'."\n".$html.'</div>'."\n";
+				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'."\n".$html.'</div>'."\n";
 			return $html;
 		}
 
@@ -204,7 +204,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$js = '<!-- '.$this->p->fullname.' '.$pos.' javascript BEGIN -->'."\n";
+			$js = '<!-- '.$this->p->cf['full'].' '.$pos.' javascript BEGIN -->'."\n";
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
 			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
@@ -220,16 +220,16 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= '<!-- '.$this->p->fullname.' '.$pos.' javascript END -->'."\n";
+			$js .= '<!-- '.$this->p->cf['full'].' '.$pos.' javascript END -->'."\n";
 			return $js;
 		}
 
 		public function header_js( $pos = 'id' ) {
 			$lang = empty( $this->p->options['gp_lang'] ) ? 'en-US' : $this->p->options['gp_lang'];
-			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'gplus' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "'.$lang.'" };
-				function '.$this->p->acronym.'_insert_js( script_id, url, async ) {
+				function '.$this->p->cf['lca'].'_insert_js( script_id, url, async ) {
 					if ( document.getElementById( script_id + "-js" ) ) return;
 					var async = typeof async !== "undefined" ? async : true;
 					var script_pos = document.getElementById( script_id );

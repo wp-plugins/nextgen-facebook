@@ -35,9 +35,9 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					break;
 				case 'pro_activate' :
 					// in multisite, only show activation message on our own plugin pages
-					if ( ! is_multisite() || ( is_multisite() && preg_match( '/^.*\?page='.$this->p->acronym.'-/', $_SERVER['REQUEST_URI'] ) ) ) {
+					if ( ! is_multisite() || ( is_multisite() && preg_match( '/^.*\?page='.$this->p->cf['lca'].'-/', $_SERVER['REQUEST_URI'] ) ) ) {
 						$url = $this->p->util->get_admin_url( 'advanced' );
-						$msg = '<p>The '.$this->p->fullname.' Authentication ID option value is empty.<br/>
+						$msg = '<p>The '.$this->p->cf['full'].' Authentication ID option value is empty.<br/>
 						To activate Pro version features, and allow the plugin to authenticate itself for updates,<br/>
 						<a href="'.$url.'">enter the unique Authenticaton ID you receive following your purchase
 						on the Advanced Settings page</a>.</p>';
@@ -51,13 +51,13 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					$msg .= 'Change the Facebook, Google+ and Twitter social button language as the webpage switches language?<br/>';
 					$msg .= 'Add tighter integration with 3rd party plugins like WordPress SEO, All-In-One SEO and WooCommerce?<br/>';
 					$msg .= 'Improve page load times with file caching for <em>external</em> social images and JavaScript?<br/>';
-					$msg .= '<p style="font-size:1.2em;">Help support '.$this->p->fullname.' by <a href="'.$this->p->cf['url']['purchase'].'" 
+					$msg .= '<p style="font-size:1.2em;">Help support '.$this->p->cf['full'].' by <a href="'.$this->p->cf['url']['purchase'].'" 
 					target="_blank">purchasing the Pro version today</a>.</p>';
 					$msg .= '<p>Upgrading to the Pro version is easy and simple! Enter the unique <em>Authentication ID</em> 
 					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
-					$msg = '<p>'.$this->p->fullname.' has taken many, many months of long days to develop and fine-tune.
+					$msg = '<p>'.$this->p->cf['full'].' has taken many, many months of long days to develop and fine-tune.
 					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
 					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Please show your appreciation by purchasing ';
 					if ( $this->p->is_avail['aop'] == true )
@@ -65,7 +65,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					else $msg .= 'the Pro version</a>.</p>';
 					break;
 				case 'thankyou' :
-					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->fullname.' plugin will exceed all of your expectations.</p>';
+					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->cf['full'].' plugin will exceed all of your expectations.</p>';
 					break;
 				case 'help_boxes' :
 					$msg = '<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 

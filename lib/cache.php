@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 			$this->base_dir = trailingslashit( NGFB_CACHEDIR );
 			$this->base_url = trailingslashit( NGFB_CACHEURL );
 			$this->verify_certs = empty( $this->p->options['plugin_verify_certs'] ) ? 0 : 1;
-			$this->ignore_urls = get_transient( $this->p->acronym.'_'.md5( 'ignore_urls' ) );
+			$this->ignore_urls = get_transient( $this->p->cf['lca'].'_'.md5( 'ignore_urls' ) );
 			if ( $this->ignore_urls == false ) $this->ignore_urls = array();
 		}
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					return $want_this == 'url' ? $url : '';
 				} else {
 					unset( $this->ignore_urls[$get_url] );
-					set_transient( $this->p->acronym.'_'.md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
+					set_transient( $this->p->cf['lca'].'_'.md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
 				}
 			}
 
@@ -141,7 +141,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 				$this->p->debug->log( 'error connecting to URL '.$get_url.' for caching. ' );
 				$this->p->debug->log( 'ignoring requests to cache this URL for '.$this->ignore_time.' second(s)' );
 				$this->ignore_urls[$get_url] = time();
-				set_transient( $this->p->acronym.'_'.md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
+				set_transient( $this->p->cf['lca'].'_'.md5( 'ignore_urls' ), $this->ignore_urls, $this->ignore_time );
 			}
 
 			// return original url or empty data on failure
@@ -156,7 +156,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						$this->p->debug->log( 'object cache is disabled' );
 					else {
 						$cache_type = 'object cache';
-						$cache_id = $this->p->acronym. '_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$cache_data = wp_cache_get( $cache_id, __CLASS__ );
 						if ( $cache_data !== false )
@@ -168,7 +168,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						$this->p->debug->log( 'transient cache is disabled' );
 					else {
 						$cache_type = 'object cache';
-						$cache_id = $this->p->acronym. '_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$cache_data = get_transient( $cache_id );
 						if ( $cache_data !== false )
@@ -217,7 +217,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						$this->p->debug->log( 'object cache is disabled' );
 					else {
 						$cache_type = 'object cache';
-						$cache_id = $this->p->acronym.'_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						wp_cache_set( $cache_id, $cache_data, __CLASS__, $object_expire );
@@ -230,7 +230,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 						$this->p->debug->log( 'transient cache is disabled' );
 					else {
 						$cache_type = 'object cache';
-						$cache_id = $this->p->acronym.'_'.md5( $cache_salt );	// add a prefix to the object cache id
+						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
 						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						set_transient( $cache_id, $cache_data, $object_expire );

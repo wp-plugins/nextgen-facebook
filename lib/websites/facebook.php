@@ -170,7 +170,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
-			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 			$send = $opts['fb_send'] ? 'true' : 'false';
 			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
 
@@ -210,9 +210,9 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en_US' : $this->p->options['fb_lang'];
-			$lang = apply_filters( $this->p->acronym.'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 			$app_id = empty( $this->p->options['fb_app_id'] ) ? '' : $this->p->options['fb_app_id'];
-			$html .= '<script type="text/javascript" id="facebook-script-'.$pos.'">'.$this->p->acronym.'_insert_js( "facebook-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id ).'" );</script>'."\n";
+			$html .= '<script type="text/javascript" id="facebook-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "facebook-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id ).'" );</script>'."\n";
 			return $html;
 		}
 
