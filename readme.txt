@@ -782,6 +782,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.13.1 =
 
 * Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
+* Fixed the retrieval of the full size image url when WordPress fails to do so.
 * Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
 * Added a check for empty $post in Pinterest, Tumblr and Twitter button methods.
 * Moved a few more internal variables into the $cf multi-dimensional array.
