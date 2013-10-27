@@ -779,9 +779,11 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
-= Version 6.13.1dev1 =
+= Version 6.13.1 =
 
+* Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
 * Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
+* Moved a few more internal variables into the $cf multi-dimensional array.
 
 = Version 6.13.0 =
 
@@ -810,9 +812,9 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Upgrade Notice ==
 
-= 6.13.1dev1 =
+= 6.13.1 =
 
-Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
+Fixed missing og:site_name meta tag, added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
 
 = 6.13.0 =
 
