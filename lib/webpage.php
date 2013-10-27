@@ -68,21 +68,21 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 			// check for custom meta title
 			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
 				$meta_title = $this->p->meta->get_options( $post->ID, 'og_title' );
-				if ( $meta_title != "" ) {
+				if ( ! empty( $meta_title ) ) {
 					$this->p->debug->log( 'custom meta title = "'.$meta_title.'"' );
 					$title = $meta_title;
 				}
 			}
 
 			// get seed if no custom meta title
-			if ( $title == "" ) {
+			if ( empty( $title ) ) {
 				$title = apply_filters( $this->p->cf['lca'].'_title_seed', '' );
-				if ( $title != "" )
+				if ( ! empty( $title ) )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 			
 			// construct a title of our own
-			if ( $title == "" ) {
+			if ( empty( $title ) ) {
 				// we are on an index, but need individual titles from the posts (probably for social buttons)
 				if ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
 	
@@ -138,7 +138,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				}
 	
 				// just in case
-				if ( $title == "" )
+				if ( empty( $title ) )
 					$title = get_bloginfo( 'name', 'display' );
 			}
 
@@ -151,7 +151,8 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				// append the parent's title 
 				if ( is_singular() && ! empty( $post->post_parent ) ) {
 					$parent_title = get_the_title( $post->post_parent );
-					if ( $parent_title ) $title .= ' ('.$parent_title.')';
+					if ( ! empty( $parent_title ) ) 
+						$title .= ' ('.$parent_title.')';
 				}
 				// add a page number
 				if ( $paged >= 2 || $page >= 2 ) {
