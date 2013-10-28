@@ -779,6 +779,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 == Changelog ==
 
+= Version 6.13.2dev1 =
+
+* Added lib/config.php with config values, definition of constants, and loading of required library files.
+
 = Version 6.13.1 =
 
 * Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
