@@ -782,6 +782,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 = Version 6.13.2dev1 =
 
 * Added lib/config.php with config values, definition of constants, and loading of required library files.
+* Added check for empty width/height values from wp_get_attachment_metadata().
 
 = Version 6.13.1 =
 

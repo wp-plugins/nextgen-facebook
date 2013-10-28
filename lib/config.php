@@ -204,7 +204,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 				define( $uca.'_MAX_CACHE_HRS', 24 );
 
 			if ( ! defined( $uca.'_DEBUG_FILE_EXP' ) )
-				define( $uca.'_DEBUG_FILE_EXP', 30 );
+				define( $uca.'_DEBUG_FILE_EXP', 300 );
 
 			if ( ! defined( $uca.'_CURL_USERAGENT' ) )
 				define( $uca.'_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
