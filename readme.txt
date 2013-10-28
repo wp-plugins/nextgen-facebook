@@ -781,7 +781,7 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 
 = Version 6.13.2dev1 =
 
-* Added lib/config.php with config values, definition of constants, and loading of required library files.
+* Added a new lib/config.php library file with config values, definition of constants, and loading of required library files.
 * Added check for empty width/height values from wp_get_attachment_metadata().
 
 = Version 6.13.1 =
@@ -818,6 +818,10 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added support for a multisite Authentication ID default site-wide value (Pro version).
 
 == Upgrade Notice ==
+
+= 6.13.2dev1 =
+
+Added a new lib/config.php library file with config values, added a check for empty width/height values from wp_get_attachment_metadata().
 
 = 6.13.1 =
 
