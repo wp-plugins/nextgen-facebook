@@ -393,7 +393,6 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
     * Disable Open Graph Meta Tags
     * URL Rewriting
     * NGFB Filter Hooks
-    * PHP Constants
 
 == Resources ==
 
@@ -753,10 +752,6 @@ function add_tracking_id( $url, $src_id ) {
 }
 
 `
-
-= PHP Constants =
-
-To address very specific needs, some PHP constants for NGFB may be defined in your `wp-config.php` or template files (generally before the `wp_head()` function call). The complete list of constants, and a description of their intended use, can be found in the `constants.txt` file located in the `wp-content/plugins/nextgen-facebook/` plugin folder.
 
 == Screenshots ==
 
