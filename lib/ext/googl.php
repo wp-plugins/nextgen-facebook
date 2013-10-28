@@ -55,7 +55,6 @@ if ( ! class_exists( 'ngfbGoogl' ) ) {
 		}
 	
 		private function mark() { return; }
-
 		private function log() { return; }
 
 		public function shorten($url, $extended = false) {

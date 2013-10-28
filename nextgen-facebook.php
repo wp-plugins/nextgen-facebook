@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.13.1
+Version: 6.13.2dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -19,144 +19,45 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 	class ngfbPlugin {
 
-		public $debug;		// ngfbDebug
-		public $util;		// ngfbUtil
-		public $notices;	// ngfbNotices
-		public $opt;		// ngfbOptions
-		public $user;		// ngfbUser
-		public $media;		// ngfbMedia
-		public $meta;		// ngfbPostMeta
-		public $style;		// ngfbStyle
-		public $script;		// ngfbStyle
-		public $cache;		// ngfbCache
-		public $admin;		// ngfbAdmin
-		public $head;		// ngfbHead
-		public $tags;		// ngfbTags
-		public $webpage;	// ngfbWebPage
-		public $social;		// ngfbSocial
-		public $seo;		// ngfbSeo*
-		public $pro;		// ngfbAddOnPro
-		public $update;		// ngfbUpdate
+		// class object variables
+		public $debug;
+		public $util;
+		public $notices;
+		public $opt;
+		public $user;
+		public $media;
+		public $meta;
+		public $style;
+		public $script;
+		public $cache;
+		public $admin;
+		public $head;
+		public $tags;
+		public $webpage;
+		public $social;
+		public $seo;
+		public $pro;
+		public $update;
 
+		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
-		public $options = array();
-		public $site_options = array();
-		public $ngg_options = array();
-		public $ngg_version = 0;
+		public $options = array();	// individual blog/site options
+		public $site_options = array();	// multisite options
+		public $ngg_options = array();	// nextgen gallery options
+		public $ngg_version = 0;	// nextgen gallery version
 
 		// static variables for uninstall method
 		private static $lca = 'ngfb';
 		private static $slug = 'nextgen-facebook';
 
-		public $cf = array(
-			'version' => '6.13.1',
-			'lca' => 'ngfb',			// lowercase acronym
-			'uca' => 'NGFB',			// uppercase acronym
-			'slug' => 'nextgen-facebook',
-			'menu' => 'Open Graph+',		// menu item label
-			'full' => 'NGFB Open Graph+',		// full plugin name
-			'full_pro' => 'NGFB Open Graph+ Pro',
-			'upd_hrs' => 12,			// check for pro updates
-			'min_wp' => '3.0',			// minimum wordpress version
-			'lib' => array(
-				'setting' => array (
-					'general' => 'General',
-					'advanced' => 'Advanced',
-					'contact' => 'Contact Methods',
-					'social' => 'Social Sharing',
-					'style' => 'Social Style',
-					'about' => 'About',
-				),
-				'network_setting' => array(
-					'network' => 'Network',
-				),
-				'website' => array(
-					'facebook' => 'Facebook', 
-					'gplus' => 'GooglePlus',
-					'twitter' => 'Twitter',
-					'linkedin' => 'LinkedIn',
-					'pinterest' => 'Pinterest',
-					'stumbleupon' => 'StumbleUpon',
-					'tumblr' => 'Tumblr',
-					'youtube' => 'YouTube',
-					'skype' => 'Skype',
-				),
-				'shortcode' => array(
-					'ngfb' => 'Ngfb',
-				),
-				'widget' => array(
-					'social' => 'SocialSharing',
-				),
-				'ecom' => array(
-					'woocommerce' => 'WooCommerce',
-					'marketpress' => 'MarketPress',
-					'wpecommerce' => 'WPeCommerce',
-				),
-				'seo' => array(
-					'aioseop' => 'AllinOneSEOPack',
-					'seou' => 'SEOUltimate',
-					'wpseo' => 'WordPressSEO',
-				),
-			),
-			'opt' => array(
-				'pre' => array(
-					'facebook' => 'fb', 
-					'gplus' => 'gp',
-					'twitter' => 'twitter',
-					'linkedin' => 'linkedin',
-					'pinterest' => 'pin',
-					'stumbleupon' => 'stumble',
-					'tumblr' => 'tumblr',
-					'youtube' => 'yt',
-					'skype' => 'skype',
-				),
-			),
-			'wp' => array(
-				'contact' => array(
-					'aim' => 'AIM',
-					'jabber' => 'Jabber / Google Talk',
-					'yim' => 'Yahoo IM',
-				),
-			),
-			'css' => array(
-				'social' => 'Buttons Style',
-				'excerpt' => 'Excerpt Style',
-				'content' => 'Content Style',
-				'shortcode' => 'Shortcode Style',
-				'widget' => 'Widget Style',
-			),
-			'url' => array(
-				'feed' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
-				'purchase' => 'http://plugin.surniaulula.com/extend/plugins/nextgen-facebook/',
-				'faq' => 'http://wordpress.org/plugins/nextgen-facebook/faq/',
-				'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
-				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
-				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-				'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
-				'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
-				'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
-				'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
-				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
-			),
-			'img' => array(
-				'follow' => array(
-					'size' => 32,
-					'src' => array(
-						'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
-						'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
-						'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
-						'twitter.png' => 'https://twitter.com/surniaululacom',
-						'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
-						'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-					),
-				),
-			),
-		);
-
 		public function __construct() {
-			$this->define_constants();	// define constants first for option defaults
-			$this->load_libs();		// keep in __construct() to extend widgets etc.
+
+			// define the config values
+			require_once ( dirname( __FILE__ ).'/lib/config.php' );
+			$classname = __CLASS__.'Config';
+			$this->cf = $classname::get_config();
+			$classname::set_constants( __FILE__ );
+			$classname::require_libs();		// keep in __construct() for widgets
 
 			register_activation_hook( __FILE__, array( &$this, 'network_activate' ) );
 			register_deactivation_hook( __FILE__, array( &$this, 'network_deactivate' ) );
@@ -250,12 +151,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 		}
 
-		public function filter_installed_version( $version ) {
-			if ( $this->is_avail['aop'] == true )
-				return $version;
-			else return '0.'.$version;
-		}
-
 		// called by WP init action
 		public function init_plugin() {
 			if ( is_feed() ) return;	// nothing to do in the feeds
@@ -268,160 +163,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 							"echo '<!-- ".$this->cf['full']." add_action( \'$action\' ) Priority $prio Test = PASSED -->\n';" ), $prio );
 				}
 			}
-		}
-
-		private function define_constants() { 
-
-			define( 'NGFB_FILEPATH', __FILE__ );
-			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );	// since wp 1.2.0 
-			define( 'NGFB_PLUGINBASE', plugin_basename( __FILE__ ) );			// since wp 1.5
-			define( 'NGFB_TEXTDOM', $this->cf['slug'] );
-			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', __FILE__ ) ) );
-			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR ) );
-			define( 'AUTOMATTIC_README_MARKDOWN', NGFB_PLUGINDIR.'lib/ext/markdown.php' );
-
-			// allow some constants to be pre-defined in wp-config.php
-
-			// NGFB_RESET
-			// NGFB_WP_DEBUG
-			// NGFB_HTML_DEBUG
-			// NGFB_OPEN_GRAPH_DISABLE
-			// NGFB_MIN_IMG_SIZE_DISABLE
-			// NGFB_OBJECT_CACHE_DISABLE
-			// NGFB_TRANSIENT_CACHE_DISABLE
-			// NGFB_FILE_CACHE_DISABLE
-			// NGFB_CURL_DISABLE
-			// NGFB_CURL_PROXY
-			// NGFB_CURL_PROXYUSERPWD
-			// NGFB_WISTIA_API_PWD
-
-			if ( defined( 'NGFB_DEBUG' ) && ! defined( 'NGFB_HTML_DEBUG' ) )
-				define( 'NGFB_HTML_DEBUG', NGFB_DEBUG );	// backwards compat
-
-			if ( ! defined( 'NGFB_CACHEDIR' ) )
-				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR.'cache/' );
-
-			if ( ! defined( 'NGFB_CACHEURL' ) )
-				define( 'NGFB_CACHEURL', NGFB_URLPATH.'cache/' );
-
-			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
-				define( 'NGFB_OPTIONS_NAME', $this->cf['lca'].'_options' );
-
-			if ( ! defined( 'NGFB_SITE_OPTIONS_NAME' ) )
-				define( 'NGFB_SITE_OPTIONS_NAME', $this->cf['lca'].'_site_options' );
-
-			if ( ! defined( 'NGFB_META_NAME' ) )
-				define( 'NGFB_META_NAME', '_'.$this->cf['lca'].'_meta' );
-
-			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
-				define( 'NGFB_MENU_PRIORITY', '99.10' );
-
-			if ( ! defined( 'NGFB_INIT_PRIORITY' ) )
-				define( 'NGFB_INIT_PRIORITY', 12 );
-
-			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
-				define( 'NGFB_HEAD_PRIORITY', 10 );
-
-			if ( ! defined( 'NGFB_SOCIAL_PRIORITY' ) )
-				define( 'NGFB_SOCIAL_PRIORITY', 100 );
-			
-			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
-				define( 'NGFB_FOOTER_PRIORITY', 100 );
-			
-			if ( ! defined( 'NGFB_OG_SIZE_NAME' ) )
-				define( 'NGFB_OG_SIZE_NAME', $this->cf['lca'].'-open-graph' );
-
-			if ( ! defined( 'NGFB_MIN_DESC_LEN' ) )
-				define( 'NGFB_MIN_DESC_LEN', 156 );
-
-			if ( ! defined( 'NGFB_MIN_IMG_SIZE' ) )
-				define( 'NGFB_MIN_IMG_SIZE', 200 );
-
-			if ( ! defined( 'NGFB_MAX_IMG_OG' ) )
-				define( 'NGFB_MAX_IMG_OG', 20 );
-
-			if ( ! defined( 'NGFB_MAX_VID_OG' ) )
-				define( 'NGFB_MAX_VID_OG', 20 );
-
-			if ( ! defined( 'NGFB_MAX_CACHE_HRS' ) )
-				define( 'NGFB_MAX_CACHE_HRS', 24 );
-
-			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
-				define( 'NGFB_DEBUG_FILE_EXP', 30 );
-
-			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
-				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
-
-			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
-				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR.'share/curl/cacert.pem' );
-
-		}
-
-		private function load_libs() {
-
-			require_once ( NGFB_PLUGINDIR.'lib/debug.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/check.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/util.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/notices.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/options.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/user.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/media.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/webpage.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/postmeta.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/social.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/style.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/script.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/cache.php' );
-			require_once ( NGFB_PLUGINDIR.'lib/update.php' );
-
-			if ( is_admin() ) {
-				require_once ( NGFB_PLUGINDIR.'lib/messages.php' );
-				require_once ( NGFB_PLUGINDIR.'lib/admin.php' );
-
-				// settings classes extend lib/admin.php and objects are created by lib/admin.php
-				foreach ( $this->cf['lib']['setting'] as $id => $name )
-					require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
-				unset ( $id, $name );
-
-				if ( is_multisite() ) {
-					foreach ( $this->cf['lib']['network_setting'] as $id => $name )
-						require_once ( NGFB_PLUGINDIR.'lib/settings/'.$id.'.php' );
-					unset ( $id, $name );
-				}
-
-				require_once ( NGFB_PLUGINDIR.'lib/form.php' );
-				require_once ( NGFB_PLUGINDIR.'lib/ext/parse-readme.php' );
-
-			} else {
-
-				require_once ( NGFB_PLUGINDIR.'lib/head.php' );
-				require_once ( NGFB_PLUGINDIR.'lib/opengraph.php' );
-				require_once ( NGFB_PLUGINDIR.'lib/tags.php' );
-				require_once ( NGFB_PLUGINDIR.'lib/functions.php' );
-
-				// the ngfb_shortcode class object is created by lib/webpage.php
-				foreach ( $this->cf['lib']['shortcode'] as $id => $name )
-					require_once ( NGFB_PLUGINDIR.'lib/shortcodes/'.$id.'.php' );
-				unset ( $id, $name );
-			}
-
-			// website classes extend both lib/social.php and lib/settings/social.php
-			foreach ( $this->cf['lib']['website'] as $id => $name )
-				if ( file_exists( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' ) )
-					require_once ( NGFB_PLUGINDIR.'lib/websites/'.$id.'.php' );
-			unset ( $id, $name );
-
-			// widgets are added to wp when library file is loaded
-			foreach ( $this->cf['lib']['widget'] as $id => $name )
-				if ( file_exists( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' ) )
-					require_once ( NGFB_PLUGINDIR.'lib/widgets/'.$id.'.php' );
-			unset ( $id, $name );
-
-			// pro version classes
-			// additional classes are loaded and created by pro construct
-			if ( file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) )
-				require_once ( NGFB_PLUGINDIR.'lib/pro/addon.php' );
-
 		}
 
 		// get the options, upgrade the options (if necessary), and validate their values
@@ -556,6 +297,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				}
 			}
 
+		}
+
+		public function filter_installed_version( $version ) {
+			if ( $this->is_avail['aop'] == true )
+				return $version;
+			else return '0.'.$version;
 		}
 
 		public function set_options() {

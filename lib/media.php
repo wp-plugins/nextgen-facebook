@@ -154,7 +154,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			if ( ! wp_attachment_is_image( $pid ) ) {	// since wp 2.1.0
 				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); return $ret_empty; }
 
-			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
 			$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 			if ( empty( $img_url ) ) { 
 				$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
@@ -166,10 +166,14 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 				// get the actual image sizes
 				$img_meta = wp_get_attachment_metadata( $pid );
 
-				// if the full size image is too small, get the full size image instead
-				if ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
+				if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
 
-					$this->p->debug->log( 'original image ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
+					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty/missing image sizes' );
+
+				// if the full size image is too small, get the full size image instead
+				} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
+
+					$this->p->debug->log( 'retrieving full image size - original ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
 						$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
 
 					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );

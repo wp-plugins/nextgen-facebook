@@ -50,6 +50,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
+				$defined_constants['user']['NGFB_NONCE'] = '********';
 				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
 
 				$opts = $this->p->options;

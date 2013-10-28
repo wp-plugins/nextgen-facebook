@@ -16,7 +16,6 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		private $p;
 	
 		public $json_url = '';
-		public $file_path = '';
 		public $base_name = '';
 		public $slug = '';
 		public $cron_hook = 'plugin_updates';
@@ -32,8 +31,7 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_pro_tid'];
 
-			$this->file_path = NGFB_FILEPATH;
-			$this->base_name = plugin_basename( $this->file_path );
+			$this->base_name = NGFB_PLUGINBASE;
 			$this->slug = $this->p->cf['slug'];
 			$this->cron_hook = 'plugin_updates-'.$this->slug;
 			$this->time_period = $this->p->cf['upd_hrs'];
