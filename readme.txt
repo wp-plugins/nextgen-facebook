@@ -802,21 +802,6 @@ To address very specific needs, some PHP constants for NGFB may be defined in yo
 * Added removal of post meta and transient cache entries when uninstalling the plugin.
 * Restructured the internal plugin configuration variables into a single variable of multi-dimensional arrays.
 
-= Version 6.12.1 =
-
-* Fixed the update check method to return missing version data.
-* Fixed duplicate cache flush when updating a Post or Page.
-* Forced plugin readme.txt file cache updates to 12 hours.
-* Moved admin sharing javascript to sharing metabox instead of headers/footers.
-* Added 'Nature' and 'Pets' to the website topics list.
-
-= Version 6.12.0 =
-
-* Added the "Site Name" option on the General settings page.
-* Improved detection of duplicate NextGEN Gallery images to avoid empty Open Graph image tags.
-* Updated the Rich Pin Validator URL in the Custom Settings, Validation Tools tab.
-* Added support for a multisite Authentication ID default site-wide value (Pro version).
-
 == Upgrade Notice ==
 
 = 6.13.2dev1 =
@@ -830,8 +815,4 @@ Fixed missing og:site_name meta tag, added a check for duplicate Open Graph tags
 = 6.13.0 =
 
 Added support for multisite network-wide activate, deactivate, and uninstall, fixed the Google+ sharing button 'data-expandTo' value, added constants to (optionally) disable various caching features.
-
-= 6.12.1 =
-
-Fixed the update check method to return missing version data, other minor fixes, and added 'Nature' and 'Pets' to the website topics list.
 
