@@ -201,11 +201,11 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 					if ( has_excerpt( $post->ID ) ) {
 						$desc = $post->post_excerpt;
 						if ( ! empty( $this->p->options['plugin_filter_excerpt'] ) ) {
-							$filter_removed = $this->p->social->remove_filter( 'the_excerpt' );
+							$filter_removed = $this->p->social->remove_filter( 'get_the_excerpt' );
 							$this->p->debug->log( 'calling apply_filters()' );
-							$desc = apply_filters( 'the_excerpt', $desc );
+							$desc = apply_filters( 'get_the_excerpt', $desc );
 							if ( ! empty( $filter_removed ) )
-								$this->p->social->add_filter( 'the_excerpt' );
+								$this->p->social->add_filter( 'get_the_excerpt' );
 						}
 					} 
 			

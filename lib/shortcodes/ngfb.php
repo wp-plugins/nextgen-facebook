@@ -27,11 +27,11 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 			// format the shortcode output (shortcodes filters are run at priority 11).
 			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
 				$default_priority = 10;
-				foreach ( array( 'the_excerpt', 'the_content' ) as $tag ) {
+				foreach ( array( 'get_the_excerpt', 'the_excerpt', 'the_content' ) as $tag ) {
 					$filter_priority = has_filter( $tag, 'wpautop' );
 					if ( $filter_priority > $default_priority ) {
-						remove_filter( 'the_content', 'wpautop' );
-						add_filter( 'the_content', 'wpautop' , $default_priority );
+						remove_filter( $tag, 'wpautop' );
+						add_filter( $tag, 'wpautop' , $default_priority );
 						$this->p->debug->log( 'wpautop() priority changed from '.$filter_priority.' to '.$default_priority );
 					}
 				}

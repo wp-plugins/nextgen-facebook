@@ -79,7 +79,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 			if ( ! empty( $opts['linkedin_showzero'] ) ) 
 				$html .= ' data-showzero="true"';
 
-			$html .= '></script></div>'."\n";
+			$html .= '></script></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -87,7 +87,7 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>'."\n";
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>';
 		}
 
 	}

@@ -290,13 +290,13 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
-					'Apply the standard WordPress filters to render the content (default is checked).
+					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
 					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
 					embedded videos that may be provided by these.' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_content' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
-					'Apply the standard WordPress filters to render the excerpt (default is unchecked).
+					'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
 					Check this option if you use shortcodes in your excerpt, for example.' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 

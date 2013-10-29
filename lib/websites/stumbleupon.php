@@ -25,8 +25,8 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 				<style type="text/css">
 					.badge { 
 						display:block;
-						background: url("' . $this->p->util->get_cache_url( 
-							$prot . 'b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ) . '") no-repeat transparent; 
+						background: url("'.$this->p->util->get_cache_url( 
+							$prot.'b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ).'") no-repeat transparent; 
 						width:110px;
 						margin:5px 0 5px 0;
 					}
@@ -45,35 +45,35 @@ if ( ! class_exists( 'ngfbSettingsStumbleUpon' ) && class_exists( 'ngfbSettingsS
 
 			$badge .= '<div class="badge-col-left">';
 			foreach ( array( 1, 2, 3, 6 ) as $i ) {
-				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
-				$badge .= '<input type="radio" name="' . $this->p->admin->form->options_name . '[stumble_badge]" 
-					value="' . $i . '" ' .  checked( $i, $this->p->options['stumble_badge'], false ) . '/>' . "\n";
-				$badge .= '</div>' . "\n";
+				$badge .= '<div class="badge" id="badge-'.$i.'">';
+				$badge .= '<input type="radio" name="'.$this->p->admin->form->options_name.'[stumble_badge]" 
+					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
+				$badge .= '</div>';
 			}
 			$badge .= '</div><div class="badge-col-right">';
 			foreach ( array( 4, 5 ) as $i ) {
-				$badge .= '<div class="badge" id="badge-' . $i . '">' . "\n";
-				$badge .= '<input type="radio" name="' . $this->p->admin->form->options_name . '[stumble_badge]" 
-					value="' . $i . '" ' .  checked( $i, $this->p->options['stumble_badge'], false ) . '/>' . "\n";
-				$badge .= '</div>' . "\n";
+				$badge .= '<div class="badge" id="badge-'.$i.'">';
+				$badge .= '<input type="radio" name="'.$this->p->admin->form->options_name.'[stumble_badge]" 
+					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
+				$badge .= '</div>';
 			}
 			$badge .= '</div>';
 
 			return array(
-				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
 				'Content '.$this->p->admin->form->get_checkbox( 'stumble_on_the_content' ).'&nbsp;'.
 				'Excerpt '.$this->p->admin->form->get_checkbox( 'stumble_on_the_excerpt' ).'&nbsp;'.
 				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'stumble_on_admin_sharing' ). 
 				'</td>',
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->p->admin->form->get_select( 'stumble_order', 
-					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>',
+					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ).'</td>',
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'stumble_js_loc', $this->js_locations ) . '</td>',
+				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->p->admin->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
 
-				$this->p->util->th( 'Button Style', 'short' ) . '<td>' . $badge . '</td>',
+				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge.'</td>',
 			);
 		}
 
@@ -101,7 +101,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
 				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $opts['stumble_badge'];
-			$html = '<!-- StumbleUpon Button --><div '.$this->p->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>'."\n";
+			$html = '<!-- StumbleUpon Button --><div '.$this->p->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -109,7 +109,7 @@ if ( ! class_exists( 'ngfbSocialStumbleUpon' ) && class_exists( 'ngfbSocial' ) )
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.stumbleupon.com/1/widgets.js' ).'" );</script>'."\n";
+			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.stumbleupon.com/1/widgets.js' ).'" );</script>';
 		}
 
 	}

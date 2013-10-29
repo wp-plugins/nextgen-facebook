@@ -123,7 +123,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$query .= '&amp;media='. urlencode( $atts['photo'] );
 			$query .= '&amp;description=' . urlencode( $this->p->util->decode( $atts['caption'] ) );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/images/PinExt.png' ).'" /></a></div>'."\n";
+			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/images/PinExt.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -131,7 +131,7 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/js/pinit.js' ).'" );</script>'."\n";
+			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/js/pinit.js' ).'" );</script>';
 		}
 		
 	}

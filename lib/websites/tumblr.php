@@ -20,60 +20,60 @@ if ( ! class_exists( 'ngfbSettingsTumblr' ) && class_exists( 'ngfbSettingsSocial
 		}
 
 		public function get_rows() {
-			$buttons = '<div class="btn_wizard_row clearfix" id="button_styles">' . "\n";
+			$buttons = '<div class="btn_wizard_row clearfix" id="button_styles">';
 			foreach ( range( 1, 4 ) as $i ) {
-				$buttons .= '<div class="btn_wizard_column share_' . $i . '">' . "\n";
+				$buttons .= '<div class="btn_wizard_column share_'.$i.'">';
 				foreach ( array( '', 'T' ) as $t ) {
 					$buttons .= '
 						<div class="btn_wizard_example clearfix">
-						<label for="share_' . $i . $t . '">
-						<input type="radio" id="share_' . $i . $t . '" 
-							name="' . $this->p->admin->form->options_name . '[tumblr_button_style]" 
-							value="share_' . $i . $t . '" ' . 
-							checked( 'share_' . $i . $t, $this->p->options['tumblr_button_style'], false ) . '/>
-						<img src="' . $this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share_' . $i . $t . '.png' ) . '" 
+						<label for="share_'.$i.$t.'">
+						<input type="radio" id="share_'.$i.$t.'" 
+							name="'.$this->p->admin->form->options_name.'[tumblr_button_style]" 
+							value="share_'.$i.$t.'" '.
+							checked( 'share_'.$i.$t, $this->p->options['tumblr_button_style'], false ).'/>
+						<img src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share_'.$i.$t.'.png' ).'" 
 							height="20" class="share_button_image"/>
 						</label>
 						</div>
 					';
 				}
-				$buttons .= '</div>' . "\n";
+				$buttons .= '</div>';
 			}
-			$buttons .= '</div>' . "\n";
+			$buttons .= '</div>';
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
 				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
 				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
-				custom Posts, or the webpage link.' ) . '<td>' . 
+				custom Posts, or the webpage link.' ).'<td>'.
 				'Content '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_content' ).'&nbsp;'.
 				'Excerpt '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ).'&nbsp;'.
 				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'tumblr_on_admin_sharing' ). 
 				'</td>',
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->p->admin->form->get_select( 'tumblr_order', 
-					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>',
+					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ).'</td>',
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ) . '</td>',
+				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->p->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
 
-				$this->p->util->th( 'Button Style', 'short' ) . '<td>' . $buttons . '</td>',
+				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons.'</td>',
 
-				$this->p->util->th( 'Use Featured Image', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_checkbox( 'tumblr_photo' ) . '</td>',
+				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
+				$this->p->admin->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
-				$this->p->util->th( 'Image Size to Share', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select_img_size( 'tumblr_img_size' ) . '</td>',
+				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
+				$this->p->admin->form->get_select_img_size( 'tumblr_img_size' ).'</td>',
 
-				$this->p->util->th( 'Media Caption', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'tumblr_caption', $this->captions ) . '</td>',
+				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
+				$this->p->admin->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
 
-				$this->p->util->th( 'Caption Length', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_input( 'tumblr_cap_len', 'short' ) . ' Characters or less</td>',
+				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
+				$this->p->admin->form->get_input( 'tumblr_cap_len', 'short' ).' Characters or less</td>',
 
-				$this->p->util->th( 'Link Description', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_input( 'tumblr_desc_len', 'short' ) . ' Characters or less</td>',
+				$this->p->util->th( 'Link Description', 'short' ).'<td>'.
+				$this->p->admin->form->get_input( 'tumblr_desc_len', 'short' ).' Characters or less</td>',
 			);
 		}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 						$pid = $this->p->meta->get_options( $post->ID, 'og_img_id' );
 						$pre = $this->p->meta->get_options( $post->ID, 'og_img_id_pre' );
 						if ( ! empty( $pid ) )
-							$atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
+							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
 						else {
 							if ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
 								$atts['pid'] = get_post_thumbnail_id( $post->ID );
@@ -175,22 +175,22 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 			// define the button, based on what we have
 			if ( ! empty( $atts['photo'] ) ) {
 				$query .= 'photo?source='. urlencode( $atts['photo'] );
-				$query .= '&amp;clickthru=' . urlencode( $atts['url'] );
-				$query .= '&amp;caption=' . urlencode( $this->p->util->decode( $atts['caption'] ) );
+				$query .= '&amp;clickthru='.urlencode( $atts['url'] );
+				$query .= '&amp;caption='.urlencode( $this->p->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['embed'] ) ) {
-				$query .= 'video?embed=' . urlencode( $atts['embed'] );
-				$query .= '&amp;caption=' . urlencode( $this->p->util->decode( $atts['caption'] ) );
+				$query .= 'video?embed='.urlencode( $atts['embed'] );
+				$query .= '&amp;caption='.urlencode( $this->p->util->decode( $atts['caption'] ) );
 			} elseif ( ! empty( $atts['quote'] ) ) {
-				$query .= 'quote?quote=' . urlencode( $atts['quote'] );
-				$query .= '&amp;source=' . urlencode( $this->p->util->decode( $atts['title'] ) );
+				$query .= 'quote?quote='.urlencode( $atts['quote'] );
+				$query .= '&amp;source='.urlencode( $this->p->util->decode( $atts['title'] ) );
 			} elseif ( ! empty( $atts['url'] ) ) {
-				$query .= 'link?url=' . urlencode( $atts['url'] );
-				$query .= '&amp;name=' . urlencode( $this->p->util->decode( $atts['title'] ) );
-				$query .= '&amp;description=' . urlencode( $this->p->util->decode( $atts['description'] ) );
+				$query .= 'link?url='.urlencode( $atts['url'] );
+				$query .= '&amp;name='.urlencode( $this->p->util->decode( $atts['title'] ) );
+				$query .= '&amp;description='.urlencode( $this->p->util->decode( $atts['description'] ) );
 			}
 			if ( empty( $query ) ) return;
 
-			$html = '<!-- Tumblr Button --><div '.$this->p->social->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>'."\n";
+			$html = '<!-- Tumblr Button --><div '.$this->p->social->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -198,7 +198,7 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ).'"></script>'."\n";
+			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ).'"></script>';
 		}
 		
 	}

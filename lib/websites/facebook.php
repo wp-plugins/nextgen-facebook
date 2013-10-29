@@ -187,17 +187,17 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 					switch ( $opts['fb_markup'] ) {
 						case 'xfbml' :
 							// XFBML
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$opts['fb_font'].'" action="'.$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>'."\n";
+							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$opts['fb_font'].'" action="'.$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
 							break;
 						case 'html5' :
 						default :
 							// HTML5
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$opts['fb_layout'].'" data-width="'.$opts['fb_width'].'" data-show-faces="'.$show_faces.'" data-font="'.$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.$opts['fb_colorscheme'].'"></div>'."\n";
+							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$opts['fb_layout'].'" data-width="'.$opts['fb_width'].'" data-show-faces="'.$show_faces.'" data-font="'.$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.$opts['fb_colorscheme'].'"></div>';
 							break;
 					}
 					break;
 				case 'share' :
-					$html .= '<!-- Facebook Share Button --><div '.$this->p->social->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>'."\n";
+					$html .= '<!-- Facebook Share Button --><div '.$this->p->social->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>';
 					break;
 			}
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
@@ -211,7 +211,7 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en_US' : $this->p->options['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 			$app_id = empty( $this->p->options['fb_app_id'] ) ? '' : $this->p->options['fb_app_id'];
-			$html .= '<script type="text/javascript" id="facebook-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "facebook-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id ).'" );</script>'."\n";
+			$html .= '<script type="text/javascript" id="facebook-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "facebook-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id ).'" );</script>';
 			return $html;
 		}
 

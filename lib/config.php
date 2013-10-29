@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 	class ngfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.13.2dev2',
+			'version' => '6.14dev1',
 			'lca' => 'ngfb',			// lowercase acronym
 			'uca' => 'NGFB',			// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -104,6 +104,8 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),
 			'img' => array(
+				'og_min_width' => 200,
+				'og_min_height' => 200,
 				'follow' => array(
 					'size' => 32,
 					'src' => array(
@@ -194,9 +196,6 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 
 			if ( ! defined( $uca.'_MIN_DESC_LEN' ) )
 				define( $uca.'_MIN_DESC_LEN', 156 );
-
-			if ( ! defined( $uca.'_MIN_IMG_SIZE' ) )
-				define( $uca.'_MIN_IMG_SIZE', 200 );
 
 			if ( ! defined( $uca.'_MAX_IMG_OG' ) )
 				define( $uca.'_MAX_IMG_OG', 20 );

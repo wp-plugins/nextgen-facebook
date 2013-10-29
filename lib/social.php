@@ -23,6 +23,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
+			$this->add_filter( 'get_the_excerpt' );
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
 		}
@@ -59,6 +60,13 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 		}
 
 		public function filter_the_excerpt( $text ) {
+			$full = preg_replace( '/\+/', '\\+', $this->p->cf['full'] );
+			$text = preg_replace_callback( '/(<!-- '.$full.' excerpt-buttons BEGIN -->.* END -->)(<\/[pP]>)/Us', 
+				function( $m ) { $r = preg_replace( '/(<\/*[pP]>|\n)/', '', $m[1] ); return $m[2].$r; }, $text );
+			return $text;
+		}
+
+		public function filter_get_the_excerpt( $text ) {
 			return $this->filter( $text, 'the_excerpt', $this->p->options );
 		}
 
@@ -121,9 +129,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
 				$html = $this->get_html( $sorted_ids, $atts, $opts );
 				if ( ! empty( $html ) ) {
-					$html = "\n<!-- ".$this->p->cf['full'].' '.$css_type." BEGIN -->\n" .
-						'<div class="'.$this->p->cf['lca'].'-'.$css_type."\">\n".$html."</div>\n" .
-						'<!-- '.$this->p->cf['full'].' '.$css_type." END -->\n";
+					$html = '<!-- '.$this->p->cf['full'].' '.$css_type.' BEGIN -->'.
+						'<div class="'.$this->p->cf['lca'].'-'.$css_type.'">'.$html.'</div>'.
+						'<!-- '.$this->p->cf['full'].' '.$css_type.' END -->';
 
 					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
@@ -159,7 +167,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					$html .= $this->website[$id]->get_html( $atts, $opts );
 			}
 			if ( ! empty( $html ) ) 
-				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'."\n".$html.'</div>'."\n";
+				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'.$html.'</div>';
 			return $html;
 		}
 
@@ -204,7 +212,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 			}
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$js = '<!-- '.$this->p->cf['full'].' '.$pos.' javascript BEGIN -->'."\n";
+			$js = '<!-- '.$this->p->cf['full'].' '.$pos.' javascript BEGIN -->';
 
 			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
 			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
@@ -220,7 +228,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= '<!-- '.$this->p->cf['full'].' '.$pos.' javascript END -->'."\n";
+			$js .= '<!-- '.$this->p->cf['full'].' '.$pos.' javascript END -->';
 			return $js;
 		}
 
@@ -240,7 +248,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					js.language = "JavaScript";
 					js.src = url;
 					script_pos.parentNode.insertBefore( js, script_pos );
-				};'."\n</script>\n";
+				};'.'</script>';
 		}
 
 		public function get_css( $css_name, $atts = array(), $css_class_other = '' ) {

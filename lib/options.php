@@ -123,8 +123,8 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'og_site_name' => '',
 			'og_publisher_url' => '',
 			'og_art_section' => '',
-			'og_img_width' => 600,
-			'og_img_height' => 600,
+			'og_img_width' => 1200,
+			'og_img_height' => 630,
 			'og_img_crop' => 1,
 			'og_img_resize' => 1,
 			'og_img_max' => 1,
@@ -461,12 +461,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
-				if ( $this->p->options['og_img_width'] < NGFB_MIN_IMG_SIZE || $this->p->options['og_img_height'] < NGFB_MIN_IMG_SIZE ) {
+				if ( $this->p->options['og_img_width'] < $this->p->cf['img']['og_min_width'] || 
+					$this->p->options['og_img_height'] < $this->p->cf['img']['og_min_height'] ) {
+
 					$url = $this->p->util->get_admin_url( 'general' );
 					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
 					$this->p->notices->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
-						is smaller than the minimum of '.NGFB_MIN_IMG_SIZE.'x'.NGFB_MIN_IMG_SIZE.'. 
-						<a href="'.$url.'">Please enter a larger Image Size on the General Settings page</a>.' );
+						is smaller than the minimum of '.$this->p->cf['img']['og_min_width'].'x'.$this->p->cf['img']['og_min_height'].'. 
+						<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) )
 					$this->p->notices->nag( $this->p->msg->get( 'pro_activate' ) );
