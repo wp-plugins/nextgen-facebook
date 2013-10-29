@@ -461,13 +461,13 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
-				if ( $this->p->options['og_img_width'] < $this->p->cf['img']['og_min_width'] || 
-					$this->p->options['og_img_height'] < $this->p->cf['img']['og_min_height'] ) {
+				if ( $this->p->options['og_img_width'] < $this->p->cf['img']['min_width'] || 
+					$this->p->options['og_img_height'] < $this->p->cf['img']['min_height'] ) {
 
 					$url = $this->p->util->get_admin_url( 'general' );
 					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
 					$this->p->notices->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
-						is smaller than the minimum of '.$this->p->cf['img']['og_min_width'].'x'.$this->p->cf['img']['og_min_height'].'. 
+						is smaller than the minimum of '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].'. 
 						<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) )

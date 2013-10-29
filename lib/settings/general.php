@@ -66,7 +66,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( __( 'Image Dimensions', NGFB_TEXTDOM ), 'highlight', null, '
 					The dimension of images used in the Open Graph meta tags. The width and height must be 
-					greater than '.$this->p->cf['img']['og_min_width'].'x'.$this->p->cf['img']['og_min_height'].', and preferably smaller than 1500x1500
+					greater than '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].', and preferably smaller than 1500x1500
 					(the defaults is '.$this->p->opt->get_defaults( 'og_img_width' ).'x'.$this->p->opt->get_defaults( 'og_img_height' ).', '.
 					( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ).'cropped). 
 					<strong>Facebook prefers larger images for use on high resolution devices (1200x630 is recommended)</strong>.
@@ -96,7 +96,7 @@ if ( ! class_exists( 'ngfbSettingsGeneral' ) && class_exists( 'ngfbAdmin' ) ) {
 					You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 
 					<em>Default Image ID</em>.
 					This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
-					The image should be at least '.$this->p->cf['img']['og_min_width'].'x'.$this->p->cf['img']['og_min_height'].' or more in width and height. 
+					The image should be at least '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].' or more in width and height. 
 					If both the <em>Default Image ID</em> and <em>Default Image URL</em> are defined, the <em>Default Image ID</em>
 					will take precedence.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_def_img_url', 'wide' ).'</td>';

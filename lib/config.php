@@ -21,8 +21,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			'full' => 'NGFB Open Graph+',		// full plugin name
 			'full_pro' => 'NGFB Open Graph+ Pro',
 			'upd_hrs' => 12,			// check for pro updates
-			'min_wp' => '3.0',			// minimum wordpress version
-			'lib' => array(
+			'lib' => array(				// libraries
 				'setting' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
@@ -62,7 +61,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 					'wpseo' => 'WordPressSEO',
 				),
 			),
-			'opt' => array(
+			'opt' => array(				// options
 				'pre' => array(
 					'facebook' => 'fb', 
 					'gplus' => 'gp',
@@ -75,14 +74,15 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 					'skype' => 'skype',
 				),
 			),
-			'wp' => array(
+			'wp' => array(				// wordpress
+				'min_version' => '3.0',		// minimum wordpress version
 				'contact' => array(
 					'aim' => 'AIM',
 					'jabber' => 'Jabber / Google Talk',
 					'yim' => 'Yahoo IM',
 				),
 			),
-			'css' => array(
+			'css' => array(				// stylesheets
 				'social' => 'Buttons Style',
 				'excerpt' => 'Excerpt Style',
 				'content' => 'Content Style',
@@ -103,9 +103,9 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 				'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),
-			'img' => array(
-				'og_min_width' => 200,
-				'og_min_height' => 200,
+			'img' => array(				// images
+				'min_width' => 200,
+				'min_height' => 200,
 				'follow' => array(
 					'size' => 32,
 					'src' => array(
