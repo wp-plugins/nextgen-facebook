@@ -197,7 +197,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				exit;
 			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
 				! wp_verify_nonce( $_POST[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) ) {
-				$this->p->notices->err( 'Token validation has failed.', true );
+				$this->p->notices->err( 'Nonce token validation has failed.', true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			}
@@ -230,43 +230,48 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				if ( empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$this->p->update_error = '';
 					delete_option( $this->p->cf['lca'].'_update_error' );
+
 				} elseif ( ! $this->p->check->pro_active() && 
 					! empty( $this->p->options['plugin_pro_tid'] ) )
 						$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
-
-				switch ( $_GET['action'] ) {
-					case 'remove_old_css' : 
-						if ( file_exists( $old_css_file ) )
-							if ( @unlink( $old_css_file ) )
-								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>'.$this->p->cf['uca'].' Info</b> : The old <u>'.$old_css_file.'</u> 
-										stylesheet has been removed.', 'updated' );
-							else
-								add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-									'<b>'.$this->p->cf['uca'].' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
-										stylesheet. Does the web server have sufficient privileges?', 'error' );
-
-						break;
-					case 'check_for_updates' : 
-						if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
-							$this->p->admin->set_readme( 0 );
-							$this->p->update->check_for_updates();
-							$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
-						}
-						break;
-					case 'clear_all_cache' : 
-						$deleted_cache = $this->p->util->delete_expired_file_cache( true );
-						$deleted_transient = $this->p->util->delete_expired_transients( true );
-						wp_cache_flush();
-						if ( function_exists('w3tc_pgcache_flush') ) 
-							w3tc_pgcache_flush();
-						elseif ( function_exists('wp_cache_clear_cache') ) 
-							wp_cache_clear_cache();
-						$this->p->notices->inf( 'Cached files, WP object cache, transient cache, and any 
-							additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.' );
-						break;
+				if ( empty( $_GET[ NGFB_NONCE ] ) ||
+					! wp_verify_nonce( $_GET[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) )
+						$this->p->notices->err( 'Nonce token validation has failed.' );
+				else {
+					switch ( $_GET['action'] ) {
+						case 'remove_old_css' : 
+							if ( file_exists( $old_css_file ) )
+								if ( @unlink( $old_css_file ) )
+									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+										'<b>'.$this->p->cf['uca'].' Info</b> : The old <u>'.$old_css_file.'</u> 
+											stylesheet has been removed.', 'updated' );
+								else
+									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+										'<b>'.$this->p->cf['uca'].' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
+											stylesheet. Does the web server have sufficient privileges?', 'error' );
+	
+							break;
+						case 'check_for_updates' : 
+							if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
+								$this->p->admin->set_readme( 0 );
+								$this->p->update->check_for_updates();
+								$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
+							}
+							break;
+						case 'clear_all_cache' : 
+							$deleted_cache = $this->p->util->delete_expired_file_cache( true );
+							$deleted_transient = $this->p->util->delete_expired_transients( true );
+							wp_cache_flush();
+							if ( function_exists('w3tc_pgcache_flush') ) 
+								w3tc_pgcache_flush();
+							elseif ( function_exists('wp_cache_clear_cache') ) 
+								wp_cache_clear_cache();
+							$this->p->notices->inf( 'Cached files, WP object cache, transient cache, and any 
+								additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.' );
+							break;
+					}
 				}
 			}
 
@@ -277,7 +282,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					sprintf( __( 'Styling for social buttons is now managed on the <a href="%s">Social Style settings page</a>.', 
 						NGFB_TEXTDOM ), $this->p->util->get_admin_url( 'style' ) ).' '.
 					sprintf( __( 'When you are ready, you can <a href="%s">click here to remove the old stylesheet</a>.', 
-						NGFB_TEXTDOM ), $this->p->util->get_admin_url( '?action=remove_old_css' ) ) 
+						NGFB_TEXTDOM ), wp_nonce_url( $this->p->util->get_admin_url( '?action=remove_old_css' ),
+							plugin_basename( __FILE__ ), NGFB_NONCE ) ) 
 				);
 			}
 
@@ -456,12 +462,14 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			$action_buttons = '';
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
-					'button-primary', null, $this->p->util->get_admin_url().'&amp;action=check_for_updates' );
+					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
+						plugin_basename( __FILE__ ), NGFB_NONCE ) );
 
 			// don't show the 'Clear All Cache' on network admin pages
 			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
-					'button-primary', null, $this->p->util->get_admin_url().'&amp;action=clear_all_cache' );
+					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
+						plugin_basename( __FILE__ ), NGFB_NONCE ) );
 
 			if ( ! empty( $action_buttons ) )
 				echo '<tr><td colspan="2"><p class="centered">', $action_buttons, '</p></td></tr>';

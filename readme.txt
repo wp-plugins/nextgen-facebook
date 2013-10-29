@@ -774,10 +774,11 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.13.2dev1 =
+= Version 6.13.2dev2 =
 
 * Added a new lib/config.php library file with config values, definition of constants, and loading of required library files.
 * Added check for empty width/height values from wp_get_attachment_metadata().
+* Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
 
 = Version 6.13.1 =
 
@@ -799,9 +800,9 @@ function add_tracking_id( $url, $src_id ) {
 
 == Upgrade Notice ==
 
-= 6.13.2dev1 =
+= 6.13.2dev2 =
 
-Added a new lib/config.php library file with config values, added a check for empty width/height values from wp_get_attachment_metadata().
+Added a new lib/config.php library file with config values, added a check for empty width/height values from wp_get_attachment_metadata(), added nonce validation for settings page action buttons.
 
 = 6.13.1 =
 

@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 	class ngfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.13.2dev1',
+			'version' => '6.13.2dev2',
 			'lca' => 'ngfb',			// lowercase acronym
 			'uca' => 'NGFB',			// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -118,8 +118,12 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			),
 		);
 
-		public static function get_config() { 
-			return self::$cf;
+		public static function get_config( $idx = '' ) { 
+			if ( ! empty( $idx ) ) {
+				if ( array_key_exists( $idx, self::$cf ) )
+					return self::$cf[$idx];
+				else return false;
+			} else return self::$cf;
 		}
 
 		public static function set_constants( $plugin_filepath ) { 

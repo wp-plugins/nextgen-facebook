@@ -106,8 +106,6 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			}
 			$option_data->lastCheck = time();
 			$option_data->checkedVersion = $this->get_installed_version();
-			update_site_option( $this->option_name, $option_data );
-	
 			$option_data->update = $this->get_update();
 			update_site_option( $this->option_name, $option_data );
 		}

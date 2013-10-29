@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.13.2dev1
+Version: 6.13.2dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -46,10 +46,6 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public $ngg_options = array();	// nextgen gallery options
 		public $ngg_version = 0;	// nextgen gallery version
 
-		// static variables for uninstall method
-		private static $lca = 'ngfb';
-		private static $slug = 'nextgen-facebook';
-
 		public function __construct() {
 
 			// define the config values
@@ -57,7 +53,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$classname = __CLASS__.'Config';
 			$this->cf = $classname::get_config();
 			$classname::set_constants( __FILE__ );
-			$classname::require_libs();		// keep in __construct() for widgets
+			$classname::require_libs();		// keep in construct for widgets
 
 			register_activation_hook( __FILE__, array( &$this, 'network_activate' ) );
 			register_deactivation_hook( __FILE__, array( &$this, 'network_deactivate' ) );
@@ -77,7 +73,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public static function network_uninstall() {
 			$sitewide = true;
 			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
-			delete_site_option( self::$lca.'_site_options' );
+
+			$classname = __CLASS__.'Config';
+			$lca = $classname::get_config( 'lca' );
+			delete_site_option( $lca.'_site_options' );
 		}
 
 		private static function do_multisite( $sitewide, $method, $args = array() ) {
@@ -106,21 +105,24 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 
 		private static function uninstall_plugin() {
 			global $wpdb;
-			$options = get_option( self::$lca.'_options' );
+			$classname = __CLASS__.'Config';
+			$lca = $classname::get_config( 'lca' );
+			$slug = $classname::get_config( 'slug' );
+			$options = get_option( $lca.'_options' );
 
 			if ( empty( $options['plugin_preserve'] ) ) {
 
 				// delete plugin settings
-				delete_option( self::$lca.'_options' );
+				delete_option( $lca.'_options' );
 
 				// delete all custom post meta
-				delete_post_meta_by_key( '_'.self::$lca.'_meta' );
+				delete_post_meta_by_key( '_'.$lca.'_meta' );
 
 				// delete metabox preferences for all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
 						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
-							$meta_key = $meta_name.'_'.$page_prefix.'_'.self::$lca.'-'.$settings_page;
+							$meta_key = $meta_name.'_'.$page_prefix.'_'.$lca.'-'.$settings_page;
 							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
 								delete_user_option( $user->ID, $meta_key, true );
 						}
@@ -130,20 +132,20 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			}
 
 			// delete update related options
-			delete_option( 'external_updates-'.self::$slug );
-			delete_option( self::$lca.'_update_error' );
-			delete_option( self::$lca.'_update_time' );
+			delete_option( 'external_updates-'.$slug );
+			delete_option( $lca.'_update_error' );
+			delete_option( $lca.'_update_time' );
 
 			// delete all stored admin notices
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-				$msg_opt = self::$lca.'_notices_'.$type;
+				$msg_opt = $lca.'_notices_'.$type;
 				delete_option( $msg_opt );
 				foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
 					delete_user_option( $user->ID, $msg_opt );
 			}
 
 			// delete transients
-			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.self::$lca.'_%\';';
+			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$lca.'_%\';';
 			$expired = $wpdb->get_col( $dbquery ); 
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
@@ -292,8 +294,9 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				$this->update = new ngfbUpdate( $this );
 				if ( is_admin() ) {
 					$last_update = get_option( $this->cf['lca'].'_update_time' );
-					if ( empty( $last_update ) || $last_update + ( $this->cf['upd_hrs'] * 2 * 3600 ) < time() )
-						$this->update->check_for_updates();
+					if ( empty( $last_update ) || 
+						( ! empty( $this->cf['upd_hrs'] ) && $last_update + ( $this->cf['upd_hrs'] * 7200 ) < time() ) )
+							$this->update->check_for_updates();
 				}
 			}
 

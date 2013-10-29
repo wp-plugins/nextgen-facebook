@@ -358,9 +358,11 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 		}
 
 		public function get_site_defaults( $idx = '' ) {
-			if ( ! empty( $idx ) ) 
-				return $this->site_defaults[$idx];
-			else return $this->site_defaults;
+			if ( ! empty( $idx ) ) {
+				if ( array_key_exists( $idx, $this->site_defaults ) )
+					return $this->site_defaults[$idx];
+				else return false;
+			} else return $this->site_defaults;
 		}
 
 		public function get_defaults( $idx = '' ) {
@@ -403,7 +405,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			}
 
 			if ( ! empty( $idx ) ) 
-				return $this->defaults[$idx];
+				if ( array_key_exists( $idx, $this->defaults ) )
+					return $this->defaults[$idx];
+				else return false;
 			else return $this->defaults;
 		}
 
