@@ -111,12 +111,12 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': '.$type.' html transient id salt "'.$cache_salt.'"' );
+				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );
 				$html = get_transient( $cache_id );
 			}
 
 			if ( $html !== false )
-				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient for id "'.$cache_id.'"' );
+				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
 			else {
 				// sort enabled social buttons by their prefered order
 				$sorted_ids = array();
@@ -135,8 +135,8 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
-						$this->p->debug->log( $cache_type.': '.$type.' html saved to transient for id "'.
-							$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+						$this->p->debug->log( $cache_type.': '.$type.' html saved to transient '.
+							$cache_id.' ('.$this->p->cache->object_expire.' seconds)' );
 					}
 				}
 			}

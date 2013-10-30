@@ -42,17 +42,19 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 		// called to get an image url from an ngg picture id and a media size name (the pid must be formatted as 'ngg-#')
 		// TODO find a way to get accurate size information back from NGG v2+
 		public function get_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
+
 			if ( $this->p->is_avail['ngg'] !== true ||
 				! is_string( $pid ) || 
 				substr( $pid, 0, 4 ) !== 'ngg-' )
 					return array( null, null, null, null );
 
-			global $nggdb;
 			$size_info = $this->p->media->get_size_info( $size_name );
 			$pid = substr( $pid, 4 );
 			$img_url = '';
 			$img_crop = $size_info['crop'] == 1 ? 'true' : 'false';
 			$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
+
+			global $nggdb;
 			$image = $nggdb->find_image( $pid );	// returns an nggImage object
 			if ( ! empty( $image ) ) {
 				$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
@@ -83,13 +85,17 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 					$img_crop = '';
 				}
 			}
+
 			$this->p->debug->log( 'image for pid:'.$pid.' size:'.$size_name.' = '.$img_url.
 				' ('.$size_info['width'].'x'.$size_info['height'].')' );
+
 			$img_url = $this->p->util->fix_relative_url( $img_url );
+
 			if ( ! empty( $img_url ) ) {
 				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
 					return array( $this->p->util->rewrite( $img_url ), $size_info['width'], $size_info['height'], $img_crop );
 			} else $this->p->debug->log( 'image rejected: image url is empty' );
+
 			return array( null, null, null, null );
 		}
 

@@ -178,12 +178,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$cache_salt = __METHOD__.'(url:'.$long_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': short_url transient id salt "'.$cache_salt.'"' );
+				$this->p->debug->log( $cache_type.': short_url transient salt '.$cache_salt );
 				$short_url = get_transient( $cache_id );
 			}
 
 			if ( $short_url !== false ) {
-				$this->p->debug->log( $cache_type.': short_url retrieved from transient for id "'.$cache_id.'"' );
+				$this->p->debug->log( $cache_type.': short_url retrieved from transient '.$cache_id );
 				return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
 			} else {
 				switch ( $shortener ) {
@@ -208,8 +208,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$this->p->debug->log( 'url successfully shortened = '.$short_url );
 					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 						set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
-						$this->p->debug->log( $cache_type.': short_url saved to transient for id "'.
-							$cache_id.'" ('.$this->p->cache->object_expire.' seconds)' );
+						$this->p->debug->log( $cache_type.': short_url saved to transient '.
+							$cache_id.' ('.$this->p->cache->object_expire.' seconds)' );
 					}
 					return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
 				}
@@ -361,10 +361,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				$cache_salt = __METHOD__.'(file:'.$this->p->cf['url']['readme'].')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': plugin_info transient id salt "'.$cache_salt.'"' );
+				$this->p->debug->log( $cache_type.': plugin_info transient salt '.$cache_salt );
 				$plugin_info = get_transient( $cache_id );
 				if ( $plugin_info !== false ) {
-					$this->p->debug->log( $cache_type.': plugin_info retrieved from transient for id "'.$cache_id.'"' );
+					$this->p->debug->log( $cache_type.': plugin_info retrieved from transient '.$cache_id );
 					return $plugin_info;
 				}
 			}
@@ -392,7 +392,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			// save the parsed readme (aka $plugin_info) to the transient cache
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $plugin_info, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type.': plugin_info saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+				$this->p->debug->log( $cache_type.': plugin_info saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $plugin_info;
 		}
@@ -566,9 +566,9 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 						'admin_sharing html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
 					) as $cache_origin => $cache_salt ) {
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
-						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient id salt "'.$cache_salt.'"' );
+						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient salt '.$cache_salt );
 						if ( delete_transient( $cache_id ) ) {
-							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted for id "'.$cache_id.'"' );
+							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted '.$cache_id );
 							// duplicate notices are ignored, so only one notice message will be shown
 							$this->p->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
 						}

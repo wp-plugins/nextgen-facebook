@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.14dev3
+Version: 6.14dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -293,9 +293,10 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				$this->update = new ngfbUpdate( $this );
 				if ( is_admin() ) {
+					// if update_hours * 2 has passed without an update check, then force one now
 					$last_update = get_option( $this->cf['lca'].'_update_time' );
 					if ( empty( $last_update ) || 
-						( ! empty( $this->cf['upd_hrs'] ) && $last_update + ( $this->cf['upd_hrs'] * 7200 ) < time() ) )
+						( ! empty( $this->cf['update_hours'] ) && $last_update + ( $this->cf['update_hours'] * 7200 ) < time() ) )
 							$this->update->check_for_updates();
 				}
 			}
@@ -305,7 +306,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function filter_installed_version( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0.'.$version;
+			else return '0.'.$version;	// force upgrade to any current pro version
 		}
 
 		public function set_options() {

@@ -16,27 +16,41 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		private $p;
 	
 		public $json_url = '';
-		public $base_name = '';
+		public $json_expire = 3600;	// cache retrieved update json for 1 hour
+		public $lca = '';
+		public $uca = '';
 		public $slug = '';
+		public $base = '';
 		public $cron_hook = 'plugin_updates';
-		public $time_period = 12;
+		public $sched_hours = 12;
 		public $sched_name = 'every12hours';
 		public $option_name = '';
 		public $update_timestamp = '';
 	
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+
+			// define the logging class to use
+			if ( is_object( $this->p->debug ) ) {
+				$this->debug =& $this->p->debug;
+				$this->debug->mark();
+			} else {
+				$classname = __CLASS__.'Log';
+				$this->debug = new $classname;
+			}
 
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_pro_tid'];
 
-			$this->base_name = NGFB_PLUGINBASE;
-			$this->slug = $this->p->cf['slug'];
-			$this->cron_hook = 'plugin_updates-'.$this->slug;
-			$this->time_period = $this->p->cf['upd_hrs'];
-			$this->sched_name = 'every'.$this->time_period.'hours';
-			$this->option_name = 'external_updates-'.$this->slug;
+			$this->lca = $this->p->cf['lca'];			// ngfb
+			$this->uca = $this->p->cf['uca'];			// NGFB
+			$this->slug = $this->p->cf['slug'];			// nextgen-facebook
+			$this->base = constant( $this->uca.'_PLUGINBASE' );	// nextgen-facebook/nextgen-facebook.php
+			$this->cron_hook = 'plugin_updates-'.$this->slug;	// plugin_updates-nextgen-facebook
+			$this->sched_hours = $this->p->cf['update_hours'];	// 12
+			$this->sched_name = 'every'.$this->sched_hours.'hours';	// every12hours
+			$this->option_name = 'external_updates-'.$this->slug;	// external_updates-nextgen-facebook
+
 			$this->install_hooks();
 		}
 	
@@ -45,13 +59,13 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			add_filter( 'site_transient_update_plugins', array(&$this,'inject_update'));
 
 			// in a multisite environment, each site will (unfortunately) check for updates
-			if ($this->time_period > 0) {
+			if ($this->sched_hours > 0) {
 				add_filter( 'cron_schedules', array( &$this, 'custom_schedule' ) );
 				add_action( $this->cron_hook, array( &$this, 'check_for_updates' ) );
 				$schedule = wp_get_schedule( $this->cron_hook );
 				// check for schedule mismatch
 				if ( ! empty( $schedule ) && $schedule !== $this->sched_name ) {
-					$this->p->debug->log( 'changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name );
+					$this->debug->log( 'changing '.$this->cron_hook.' schedule from '.$schedule.' to '.$this->sched_name );
 					wp_clear_scheduled_hook( $this->cron_hook );
 				}
 				// add schedule if it doesn't exist
@@ -74,23 +88,23 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function inject_update( $updates ) {
-			if ( ! empty( $updates->response[$this->base_name] ) ) {
-				unset( $updates->response[$this->base_name] );
+			if ( ! empty( $updates->response[$this->base] ) ) {
+				unset( $updates->response[$this->base] );
 			}
 			$option_data = get_site_option( $this->option_name );
 			if ( ! empty( $option_data ) && is_object( $option_data->update ) && ! empty( $option_data->update ) ) {
 				if ( version_compare( $option_data->update->version, $this->get_installed_version(), '>' ) ) {
-					$updates->response[$this->base_name] = $option_data->update->json_to_wp();
+					$updates->response[$this->base] = $option_data->update->json_to_wp();
 				}
 			}
 			return $updates;
 		}
 	
 		public function custom_schedule( $schedule ) {
-			if ($this->time_period > 0) {
+			if ($this->sched_hours > 0) {
 				$schedule[$this->sched_name] = array(
-					'interval' => $this->time_period * 3600,
-					'display' => sprintf('Every %d hours', $this->time_period)
+					'interval' => $this->sched_hours * 3600,
+					'display' => sprintf('Every %d hours', $this->sched_hours)
 				);
 			}
 			return $schedule;
@@ -111,22 +125,37 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 		}
 	
 		public function get_update() {
-			$plugin_data = $this->get_json( array( 'checking_for_updates' => '1' ) );
-			if ( $plugin_data == null ) return null;
+			$plugin_data = $this->get_json();
+			if ( $plugin_data == null ) 
+				return null;
 			$plugin_data = ngfbPluginUpdate::from_plugin_data( $plugin_data );
 			return $plugin_data;
 		}
 	
 		public function get_json( $query = array() ) {
-			$plugin_data = null;
-			if ( empty( $this->json_url ) ) {
-				$this->p->debug->log( 'exiting early: empty json_url' );
+
+			global $wp_version;
+			$update_url = $this->json_url;
+			$site_url = get_bloginfo( 'url' );
+			$query['installed_version'] = $this->get_installed_version();
+
+			if ( empty( $update_url ) ) {
+				$this->debug->log( 'exiting early: empty update url' );
+				return null;
+			} elseif ( ! empty( $query ) ) 
+				$update_url = add_query_arg( $query, $update_url );
+
+			$cache_salt = __METHOD__.'(update_url:'.$update_url.'_site_url:'.$site_url.')';
+			$cache_id = $this->lca.'_'.md5( $cache_salt );		// use lca prefix for plugin clear cache
+			$cache_type = 'object cache';
+			$this->debug->log( $cache_type.': plugin data transient salt '.$cache_salt );
+			$plugin_data = get_transient( $cache_id );
+			if ( $plugin_data !== false ) {
+				$this->debug->log( $cache_type.': plugin data retrieved from transient '.$cache_id );
 				return $plugin_data;
 			}
-			global $wp_version;
-			$url = $this->json_url;
-			$query['installed_version'] = $this->get_installed_version();
-			$user_agent = 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.get_bloginfo( 'url' );
+
+			$user_agent = 'WordPress/'.$wp_version.' ('.$this->slug.'/'.$query['installed_version'].'); '.$site_url;
 			$options = array(
 				'timeout' => 10, 
 				'user-agent' => $user_agent,
@@ -135,9 +164,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 					'X-WordPress-Id' => $user_agent,
 				),
 			);
-			if ( ! empty( $query ) ) 
-				$url = add_query_arg( $query, $url );
-			$result = wp_remote_get( $url, $options );
+			$plugin_data = null;
+			$result = wp_remote_get( $update_url, $options );
 			if ( ! is_wp_error( $result )
 				&& isset( $result['response']['code'] )
 				&& ( $result['response']['code'] == 200 )
@@ -146,15 +174,21 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				if ( ! empty( $result['headers']['x-smp-error'] ) ) {
 					$error_msg = json_decode( $result['body'] );
 					$this->p->update_error = $error_msg;
-					update_option( $this->p->cf['lca'].'_update_error', $error_msg );
+					update_option( $this->lca.'_update_error', $error_msg );
 				} else {
 					$this->p->update_error = '';
-					delete_option( $this->p->cf['lca'].'_update_error' );
+					delete_option( $this->lca.'_update_error' );
 					$plugin_data = ngfbPluginData::from_json( $result['body'] );
 				}
 			}
+
 			$this->update_timestamp = time();
-			update_option( $this->p->cf['lca'].'_update_time', $this->update_timestamp );
+			update_option( $this->lca.'_update_time', $this->update_timestamp );
+
+			// $plugin_data is null on wp_remote_get() failure; cache it anyway
+			set_transient( $cache_id, $plugin_data, $this->json_expire );
+			$this->debug->log( $cache_type.': plugin data saved to transient '.$cache_id.' ('.$this->json_expire.' seconds)');
+
 			return $plugin_data;
 		}
 	
@@ -163,14 +197,12 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 			if ( ! function_exists( 'get_plugins' ) ) 
 				require_once( ABSPATH.'/wp-admin/includes/plugin.php' );
 			$plugins = get_plugins();
-			if ( array_key_exists( $this->base_name, $plugins ) && 
-				array_key_exists( 'Version', $plugins[$this->base_name] ) )
-					$version = $plugins[$this->base_name]['Version'];
-			return apply_filters( $this->p->cf['lca'].'_installed_version', $version );
+			if ( array_key_exists( $this->base, $plugins ) && 
+				array_key_exists( 'Version', $plugins[$this->base] ) )
+					$version = $plugins[$this->base]['Version'];
+			return apply_filters( $this->lca.'_installed_version', $version );
 		}
-
 	}
-
 }
 	
 if ( ! class_exists( 'ngfbPluginData' ) ) {
@@ -259,9 +291,9 @@ if ( ! class_exists( 'ngfbPluginUpdate' ) ) {
 		public $upgrade_notice;
 	
 		public function from_json($json){
-			$plugin_data = ngfbPluginData::from_json($json);
-			if ($plugin_data != null) 
-				return self::from_plugin_data($plugin_data);
+			$plugin_data = ngfbPluginData::from_json( $json );
+			if ( $plugin_data != null ) 
+				return self::from_plugin_data( $plugin_data );
 			else return null;
 		}
 	
@@ -298,4 +330,15 @@ if ( ! class_exists( 'ngfbPluginUpdate' ) ) {
 
 }
 	
+if ( ! class_exists( 'ngfbUpdateLog' ) ) {
+
+	class ngfbUpdateLog {
+
+		public function __construct() { }
+
+		public function log() { return; }
+	}
+
+}
+
 ?>

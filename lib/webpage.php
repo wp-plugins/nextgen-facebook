@@ -267,10 +267,10 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache id salt "'.$cache_salt.'"' );
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache salt '.$cache_salt );
 				$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
 				if ( $content !== false ) {
-					$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache for id "'.$cache_id.'"' );
+					$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache '.$cache_id );
 					return $content;
 				}
 			}
@@ -349,7 +349,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 			if ( ! defined( 'NGFB_OBJECT_CACHE_DISABLE' ) || ! NGFB_OBJECT_CACHE_DISABLE ) {
 				wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $content;
 		}

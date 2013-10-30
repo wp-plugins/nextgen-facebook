@@ -40,10 +40,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': og array transient id salt "'.$cache_salt.'"' );
+				$this->p->debug->log( $cache_type.': og array transient salt '.$cache_salt );
 				$og = get_transient( $cache_id );
 				if ( $og !== false ) {
-					$this->p->debug->log( $cache_type.': og array retrieved from transient for id "'.$cache_id.'"' );
+					$this->p->debug->log( $cache_type.': og array retrieved from transient '.$cache_id );
 					return $og;
 				}
 			}
@@ -167,7 +167,7 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type.': og array saved to transient for id "'.$cache_id.'" ('.$this->p->cache->object_expire.' seconds)');
+				$this->p->debug->log( $cache_type.': og array saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $og;
 		}

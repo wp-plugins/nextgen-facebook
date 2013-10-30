@@ -27,12 +27,12 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 
-			// define the debug class to use
+			// define the logging class to use
 			if ( is_object( $this->p->debug ) ) {
 				$this->debug =& $this->p->debug;
 				$this->debug->mark();
 			} else {
-				$classname = __CLASS__.'Debug';
+				$classname = __CLASS__.'Log';
 				$this->debug = new $classname;
 			}
 
@@ -168,10 +168,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
-						$this->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$this->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
 						$cache_data = wp_cache_get( $cache_id, __CLASS__ );
 						if ( $cache_data !== false )
-							$this->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' for id "'.$cache_id.'"' );
+							$this->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' '.$cache_id );
 					}
 					break;
 				case 'transient' :
@@ -180,17 +180,17 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
-						$this->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$this->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
 						$cache_data = get_transient( $cache_id );
 						if ( $cache_data !== false )
-							$this->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' for id "'.$cache_id.'"' );
+							$this->debug->log( $cache_type.': cache_data retrieved from '.$cache_name.' '.$cache_id );
 					}
 					break;
 				case 'file' :
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );		// no lca prefix on filenames
 					$cache_file = $this->base_dir.$cache_id.$url_ext;
-					$this->debug->log( $cache_type.': filename id salt "'.$cache_salt.'"' );
+					$this->debug->log( $cache_type.': filename salt '.$cache_salt );
 					$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
 
 					if ( ! file_exists( $cache_file ) )
@@ -229,10 +229,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
-						$this->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$this->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
 						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						wp_cache_set( $cache_id, $cache_data, __CLASS__, $object_expire );
-						$this->debug->log( $cache_type.': cache_data saved to '.$cache_name.' for id "'.$cache_id.'" ('.$object_expire.' seconds)' );
+						$this->debug->log( $cache_type.': cache_data saved to '.$cache_name.' '.$cache_id.' ('.$object_expire.' seconds)' );
 						$ret_status = true;	// success
 					}
 					break;
@@ -242,10 +242,10 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
-						$this->debug->log( $cache_type.': cache_data '.$cache_name.' id salt "'.$cache_salt.'"' );
+						$this->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
 						$object_expire = $expire_secs === false ? $this->object_expire : $expire_secs;
 						set_transient( $cache_id, $cache_data, $object_expire );
-						$this->debug->log( $cache_type.': cache_data saved to '.$cache_name.' for id "'.$cache_id.'" ('.$object_expire.' seconds)' );
+						$this->debug->log( $cache_type.': cache_data saved to '.$cache_name.' '.$cache_id.' ('.$object_expire.' seconds)' );
 						$ret_status = true;	// success
 					}
 					break;
@@ -253,7 +253,7 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 					$cache_type = 'file cache';
 					$cache_id = md5( $cache_salt );
 					$cache_file = $this->base_dir.$cache_id.$url_ext;
-					$this->debug->log( $cache_type.': filename id salt "'.$cache_salt.'"' );
+					$this->debug->log( $cache_type.': filename salt '.$cache_salt );
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
 					if ( ! is_writable( $this->base_dir ) )
@@ -279,9 +279,9 @@ if ( ! class_exists( 'ngfbCache' ) ) {
 	}
 }
 
-if ( ! class_exists( 'ngfbCacheDebug' ) ) {
+if ( ! class_exists( 'ngfbCacheLog' ) ) {
 
-	class ngfbCacheDebug {
+	class ngfbCacheLog {
 
 		public function __construct() { }
 

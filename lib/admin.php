@@ -227,11 +227,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 
+				// if the settings are being updated, and there is no Authentication ID,
+				// then clear any update error messages
 				if ( empty( $this->p->options['plugin_pro_tid'] ) ) {
 					$this->p->update_error = '';
 					delete_option( $this->p->cf['lca'].'_update_error' );
 
-				} elseif ( ! $this->p->check->pro_active() && 
+				// if the pro version plugin is installed, not active, and we have an
+				// Authentication ID, then check for updates
+				} elseif ( $this->p->is_avail['aop'] && 
+					! $this->p->check->pro_active() && 
 					! empty( $this->p->options['plugin_pro_tid'] ) )
 						$this->p->update->check_for_updates();
 
@@ -295,7 +300,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			if ( $this->p->check->pro_active() )
 				add_meta_box( $this->pagehook.'_thankyou', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
-			$this->p->admin->set_readme( $this->p->cf['upd_hrs'] * 3600 );	// the version info metabox on all settings pages needs this
+			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );	// the version info metabox on all settings pages needs this
 		}
 
 		public function show_page() {
@@ -417,7 +422,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function feed_cache_expire( $seconds ) {
-			return $this->p->cf['upd_hrs'] * 3600;
+			return $this->p->cf['update_hours'] * 3600;
 		}
 
 		public function show_metabox_news() {
