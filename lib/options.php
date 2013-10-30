@@ -156,10 +156,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'buttons_location_the_excerpt' => 'bottom',
 			'buttons_location_the_content' => 'bottom',
 			'buttons_link_css' => 1,
+			'buttons_css_social' => '',
 			'buttons_css_excerpt' => '',
 			'buttons_css_content' => '',
 			'buttons_css_shortcode' => '',
-			'buttons_css_social' => '',
 			'buttons_css_widget' => '',
 			'fb_on_the_excerpt' => 0,
 			'fb_on_the_content' => 0,
@@ -417,10 +417,10 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 					$key = $pre.$post_type->name;
 					if ( ! array_key_exists( $key, $opts ) ) {
 						switch ( $post_type->name ) {
-							case 'shop_coupon' :
+							case 'shop_coupon':
 								$opts[$key] = 0;
 								break;
-							default :
+							default:
 								$opts[$key] = 1;
 								break;
 						}
@@ -485,162 +485,184 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 
 				// loop through all the known option keys
 				foreach ( $def_opts as $key => $def_val ) {
-
-					// remove html, decode entities, and strip slashes
-					if ( array_key_exists( $key, $opts ) )
-						$opts[$key] = stripslashes( html_entity_decode( wp_filter_nohtml_kses( $opts[$key] ) ) );
+					/*
+					 * remove html (except from css), decode entities, and strip slashes
+					 */
+					if ( array_key_exists( $key, $opts ) ) {
+						switch ( $key ) {
+							case 'buttons_css_social':
+							case 'buttons_css_excerpt':
+							case 'buttons_css_content':
+							case 'buttons_css_shortcode':
+							case 'buttons_css_widget':
+								break;
+							default:
+								$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
+								break;
+						}
+						$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
+					}
 
 					switch ( $key ) {
-
-						// twitter-style usernames
-						case 'tc_site' :
+						/*
+						 * twitter-style usernames
+						 */
+						case 'tc_site':
 							$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
 								strtolower( $opts[$key] ) ), 0, 15 );
 							if ( ! empty( $opts[$key] ) ) 
 								$opts[$key] = '@'.$opts[$key];
 							break;
-
-						// stip leading urls off Facebook usernames
-						case 'fb_admins' :
+						/*
+						 * strip leading urls off Facebook usernames
+						 */
+						case 'fb_admins':
 							$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
 								$opts[$key] );
 							break;
-
-						// must be a url (reset to default if not)
-						case 'og_img_url' :
-						case 'og_vid_url' :
-						case 'og_def_img_url' :
-						case 'og_publisher_url' :
-						case 'link_publisher_url' :
-						case 'plugin_cdn_urls' :
+						/*
+						 * must be a url (reset to default if not)
+						 */
+						case 'og_img_url':
+						case 'og_vid_url':
+						case 'og_def_img_url':
+						case 'og_publisher_url':
+						case 'link_publisher_url':
+						case 'plugin_cdn_urls':
 							if ( ! empty( $opts[$key] ) && 
 								strpos( $opts[$key], '://' ) === false ) 
 									$opts[$key] = $def_val;
 							break;
-
-						// must be numeric (blank or zero is ok)
-						case 'link_def_author_id' :
-						case 'og_desc_len' : 
-						case 'og_img_max' :
-						case 'og_vid_max' :
-						case 'og_img_id' :
-						case 'og_def_img_id' :
-						case 'og_def_author_id' :
-						case 'plugin_file_cache_hrs' :
+						/*
+						 * must be numeric (blank or zero is ok)
+						 */
+						case 'link_def_author_id':
+						case 'og_desc_len': 
+						case 'og_img_max':
+						case 'og_vid_max':
+						case 'og_img_id':
+						case 'og_def_img_id':
+						case 'og_def_author_id':
+						case 'plugin_file_cache_hrs':
 							if ( ! empty( $opts[$key] ) && 
 								! is_numeric( $opts[$key] ) )
 									$opts[$key] = $def_val;
 							break;
-
-						// integer options that must me 1 or more (not zero)
-						case 'meta_desc_len' : 
-						case 'og_img_width' : 
-						case 'og_img_height' : 
-						case 'og_title_len' : 
-						case 'fb_order' : 
-						case 'fb_width' : 
-						case 'gp_order' : 
-						case 'twitter_order' : 
-						case 'linkedin_order' : 
-						case 'pin_order' : 
-						case 'pin_cap_len' : 
-						case 'tumblr_order' : 
-						case 'tumblr_desc_len' : 
-						case 'tumblr_cap_len' :
-						case 'stumble_order' : 
-						case 'stumble_badge' :
-						case 'plugin_object_cache_exp' :
-						case 'plugin_min_shorten' :
+						/*
+						 * integer options that must me 1 or more (not zero)
+						 */
+						case 'meta_desc_len': 
+						case 'og_img_width': 
+						case 'og_img_height': 
+						case 'og_title_len': 
+						case 'fb_order': 
+						case 'fb_width': 
+						case 'gp_order': 
+						case 'twitter_order': 
+						case 'linkedin_order': 
+						case 'pin_order': 
+						case 'pin_cap_len': 
+						case 'tumblr_order': 
+						case 'tumblr_desc_len': 
+						case 'tumblr_cap_len':
+						case 'stumble_order': 
+						case 'stumble_badge':
+						case 'plugin_object_cache_exp':
+						case 'plugin_min_shorten':
 							if ( empty( $opts[$key] ) || 
 								! is_numeric( $opts[$key] ) )
 									$opts[$key] = $def_val;
 							break;
-
-						// needs to be filtered
-						case 'og_title_sep' :
+						/*
+						 * needs to be filtered
+						 */
+						case 'og_title_sep':
 							$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
-
-						// text strings that can be blank
-						case 'fb_app_id' :
-						case 'gp_expandto' :
-						case 'og_title' :
-						case 'og_desc' :
-						case 'og_site_name' :
-						case 'meta_desc' :
-						case 'tc_desc' :
-						case 'pin_desc' :
-						case 'tumblr_img_desc' :
-						case 'tumblr_vid_desc' :
-						case 'twitter_desc' :
-						case 'plugin_pro_tid' :
-						case 'plugin_googl_api_key' :
-						case 'plugin_bitly_api_key' :
-						case 'plugin_cdn_folders' :
-						case 'plugin_cdn_excl' :
+						/*
+						 * text strings that can be blank
+						 */
+						case 'fb_app_id':
+						case 'gp_expandto':
+						case 'og_title':
+						case 'og_desc':
+						case 'og_site_name':
+						case 'meta_desc':
+						case 'tc_desc':
+						case 'pin_desc':
+						case 'tumblr_img_desc':
+						case 'tumblr_vid_desc':
+						case 'twitter_desc':
+						case 'plugin_pro_tid':
+						case 'plugin_googl_api_key':
+						case 'plugin_bitly_api_key':
+						case 'plugin_cdn_folders':
+						case 'plugin_cdn_excl':
 							if ( ! empty( $opts[$key] ) )
 								$opts[$key] = trim( $opts[$key] );
 							break;
-
-						// options that cannot be blank
-						case 'og_art_section' :
-						case 'link_author_field' :
-						case 'og_img_id_pre' : 
-						case 'og_def_img_id_pre' : 
-						case 'og_author_field' :
-						case 'buttons_location_the_excerpt' : 
-						case 'buttons_location_the_content' : 
-						case 'buttons_css_excerpt' :
-						case 'buttons_css_content' :
-						case 'buttons_css_shortcode' :
-						case 'buttons_css_social' :
-						case 'buttons_css_widget' :
-						case 'fb_js_loc' : 
-						case 'fb_markup' : 
-						case 'gp_js_loc' : 
-						case 'gp_lang' : 
-						case 'gp_action' : 
-						case 'gp_size' : 
-						case 'gp_annotation' : 
-						case 'twitter_js_loc' : 
-						case 'twitter_count' : 
-						case 'twitter_size' : 
-						case 'linkedin_js_loc' : 
-						case 'linkedin_counter' :
-						case 'pin_js_loc' : 
-						case 'pin_count_layout' :
-						case 'pin_img_size' :
-						case 'pin_caption' :
-						case 'tumblr_js_loc' : 
-						case 'tumblr_button_style' :
-						case 'tumblr_img_size' :
-						case 'tumblr_caption' :
-						case 'stumble_js_loc' : 
-						case 'plugin_cm_fb_name' : 
-						case 'plugin_cm_fb_label' : 
-						case 'plugin_cm_gp_name' : 
-						case 'plugin_cm_gp_label' : 
-						case 'plugin_cm_linkedin_name' : 
-						case 'plugin_cm_linkedin_label' : 
-						case 'plugin_cm_pin_name' : 
-						case 'plugin_cm_pin_label' : 
-						case 'plugin_cm_tumblr_name' : 
-						case 'plugin_cm_tumblr_label' : 
-						case 'plugin_cm_twitter_name' : 
-						case 'plugin_cm_twitter_label' : 
-						case 'plugin_cm_yt_name' : 
-						case 'plugin_cm_yt_label' : 
-						case 'plugin_cm_skype_name' : 
-						case 'plugin_cm_skype_label' : 
-						case 'wp_cm_aim_label' : 
-						case 'wp_cm_jabber_label' : 
-						case 'wp_cm_yim_label' : 
+						/*
+						 * options that cannot be blank
+						 */
+						case 'og_art_section':
+						case 'link_author_field':
+						case 'og_img_id_pre': 
+						case 'og_def_img_id_pre': 
+						case 'og_author_field':
+						case 'buttons_location_the_excerpt': 
+						case 'buttons_location_the_content': 
+						case 'buttons_css_social':
+						case 'buttons_css_excerpt':
+						case 'buttons_css_content':
+						case 'buttons_css_shortcode':
+						case 'buttons_css_widget':
+						case 'fb_js_loc': 
+						case 'fb_markup': 
+						case 'gp_js_loc': 
+						case 'gp_lang': 
+						case 'gp_action': 
+						case 'gp_size': 
+						case 'gp_annotation': 
+						case 'twitter_js_loc': 
+						case 'twitter_count': 
+						case 'twitter_size': 
+						case 'linkedin_js_loc': 
+						case 'linkedin_counter':
+						case 'pin_js_loc': 
+						case 'pin_count_layout':
+						case 'pin_img_size':
+						case 'pin_caption':
+						case 'tumblr_js_loc': 
+						case 'tumblr_button_style':
+						case 'tumblr_img_size':
+						case 'tumblr_caption':
+						case 'stumble_js_loc': 
+						case 'plugin_cm_fb_name': 
+						case 'plugin_cm_fb_label': 
+						case 'plugin_cm_gp_name': 
+						case 'plugin_cm_gp_label': 
+						case 'plugin_cm_linkedin_name': 
+						case 'plugin_cm_linkedin_label': 
+						case 'plugin_cm_pin_name': 
+						case 'plugin_cm_pin_label': 
+						case 'plugin_cm_tumblr_name': 
+						case 'plugin_cm_tumblr_label': 
+						case 'plugin_cm_twitter_name': 
+						case 'plugin_cm_twitter_label': 
+						case 'plugin_cm_yt_name': 
+						case 'plugin_cm_yt_label': 
+						case 'plugin_cm_skype_name': 
+						case 'plugin_cm_skype_label': 
+						case 'wp_cm_aim_label': 
+						case 'wp_cm_jabber_label': 
+						case 'wp_cm_yim_label': 
 							if ( empty( $opts[$key] ) ) 
 								$opts[$key] = $def_val;
 							break;
-
-						// everything else is assumed to be a true / false checkbox option
-						default :
-							// make sure the default option is true/false - just in case
+						/*
+						 * everything else is a 1/0 checkbox option
+						 */
+						default:
+							// make sure the default option is also 1/0
 							if ( $def_val === 0 || $def_val === 1 )
 								$opts[$key] = empty( $opts[$key] ) ? 0 : 1;
 							break;

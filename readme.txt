@@ -774,12 +774,13 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.14dev1 =
+= Version 6.14dev2 =
 
 * Added a new lib/config.php library file with config values, definition of constants, and loading of required library files.
 * Added check for empty width/height values from wp_get_attachment_metadata().
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
 * Moved social buttons filter from 'the_excerpt' to 'get_the_excerpt', and added code to fix the resulting double-filtration.
+* Allowing stylesheet content to include HTML tags for (Firefox) filter url tags.
 
 = Version 6.13.1 =
 
@@ -801,7 +802,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Upgrade Notice ==
 
-= 6.14dev1 =
+= 6.14dev2 =
 
 Added lib/config.php library file with config values, added check for empty width/height values from wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
 
