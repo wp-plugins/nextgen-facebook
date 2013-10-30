@@ -192,12 +192,12 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
 
 			if ( ! current_user_can( 'manage_network_options' ) ) {
-				$this->p->notices->err( 'Insufficient privileges to modify network options.', true );
+				$this->p->notices->err( __( 'Insufficient privileges to modify network options.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
 				! wp_verify_nonce( $_POST[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) ) {
-				$this->p->notices->err( 'Nonce token validation has failed.', true );
+				$this->p->notices->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			}
@@ -213,7 +213,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
 
 			// store message in user options table
-			$this->p->notices->inf( 'Plugin settings have been updated.', true );
+			$this->p->notices->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ), true );
 
 			wp_redirect( $this->p->util->get_admin_url( $page ).'&settings-updated=true' );
 			exit;
@@ -238,7 +238,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				if ( empty( $_GET[ NGFB_NONCE ] ) ||
 					! wp_verify_nonce( $_GET[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) )
-						$this->p->notices->err( 'Nonce token validation has failed.' );
+						$this->p->notices->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
 						case 'remove_old_css' : 
@@ -248,16 +248,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 										'<b>'.$this->p->cf['uca'].' Info</b> : The old <u>'.$old_css_file.'</u> 
 											stylesheet has been removed.', 'updated' );
 								else
-									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-										'<b>'.$this->p->cf['uca'].' Error</b> : Error removing the old <u>'.$old_css_file.'</u> 
-											stylesheet. Does the web server have sufficient privileges?', 'error' );
+									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', '<b>'.$this->p->cf['uca'].' Error</b> : '.
+										sprintf( __( 'Error removing the old <u>%s</u> stylesheet.', NGFB_TEXTDOM ), $old_css_file ).
+										__( 'Does the web server have sufficient privileges?', NGFB_TEXTDOM ), 'error' );
 	
 							break;
 						case 'check_for_updates' : 
 							if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
 								$this->p->admin->set_readme( 0 );
 								$this->p->update->check_for_updates();
-								$this->p->notices->inf( 'Plugin update information has been checked and updated.' );
+								$this->p->notices->inf( __( 'Plugin update information has been checked and updated.', NGFB_TEXTDOM ) );
 							}
 							break;
 						case 'clear_all_cache' : 
@@ -268,8 +268,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 								w3tc_pgcache_flush();
 							elseif ( function_exists('wp_cache_clear_cache') ) 
 								wp_cache_clear_cache();
-							$this->p->notices->inf( 'Cached files, WP object cache, transient cache, and any 
-								additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.' );
+							$this->p->notices->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
 							break;
 					}
 				}
@@ -289,26 +288,25 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			$this->p->admin->settings[$this->menu_id]->add_meta_boxes();
 
-			add_meta_box( $this->pagehook.'_news', 'News Feed', array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook.'_info', 'Plugin Information', array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook.'_help', 'Help and Support', array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_news', __( 'News Feed', NGFB_TEXTDOM ), array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_info', __( 'Plugin Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->p->check->pro_active() )
-				add_meta_box( $this->pagehook.'_thankyou', 'Pro Version', array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
+				add_meta_box( $this->pagehook.'_thankyou', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
 			$this->p->admin->set_readme( $this->p->cf['upd_hrs'] * 3600 );	// the version info metabox on all settings pages needs this
 		}
 
 		public function show_page() {
-			if ( $this->menu_id !== 'contact' ) {		// the "settings" page displays its own error messages
-				// display "error" and "updated" messages
-				settings_errors( NGFB_OPTIONS_NAME );
-			}
+			if ( $this->menu_id !== 'contact' )		// the "settings" page displays its own error messages
+				settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
+
 			$this->p->debug->show_html( null, 'Debug Log' );
 
 			// add meta box here to prevent removal
 			if ( ! $this->p->check->pro_active() ) {
-				add_meta_box( $this->pagehook.'_purchase', 'Pro Version', array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
+				add_meta_box( $this->pagehook.'_purchase', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
 
@@ -394,17 +392,16 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			add_filter( 'wp_feed_cache_transient_lifetime', array( &$this, 'feed_cache_expire' ) );
 			$rss_feed = fetch_feed( $url );		// since wp 2.8
 			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
-			echo '<div class="', $class, '"><ul>', "\n";
+			echo '<div class="', $class, '"><ul>';
 			if ( is_wp_error( $rss_feed ) ) {
 				$error_string = $rss_feed->get_error_message();
-				echo '<li>', __( 'WordPress reported an error:', NGFB_TEXTDOM ), 
-					' ', $error_string, '</li>', "\n";
+				echo '<li>', __( 'WordPress reported an error:', NGFB_TEXTDOM ), ' ', $error_string, '</li>';
 			} else {
 				$have_items = $rss_feed->get_item_quantity( $max_num ); 
 				$rss_items = $rss_feed->get_items( 0, $have_items );
 			}
 			if ( $have_items == 0 ) {
-				echo '<li>', __( 'No items found.', NGFB_TEXTDOM ), '</li>', "\n";
+				echo '<li>', __( 'No items found.', NGFB_TEXTDOM ), '</li>';
 			} else {
 				foreach ( $rss_items as $item ) {
 					$desc = $item->get_description();
@@ -413,10 +410,10 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
 						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
 						esc_html( $item->get_title() ), '</a></div><div class="description">', 
-						$desc, '</div></li>', "\n";
+						$desc, '</div></li>';
 				}
 			}
-			echo '</ul></div>', "\n";
+			echo '</ul></div>';
 		}
 
 		public function feed_cache_expire( $seconds ) {
@@ -428,8 +425,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_info() {
-			$stable_tag = 'N/A';
-			$latest_version = 'N/A';
+			$stable_tag = __( 'N/A', NGFB_TEXTDOM );
+			$latest_version = __( 'N/A', NGFB_TEXTDOM );
 			$latest_notice = '';
 			if ( ! empty( $this->p->admin->readme['stable_tag'] ) ) {
 				$stable_tag = $this->p->admin->readme['stable_tag'];
@@ -440,25 +437,21 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 					$latest_notice = $upgrade_notice[$latest_version];
 				}
 			}
-			?>
-			<table class="ngfb-settings">
-			<tr><th class="side">Installed:</th>
-			<td><?php 
-				echo $this->p->cf['version'];
-				if ( $this->p->check->pro_active() ) echo ' (Pro)';
-				elseif ( $this->p->is_avail['aop'] ) echo ' (Unlicensed Pro)';
-				else echo ' (Free)'; 
-			?></td></tr>
-			<tr><th class="side">Stable:</th><td><?php echo $stable_tag; ?></td></tr>
-			<tr><th class="side">Latest:</th><td><?php echo $latest_version; ?></td></tr>
-			<tr>
-				<td colspan="2" id="latest_notice">
-					<p><?php echo $latest_notice; ?></p>
-					<p><a href="<?php echo $this->p->cf['url']['changelog']; ?>" 
-						target="_blank">See the Changelog for additional details...</a></p>
-				</td>
-			</tr>
-			<?php
+			echo '<table class="ngfb-settings">';
+			echo '<tr><th class="side">'.__( 'Installed', NGFB_TEXTDOM ).':</th>';
+			echo '<td>'.$this->p->cf['version'].' (';
+
+			if ( $this->p->check->pro_active() ) echo __( 'Pro', NGFB_TEXTDOM );
+			elseif ( $this->p->is_avail['aop'] ) echo __( 'Unlicensed Pro', NGFB_TEXTDOM );
+			else echo __( 'Free', NGFB_TEXTDOM );
+
+			echo ')</td></tr>';
+			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td>'.$stable_tag.'</td></tr>';
+			echo '<tr><th class="side">'.__( 'Latest', NGFB_TEXTDOM ).':</th><td>'.$latest_version.'</td></tr>';
+			echo '<tr><td colspan="2" id="latest_notice"><p>'.$latest_notice.'</p>';
+			echo '<p><a href="'.$this->p->cf['url']['changelog'].'" target="_blank">'.__( 'See the Changelog for additional details...', NGFB_TEXTDOM ).'</a></p>';
+			echo '</td></tr>';
+
 			$action_buttons = '';
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
@@ -472,15 +465,15 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 						plugin_basename( __FILE__ ), NGFB_NONCE ) );
 
 			if ( ! empty( $action_buttons ) )
-				echo '<tr><td colspan="2"><p class="centered">', $action_buttons, '</p></td></tr>';
+				echo '<tr><td colspan="2"><p class="centered">'.$action_buttons.'</p></td></tr>';
 			echo '</table>';
 		}
 
 		public function show_metabox_purchase() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo $this->p->msg->get( 'purchase_box' ), "\n";
-			echo '<p>Thank you,</p>', "\n";
-			echo '<p class="sig">js.</p>', "\n";
+			echo $this->p->msg->get( 'purchase_box' );
+			echo '<p>Thank you,</p>';
+			echo '<p class="sig">js.</p>';
 			echo '<p class="centered">';
 			echo $this->p->admin->form->get_button( 
 				( $this->p->is_avail['aop'] ? 
@@ -492,8 +485,8 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		public function show_metabox_thankyou() {
 			echo '<table class="ngfb-settings"><tr><td>';
-			echo $this->p->msg->get( 'thankyou' ), "\n";
-			echo '<p class="sig">js.</p>', "\n";
+			echo $this->p->msg->get( 'thankyou' );
+			echo '<p class="sig">js.</p>';
 			echo '</td></tr></table>';
 		}
 
@@ -508,8 +501,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			foreach ( $this->p->cf['img']['follow']['src'] as $img => $url )
 				echo '<a href="'.$url.'" target="_blank"><img src="'.NGFB_URLPATH.'images/'.$img.'" 
 					width="'.$img_size.'" height="'.$img_size.'"></a> ';
-			echo '</p>';
-			echo '</td></tr></table>';
+			echo '</p></td></tr></table>';
 		}
 
 		protected function get_submit_button( $submit_text = '', $class = 'save-all-button' ) {

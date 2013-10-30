@@ -22,7 +22,7 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
-				'The Pinterest "Pin It" button appears only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
+				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
 				'Content '.$this->p->admin->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
 				'Excerpt '.$this->p->admin->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
 				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'pin_on_admin_sharing' ). 
@@ -44,6 +44,9 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 					)
 				) . '</td>',
 
+				$this->p->util->th( 'Pin Button Image', 'short' ) . '<td>' . 
+				$this->p->admin->form->get_input( 'pin_img_url' ),
+
 				$this->p->util->th( 'Image Size to Share', 'short' ) . '<td>' . 
 				$this->p->admin->form->get_select_img_size( 'pin_img_size' ) . '</td>',
 
@@ -52,6 +55,7 @@ if ( ! class_exists( 'ngfbSettingsPinterest' ) && class_exists( 'ngfbSettingsSoc
 
 				$this->p->util->th( 'Caption Length', 'short' ) . '<td>' . 
 				$this->p->admin->form->get_input( 'pin_cap_len', 'short' ) . ' Characters or less</td>',
+
 			);
 		}
 
@@ -123,7 +127,14 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 			$query .= '&amp;media='. urlencode( $atts['photo'] );
 			$query .= '&amp;description=' . urlencode( $this->p->util->decode( $atts['caption'] ) );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/images/PinExt.png' ).'" /></a></div>';
+			if ( empty( $this->p->options['pin_img_url'] ) )
+				$img = $prot.'assets.pinterest.com/images/PinExt.png';
+			elseif ( preg_match( '/^https?:\/\/(.*)/', $this->p->options['pin_img_url'], $match ) )
+				$img = $prot.$match[1];
+			else $img = $this->p->options['pin_img_url'];
+			$img = $this->p->util->get_cache_url( $img );
+
+			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

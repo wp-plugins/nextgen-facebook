@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 	class ngfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.14dev2',
+			'version' => '6.14dev3',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'uca' => 'NGFB',			// uppercase acronym
 			'slug' => 'nextgen-facebook',

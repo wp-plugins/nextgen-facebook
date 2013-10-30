@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.14dev2
+Version: 6.14dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -121,7 +121,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 				// delete metabox preferences for all users
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
 					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
-						foreach ( array( 'general', 'advanced', 'social', 'style', 'about' ) as $settings_page ) {
+						foreach ( array( 'general', 'advanced', 'social', 'style', 'about', 'network' ) as $settings_page ) {
 							$meta_key = $meta_name.'_'.$page_prefix.'_'.$lca.'-'.$settings_page;
 							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
 								delete_user_option( $user->ID, $meta_key, true );

@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '96';	// increment when adding/removing default options
+		public $options_version = '97';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -228,6 +228,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'pin_img_size' => 'large',
 			'pin_caption' => 'both',
 			'pin_cap_len' => 500,
+			'pin_img_url' => 'http://assets.pinterest.com/images/PinExt.png',
 			'tumblr_on_the_excerpt' => 0,
 			'tumblr_on_the_content' => 0,
 			'tumblr_on_admin_sharing' => 1,
@@ -528,6 +529,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_def_img_url':
 						case 'og_publisher_url':
 						case 'link_publisher_url':
+						case 'pin_img_url':
 						case 'plugin_cdn_urls':
 							if ( ! empty( $opts[$key] ) && 
 								strpos( $opts[$key], '://' ) === false ) 

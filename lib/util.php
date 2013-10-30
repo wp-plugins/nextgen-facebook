@@ -121,6 +121,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
 					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
 						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
+
 						$this->p->debug->log( 'is_singular with nggalbum shortcode and query' );
 						$is_nggalbum = true;
 						$strip_query = 'notrack';	// keep the album/gallery query values
@@ -220,7 +221,8 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			if ( ! empty( $url ) && ! preg_match( '/[a-z]+:\/\//i', $url ) ) {
 				$this->p->debug->log( 'relative url found = '.$url );
 				// if it starts with a slash, just add the home_url() prefix
-				if ( preg_match( '/^\//', $url ) ) $url = home_url( $url );
+				if ( preg_match( '/^\//', $url ) ) 
+					$url = home_url( $url );
 				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ).$url;
 				$this->p->debug->log( 'relative url fixed = '.$url );
 			}
