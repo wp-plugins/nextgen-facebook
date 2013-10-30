@@ -782,7 +782,7 @@ function add_tracking_id( $url, $src_id ) {
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
 * Added transient caching to plugin data retrieved from update check (1 hour expiration).
 * Moved social buttons filter from 'the_excerpt' to 'get_the_excerpt', and added code to fix the resulting double-filtration.
-* Allowed stylesheet content to include HTML tags for (Firefox) filter url tags.
+* Allowed stylesheet content to include HTML tags for, as an example, Firefox filter url tags.
 
 = Version 6.13.1 =
 
