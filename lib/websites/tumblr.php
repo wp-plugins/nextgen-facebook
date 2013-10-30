@@ -198,7 +198,9 @@ if ( ! class_exists( 'ngfbSocialTumblr' ) && class_exists( 'ngfbSocial' ) ) {
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' ).'"></script>';
+			$js_url = $this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' );
+
+			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$js_url.'"></script>';
 		}
 		
 	}

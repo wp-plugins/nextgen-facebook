@@ -126,6 +126,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 					$meta_tags['description'] = htmlentities( $meta_tags['description'], ENT_QUOTES, $charset, false );
 				}
 			}
+			$meta_tags = apply_filters( $this->p->cf['lca'].'_meta_tags', $meta_tags );
 
 			/*
 			 * Print the Multi-Dimensional Array as HTML

@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '97';	// increment when adding/removing default options
+		public $options_version = '98';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -99,6 +99,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'twitter_size' => 'medium',
 			'linkedin_counter' => 'right',
 			'linkedin_showzero' => 1,
+			'managewp_type' => 'small',
 			'pin_count_layout' => 'horizontal',
 			'tumblr_button_style' => 'share_1',
 			'stumble_badge' => 1,
@@ -219,10 +220,22 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'linkedin_js_loc' => 'header',
 			'linkedin_counter' => 'right',
 			'linkedin_showzero' => 1,
+			'managewp_on_the_excerpt' => 0,
+			'managewp_on_the_content' => 0,
+			'managewp_on_admin_sharing' => 1,
+			'managewp_order' => 5,
+			'managewp_js_loc' => 'header',
+			'managewp_type' => 'small',
+			'stumble_on_the_excerpt' => 0,
+			'stumble_on_the_content' => 0,
+			'stumble_on_admin_sharing' => 1,
+			'stumble_order' => 6,
+			'stumble_js_loc' => 'header',
+			'stumble_badge' => 1,
 			'pin_on_the_excerpt' => 0,
 			'pin_on_the_content' => 0,
 			'pin_on_admin_sharing' => 1,
-			'pin_order' => 5,
+			'pin_order' => 7,
 			'pin_js_loc' => 'header',
 			'pin_count_layout' => 'horizontal',
 			'pin_img_size' => 'large',
@@ -232,7 +245,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tumblr_on_the_excerpt' => 0,
 			'tumblr_on_the_content' => 0,
 			'tumblr_on_admin_sharing' => 1,
-			'tumblr_order' => 7,
+			'tumblr_order' => 8,
 			'tumblr_js_loc' => 'footer',
 			'tumblr_button_style' => 'share_1',
 			'tumblr_desc_len' => 300,
@@ -240,12 +253,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'tumblr_img_size' => 'large',
 			'tumblr_caption' => 'both',
 			'tumblr_cap_len' => 500,
-			'stumble_on_the_excerpt' => 0,
-			'stumble_on_the_content' => 0,
-			'stumble_on_admin_sharing' => 1,
-			'stumble_order' => 6,
-			'stumble_js_loc' => 'header',
-			'stumble_badge' => 1,
 			'inc_description' => 0,
 			'inc_fb:admins' => 1,
 			'inc_fb:app_id' => 1,
@@ -562,13 +569,14 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'gp_order': 
 						case 'twitter_order': 
 						case 'linkedin_order': 
+						case 'managewp_order': 
+						case 'stumble_order': 
+						case 'stumble_badge':
 						case 'pin_order': 
 						case 'pin_cap_len': 
 						case 'tumblr_order': 
 						case 'tumblr_desc_len': 
 						case 'tumblr_cap_len':
-						case 'stumble_order': 
-						case 'stumble_badge':
 						case 'plugin_object_cache_exp':
 						case 'plugin_min_shorten':
 							if ( empty( $opts[$key] ) || 
@@ -629,6 +637,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'twitter_size': 
 						case 'linkedin_js_loc': 
 						case 'linkedin_counter':
+						case 'managewp_js_loc': 
+						case 'managewp_type':
+						case 'stumble_js_loc': 
 						case 'pin_js_loc': 
 						case 'pin_count_layout':
 						case 'pin_img_size':
@@ -637,7 +648,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'tumblr_button_style':
 						case 'tumblr_img_size':
 						case 'tumblr_caption':
-						case 'stumble_js_loc': 
 						case 'plugin_cm_fb_name': 
 						case 'plugin_cm_fb_label': 
 						case 'plugin_cm_gp_name': 

@@ -154,10 +154,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		public function get_cache_url( $url ) {
 
 			// make sure the cache expiration is greater than 0 hours
-			if ( empty( $this->p->cache->file_expire ) ) return $url;
+			if ( empty( $this->p->cache->file_expire ) ) 
+				return $url;
 
-			// facebook javascript sdk doesn't work when hosted locally
-			if ( preg_match( '/connect.facebook.net/', $url ) ) return $url;
+			// facebook and managewp javascripts do not work when hosted locally
+			if ( preg_match( '/(connect.facebook.net|managewp.org\/share\.js)/', $url ) ) 
+				return $url;
 
 			return ( $this->p->util->rewrite( $this->p->cache->get( $url ) ) );
 		}

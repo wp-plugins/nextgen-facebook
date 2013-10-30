@@ -142,7 +142,9 @@ if ( ! class_exists( 'ngfbSocialPinterest' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'assets.pinterest.com/js/pinit.js' ).'" );</script>';
+			$js_url = $this->p->util->get_cache_url( $prot.'assets.pinterest.com/js/pinit.js' );
+
+			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
 		
 	}

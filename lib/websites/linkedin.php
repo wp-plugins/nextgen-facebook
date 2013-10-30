@@ -65,7 +65,6 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) $opts = $this->p->options;
-			$html = '';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'linkedin', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
@@ -87,7 +86,9 @@ if ( ! class_exists( 'ngfbSocialLinkedIn' ) && class_exists( 'ngfbSocial' ) ) {
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' ).'" );</script>';
+			$js_url = $this->p->util->get_cache_url( $prot.'platform.linkedin.com/in.js' );
+
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
 
 	}
