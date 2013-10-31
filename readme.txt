@@ -776,7 +776,7 @@ function add_tracking_id( $url, $src_id ) {
 
 = Version 6.14rc1 =
 
-* **Added a new social sharing button for ManageWP**.
+* Added a new social sharing button for ManageWP.
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
 * Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
@@ -791,18 +791,18 @@ function add_tracking_id( $url, $src_id ) {
 
 = Version 6.13.1 =
 
-* **Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect)**.
-* **Fixed the retrieval of the full size image url when WordPress fails to do so**.
+* Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
+* Fixed the retrieval of the full size image url when WordPress fails to do so.
 * Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
 * Added a check for empty $post in Pinterest, Tumblr and Twitter button methods.
 * Moved a few more internal variables into the $cf multi-dimensional array.
 
 = Version 6.13.0 =
 
-* **Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses**.
-* **Added support for multisite network-wide activate, deactivate, and uninstall methods**.
-* **Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes)**.
-* **Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button**.
+* Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses.
+* Added support for multisite network-wide activate, deactivate, and uninstall methods.
+* Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
+* Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button.
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants and removed the NGFB_DEBUG_FILE_EXP constant.
 * Added removal of post meta and transient cache entries when uninstalling the plugin.
 * Restructured the internal plugin configuration variables into a single variable of multi-dimensional arrays.
