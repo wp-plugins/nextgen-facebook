@@ -777,33 +777,32 @@ function add_tracking_id( $url, $src_id ) {
 = Version 6.14dev7 =
 
 * **Added a new social sharing button for ManageWP**.
-* Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
-* Added a new lib/config.php library file with config variables, definition of constants, and loading of required library files.
-* Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
+* Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
 * Added transient caching to the plugin data retrieved by update checks (1 hour expiration).
 * Moved social buttons filter from 'the_excerpt' to 'get_the_excerpt' (and added code to fix the resulting double-filtration).
-* Allowed stylesheet content to include HTML tags for (as an example) Firefox filter url tags.
 * Removed the 'fb_width' option since it was rather useless (div width and height are managed by css).
+* Allowed stylesheet content to include HTML tags for (as an example) Firefox filter url tags.
 * Added a 'gplusone-button' class to the css ('gplus-button' for the G+ Share button, and 'gplusone-button' for the G+ 1 button).
 * Added a 'managewp-button' class to the css for the ManageWP button.
-* The 'Clear All Cache' button on the settings page now resets the user's metaboxes preferences for that page as well.
+* Added a new lib/config.php library file with config variables, definition of constants, and loading of required library files.
+* Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
 
 = Version 6.13.1 =
 
-* Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
-* Fixed the retrieval of the full size image url when WordPress fails to do so.
+* **Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect)**.
+* **Fixed the retrieval of the full size image url when WordPress fails to do so**.
 * Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
 * Added a check for empty $post in Pinterest, Tumblr and Twitter button methods.
 * Moved a few more internal variables into the $cf multi-dimensional array.
 
 = Version 6.13.0 =
 
-* Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses.
-* Added support for multisite network-wide activate, deactivate, and uninstall methods.
-* Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
-* Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button.
+* **Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses**.
+* **Added support for multisite network-wide activate, deactivate, and uninstall methods**.
+* **Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes)**.
+* **Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button**.
 * Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants and removed the NGFB_DEBUG_FILE_EXP constant.
 * Added removal of post meta and transient cache entries when uninstalling the plugin.
 * Restructured the internal plugin configuration variables into a single variable of multi-dimensional arrays.
