@@ -163,7 +163,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			}
 			// get default values, including css from default stylesheets
 			$def_opts = $this->p->opt->get_defaults();
-			$opts = $this->restore_checkboxes( $opts );
+			$opts = $this->p->util->restore_checkboxes( $opts );
 			$opts = array_merge( $this->p->options, $opts );
 			$opts = $this->p->opt->sanitize( $opts, $def_opts );
 
@@ -274,6 +274,9 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 							elseif ( function_exists('wp_cache_clear_cache') ) 
 								wp_cache_clear_cache();
 							$this->p->notices->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
+							break;
+						case 'clear_metabox_prefs' : 
+							$this->p->util->delete_metabox_prefs( get_current_user_id() );
 							break;
 					}
 				}
@@ -515,16 +518,6 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>'."\n";
 		}
 
-		protected function restore_checkboxes( &$opts ) {
-			// unchecked checkboxes are not provided, so re-create them here based on hidden values
-			$checkbox = $this->p->util->preg_grep_keys( '/^is_checkbox_/', $opts, false, true );
-			foreach ( $checkbox as $key => $val ) {
-				if ( ! array_key_exists( $key, $opts ) )
-					$opts[$key] = 0;	// add missing checkbox as empty
-				unset ( $opts['is_checkbox_'.$key] );
-			}
-			return $opts;
-		}
 	}
 }
 

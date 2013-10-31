@@ -26,8 +26,10 @@ if ( ! class_exists( 'ngfbOpenGraph' ) ) {
 		}
 
 		public function get() {
-			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) 
-				|| ( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ) {
+			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
+				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ||
+				! empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) ) {
+
 				$this->p->debug->log( 'open graph is disabled' );
 				return array();
 			}

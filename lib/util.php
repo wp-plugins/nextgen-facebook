@@ -18,7 +18,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 
 		protected $p;
 
-		public $rewrite;
+		public $rewriter;
 
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$plugin ) {
@@ -63,7 +63,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return is_numeric( implode( array_keys( $arr ) ) ) ? false : true;
 		}
 
-		public function preg_grep_keys( $preg, $arr, $invert = false, $trunc = false, $rep = '' ) {
+		public function preg_grep_keys( $preg, $arr, $invert = false, $replace = false ) {
 			if ( ! is_array( $arr ) ) 
 				return false;
 			$invert = $invert == false ? 
@@ -71,12 +71,23 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			$match = preg_grep( $preg, array_keys( $arr ), $invert );
 			$found = array();
 			foreach ( $match as $key ) {
-				if ( $trunc == true ) {
-					$fixed = preg_replace( $preg, $rep, $key );
+				if ( $replace !== false ) {
+					$fixed = preg_replace( $preg, $replace, $key );
 					$found[$fixed] = $arr[$key]; 
 				} else $found[$key] = $arr[$key]; 
 			}
 			return $found;
+		}
+
+		public function restore_checkboxes( &$opts ) {
+			// unchecked checkboxes are not provided, so re-create them here based on hidden values
+			$checkbox = $this->preg_grep_keys( '/^is_checkbox_/', $opts, false, '' );
+			foreach ( $checkbox as $key => $val ) {
+				if ( ! array_key_exists( $key, $opts ) )
+					$opts[$key] = 0;	// add missing checkbox as empty
+				unset ( $opts['is_checkbox_'.$key] );
+			}
+			return $opts;
 		}
 
 		public function reset_urls_found() {
@@ -89,13 +100,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function is_uniq_url( $url = '' ) {
-
 			if ( empty( $url ) ) 
 				return false;
-
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
 				$this->p->debug->log( 'incomplete url given: '.$url );
-
 			if ( empty( $this->urls_found[$url] ) ) {
 				$this->urls_found[$url] = 1;
 				return true;
@@ -152,20 +160,16 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 		}
 
 		public function get_cache_url( $url ) {
-
 			// make sure the cache expiration is greater than 0 hours
 			if ( empty( $this->p->cache->file_expire ) ) 
 				return $url;
-
-			// facebook and managewp javascripts do not work when hosted locally
+			// facebook javascript does not work when hosted locally
 			if ( preg_match( '/:\/\/connect.facebook.net/', $url ) ) 
 				return $url;
-
-			return ( $this->p->util->rewrite( $this->p->cache->get( $url ) ) );
+			return ( $this->p->util->rewrite_url( $this->p->cache->get( $url ) ) );
 		}
 
 		public function get_short_url( $long_url, $shortener = '' ) {
-
 			if ( empty( $shortener ) || 
 				$this->p->is_avail['curl'] == false || 
 				strlen( $long_url ) < $this->p->options['plugin_min_shorten'] ||
@@ -274,10 +278,10 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return trim( $text );
 		}
 
-		public function rewrite( $url = '' ) {
-			if ( is_object( $this->rewrite ) && method_exists( $this->rewrite, 'html' ) ) {
-				$url = '"'.$url.'"';	// rewrite function uses var reference
-				$url = trim( $this->rewrite->html( $url ), '"' );
+		public function rewrite_url( $url = '' ) {
+			if ( is_object( $this->rewriter ) && method_exists( $this->rewriter, 'html' ) ) {
+				$url = '"'.$url.'"';	// rewrite method uses reference
+				$url = trim( $this->rewriter->html( $url ), '"' );
 			}
 			return apply_filters( $this->p->cf['lca'].'_rewrite_url', $url );
 		}
@@ -429,16 +433,15 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			else return '<a href="'.$url.'">'.$link_text.'</a>';
 		}
 
-		public function delete_expired_transients( $clear_all = false ) { 
+		public function delete_expired_transients( $all = false ) { 
 			global $wpdb, $_wp_using_ext_object_cache;
-			if ( $_wp_using_ext_object_cache ) return; 
-
+			if ( $_wp_using_ext_object_cache ) 
+				return; 
 			$deleted = 0;
 			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
 			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$this->p->cf['lca'].'_%\'';
-			$dbquery .= $clear_all === true ? ';' : ' AND option_value < '.$time.';'; 
+			$dbquery .= $all === true ? ';' : ' AND option_value < '.$time.';'; 
 			$expired = $wpdb->get_col( $dbquery ); 
-
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
 				delete_transient( $key );
@@ -447,13 +450,12 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 			return $deleted;
 		}
 
-		public function delete_expired_file_cache( $clear_all = false ) {
+		public function delete_expired_file_cache( $all = false ) {
 			$deleted = 0;
 			if ( $dh = opendir( NGFB_CACHEDIR ) ) {
 				while ( $fn = readdir( $dh ) ) {
 					if ( ! preg_match( '/^(\.|index\.php)/', $fn ) && is_file( NGFB_CACHEDIR.$fn ) && 
-						( $clear_all === true || filemtime( NGFB_CACHEDIR.$fn ) < time() - $this->p->cache->file_expire ) ) {
-
+						( $all === true || filemtime( NGFB_CACHEDIR.$fn ) < time() - $this->p->cache->file_expire ) ) {
 						unlink( NGFB_CACHEDIR.$fn );
 						$deleted++;
 					}

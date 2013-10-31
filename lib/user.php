@@ -123,19 +123,35 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			return $url;
 		}
 
-		public function reset_metaboxes( $page, $box_ids = array(), $force = false ) {
+		public function reset_metabox_prefs( $pagehook, $metabox_ids = array(), $force = false ) {
 			$user_id = get_current_user_id();				// since wp 3.0
 			if ( $force == true )
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
-					delete_user_option( $user_id, $meta_name.'_'.$page, true );
-			$meta_key = 'closedpostboxes_'.$page;
+					delete_user_option( $user_id, $meta_name.'_'.$pagehook, true );
+			$meta_key = 'closedpostboxes_'.$pagehook;
 			$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
 			if ( ! is_array( $opts ) )
 				$opts = array();
 			if ( empty( $opts ) )
-				foreach ( $box_ids as $id ) 
-					$opts[] = $page . '_' . $id;
+				foreach ( $metabox_ids as $id ) 
+					$opts[] = $pagehook.'_'.$id;
 			update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+		}
+
+		// delete metabox preferences for one or all users
+		public function delete_metabox_prefs( $user_id = false ) {
+			foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
+				foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
+					foreach ( array( 'general', 'advanced', 'social', 'style', 'about', 'network' ) as $settings_page ) {
+						$meta_key = $meta_name.'_'.$page_prefix.'_'.$this->p->cf['lca'].'-'.$settings_page;
+							if ( $user_id !== false )
+								delete_user_option( $user_id, $meta_key, true );
+							else
+								foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
+									delete_user_option( $user->ID, $meta_key, true );
+					}
+				}
+			}
 		}
 
 		public function get_options( $user_id = false ) {

@@ -93,7 +93,7 @@ if ( ! class_exists( 'ngfbMediaNgg' ) ) {
 
 			if ( ! empty( $img_url ) ) {
 				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-					return array( $this->p->util->rewrite( $img_url ), $size_info['width'], $size_info['height'], $img_crop );
+					return array( $this->p->util->rewrite_url( $img_url ), $size_info['width'], $size_info['height'], $img_crop );
 			} else $this->p->debug->log( 'image rejected: image url is empty' );
 
 			return array( null, null, null, null );

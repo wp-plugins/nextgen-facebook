@@ -53,8 +53,7 @@ if ( ! class_exists( 'ngfbSettingsSocialSharing' ) && class_exists( 'ngfbAdmin' 
 				}
 			}
 			$reset_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
-			$this->p->user->reset_metaboxes( $this->pagehook, $reset_ids, 
-				( empty( $_GET['settings-updated'] ) && ! empty( $_GET['action'] ) && $_GET['action'] == 'clear_all_cache' ? true : false ) );
+			$this->p->user->reset_metabox_prefs( $this->pagehook, $reset_ids );
 		}
 
 		public function add_class_postbox_website( $classes ) {

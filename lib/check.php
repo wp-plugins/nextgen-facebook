@@ -21,16 +21,6 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 					$this->p->debug->mark();
 		}
 
-		public function wp_version() {
-			global $wp_version;
-			if ( version_compare( $wp_version, $this->p->cf['wp']['min_version'], '<' ) ) {
-				deactivate_plugins( NGFB_PLUGINBASE );
-				error_log( NGFB_PLUGINBASE.' requires WordPress '.$this->p->cf['wp']['min_version'].' or higher ('.$wp_version.' reported).' );
-				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.' ), 
-					$this->p->cf['full'], $this->p->cf['wp']['min_version'] ) .'</p>' );
-			}
-		}
-
 		// used before any class objects are created, so keep in main class
 		public function available( $is_avail = array() ) {
 

@@ -774,19 +774,20 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.14dev6 =
+= Version 6.14dev7 =
 
-* Added a new social sharing button for ManageWP.
-* Added 'Pin Button Image' option to the Pinterest social button settings.
-* Added a new lib/config.php library file with config values, definition of constants, and loading of required library files.
-* Added a check for empty/incorrect width/height values returned by wp_get_attachment_metadata().
+* **Added a new social sharing button for ManageWP**.
+* Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
+* Added a new lib/config.php library file with config variables, definition of constants, and loading of required library files.
+* Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
+* Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
-* Added transient caching to plugin data retrieved from update checks (1 hour expiration).
+* Added transient caching to the plugin data retrieved by update checks (1 hour expiration).
 * Moved social buttons filter from 'the_excerpt' to 'get_the_excerpt' (and added code to fix the resulting double-filtration).
 * Allowed stylesheet content to include HTML tags for (as an example) Firefox filter url tags.
-* Removed 'fb_width' option since it was rather useless (div width and height are managed by css).
-* Added 'gplusone-button' class to the css ('gplus-button' for the G+ Share button, and 'gplusone-button' for the G+ 1 button).
-* Added 'managewp-button' class to the css for the ManageWP button.
+* Removed the 'fb_width' option since it was rather useless (div width and height are managed by css).
+* Added a 'gplusone-button' class to the css ('gplus-button' for the G+ Share button, and 'gplusone-button' for the G+ 1 button).
+* Added a 'managewp-button' class to the css for the ManageWP button.
 * The 'Clear All Cache' button on the settings page now resets the user's metaboxes preferences for that page as well.
 
 = Version 6.13.1 =
@@ -809,7 +810,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Upgrade Notice ==
 
-= 6.14dev6 =
+= 6.14dev7 =
 
 New sharing button for ManageWP, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
 

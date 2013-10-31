@@ -35,8 +35,8 @@ if ( ! class_exists( 'ngfbUpdate' ) ) {
 				$this->debug =& $this->p->debug;
 				$this->debug->mark();
 			} else {
-				$classname = __CLASS__.'Log';
-				$this->debug = new $classname;
+				$debug_class = __CLASS__.'Log';
+				$this->debug = new $debug_class;
 			}
 
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )

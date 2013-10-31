@@ -2,7 +2,7 @@
 /*
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
-Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
+Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -13,7 +13,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 	class ngfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.14dev6',		// plugin version
+			'version' => '6.14dev7',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'uca' => 'NGFB',			// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -140,7 +140,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			define( $uca.'_PLUGINBASE', plugin_basename( $plugin_filepath ) );			// since wp 1.5
 			define( $uca.'_TEXTDOM', self::$cf['slug'] );
 			define( $uca.'_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
-			define( $uca.'_NONCE', md5( constant( $uca.'_PLUGINDIR' ) ) );
+			define( $uca.'_NONCE', md5( constant( $uca.'_PLUGINDIR' ).'-'.self::$cf['version'] ) );
 			define( 'AUTOMATTIC_README_MARKDOWN', constant( $uca.'_PLUGINDIR' ).'lib/ext/markdown.php' );
 
 			/*
@@ -160,8 +160,9 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			// *_CURL_PROXYUSERPWD		user:password
 			// *_WISTIA_API_PWD		password
 
-			if ( defined( $uca.'_DEBUG' ) && ! defined( $uca.'_HTML_DEBUG' ) )
-				define( $uca.'_HTML_DEBUG', constant( $uca.'_DEBUG' ) );	// backwards compat
+			if ( defined( $uca.'_DEBUG' ) && 
+				! defined( $uca.'_HTML_DEBUG' ) )
+					define( $uca.'_HTML_DEBUG', constant( $uca.'_DEBUG' ) );
 
 			if ( ! defined( $uca.'_CACHEDIR' ) )
 				define( $uca.'_CACHEDIR', constant( $uca.'_PLUGINDIR' ).'cache/' );

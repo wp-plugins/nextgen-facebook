@@ -210,7 +210,7 @@ if ( ! class_exists( 'ngfbMedia' ) ) {
 			}
 			$img_url = $this->p->util->fix_relative_url( $img_url );
 			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-				return array( $this->p->util->rewrite( $img_url ), $img_width, $img_height, $img_crop );
+				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_crop );
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
