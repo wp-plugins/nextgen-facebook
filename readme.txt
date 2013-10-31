@@ -774,7 +774,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.14dev7 =
+= Version 6.14rc1 =
 
 * **Added a new social sharing button for ManageWP**.
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
@@ -809,7 +809,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Upgrade Notice ==
 
-= 6.14dev7 =
+= 6.14rc1 =
 
 New sharing button for ManageWP, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
 
