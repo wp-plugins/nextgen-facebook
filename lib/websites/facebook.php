@@ -5,7 +5,7 @@ License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined( 'ABSPATH' ) )
 	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSocialSharing' ) ) {
@@ -125,9 +125,6 @@ if ( ! class_exists( 'ngfbSettingsFacebook' ) && class_exists( 'ngfbSettingsSoci
 						)
 					) . '</td>';
 	
-					$ret[] = $this->p->util->th( 'Default Width', 'short' ) . '<td>' . 
-					$this->p->admin->form->get_input( 'fb_width', 'short' ) . '</td>';
-					
 					break;
 	
 				case 'share' :
@@ -187,12 +184,11 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 					switch ( $opts['fb_markup'] ) {
 						case 'xfbml' :
 							// XFBML
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$opts['fb_font'].'" action="'.$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
+							$html .= '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.$show_faces.'" font="'.$opts['fb_font'].'" action="'.$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
 							break;
 						case 'html5' :
-						default :
 							// HTML5
-							$html = '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$opts['fb_layout'].'" data-width="'.$opts['fb_width'].'" data-show-faces="'.$show_faces.'" data-font="'.$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.$opts['fb_colorscheme'].'"></div>';
+							$html .= '<!-- Facebook Like / Send Button(s) --><div '.$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.$atts['url'].'" data-send="'.$send.'" data-layout="'.$opts['fb_layout'].'" data-show-faces="'.$show_faces.'" data-font="'.$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.$opts['fb_colorscheme'].'"></div>';
 							break;
 					}
 					break;
@@ -215,8 +211,6 @@ if ( ! class_exists( 'ngfbSocialFacebook' ) && class_exists( 'ngfbSocial' ) ) {
 			$html = '<script type="text/javascript" id="facebook-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "facebook-script-'.$pos.'", "'.$js_url.'" );</script>';
 			return $html;
 		}
-
 	}
-
 }
 ?>

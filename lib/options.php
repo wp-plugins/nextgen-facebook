@@ -86,7 +86,7 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '98';	// increment when adding/removing default options
+		public $options_version = '100';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -172,7 +172,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			'fb_markup' => 'xfbml',
 			'fb_send' => 1,
 			'fb_layout' => 'button_count',
-			'fb_width' => 200,
 			'fb_font' => 'arial',
 			'fb_show_faces' => 0,
 			'fb_colorscheme' => 'light',
@@ -565,7 +564,6 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 						case 'og_img_height': 
 						case 'og_title_len': 
 						case 'fb_order': 
-						case 'fb_width': 
 						case 'gp_order': 
 						case 'twitter_order': 
 						case 'linkedin_order': 

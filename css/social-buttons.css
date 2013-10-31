@@ -28,7 +28,8 @@
 
 /* define specific widths for each button */
 .ngfb-buttons div.facebook-button { width:149px; }
-.ngfb-buttons div.gplus-button { width:75px; }
+.ngfb-buttons div.gplus-button { width:99px; }
+.ngfb-buttons div.gplusone-button { width:75px; }
 .ngfb-buttons div.twitter-button { width:89px; }
 .ngfb-buttons div.linkedin-button { width:110px; }
 .ngfb-buttons div.managewp-button { width:100px; }

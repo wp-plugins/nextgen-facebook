@@ -158,7 +158,7 @@ if ( ! class_exists( 'ngfbUtil' ) ) {
 				return $url;
 
 			// facebook and managewp javascripts do not work when hosted locally
-			if ( preg_match( '/(connect.facebook.net|managewp.org\/share\.js)/', $url ) ) 
+			if ( preg_match( '/:\/\/connect.facebook.net/', $url ) ) 
 				return $url;
 
 			return ( $this->p->util->rewrite( $this->p->cache->get( $url ) ) );

@@ -127,7 +127,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			$user_id = get_current_user_id();				// since wp 3.0
 			if ( $force == true )
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
-					delete_user_option( $user_id, $meta_name . '_' . $page, true );
+					delete_user_option( $user_id, $meta_name.'_'.$page, true );
 			$meta_key = 'closedpostboxes_'.$page;
 			$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
 			if ( ! is_array( $opts ) )

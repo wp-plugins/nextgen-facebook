@@ -248,7 +248,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 					js.language = "JavaScript";
 					js.src = url;
 					script_pos.parentNode.insertBefore( js, script_pos );
-				};'.'</script>';
+				};</script>';
 		}
 
 		public function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
