@@ -788,6 +788,7 @@ function add_tracking_id( $url, $src_id ) {
 * Added a 'managewp-button' class to the css for the ManageWP button.
 * Added a new lib/config.php library file with config variables, definition of constants, and loading of required library files.
 * Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
+* Moved the Meta Tag List from the Advanced settings to the Pro version.
 
 = Version 6.13.1 =
 

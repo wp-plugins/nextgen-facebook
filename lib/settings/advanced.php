@@ -171,6 +171,29 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			);
 		}
 
+		protected function get_more_taglist() {
+			$og_cols = 5;
+			$cells = array();
+			$rows = array();
+			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
+				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
+					$cells[] = '<td class="taglist blank checkbox">'.
+					$this->p->admin->form->get_hidden( $opt ).
+					$this->p->admin->form->get_fake_checkbox( $this->p->options[$opt] ).'</td>'.
+					'<th class="taglist">'.$match[1].'</th>'."\n";
+				}
+			}
+			unset( $opt, $val );
+			$per_col = ceil( count( $cells ) / $og_cols );
+			foreach ( $cells as $num => $cell ) {
+				if ( empty( $rows[ $num % $per_col ] ) )
+					$rows[ $num % $per_col ] = '';	// initialize the array
+				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
+			}
+			unset( $num, $cell );
+			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>' ), $rows );
+		}
+
 		protected function get_rows( $id ) {
 			$ret = array();
 			switch ( $id ) {
@@ -210,11 +233,11 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 							} else {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
-									$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
+								$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'name' ).
-									$this->p->options[$cm_opt.'name'].'</td>'.
+								$this->p->options[$cm_opt.'name'].'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'label' ).
-									$this->p->options[$cm_opt.'label'].'</td>';
+								$this->p->options[$cm_opt.'label'].'</td>';
 							}
 						}
 					
@@ -352,45 +375,26 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 		}
 
 		public function show_metabox_taglist() {
-			?>
-			<table class="ngfb-settings" style="padding-bottom:0;">
-			<tr>
-				<td>
-				<p><?php echo $this->p->cf['full']; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
-				If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
-				prevent duplicate (for example, the "description" meta tag is unchecked by default if any known SEO plugin was detected).</p>
-				</td>
-			</tr>
-			</table>
+			echo '<table class="ngfb-settings" style="padding-bottom:0;"><tr><td>';
+			echo '<p>'.$this->p->cf['full'].' will add the following Facebook and Open Graph meta tags to your webpages. 
+			If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
+			prevent duplicates from being added (for example, the "description" meta tag is unchecked by default if any 
+			known SEO plugin was detected).</p>
+			</td></tr></table>';
 
-			<table class="ngfb-settings" style="padding-bottom:0;">
-			<?php
-			$og_cols = 5;
-			$cells = array();
-			$rows = array();
-			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
-				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) )
-					$cells[] = '<td class="taglist">'.$this->p->admin->form->get_checkbox( $opt ).'</td>'.
-						'<th class="taglist'.( $opt == 'inc_description' ? ' highlight' : '' ).
-							'">'.$match[1].'</th>'."\n";
-			}
-			unset( $opt, $val );
-			$per_col = ceil( count( $cells ) / $og_cols );
-			foreach ( $cells as $num => $cell ) {
-				if ( empty( $rows[ $num % $per_col ] ) )
-					$rows[ $num % $per_col ] = '';	// initialize the array
-				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
-			}
-			unset( $num, $cell );
-			foreach ( $rows as $num => $row ) 
-				echo '<tr>', $row, '</tr>', "\n";
+			echo '<table class="ngfb-settings" style="padding-bottom:0;">';
+			foreach ( $this->get_more_taglist() as $num => $row ) 
+				echo '<tr>', $row, '</tr>';
 			unset( $num, $row );
+			echo '</table>';
 
 			echo '<table class="ngfb-settings"><tr>';
-			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, '
-				Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td>', $this->p->admin->form->get_checkbox( 'og_empty_tags' ), '</td>';
-			echo '</tr></table>';
+			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
+			'Include meta property tags of type og:* without any content (default is unchecked).' );
+			echo '<td'.( $this->p->check->pro_active() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
+			' class="checkbox blank">'.$this->p->admin->form->get_hidden( 'og_empty_tags' ).
+			$this->p->admin->form->get_fake_checkbox( $this->p->options['og_empty_tags'] ) ).'</td>';
+			echo '<td width="100%"></td></tr></table>';
 
 		}
 
