@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, premium, pro, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce, socialgraph, multisite
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce, socialgraph, multisite
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -58,12 +58,13 @@ NGFB Open Graph+ also comes with several social sharing buttons, that you can op
 * Facebook
 * Google+
 * LinkedIn
+* ManageWP (**New in version 6.14.0**)
 * Pinterest
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) will attempt to match the social button language with the webpage language (using the WordPress locale).
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (aka the WordPress locale).
 
 = Custom Contacts =
 
@@ -85,7 +86,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
 
-NGFB Open Graph+ also includes and creates only the PHP library files and object classes it needs, thus having a much smaller footprint than most other full featured plugins.
+NGFB Open Graph+ also includes and creates only the PHP library files and object classes it needs, thus having a *much smaller footprint / size* than most other full featured plugins.
 
 = Clean Uninstall =
 
@@ -774,7 +775,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.14rc1 =
+= Version 6.14.0 =
 
 * Added a new social sharing button for ManageWP.
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
@@ -810,7 +811,7 @@ function add_tracking_id( $url, $src_id ) {
 
 == Upgrade Notice ==
 
-= 6.14rc1 =
+= 6.14.0 =
 
 New sharing button for ManageWP, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
 
