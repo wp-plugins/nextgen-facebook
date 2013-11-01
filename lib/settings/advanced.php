@@ -176,7 +176,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			switch ( $id ) {
 
 				case 'custom' :
-					if ( $this->p->is_avail['aop'] == false )
+					if ( ! $this->p->check->pro_active() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -202,7 +202,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 						// not all social websites have a contact method field
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->is_avail['aop'] == true ) {
+							if ( $this->p->check->pro_active() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'name' ).'</td>'.
@@ -222,7 +222,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					break;
 
 				case 'builtin' :
-					if ( $this->p->is_avail['aop'] == false )
+					if ( ! $this->p->check->pro_active() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -236,7 +236,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					foreach ( $sorted_wp_contact as $id => $name ) {
 						$cm_opt = 'wp_cm_'.$id.'_';
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->is_avail['aop'] == true ) {
+							if ( $this->p->check->pro_active() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
@@ -357,9 +357,8 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			<tr>
 				<td>
 				<p><?php echo $this->p->cf['full']; ?> will add the following Facebook and Open Graph meta tags to your webpages. 
-				If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to prevent 
-				<?php echo $this->p->cf['full']; ?> from adding duplicate meta tags (for example, the "description" meta tag is popular
-				with SEO plugins, so it is unchecked by default).</p>
+				If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
+				prevent duplicate (for example, the "description" meta tag is unchecked by default if any known SEO plugin was detected).</p>
 				</td>
 			</tr>
 			</table>

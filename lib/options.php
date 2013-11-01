@@ -397,6 +397,9 @@ if ( ! class_exists( 'ngfbOptions' ) ) {
 			$this->defaults['og_author_field'] = empty( $this->p->options['plugin_cm_fb_name'] ) ? 
 				$this->defaults['plugin_cm_fb_name'] : $this->p->options['plugin_cm_fb_name'];
 
+			// add description meta tag if no known SEO plugin was detected
+			$this->defaults['inc_description'] = empty( $this->p->is_avail['any_seo'] ) ? 1 : 0;
+
 			$this->defaults['og_site_name'] = get_bloginfo( 'name', 'display' );
 
 			// check for default values from network admin settings
