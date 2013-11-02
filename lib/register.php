@@ -33,8 +33,7 @@ if ( ! class_exists( 'ngfbPluginRegister' ) ) {
 
 		public static function network_uninstall() {
 			$sitewide = true;
-			$config_class = 'ngfbPluginConfig';
-			$lca = $config_class::get_config( 'lca' );
+			$lca = ngfbPluginConfig::get_config( 'lca' );
 			delete_site_option( $lca.'_site_options' );
 			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
 		}
@@ -69,9 +68,8 @@ if ( ! class_exists( 'ngfbPluginRegister' ) ) {
 
 		private static function uninstall_plugin() {
 			global $wpdb;
-			$config_class = 'ngfbPluginConfig';
-			$lca = $config_class::get_config( 'lca' );
-			$slug = $config_class::get_config( 'slug' );
+			$lca = ngfbPluginConfig::get_config( 'lca' );
+			$slug = ngfbPluginConfig::get_config( 'slug' );
 			$options = get_option( $lca.'_options' );
 
 			if ( empty( $options['plugin_preserve'] ) ) {
