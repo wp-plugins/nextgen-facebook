@@ -71,7 +71,9 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", $this->p->cf['lca'], " meta tags begin -->\n";
+			echo "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";
+			if ( $this->p->is_avail['aop'] )
+				echo "<!-- updates: ".$this->p->cf['url']['pro_update']." -->\n";
 
 			// show the array structure before the html block
 			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
