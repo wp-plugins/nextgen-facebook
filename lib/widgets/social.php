@@ -38,10 +38,10 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$ngfb->debug->log( $cache_type.': widget_html transient id salt "'.$cache_salt.'"' );
+				$ngfb->debug->log( $cache_type.': widget_html transient salt '.$cache_salt );
 				$widget_html = get_transient( $cache_id );
 				if ( $widget_html !== false ) {
-					$ngfb->debug->log( $cache_type.': widget_html retrieved from transient for id "'.$cache_id.'"' );
+					$ngfb->debug->log( $cache_type.': widget_html retrieved from transient '.$cache_id );
 					$ngfb->debug->show_html();
 					echo $widget_html;
 					return;
@@ -59,17 +59,17 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-			$widget_html = "\n<!-- ".$ngfb->cf['full'].' '.$args['widget_id']." BEGIN -->\n";
-			$widget_html .= $before_widget."\n";
+			$widget_html = '<!-- '.$ngfb->cf['lca'].' '.$args['widget_id'].' begin -->';
+			$widget_html .= $before_widget;
 			if ( $title ) 
-				$widget_html .= $before_title.$title.$after_title."\n";
+				$widget_html .= $before_title.$title.$after_title;
 			$widget_html .= $ngfb->social->get_html( $sorted_ids, $atts );
-			$widget_html .= $after_widget."\n";
-			$widget_html .= "<!-- ".$ngfb->cf['full'].' '.$args['widget_id']." END -->\n";
+			$widget_html .= $after_widget;
+			$widget_html .= '<!-- '.$ngfb->cf['lca'].' '.$args['widget_id'].' end -->';
 
 			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
-				$ngfb->debug->log( $cache_type.': widget_html saved to transient for id "'.$cache_id.'" ('.$ngfb->cache->object_expire.' seconds)');
+				$ngfb->debug->log( $cache_type.': widget_html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}
 
 			$ngfb->debug->show_html();

@@ -23,9 +23,6 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 			$msg = '';
 			switch ( $name ) {
 				case 'pro_feature' :
-					// only displayed when the Free version classes are not extended by Pro classes,
-					// either when Free version install, or when Pro is installed but classes not 
-					// loaded because of an update error
 					if ( $this->p->is_avail['aop'] == true ) {
 						$msg = '<p class="pro_feature"><a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Purchase 
 						additional licence(s) to enable Pro version features</p>';
@@ -73,7 +70,7 @@ if ( ! class_exists( 'ngfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_free' :
-					$msg = '<p><strong>Need help with the <em>Free</em> version? 
+					$msg = '<p><strong>Need help with the <em>GPL</em> version? 
 					See the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">FAQ</a>, 
 					the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Other Notes</a>, or visit the 
 					<a href="'.$this->p->cf['url']['support'].'" target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';

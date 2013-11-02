@@ -451,7 +451,7 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 			if ( $this->p->check->pro_active() ) echo __( 'Pro', NGFB_TEXTDOM );
 			elseif ( $this->p->is_avail['aop'] ) echo __( 'Unlicensed Pro', NGFB_TEXTDOM );
-			else echo __( 'Free', NGFB_TEXTDOM );
+			else echo __( 'GPL', NGFB_TEXTDOM );
 
 			echo ')</td></tr>';
 			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td>'.$stable_tag.'</td></tr>';

@@ -71,13 +71,17 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			global $post;
 			$author_url = '';
 		
-			echo "\n<!-- ", $this->p->cf['full'], " meta tags BEGIN -->\n";
+			echo "\n<!-- ", $this->p->cf['lca'], " meta tags begin -->\n";
 
 			// show the array structure before the html block
 			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
 			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
 
-			echo '<meta name="generator" content="', $this->p->cf['full'], ' ', $this->p->cf['version'], '" />', "\n";
+			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'];
+			if ( $this->p->check->pro_active() ) echo ' (Licensed)';
+			elseif ( $this->p->is_avail['aop'] ) echo ' (Unlicensed)';
+			else echo ' (GPL)';
+			echo '" />'."\n";
 
 			/*
 			 * Meta Tags for Google
@@ -161,7 +165,7 @@ if ( ! class_exists( 'ngfbHead' ) ) {
 			}
 			unset ( $first_name, $first_val );
 
-			echo "<!-- ", $this->p->cf['full'], " meta tags END -->\n";
+			echo "<!-- ", $this->p->cf['lca'], " meta tags end -->\n";
 		}
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {

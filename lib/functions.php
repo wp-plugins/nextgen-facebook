@@ -27,11 +27,11 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 			}
 		}
 
-		$html = "\n<!-- ".$ngfb->cf['full']." social buttons BEGIN -->\n" .
+		$html = '<!-- '.$ngfb->cf['lca'].' social buttons begin -->' .
 			$ngfb->social->get_js( 'pre-social-buttons', $ids ) .
 			$ngfb->social->get_html( $ids, $atts ) .
 			$ngfb->social->get_js( 'post-social-buttons', $ids ) .
-			"<!-- ".$ngfb->cf['full']." social buttons END -->\n";
+			'<!-- '.$ngfb->cf['lca'].' social buttons end -->';
 
 		if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
 			set_transient( $cache_id, $html, $ngfb->cache->object_expire );
