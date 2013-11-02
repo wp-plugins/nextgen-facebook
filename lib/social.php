@@ -61,9 +61,18 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		public function filter_the_excerpt( $text ) {
 			$id = $this->p->cf['lca'].' excerpt-buttons';
-			$text = preg_replace_callback( '/(<!-- '.$id.' begin -->.*<!-- '.$id.' end -->)(<\/[pP]>)/Us', 
-				function( $m ) { $r = preg_replace( '/(<\/*[pP]>|\n)/', '', $m[1] ); return $m[2].$r; }, $text );
+			$text = preg_replace_callback( '/(<!-- '.$id.' begin -->.*<!-- '.$id.' end -->)(<\/[pP]>|)/Us', 
+				array( __CLASS__, 'remove_paragraph_tags' ), $text );
 			return $text;
+		}
+
+		// callback for filter_the_excerpt()
+		public function remove_paragraph_tags( $match = array() ) {
+			if ( empty( $match ) || ! is_array( $match ) ) return;
+			$text = empty( $match[1] ) ? '' : $match[1];
+			$suff = empty( $match[2] ) ? '' : $match[2];
+			$ret = preg_replace( '/(<\/*[pP]>|\n)/', '', $text );
+			return $suff.$ret; 
 		}
 
 		public function filter_get_the_excerpt( $text ) {
