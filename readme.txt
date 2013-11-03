@@ -58,7 +58,7 @@ NGFB Open Graph+ also comes with several social sharing buttons, that you can op
 * Facebook
 * Google+
 * LinkedIn
-* ManageWP (**New in version 6.14.0**)
+* ManageWP
 * Pinterest
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
