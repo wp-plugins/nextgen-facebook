@@ -777,6 +777,8 @@ function add_tracking_id( $url, $src_id ) {
 
 = Version 6.14.0 =
 
+There are several code improvements in this new version and one visible new feature: A new social sharing button for ManageWP.org. The button is enabled by default for the admin Post / Page editing page. You can also enable the button for your content in the Open Graph+ Social Sharing settings, and/or from the widget and shortcode.
+
 * Added a new social sharing button for ManageWP.
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
 * Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
