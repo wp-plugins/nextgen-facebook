@@ -8,16 +8,16 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class ngfbSettingsAdvanced extends ngfbAdmin {
+	class NgfbAdminAdvanced extends NgfbAdmin {
 
 		protected $p;
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
 
-		// executed by ngfbSettingsAdvancedPro() as well
+		// executed by NgfbAdminAdvancedPro() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -254,7 +254,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					'The built-in WordPress contact field names cannot be changed.' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
-					$sorted_wp_contact = $this->p->cf['wp']['contact'];
+					$sorted_wp_contact = $this->p->cf['wp']['cm'];
 					ksort( $sorted_wp_contact );
 					foreach ( $sorted_wp_contact as $id => $name ) {
 						$cm_opt = 'wp_cm_'.$id.'_';

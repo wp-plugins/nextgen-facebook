@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class ngfbSettingsNetwork extends ngfbAdmin {
+	class NgfbAdminNetwork extends NgfbAdmin {
 
 		protected $p;
 		protected $form;
@@ -18,7 +18,7 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 		protected $menu_name;
 		protected $pagehook;
 
-		// executed by ngfbSettingsAdvancedPro() as well
+		// executed by NgfbAdminAdvancedPro() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -29,7 +29,7 @@ if ( ! class_exists( 'ngfbSettingsNetwork' ) && class_exists( 'ngfbAdmin' ) ) {
 
 		private function setup_vars() {
 			$def_site_opts = $this->p->opt->get_site_defaults();
-			$this->form = new ngfbForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
+			$this->form = new NgfbForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
 		}
 
 		protected function add_meta_boxes() {

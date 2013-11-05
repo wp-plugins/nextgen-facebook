@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) ) {
+if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) ) {
 
-	class ngfbWidgetSocialSharing extends WP_Widget {
+	class NgfbWidgetSocialSharing extends WP_Widget {
 
 		public static $fullname = 'NGFB Social Sharing';
 
@@ -24,6 +24,9 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 		}
 	
 		public function widget( $args, $instance ) {
+			if ( is_feed() ) return;	// nothing to do in the feeds
+			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
+
 			global $ngfb;
 			if ( is_object( $ngfb->social ) && $ngfb->social->is_disabled() ) {
 				$ngfb->debug->log( 'widget buttons skipped: buttons disabled' );
@@ -114,8 +117,7 @@ if ( ! class_exists( 'ngfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			unset( $id, $name );
 		}
 	}
-	
-	add_action( 'widgets_init', create_function( '', 'return register_widget( "ngfbWidgetSocialSharing" );' ) );
+	add_action( 'widgets_init', create_function( '', 'return register_widget( "NgfbWidgetSocialSharing" );' ) );
 }
 
 ?>

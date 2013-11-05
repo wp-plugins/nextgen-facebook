@@ -8,9 +8,9 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbPluginRegister' ) ) {
+if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 
-	class ngfbPluginRegister {
+	class NgfbPluginRegister {
 
 		protected $p;
 

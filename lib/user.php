@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbUser' ) ) {
+if ( ! class_exists( 'NgfbUser' ) ) {
 
-	class ngfbUser {
+	class NgfbUser {
 
 		private $p;
 
@@ -25,6 +25,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
+			// loop through each social website option prefix
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				$cm_opt = 'plugin_cm_'.$pre.'_';
 
@@ -42,7 +43,7 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			unset( $id, $pre );
 
 			if ( $this->p->is_avail['aop'] == true ) {
-				foreach ( $this->p->cf['wp']['contact'] as $id => $name ) {
+				foreach ( $this->p->cf['wp']['cm'] as $id => $name ) {
 					$cm_opt = 'wp_cm_'.$id.'_';
 
 					if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
@@ -166,8 +167,6 @@ if ( ! class_exists( 'ngfbUser' ) ) {
 			$user_id = $user_id == false ? get_current_user_id() : $user_id;	// since wp 3.0
 			update_user_option( $user_id, NGFB_OPTIONS_NAME, array_unique( $opts ), true );	// since wp 2.0
 		}
-
 	}
-
 }
 ?>

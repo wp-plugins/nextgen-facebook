@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.14.0
+Version: 6.15dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -15,9 +15,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbPlugin' ) ) {
+if ( ! class_exists( 'NgfbPlugin' ) ) {
 
-	class ngfbPlugin {
+	class NgfbPlugin {
 
 		// class object variables
 		public $debug, $util, $notices, $opt, $user, $media, $meta,
@@ -50,6 +50,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function init_plugin() {
 			if ( is_feed() ) return;	// nothing to do in the feeds
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
+
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
 			$this->setup_vars();
 			if ( $this->debug->is_on() == true ) {
@@ -67,7 +68,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * load all plugin options
 			 */
-			$this->check = new ngfbCheck( $this );
+			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->available();
 			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
 			$this->set_options();		// local method for early load
@@ -86,11 +87,12 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
-			$this->debug = new ngfbDebug( $this->cf['full'], 'NGFB', array( 'html' => $html_debug, 'wp' => $wp_debug ) );
-			$this->check = new ngfbCheck( $this );
-			$this->util = new ngfbUtil( $this );
-			$this->notices = new ngfbNotices( $this );
-			$this->opt = new ngfbOptions( $this );
+			$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			$this->notices = new SucomNotices( $this );
+
+			$this->check = new NgfbCheck( $this );
+			$this->util = new NgfbUtil( $this );
+			$this->opt = new NgfbOptions( $this );
 
 			// uses ngfbOptions class, so must be after object creation
 			if ( is_multisite() && ( ! is_array( $this->site_options ) || empty( $this->site_options ) ) )
@@ -123,26 +125,26 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			/*
 			 * continue creating remaining object classes
 			 */
-			$this->user = new ngfbUser( $this );
-			$this->media = new ngfbMedia( $this );
-			$this->webpage = new ngfbWebPage( $this );		// title, desc, etc., plus shortcodes
-			$this->meta = new ngfbPostMeta( $this );
-			$this->social = new ngfbSocial( $this );		// wp_head and wp_footer js and buttons
-			$this->style = new ngfbStyle( $this );
-			$this->script = new ngfbScript( $this );
-			$this->cache = new ngfbCache( $this );
+			$this->cache = new SucomCache( $this );
+			$this->user = new NgfbUser( $this );
+			$this->media = new NgfbMedia( $this );
+			$this->webpage = new NgfbWebpage( $this );		// title, desc, etc., plus shortcodes
+			$this->meta = new NgfbPostMeta( $this );
+			$this->social = new NgfbSocial( $this );		// wp_head and wp_footer js and buttons
+			$this->style = new NgfbStyle( $this );
+			$this->script = new NgfbScript( $this );
 
 			if ( is_admin() ) {
-				$this->msg = new ngfbMessages( $this );
-				$this->admin = new ngfbAdmin( $this );
+				$this->msg = new NgfbMessages( $this );
+				$this->admin = new NgfbAdmin( $this );
 			} else {
-				$this->head = new ngfbHead( $this );		// wp_head / opengraph
-				$this->tags = new ngfbTags( $this );		// ngg image tags and wp post/page tags
+				$this->head = new NgfbHead( $this );		// wp_head / opengraph
+				$this->tags = new NgfbTags( $this );		// ngg image tags and wp post/page tags
 			}
 
 			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )
-				$this->pro = new ngfbAddOnPro( $this );
+				$this->pro = new NgfbAddonPro( $this );
 
 			/*
 			 * check options array read from database - upgrade options if necessary
@@ -185,7 +187,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
-				$this->update = new ngfbUpdate( $this );
+				$this->update = new SucomUpdate( $this );
 				if ( is_admin() ) {
 					// if update_hours * 2 has passed without an update check, then force one now
 					$last_update = get_option( $this->cf['lca'].'_update_time' );
@@ -226,7 +228,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 	}
 
         global $ngfb;
-	$ngfb = new ngfbPlugin();
+	$ngfb = new NgfbPlugin();
 }
 
 ?>

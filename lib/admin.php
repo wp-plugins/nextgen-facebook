@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbAdmin' ) ) {
 
-	class ngfbAdmin {
+	class NgfbAdmin {
 	
 		protected $js_locations = array(
 			'header' => 'Header',
@@ -53,13 +53,13 @@ if ( ! class_exists( 'ngfbAdmin' ) ) {
 
 		private function setup_vars() {
 			$def_opts = $this->p->opt->get_defaults();
-			$this->form = new ngfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
+			$this->form = new NgfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
 
 			$libs = $this->p->cf['lib']['setting'];
 			if ( is_multisite() )
 				$libs = array_merge( $libs, $this->p->cf['lib']['network_setting'] );
 			foreach ( $libs as $id => $name ) {
-				$classname = $this->p->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
+				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
 					$this->settings[$id] = new $classname( $this->p, $id, $name );
 			}

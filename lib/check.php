@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbCheck' ) ) {
+if ( ! class_exists( 'NgfbCheck' ) ) {
 
-	class ngfbCheck {
+	class NgfbCheck {
 
 		private $p;
 
@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 		public function available( $is_avail = array() ) {
 
 			// ngfb pro
-			$is_avail['aop'] = class_exists( $this->p->cf['lca'].'AddOnPro' ) ? true : false;
+			$is_avail['aop'] = class_exists( $this->p->cf['lca'].'AddonPro' ) ? true : false;
 
 			// available since php v4.0.6+
 			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
@@ -148,6 +148,10 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 				}
 			}
 
+			/*
+			 * Other Conflicting Plugins
+			 */
+
 			// WooCommerce ShareYourCart Extension
 			if ( class_exists( 'ShareYourCartWooCommerce' ) ) {
 				$opts = get_option( 'woocommerce_shareyourcart_settings' );
@@ -191,7 +195,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 					__( 'Disabling content filters will prevent shortcodes from being expanded, which may lead to incorrect / incomplete description meta tags.', NGFB_TEXTDOM );
 			}
 
-			// 
+			// Slick Social Share Buttons
 			if ( class_exists( 'dc_jqslicksocial_buttons' ) ) {
 				$opts = get_option( 'dcssb_options' );
 				if ( empty( $opts['disable_opengraph'] ) ) {
@@ -201,7 +205,6 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 							get_admin_url( null, 'admin.php?page=slick-social-share-buttons' ) ) );
 				}
 			}
-
 		}
 
 		public function pro_active() {
@@ -211,9 +214,7 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 						return true;
 			return false;
 		}
-
 	}
-
 }
 
 ?>

@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbWebPage' ) ) {
+if ( ! class_exists( 'NgfbWebpage' ) ) {
 
-	class ngfbWebPage {
+	class NgfbWebpage {
 
 		private $p;
 		private $shortcode = array();
@@ -23,7 +23,7 @@ if ( ! class_exists( 'ngfbWebPage' ) ) {
 
 		private function setup_vars() {
 			foreach ( $this->p->cf['lib']['shortcode'] as $id => $name ) {
-				$classname = $this->p->cf['lca'].'ShortCode'.preg_replace( '/ /', '', $name );
+				$classname = $this->p->cf['cca'].'Shortcode'.ucfirst( $id );
 				if ( class_exists( $classname ) )
 					$this->shortcode[$id] = new $classname( $this->p );
 			}

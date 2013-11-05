@@ -6,9 +6,9 @@ if ( ! defined( 'NGFB_README_MARKDOWN' ) )
 if ( ! defined( 'ABSPATH' ) )
         die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbParseReadme' ) ) {
+if ( ! class_exists( 'NgfbParseReadme' ) ) {
 
-class ngfbParseReadme {
+class NgfbParseReadme {
 
 	private $debug;
 

@@ -21,9 +21,9 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbGoogl' ) ) {
+if ( ! class_exists( 'NgfbGoogl' ) ) {
 
-	class ngfbGoogl {
+	class NgfbGoogl {
 
 		private $target;
 		private $apiKey;

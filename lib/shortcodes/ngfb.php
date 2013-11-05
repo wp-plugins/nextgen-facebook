@@ -8,12 +8,12 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
+if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 
-	class ngfbShortCodeNgfb {
+	class NgfbShortcodeNgfb {
 
 		private $p;
-		private $sc_name = 'ngfb';
+		private $sc = 'ngfb';
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -25,7 +25,7 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 		public function wpautop() {
 			// make sure wpautop() does not have a higher priority than 10, otherwise it will 
 			// format the shortcode output (shortcodes filters are run at priority 11).
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
 				$default_priority = 10;
 				foreach ( array( 'get_the_excerpt', 'the_excerpt', 'the_content' ) as $tag ) {
 					$filter_priority = has_filter( $tag, 'wpautop' );
@@ -39,21 +39,21 @@ if ( ! class_exists( 'ngfbShortCodeNgfb' ) ) {
 		}
 
 		public function add() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
-        			add_shortcode( $this->sc_name, array( &$this, 'shortcode' ) );
-				$this->p->debug->log( '['.$this->sc_name.'] shortcode added' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
+        			add_shortcode( $this->sc, array( &$this, 'shortcode' ) );
+				$this->p->debug->log( '['.$this->sc.'] shortcode added' );
 			}
 		}
 
 		public function remove() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc_name] ) ) {
-				remove_shortcode( $this->sc_name );
-				$this->p->debug->log( '['.$this->sc_name.'] shortcode removed' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
+				remove_shortcode( $this->sc );
+				$this->p->debug->log( '['.$this->sc.'] shortcode removed' );
 			}
 		}
 
 		public function shortcode( $atts, $content = null ) { 
-			$atts = apply_filters( $this->sc_name.'_shortcode', $atts, $content );
+			$atts = apply_filters( $this->sc.'_shortcode', $atts, $content );
 			global $post;
 			$html = '';
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( 'notrack', null, true ) : $atts['url'];

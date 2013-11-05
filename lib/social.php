@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSocial' ) ) {
 
-	class ngfbSocial {
+	class NgfbSocial {
 
 		protected $p;
 		protected $website = array();
@@ -30,9 +30,9 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 
 		private function setup_vars() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->cf['lca'].'Social'.preg_replace( '/ /', '', $name );
+				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
-					$this->website[$id] = new $classname( $this->p );
+					$this->website[$id] = New $classname( $this->p );
 			}
 			unset ( $id, $name );
 		}
@@ -188,7 +188,7 @@ if ( ! class_exists( 'ngfbSocial' ) ) {
 				return;
 			}
 			global $post;
-			$widget = new ngfbWidgetSocialSharing();
+			$widget = new NgfbWidgetSocialSharing();
 		 	$widget_settings = $widget->get_settings();
 
 			// determine which (if any) social buttons are enabled

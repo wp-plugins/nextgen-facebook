@@ -28,9 +28,9 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbBitly' ) ) {
+if ( ! class_exists( 'NgfbBitly' ) ) {
 
-	class ngfbBitly {
+	class NgfbBitly {
 	
 		// internal constant to enable/disable debugging
 		const DEBUG = false;

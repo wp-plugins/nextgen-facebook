@@ -8,13 +8,14 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbPluginConfig' ) ) {
+if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
-	class ngfbPluginConfig {
+	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.14.0',			// plugin version
+			'version' => '6.15dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
+			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
 			'slug' => 'nextgen-facebook',
 			'menu' => 'Open Graph+',		// menu item label
@@ -78,7 +79,7 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			),
 			'wp' => array(				// wordpress
 				'min_version' => '3.0',		// minimum wordpress version
-				'contact' => array(
+				'cm' => array(
 					'aim' => 'AIM',
 					'jabber' => 'Jabber / Google Talk',
 					'yim' => 'Yahoo IM',
@@ -224,10 +225,13 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			
 			$plugin_dir = constant( self::$cf['uca'].'_PLUGINDIR' );
 
-			require_once ( $plugin_dir.'lib/debug.php' );
+			require_once ( $plugin_dir.'lib/common/debug.php' );
+			require_once ( $plugin_dir.'lib/common/cache.php' );
+			require_once ( $plugin_dir.'lib/common/notices.php' );
+			require_once ( $plugin_dir.'lib/common/update.php' );
+
 			require_once ( $plugin_dir.'lib/check.php' );
 			require_once ( $plugin_dir.'lib/util.php' );
-			require_once ( $plugin_dir.'lib/notices.php' );
 			require_once ( $plugin_dir.'lib/options.php' );
 			require_once ( $plugin_dir.'lib/user.php' );
 			require_once ( $plugin_dir.'lib/media.php' );
@@ -236,8 +240,6 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 			require_once ( $plugin_dir.'lib/social.php' );
 			require_once ( $plugin_dir.'lib/style.php' );
 			require_once ( $plugin_dir.'lib/script.php' );
-			require_once ( $plugin_dir.'lib/cache.php' );
-			require_once ( $plugin_dir.'lib/update.php' );
 
 			if ( is_admin() ) {
 				require_once ( $plugin_dir.'lib/messages.php' );
@@ -287,7 +289,6 @@ if ( ! class_exists( 'ngfbPluginConfig' ) ) {
 				require_once ( $plugin_dir.'lib/pro/addon.php' );
 
 		}
-
 	}
 }
 

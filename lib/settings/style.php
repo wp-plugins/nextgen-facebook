@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbSettingsSocialStyle' ) && class_exists( 'ngfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class ngfbSettingsSocialStyle extends ngfbAdmin {
+	class NgfbAdminStyle extends NgfbAdmin {
 
 		protected $p;
 		protected $menu_id;

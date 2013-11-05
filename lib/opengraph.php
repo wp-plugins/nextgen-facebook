@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'ngfbOpenGraph' ) ) {
+if ( ! class_exists( 'NgfbOpengraph' ) ) {
 
-	class ngfbOpenGraph {
+	class NgfbOpengraph {
 
 		private $p;
 
