@@ -87,15 +87,15 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Include on Index Webpages', null, null, '
-				Add the following (enabled) social sharing buttons to each entry of an index webpage 
-				(non-static homepage, category, archive, etc.). 
-				By Default, social sharing buttons are <em>not</em> included on index webpages 
-				(default is unchecked).' ); 
+				Add the following social sharing buttons to each entry of an index webpage (non-static homepage, category, archive, etc.). 
+				By Default, social sharing buttons are <em>not</em> included on index webpages (default is unchecked).
+				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
 			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_on_index' ), '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Include on Static Homepage', null, null, '
-				If a static Post or Page has been chosen for the homepage, add the following (enabled) 
-				social sharing buttons to the static homepage as well (default is checked).' ); 
+				If a static Post or Page has been chosen for the homepage, add the following
+				social sharing buttons to the static homepage as well (default is unchecked).
+				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
 			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
 			echo '</tr>';
 			foreach ( $this->get_more_social() as $row ) echo '<tr>'.$row.'</tr>';

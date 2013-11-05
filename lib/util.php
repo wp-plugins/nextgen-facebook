@@ -358,7 +358,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			$this->p->debug->args( array( 'expire_secs' => $expire_secs ) );
 			$readme = '';
 			$use_local = false;
-			$plugin_info = false;
+			$plugin_info = array();
 
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE ) {
 				$this->p->debug->log( 'transient cache is disabled' );
@@ -369,12 +369,13 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': plugin_info transient salt '.$cache_salt );
 				$plugin_info = get_transient( $cache_id );
-				if ( $plugin_info !== false ) {
+				if ( is_array( $plugin_info ) ) {
 					$this->p->debug->log( $cache_type.': plugin_info retrieved from transient '.$cache_id );
 					return $plugin_info;
 				}
 			}
 
+			// get remote readme.txt file
 			if ( $use_local == false )
 				$readme = $this->p->cache->get( $this->p->cf['url']['readme'], 'raw', 'file', $expire_secs );
 
@@ -388,6 +389,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			if ( ! empty( $readme ) ) {
 				$parser = new ngfbParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
+				// remove possibly inaccurate information from local file
 				if ( $use_local == true ) {
 					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
 						if ( array_key_exists( $key, $plugin_info ) )

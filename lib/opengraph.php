@@ -44,7 +44,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': og array transient salt '.$cache_salt );
 				$og = get_transient( $cache_id );
-				if ( $og !== false ) {
+				if ( is_array( $og ) ) {
 					$this->p->debug->log( $cache_type.': og array retrieved from transient '.$cache_id );
 					return $og;
 				}

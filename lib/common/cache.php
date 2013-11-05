@@ -40,12 +40,19 @@ if ( ! class_exists( 'SucomCache' ) ) {
 		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
 			if ( $this->p->is_avail['curl'] == false ) {
+
 				$this->p->debug->log( 'curl is not available: '.$url );
 				return $want_this == 'url' ? $url : '';
-			} elseif ( defined( 'WPSSO_CURL_DISABLE' ) && WPSSO_CURL_DISABLE ) {
+
+			} elseif ( defined( $this->p->cf['uca'].'_CURL_DISABLE' ) && 
+				constant( $this->p->cf['uca'].'_CURL_DISABLE' ) ) {
+
 				$this->p->debug->log( 'curl is disabled: '.$url );
 				return $want_this == 'url' ? $url : '';
-			} elseif ( defined( 'WPSSO_FILE_CACHE_DISABLE' ) && WPSSO_FILE_CACHE_DISABLE ) {
+
+			} elseif ( defined( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) && 
+				constant( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) ) {
+
 				$this->p->debug->log( 'file cache is disabled: '.$url );
 				return $want_this == 'url' ? $url : '';
 			}
@@ -124,7 +131,10 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			} else {
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
 				curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 1 );
-				curl_setopt( $ch, CURLOPT_CAINFO, WPSSO_CURL_CAINFO );
+
+				if ( defined( $this->p->cf['uca'].'_CURL_CAINFO' ) ) 
+					curl_setopt( $ch, CURLOPT_CAINFO, 
+						constant( $this->p->cf['uca'].'_CURL_CAINFO' ) );
 			}
 
 			if ( ! empty( $curl_userpwd ) )
@@ -167,8 +177,9 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			$cache_data = '';
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-					if ( defined( 'WPSSO_OBJECT_CACHE_DISABLE' ) && WPSSO_OBJECT_CACHE_DISABLE )
-						$this->p->debug->log( 'object cache is disabled' );
+					if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
+						constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
+							$this->p->debug->log( 'object cache is disabled' );
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
@@ -179,8 +190,9 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					}
 					break;
 				case 'transient' :
-					if ( defined( 'WPSSO_TRANSIENT_CACHE_DISABLE' ) && WPSSO_TRANSIENT_CACHE_DISABLE )
-						$this->p->debug->log( 'transient cache is disabled' );
+					if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
+						constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
+							$this->p->debug->log( 'transient cache is disabled' );
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
@@ -228,8 +240,9 @@ if ( ! class_exists( 'SucomCache' ) ) {
 
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-					if ( defined( 'WPSSO_OBJECT_CACHE_DISABLE' ) && WPSSO_OBJECT_CACHE_DISABLE )
-						$this->p->debug->log( 'object cache is disabled' );
+					if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
+						constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
+							$this->p->debug->log( 'object cache is disabled' );
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
@@ -241,8 +254,9 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					}
 					break;
 				case 'transient' :
-					if ( defined( 'WPSSO_TRANSIENT_CACHE_DISABLE' ) && WPSSO_TRANSIENT_CACHE_DISABLE )
-						$this->p->debug->log( 'transient cache is disabled' );
+					if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
+						constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
+							$this->p->debug->log( 'transient cache is disabled' );
 					else {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id

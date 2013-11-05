@@ -150,7 +150,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'og_desc_strip' => 0,
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
-			'buttons_on_front' => 1,
+			'buttons_on_front' => 0,
 			'buttons_add_to_post' => 1,
 			'buttons_add_to_page' => 1,
 			'buttons_add_to_attachment' => 1,
@@ -614,8 +614,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						/*
 						 * options that cannot be blank
 						 */
-						case 'og_art_section':
 						case 'link_author_field':
+						case 'og_art_section':
 						case 'og_img_id_pre': 
 						case 'og_def_img_id_pre': 
 						case 'og_author_field':
@@ -627,6 +627,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						case 'buttons_css_shortcode':
 						case 'buttons_css_widget':
 						case 'fb_js_loc': 
+						case 'fb_lang': 
 						case 'fb_markup': 
 						case 'gp_js_loc': 
 						case 'gp_lang': 

@@ -778,6 +778,8 @@ function add_tracking_id( $url, $src_id ) {
 = Version 6.15dev1 =
 
 * Updated the Custom Settings Validation Tools tab to include buttons instead of links.
+* Changed default 'Include on Static Homepage' value from checked to unchecked.
+* Changed test for `get_transient()` return value in opengraph.php from !== false to is_array().
 * Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
 * Moved lib/cache.php to lib/common/cache.php with a new class name of SucomCache.
 * Moved lib/debug.php to lib/common/debug.php with a new class name of SucomDebug.
