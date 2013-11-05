@@ -89,7 +89,7 @@ if ( ! class_exists( 'SucomNotices' ) ) {
 					if ( $type == 'nag' ) {
 						echo '
 						<style type="text/css">
-							.ngfb-update-nag {
+							.sucom-update-nag {
 								color:#333;
 								background:#eeeeff;
 								background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -102,7 +102,7 @@ if ( ! class_exists( 'SucomNotices' ) ) {
 								overflow:hidden;
 								line-height:1.4em;
 							}
-							.ngfb-update-nag p {
+							.sucom-update-nag p {
 								margin:10px 0 10px 0;
 							}
 						</style>';
@@ -111,7 +111,7 @@ if ( ! class_exists( 'SucomNotices' ) ) {
 						if ( ! empty( $msg ) )
 							switch ( $type ) {
 							case 'nag' :
-								echo '<div class="update-nag ngfb-update-nag">', $msg, '</div>', "\n";
+								echo '<div class="update-nag sucom-update-nag">', $msg, '</div>', "\n";
 								break;
 							case 'err' :
 								echo '<div class="error"><div style="float:left;"><p><b>', 

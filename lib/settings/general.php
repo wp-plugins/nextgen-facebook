@@ -74,7 +74,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>Width '.$this->p->admin->form->get_input( 'og_img_width', 'short' ).' x '.
 					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).'&nbsp;'.
 					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'&nbsp;'.
-					 'WP Auto-Resize <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->cf['lca'].'_tooltip'.'" alt="'.
+					 'WP Auto-Resize <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
 					 esc_attr( 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
 					 WordPress Media Library (default is unchecked). You should enable this option unless you have custom /
 					 manually cropped images, which will be lost when re-generating image sizes.' ).'" /> '.

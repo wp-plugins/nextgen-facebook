@@ -47,7 +47,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_contact() {
-			echo '<table class="ngfb-settings" style="padding-bottom:0"><tr><td>
+			echo '<table class="sucom-settings" style="padding-bottom:0"><tr><td>
 			<p>The following options allow you to customize the contact field names and labels shown on the <a href="'.get_admin_url( null, 'profile.php' ).'">user profile page</a>.
 			'.$this->p->cf['full'].' uses the Facebook, Google+ and Twitter contact field values for Open Graph and Twitter Card meta tags (along with the Twitter social sharing button).
 			<strong>You should not modify the <em>Contact Field Name</em> unless you have a very good reason to do so.</strong>
@@ -375,20 +375,20 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_taglist() {
-			echo '<table class="ngfb-settings" style="padding-bottom:0;"><tr><td>';
+			echo '<table class="sucom-settings" style="padding-bottom:0;"><tr><td>';
 			echo '<p>'.$this->p->cf['full'].' will add the following Facebook and Open Graph meta tags to your webpages. 
 			If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
 			prevent duplicates from being added (for example, the "description" meta tag is unchecked by default if any 
 			known SEO plugin was detected).</p>
 			</td></tr></table>';
 
-			echo '<table class="ngfb-settings" style="padding-bottom:0;">';
+			echo '<table class="sucom-settings" style="padding-bottom:0;">';
 			foreach ( $this->get_more_taglist() as $num => $row ) 
 				echo '<tr>', $row, '</tr>';
 			unset( $num, $row );
 			echo '</table>';
 
-			echo '<table class="ngfb-settings"><tr>';
+			echo '<table class="sucom-settings"><tr>';
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
 			'Include meta property tags of type og:* without any content (default is unchecked).' );
 			echo '<td'.( $this->p->check->pro_active() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :

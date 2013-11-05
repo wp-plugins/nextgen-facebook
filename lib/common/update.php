@@ -32,7 +32,7 @@ if ( ! class_exists( 'SucomUpdate' ) ) {
 			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
 				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_pro_tid'];
 
-			$this->lca = $this->p->cf['lca'];				// ngfb
+			$this->lca = $this->p->cf['lca'];				// lowercase acronym
 			$this->slug = $this->p->cf['slug'];				// nextgen-facebook
 			$this->base = constant( $this->p->cf['uca'].'_PLUGINBASE' );	// nextgen-facebook/nextgen-facebook.php
 			$this->cron_hook = 'plugin_updates-'.$this->slug;		// plugin_updates-nextgen-facebook

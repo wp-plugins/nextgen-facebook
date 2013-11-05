@@ -23,7 +23,7 @@ if ( ! class_exists( 'NgfbScript' ) ) {
 
 		public function admin_enqueue_scripts( $hook ) {
 			wp_register_script( 'jquery-qtip', NGFB_URLPATH . 'js/jquery-qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
-			wp_register_script( $this->p->cf['lca'] . '_tooltips', NGFB_URLPATH . 'js/jquery-tooltips.min.js', array( 'jquery' ), $this->p->cf['version'], true );
+			wp_register_script( 'sucom_tooltips', NGFB_URLPATH . 'js/jquery-tooltips.min.js', array( 'jquery' ), $this->p->cf['version'], true );
 			wp_register_script( $this->p->cf['lca'] . '_postmeta', NGFB_URLPATH . 'js/jquery-postmeta.min.js', array( 'jquery' ), $this->p->cf['version'], true );
 
 			// don't load our javascript where we don't need it
@@ -33,7 +33,7 @@ if ( ! class_exists( 'NgfbScript' ) ) {
 				case ( preg_match( '/_page_' . $this->p->cf['lca'] . '-/', $hook ) ? true : false ) :
 					wp_enqueue_script( 'jquery' );
 					wp_enqueue_script( 'jquery-qtip' );
-					wp_enqueue_script( $this->p->cf['lca'] . '_tooltips' );
+					wp_enqueue_script( 'sucom_tooltips' );
 					wp_enqueue_script( $this->p->cf['lca'] . '_postmeta' );
 					break;
 			}

@@ -53,7 +53,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 		private function setup_vars() {
 			$def_opts = $this->p->opt->get_defaults();
-			$this->form = new NgfbForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
+			$this->form = new SucomForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
 
 			$libs = $this->p->cf['lib']['setting'];
 			if ( is_multisite() )
@@ -445,7 +445,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					$latest_notice = $upgrade_notice[$latest_version];
 				}
 			}
-			echo '<table class="ngfb-settings">';
+			echo '<table class="sucom-settings">';
 			echo '<tr><th class="side">'.__( 'Installed', NGFB_TEXTDOM ).':</th>';
 			echo '<td>'.$this->p->cf['version'].' (';
 
@@ -478,7 +478,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_purchase() {
-			echo '<table class="ngfb-settings"><tr><td>';
+			echo '<table class="sucom-settings"><tr><td>';
 			echo $this->p->msg->get( 'purchase_box' );
 			echo '<p>Thank you,</p>';
 			echo '<p class="sig">js.</p>';
@@ -492,14 +492,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_thankyou() {
-			echo '<table class="ngfb-settings"><tr><td>';
+			echo '<table class="sucom-settings"><tr><td>';
 			echo $this->p->msg->get( 'thankyou' );
 			echo '<p class="sig">js.</p>';
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
-			echo '<table class="ngfb-settings"><tr><td>';
+			echo '<table class="sucom-settings"><tr><td>';
 			echo $this->p->msg->get( 'help_boxes' );
 			if ( $this->p->is_avail['aop'] == true )
 				echo $this->p->msg->get( 'help_pro' );

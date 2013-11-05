@@ -497,7 +497,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		// table header with optional tooltip text
 		public function th( $title = '', $class = '', $id = '', $tooltip_text = '' ) {
-			$tooltip_class = $this->p->cf['lca'].'_tooltip';
+			$tooltip_class = 'sucom_tooltip';
 			$html = '<th'.( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title;
 			if ( ! empty( $tooltip_text ) )
@@ -511,11 +511,11 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			$tab_keys = array_keys( $tabs );
 			$default_tab = reset( $tab_keys );
 			$prefix = empty( $prefix ) ? '' : '_'.$prefix;
-			$class_tabs = 'ngfb-metabox-tabs'.( empty( $prefix ) ? '' : ' ngfb-metabox-tabs'.$prefix );
-			$class_link = 'ngfb-tablink'.( empty( $prefix ) ? '' : ' ngfb-tablink'.$prefix );
-			$class_tab = 'ngfb-tab';
+			$class_tabs = 'sucom-metabox-tabs'.( empty( $prefix ) ? '' : ' sucom-metabox-tabs'.$prefix );
+			$class_link = 'sucom-tablink'.( empty( $prefix ) ? '' : ' sucom-tablink'.$prefix );
+			$class_tab = 'sucom-tab';
 			echo '<script type="text/javascript">jQuery(document).ready(function(){ 
-				ngfbTabs(\'', $prefix, '\', \'', $default_tab, '\', \'', $scroll_to, '\'); });</script>
+				sucomTabs(\'', $prefix, '\', \'', $default_tab, '\', \'', $scroll_to, '\'); });</script>
 			<div class="', $class_tabs, '">
 			<ul class="', $class_tabs, '">';
 			foreach ( $tabs as $key => $title ) {
@@ -526,7 +526,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			foreach ( $tabs as $key => $title ) {
 				$href_key = $class_tab.$prefix.'_'.$key;
 				echo '<div class="', $class_tab, ( empty( $prefix ) ? '' : ' '.$class_tab.$prefix ), ' ', $href_key, '">';
-				echo '<table class="ngfb-settings">';
+				echo '<table class="sucom-settings">';
 				if ( ! empty( $tab_rows[$key] ) && is_array( $tab_rows[$key] ) )
 					foreach ( $tab_rows[$key] as $row ) 
 						echo '<tr>'.$row.'</tr>';

@@ -1,7 +1,7 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/wordpress-sso/license/gpl.txt
+License URI: http://surniaulula.com/wp-content/uploads/license/gpl.txt
 Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 

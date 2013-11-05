@@ -29,7 +29,7 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		private function setup_vars() {
 			$def_site_opts = $this->p->opt->get_site_defaults();
-			$this->form = new NgfbForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
+			$this->form = new SucomForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
 		}
 
 		protected function add_meta_boxes() {
@@ -38,7 +38,7 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_network() {
-			echo '<table class="ngfb-settings">';
+			echo '<table class="sucom-settings">';
 			foreach ( $this->get_rows( 'network' ) as $row )
 				echo '<tr>'.$row.'</tr>';
 			echo '</table>';
@@ -63,7 +63,7 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 		
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
 					'<td>'.$this->form->get_input( 'plugin_pro_tid' ).'</td>'.
-					'<td>All Sites Use <img src="'.NGFB_URLPATH.'images/question-mark.png" class="'.$this->p->cf['lca'].'_tooltip'.'" alt="'.
+					'<td>All Sites Use <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
 					$use_msg.'" /> '.$this->form->get_select( 'plugin_pro_tid_use', $use ).'</td>';
 
 					break;

@@ -29,20 +29,20 @@ if ( ! class_exists( 'NgfbStyle' ) ) {
 		}
 
 		public function admin_enqueue_styles( $hook ) {
-			wp_register_style( $this->p->cf['lca'].'_settings_pages', NGFB_URLPATH.'css/settings-pages.min.css', false, $this->p->cf['version'] );
-			wp_register_style( $this->p->cf['lca'].'_table_settings', NGFB_URLPATH.'css/table-settings.min.css', false, $this->p->cf['version'] );
-			wp_register_style( $this->p->cf['lca'].'_metabox_tabs', NGFB_URLPATH.'css/metabox-tabs.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_settings_pages', NGFB_URLPATH.'css/common/settings-pages.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_table_settings', NGFB_URLPATH.'css/common/table-settings.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_metabox_tabs', NGFB_URLPATH.'css/common/metabox-tabs.min.css', false, $this->p->cf['version'] );
 
 			switch ( $hook ) {
 				case 'post.php' :
 				case 'post-new.php' :
-					wp_enqueue_style( $this->p->cf['lca'].'_table_settings' );
-					wp_enqueue_style( $this->p->cf['lca'].'_metabox_tabs' );
+					wp_enqueue_style( 'sucom_table_settings' );
+					wp_enqueue_style( 'sucom_metabox_tabs' );
 					break;
 				case ( preg_match( '/_page_'.$this->p->cf['lca'].'-/', $hook ) ? true : false ) :
-					wp_enqueue_style( $this->p->cf['lca'].'_settings_pages' );
-					wp_enqueue_style( $this->p->cf['lca'].'_table_settings' );
-					wp_enqueue_style( $this->p->cf['lca'].'_metabox_tabs' );
+					wp_enqueue_style( 'sucom_settings_pages' );
+					wp_enqueue_style( 'sucom_table_settings' );
+					wp_enqueue_style( 'sucom_metabox_tabs' );
 					break;
 			}
 		}
@@ -83,7 +83,6 @@ if ( ! class_exists( 'NgfbStyle' ) ) {
 							Does the web server have sufficient privileges?', 'error' );
 			}
 		}
-
 	}
 }
 

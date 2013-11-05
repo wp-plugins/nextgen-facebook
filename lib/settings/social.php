@@ -62,20 +62,17 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_website() {
-			echo '<table class="ngfb-settings">', "\n";
+			echo '<table class="sucom-settings">', "\n";
 			foreach ( $this->get_rows() as $row ) echo '<tr>', $row, '</tr>';
 			echo '</table>', "\n";
 		}
 
 		public function show_metabox_social() {
-			?>
-			<table class="ngfb-settings">
-			<tr>
-				<td colspan="3"><p>The following social buttons can be added to the content, excerpt, 
-				and / or enabled within the '<?php echo ngfbWidgetSocialSharing::$fullname; ?>' widget as well 
-				(<a href="<?php echo get_admin_url( null, 'widgets.php' ); ?>">see the widgets admin webpage</a>).</p></td>
-			</tr><tr>
-			<?php
+			echo '<table class="sucom-settings"><tr><td colspan="3">';
+			echo '<p>The following social buttons can be added to the content, excerpt, and / or enabled within the ',
+				ngfbWidgetSocialSharing::$fullname, ' widget as well (<a href="', 
+				get_admin_url( null, 'widgets.php' ), '">see the widgets admin webpage</a>).</p>';
+			echo '</td></tr><tr>';
 			echo $this->p->util->th( 'Location in Content Text', null, null, '
 				Individual social sharing button(s) must also be enabled below.' ); 
 			echo '<td>', $this->p->admin->form->get_select( 'buttons_location_the_content', 

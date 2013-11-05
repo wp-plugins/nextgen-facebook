@@ -44,7 +44,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		public function show_sharing( $post ) {
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
-			echo '<table class="ngfb-settings side"><tr><td>';
+			echo '<table class="sucom-settings side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
 				$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );
@@ -58,7 +58,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		public function show_metabox( $post ) {
 			$opts = $this->get_options( $post->ID );	// sanitize when saving, not reading
 			$def_opts = $this->get_defaults();
-			$this->form = new ngfbForm( $this->p, NGFB_META_NAME, $opts, $def_opts );
+			$this->form = new SucomForm( $this->p, NGFB_META_NAME, $opts, $def_opts );
 			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
 			$show_tabs = array( 
 				'header' => 'Webpage Header', 

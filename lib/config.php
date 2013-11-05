@@ -256,7 +256,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					unset ( $id, $name );
 				}
 
-				require_once ( $plugin_dir.'lib/form.php' );
+				require_once ( $plugin_dir.'lib/common/form.php' );
 				require_once ( $plugin_dir.'lib/ext/parse-readme.php' );
 
 			} else {
