@@ -775,6 +775,15 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
+= Version 6.15dev1 =
+
+* Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
+* Moved lib/cache.php to lib/common/cache.php with a new class name of SucomCache.
+* Moved lib/debug.php to lib/common/debug.php with a new class name of SucomDebug.
+* Moved lib/notices.php to lib/common/notices.php with a new class name of SucomNotices.
+* Moved lib/update.php to lib/common/update.php with a new class name of SucomUpdate.
+* Renamed all class prefixes from ngfb to Ngfb.
+
 = Version 6.14.0 =
 
 There are several code improvements in this new version and one visible new feature: A new social sharing button for ManageWP.org. The button is enabled by default for the admin Post / Page editing page. You can also enable the button for your content in the Open Graph+ Social Sharing settings, and/or from the widget and shortcode.
