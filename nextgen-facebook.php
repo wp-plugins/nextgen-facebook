@@ -200,7 +200,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 		public function filter_installed_version( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0.'.$version;	// force upgrade to any current pro version
+			else return '0.'.$version;
 		}
 
 		public function set_options() {
