@@ -783,7 +783,9 @@ function add_tracking_id( $url, $src_id ) {
 * Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
 * Moved lib/cache.php to lib/common/cache.php with a new class name of SucomCache.
 * Moved lib/debug.php to lib/common/debug.php with a new class name of SucomDebug.
-* Moved lib/notices.php to lib/common/notices.php with a new class name of SucomNotices.
+* Moved lib/form.php to lib/common/form.php with a new class name of SucomForm.
+* Moved lib/notices.php to lib/common/notice.php with a new class name of SucomNotice.
+* Moved lib/script.php to lib/common/script.php with a new class name of SucomScript.
 * Moved lib/update.php to lib/common/update.php with a new class name of SucomUpdate.
 * Renamed all class prefixes from ngfb to Ngfb.
 
