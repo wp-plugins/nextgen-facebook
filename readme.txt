@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, yoast, wordpress seo, ultimate seo, woocommerce, socialgraph, multisite, managewp
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, socialgraph, multisite, managewp, hashtags
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -33,8 +33,6 @@ Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](h
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
 
-NGFB Open Graph+ is a stand-alone plugin, *that can also be used to improve and extend traditional SEO plugins* like [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/), All-In-One SEO, SEO Ultimate, etc.
-
 = Images and Videos =
 
 NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library.
@@ -53,7 +51,7 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 = HashTags =
 
-**(New in Version 6.15.0)** NGFB Open Graph+ can include tag names as hastags in the Open Graph / Rich Pin description, tweet text and social captions.
+**(New in Version 6.15.0)** NGFB Open Graph+ can also include tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Optional Social Buttons =
 
@@ -807,35 +805,9 @@ There are several code improvements in this new version and one visible new feat
 * Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
 * Moved the Meta Tag List from the Advanced settings to the Pro version.
 
-= Version 6.13.1 =
-
-* Fixed the missing `og:site_name` meta tag (the retrieved option name was incorrect).
-* Fixed the retrieval of the full size image url when WordPress fails to do so.
-* Added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
-* Added a check for empty $post in Pinterest, Tumblr and Twitter button methods.
-* Moved a few more internal variables into the $cf multi-dimensional array.
-
-= Version 6.13.0 =
-
-* Added a Network-Wide Settings page in the multisite Network Admin interface to manage site licenses.
-* Added support for multisite network-wide activate, deactivate, and uninstall methods.
-* Changed the default 'plugin_object_cache_exp' value from 300 to 900 seconds (15 minutes).
-* Fixed the Google+ sharing button 'data-expandTo' value, which when set to 'none' would disable the button.
-* Added the NGFB_OBJECT_CACHE_DISABLE, NGFB_TRANSIENT_CACHE_DISABLE, and NGFB_FILE_CACHE_DISABLE constants and removed the NGFB_DEBUG_FILE_EXP constant.
-* Added removal of post meta and transient cache entries when uninstalling the plugin.
-* Restructured the internal plugin configuration variables into a single variable of multi-dimensional arrays.
-
 == Upgrade Notice ==
 
 = 6.14.0 =
 
 New sharing button for ManageWP, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
-
-= 6.13.1 =
-
-Fixed missing og:site_name meta tag, added a check for duplicate Open Graph tags from the Slick Social Share Buttons plugin.
-
-= 6.13.0 =
-
-Added support for multisite network-wide activate, deactivate, and uninstall, fixed the Google+ sharing button 'data-expandTo' value, added constants to (optionally) disable various caching features.
 
