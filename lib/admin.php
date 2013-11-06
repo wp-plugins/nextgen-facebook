@@ -140,7 +140,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_request'].'">'.__( 'Support Request', NGFB_TEXTDOM ).'</a>' );
-					if ( ! $this->p->check->pro_active() ) 
+					if ( ! $this->p->check->is_pa() ) 
 						array_push( $links, '<a href="'.$this->p->cf['url']['purchase'].'">'.__( 'Purchase License', NGFB_TEXTDOM ).'</a>' );
 				} else {
 					array_push( $links, '<a href="'.$this->p->cf['url']['faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
@@ -205,7 +205,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ? 
 				array() : $this->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
 
-			if ( empty( $this->p->site_options['plugin_pro_tid'] ) ) {
+			if ( empty( $this->p->site_options['plugin_tid'] ) ) {
 				$this->p->update_error = '';
 				delete_option( $this->p->cf['lca'].'_update_error' );
 			}
@@ -229,15 +229,15 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 				// if the settings are being updated, and there is no Authentication ID,
 				// then clear any update error messages
-				if ( empty( $this->p->options['plugin_pro_tid'] ) ) {
+				if ( empty( $this->p->options['plugin_tid'] ) ) {
 					$this->p->update_error = '';
 					delete_option( $this->p->cf['lca'].'_update_error' );
 
 				// if the pro version plugin is installed, not active, and we have an
 				// Authentication ID, then check for updates
 				} elseif ( $this->p->is_avail['aop'] && 
-					! $this->p->check->pro_active() && 
-					! empty( $this->p->options['plugin_pro_tid'] ) )
+					! $this->p->check->is_pa() && 
+					! empty( $this->p->options['plugin_tid'] ) )
 						$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
@@ -259,7 +259,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 	
 							break;
 						case 'check_for_updates' : 
-							if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
+							if ( ! empty( $this->p->options['plugin_tid'] ) ) {
 								$this->p->admin->set_readme( 0 );
 								$this->p->update->check_for_updates();
 								$this->p->notice->inf( __( 'Plugin update information has been checked and updated.', NGFB_TEXTDOM ) );
@@ -300,7 +300,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_info', __( 'Plugin Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
-			if ( $this->p->check->pro_active() )
+			if ( $this->p->check->is_pa() )
 				add_meta_box( $this->pagehook.'_thankyou', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 
 			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );	// the version info metabox on all settings pages needs this
@@ -313,7 +313,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->p->debug->show_html( null, 'Debug Log' );
 
 			// add meta box here to prevent removal
-			if ( ! $this->p->check->pro_active() ) {
+			if ( ! $this->p->check->is_pa() ) {
 				add_meta_box( $this->pagehook.'_purchase', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 			}
@@ -448,11 +448,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			echo '<table class="sucom-settings">';
 			echo '<tr><th class="side">'.__( 'Installed', NGFB_TEXTDOM ).':</th>';
 			echo '<td>'.$this->p->cf['version'].' (';
-
-			if ( $this->p->check->pro_active() ) echo __( 'Pro', NGFB_TEXTDOM );
-			elseif ( $this->p->is_avail['aop'] ) echo __( 'Unlicensed Pro', NGFB_TEXTDOM );
+			if ( $this->p->is_avail['aop'] ) echo __( 'Pro', NGFB_TEXTDOM );
 			else echo __( 'GPL', NGFB_TEXTDOM );
-
 			echo ')</td></tr>';
 			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td>'.$stable_tag.'</td></tr>';
 			echo '<tr><th class="side">'.__( 'Latest', NGFB_TEXTDOM ).':</th><td>'.$latest_version.'</td></tr>';
@@ -461,7 +458,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			echo '</td></tr>';
 
 			$action_buttons = '';
-			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
+			if ( ! empty( $this->p->options['plugin_tid'] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
 						plugin_basename( __FILE__ ), NGFB_NONCE ) );

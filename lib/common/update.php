@@ -1,7 +1,7 @@
 <?php
 /* 
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://surniaulula.com/wp-content/uploads/license/gpl.txt
 Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
@@ -29,8 +29,8 @@ if ( ! class_exists( 'SucomUpdate' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			if ( ! empty( $this->p->options['plugin_pro_tid'] ) )
-				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_pro_tid'];
+			if ( ! empty( $this->p->options['plugin_tid'] ) )
+				$this->json_url = $this->p->cf['url']['pro_update'].'?tid='.$this->p->options['plugin_tid'];
 
 			$this->lca = $this->p->cf['lca'];				// lowercase acronym
 			$this->slug = $this->p->cf['slug'];				// nextgen-facebook

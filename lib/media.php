@@ -538,7 +538,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					return array();
 			else return $og_video;
 		}
-		
 	}
 }
 

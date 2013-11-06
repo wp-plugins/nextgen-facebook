@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.15dev1
+Version: 6.15dev2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -167,7 +167,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			// set the file cache expiration values
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
 			$this->cache->file_expire = 0;
-			if ( $this->check->pro_active() ) {
+			if ( $this->check->is_pa() ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
@@ -186,7 +186,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			}
 
 			// setup the update checks if we have an Authentication ID
-			if ( ! empty( $this->options['plugin_pro_tid'] ) ) {
+			if ( ! empty( $this->options['plugin_tid'] ) ) {
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				$this->update = new SucomUpdate( $this );
 				if ( is_admin() ) {
@@ -203,7 +203,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		public function filter_installed_version( $version ) {
 			if ( $this->is_avail['aop'] == true )
 				return $version;
-			else return '0.'.$version;	// force upgrade to any current pro version
+			else return '0.'.$version;
 		}
 
 		public function set_options() {

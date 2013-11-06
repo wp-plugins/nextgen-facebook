@@ -23,7 +23,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 		protected function add_actions() {
 			if ( is_admin() ) {
-				if ( ! $this->p->check->pro_active() )
+				if ( ! $this->p->check->is_pa() )
 					add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
 
 				add_action( 'save_post', array( &$this, 'flush_cache' ), 20 );

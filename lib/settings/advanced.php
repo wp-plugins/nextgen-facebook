@@ -69,19 +69,19 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			$ret = array();
 			$pro_msg = '';
 			$input = '';
-			if ( is_multisite() && ! empty( $this->p->site_options['plugin_pro_tid_use'] ) && $this->p->site_options['plugin_pro_tid_use'] == 'force' ) {
+			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid_use'] ) && $this->p->site_options['plugin_tid_use'] == 'force' ) {
 				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
-				$input = $this->p->admin->form->get_fake_input( $this->p->options['plugin_pro_tid'] );
+				$input = $this->p->admin->form->get_fake_input( $this->p->options['plugin_tid'] );
 			} elseif ( $this->p->is_avail['aop'] ) {
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
-				$input = $this->p->admin->form->get_input( 'plugin_pro_tid' );
+				$input = $this->p->admin->form->get_input( 'plugin_tid' );
 			} else {
 				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
 				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
 				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
-				$input = $this->p->admin->form->get_input( 'plugin_pro_tid' );
+				$input = $this->p->admin->form->get_input( 'plugin_tid' );
 			}
 
 			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
@@ -199,7 +199,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			switch ( $id ) {
 
 				case 'custom' :
-					if ( ! $this->p->check->pro_active() )
+					if ( ! $this->p->check->is_pa() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -225,7 +225,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 						// not all social websites have a contact method field
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->check->pro_active() ) {
+							if ( $this->p->check->is_pa() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'name' ).'</td>'.
@@ -245,7 +245,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'builtin' :
-					if ( ! $this->p->check->pro_active() )
+					if ( ! $this->p->check->is_pa() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -259,7 +259,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					foreach ( $sorted_wp_contact as $id => $name ) {
 						$cm_opt = 'wp_cm_'.$id.'_';
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->check->pro_active() ) {
+							if ( $this->p->check->is_pa() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
@@ -391,7 +391,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<table class="sucom-settings"><tr>';
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
 			'Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td'.( $this->p->check->pro_active() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
+			echo '<td'.( $this->p->check->is_pa() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
 			' class="checkbox blank">'.$this->p->admin->form->get_hidden( 'og_empty_tags' ).
 			$this->p->admin->form->get_fake_checkbox( $this->p->options['og_empty_tags'] ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';

@@ -207,9 +207,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function pro_active() {
+		public function is_pa() {
 			if ( $this->p->is_avail['aop'] == true && 
-				! empty( $this->p->options['plugin_pro_tid'] ) && 
+				! empty( $this->p->options['plugin_tid'] ) && 
 					empty( $this->p->update_error ) )
 						return true;
 			return false;

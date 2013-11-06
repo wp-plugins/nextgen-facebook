@@ -31,13 +31,14 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'stumble_enable' => 'stumble_on_the_content',
 			'tumblr_enable' => 'tumblr_on_the_content',
 			'buttons_location' => 'buttons_location_the_content',
+			'plugin_pro_tid' => 'plugin_tid',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
-			'ngfb_version' => 'options_version',
 			'link_desc_len' => 'meta_desc_len',
+			'ngfb_version' => 'options_version',
 			'ngfb_opts_ver' => 'options_version',
 			'ngfb_plugin_ver' => 'plugin_version',
-			'ngfb_pro_tid' => 'plugin_pro_tid',
+			'ngfb_pro_tid' => 'plugin_tid',
 			'ngfb_preserve' => 'plugin_preserve',
 			'ngfb_reset' => 'plugin_reset',
 			'ngfb_debug' => 'plugin_debug',
@@ -86,7 +87,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '100';	// increment when adding/removing default options
+		public $options_version = '102';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -108,8 +109,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public $site_defaults = array(
 			'options_version' => '',
 			'plugin_version' => '',
-			'plugin_pro_tid' => '',
-			'plugin_pro_tid_use' => 'default',
+			'plugin_tid' => '',
+			'plugin_tid_use' => 'default',
 		);
 
 		public $defaults = array(
@@ -304,7 +305,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'inc_twitter:label4' => 1,
 			'options_version' => '',
 			'plugin_version' => '',
-			'plugin_pro_tid' => '',
+			'plugin_tid' => '',
 			'plugin_preserve' => 0,
 			'plugin_reset' => 0,
 			'plugin_debug' => 0,
@@ -480,7 +481,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						is smaller than the minimum of '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].'. 
 						<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 				}
-				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) )
+				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
 
 			}
@@ -603,7 +604,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						case 'tumblr_img_desc':
 						case 'tumblr_vid_desc':
 						case 'twitter_desc':
-						case 'plugin_pro_tid':
+						case 'plugin_tid':
 						case 'plugin_googl_api_key':
 						case 'plugin_bitly_api_key':
 						case 'plugin_cdn_folders':
@@ -758,7 +759,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				// so check to make sure they need to be updated to avoid throwing a false error
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_pro_tid'] ) )
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
 						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ) );
 
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {

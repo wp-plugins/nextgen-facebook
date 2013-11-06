@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.15dev1',		// plugin version
+			'version' => '6.15dev2',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -230,6 +230,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once ( $plugin_dir.'lib/common/notice.php' );
 			require_once ( $plugin_dir.'lib/common/update.php' );
 			require_once ( $plugin_dir.'lib/common/script.php' );
+			require_once ( $plugin_dir.'lib/common/style.php' );
 
 			require_once ( $plugin_dir.'lib/check.php' );
 			require_once ( $plugin_dir.'lib/util.php' );

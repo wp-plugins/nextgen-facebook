@@ -450,7 +450,6 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 			}
 			return $og_ret;
 		}
-
 	}
 }
 

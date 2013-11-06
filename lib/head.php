@@ -55,7 +55,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 				$opts = $this->p->options;
 				foreach ( array( 
-					'plugin_pro_tid', 
+					'plugin_tid', 
 					'plugin_googl_api_key', 
 					'plugin_bitly_api_key',
 				) as $key ) $opts[$key] = '********';
@@ -79,11 +79,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
 			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
 
-			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'];
-			if ( $this->p->check->pro_active() ) echo ' (Licensed)';
-			elseif ( $this->p->is_avail['aop'] ) echo ' (Unlicensed)';
-			else echo ' (GPL)';
-			echo '" />'."\n";
+			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].' (';
+			if ( $this->p->check->is_pa() ) echo 'L';
+			elseif ( $this->p->is_avail['aop'] ) echo 'U';
+			else echo 'G';
+			echo ')" />'."\n";
 
 			/*
 			 * Meta Tags for Google
