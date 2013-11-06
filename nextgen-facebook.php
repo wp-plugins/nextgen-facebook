@@ -164,7 +164,7 @@ if ( ! class_exists( 'ngfbPlugin' ) ) {
 			// set the file cache expiration values
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
 			$this->cache->file_expire = 0;
-			if ( $this->check->pro_active() ) {
+			if ( $this->check->is_pa() ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;

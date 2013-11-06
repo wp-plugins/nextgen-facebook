@@ -199,7 +199,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			switch ( $id ) {
 
 				case 'custom' :
-					if ( ! $this->p->check->pro_active() )
+					if ( ! $this->p->check->is_pa() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -225,7 +225,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 
 						// not all social websites have a contact method field
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->check->pro_active() ) {
+							if ( $this->p->check->is_pa() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'name' ).'</td>'.
@@ -245,7 +245,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					break;
 
 				case 'builtin' :
-					if ( ! $this->p->check->pro_active() )
+					if ( ! $this->p->check->is_pa() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 					$ret[] = '<td></td>'.
@@ -259,7 +259,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 					foreach ( $sorted_wp_contact as $id => $name ) {
 						$cm_opt = 'wp_cm_'.$id.'_';
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-							if ( $this->p->check->pro_active() ) {
+							if ( $this->p->check->is_pa() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
@@ -391,7 +391,7 @@ if ( ! class_exists( 'ngfbSettingsAdvanced' ) && class_exists( 'ngfbAdmin' ) ) {
 			echo '<table class="ngfb-settings"><tr>';
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
 			'Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td'.( $this->p->check->pro_active() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
+			echo '<td'.( $this->p->check->is_pa() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
 			' class="checkbox blank">'.$this->p->admin->form->get_hidden( 'og_empty_tags' ).
 			$this->p->admin->form->get_fake_checkbox( $this->p->options['og_empty_tags'] ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';

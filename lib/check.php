@@ -201,10 +201,9 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 							get_admin_url( null, 'admin.php?page=slick-social-share-buttons' ) ) );
 				}
 			}
-
 		}
 
-		public function pro_active() {
+		public function is_pa() {
 			if ( $this->p->is_avail['aop'] == true && 
 				! empty( $this->p->options['plugin_pro_tid'] ) && 
 					empty( $this->p->update_error ) )
@@ -213,7 +212,6 @@ if ( ! class_exists( 'ngfbCheck' ) ) {
 		}
 
 	}
-
 }
 
 ?>
