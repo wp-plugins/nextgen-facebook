@@ -53,7 +53,7 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 = HashTags =
 
-**(New in Version 6.15.0)** NGFB Open Graph+ can also include tag names as hastags in the Open Graph / Rich Pin description, tweet text and social captions.
+**(New in Version 6.15.0)** NGFB Open Graph+ can include tag names as hastags in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Optional Social Buttons =
 
