@@ -60,7 +60,7 @@ NGFB Open Graph+ also comes with several social sharing buttons, that you can op
 * Facebook
 * Google+
 * LinkedIn
-* ManageWP
+* ManageWP.org
 * Pinterest
 * StumbleUpon 
 * Tumblr (Links, Quotes, Images, Videos)
@@ -779,7 +779,7 @@ function add_tracking_id( $url, $src_id ) {
 
 = Version 6.15dev3 =
 
-* Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.
+* **Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 * Changed default 'Include on Static Homepage' value from checked to unchecked.
 * Changed the test for values returned by `get_transient()` in opengraph.php from `!== false` to `is_array()`.
@@ -791,7 +791,7 @@ function add_tracking_id( $url, $src_id ) {
 
 There are several code improvements in this new version and one visible new feature: A new social sharing button for ManageWP.org. The button is enabled by default for the admin Post / Page editing page. You can also enable the button for your content in the Open Graph+ Social Sharing settings, and/or from the widget and shortcode.
 
-* Added a new social sharing button for ManageWP.
+* **Added a new social sharing button for ManageWP.org.**
 * Added a check for incorrect/empty width/height values returned by wp_get_attachment_metadata().
 * Added 'Pin Button Image' option to the Pinterest settings to allow for a custom button image.
 * Added nonce validation for settings page action buttons ('Check for Updates' and 'Clear All Cache').
@@ -800,7 +800,7 @@ There are several code improvements in this new version and one visible new feat
 * Removed the 'fb_width' option since it was rather useless (div width and height are managed by css).
 * Allowed stylesheet content to include HTML tags for (as an example) Firefox filter url tags.
 * Added a 'gplusone-button' class to the css ('gplus-button' for the G+ Share button, and 'gplusone-button' for the G+ 1 button).
-* Added a 'managewp-button' class to the css for the ManageWP button.
+* Added a 'managewp-button' class to the css for the ManageWP.org button.
 * Added a new lib/config.php library file with config variables, definition of constants, and loading of required library files.
 * Added a new lib/register.php library file with the activate, deactivate, and uninstall methods.
 * Moved the Meta Tag List from the Advanced settings to the Pro version.
@@ -809,5 +809,5 @@ There are several code improvements in this new version and one visible new feat
 
 = 6.14.0 =
 
-New sharing button for ManageWP, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
+New sharing button for ManageWP.org, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
 
