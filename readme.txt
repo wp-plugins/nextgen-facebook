@@ -53,7 +53,7 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 = HashTags =
 
-**(New in Version 6.15.0)** NGFB Open Graph+ can also include tag names as hastags in the Open Graph / Rich Pin description, tweet text and social captions.
+**(New in Version 6.15.0)** NGFB Open Graph+ can include tag names as hastags in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Optional Social Buttons =
 
@@ -784,7 +784,7 @@ function add_tracking_id( $url, $src_id ) {
 * Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.
 * Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 * Changed default 'Include on Static Homepage' value from checked to unchecked.
-* Changed test for `get_transient()` return value in opengraph.php from !== false to is_array().
+* Changed the test for values returned by `get_transient()` in opengraph.php from !== false to is_array().
 * Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
 * Moved the cache/debug/form/notice/script/style/update.php files from lib/ to lib/com/.
 * Renamed all class prefixes from ngfb to Ngfb and Sucom for classes under lib/com/.
