@@ -80,7 +80,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
 
 			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].' (';
-			if ( $this->p->check->is_pa() ) echo 'L';
+			if ( $this->p->check->is_aop() ) echo 'L';
 			elseif ( $this->p->is_avail['aop'] ) echo 'U';
 			else echo 'G';
 			echo ')" />'."\n";

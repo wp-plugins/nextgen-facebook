@@ -53,7 +53,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 				}
 			}
 			$reset_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
-			$this->p->user->reset_metabox_prefs( $this->pagehook, $reset_ids );
+			$this->p->user->reset_metabox_prefs( $this->pagehook, $reset_ids, 'closed' );
 		}
 
 		public function add_class_postbox_website( $classes ) {

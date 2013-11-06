@@ -54,9 +54,10 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
 					break;
 				case 'purchase_box' :
-					$msg = '<p>'.$this->p->cf['full'].' has taken many, many months of long days to develop and fine-tune.
-					If you compare this plugin with others, I think you\'ll agree that the result was worth the effort.
-					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Please show your appreciation by purchasing ';
+					$msg = '<p>Developing and supporting the '.$this->p->cf['full'].' plugin takes most of my work days (and week-ends).
+					If you compare this plugin with others, I hope you\'ll agree that the result was worth all the effort and long hours.
+					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">If you would like to show your appreciation, and
+					access the full range of features this plugin has to offer, please purchase ';
 					if ( $this->p->is_avail['aop'] == true )
 						$msg .= 'a Pro version license</a>.</p>';
 					else $msg .= 'the Pro version</a>.</p>';
@@ -84,8 +85,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 			}
 			return $msg;
 		}
-
 	}
-
 }
+
 ?>

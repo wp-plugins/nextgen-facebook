@@ -182,7 +182,8 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					The maximum number of tag names, converted to hashtags, to include in the Open Graph / Rich Pin description, tweet text, and social captions.
 					Each tag name will be converted to lowercase, with whitespaces removed. 
 					Select \'0\' (the default) to disable this feature.' ).
-					'<td>'.$this->p->admin->form->get_select( 'og_desc_hashtags', range( 0, $this->p->cf['form']['max_desc_hashtags'] ), 'short', null, true ).'</td>';
+					'<td>'.$this->p->admin->form->get_select( 'og_desc_hashtags', 
+						range( 0, $this->p->cf['form']['max_desc_hashtags'] ), 'short', null, true ).' tag names</td>';
 	
 					$ret[] = $this->p->util->th( 'Content Begins at First Paragraph', null, null, '
 					For a Page or Post <em>without</em> an excerpt, if this option is checked, 

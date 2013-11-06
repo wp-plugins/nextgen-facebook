@@ -212,7 +212,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function is_pa() {
+		public function is_aop() {
 			if ( $this->p->is_avail['aop'] == true && 
 				! empty( $this->p->options['plugin_tid'] ) && 
 					empty( $this->p->update_error ) )

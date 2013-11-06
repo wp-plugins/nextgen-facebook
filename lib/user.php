@@ -124,19 +124,36 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 			return $url;
 		}
 
-		public function reset_metabox_prefs( $pagehook, $metabox_ids = array(), $force = false ) {
+		public function reset_metabox_prefs( $pagehook, $metabox_ids = array(), $state = '', $force = false ) {
 			$user_id = get_current_user_id();				// since wp 3.0
 			if ( $force == true )
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
 					delete_user_option( $user_id, $meta_name.'_'.$pagehook, true );
-			$meta_key = 'closedpostboxes_'.$pagehook;
-			$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
-			if ( ! is_array( $opts ) )
-				$opts = array();
-			if ( empty( $opts ) )
-				foreach ( $metabox_ids as $id ) 
-					$opts[] = $pagehook.'_'.$id;
-			update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+
+			switch ( $state ) {
+				case 'order' : 
+					$meta_key = 'meta-box-order_'.$pagehook; 
+					break ;
+				case 'hidden' : 
+					$meta_key = 'metaboxhidden_'.$pagehook; 
+					break ;
+				case 'closed' : 
+					$meta_key = 'closedpostboxes_'.$pagehook; 
+					break ;
+				default :
+					$meta_key = '';
+					break;
+			}
+
+			if ( ! empty( $meta_key ) ) {
+				$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
+				if ( ! is_array( $opts ) )
+					$opts = array();
+				if ( empty( $opts ) )
+					foreach ( $metabox_ids as $id ) 
+						$opts[] = $pagehook.'_'.$id;
+				update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+			}
 		}
 
 		// delete metabox preferences for one or all users
