@@ -807,6 +807,10 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
+= 6.15dev3 =
+
+Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
+
 = 6.14.0 =
 
 New sharing button for ManageWP.org, added 'Pin Button Image' option for Pinterest, added check for bad values returned by wp_get_attachment_metadata(), added nonce validation for settings page action buttons, moved 'the_excerpt' filter to 'get_the_excerpt'.
