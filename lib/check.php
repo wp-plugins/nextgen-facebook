@@ -22,28 +22,29 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		}
 
 		// used before any class objects are created, so keep in main class
-		public function available( $is_avail = array() ) {
+		public function available( $idx = '' ) {
+			$ret = array();
 
 			// ngfb pro
-			$is_avail['aop'] = class_exists( $this->p->cf['lca'].'AddonPro' ) ? true : false;
+			$ret['aop'] = class_exists( $this->p->cf['lca'].'AddonPro' ) ? true : false;
 
 			// available since php v4.0.6+
-			$is_avail['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
+			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 
 			// php curl
-			$is_avail['curl'] = function_exists( 'curl_init' ) ? true : false;
+			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
 
 			// post thumbnail feature is supported by wp theme // since wp 2.9.0
-			$is_avail['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
+			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
 			// nextgen gallery plugin
 			// use in combination with $this->p->ngg_version
-			$is_avail['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
+			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
 
 			/*
 			 * Supported SEO Plugins
 			 */
-			$is_avail['any_seo'] = false;	// by default, define any_seo value as false
+			$ret['any_seo'] = false;	// by default, define any_seo value as false
 			foreach ( $this->p->cf['lib']['seo'] as $id => $name ) {
 				$func_name = '';
 				$class_name = '';
@@ -53,10 +54,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					case 'wpseo':	$func_name = 'wpseo_init'; break;
 				}
 				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$id] = true;
+					$ret['any_seo'] = $ret[$id] = true;
 				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$is_avail['any_seo'] = $is_avail[$id] = true;
-				else $is_avail[$id] = false;
+					$ret['any_seo'] = $ret[$id] = true;
+				else $ret[$id] = false;
 			}
 			unset ( $id, $name );
 
@@ -72,14 +73,18 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
 				}
 				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$is_avail['any_ecom'] = $is_avail[$id] = true;
+					$ret['any_ecom'] = $ret[$id] = true;
 				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$is_avail['any_ecom'] = $is_avail[$id] = true;
-				else $is_avail[$id] = false;
+					$ret['any_ecom'] = $ret[$id] = true;
+				else $ret[$id] = false;
 			}
 			unset ( $id, $name );
 
-			return $is_avail;
+			if ( ! empty( $idx ) ) {
+				if ( array_key_exists( $idx, $ret ) )
+					return $ret[$idx];
+				else return false;
+			} return $ret;
 		}
 
 		// called from ngfbAdmin

@@ -23,9 +23,9 @@ if ( ! class_exists( 'SucomStyle' ) ) {
 
 		public function admin_enqueue_styles( $hook ) {
 			$url_path = constant( $this->p->cf['uca'].'_URLPATH' );
-			wp_register_style( 'sucom_settings_pages', $url_path.'css/common/settings-pages.min.css', false, $this->p->cf['version'] );
-			wp_register_style( 'sucom_table_settings', $url_path.'css/common/table-settings.min.css', false, $this->p->cf['version'] );
-			wp_register_style( 'sucom_metabox_tabs', $url_path.'css/common/metabox-tabs.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_settings_pages', $url_path.'css/com/settings-pages.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_table_settings', $url_path.'css/com/table-settings.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_metabox_tabs', $url_path.'css/com/metabox-tabs.min.css', false, $this->p->cf['version'] );
 
 			switch ( $hook ) {
 				case 'post.php' :

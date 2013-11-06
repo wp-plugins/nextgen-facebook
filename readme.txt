@@ -782,7 +782,7 @@ function add_tracking_id( $url, $src_id ) {
 * Changed test for `get_transient()` return value in opengraph.php from !== false to is_array().
 * Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
 * Renamed all class prefixes from ngfb to Ngfb.
-* Moved the cache/debug/form/notice/script/style/update.php files from lib/ to lib/common/.
+* Moved the cache/debug/form/notice/script/style/update.php files from lib/ to lib/com/.
 
 = Version 6.14.0 =
 

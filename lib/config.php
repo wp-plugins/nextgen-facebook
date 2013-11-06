@@ -225,12 +225,12 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			
 			$plugin_dir = constant( self::$cf['uca'].'_PLUGINDIR' );
 
-			require_once ( $plugin_dir.'lib/common/debug.php' );
-			require_once ( $plugin_dir.'lib/common/cache.php' );
-			require_once ( $plugin_dir.'lib/common/notice.php' );
-			require_once ( $plugin_dir.'lib/common/update.php' );
-			require_once ( $plugin_dir.'lib/common/script.php' );
-			require_once ( $plugin_dir.'lib/common/style.php' );
+			require_once ( $plugin_dir.'lib/com/debug.php' );
+			require_once ( $plugin_dir.'lib/com/cache.php' );
+			require_once ( $plugin_dir.'lib/com/notice.php' );
+			require_once ( $plugin_dir.'lib/com/update.php' );
+			require_once ( $plugin_dir.'lib/com/script.php' );
+			require_once ( $plugin_dir.'lib/com/style.php' );
 
 			require_once ( $plugin_dir.'lib/check.php' );
 			require_once ( $plugin_dir.'lib/util.php' );
@@ -257,7 +257,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					unset ( $id, $name );
 				}
 
-				require_once ( $plugin_dir.'lib/common/form.php' );
+				require_once ( $plugin_dir.'lib/com/form.php' );
 				require_once ( $plugin_dir.'lib/ext/parse-readme.php' );
 
 			} else {
