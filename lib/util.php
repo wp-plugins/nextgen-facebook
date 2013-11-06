@@ -576,7 +576,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						if ( delete_transient( $cache_id ) ) {
 							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted '.$cache_id );
 							// duplicate notices are ignored, so only one notice message will be shown
-							$this->p->notices->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
+							$this->p->notice->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
 						}
 					}
 					break;

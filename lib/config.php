@@ -227,8 +227,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 			require_once ( $plugin_dir.'lib/common/debug.php' );
 			require_once ( $plugin_dir.'lib/common/cache.php' );
-			require_once ( $plugin_dir.'lib/common/notices.php' );
+			require_once ( $plugin_dir.'lib/common/notice.php' );
 			require_once ( $plugin_dir.'lib/common/update.php' );
+			require_once ( $plugin_dir.'lib/common/script.php' );
 
 			require_once ( $plugin_dir.'lib/check.php' );
 			require_once ( $plugin_dir.'lib/util.php' );
@@ -239,7 +240,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once ( $plugin_dir.'lib/postmeta.php' );
 			require_once ( $plugin_dir.'lib/social.php' );
 			require_once ( $plugin_dir.'lib/style.php' );
-			require_once ( $plugin_dir.'lib/script.php' );
 
 			if ( is_admin() ) {
 				require_once ( $plugin_dir.'lib/messages.php' );

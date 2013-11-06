@@ -21,17 +21,19 @@ if ( ! class_exists( 'NgfbStyle' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			$this->social_css_min_url = NGFB_URLPATH.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
-			$this->social_css_min_file = NGFB_PLUGINDIR.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
+			$url_path = constant( $this->p->cf['uca'].'_URLPATH' );
+			$this->social_css_min_url = $url_path.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
+			$this->social_css_min_file = $url_path.'cache/'.$this->p->cf['lca'].'-social-styles.min.css';
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
 		}
 
 		public function admin_enqueue_styles( $hook ) {
-			wp_register_style( 'sucom_settings_pages', NGFB_URLPATH.'css/common/settings-pages.min.css', false, $this->p->cf['version'] );
-			wp_register_style( 'sucom_table_settings', NGFB_URLPATH.'css/common/table-settings.min.css', false, $this->p->cf['version'] );
-			wp_register_style( 'sucom_metabox_tabs', NGFB_URLPATH.'css/common/metabox-tabs.min.css', false, $this->p->cf['version'] );
+			$url_path = constant( $this->p->cf['uca'].'_URLPATH' );
+			wp_register_style( 'sucom_settings_pages', $url_path.'css/common/settings-pages.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_table_settings', $url_path.'css/common/table-settings.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_metabox_tabs', $url_path.'css/common/metabox-tabs.min.css', false, $this->p->cf['version'] );
 
 			switch ( $hook ) {
 				case 'post.php' :
@@ -58,11 +60,9 @@ if ( ! class_exists( 'NgfbStyle' ) ) {
 		}
 
 		public function update_social( &$opts ) {
-			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
-				add_settings_error( NGFB_OPTIONS_NAME, 'notarray', 
-					'<b>'.$this->p->cf['uca'].' Error</b> : Error opening 
-						<u>'.$this->social_css_min_file.'</u> for writing.', 'error' );
-			else {
+			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) ) {
+				$this->p->notice->err( 'Error opening <u>'.$this->social_css_min_file.'</u> for writing.' );
+			} else {
 				$css_data = '';
 				foreach ( $this->p->cf['css'] as $id => $name )
 					$css_data .= $opts['buttons_css_'.$id];

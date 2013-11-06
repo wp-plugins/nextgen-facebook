@@ -192,12 +192,12 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
 
 			if ( ! current_user_can( 'manage_network_options' ) ) {
-				$this->p->notices->err( __( 'Insufficient privileges to modify network options.', NGFB_TEXTDOM ), true );
+				$this->p->notice->err( __( 'Insufficient privileges to modify network options.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
 				! wp_verify_nonce( $_POST[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) ) {
-				$this->p->notices->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ), true );
+				$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			}
@@ -213,7 +213,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
 
 			// store message in user options table
-			$this->p->notices->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ), true );
+			$this->p->notice->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ), true );
 
 			wp_redirect( $this->p->util->get_admin_url( $page ).'&settings-updated=true' );
 			exit;
@@ -243,7 +243,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				if ( empty( $_GET[ NGFB_NONCE ] ) ||
 					! wp_verify_nonce( $_GET[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) )
-						$this->p->notices->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ) );
+						$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
 						case 'remove_old_css' : 
@@ -262,7 +262,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 							if ( ! empty( $this->p->options['plugin_pro_tid'] ) ) {
 								$this->p->admin->set_readme( 0 );
 								$this->p->update->check_for_updates();
-								$this->p->notices->inf( __( 'Plugin update information has been checked and updated.', NGFB_TEXTDOM ) );
+								$this->p->notice->inf( __( 'Plugin update information has been checked and updated.', NGFB_TEXTDOM ) );
 							}
 							break;
 						case 'clear_all_cache' : 
@@ -273,7 +273,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 								w3tc_pgcache_flush();
 							elseif ( function_exists('wp_cache_clear_cache') ) 
 								wp_cache_clear_cache();
-							$this->p->notices->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
+							$this->p->notice->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
 							break;
 						case 'clear_metabox_prefs' : 
 							$this->p->util->delete_metabox_prefs( get_current_user_id() );
@@ -283,7 +283,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 
 			if ( file_exists( $old_css_file ) ) {
-				$this->p->notices->inf( 
+				$this->p->notice->inf( 
 					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
 						NGFB_TEXTDOM ), $old_css_file ).' '.
 					sprintf( __( 'Styling for social buttons is now managed on the <a href="%s">Social Style settings page</a>.', 

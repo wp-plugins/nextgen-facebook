@@ -30,7 +30,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_style() {
-			echo '<table class="'.$this->p->cf['lca'].'-settings"><tr>';
+			echo '<table class="sucom-settings"><tr>';
 			echo $this->p->util->th( 'Use the Social Styles', 'highlight', null, '
 				Add the following styles to all webpages (default is checked).
 				All styles will be minimized into a single stylesheet with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 

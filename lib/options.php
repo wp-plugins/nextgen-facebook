@@ -379,7 +379,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->p->notices->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
+						$this->p->notice->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
 					else {
 						$this->defaults['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
 						$this->p->debug->log( 'read css from file '.$css_file );
@@ -467,7 +467,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( is_admin() ) {
 				if ( ! empty( $opts_err_msg ) ) {
 					$url = $this->p->util->get_admin_url( 'general' );
-					$this->p->notices->err( 'WordPress '.$opts_err_msg.' the options table. 
+					$this->p->notice->err( 'WordPress '.$opts_err_msg.' the options table. 
 						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
@@ -476,12 +476,12 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 					$url = $this->p->util->get_admin_url( 'general' );
 					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
-					$this->p->notices->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
+					$this->p->notice->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
 						is smaller than the minimum of '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].'. 
 						<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_pro_tid'] ) )
-					$this->p->notices->nag( $this->p->msg->get( 'pro_activate' ) );
+					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
 
 			}
 			return $opts;
@@ -729,7 +729,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
 				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
 					if ( $this->p->debug->is_on() == true )
-						$this->p->notices->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
+						$this->p->notice->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
 					unset( $opts[$key] );
 				}
 			unset ( $key, $val );
@@ -759,16 +759,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
 					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_pro_tid'] ) )
-						$this->p->notices->nag( $this->p->msg->get( 'pro_details' ) );
+						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ) );
 
 					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
 						if ( $old_opts_ver !== $this->options_version ) {
 							$this->p->debug->log( 'upgraded plugin options have been saved' );
-							$this->p->notices->inf( 'Plugin settings have been upgraded and saved.' );
+							$this->p->notice->inf( 'Plugin settings have been upgraded and saved.' );
 						}
 					} else {
 						$this->p->debug->log( 'failed to save the upgraded plugin options' );
-						$this->p->notices->err( 'The plugin settings have been upgraded, 
+						$this->p->notice->err( 'The plugin settings have been upgraded, 
 							but WordPress returned an error when saving them.' );
 						return $opts;
 					}
@@ -785,7 +785,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
 					if ( $this->p->debug->is_on() == true )
-						$this->p->notices->inf( 'Renamed \''.$old.'\' option to \''.
+						$this->p->notice->inf( 'Renamed \''.$old.'\' option to \''.
 							$new.'\' with a value of \''.$opts[$old].'\'.' );
 					$opts[$new] = $opts[$old];
 					unset( $opts[$old] );

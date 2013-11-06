@@ -20,7 +20,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 	class NgfbPlugin {
 
 		// class object variables
-		public $debug, $util, $notices, $opt, $user, $media, $meta,
+		public $debug, $util, $notice, $opt, $user, $media, $meta,
 			$style, $script, $cache, $admin, $head, $tags, $webpage,
 			$social, $seo, $pro, $update, $reg;
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
 			$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
-			$this->notices = new SucomNotices( $this );
+			$this->notice = new SucomNotice( $this );
 
 			$this->check = new NgfbCheck( $this );
 			$this->util = new NgfbUtil( $this );
@@ -126,13 +126,14 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 * continue creating remaining object classes
 			 */
 			$this->cache = new SucomCache( $this );
+			$this->script = new SucomScript( $this );
+
 			$this->user = new NgfbUser( $this );
 			$this->media = new NgfbMedia( $this );
 			$this->webpage = new NgfbWebpage( $this );		// title, desc, etc., plus shortcodes
 			$this->meta = new NgfbPostMeta( $this );
 			$this->social = new NgfbSocial( $this );		// wp_head and wp_footer js and buttons
 			$this->style = new NgfbStyle( $this );
-			$this->script = new NgfbScript( $this );
 
 			if ( is_admin() ) {
 				$this->msg = new NgfbMessages( $this );
@@ -178,7 +179,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 					define( 'NGFB_TRANSIENT_CACHE_DISABLE', true );
 				$this->debug->log( 'HTML debug mode active: transient cache '.
 					( NGFB_TRANSIENT_CACHE_DISABLE ? 'is' : 'could not be' ).' disabled' );
-				$this->notices->inf( ( NGFB_TRANSIENT_CACHE_DISABLE ?
+				$this->notice->inf( ( NGFB_TRANSIENT_CACHE_DISABLE ?
 						__( 'HTML debug mode is active, transient cache is disabled.', NGFB_TEXTDOM ) :
 						__( 'HTML debug mode is active, transient cache could not be disabled.', NGFB_TEXTDOM ) ).' '.
 					__( 'Activity information is being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );

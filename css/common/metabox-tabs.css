@@ -1,7 +1,7 @@
-#ngfb_meta.postbox {
+div#_ngfb_meta.postbox {
 	border:0 solid transparent;
 }
-#ngfb_meta .inside {
+div#_ngfb_meta .inside {
 	padding:0;
 	margin:0;
 }
