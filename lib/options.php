@@ -87,7 +87,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '102';	// increment when adding/removing default options
+		public $options_version = '104';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -148,6 +148,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'og_title_sep' => '-',
 			'og_title_len' => 70,
 			'og_desc_len' => 300,
+			'og_desc_hashtags' => 0,
 			'og_desc_strip' => 0,
 			'og_empty_tags' => 0,
 			'buttons_on_index' => 0,
@@ -472,13 +473,13 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
-				if ( $this->p->options['og_img_width'] < $this->p->cf['img']['min_width'] || 
-					$this->p->options['og_img_height'] < $this->p->cf['img']['min_height'] ) {
+				if ( $this->p->options['og_img_width'] < $this->p->cf['head']['min_img_width'] || 
+					$this->p->options['og_img_height'] < $this->p->cf['head']['min_img_height'] ) {
 
 					$url = $this->p->util->get_admin_url( 'general' );
 					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
 					$this->p->notice->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
-						is smaller than the minimum of '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].'. 
+						is smaller than the minimum of '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].'. 
 						<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_tid'] ) )
@@ -549,7 +550,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						 * must be numeric (blank or zero is ok)
 						 */
 						case 'link_def_author_id':
-						case 'og_desc_len': 
+						case 'og_desc_hashtags': 
 						case 'og_img_max':
 						case 'og_vid_max':
 						case 'og_img_id':
@@ -564,6 +565,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						 * integer options that must me 1 or more (not zero)
 						 */
 						case 'meta_desc_len': 
+						case 'og_desc_len': 
 						case 'og_img_width': 
 						case 'og_img_height': 
 						case 'og_title_len': 
@@ -685,8 +687,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 				unset ( $key, $def_val );
 
-				if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < NGFB_MIN_DESC_LEN ) 
-					$opts['og_desc_len'] = NGFB_MIN_DESC_LEN;
+				if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
+					$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
 	
 			}
 			return $opts;

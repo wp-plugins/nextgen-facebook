@@ -65,8 +65,8 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				case 'media' :
 
 					$ret[] = $this->p->util->th( __( 'Image Dimensions', NGFB_TEXTDOM ), 'highlight', null, '
-					The dimension of images used in the Open Graph meta tags. The width and height must be 
-					greater than '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].', and preferably smaller than 1500x1500
+					The dimension of images used in the Open Graph / Rich Pin meta tags. The width and height must be 
+					greater than '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].', and preferably smaller than 1500x1500
 					(the defaults is '.$this->p->opt->get_defaults( 'og_img_width' ).'x'.$this->p->opt->get_defaults( 'og_img_height' ).', '.
 					( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ).'cropped). 
 					<strong>Facebook prefers larger images for use on high resolution devices (1200x630 is recommended)</strong>.
@@ -74,7 +74,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>Width '.$this->p->admin->form->get_input( 'og_img_width', 'short' ).' x '.
 					'Height '.$this->p->admin->form->get_input( 'og_img_height', 'short' ).'&nbsp;'.
 					'Cropped '.$this->p->admin->form->get_checkbox( 'og_img_crop' ).'&nbsp;'.
-					 'WP Auto-Resize <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
+					 'Auto-Resize Media Images <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
 					 esc_attr( 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
 					 WordPress Media Library (default is unchecked). You should enable this option unless you have custom /
 					 manually cropped images, which will be lost when re-generating image sizes.' ).'" /> '.
@@ -96,7 +96,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 
 					<em>Default Image ID</em>.
 					This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
-					The image should be at least '.$this->p->cf['img']['min_width'].'x'.$this->p->cf['img']['min_height'].' or more in width and height. 
+					The image should be at least '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].' or more in width and height. 
 					If both the <em>Default Image ID</em> and <em>Default Image URL</em> are defined, the <em>Default Image ID</em>
 					will take precedence.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_def_img_url', 'wide' ).'</td>';
@@ -114,33 +114,32 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					if ( $this->p->is_avail['ngg'] == true ) {
 						$ret[] = $this->p->util->th( 'Add Featured Image Tags', null, null, '
 						If the <em>featured</em> image in a Post or Page is from a NextGEN Gallery, 
-						then add that image\'s tags to the Open Graph tag list (default is unchecked).' ).
+						then add that image\'s tags to the Open Graph / Rich Pin tag list (default is unchecked).' ).
 						'<td>'.$this->p->admin->form->get_checkbox( 'og_ngg_tags' ).'</td>';
 					} else $ret[] = $this->p->admin->form->get_hidden( 'og_ngg_tags' );
 	
 					$ret[] = $this->p->util->th( 'Add Page Ancestor Tags', null, null, '
-					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) to the Open Graph tag list 
-					(default is unchecked).' ).
+					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) 
+					to the Open Graph / Rich Pin tag list (default is unchecked).' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_parent_tags' ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Add Page Title as Tag', null, null, '
-					Add the title of the Page to the Open Graph tag list as well (default is unchecked). 
+					Add the title of the Page to the Open Graph / Rich Pin tag list as well (default is unchecked). 
 					If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
 					This option works well if the title of your Pages are short (one or two words) and subject-oriented.' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_title_tag' ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Maximum Images', 'highlight', null, '
-					The maximum number of images to list in the Open Graph meta property tags -- 
-					this includes the <em>featured</em> or <em>attached</em> images, 
-					and any images found in the Post or Page content. 
-					If you select \'0\', then no images will be listed in the Open Graph meta tags.' ).
-					'<td>'.$this->p->admin->form->get_select( 'og_img_max', range( 0, NGFB_MAX_IMG_OG ), 'short', null, true ).'</td>';
+					The maximum number of images to list in the Open Graph / Rich Pin meta property tags -- this includes 
+					the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. 
+					If you select \'0\', then no images will be listed in the Open Graph / Rich Pin meta tags.' ).
+					'<td>'.$this->p->admin->form->get_select( 'og_img_max', range( 0, $this->p->cf['form']['max_media_items'] ), 'short', null, true ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Maximum Videos', 'highlight', null, '
-					The maximum number of videos, found in the Post or Page content, to include in the Open Graph meta property tags. 
-					If you select \'0\', then no videos will be listed in the Open Graph meta tags. If you embed videos from Wistia,
+					The maximum number of videos, found in the Post or Page content, to include in the Open Graph / Rich Pin meta property tags. 
+					If you select \'0\', then no videos will be listed in the Open Graph / Rich Pin meta tags. If you embed videos from Wistia,
 					see the '.$this->p->util->get_admin_url( 'about', 'Other Notes' ).' to configure your Wistia API password.' ).
-					'<td>'.$this->p->admin->form->get_select( 'og_vid_max', range( 0, NGFB_MAX_VID_OG ), 'short', null, true ).'</td>';
+					'<td>'.$this->p->admin->form->get_select( 'og_vid_max', range( 0, $this->p->cf['form']['max_media_items'] ), 'short', null, true ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Use HTTPS for Video APIs', null, null, '
 					Use an HTTPS connection whenever possible to retrieve information about videos from YouTube, Vimeo, Wistia, etc. (default is checked).' ).
@@ -152,34 +151,39 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Website Topic', 'highlight', null, '
 					The topic that best describes the Posts and Pages on your website.
-					This name will be used in the \'article:section\' Open Graph meta tag. 
+					This name will be used in the \'article:section\' Open Graph / Rich Pin meta tag. 
 					Select \'[none]\' if you prefer to exclude the \'article:section\' meta tag.
-					Aside from this global option, the Pro version also allows the selection of a 
-					Topic for each individual Post and Page.' ).
+					The Pro version also allows you to select a custom Topic for each individual Post and Page.' ).
 					'<td>'.$this->p->admin->form->get_select( 'og_art_section', $this->p->util->get_topics() ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Site Name', 'highlight', null, '
 					By default, the Site Title from the <a href="'.get_admin_url( null, 'options-general.php' ).'">WordPress General Settings</a>, 
-					is used for the Open Graph Site Name. You may override that value here.' ).
+					is used for the Open Graph / Rich Pin site name. You may override that default value here.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_site_name' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Title Separator', 'highlight', null, '
 					One or more characters used to separate values (category parent names, page numbers, etc.) 
-					within the Open Graph title string (default is \''.
+					within the Open Graph / Rich Pin title string (default is \''.
 					$this->p->opt->get_defaults( 'og_title_sep' ).'\').' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_title_sep', 'short' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Title Length', null, null, '
-					The maximum length of text used in the Open Graph title tag 
+					The maximum length of text used in the Open Graph / Rich Pin title tag 
 					(default is '.$this->p->opt->get_defaults( 'og_title_len' ).' characters).' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_title_len', 'short' ).' characters or less</td>';
 
 					$ret[] = $this->p->util->th( 'Description Length', null, null, '
-					The maximum length of text used in the Open Graph description tag. 
-					The length should be at least '.NGFB_MIN_DESC_LEN.' characters or more, and the
+					The maximum length of text used in the Open Graph / Rich Pin description tag. 
+					The length should be at least '.$this->p->cf['head']['min_desc_len'].' characters or more, and the
 					default is '.$this->p->opt->get_defaults( 'og_desc_len' ).' characters.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_desc_len', 'short' ).' characters or less</td>';
 
+					$ret[] = $this->p->util->th( 'Add HashTags to Descriptions', 'highlight', null, '
+					The maximum number of tag names, converted to hashtags, to include in the Open Graph / Rich Pin description, tweet text, and social captions.
+					Each tag name will be converted to lowercase, with whitespaces removed. 
+					Select \'0\' (the default) to disable this feature.' ).
+					'<td>'.$this->p->admin->form->get_select( 'og_desc_hashtags', range( 0, $this->p->cf['form']['max_desc_hashtags'] ), 'short', null, true ).'</td>';
+	
 					$ret[] = $this->p->util->th( 'Content Begins at First Paragraph', null, null, '
 					For a Page or Post <em>without</em> an excerpt, if this option is checked, 
 					the plugin will ignore all text until the first html paragraph tag in the content. 
@@ -192,9 +196,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				case 'author' :
 
 					$ret[] = $this->p->util->th( 'Author Profile URL', null, null, '
-					Select the profile field to use for Posts and Pages in the \'article:author\' Open Graph meta tag.
+					Select the profile field to use for Posts and Pages in the \'article:author\' Open Graph / Rich Pin meta tag.
 					The URL should point to an author\'s <em>personal</em> website or social page.
-					This Open Graph meta tag is primarily used by Facebook, so the preferred (and default) 
+					This Open Graph / Rich Pin meta tag is primarily used by Facebook, so the preferred (and default) 
 					value is the author\'s Facebook webpage URL.
 					See the Google Settings below for an <em>Author Link URL</em> for Google.' ).
 					'<td>'.$this->p->admin->form->get_select( 'og_author_field', $this->author_fields() ).'</td>';
@@ -265,20 +269,20 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 			
 					$ret[] = $this->p->util->th( 'Description Length', null, null, '
 					The maximum length of text used for the Google Search description meta tag.
-					The length should be at least '.NGFB_MIN_DESC_LEN.' characters or more 
+					The length should be at least '.$this->p->cf['head']['min_desc_len'].' characters or more 
 					(the default is '.$this->p->opt->get_defaults( 'meta_desc_len' ).' characters).' ).
 					'<td>'.$this->p->admin->form->get_input( 'meta_desc_len', 'short' ).' characters or less</td>';
 
 					$ret[] = $this->p->util->th( 'Author Link URL', null, null, 
 					$this->p->cf['full'].' can include an <em>author</em> and <em>publisher</em> link in your webpage headers.
-					These are not Open Graph meta property tags - they are used primarily by Google\'s search engine to associate Google+
-					profiles with search results.' ).
+					These are not Open Graph / Rich Pin meta property tags - they are used primarily by Google\'s search engine 
+					to associate Google+ profiles with search results.' ).
 					'<td>'.$this->p->admin->form->get_select( 'link_author_field', $this->author_fields() ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Default Author', null, null, '
 					A default author for webpages missing authorship information (for example, an index webpage without posts). 
 					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).
-					This option is similar to the Open Graph <em>Default Author</em>, except that its applied to the Link meta tag instead.' ).
+					This option is similar to the Open Graph / Rich Pin <em>Default Author</em>, except that it\'s applied to the Link meta tag instead.' ).
 					'<td>'.$this->p->admin->form->get_select( 'link_def_author_id', $user_ids, null, null, true ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Default Author on Indexes', null, null, '
@@ -324,7 +328,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				$this->p->util->th( 'Maximum Description Length', null, null, '
 				The maximum length of text used for the Twitter Card description.
-				The length should be at least '.NGFB_MIN_DESC_LEN.' characters or more 
+				The length should be at least '.$this->p->cf['head']['min_desc_len'].' characters or more 
 				(the default is '.$this->p->opt->get_defaults( 'tc_desc_len' ).' characters).' ).
 				'<td class="blank">'.$this->p->admin->form->get_hidden( 'tc_desc_len' ).
 					$this->p->options['tc_desc_len'].' characters or less</td>',

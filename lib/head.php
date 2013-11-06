@@ -124,7 +124,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					if ( is_singular() && ! empty( $post ) )
 						$meta_tags['description'] = $this->p->meta->get_options( $post->ID, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
-						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...' );
+						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',
+							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false
 				}
 				if ( ! empty( $meta_tags['description'] ) ) {
 					// get_description is already decoded and html clean, so just encode html entities

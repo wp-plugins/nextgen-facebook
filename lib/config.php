@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.15dev2',		// plugin version
+			'version' => '6.15dev3',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -106,20 +106,26 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),
-			'img' => array(				// images
-				'min_width' => 200,
-				'min_height' => 200,
-				'follow' => array(
-					'size' => 32,
-					'src' => array(
-						'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
-						'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
-						'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
-						'twitter.png' => 'https://twitter.com/surniaululacom',
-						'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
-						'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-					),
+			'follow' => array(
+				'size' => 32,
+				'src' => array(
+					'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
+					'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
+					'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
+					'twitter.png' => 'https://twitter.com/surniaululacom',
+					'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
+					'feed.png' => 'http://feed.surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
 				),
+			),
+			'form' => array(
+				'max_desc_hashtags' => 10,
+				'max_media_items' => 20,
+				'max_cache_hours' => 24,
+			),
+			'head' => array(
+				'min_img_width' => 200,
+				'min_img_height' => 200,
+				'min_desc_len' => 156,
 			),
 		);
 
@@ -198,18 +204,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			if ( ! defined( $uca.'_OG_SIZE_NAME' ) )
 				define( $uca.'_OG_SIZE_NAME', $lca.'-open-graph' );
 
-			if ( ! defined( $uca.'_MIN_DESC_LEN' ) )
-				define( $uca.'_MIN_DESC_LEN', 156 );
-
-			if ( ! defined( $uca.'_MAX_IMG_OG' ) )
-				define( $uca.'_MAX_IMG_OG', 20 );
-
-			if ( ! defined( $uca.'_MAX_VID_OG' ) )
-				define( $uca.'_MAX_VID_OG', 20 );
-
-			if ( ! defined( $uca.'_MAX_CACHE_HRS' ) )
-				define( $uca.'_MAX_CACHE_HRS', 24 );
-
 			if ( ! defined( $uca.'_DEBUG_FILE_EXP' ) )
 				define( $uca.'_DEBUG_FILE_EXP', 300 );
 
@@ -256,15 +250,11 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 						require_once ( $plugin_dir.'lib/settings/'.$id.'.php' );
 					unset ( $id, $name );
 				}
-
 				require_once ( $plugin_dir.'lib/com/form.php' );
 				require_once ( $plugin_dir.'lib/ext/parse-readme.php' );
-
 			} else {
-
 				require_once ( $plugin_dir.'lib/head.php' );
 				require_once ( $plugin_dir.'lib/opengraph.php' );
-				require_once ( $plugin_dir.'lib/tags.php' );
 				require_once ( $plugin_dir.'lib/functions.php' );
 
 				foreach ( self::$cf['lib']['shortcode'] as $id => $name )

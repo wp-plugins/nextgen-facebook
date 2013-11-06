@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.15dev2
+Version: 6.15dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -21,7 +21,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
-			$style, $script, $cache, $admin, $head, $tags, $webpage,
+			$style, $script, $cache, $admin, $head, $webpage,
 			$social, $seo, $pro, $update, $reg;
 
 		public $cf = array();		// config array defined in construct method
@@ -140,7 +140,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				$this->admin = new NgfbAdmin( $this );
 			} else {
 				$this->head = new NgfbHead( $this );		// wp_head / opengraph
-				$this->tags = new NgfbTags( $this );		// ngg image tags and wp post/page tags
 			}
 
 			// create pro class object last - it extends several previous classes

@@ -450,6 +450,15 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 			}
 			return $og_ret;
 		}
+
+		// called from the view/gallery-meta.php template
+		public function get_tags( $pid ) {
+			$tags = array();
+			if ( $this->p->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+				$tags = wp_get_object_terms( substr( $pid, 4 ), 'ngg_tag', 'fields=names' );
+			$tags = array_map( 'strtolower', $tags );
+			return apply_filters( $this->p->cf['lca'].'_ngg_tags', $tags );
+		}
 	}
 }
 

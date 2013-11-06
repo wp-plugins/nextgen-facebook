@@ -19,7 +19,7 @@ NGFB_WP_DEBUG
 NGFB_DEBUG_FILE_EXP
 
 	Cache file expiration time in seconds when debug mode is enabled
-	(defaults is 30 seconds).
+	(defaults is 300 seconds).
 
 NGFB_RESET
 
@@ -45,52 +45,35 @@ NGFB_FILE_CACHE_DISABLE
 
 	Disable one or more types of cache.
 
+NGFB_META_NAME
 NGFB_OPTIONS_NAME
+NGFB_SITE_OPTIONS_NAME
 
-	The options field name in the database for NGFB. The default value is
-	'ngfb_options'.
+	The options field names in the database for NGFB. The default values
+	are '_ngfb_meta', 'ngfb_options', and 'ngfb_site_options'.
 
 NGFB_MENU_PRIORITY
 
-	Adjust the location of the "Open Graph" menu. The default value is
-	"99.10".
+	Adjust the location of the "Open Graph" menu (default is 99.10).
+
+NGFB_INIT_PRIORITY
+
+	The plugin initialization priority (default is 12)
 
 NGFB_HEAD_PRIORITY
 
 	Change the execution priority of the method that adds JavaScript and
-	Open Graph meta tags to the head section. The default value is 5.
+	Open Graph meta tags to the head section (default is 10).
 
 NGFB_SOCIAL_PRIORITY
 
 	Change the execution priority for the method that adds social buttons
-	to the content. The default value is 100.
+	to the content (default is 100).
 
 NGFB_FOOTER_PRIORITY
 
 	Change the execution priority for the method that adds JavaScript to
-	the footer section. The default value is 10.
-
-NGFB_MIN_DESC_LEN
-
-	The minimum allowed description length value. The default is 160. A
-	maximum description length value is configurable on the settings page,
-	but any value entered bellow NGFB_MIN_DESC_LEN will be changed to
-	NGFB_MIN_DESC_LEN when saved.
-
-NGFB_MAX_IMG_OG
-
-	The maximum range shown in the "Maximum Number of Images" drop-down on
-	the settings page. The default value is 20.
-
-NGFB_MAX_VID_OG
-
-	The maximum range shown in the "Maximum Number of Videos" drop-down on
-	the settings page. The default value is 20.
-
-NGFB_MAX_CACHE_HRS
-
-	The maximum range shown in the "Cache Expiry in Hours" drop-down on
-	the settings page. The default value is 24.
+	the footer section (default is 100).
 
 NGFB_CURL_DISABLE
 

@@ -125,7 +125,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$og['article:publisher'] = $this->p->options['og_publisher_url'];
 
 				if ( ! array_key_exists( 'article:tag', $og ) )
-					$og['article:tag'] = $this->p->tags->get();
+					$og['article:tag'] = $this->p->webpage->get_tags();
 
 				if ( ! array_key_exists( 'article:section', $og ) )
 					$og['article:section'] = $this->p->webpage->get_section();

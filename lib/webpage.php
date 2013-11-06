@@ -42,31 +42,42 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
-		public function get_caption( $type = 'title', $length = 200, $use_post = true ) {
-			$caption = '';
+		public function get_caption( $type = 'title', $length = 200, 
+			$use_post = true, $use_cache = true, $add_hashtags = true ) {
+
 			switch( strtolower( $type ) ) {
 				case 'title' :
-					$caption = $this->get_title( $length, '...', $use_post );
+					$caption = $this->get_title( $length, '...', 
+						$use_post, $use_cache, $add_hashtags );
 					break;
 				case 'excerpt' :
-					$caption = $this->get_description( $length, '...', $use_post );
+					$caption = $this->get_description( $length, '...', 
+						$use_post, $use_cache, $add_hashtags );
 					break;
 				case 'both' :
-					$title = $this->get_title( null, null, $use_post);
-					$caption = $title.' : '.$this->get_description( $length - strlen( $title ) - 3, '...', $use_post );
+					$title = $this->get_title( null, null, $use_post, $use_cache, false );
+					$caption = $title.': '.$this->get_description( $length - strlen( $title ) - 2, '...', 
+						$use_post, $use_cache, $add_hashtags );
+					break;
+				default :
+					$caption = '';
 					break;
 			}
 			return apply_filters( $this->p->cf['lca'].'_caption', $caption );
 		}
 
-		public function get_title( $textlen = 70, $trailing = '', $use_post = false ) {
-			global $post, $page, $paged;
+		public function get_title( $textlen = 70, $trailing = '',
+			$use_post = false, $use_cache = true, $add_hashtags = false ) {
+
+			global $post;
 			$title = '';
 			$parent_title = '';
-			$page_num_suffix = '';
+			$paged_suffix = '';
+			$hashtags = '';
+			$paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
 			// check for custom meta title
-			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				$title = $this->p->meta->get_options( $post->ID, 'og_title' );
 				if ( $title != '' )
 					$this->p->debug->log( 'custom meta title = "'.$title.'"' );
@@ -78,24 +89,31 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 				if ( $title != '' )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
-			
+
+			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9]+$/', $title ) ) {
+				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
+					$hashtags = $this->get_hashtags( $post->ID );
+			}
+
 			// construct a title of our own
 			if ( $title == '' ) {
-				// we are on an index, but need individual titles from the posts (probably for social buttons)
-				if ( ! is_singular() && ! empty( $post ) && ! empty( $use_post ) ) {	// since wp 1.5.0
+				if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 	
 					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'use_post = '.( $use_post  ? 'true' : 'false' ) );
-	
-					$title = get_the_title( $post->ID );	// since wp 0.71 
-					$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
+					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
 
-					// add the parent's title if no seo package is installed
-					if ( $this->p->is_avail['any_seo'] == false && ! empty( $post->post_parent ) ) {
-						$parent_title = get_the_title( $post->post_parent );
-						if ( $parent_title ) $title .= ' ('.$parent_title.')';
+					if ( is_singular() ) {
+						$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
+						$this->p->debug->log( 'wp_title() = "'.$title.'"' );
+					} else {
+						$title = get_the_title( $post->ID );	// since wp 0.71 
+						$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
 					}
-	
+
+					// get the parent's title if no seo package is installed
+					if ( $this->p->is_avail['any_seo'] == false && ! empty( $post->post_parent ) )
+						$parent_title = get_the_title( $post->post_parent );
+
 				// by default, use the wordpress title if an seo plugin is available
 				} elseif ( $this->p->is_avail['any_seo'] == true ) {
 
@@ -142,41 +160,39 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 
 			$title = $this->p->util->decode( $title );
 			$title = $this->p->util->cleanup_html_tags( $title );
-			$title = trim( $title, ' '.$this->p->options['og_title_sep'] );	// trim spaces and excess seperator
+			$title = trim( $title, ' '.$this->p->options['og_title_sep'] );	// trim spaces and excess separator
 
-			// seo-like title modifications
-			if ( $this->p->is_avail['any_seo'] == false ) {
-				// append the parent's title 
-				if ( is_singular() && ! empty( $post->post_parent ) ) {
-					$parent_title = get_the_title( $post->post_parent );
-					if ( ! empty( $parent_title ) ) 
-						$title .= ' ('.$parent_title.')';
+			if ( $textlen > 0 ) {
+				// seo-like title modifications
+				if ( $this->p->is_avail['any_seo'] == false ) {
+					if ( $paged > 1 ) {
+						if ( ! empty( $this->p->options['og_title_sep'] ) )
+							$paged_suffix .= $this->p->options['og_title_sep'].' ';
+						$paged_suffix .= sprintf( 'Page %s', $paged );
+						$textlen = $textlen - strlen( $paged_suffix ) - 1;
+					}
 				}
-				// add a page number
-				if ( $paged >= 2 || $page >= 2 ) {
-					if ( ! empty( $this->p->options['og_title_sep'] ) )
-						$page_num_suffix .= ' '.$this->p->options['og_title_sep'];
-					$page_num_suffix .= ' '.sprintf( 'Page %s', max( $paged, $page ) );
-					$textlen = $textlen - strlen( $page_num_suffix );	// make room for the page number
-				}
-			}
-
-			if ( $textlen > 0 ) 
+				if ( ! empty( $parent_title ) ) $textlen = $textlen - strlen( $parent_title ) - 3;
+				if ( ! empty( $hashtags ) ) $textlen = $textlen - strlen( $hashtags ) - 1;
 				$title = $this->p->util->limit_text_length( $title, $textlen, $trailing );
-
-			// append the text number after the trailing character string
-			if ( ! empty( $page_num_suffix ) ) $title .= $page_num_suffix;
+			}
+			if ( ! empty( $parent_title ) ) $title .= ' ('.$parent_title.')';
+			if ( ! empty( $paged_suffix ) ) $title .= ' '.$paged_suffix;
+			if ( ! empty( $hashtags ) ) $title .= ' '.$hashtags;
 
 			return apply_filters( $this->p->cf['lca'].'_title', $title );
 		}
 
-		public function get_description( $textlen = NGFB_MIN_DESC_LEN, $trailing = '', $use_post = false, $use_cache = true ) {
+		public function get_description( $textlen = 156, $trailing = '',
+			$use_post = false, $use_cache = true, $add_hashtags = true ) {
+
 			global $post;
 			$desc = '';
+			$hashtags = '';
 
 			// check for custom meta description
 			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
-			if ( ( is_singular() && ! empty( $post ) ) || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				$desc = $this->p->meta->get_options( $post->ID, 'og_desc' );
 				if ( $desc != '' )
 					$this->p->debug->log( 'custom meta description = "'.$desc.'"' );
@@ -189,11 +205,16 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					$this->p->debug->log( 'description seed = "'.$desc.'"' );
 			}
 			
+			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9]+$/', $desc ) ) {
+				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
+					$hashtags = $this->get_hashtags( $post->ID );
+			}
+
 			// if there's no custom description, and no pre-seed, then go ahead and generate the description value
 			if ( $desc == '' ) {
-				if ( is_singular() || ( ! empty( $post ) && ! empty( $use_post ) ) ) {
+				if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 	
-					$this->p->debug->log( 'use_post = '.( $use_post  ? 'true' : 'false' ) );
+					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
 					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
 					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post->ID ) ? 'true' : 'false' ) );
 	
@@ -215,7 +236,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					// ignore everything until the first paragraph tag if $this->p->options['og_desc_strip'] is true
 					if ( $this->p->options['og_desc_strip'] ) 
 						$desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
-			
+		
 				} elseif ( is_author() ) { 
 			
 					$this->p->debug->log( 'is_author() = true' );
@@ -245,8 +266,11 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 			$desc = $this->p->util->decode( $desc );
 			$desc = $this->p->util->cleanup_html_tags( $desc );
 
-			if ( $textlen > 0 ) 
+			if ( $textlen > 0 ) {
+				if ( ! empty( $hashtags ) ) $textlen = $textlen - strlen( $hashtags ) -1;
 				$desc = $this->p->util->limit_text_length( $desc, $textlen, '...' );
+			}
+			if ( ! empty( $hashtags ) ) $desc .= ' '.$hashtags;
 
 			return apply_filters( $this->p->cf['lca'].'_description', $desc );
 		}
@@ -366,7 +390,56 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 			return apply_filters( $this->p->cf['lca'].'_section', $section );
 		}
 
-	}
+		public function get_hashtags( $post_id = '' ) {
+			if ( empty( $this->p->options['og_desc_hashtags'] ) ) return;
+			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', false );
+			if ( $text !== false ) {
+				$this->p->debug->log( 'hashtags seed = "'.$text.'"' );
+				return $text;
+			}
+			$tags = array_slice( $this->get_tags( $post_id ), 0, $this->p->options['og_desc_hashtags'] );
+			if ( ! empty( $tags ) )
+				$text = '#'.trim( implode( ' #', preg_replace( '/ /', '', $tags ) ) );
 
+			return apply_filters( $this->p->cf['lca'].'_hashtags', $text );
+		}
+
+		public function get_tags( $post_id = '' ) {
+			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array() );
+			if ( ! empty( $tags ) ) {
+				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
+				return $tags;
+			}
+			if ( is_singular() || ! empty( $post_id ) ) {
+				if ( empty( $post_id ) ) { global $post; $post_id = $post->ID; }
+				$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
+				if ( $this->p->options['og_ngg_tags'] && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
+					$pid = get_post_thumbnail_id( $post_id );
+					// featured images from ngg pre-v2 had 'ngg-' prefix
+					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+						$tags = array_merge( $tags, $this->p->media->ngg->get_tags( $pid ) );
+				}
+			} elseif ( is_search() )
+				$tags = preg_split( '/ *, */', get_search_query( false ) );
+			$tags = array_unique( array_map( 'strtolower', $tags ) );
+			return apply_filters( $this->p->cf['lca'].'_tags', $tags );
+		}
+
+		public function get_wp_tags( $post_id ) {
+			$tags = array();
+			$post_ids = array ( $post_id );	// array of one
+			if ( $this->p->options['og_page_parent_tags'] && is_page( $post_id ) )
+				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
+			foreach ( $post_ids as $id ) {
+				if ( $this->p->options['og_page_title_tag'] && is_page( $id ) )
+					$tags[] = get_the_title( $id );
+				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name )
+					$tags[] = $tag_name;
+			}
+			$tags = array_map( 'strtolower', $tags );
+			return apply_filters( $this->p->cf['lca'].'_wp_tags', $tags );
+		}
+	}
 }
+
 ?>

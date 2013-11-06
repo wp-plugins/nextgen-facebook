@@ -196,7 +196,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
-				! wp_verify_nonce( $_POST[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) ) {
+				! wp_verify_nonce( $_POST[ NGFB_NONCE ], $this->get_nonce() ) ) {
 				$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
@@ -242,7 +242,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				if ( empty( $_GET[ NGFB_NONCE ] ) ||
-					! wp_verify_nonce( $_GET[ NGFB_NONCE ], plugin_basename( __FILE__ ) ) )
+					! wp_verify_nonce( $_GET[ NGFB_NONCE ], $this->get_nonce() ) )
 						$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
@@ -290,7 +290,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						NGFB_TEXTDOM ), $this->p->util->get_admin_url( 'style' ) ).' '.
 					sprintf( __( 'When you are ready, you can <a href="%s">click here to remove the old stylesheet</a>.', 
 						NGFB_TEXTDOM ), wp_nonce_url( $this->p->util->get_admin_url( '?action=remove_old_css' ),
-							plugin_basename( __FILE__ ), NGFB_NONCE ) ) 
+							$this->get_nonce(), NGFB_NONCE ) ) 
 				);
 			}
 
@@ -366,7 +366,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
 				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 			}
-			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
+			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 
@@ -461,13 +461,13 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			if ( ! empty( $this->p->options['plugin_tid'] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
-						plugin_basename( __FILE__ ), NGFB_NONCE ) );
+						$this->get_nonce(), NGFB_NONCE ) );
 
 			// don't show the 'Clear All Cache' on network admin pages
 			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
-						plugin_basename( __FILE__ ), NGFB_NONCE ) );
+						$this->get_nonce(), NGFB_NONCE ) );
 
 			if ( ! empty( $action_buttons ) )
 				echo '<tr><td colspan="2"><p class="centered">'.$action_buttons.'</p></td></tr>';
@@ -502,8 +502,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo $this->p->msg->get( 'help_pro' );
 			else echo $this->p->msg->get( 'help_free' );
 			echo '<p class="centered" style="margin-top:15px;">';
-			$img_size = $this->p->cf['img']['follow']['size'];
-			foreach ( $this->p->cf['img']['follow']['src'] as $img => $url )
+			$img_size = $this->p->cf['follow']['size'];
+			foreach ( $this->p->cf['follow']['src'] as $img => $url )
 				echo '<a href="'.$url.'" target="_blank"><img src="'.NGFB_URLPATH.'images/'.$img.'" 
 					width="'.$img_size.'" height="'.$img_size.'"></a> ';
 			echo '</p></td></tr></table>';
@@ -515,6 +515,9 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			return '<div class="'.$class.'"><input type="submit" class="button-primary" value="'.$submit_text.'" /></div>'."\n";
 		}
 
+		protected function get_nonce() {
+			return plugin_basename( __FILE__ );
+		}
 	}
 }
 

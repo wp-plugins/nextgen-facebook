@@ -59,7 +59,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$opts = $this->get_options( $post->ID );	// sanitize when saving, not reading
 			$def_opts = $this->get_defaults();
 			$this->form = new SucomForm( $this->p, NGFB_META_NAME, $opts, $def_opts );
-			wp_nonce_field( plugin_basename( __FILE__ ), NGFB_NONCE );
+			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
 			$show_tabs = array( 
 				'header' => 'Webpage Header', 
 				'social' => 'Social Sharing', 
@@ -92,7 +92,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 
-			$ret[] = '<td colspan="2" align="center">' . $this->p->msg->get( 'pro_feature' ) . '</td>';
+			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Topic', 'medium', null, 
 			'A custom topic for this '.$post_type_name.', different from the default Website Topic chosen in the General Settings.' ) .
@@ -108,19 +108,19 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'A custom description for the Open Graph meta tags, and the fallback description 
 			for all other meta tags and social sharing buttons.
 			The default description value is based on the content, or excerpt if one is available, 
-			and is refreshed when the (draft or published) ' . $post_type_name . ' is saved.
+			and is refreshed when the (draft or published) '.$post_type_name.' is saved.
 			Update and save this description to change the default value of all other meta tag and 
 			social sharing button descriptions.' ) .
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['og_desc_len'], '...', true, false ).'</td>';
 	
 			$ret[] = $this->p->util->th( 'Google Description', 'medium', null, 
 			'A custom description for the Google Search description meta tag.
-			The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
-			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...', true ).'</td>';
+			The default description value is refreshed when the '.$post_type_name.' is saved.' ) .
+			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...', true, true, false ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Twitter Card Description', 'medium', null, 
 			'A custom description for the Twitter Card description meta tag (all Twitter Card formats).
-			The default description value is refreshed when the ' . $post_type_name . ' is saved.' ) .
+			The default description value is refreshed when the '.$post_type_name.' is saved.' ) .
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
@@ -141,15 +141,15 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Maximum Images', 'medium', null, 
-			'The maximum number of images to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
+			'The maximum number of images to include in the Open Graph meta tags for this '.$post_type_name.'.' ) .
 			'<td class="blank">'.$this->p->options['og_img_max'].'</td>';
 
 			$ret[] = $this->p->util->th( 'Maximum Videos', 'medium', null, 
-			'The maximum number of embedded videos to include in the Open Graph meta tags for this ' . $post_type_name . '.' ) .
+			'The maximum number of embedded videos to include in the Open Graph meta tags for this '.$post_type_name.'.' ) .
 			'<td class="blank">'.$this->p->options['og_vid_max'].'</td>';
 
 			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
-			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this ' . $post_type_name . '.' ) .
+			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$post_type_name.'.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			return $ret;
@@ -174,36 +174,37 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				}
 			}
 
-			$ret[] = '<td colspan="2" align="center">' . $this->p->msg->get( 'pro_feature' ) . '</td>';
+			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 
 			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', null, 
 			'A custom caption text, used by the Pinterest social sharing button, 
 			for the custom Image ID, attached or featured image.' );
 			if ( ! empty( $pid ) )
-				$ret[] = $th . '<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['pin_caption'], 
-					$this->p->options['pin_cap_len'], true ).'</td>';
-			else $ret[] = $th . '<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
+				$ret[] = $th.'<td class="blank">'.
+				$this->p->webpage->get_caption( $this->p->options['pin_caption'], $this->p->options['pin_cap_len'] ).'</td>';
+			else $ret[] = $th.'<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
 
 			$th = $this->p->util->th( 'Tumblr Image Caption', 'medium', null, 
 			'A custom caption, used by the Tumblr social sharing button, 
 			for the custom Image ID, attached or featured image.' );
 			if ( ! empty( $pid ) )
-				$ret[] = $th . '<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], 
-					$this->p->options['tumblr_cap_len'], true ).'</td>';
-			else $ret[] = $th . '<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
+				$ret[] = $th.'<td class="blank">'.
+				$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
+			else $ret[] = $th.'<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
 
 			$th = $this->p->util->th( 'Tumblr Video Caption', 'medium', null, 
 			'A custom caption, used by the Tumblr social sharing button, 
 			for the custom Video URL or embedded video.' );
 			if ( ! empty( $vid_url ) )
-				$ret[] = $th . '<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], 
-					$this->p->options['tumblr_cap_len'], true ).'</td>';
-			else $ret[] = $th . '<td class="blank"><em>No custom Video URL or embedded video found.</em></td>';
+				$ret[] = $th.'<td class="blank">'.
+				$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
+			else $ret[] = $th.'<td class="blank"><em>No custom Video URL or embedded video found.</em></td>';
 
 			$ret[] = $this->p->util->th( 'Tweet Text', 'medium', null, 
 			'A custom Tweet text for the Twitter social sharing button. 
 			This text is in addition to any Twitter Card description.' ) .
-			'<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['twitter_caption'], $twitter_cap_len ).'</td>';
+			'<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['twitter_caption'], $twitter_cap_len,
+				true, true, true ).'</td>';	// use_post = true, use_cache = true, add_hashtags = true
 
 			return $ret;
 		}
@@ -254,6 +255,10 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 		public function flush_cache( $post_id ) {
 			$this->p->util->flush_post_cache( $post_id );
+		}
+
+		protected function get_nonce() {
+			return plugin_basename( __FILE__ );
 		}
 	}
 }
