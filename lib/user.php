@@ -178,14 +178,21 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		// delete metabox preferences for one or all users
 		public function delete_metabox_prefs( $user_id = false ) {
 			foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
-				foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
-					foreach ( array( 'general', 'advanced', 'social', 'style', 'about', 'network' ) as $settings_page ) {
-						$meta_key = $meta_name.'_'.$page_prefix.'_'.$this->p->cf['lca'].'-'.$settings_page;
-							if ( $user_id !== false )
-								delete_user_option( $user_id, $meta_key, true );
-							else
-								foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
-									delete_user_option( $user->ID, $meta_key, true );
+				$menu_ids = array( key( $this->p->cf['lib']['setting'] ) );
+				foreach ( $menu_ids as $menu ) {
+					$setting_ids = array_keys( $this->p->cf['lib']['setting'] );
+					foreach ( $setting_ids as $submenu ) {
+						if ( $submenu == 'contact' )
+							$parent_slug = 'options-general.php';
+						else $parent_slug = $this->p->cf['lca'].'-'.$menu;
+						$menu_slug = $this->p->cf['lca'].'-'.$submenu;
+						$hookname = get_plugin_page_hookname( $menu_slug, $parent_slug);
+						$meta_key = $meta_name.'_'.$hookname;
+						if ( $user_id !== false )
+							delete_user_option( $user_id, $meta_key, true );
+						else
+							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
+								delete_user_option( $user->ID, $meta_key, true );
 					}
 				}
 			}
