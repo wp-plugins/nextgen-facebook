@@ -254,6 +254,16 @@ The images used in the Open Graph meta tags for Posts and Pages are chosen in th
 1. Image(s) from `<img/>` HTML tags in the Post or Page content text.
 1. A default image defined in the NGFB Open Graph+ plugin settings.
 
+When NGFB Open Graph+ gets down to scanning the content, it looks for:
+
+1. NextGEN Gallery &lt;div|a|img/&gt; HTML tags with the 'data-ngfb-ngg-pid' attribute.
+1. &lt;img/&gt; HTML tags with the 'data-ngfb-wp-pid' attribute.
+1. Any other &lt;img/&gt; HTML tags with a 'src' attribute, and checking the image URL, it tries to match a pre-v2 NextGEN Gallery image ID.
+
+All of these methods will lead to a properly sized image of the correct dimensions (since the image ID can be determined).
+
+The plugin also looks for any &lt;img/&gt; HTML tags with a 'width' and 'height' attribute that is large enough (larger than the dimensions defined in the plugin settings).
+
 = Q7. Why does the plugin ignore the &lt;img/&gt; HTML tags in my content? =
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
