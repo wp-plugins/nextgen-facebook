@@ -90,7 +90,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 
-			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9]+$/', $title ) ) {
+			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9_\-]+$/', $title ) ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
 					$hashtags = $this->get_hashtags( $post->ID );
 			}
@@ -393,35 +393,41 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		public function get_hashtags( $post_id = '' ) {
 			if ( empty( $this->p->options['og_desc_hashtags'] ) ) return;
 			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', false );
-			if ( $text !== false ) {
+			if ( ! empty( $text ) )
 				$this->p->debug->log( 'hashtags seed = "'.$text.'"' );
-				return $text;
+			else {
+				$tags = array_slice( $this->get_tags( $post_id ), 0, $this->p->options['og_desc_hashtags'] );
+				if ( ! empty( $tags ) ) {
+					$text = '#'.trim( implode( ' #', preg_replace( '/ /', '', $tags ) ) );
+					$this->p->debug->log( 'hashtags = "'.$text.'"' );
+				}
 			}
-			$tags = array_slice( $this->get_tags( $post_id ), 0, $this->p->options['og_desc_hashtags'] );
-			if ( ! empty( $tags ) )
-				$text = '#'.trim( implode( ' #', preg_replace( '/ /', '', $tags ) ) );
-
 			return apply_filters( $this->p->cf['lca'].'_hashtags', $text );
 		}
 
 		public function get_tags( $post_id = '' ) {
 			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array() );
-			if ( ! empty( $tags ) ) {
+			if ( ! empty( $tags ) )
 				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
-				return $tags;
+			else {
+				if ( is_singular() || ! empty( $post_id ) ) {
+					if ( empty( $post_id ) ) { global $post; $post_id = $post->ID; }
+					$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
+
+					if ( $this->p->options['og_ngg_tags'] && 
+						$this->p->is_avail['postthumb'] == true && 
+						has_post_thumbnail( $post_id ) ) {
+
+						$pid = get_post_thumbnail_id( $post_id );
+						// featured images from ngg pre-v2 had 'ngg-' prefix
+						if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+							$tags = array_merge( $tags, $this->p->media->ngg->get_tags( $pid ) );
+					}
+				} elseif ( is_search() )
+					$tags = preg_split( '/ *, */', get_search_query( false ) );
+				$tags = array_unique( array_map( 'strtolower', $tags ) );
+				$this->p->debug->log( 'tags = "'.implode( ',', $tags ).'"' );
 			}
-			if ( is_singular() || ! empty( $post_id ) ) {
-				if ( empty( $post_id ) ) { global $post; $post_id = $post->ID; }
-				$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
-				if ( $this->p->options['og_ngg_tags'] && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
-					$pid = get_post_thumbnail_id( $post_id );
-					// featured images from ngg pre-v2 had 'ngg-' prefix
-					if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
-						$tags = array_merge( $tags, $this->p->media->ngg->get_tags( $pid ) );
-				}
-			} elseif ( is_search() )
-				$tags = preg_split( '/ *, */', get_search_query( false ) );
-			$tags = array_unique( array_map( 'strtolower', $tags ) );
 			return apply_filters( $this->p->cf['lca'].'_tags', $tags );
 		}
 

@@ -103,6 +103,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'pro_faq' => 'http://faq.ngfb.surniaulula.com/',
 				'pro_notes' => 'http://notes.ngfb.surniaulula.com/',
 				'pro_support' => 'http://support.ngfb.surniaulula.com/',
+				'pro_forum' => 'http://forum.ngfb.surniaulula.com/',
 				'pro_request' => 'http://request.ngfb.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),

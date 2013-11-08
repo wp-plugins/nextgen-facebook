@@ -164,7 +164,7 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) $opts = $this->p->options;
 			$html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 			$send = $opts['fb_send'] ? 'true' : 'false';

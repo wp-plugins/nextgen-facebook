@@ -64,8 +64,9 @@ if ( ! class_exists( 'NgfbSocialLinkedin' ) && class_exists( 'NgfbSocial' ) ) {
 
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
-			if ( empty( $opts ) ) $opts = $this->p->options;
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			if ( empty( $opts ) ) 
+				$opts = $this->p->options;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'linkedin', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
