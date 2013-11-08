@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.15dev3',		// plugin version
+			'version' => '6.15dev4',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -100,16 +100,16 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
 				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
 				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-				'pro_faq' => 'http://faq.nextgen-facebook.surniaulula.com/',
-				'pro_notes' => 'http://notes.nextgen-facebook.surniaulula.com/',
-				'pro_support' => 'http://support.nextgen-facebook.surniaulula.com/',
-				'pro_request' => 'http://request.nextgen-facebook.surniaulula.com/',
+				'pro_faq' => 'http://faq.ngfb.surniaulula.com/',
+				'pro_notes' => 'http://notes.ngfb.surniaulula.com/',
+				'pro_support' => 'http://support.ngfb.surniaulula.com/',
+				'pro_request' => 'http://request.ngfb.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),
 			'follow' => array(
 				'size' => 32,
 				'src' => array(
-					'facebook.png' => 'https://www.facebook.com/pages/Surnia-Ulula/200643823401977',
+					'facebook.png' => 'https://www.facebook.com/SurniaUlulaCom',
 					'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
 					'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
 					'twitter.png' => 'https://twitter.com/surniaululacom',
@@ -219,65 +219,65 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			
 			$plugin_dir = constant( self::$cf['uca'].'_PLUGINDIR' );
 
-			require_once ( $plugin_dir.'lib/com/debug.php' );
-			require_once ( $plugin_dir.'lib/com/cache.php' );
-			require_once ( $plugin_dir.'lib/com/notice.php' );
-			require_once ( $plugin_dir.'lib/com/update.php' );
-			require_once ( $plugin_dir.'lib/com/script.php' );
-			require_once ( $plugin_dir.'lib/com/style.php' );
+			require_once( $plugin_dir.'lib/com/debug.php' );
+			require_once( $plugin_dir.'lib/com/cache.php' );
+			require_once( $plugin_dir.'lib/com/notice.php' );
+			require_once( $plugin_dir.'lib/com/update.php' );
+			require_once( $plugin_dir.'lib/com/script.php' );
+			require_once( $plugin_dir.'lib/com/style.php' );
 
-			require_once ( $plugin_dir.'lib/check.php' );
-			require_once ( $plugin_dir.'lib/util.php' );
-			require_once ( $plugin_dir.'lib/options.php' );
-			require_once ( $plugin_dir.'lib/user.php' );
-			require_once ( $plugin_dir.'lib/media.php' );
-			require_once ( $plugin_dir.'lib/webpage.php' );
-			require_once ( $plugin_dir.'lib/postmeta.php' );
-			require_once ( $plugin_dir.'lib/social.php' );
-			require_once ( $plugin_dir.'lib/style.php' );
+			require_once( $plugin_dir.'lib/check.php' );
+			require_once( $plugin_dir.'lib/util.php' );
+			require_once( $plugin_dir.'lib/options.php' );
+			require_once( $plugin_dir.'lib/user.php' );
+			require_once( $plugin_dir.'lib/media.php' );
+			require_once( $plugin_dir.'lib/webpage.php' );
+			require_once( $plugin_dir.'lib/postmeta.php' );
+			require_once( $plugin_dir.'lib/social.php' );
+			require_once( $plugin_dir.'lib/style.php' );
 
 			if ( is_admin() ) {
-				require_once ( $plugin_dir.'lib/messages.php' );
-				require_once ( $plugin_dir.'lib/admin.php' );
+				require_once( $plugin_dir.'lib/messages.php' );
+				require_once( $plugin_dir.'lib/admin.php' );
 
 				// settings classes extend lib/admin.php and objects are created by lib/admin.php
 				foreach ( self::$cf['lib']['setting'] as $id => $name )
-					require_once ( $plugin_dir.'lib/settings/'.$id.'.php' );
+					require_once( $plugin_dir.'lib/settings/'.$id.'.php' );
 				unset ( $id, $name );
 
 				if ( is_multisite() ) {
 					foreach ( self::$cf['lib']['network_setting'] as $id => $name )
-						require_once ( $plugin_dir.'lib/settings/'.$id.'.php' );
+						require_once( $plugin_dir.'lib/settings/'.$id.'.php' );
 					unset ( $id, $name );
 				}
-				require_once ( $plugin_dir.'lib/com/form.php' );
-				require_once ( $plugin_dir.'lib/ext/parse-readme.php' );
+				require_once( $plugin_dir.'lib/com/form.php' );
+				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else {
-				require_once ( $plugin_dir.'lib/head.php' );
-				require_once ( $plugin_dir.'lib/opengraph.php' );
-				require_once ( $plugin_dir.'lib/functions.php' );
+				require_once( $plugin_dir.'lib/head.php' );
+				require_once( $plugin_dir.'lib/opengraph.php' );
+				require_once( $plugin_dir.'lib/functions.php' );
 
 				foreach ( self::$cf['lib']['shortcode'] as $id => $name )
-					require_once ( $plugin_dir.'lib/shortcodes/'.$id.'.php' );
+					require_once( $plugin_dir.'lib/shortcodes/'.$id.'.php' );
 				unset ( $id, $name );
 			}
 
 			// website classes extend both lib/social.php and lib/settings/social.php
 			foreach ( self::$cf['lib']['website'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/websites/'.$id.'.php' ) )
-					require_once ( $plugin_dir.'lib/websites/'.$id.'.php' );
+					require_once( $plugin_dir.'lib/websites/'.$id.'.php' );
 			unset ( $id, $name );
 
 			// widgets are added to wp when library file is loaded
 			// no need to create the class object later on
 			foreach ( self::$cf['lib']['widget'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/widgets/'.$id.'.php' ) )
-					require_once ( $plugin_dir.'lib/widgets/'.$id.'.php' );
+					require_once( $plugin_dir.'lib/widgets/'.$id.'.php' );
 			unset ( $id, $name );
 
 			// additional classes are loaded and extended by the addon construct
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
-				require_once ( $plugin_dir.'lib/pro/addon.php' );
+				require_once( $plugin_dir.'lib/pro/addon.php' );
 
 		}
 	}

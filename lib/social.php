@@ -86,18 +86,28 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
-			if ( ! is_admin() ) {
+
+			// should we skip the social buttons for this content type or webpage?
+			if ( is_admin() ) {
+				if ( $type != 'admin_sharing' ) {
+					$this->p->debug->log( $type.' filter skipped: '.$type.' ignored with is_admin()'  );
+					return $text;
+				}
+			} else {
 				if ( ! is_singular() && empty( $opts['buttons_on_index'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
 					return $text;
 				} elseif ( is_front_page() && empty( $opts['buttons_on_front'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
 					return $text;
-				} elseif ( $this->is_disabled() ) {
+				}
+				if ( $this->is_disabled() ) {
 					$this->p->debug->log( $type.' filter skipped: buttons disabled' );
 					return $text;
 				}
 			}
+
+			// is there at least one social button enabled?
 			$enabled = false;
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				if ( ! empty( $opts[$pre.'_on_'.$type] ) ) {
@@ -110,10 +120,10 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( $type.' filter exiting early: no buttons enabled' );
 				return $text;
 			}
-			// we should always have a unique post ID
+
+			// fetch buttons from transient cache, or generate new button html
 			global $post;
 			$html = false;
-
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
@@ -123,7 +133,6 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );
 				$html = get_transient( $cache_id );
 			}
-
 			if ( $html !== false )
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
 			else {
@@ -149,6 +158,8 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					}
 				}
 			}
+
+			// add buttons to the text and return
 			if ( $type == 'admin_sharing' )
 				$text = $this->p->debug->get_html().$text.$html; 
 			elseif ( ! empty( $opts[ 'buttons_location_'.$type ] ) ) {

@@ -25,24 +25,30 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
+
 			// loop through each social website option prefix
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				$cm_opt = 'plugin_cm_'.$pre.'_';
+			if ( ! empty( $this->p->cf['opt']['pre'] ) && is_array( $this->p->cf['opt']['pre'] ) ) {
 
-				// not all social websites have a contact method field
-				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
-
-					$enabled = $this->p->options[$cm_opt.'enabled'];
-					$name = $this->p->options[$cm_opt.'name'];
-					$label = $this->p->options[$cm_opt.'label'];
-
-					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
-						$fields[$name] = $label;
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					$cm_opt = 'plugin_cm_'.$pre.'_';
+	
+					// not all social websites have a contact fields, so check
+					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+	
+						$enabled = $this->p->options[$cm_opt.'enabled'];
+						$name = $this->p->options[$cm_opt.'name'];
+						$label = $this->p->options[$cm_opt.'label'];
+	
+						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
+							$fields[$name] = $label;
+					}
 				}
+				unset( $id, $pre );
 			}
-			unset( $id, $pre );
 
-			if ( $this->p->is_avail['aop'] == true ) {
+			if ( $this->p->check->is_aop() && 
+				! empty( $this->p->cf['wp']['cm'] ) && is_array( $this->p->cf['wp']['cm'] ) ) {
+
 				foreach ( $this->p->cf['wp']['cm'] as $id => $name ) {
 					$cm_opt = 'wp_cm_'.$id.'_';
 
@@ -65,42 +71,44 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 
 		public function sanitize_contact_methods( $user_id ) {
-			if ( current_user_can( 'edit_user', $user_id ) ) {
-				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-					$cm_opt = 'plugin_cm_'.$pre.'_';
 
-					// not all social websites have a contact method field
-					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
+			if ( ! current_user_can( 'edit_user', $user_id ) )
+				return;
 
-						$enabled = $this->p->options[$cm_opt.'enabled'];
-						$name = $this->p->options[$cm_opt.'name'];
-						$label = $this->p->options[$cm_opt.'label'];
+			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+				$cm_opt = 'plugin_cm_'.$pre.'_';
 
-						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
+				// not all social websites have a contact fields, so check
+				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
 
-							// sanitize values only for those enabled contact methods
-							$val = wp_filter_nohtml_kses( $_POST[$name] );
+					$enabled = $this->p->options[$cm_opt.'enabled'];
+					$name = $this->p->options[$cm_opt.'name'];
+					$label = $this->p->options[$cm_opt.'label'];
 
-							if ( ! empty( $val ) ) {
-								// use the social prefix id to decide on actions
-								switch ( $id ) {
-									case 'skype' :
-										// no change
-										break;
-									case 'twitter' :
-										$val = substr( preg_replace( '/[^a-z0-9_]/', '', 
-											strtolower( $val ) ), 0, 15 );
-										if ( ! empty( $val ) ) 
-											$val = '@'.$val;
-										break;
-									default :
-										if ( strpos( $val, '://' ) === false )
-											$val = '';
-										break;
-								}
+					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
+
+						// sanitize values only for those enabled contact methods
+						$val = wp_filter_nohtml_kses( $_POST[$name] );
+
+						if ( ! empty( $val ) ) {
+							// use the social prefix id to decide on actions
+							switch ( $id ) {
+								case 'skype' :
+									// no change
+									break;
+								case 'twitter' :
+									$val = substr( preg_replace( '/[^a-z0-9_]/', '', 
+										strtolower( $val ) ), 0, 15 );
+									if ( ! empty( $val ) ) 
+										$val = '@'.$val;
+									break;
+								default :
+									if ( strpos( $val, '://' ) === false )
+										$val = '';
+									break;
 							}
-							$_POST[$name] = $val;
 						}
+						$_POST[$name] = $val;
 					}
 				}
 			}
@@ -116,20 +124,29 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 					break;
 				default :
 					$url = get_the_author_meta( $field_id, $author_id );	// since wp 2.8.0 
-					// if empty or not a url, then fallback to the author index page
-					if ( $this->p->options['og_author_fallback'] && ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) )
-						$url = get_author_posts_url( $author_id );
+
+					// if empty or not a url, then fallback to the author index page,
+					// if the requested field is the opengraph or link author field
+					if ( empty( $url ) || ! preg_match( '/:\/\//', $url ) ) {
+						if ( ( $field_id == $this->p->options['og_author_field'] || 
+							$field_id == $this->p->options['link_author_field'] ) && 
+							$this->p->options['og_author_fallback'] )
+								$url = get_author_posts_url( $author_id );
+					}
 					break;
 			}
 			return $url;
 		}
 
 		public function reset_metabox_prefs( $pagehook, $metabox_ids = array(), $state = '', $force = false ) {
-			$user_id = get_current_user_id();				// since wp 3.0
+			$user_id = get_current_user_id();	// since wp 3.0
+
+			// if forced, remove all existing metabox preferences for that pagehook
 			if ( $force == true )
 				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
 					delete_user_option( $user_id, $meta_name.'_'.$pagehook, true );
 
+			// define a new state to set for the metabox_ids given
 			switch ( $state ) {
 				case 'order' : 
 					$meta_key = 'meta-box-order_'.$pagehook; 
@@ -145,14 +162,16 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 					break;
 			}
 
+			// if preferences don't already exist for that state, then create them
 			if ( ! empty( $meta_key ) ) {
 				$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
 				if ( ! is_array( $opts ) )
 					$opts = array();
-				if ( empty( $opts ) )
+				if ( empty( $opts ) ) {
 					foreach ( $metabox_ids as $id ) 
 						$opts[] = $pagehook.'_'.$id;
-				update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+					update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
+				}
 			}
 		}
 
@@ -173,17 +192,21 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 
 		public function get_options( $user_id = false ) {
-			$user_id = $user_id == false ? get_current_user_id() : $user_id;	// since wp 3.0
-			$opts = get_user_option( NGFB_OPTIONS_NAME, $user_id );		// since wp 2.0.0 
+			$user_id = $user_id === false ? 
+				get_current_user_id() : $user_id;
+			$opts = get_user_option( constant( $this->p->cf['uca'].'_OPTIONS_NAME' ), $user_id );
 			if ( ! is_array( $opts ) )
 				$opts = array();
 			return $opts;
 		}
 
 		public function save_options( $opts = array(), $user_id = false ) {
-			$user_id = $user_id == false ? get_current_user_id() : $user_id;	// since wp 3.0
-			update_user_option( $user_id, NGFB_OPTIONS_NAME, array_unique( $opts ), true );	// since wp 2.0
+			$user_id = $user_id === false ? 
+				get_current_user_id() : $user_id;
+			update_user_option( $user_id, constant( $this->p->cf['uca'].'_OPTIONS_NAME' ), 
+				array_unique( $opts ), true );
 		}
 	}
 }
+
 ?>

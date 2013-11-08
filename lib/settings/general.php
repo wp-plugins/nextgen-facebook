@@ -178,7 +178,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					default is '.$this->p->opt->get_defaults( 'og_desc_len' ).' characters.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_desc_len', 'short' ).' characters or less</td>';
 
-					$ret[] = $this->p->util->th( 'Add HashTags to Descriptions', 'highlight', null, '
+					$ret[] = $this->p->util->th( 'Number of Hashtags to Include', 'highlight', null, '
 					The maximum number of tag names, converted to hashtags, to include in the Open Graph / Rich Pin description, tweet text, and social captions.
 					Each tag name will be converted to lowercase, with whitespaces removed. 
 					Select \'0\' (the default) to disable this feature.' ).
