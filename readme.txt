@@ -209,6 +209,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Q20. The W3C Markup Validation Service says "there is no attribute '<em>property</em>'".
 * Q21. Why are there duplicate Facebook / Google fields on the user profile page?
 * Q22. Why is the Open Graph title the same for every webpage?
+* Q23. Why aren't Pins from my website posting Rich?
 
 = Q1. What is the difference between the GPL and Pro versions? =
 
@@ -381,6 +382,10 @@ NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile pag
 NGFB Open Graph+ uses the WordPress `wp_title()` and `get_the_title()` functions to determine the title of most webpages. These WordPress functions are used by theme templates and plugins to retrieve the title of the current webpage, or any Page / Post ID. WordPress also provides filters for these functions -- a way for plugin authors to modify the title for various purposes. These filters are often used by SEO plugins, for example, to modify / standardize the webpage titles. See http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_title for more information.
 
 If your Open Graph and webpage titles (shown in the web browser's title bar and tabs, for example) do not show the correct information -- perhaps always showing your website name, and not the current Post / Page title -- then perhaps a plugin or theme has "hooked" into the `wp_title()` filter to manipulate its output. By default, the `wp_title()` function should return the Post / Page title, which changes from one Post / Page to another.
+
+= Q23. Why aren't Pins from my website posting Rich? =
+
+Rich Pins are Open Graph meta tags. You should use the [Facebook Debugger](https://developers.facebook.com/tools/debug/) first, to make sure your Open Graph tags are correct and there are no errors reported. After that, submit the URL to one of your webpages to the [Pinterest Rich Pin Validator](http://developers.pinterest.com/rich_pins/validator/). After validating the URL, you can apply to have your website approved for Rich Pins.
 
 == Other Notes ==
 
