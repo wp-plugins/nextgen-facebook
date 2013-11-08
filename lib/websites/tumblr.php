@@ -95,9 +95,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) $opts = $this->p->options;
 			global $post; 
-			$html = '';
-			$query = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'tumblr', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
@@ -173,6 +171,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			}
 
 			// define the button, based on what we have
+			$query = '';
 			if ( ! empty( $atts['photo'] ) ) {
 				$query .= 'photo?source='. urlencode( $atts['photo'] );
 				$query .= '&amp;clickthru='.urlencode( $atts['url'] );

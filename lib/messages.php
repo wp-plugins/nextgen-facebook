@@ -56,14 +56,13 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 				case 'purchase_box' :
 					$msg = '<p>Developing and supporting the '.$this->p->cf['full'].' plugin takes most of my work days (and week-ends).
 					If you compare this plugin with others, I hope you\'ll agree that the result was worth all the effort and long hours.
-					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">If you would like to show your appreciation, and
-					access the full range of features this plugin has to offer, please purchase ';
+					If you would like to show your appreciation, and access the full range of features this plugin has to offer, please purchase ';
 					if ( $this->p->is_avail['aop'] == true )
-						$msg .= 'a Pro version license</a>.</p>';
-					else $msg .= 'the Pro version</a>.</p>';
+						$msg .= 'a Pro version license.</p>';
+					else $msg .= 'the Pro version.</p>';
 					break;
 				case 'thankyou' :
-					$msg = '<p>Thank you for your purchase! I hope the '.$this->p->cf['full'].' plugin will exceed all of your expectations.</p>';
+					$msg = '<p>Thank you for your purchase. I hope the '.$this->p->cf['full'].' plugin will exceed all of your expectations!</p>';
 					break;
 				case 'help_boxes' :
 					$msg = '<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
@@ -71,16 +70,17 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_free' :
-					$msg = '<p><strong>Need help with the <em>GPL</em> version? 
+					$msg = '<p>Need help with the <em>GPL</em> version? 
 					See the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">FAQ</a>, 
 					the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Other Notes</a>, or visit the 
-					<a href="'.$this->p->cf['url']['support'].'" target="_blank">Support Forum</a> on WordPress.org</strong>.</p>';
+					<a href="'.$this->p->cf['url']['support'].'" target="_blank">Support Forum</a> on WordPress.org.</p>';
 					break;
 				case 'help_pro' :
-					$msg = '<p><strong>Need help with the Pro version? 
-					See the <a href="'.$this->p->cf['url']['pro_faq'].'" target="_blank">FAQ</a>, 
-					the <a href="'.$this->p->cf['url']['pro_notes'].'" target="_blank">Other Notes</a>, or 
-					submit a <a href="'.$this->p->cf['url']['pro_request'].'" target="_blank">Support Request</a>.</p>';
+					$msg = '<p>Need help with the Pro version? 
+					See the <a href="'.$this->p->cf['url']['pro_faq'].'" target="_blank">Frequently Asked Questions (FAQ)</a>, 
+					<a href="'.$this->p->cf['url']['pro_notes'].'" target="_blank">Other Notes</a>, 
+					visit the <a href="'.$this->p->cf['url']['pro_forum'].'" target="_blank">Community Forums</a>, 
+					or <a href="'.$this->p->cf['url']['pro_request'].'" target="_blank">Submit a new Support Ticket</a>.</p>';
 					break;
 			}
 			return $msg;

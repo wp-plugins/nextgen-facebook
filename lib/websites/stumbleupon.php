@@ -93,9 +93,9 @@ if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) )
 
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
-			if ( empty( $opts ) ) $opts = $this->p->options;
-			$html = '';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			if ( empty( $opts ) ) 
+				$opts = $this->p->options;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'stumbleupon', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
@@ -113,8 +113,7 @@ if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) )
 
 			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
-
 	}
-
 }
+
 ?>

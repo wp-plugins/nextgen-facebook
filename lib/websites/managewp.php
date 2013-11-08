@@ -61,7 +61,7 @@ if ( ! class_exists( 'NgfbSocialManagewp' ) && class_exists( 'NgfbSocial' ) ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'managewp', $atts );
 			$js_url = $this->p->util->get_cache_url( 'http://managewp.org/share.js' ).'#http://managewp.org/share';
 

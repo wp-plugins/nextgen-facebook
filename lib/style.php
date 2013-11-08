@@ -41,10 +41,9 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 		}
 
 		public function update_social( &$opts ) {
-			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) ) {
+			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
 				$this->p->debug->log( 'Error opening '.$this->social_css_min_file.' for writing.' );
-				$this->p->notice->err( 'Error opening <u>'.$this->social_css_min_file.'</u> for writing.', true );
-			} else {
+			else {
 				$css_data = '';
 				foreach ( $this->p->cf['css'] as $id => $name )
 					$css_data .= $opts['buttons_css_'.$id];

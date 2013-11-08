@@ -112,8 +112,13 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 			if ( preg_match_all( '/<(div|a|img)[^>]*? (data-ngfb-ngg-pid)=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ).' x matching <div|a|img/> html tag(s) found' );
 				foreach ( $match as $img ) {
+					$tag_value = $img[0];
+					$tag_name = $img[1];
+					$attr_name = $img[2];
+					$attr_value = $img[3];
+					$this->p->debug->log( $tag_name.' attr '.$attr_name.' = "'.$attr_value.'"' );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-'.$img[3], $size_name, $check_dupes );
+						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-'.$attr_value, $size_name, $check_dupes );
 					if ( ! empty( $og_image['og:image'] ) && 
 						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
 							return $og_ret;

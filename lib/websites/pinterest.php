@@ -22,39 +22,39 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
-				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ) . '<td>' . 
+				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ).'<td>'.
 				'Content '.$this->p->admin->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
 				'Excerpt '.$this->p->admin->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
 				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'pin_on_admin_sharing' ). 
 				'</td>',
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->p->admin->form->get_select( 'pin_order', 
-					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>',
+					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ).'</td>',
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'pin_js_loc', $this->js_locations ) . '</td>',
+				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->p->admin->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
 
-				$this->p->util->th( 'Pin Count Layout', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Pin Count Layout', 'short' ).'<td>'.
 				$this->p->admin->form->get_select( 'pin_count_layout', 
 					array( 
 						'none' => '',
 						'horizontal' => 'Horizontal',
 						'vertical' => 'Vertical',
 					)
-				) . '</td>',
+				).'</td>',
 
-				$this->p->util->th( 'Pin Button Image', 'short' ) . '<td>' . 
+				$this->p->util->th( 'Pin Button Image', 'short' ).'<td>'.
 				$this->p->admin->form->get_input( 'pin_img_url' ),
 
-				$this->p->util->th( 'Image Size to Share', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select_img_size( 'pin_img_size' ) . '</td>',
+				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
+				$this->p->admin->form->get_select_img_size( 'pin_img_size' ).'</td>',
 
-				$this->p->util->th( 'Image Caption Text', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'pin_caption', $this->captions ) . '</td>',
+				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
+				$this->p->admin->form->get_select( 'pin_caption', $this->captions ).'</td>',
 
-				$this->p->util->th( 'Caption Length', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_input( 'pin_cap_len', 'short' ) . ' Characters or less</td>',
+				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
+				$this->p->admin->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>',
 
 			);
 		}
@@ -75,12 +75,11 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
-			if ( empty( $opts ) ) $opts = $this->p->options;
+			if ( empty( $opts ) ) 
+				$opts = $this->p->options;
 			global $post; 
-			$html = '';
-			$query = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'pinterest', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
@@ -94,7 +93,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 						$pid = $this->p->meta->get_options( $post->ID, 'og_img_id' );
 						$pre = $this->p->meta->get_options( $post->ID, 'og_img_id_pre' );
 						if ( ! empty( $pid ) ) 
-							$atts['pid'] = $pre == 'ngg' ? 'ngg-' . $pid : $pid;
+							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
 						elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
 							$atts['pid'] = get_post_thumbnail_id( $post->ID );
 						else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
@@ -123,9 +122,9 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 				$atts['caption'] = $this->p->webpage->get_caption( $opts['pin_caption'], 
 					$opts['pin_cap_len'], $use_post );
 
-			$query .= 'url=' . urlencode( $atts['url'] );
+			$query = 'url='.urlencode( $atts['url'] );
 			$query .= '&amp;media='. urlencode( $atts['photo'] );
-			$query .= '&amp;description=' . urlencode( $this->p->util->decode( $atts['caption'] ) );
+			$query .= '&amp;description='.urlencode( $this->p->util->decode( $atts['caption'] ) );
 
 			if ( empty( $this->p->options['pin_img_url'] ) )
 				$img = $prot.'assets.pinterest.com/images/PinExt.png';
@@ -146,8 +145,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 
 			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
-		
 	}
-
 }
+
 ?>

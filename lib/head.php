@@ -51,7 +51,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
 				$defined_constants['user']['NGFB_NONCE'] = '********';
-				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'NGFB Constants' );
+				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'ngfb constants' );
 
 				$opts = $this->p->options;
 				foreach ( array( 
@@ -60,9 +60,9 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					'plugin_bitly_api_key',
 				) as $key ) $opts[$key] = '********';
 
-				$this->p->debug->show_html( $this->p->is_avail, 'Available Features' );
-				$this->p->debug->show_html( null, 'Debug Log' );
-				$this->p->debug->show_html( $opts, 'NGFB Settings' );
+				$this->p->debug->show_html( $this->p->is_avail, 'available features' );
+				$this->p->debug->show_html( null, 'debug log' );
+				$this->p->debug->show_html( $opts, 'ngfb settings' );
 			}
 		}
 
@@ -76,8 +76,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				echo "<!-- updates: ".$this->p->cf['url']['pro_update']." -->\n";
 
 			// show the array structure before the html block
-			$this->p->debug->show_html( print_r( $meta_tags, true ), 'Open Graph Array' );
-			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'Media URLs Found' );
+			$this->p->debug->show_html( print_r( $meta_tags, true ), 'open graph array' );
+			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'media urls found' );
 
 			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].' (';
 			if ( $this->p->check->is_aop() ) echo 'L';

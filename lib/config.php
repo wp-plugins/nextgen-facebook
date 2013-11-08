@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.15dev4',		// plugin version
+			'version' => '6.15dev5',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -103,6 +103,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'pro_faq' => 'http://faq.ngfb.surniaulula.com/',
 				'pro_notes' => 'http://notes.ngfb.surniaulula.com/',
 				'pro_support' => 'http://support.ngfb.surniaulula.com/',
+				'pro_forum' => 'http://forum.ngfb.surniaulula.com/',
 				'pro_request' => 'http://request.ngfb.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),

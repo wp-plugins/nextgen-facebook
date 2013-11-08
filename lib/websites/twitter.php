@@ -105,11 +105,11 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
-			if ( empty( $opts ) ) $opts = $this->p->options;
+			if ( empty( $opts ) ) 
+				$opts = $this->p->options;
 			global $post; 
-			$html = '';
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
+			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$src_id = $this->p->util->get_src_id( 'twitter', $atts );
 			$long_url = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
