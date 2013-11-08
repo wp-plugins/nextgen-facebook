@@ -777,15 +777,17 @@ function add_tracking_id( $url, $src_id ) {
 
 == Changelog ==
 
-= Version 6.15dev3 =
+= Version 6.15dev4 =
 
-* **Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
+* **Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 * Changed default 'Include on Static Homepage' value from checked to unchecked.
 * Changed the test for values returned by `get_transient()` in opengraph.php from `!== false` to `is_array()`.
 * Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
 * Moved the cache/debug/form/notice/script/style/update.php files from lib/ to lib/com/.
 * Renamed all class prefixes from `ngfb` to `Ngfb` and `Sucom` (for classes under lib/com/).
+* Added a check for filter type (content, excerpt, or admin_sharing) to skip adding social buttons to content text when in the admin interface.
+* Added a check to make sure the 'og_author_fallback' feature only applies to the 'og_author_field' and 'link_author_field' contact methods.
 
 = Version 6.14.0 =
 
@@ -807,9 +809,9 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.15dev3 =
+= 6.15dev4 =
 
-Added the 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
+Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 
 = 6.14.0 =
 
