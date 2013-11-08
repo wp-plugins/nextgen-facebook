@@ -645,13 +645,13 @@ function filter_ngfb_tags( $tags = array() ) {
 }
 `
 
-Most filters in NGFB are called with a single argument -- using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter is '1' for most filters (exceptions are noted).
+Most filters in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter is '1' for most filters (exceptions are noted).
 
 `
 <?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?> 
 `
 
-The following list of NGFB filters receive and must return a single *text string*.
+The following list of NGFB filters are provided, and must return, a single *text string*.
 
 * `ngfb_section` : The section text string used in the article:section meta tag.
 * `ngfb_title` : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers are included in the title text string.
@@ -660,7 +660,7 @@ The following list of NGFB filters receive and must return a single *text string
 * `ngfb_caption` : The caption used by Tumblr, Pinterest, and Twitter sharing buttons.
 * `ngfb_quote` : The quote text used by the Tumblr sharing button.
 
-The following list of NGFB filters receive and must return a single *array*.
+The following list of NGFB filters are provided, and must return, a single *array*.
 
 * `ngfb_topics` : An array of build-in Topics. The default list is from [Wikipedia](http://en.wikipedia.org/wiki/Category:Websites_by_topic).
 * `ngfb_tags` : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
@@ -677,84 +677,7 @@ The following list of NGFB filters receive and must return a single *array*.
 * `ngfb_tc_marketpress` : A complete, multi-dimensional array of all Twitter Card meta tags for MarketPress WordPress eCommerce.
 * `ngfb_tc_wpecommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WP e-Commerce.
 
-Here are a few example:
-
-* Replace the 'og:site_name' meta tag value.
-
-`
-add_filter( 'ngfb_og', 'modify_ngfb_opengraph', 10, 1 );
-
-function modify_ngfb_opengraph( $og = array() ) {
-	$og['og:site_name'] = 'My Custom Site Name';
-	return $og;
-}
-`
-
-* A filter to add custom topics ("Name One" and "Name Two") to the built-in topics list.
-
-`
-add_filter( 'ngfb_topics', 'add_ngfb_topics', 10, 1 );
-
-function add_ngfb_topics( $topics = array() ) {
-	$topics[] = 'Name One';
-	$topics[] = 'Name Two';
-	return $topics;
-}
-`
-
-The 'ngfb_shortcode' filter is an exception -- it receives *two arguments*; an array, plus a text string, and must return an array.
-
-* `ngfb_shortcode` : Filters the `&#91;ngfb&#93;` shortcode attributes, and any content between the opening and closing tags (example: `&#91;ngfb&#93;some content text&#91;/ngfb&#93;`). The filter function should return the attributes array.
-
-`
-add_filter( 'ngfb_shortcode', 'my_ngfb_shortcode_filter', 10, 2 );
-
-function my_ngfb_shortcode_filter( $atts = array(), $shortcode_text = null ) {
-	/*
-	 * manipulate / extract content here
-	 */
-	$atts['url'] = $shortcode_text;	// use the text, between the shortcode start and end tags, as the sharing url
-        return $atts;
-}
-`
-
-The 'ngfb_sharing_url' filter is another exception -- it receives *two arguments*; a URL text string, plus an optional source ID text string, and must return a URL text string.
-
-* `ngfb_sharing_url` : Filters all URLs that are shared by the social buttons, including the webpage URL in the Open Graph meta tags. The filter should return the modified, or unmodified, URL for the webpage. For example, here is a filter that adds a custom tracking query to all URLs.
-
-`
-add_filter( 'ngfb_sharing_url', 'add_tracking_id', 10, 2 );
-
-function add_tracking_id( $url, $src_id ) {
-
-	// make sure we have something to work with, URL is long enough (not shortened), 
-	// and does not have a tracking query
-	if ( ! empty( $src_id ) && strlen( $url ) >= 21 && ! preg_match( '/[\?&]sid=/', $url ) ) {
-
-		// simplify and obfuscate the source id string
-		$src_id = preg_replace( 
-			array( 
-				'/^fb-share-/', '/^facebook-/', '/^gplus-/', '/^twitter-/', 
-				'/^linkedin-/', '/^pinterest-/', '/^stumbleupon-/', '/^tumblr-/',
-				'/-content-buttons-/', '/-shortcode-buttons-/', 
-				'/-widget-buttons-/', '/-post-/', 
-			), array(
-				'fb-', 'fb-', 'gp-', 'tw-', 
-				'li-', 'pi-', 'st-', 'tu-',
-				'-c-', '-s-', 
-				'-w', '-p',
-			), $src_id 
-		);	
-		// start or append a new query character
-		$url .= strpos( $url, '?' ) === false ? '?' : '&';
-
-		// append the tracking query string
-		$url .= 'sid='.urlencode( $src_id );
-	}
-	return $url;
-}
-
-`
+[See this support webpage for a few examples](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks)...
 
 == Screenshots ==
 
