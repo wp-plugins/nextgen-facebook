@@ -1,0 +1,104 @@
+
+PHP Constants for NextGEN Facebook Open Graph
+
+To address very specific needs, some PHP constants for NGFB may be defined in
+your wp-config.php or template files (generally before the wp_head() function
+call). 
+
+NGFB_HTML_DEBUG
+
+	Set this constant to 'true' to turn on hidden debug messages, and use
+	"View Source" on any webpage to view the debug messages. An
+	informational message box will also be displayed in admin pages as
+	reminder that debug mode is on.
+
+NGFB_WP_DEBUG
+
+	Send debug messages to PHP's error_log() as well.
+
+NGFB_DEBUG_FILE_EXP
+
+	Cache file expiration time in seconds when debug mode is enabled
+	(defaults is 300 seconds).
+
+NGFB_RESET
+
+	Set this contant to 'true' to reset all options to their defaults when
+	the plugin is activated.
+
+NGFB_OPEN_GRAPH_DISABLE
+
+	Set this contant to 'true' to prevent the plugin from adding Open
+	Graph meta tags in the webpage head section.
+
+NGFB_MIN_IMG_SIZE_DISABLE
+
+	Set this contant to 'true' to disable the minimum width and height
+	checks for the <img/> attributes in the content. All images, no matter
+	their size, will be added to the Open Graph meta tags. See "Why does
+	NGFB ignore the <img/> HTML tags in my content?" on the FAQ page
+	for additional information.
+
+NGFB_OBJECT_CACHE_DISABLE
+NGFB_TRANSIENT_CACHE_DISABLE
+NGFB_FILE_CACHE_DISABLE
+
+	Disable one or more types of cache.
+
+NGFB_META_NAME
+NGFB_OPTIONS_NAME
+NGFB_SITE_OPTIONS_NAME
+
+	The options field names in the database for NGFB. The default values
+	are '_ngfb_meta', 'ngfb_options', and 'ngfb_site_options'.
+
+NGFB_MENU_PRIORITY
+
+	Adjust the location of the "Open Graph" menu (default is 99.10).
+
+NGFB_INIT_PRIORITY
+
+	The plugin initialization priority (default is 12)
+
+NGFB_HEAD_PRIORITY
+
+	Change the execution priority of the method that adds JavaScript and
+	Open Graph meta tags to the head section (default is 10).
+
+NGFB_SOCIAL_PRIORITY
+
+	Change the execution priority for the method that adds social buttons
+	to the content (default is 100).
+
+NGFB_FOOTER_PRIORITY
+
+	Change the execution priority for the method that adds JavaScript to
+	the footer section (default is 100).
+
+NGFB_CURL_DISABLE
+
+	Disable all use of PHP's curl functions (all NGFB file caching
+	features will be disabled).
+
+NGFB_CURL_USERAGENT
+
+	Used by the remote content caching feature for social button images
+	and JavaScript. The Google+ JavaScript is different for (what Google
+	considers) invalid user agents. Since crawlers and robots might
+	refresh the cached files, the NGFB_CURL_USERAGENT defines a default
+	user agent string. You may define a NGFB_CURL_USERAGENT constant in
+	your wp-config.php file to change the default NGFB uses.
+
+NGFB_CURL_CAINFO
+
+	When the "Verify SSL Certificates" option is checked, PHP's curl
+	function needs a certificate authority file. Define the
+	NGFB_CURL_CAINFO constant in your wp-config.php file to change the
+	default location used by NGFB.
+
+NGFB_WISTIA_API_PWD
+
+	In order to share embedded videos from Wistia, you must define your
+	Wistia API password (see the Account Dashboard -> API Settings on
+	Wistia).
+
