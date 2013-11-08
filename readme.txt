@@ -404,29 +404,6 @@ Rich Pins are Open Graph meta tags. You should use the [Facebook Debugger](https
 
 == Other Notes ==
 
-= TABLE OF CONTENTS =
-
-* Resources
-* Debugging and Problem Solving
-    * WordPress Content Filters
-    * Debug and Error Messages
-* Multisite
-    * License Management
-* Support for Wistia Videos
-* Twitter Cards
-* Shortcodes
-* Stylesheets
-    * Social Buttons Style
-    * Hide Social Buttons
-* Performance Tuning
-    * Tuning the Plugin Settings
-    * Defragment the Database
-* Advanced Usage
-    * Include Social Buttons from Template File(s)
-    * Disable Open Graph Meta Tags
-    * URL Rewriting
-    * NGFB Filter Hooks
-
 == Resources ==
 
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
