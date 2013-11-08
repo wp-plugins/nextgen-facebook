@@ -703,6 +703,7 @@ The following list of NGFB filters are provided, and must return, a single *arra
 = Version 6.15dev4 =
 
 * **Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
+* Added a 'Reset Metaboxes' button on the settings pages to reset the plugin metabox layout.
 * Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 * Changed default 'Include on Static Homepage' value from checked to unchecked.
 * Changed the test for values returned by `get_transient()` in opengraph.php from `!== false` to `is_array()`.
