@@ -194,7 +194,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				exit;
 			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
 				! wp_verify_nonce( $_POST[ NGFB_NONCE ], $this->get_nonce() ) ) {
-				$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ), true );
+				$this->p->notice->err( __( 'Nonce token validation failed for network options (update ignored).', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			}
@@ -240,7 +240,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			} elseif ( ! empty( $_GET['action'] ) ) {
 				if ( empty( $_GET[ NGFB_NONCE ] ) ||
 					! wp_verify_nonce( $_GET[ NGFB_NONCE ], $this->get_nonce() ) )
-						$this->p->notice->err( __( 'Nonce token validation has failed.', NGFB_TEXTDOM ) );
+						$this->p->notice->err( __( 'Nonce token validation failed for plugin action (action ignored).', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
 						case 'remove_old_css' : 

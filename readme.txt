@@ -402,8 +402,6 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
 
 Rich Pins are Open Graph meta tags. You should use the [Facebook Debugger](https://developers.facebook.com/tools/debug/) first, to make sure your Open Graph tags are correct and there are no errors reported. After that, submit the URL to one of your webpages to the [Pinterest Rich Pin Validator](http://developers.pinterest.com/rich_pins/validator/). After validating the URL, you can apply to have your website approved for Rich Pins.
 
-== Other Notes ==
-
 == Resources ==
 
 For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
@@ -707,7 +705,7 @@ The following list of NGFB filters are provided, and must return, a single *arra
 
 == Changelog ==
 
-= Version 6.15dev4 =
+= Version 6.15dev5 =
 
 * **Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Added a 'Reset Metaboxes' button on the settings pages to reset the plugin metabox layout.
@@ -740,7 +738,7 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.15dev4 =
+= 6.15dev5 =
 
 Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 

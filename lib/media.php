@@ -287,13 +287,15 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					return $og_ret;
 			}
 			// img attributes in order of preference
-			if ( preg_match_all( '/<img[^>]*? (data-ngfb-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
-				preg_match_all( '/<img[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+			if ( preg_match_all( '/<(img)[^>]*? (data-ngfb-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
+				preg_match_all( '/<(img)[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ) . ' x matching <img/> html tag(s) found' );
 				foreach ( $match as $img ) {
 					$tag_value = $img[0];
-					$attr_name = $img[1];
-					$attr_value = $img[2];
+					$tag_name = $img[1];
+					$attr_name = $img[2];
+					$attr_value = $img[3];
+					$this->p->debug->log( $tag_name.' attr '.$attr_name.' = "'.$attr_value.'"' );
 					switch ( $attr_name ) {
 						case 'data-ngfb-wp-pid' :
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
@@ -334,7 +336,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							if ( ! is_numeric( $og_image['og:image:height'] ) ) 
 								$og_image['og:image:height'] = 0;
 
-							$this->p->debug->log( $attr_name.' = '.$og_image['og:image'].
+							$this->p->debug->log( 'found image: '.$og_image['og:image'].
 								' ('.$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
 
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
