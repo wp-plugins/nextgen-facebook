@@ -273,7 +273,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 							$this->p->notice->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
 							break;
 						case 'clear_metabox_prefs' : 
-							$this->p->util->delete_metabox_prefs( get_current_user_id() );
+							$this->p->user->delete_metabox_prefs( get_current_user_id() );
 							break;
 					}
 				}
@@ -459,14 +459,20 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
 						$this->get_nonce(), NGFB_NONCE ) );
 
-			// don't show the 'Clear All Cache' on network admin pages
-			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) )
+			// don't show the 'Clear All Cache' and 'Reset Metaboxes' buttons on network admin pages
+			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
 						$this->get_nonce(), NGFB_NONCE ) );
 
+				$action_buttons .= $this->p->admin->form->get_button( __( 'Reset Metaboxes', NGFB_TEXTDOM ), 
+					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_metabox_prefs' ),
+						$this->get_nonce(), NGFB_NONCE ) );
+			}
+
 			if ( ! empty( $action_buttons ) )
-				echo '<tr><td colspan="2"><p class="centered">'.$action_buttons.'</p></td></tr>';
+				echo '<tr><td colspan="2" class="actions">'.$action_buttons.'</td></tr>';
+
 			echo '</table>';
 		}
 
