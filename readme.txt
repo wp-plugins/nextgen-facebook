@@ -636,7 +636,7 @@ You can also enter multiple comma-delimited values, and use numbered wildcards l
 
 = NGFB Filter Hooks =
 
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code adds the `uwf_filter_ngfb_tags()` function to the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code hooks the `uwf_filter_ngfb_tags()` function into the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
 
 `
 add_filter( 'ngfb_tags', 'filter_ngfb_tags', 10, 1 );
@@ -650,39 +650,7 @@ function filter_ngfb_tags( $tags = array() ) {
 }
 `
 
-Most filters in NGFB are called with a single argument. Using the WordPress example from http://codex.wordpress.org/Function_Reference/add_filter, the `$accepted_args` parameter is '1' for most filters (exceptions are noted).
-
-`
-<?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?> 
-`
-
-The following list of NGFB filters are provided, and must return, a single *text string*.
-
-* `ngfb_section` : The section text string used in the article:section meta tag.
-* `ngfb_title` : The title string used in the og:title meta tag. If the page contains multiple pages, the page numbers are included in the title text string.
-* `ngfb_description` : The description string used in the og:description meta tag.
-* `ngfb_content` : The filtered (shortcode resolved, etc.) or un-filtered (depending on settings) content of the Post or Page.
-* `ngfb_caption` : The caption used by Tumblr, Pinterest, and Twitter sharing buttons.
-* `ngfb_quote` : The quote text used by the Tumblr sharing button.
-
-The following list of NGFB filters are provided, and must return, a single *array*.
-
-* `ngfb_topics` : An array of build-in Topics. The default list is from [Wikipedia](http://en.wikipedia.org/wiki/Category:Websites_by_topic).
-* `ngfb_tags` : An array of WordPress and NextGEN Gallery tags (if applicable and allowed by settings) used in the article:tag meta tags.
-* `ngfb_wp_tags` : An array of WordPress Post and Page tags used in the article:tag meta tags.
-* `ngfb_ngg_tags` : An array of NextGEN Gallery image tags used in the article:tag meta tags.
-* `ngfb_og` : A complete, multi-dimensional array of all Open Graph meta tags.
-* `ngfb_og_seed` : An empty array that will be used to build the Open Graph meta tags.
-* `ngfb_og_woocommerce` : A complete, multi-dimensional array of all Open Graph meta tags for WooCommerce.
-* `ngfb_og_marketpress` : A complete, multi-dimensional array of all Open Graph meta tags for MarketPress WordPress eCommerce.
-* `ngfb_og_wpecommerce` : A complete, multi-dimensional array of all Open Graph meta tags for WP e-Commerce.
-* `ngfb_tc` : A complete, multi-dimensional array of all Twitter Card meta tags.
-* `ngfb_tc_seed` : An empty array that will be used to build the Twitter Card meta tags.
-* `ngfb_tc_woocommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WooCommerce.
-* `ngfb_tc_marketpress` : A complete, multi-dimensional array of all Twitter Card meta tags for MarketPress WordPress eCommerce.
-* `ngfb_tc_wpecommerce` : A complete, multi-dimensional array of all Twitter Card meta tags for WP e-Commerce.
-
-[See this support webpage for a few examples](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks)...
+[All NGFB Filter Hooks are documented on the Pro version support website](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks).
 
 == Screenshots ==
 
