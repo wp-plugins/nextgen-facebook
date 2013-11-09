@@ -675,7 +675,7 @@ function filter_ngfb_tags( $tags = array() ) {
 
 = Version 6.15.0 =
 
-* **Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
+* **Added a new 'Number of Hashtags to Include' option to append tag names (converted to hashtags) in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Added support for NextGEN Gallery v2+ 'data-image-id' attribute.
 * Added a 'Reset Metaboxes' button on the settings pages to reset the plugin metabox layout.
 * Updated the Custom Settings Validation Tools tab to show buttons instead of links.
@@ -714,7 +714,7 @@ There are several code improvements in this new version and one visible new feat
 
 = 6.15.0 =
 
-Added an 'Add HashTags to Descriptions' option to include tag names in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links. Several internal code changes/improvements/updates.
+Added a new 'Number of Hashtags to Include' option to include tag names in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links. Several internal code changes/improvements/updates.
 
 = 6.14.0 =
 
