@@ -98,8 +98,9 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $ngfb->cf['lib']['website'] as $id => $name ) {
-				$classname = $ngfb->cf['lca'].'Settings'.preg_replace( '/ /', '', $name );
+				$classname = $ngfb->cf['cca'].'Social'.ucfirst( $id );
 				if ( class_exists( $classname ) ) {
+					$name = $name == 'GooglePlus' ? 'Google+' : $name;
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
 						'<input id="', $this->get_field_id( $id ), 
 						'" name="', $this->get_field_name( $id ), 
