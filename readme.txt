@@ -719,6 +719,8 @@ The following list of NGFB filters are provided, and must return, a single *arra
 * Added a check to make sure the 'og_author_fallback' feature only applies to the 'og_author_field' and 'link_author_field' contact methods.
 * Attached images to Posts/Pages are now sorted in reverse numerical order (so newest images first) before selection / processing.
 * Added new 'ngfb_hashtags' and 'ngfb_attached_images' filters.
+* Moved the constants.txt file to http://support.surniaulula.com/support/solutions/articles/1000000154-constants.
+* Updated the filter hooks documentation in http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks.
 
 = Version 6.14.0 =
 
@@ -742,7 +744,7 @@ There are several code improvements in this new version and one visible new feat
 
 = 6.15rc1 =
 
-Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
+Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links. Many internal code changes / updates.
 
 = 6.14.0 =
 
