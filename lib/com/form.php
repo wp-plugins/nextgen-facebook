@@ -167,11 +167,14 @@ if ( ! class_exists( 'SucomForm' ) ) {
 			return $html;
 		}
 
-		public function get_button( $value, $class = '', $id = '', $url = '' ) {
+		public function get_button( $value, $class = '', $id = '', $url = '', $newtab = false ) {
+			$js = $newtab == true ? 
+				"window.open('".$url."', '_blank');" :
+				"location.href='".$url."';";
 			$html = '<input type="button" '.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
-				( empty( $url ) ? '' : ' onClick="location.href=\''.$url.'\'"' ).
+				( empty( $url ) ? '' : ' onClick="'.$js.'"' ).
 				' value="'.esc_attr( $value ).'" />'."\n";
 			return $html;
 		}
