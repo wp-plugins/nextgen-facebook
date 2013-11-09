@@ -127,15 +127,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
 				if ( is_array( $images ) )
-					foreach ( $images as $attachment ) {
-						if ( ! empty( $attachment->ID ) ) {
-							$og_image = array();
-							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attachment->ID, $size_name, $check_dupes );
-							if ( ! empty( $og_image['og:image'] ) &&
-								$this->p->util->push_max( $og_ret, $og_image, $num ) )
-									return $og_ret;
-						}
+					$attach_ids = array();
+					foreach ( $images as $attach ) {
+						if ( ! empty( $attach->ID ) )
+							$attach_ids[] = $attach->ID;
+					}
+					rsort( $attach_ids, SORT_NUMERIC ); 
+					$this->p->debug->log( 'found '.count( $attach_ids ).' attached images for post id '.$post_id );
+					$attach_ids = apply_filters( $this->p->cf['lca'].'_attached_images', $attach_ids, $post_id );
+					foreach ( $attach_ids as $pid ) {
+						$og_image = array();
+						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+							$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
+						if ( ! empty( $og_image['og:image'] ) &&
+							$this->p->util->push_max( $og_ret, $og_image, $num ) )
+								return $og_ret;
 					}
 			}
 			return $og_ret;
@@ -155,9 +161,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); return $ret_empty; }
 
 			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
-			$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+			$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 			if ( empty( $img_url ) ) { 
-				$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
+				$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
 
 			// make sure the returned ngfb image size matches the size we requested, 
 			// if not then possibly resize the image
@@ -173,13 +179,13 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				// if the full size image is too small, get the full size image instead
 				} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
 
-					$this->p->debug->log( 'retrieving full image size - original ('.$img_meta['width'].'x'.$img_meta['height'].') is smaller than '.
-						$size_name.' ('.$size_info['width'].'x'.$size_info['height'].')' );
+					$this->p->debug->log( 'original image '.$img_meta['width'].'x'.$img_meta['height'].' is smaller than '.
+						$size_name.' '.$size_info['width'].'x'.$size_info['height'].': retrieving full size image' );
 
 					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
-					$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+					$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 					if ( empty( $img_url ) ) { 
-						$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
+						$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
 
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
@@ -202,9 +208,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					else {
 						$this->p->debug->log( 'image resize was successful' );
 						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
-						$this->p->debug->log( 'image_downsize: '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 						if ( empty( $img_url ) ) {
-							$this->p->debug->log( 'exiting early: returned image_downsize url is empty' ); return $ret_empty; }
+							$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
 					}
 				}
 			}

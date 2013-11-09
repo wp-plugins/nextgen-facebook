@@ -402,7 +402,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					$this->p->debug->log( 'hashtags = "'.$text.'"' );
 				}
 			}
-			return apply_filters( $this->p->cf['lca'].'_hashtags', $text );
+			return apply_filters( $this->p->cf['lca'].'_hashtags', $text, $post_id );
 		}
 
 		public function get_tags( $post_id = '' ) {
@@ -428,7 +428,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 				$tags = array_unique( array_map( 'strtolower', $tags ) );
 				$this->p->debug->log( 'tags = "'.implode( ',', $tags ).'"' );
 			}
-			return apply_filters( $this->p->cf['lca'].'_tags', $tags );
+			return apply_filters( $this->p->cf['lca'].'_tags', $tags, $post_id );
 		}
 
 		public function get_wp_tags( $post_id ) {
@@ -443,7 +443,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					$tags[] = $tag_name;
 			}
 			$tags = array_map( 'strtolower', $tags );
-			return apply_filters( $this->p->cf['lca'].'_wp_tags', $tags );
+			return apply_filters( $this->p->cf['lca'].'_wp_tags', $tags, $post_id );
 		}
 	}
 }
