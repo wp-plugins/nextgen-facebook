@@ -174,24 +174,24 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og;
 		}
 
-		private function get_all_videos( $num = 0 ) {
+		public function get_all_videos( $num = 0, $check_dupes ) {
 			global $post;
 			$og_ret = array();
 			if ( ! empty( $post ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post->ID ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post->ID, $check_dupes ) );
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_content_videos( $num_remains ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_content_videos( $num_remains, $check_dupes ) );
 			}
 			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
 		}
 
-		private function get_all_images( $num = 0, $size_name = 'thumbnail' ) {
+		public function get_all_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
 			global $post;
 			$og_ret = array();
 
@@ -199,12 +199,12 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
 				$og_image = array();
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_image = $this->p->media->get_attachment_image( $num_remains, $size_name, $post->ID );
+				$og_image = $this->p->media->get_attachment_image( $num_remains, $size_name, $post->ID, $check_dupes );
 
 				// if an attachment is not an image, then use the default image instead
 				if ( empty( $og_ret ) ) {
 					$num_remains = $this->p->media->num_remains( $og_ret, $num );
-					$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name ) );
+					$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
 				} else $og_ret = array_merge( $og_ret, $og_image );
 
 				return $og_ret;
@@ -215,14 +215,14 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				( is_search() && ! empty( $this->p->options['og_def_img_on_search'] ) ) ) {
 
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
 				return $og_ret;	// stop here and return the image array
 			}
 
 			// check for custom meta, featured, or attached image(s)
 			if ( ! empty( $post ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post->ID ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post->ID, $check_dupes ) );
 
 				// keep going to find more images
 				// the featured / attached image(s) will be listed first in the open graph meta property tags
@@ -234,7 +234,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				$ngg_query_og_ret = array();
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
 				if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
-					$ngg_query_og_ret = $this->p->media->ngg->get_query_images( $num_remains, $size_name );
+					$ngg_query_og_ret = $this->p->media->ngg->get_query_images( $num_remains, $size_name, $check_dupes );
 				}
 				// if we found images in the query, skip content shortcodes
 				if ( count( $ngg_query_og_ret ) > 0 ) {
@@ -243,14 +243,14 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				// if no query images were found, continue with ngg shortcodes in content
 				} elseif ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 					$num_remains = $this->p->media->num_remains( $og_ret, $num );
-					$og_ret = array_merge( $og_ret, $this->p->media->ngg->get_shortcode_images( $num_remains, $size_name ) );
+					$og_ret = array_merge( $og_ret, $this->p->media->ngg->get_shortcode_images( $num_remains, $size_name, $check_dupes ) );
 				}
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num_remains, $size_name ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num_remains, $size_name, $check_dupes ) );
 			}
 
 			$this->p->util->slice_max( $og_ret, $num );

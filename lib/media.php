@@ -420,7 +420,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		// called from the OpenGraph and Tumblr classes
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();

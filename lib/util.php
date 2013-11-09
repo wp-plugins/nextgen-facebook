@@ -566,10 +566,10 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					$cache_type = 'object cache';
 					$sharing_url = $this->p->util->get_sharing_url( 'none', get_permalink( $post_id ) );
 					foreach ( array(
-						'og array' => 'ngfbOpenGraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
-						'the_excerpt html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
-						'the_content html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
-						'admin_sharing html' => 'ngfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
+						'og array' => 'NgfbOpengraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
+						'the_excerpt html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
+						'the_content html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
+						'admin_sharing html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
 					) as $cache_origin => $cache_salt ) {
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient salt '.$cache_salt );
