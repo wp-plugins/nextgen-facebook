@@ -174,7 +174,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og;
 		}
 
-		public function get_all_videos( $num = 0, $check_dupes ) {
+		public function get_all_videos( $num = 0, $check_dupes = true ) {
 			global $post;
 			$og_ret = array();
 			if ( ! empty( $post ) ) {
