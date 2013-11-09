@@ -28,7 +28,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 		// $attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
 		public function add_attachment_image_attributes( $attr, $attach ) {
-			$attr['data-ngfb-wp-pid'] = $attach->ID;
+			$attr['data-wp-pid'] = $attach->ID;
 			return $attr;
 		}
 
@@ -293,17 +293,17 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					return $og_ret;
 			}
 			// img attributes in order of preference
-			if ( preg_match_all( '/<(img)[^>]*? (data-ngfb-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
+			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
 				preg_match_all( '/<(img)[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ) . ' x matching <img/> html tag(s) found' );
-				foreach ( $match as $img ) {
-					$tag_value = $img[0];
-					$tag_name = $img[1];
-					$attr_name = $img[2];
-					$attr_value = $img[3];
-					$this->p->debug->log( $tag_name.' attr '.$attr_name.' = "'.$attr_value.'"' );
+				foreach ( $match as $img_num => $img_arr ) {
+					$tag_value = $img_arr[0];
+					$tag_name = $img_arr[1];
+					$attr_name = $img_arr[2];
+					$attr_value = $img_arr[3];
+					$this->p->debug->log( 'match '.$img_num.': '.$tag_name.' '.$attr_name.'="'.$attr_value.'"' );
 					switch ( $attr_name ) {
-						case 'data-ngfb-wp-pid' :
+						case 'data-wp-pid' :
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attr_value, $size_name, $check_dupes );
 							if ( ! empty( $og_image['og:image'] ) && 

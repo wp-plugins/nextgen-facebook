@@ -26,7 +26,7 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 		// apply_filters('ngg_get_thumbcode', $this->thumbcode, $this);
 		public function add_thumbcode( $thumbcode, $image ) {
 			if ( ! empty( $image->pid ) )
-				$thumbcode .= ' data-ngfb-ngg-pid="'.$image->pid.'"';
+				$thumbcode .= ' data-ngg-pid="'.$image->pid.'"';
 			return $thumbcode;
 		}
 
@@ -34,8 +34,8 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 		public function add_image_attributes( $image, $pid ) {
 			foreach ( array( 'href', 'imageHTML', 'thumbHTML' ) as $key )
 				if ( ! empty( $image->$key ) )
-					$image->$key = preg_replace( '/<img /i', '<img data-ngfb-ngg-pid="'.$pid.'" ', $image->$key );
-			$image->style .= ' data-ngfb-ngg-pid="'.$pid.'"';
+					$image->$key = preg_replace( '/<img /i', '<img data-ngg-pid="'.$pid.'" ', $image->$key );
+			$image->style .= ' data-ngg-pid="'.$pid.'"';
 			return $image;
 		}
 
@@ -109,14 +109,14 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
-			if ( preg_match_all( '/<(div|a|img)[^>]*? (data-ngfb-ngg-pid)=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+			if ( preg_match_all( '/<(div|a|img)[^>]*? (data-ngg-pid|data-image-id)=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ).' x matching <div|a|img/> html tag(s) found' );
-				foreach ( $match as $img ) {
-					$tag_value = $img[0];
-					$tag_name = $img[1];
-					$attr_name = $img[2];
-					$attr_value = $img[3];
-					$this->p->debug->log( $tag_name.' attr '.$attr_name.' = "'.$attr_value.'"' );
+				foreach ( $match as $img_num => $img_arr ) {
+					$tag_value = $img_arr[0];
+					$tag_name = $img_arr[1];
+					$attr_name = $img_arr[2];
+					$attr_value = $img_arr[3];
+					$this->p->debug->log( 'match '.$img_num.': '.$tag_name.' '.$attr_name.'="'.$attr_value.'"' );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-'.$attr_value, $size_name, $check_dupes );
 					if ( ! empty( $og_image['og:image'] ) && 

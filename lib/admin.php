@@ -188,13 +188,16 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$page = empty( $_POST['page'] ) ? 
 				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
 
-			if ( ! current_user_can( 'manage_network_options' ) ) {
-				$this->p->notice->err( __( 'Insufficient privileges to modify network options.', NGFB_TEXTDOM ), true );
+			if ( empty( $_POST[ NGFB_NONCE ] ) ) {
+				$this->p->debug->log( 'Nonce token validation post field missing.' );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
-			} elseif ( ! isset( $_POST[ NGFB_NONCE ] ) || 
-				! wp_verify_nonce( $_POST[ NGFB_NONCE ], $this->get_nonce() ) ) {
+			} elseif ( ! wp_verify_nonce( $_POST[ NGFB_NONCE ], $this->get_nonce() ) ) {
 				$this->p->notice->err( __( 'Nonce token validation failed for network options (update ignored).', NGFB_TEXTDOM ), true );
+				wp_redirect( $this->p->util->get_admin_url( $page ) );
+				exit;
+			} elseif ( ! current_user_can( 'manage_network_options' ) ) {
+				$this->p->notice->err( __( 'Insufficient privileges to modify network options.', NGFB_TEXTDOM ), true );
 				wp_redirect( $this->p->util->get_admin_url( $page ) );
 				exit;
 			}
@@ -238,9 +241,10 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
-				if ( empty( $_GET[ NGFB_NONCE ] ) ||
-					! wp_verify_nonce( $_GET[ NGFB_NONCE ], $this->get_nonce() ) )
-						$this->p->notice->err( __( 'Nonce token validation failed for plugin action (action ignored).', NGFB_TEXTDOM ) );
+				if ( empty( $_GET[ NGFB_NONCE ] ) )
+					$this->p->debug->log( 'Nonce token validation query field missing.' );
+				elseif ( ! wp_verify_nonce( $_GET[ NGFB_NONCE ], $this->get_nonce() ) )
+					$this->p->notice->err( __( 'Nonce token validation failed for plugin action (action ignored).', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
 						case 'remove_old_css' : 

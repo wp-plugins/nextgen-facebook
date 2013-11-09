@@ -79,11 +79,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p->debug->show_html( print_r( $meta_tags, true ), 'open graph array' );
 			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'media urls found' );
 
-			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].' (';
+			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].'-';
 			if ( $this->p->check->is_aop() ) echo 'L';
 			elseif ( $this->p->is_avail['aop'] ) echo 'U';
 			else echo 'G';
-			echo ')" />'."\n";
+			echo '" />'."\n";
 
 			/*
 			 * Meta Tags for Google
