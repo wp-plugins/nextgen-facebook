@@ -203,7 +203,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 
 			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ? 
-				array() : $this->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
+				array() : $this->p->util->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
 
 			if ( empty( $this->p->site_options['plugin_tid'] ) ) {
 				$this->p->update_error = '';
