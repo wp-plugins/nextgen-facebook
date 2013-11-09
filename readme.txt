@@ -100,7 +100,7 @@ NGFB Open Graph+ is being actively developed and supported. You can review the [
 
 = Developer Friendly =
 
-NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
+NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin.
 
 = Pro Version =
 
@@ -401,8 +401,6 @@ If your Open Graph and webpage titles (shown in the web browser's title bar and 
 = Why aren't Pins from my website posting Rich? =
 
 Rich Pins are Open Graph meta tags. You should use the [Facebook Debugger](https://developers.facebook.com/tools/debug/) first, to make sure your Open Graph tags are correct and there are no errors reported. After that, submit the URL to one of your webpages to the [Pinterest Rich Pin Validator](http://developers.pinterest.com/rich_pins/validator/). After validating the URL, you can apply to have your website approved for Rich Pins.
-
-== Other Notes ==
 
 == Resources ==
 
@@ -707,7 +705,7 @@ The following list of NGFB filters are provided, and must return, a single *arra
 
 == Changelog ==
 
-= Version 6.15dev4 =
+= Version 6.15rc1 =
 
 * **Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Added a 'Reset Metaboxes' button on the settings pages to reset the plugin metabox layout.
@@ -719,6 +717,8 @@ The following list of NGFB filters are provided, and must return, a single *arra
 * Renamed all class prefixes from `ngfb` to `Ngfb` and `Sucom` (for classes under lib/com/).
 * Added a check for filter type (content, excerpt, or admin_sharing) to skip adding social buttons to content text when in the admin interface.
 * Added a check to make sure the 'og_author_fallback' feature only applies to the 'og_author_field' and 'link_author_field' contact methods.
+* Attached images to Posts/Pages are now sorted in reverse numerical order (so newest images first) before selection / processing.
+* Added new 'ngfb_hashtags' and 'ngfb_attached_images' filters.
 
 = Version 6.14.0 =
 
@@ -740,7 +740,7 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.15dev4 =
+= 6.15rc1 =
 
 Added an 'Add HashTags to Descriptions' option to include tag names, converted to hashtags, in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links.
 
