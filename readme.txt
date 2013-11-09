@@ -100,7 +100,7 @@ NGFB Open Graph+ is being actively developed and supported. You can review the [
 
 = Developer Friendly =
 
-NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin (see the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) and the included `constants.txt` file for a complete list).
+NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin.
 
 = Pro Version =
 
