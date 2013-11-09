@@ -690,6 +690,7 @@ function filter_ngfb_tags( $tags = array() ) {
 * Added new 'ngfb_hashtags' and 'ngfb_attached_images' filters.
 * Moved the constants.txt file to http://support.surniaulula.com/support/solutions/articles/1000000154-constants.
 * Updated the filter hooks documentation in http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks.
+* Fixed an incorrect call to `restore_checkboxes()` when saving multisite network options.
 
 = Version 6.14.0 =
 

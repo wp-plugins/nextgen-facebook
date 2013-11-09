@@ -21,7 +21,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p->debug->mark();
 
 			require_once ( NGFB_PLUGINDIR . 'lib/ngg.php' );
-			$this->ngg = new ngfbMediaNgg( $plugin );
+			$this->ngg = new NgfbMediaNgg( $plugin );
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 		}

@@ -36,7 +36,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						if ( class_exists( 'ngfbGoogl' ) ) {
 							$api_key = empty( $this->p->options['plugin_googl_api_key'] ) ?  
 								'' : $this->p->options['plugin_googl_api_key'];
-							$this->goo = new ngfbGoogl( $api_key, $this->p->debug );
+							$this->goo = new NgfbGoogl( $api_key, $this->p->debug );
 						}
 						break;
 					case 'bitly' :
@@ -46,7 +46,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 								'' : $this->p->options['plugin_bitly_login'];
 							$api_key = empty( $this->p->options['plugin_bitly_api_key'] ) ?  
 								'' : $this->p->options['plugin_bitly_api_key'];
-							$this->bit = new ngfbBitly( $login, $api_key, $this->p->debug );
+							$this->bit = new NgfbBitly( $login, $api_key, $this->p->debug );
 						}
 						break;
 				}
@@ -387,7 +387,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			}
 
 			if ( ! empty( $readme ) ) {
-				$parser = new ngfbParseReadme( $this->p->debug );
+				$parser = new NgfbParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
 				// remove possibly inaccurate information from local file
 				if ( $use_local == true ) {
