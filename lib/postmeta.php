@@ -32,13 +32,23 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		}
 
 		public function add_metaboxes() {
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+			// is there at least one social button enabled?
+			$enabled = false;
+			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
+					$enabled = true;
+					break;
+				}
+			}
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
 				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
 					add_meta_box( NGFB_META_NAME, $this->p->cf['menu'].' Custom Settings', 
 						array( &$this->p->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
-					add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
-						array( &$this->p->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
+					if ( $enabled == true )
+						add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
+							array( &$this->p->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
 				}
+			}
 		}
 
 		public function show_sharing( $post ) {
