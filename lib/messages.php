@@ -80,7 +80,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					See the <a href="'.$this->p->cf['url']['pro_faq'].'" target="_blank">Frequently Asked Questions (FAQ)</a>, 
 					<a href="'.$this->p->cf['url']['pro_notes'].'" target="_blank">Other Notes</a>, 
 					visit the <a href="'.$this->p->cf['url']['pro_forum'].'" target="_blank">Community Forums</a>, 
-					or <a href="'.$this->p->cf['url']['pro_request'].'" target="_blank">Submit a new Support Ticket</a>.</p>';
+					or <a href="'.$this->p->cf['url']['pro_ticket'].'" target="_blank">Submit a new Support Ticket</a>.</p>';
 					break;
 			}
 			return $msg;
