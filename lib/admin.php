@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		protected $readme;
 
 		public $lang = array();
-		public $settings = array();
+		public $setting = array();
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -40,7 +40,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->p->check->conflicts();
 			$this->setup_vars();
 
-			add_action( 'admin_init', array( &$this, 'register_settings' ) );
+			add_action( 'admin_init', array( &$this, 'register_setting' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
 			add_filter( 'plugin_action_links', array( &$this, 'add_plugin_action_links' ), 10, 2 );
 
@@ -61,13 +61,13 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			foreach ( $libs as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
-					$this->settings[$id] = new $classname( $this->p, $id, $name );
+					$this->setting[$id] = new $classname( $this->p, $id, $name );
 			}
 			unset ( $id, $name );
 		}
 
-		public function register_settings() {
-			register_setting( $this->p->cf['lca'].'_settings', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
+		public function register_setting() {
+			register_setting( $this->p->cf['lca'].'_setting', NGFB_OPTIONS_NAME, array( &$this, 'sanitize_options' ) );
 		} 
 
 		public function set_readme( $expire_secs = 0 ) {
@@ -80,9 +80,9 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				$libs = $this->p->cf['lib']['setting'];
 			$this->menu_id = key( $libs );
 			$this->menu_name = $libs[$this->menu_id];
-			$this->settings[$this->menu_id]->add_menu_page( $this->menu_id );
+			$this->setting[$this->menu_id]->add_menu_page( $this->menu_id );
 			foreach ( $libs as $id => $name )
-				$this->settings[$id]->add_submenu_page( $this->menu_id );
+				$this->setting[$id]->add_submenu_page( $this->menu_id );
 			unset ( $id, $name );
 		}
 
@@ -307,7 +307,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_info', __( 'Plugin Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
-			$this->p->admin->settings[$this->menu_id]->add_meta_boxes();
+			$this->p->admin->setting[$this->menu_id]->add_meta_boxes();
 			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );	// the version info metabox on all settings pages needs this
 		}
 
@@ -354,13 +354,13 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 		protected function show_form() {
 			if ( ! empty( $this->p->cf['lib']['setting'][$this->menu_id] ) ) {
-				echo '<form name="ngfb" id="settings" method="post" action="options.php">';
+				echo '<form name="ngfb" id="setting" method="post" action="options.php">';
 				echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
 				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
-				settings_fields( $this->p->cf['lca'].'_settings' ); 
+				settings_fields( $this->p->cf['lca'].'_setting' ); 
 
 			} elseif ( ! empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
-				echo '<form name="ngfb" id="settings" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
+				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
 				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
@@ -373,7 +373,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			// if we're displaying the "social" page, then do the social website metaboxes
 			if ( $this->menu_id == 'social' ) {
-				foreach ( range( 1, ceil( count( $this->p->admin->settings[$this->menu_id]->website ) / 2 ) ) as $row ) {
+				foreach ( range( 1, ceil( count( $this->p->admin->setting[$this->menu_id]->website ) / 2 ) ) as $row ) {
 					echo '<div class="website-row">', "\n";
 					foreach ( range( 1, 2 ) as $col ) {
 						$pos_id = 'website-row-'.$row.'-col-'.$col;
@@ -444,7 +444,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					$latest_notice = $upgrade_notice[$latest_version];
 				}
 			}
-			echo '<table class="sucom-settings">';
+			echo '<table class="sucom-setting">';
 			echo '<tr><th class="side">'.__( 'Installed', NGFB_TEXTDOM ).':</th>';
 			echo '<td>'.$this->p->cf['version'].' (';
 			if ( $this->p->is_avail['aop'] ) echo __( 'Pro', NGFB_TEXTDOM );
@@ -480,7 +480,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_purchase() {
-			echo '<table class="sucom-settings"><tr><td>';
+			echo '<table class="sucom-setting"><tr><td>';
 			echo $this->p->msg->get( 'purchase_box' );
 			echo '<p>Thank you,</p>';
 			echo '<p class="sig">js.</p>';
@@ -494,14 +494,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_thankyou() {
-			echo '<table class="sucom-settings"><tr><td>';
+			echo '<table class="sucom-setting"><tr><td>';
 			echo $this->p->msg->get( 'thankyou' );
 			echo '<p class="sig">js.</p>';
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
-			echo '<table class="sucom-settings"><tr><td>';
+			echo '<table class="sucom-setting"><tr><td>';
 			echo $this->p->msg->get( 'help_boxes' );
 			if ( $this->p->is_avail['aop'] == true )
 				echo $this->p->msg->get( 'help_pro' );

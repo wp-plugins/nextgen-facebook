@@ -41,6 +41,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			// use in combination with $this->p->ngg_version
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
 
+			// bbPress
+			$ret['bbpress'] = class_exists( 'bbPress' ) ? true : false;
+
 			/*
 			 * Supported SEO Plugins
 			 */

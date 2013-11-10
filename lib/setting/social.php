@@ -62,13 +62,13 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_website() {
-			echo '<table class="sucom-settings">', "\n";
+			echo '<table class="sucom-setting">', "\n";
 			foreach ( $this->get_rows() as $row ) echo '<tr>', $row, '</tr>';
 			echo '</table>', "\n";
 		}
 
 		public function show_metabox_social() {
-			echo '<table class="sucom-settings"><tr><td colspan="3">';
+			echo '<table class="sucom-setting"><tr><td colspan="3">';
 			echo '<p>The following social buttons can be added to the content, excerpt, and / or enabled within the ',
 				ngfbWidgetSocialSharing::$fullname, ' widget as well (<a href="', 
 				get_admin_url( null, 'widgets.php' ), '">see the widgets admin webpage</a>).</p>';

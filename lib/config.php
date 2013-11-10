@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.15.0',			// plugin version
+			'version' => '6.16d1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -52,15 +52,20 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'widget' => array(
 					'social' => 'SocialSharing',
 				),
-				'ecom' => array(
-					'woocommerce' => 'WooCommerce',
-					'marketpress' => 'MarketPress',
-					'wpecommerce' => 'WPeCommerce',
-				),
-				'seo' => array(
-					'aioseop' => 'AllinOneSEOPack',
-					'seou' => 'SEOUltimate',
-					'wpseo' => 'WordPressSEO',
+				'pro' => array(
+					'seo' => array(
+						'aioseop' => 'AllinOneSEOPack',
+						'seou' => 'SEOUltimate',
+						'wpseo' => 'WordPressSEO',
+					),
+					'ecom' => array(
+						'woocommerce' => 'WooCommerce',
+						'marketpress' => 'MarketPress',
+						'wpecommerce' => 'WPeCommerce',
+					),
+					'forum' => array(
+						'bbpress' => 'bbPress',
+					),
 				),
 			),
 			'opt' => array(				// options
@@ -243,12 +248,12 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 				// settings classes extend lib/admin.php and objects are created by lib/admin.php
 				foreach ( self::$cf['lib']['setting'] as $id => $name )
-					require_once( $plugin_dir.'lib/settings/'.$id.'.php' );
+					require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
 				unset ( $id, $name );
 
 				if ( is_multisite() ) {
 					foreach ( self::$cf['lib']['network_setting'] as $id => $name )
-						require_once( $plugin_dir.'lib/settings/'.$id.'.php' );
+						require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
 					unset ( $id, $name );
 				}
 				require_once( $plugin_dir.'lib/com/form.php' );
@@ -263,7 +268,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				unset ( $id, $name );
 			}
 
-			// website classes extend both lib/social.php and lib/settings/social.php
+			// website classes extend both lib/social.php and lib/setting/social.php
 			foreach ( self::$cf['lib']['website'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/websites/'.$id.'.php' ) )
 					require_once( $plugin_dir.'lib/websites/'.$id.'.php' );

@@ -30,7 +30,7 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 			$this->p->admin->form->get_select( 'twitter_order', 
-				range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ).'</td>';
+				range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 			$this->p->admin->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';

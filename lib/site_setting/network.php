@@ -38,7 +38,7 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_network() {
-			echo '<table class="sucom-settings">';
+			echo '<table class="sucom-setting">';
 			foreach ( $this->get_rows( 'network' ) as $row )
 				echo '<tr>'.$row.'</tr>';
 			echo '</table>';

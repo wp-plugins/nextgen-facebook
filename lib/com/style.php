@@ -23,8 +23,8 @@ if ( ! class_exists( 'SucomStyle' ) ) {
 
 		public function admin_enqueue_styles( $hook ) {
 			$url_path = constant( $this->p->cf['uca'].'_URLPATH' );
-			wp_register_style( 'sucom_settings_pages', $url_path.'css/com/settings-pages.min.css', false, $this->p->cf['version'] );
-			wp_register_style( 'sucom_table_settings', $url_path.'css/com/table-settings.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_setting_pages', $url_path.'css/com/setting-pages.min.css', false, $this->p->cf['version'] );
+			wp_register_style( 'sucom_table_setting', $url_path.'css/com/table-setting.min.css', false, $this->p->cf['version'] );
 			wp_register_style( 'sucom_metabox_tabs', $url_path.'css/com/metabox-tabs.min.css', false, $this->p->cf['version'] );
 
 			switch ( $hook ) {
@@ -34,8 +34,8 @@ if ( ! class_exists( 'SucomStyle' ) ) {
 					wp_enqueue_style( 'sucom_metabox_tabs' );
 					break;
 				case ( preg_match( '/_page_'.$this->p->cf['lca'].'-/', $hook ) ? true : false ) :
-					wp_enqueue_style( 'sucom_settings_pages' );
-					wp_enqueue_style( 'sucom_table_settings' );
+					wp_enqueue_style( 'sucom_setting_pages' );
+					wp_enqueue_style( 'sucom_table_setting' );
 					wp_enqueue_style( 'sucom_metabox_tabs' );
 					break;
 			}

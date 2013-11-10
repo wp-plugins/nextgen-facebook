@@ -29,7 +29,7 @@ if ( ! class_exists( 'NgfbAdminSocialManagewp' ) && class_exists( 'NgfbAdminSoci
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->p->admin->form->get_select( 'managewp_order', 
-					range( 1, count( $this->p->admin->settings['social']->website ) ), 'short' ) . '</td>',
+					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->p->admin->form->get_select( 'managewp_js_loc', $this->js_locations ) . '</td>',

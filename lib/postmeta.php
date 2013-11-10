@@ -54,7 +54,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		public function show_sharing( $post ) {
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
-			echo '<table class="sucom-settings side"><tr><td>';
+			echo '<table class="sucom-setting side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
 				$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );

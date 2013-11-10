@@ -526,7 +526,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			foreach ( $tabs as $key => $title ) {
 				$href_key = $class_tab.$prefix.'_'.$key;
 				echo '<div class="', $class_tab, ( empty( $prefix ) ? '' : ' '.$class_tab.$prefix ), ' ', $href_key, '">';
-				echo '<table class="sucom-settings">';
+				echo '<table class="sucom-setting">';
 				if ( ! empty( $tab_rows[$key] ) && is_array( $tab_rows[$key] ) )
 					foreach ( $tab_rows[$key] as $row ) 
 						echo '<tr>'.$row.'</tr>';
