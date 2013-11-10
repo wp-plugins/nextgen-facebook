@@ -29,7 +29,7 @@ NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Twitter Cards](https://dev.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
-Watch more videos about NGFB Open Graph+ on [SurniaUlulaCom's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
+Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
 
@@ -51,11 +51,11 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 
 = HashTags =
 
-**(New in Version 6.15.0)** NGFB Open Graph+ can also include tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
+NGFB Open Graph+ can include tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Optional Social Buttons =
 
-NGFB Open Graph+ also comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+

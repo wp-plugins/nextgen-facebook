@@ -136,7 +136,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				if ( $this->p->is_avail['aop'] ) {
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_faq'].'">'.__( 'FAQ', NGFB_TEXTDOM ).'</a>' );
 					array_push( $links, '<a href="'.$this->p->cf['url']['pro_notes'].'">'.__( 'Notes', NGFB_TEXTDOM ).'</a>' );
-					array_push( $links, '<a href="'.$this->p->cf['url']['pro_request'].'">'.__( 'Support Request', NGFB_TEXTDOM ).'</a>' );
+					array_push( $links, '<a href="'.$this->p->cf['url']['pro_support'].'">'.__( 'Support', NGFB_TEXTDOM ).'</a>' );
 					if ( ! $this->p->check->is_aop() ) 
 						array_push( $links, '<a href="'.$this->p->cf['url']['purchase'].'">'.__( 'Purchase License', NGFB_TEXTDOM ).'</a>' );
 				} else {
@@ -277,7 +277,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 							$this->p->notice->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
 							break;
 						case 'clear_metabox_prefs' : 
-							$this->p->user->delete_metabox_prefs( get_current_user_id() );
+							NgfbUser::delete_metabox_prefs( get_current_user_id() );
 							break;
 					}
 				}
@@ -489,7 +489,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				( $this->p->is_avail['aop'] ? 
 					__( 'Purchase a Pro License', NGFB_TEXTDOM ) :
 					__( 'Purchase the Pro Version', NGFB_TEXTDOM ) ), 
-				'button-primary', null, $this->p->cf['url']['purchase'] );
+				'button-primary', null, $this->p->cf['url']['purchase'], true );
 			echo '</p></td></tr></table>';
 		}
 

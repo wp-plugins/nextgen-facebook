@@ -33,7 +33,7 @@ if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 
 		public static function network_uninstall() {
 			$sitewide = true;
-			$lca = ngfbPluginConfig::get_config( 'lca' );
+			$lca = NgfbPluginConfig::get_config( 'lca' );
 			delete_site_option( $lca.'_site_options' );
 			self::do_multisite( $sitewide, array( __CLASS__, 'uninstall_plugin' ) );
 		}
@@ -68,46 +68,30 @@ if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 
 		private static function uninstall_plugin() {
 			global $wpdb;
-			$lca = ngfbPluginConfig::get_config( 'lca' );
-			$slug = ngfbPluginConfig::get_config( 'slug' );
-			$options = get_option( $lca.'_options' );
+			$cf = NgfbPluginConfig::get_config();
+			$options = get_option( $cf['lca'].'_options' );
 
 			if ( empty( $options['plugin_preserve'] ) ) {
-
-				// delete plugin settings
-				delete_option( $lca.'_options' );
-
-				// delete all custom post meta
-				delete_post_meta_by_key( '_'.$lca.'_meta' );
-
-				// delete metabox preferences for all users
-				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
-					foreach ( array( 'toplevel_page', 'open-graph_page' ) as $page_prefix ) {
-						foreach ( array( 'general', 'advanced', 'social', 'style', 'about', 'network' ) as $settings_page ) {
-							$meta_key = $meta_name.'_'.$page_prefix.'_'.$lca.'-'.$settings_page;
-							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
-								delete_user_option( $user->ID, $meta_key, true );
-						}
-					}
-				}
-
+				delete_option( $cf['lca'].'_options' );
+				delete_post_meta_by_key( '_'.$cf['lca'].'_meta' );
+				NgfbUser::delete_metabox_prefs();
 			}
 
 			// delete update related options
-			delete_option( 'external_updates-'.$slug );
-			delete_option( $lca.'_update_error' );
-			delete_option( $lca.'_update_time' );
+			delete_option( 'external_updates-'.$cf['slug'] );
+			delete_option( $cf['lca'].'_update_error' );
+			delete_option( $cf['lca'].'_update_time' );
 
 			// delete stored admin notices
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
-				$msg_opt = $lca.'_notices_'.$type;
+				$msg_opt = $cf['lca'].'_notices_'.$type;
 				delete_option( $msg_opt );
 				foreach ( get_users( array( 'meta_key' => $msg_opt ) ) as $user )
 					delete_user_option( $user->ID, $msg_opt );
 			}
 
 			// delete transients
-			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$lca.'_%\';';
+			$dbquery = 'SELECT option_name FROM '.$wpdb->options.' WHERE option_name LIKE \'_transient_timeout_'.$cf['lca'].'_%\';';
 			$expired = $wpdb->get_col( $dbquery ); 
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
