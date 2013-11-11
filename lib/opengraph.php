@@ -71,8 +71,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			if ( ! array_key_exists( 'og:site_name', $og ) ) {
 				if ( ! empty( $this->p->options['og_site_name'] ) )
 					$og['og:site_name'] = $this->p->options['og_site_name'];
-				else
-					$og['og:site_name'] = get_bloginfo( 'name', 'display' );
+				else $og['og:site_name'] = get_bloginfo( 'name', 'display' );
 			}
 
 			if ( ! array_key_exists( 'og:url', $og ) )

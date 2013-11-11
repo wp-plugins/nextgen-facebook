@@ -100,7 +100,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( preg_match( '/(.*)(( #[a-z0-9\-]+)+)$/U', $title, $match ) ) {
 				$add_hashtags = true;
 				$title = $match[1];
-				$hashtags = $match[2];
+				$hashtags = trim( $match[2] );
 			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
 					$hashtags = $this->get_hashtags( $post->ID );
@@ -221,7 +221,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( preg_match( '/(.*)(( #[a-z0-9\-]+)+)$/U', $desc, $match ) ) {
 				$add_hashtags = true;
 				$desc = $match[1];
-				$hashtags = $match[2];
+				$hashtags = trim( $match[2] );
 			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
 					$hashtags = $this->get_hashtags( $post->ID );
@@ -255,28 +255,30 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 						$desc = preg_replace( '/^.*?<p>/i', '', $desc );	// question mark makes regex un-greedy
 		
 				} elseif ( is_author() ) { 
-			
 					$this->p->debug->log( 'is_author() = true' );
 					$author = get_query_var( 'author_name' ) ?  get_userdata( get_query_var( 'author' ) ) : get_user_by( 'slug', get_query_var( 'author_name' ) );
 					$desc = empty( $author->description ) ? sprintf( 'Authored by %s', $author->display_name ) : $author->description;
 			
 				} elseif ( is_tag() ) {
-			
 					$this->p->debug->log( 'is_tag() = true' );
 					$desc = tag_description();
 					if ( empty( $desc ) )
 						$desc = sprintf( 'Tagged with %s', single_tag_title( '', false ) );
 			
 				} elseif ( is_category() ) { 
-			
 					$this->p->debug->log( 'is_category() = true' );
 					$desc = category_description();
 					if ( empty( $desc ) )
 						$desc = sprintf( '%s Category', single_cat_title( '', false ) ); 
 				}
-				elseif ( is_day() ) $desc = sprintf( 'Daily Archives for %s', get_the_date() );
-				elseif ( is_month() ) $desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
-				elseif ( is_year() ) $desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
+				elseif ( is_day() ) 
+					$desc = sprintf( 'Daily Archives for %s', get_the_date() );
+				elseif ( is_month() ) 
+					$desc = sprintf( 'Monthly Archives for %s', get_the_date('F Y') );
+				elseif ( is_year() ) 
+					$desc = sprintf( 'Yearly Archives for %s', get_the_date('Y') );
+				elseif ( ! empty( $this->p->options['og_site_description'] ) )
+					$desc = $this->p->options['og_site_description'];
 				else $desc = get_bloginfo( 'description', 'display' );
 			}
 
@@ -381,6 +383,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( ! defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) || 
 				! constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) ) {
 
+				// only some caching plugins implement this function
+				wp_cache_add_non_persistent_groups( array( __METHOD__ ) );
 				wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.
 					$cache_id.' ('.$this->p->cache->object_expire.' seconds)');

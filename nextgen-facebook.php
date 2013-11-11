@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.16dev2
+Version: 6.16dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -174,14 +174,17 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
-				if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) )
-					define( 'NGFB_TRANSIENT_CACHE_DISABLE', true );
-				$this->debug->log( 'HTML debug mode active: transient cache '.
-					( NGFB_TRANSIENT_CACHE_DISABLE ? 'is' : 'could not be' ).' disabled' );
-				$this->notice->inf( ( NGFB_TRANSIENT_CACHE_DISABLE ?
-						__( 'HTML debug mode is active, transient cache is disabled.', NGFB_TEXTDOM ) :
-						__( 'HTML debug mode is active, transient cache could not be disabled.', NGFB_TEXTDOM ) ).' '.
-					__( 'Activity information is being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
+				if ( ! defined( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
+					define( $this->cf['uca'].'_OBJECT_CACHE_DISABLE', true );
+				$cache_msg = 'object cache '.(constant( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) === true ? 'is' : 'could not be' ).' disabled, ';
+
+				if ( ! defined( $this->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
+					define( $this->cf['uca'].'_TRANSIENT_CACHE_DISABLE', true );
+				$cache_msg .= 'and transient cache '.(constant( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) === true ? 'is' : 'could not be' ).' disabled.';
+
+				$this->debug->log( 'HTML debug mode active: '.$cache_msg );
+				$this->notice->inf( 'HTML debug mode active -- '.$cache_msg.' '.
+					__( 'Informational messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
 			}
 
 			// setup the update checks if we have an Authentication ID

@@ -87,7 +87,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 		);
 
-		public $options_version = '104';	// increment when adding/removing default options
+		public $options_version = '105';	// increment when adding/removing default options
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -123,6 +123,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'fb_admins' => '',
 			'fb_app_id' => '',
 			'og_site_name' => '',
+			'og_site_description' => '',
 			'og_publisher_url' => '',
 			'og_art_section' => '',
 			'og_img_width' => 1200,
@@ -259,10 +260,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'inc_fb:app_id' => 1,
 			'inc_og:locale' => 1,
 			'inc_og:site_name' => 1,
+			'inc_og:description' => 1,
 			'inc_og:title' => 1,
 			'inc_og:type' => 1,
 			'inc_og:url' => 1,
-			'inc_og:description' => 1,
 			'inc_og:image' => 1,
 			'inc_og:image:secure_url' => 1,
 			'inc_og:image:width' => 1,
@@ -401,8 +402,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 			// add description meta tag if no known SEO plugin was detected
 			$this->defaults['inc_description'] = empty( $this->p->is_avail['seo']['*'] ) ? 1 : 0;
-
-			$this->defaults['og_site_name'] = get_bloginfo( 'name', 'display' );
 
 			// check for default values from network admin settings
 			if ( is_array( $this->p->site_options ) ) {
@@ -600,6 +599,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						case 'og_title':
 						case 'og_desc':
 						case 'og_site_name':
+						case 'og_site_description':
 						case 'meta_desc':
 						case 'tc_desc':
 						case 'pin_desc':
