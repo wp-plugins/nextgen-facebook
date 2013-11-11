@@ -673,11 +673,13 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
-= Version 6.16dev1 =
+= Version 6.16dev2 =
 
 * **Added support for bbPress forums, topics and tags** (Pro version).
 * Improved the `flush_post_cache()` method to include wp_cache objects.
-* Moved lib/webpage.php to lib/com/webpage.php.
+* Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
+* Added a new `ngfb_get_term_url` filter for WordPress SEO support (Pro version).
+* Moved the lib/webpage.php file to lib/com/webpage.php.
 
 = Version 6.15.0 =
 
