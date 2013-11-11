@@ -136,7 +136,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					}
 				}
 				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
-				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
+				if ( ! empty( $post ) && $is_nggalbum == false && ( is_singular() || $use_post ) ) {
 					$url = get_permalink( $post->ID );
 					$strip_query = 'none';	// don't modify the permalinks
 				} else {
