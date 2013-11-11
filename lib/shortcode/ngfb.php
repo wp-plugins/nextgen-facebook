@@ -56,7 +56,7 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 			$atts = apply_filters( $this->scid.'_shortcode', $atts, $content );
 			global $post;
 			$html = '';
-			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( 'notrack', null, true ) : $atts['url'];
+			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( true ) : $atts['url'];
 			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post->ID ) ? 'shortcode' : $atts['css_id'];
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
 

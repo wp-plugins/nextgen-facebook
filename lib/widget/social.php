@@ -37,7 +37,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$ngfb->debug->log( 'transient cache is disabled' );
 			else {
-				$sharing_url = $ngfb->util->get_sharing_url( 'notrack' );
+				$sharing_url = $ngfb->util->get_sharing_url();
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';

@@ -81,7 +81,6 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$parent_title = '';
 			$paged_suffix = '';
 			$hashtags = '';
-			$paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
 			// check for custom meta title
 			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
@@ -111,8 +110,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( $title == '' ) {
 				if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 	
-					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
+					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
 
 					if ( is_singular() ) {
 						$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
@@ -177,6 +176,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( $textlen > 0 ) {
 				// seo-like title modifications
 				if ( $this->p->is_avail['seo']['*'] == false ) {
+					$paged = get_query_var( 'paged' );
 					if ( $paged > 1 ) {
 						if ( ! empty( $this->p->options['og_title_sep'] ) )
 							$paged_suffix .= $this->p->options['og_title_sep'].' ';

@@ -96,10 +96,10 @@ if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) )
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
-			$src_id = $this->p->util->get_src_id( 'stumbleupon', $atts );
+			$source_id = $this->p->util->get_source_id( 'stumbleupon', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $opts['stumble_badge'];
 			$html = '<!-- StumbleUpon Button --><div '.$this->p->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );

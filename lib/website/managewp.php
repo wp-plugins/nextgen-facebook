@@ -62,12 +62,12 @@ if ( ! class_exists( 'NgfbSocialManagewp' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
-			$src_id = $this->p->util->get_src_id( 'managewp', $atts );
+			$source_id = $this->p->util->get_source_id( 'managewp', $atts );
 			$js_url = $this->p->util->get_cache_url( 'http://managewp.org/share.js' ).'#http://managewp.org/share';
 
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
 
 			if ( empty( $atts['title'] ) ) 
 				$atts['title'] = $this->p->webpage->get_title( null, null, $use_post);

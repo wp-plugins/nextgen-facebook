@@ -101,10 +101,10 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
-			$src_id = $this->p->util->get_src_id( 'gplus', $atts );
+			$source_id = $this->p->util->get_source_id( 'gplus', $atts );
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
 			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 
 			$html = '<!-- GooglePlus Button --><div '.$this->p->social->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;

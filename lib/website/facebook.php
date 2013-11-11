@@ -170,14 +170,14 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 			$send = $opts['fb_send'] ? 'true' : 'false';
 			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
 
-			$src_id = 'facebook';
+			$source_id = 'facebook';
 			switch ( $opts['fb_button'] ) {
-				case 'like' : $src_id = $this->p->util->get_src_id( 'facebook', $atts ); break;
-				case 'share' : $src_id = $this->p->util->get_src_id( 'fb-share', $atts ); break;
+				case 'like' : $source_id = $this->p->util->get_source_id( 'facebook', $atts ); break;
+				case 'share' : $source_id = $this->p->util->get_source_id( 'fb-share', $atts ); break;
 			}
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( 'notrack', null, $use_post, $src_id ) : 
-				$this->p->util->get_sharing_url( 'asis', $atts['url'], null, $src_id );
+				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
 
 			switch ( $opts['fb_button'] ) {
 				case 'like' :

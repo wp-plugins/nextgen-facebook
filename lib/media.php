@@ -312,7 +312,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							break;
 						default :
 							$og_image = array(
-								'og:image' => $this->p->util->get_sharing_url( 'asis', $attr_value ),
+								'og:image' => $this->p->util->fix_relative_url( $attr_value ),
 								'og:image:width' => '',
 								'og:image:height' => '',
 								'og:image:cropped' => '',
@@ -427,7 +427,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
 					$this->p->debug->log( '<' . $media[1] . '/> html tag found = ' . $media[2] );
-					$embed_url = $this->p->util->get_sharing_url( 'noquery', $media[2] );
+					$embed_url = $media[2];
+					if ( strpos( $embed_url, '?' ) !== false ) {
+						$embed_url_parts = explode( '?', $embed_url );
+						$embed_url = reset( $embed_url_parts );
+					}
 					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
 						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
 						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;

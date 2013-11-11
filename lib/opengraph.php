@@ -33,8 +33,8 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				$this->p->debug->log( 'open graph is disabled' );
 				return array();
 			}
-			$src_id = $this->p->util->get_src_id( 'opengraph' );
-			$sharing_url = $this->p->util->get_sharing_url( 'notrack', null, null, $src_id );
+			$source_id = $this->p->util->get_source_id( 'opengraph' );
+			$sharing_url = $this->p->util->get_sharing_url( false, true, $source_id );
 
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );

@@ -113,50 +113,79 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			}
 		}
 
-		// $use_post = false when used for Open Graph meta tags and buttons in widget
-		// $use_post = true when buttons are added to individual posts on an index webpage
-		public function get_sharing_url( $strip_query = 'notrack', $url = '', $use_post = false, $src_id = '' ) {
-			if ( ! empty( $url ) )
-				$url = $this->fix_relative_url( $url );
-			else {
-				global $post;
-				$is_nggalbum = false;
-				// check for ngg pre-v2 album/gallery query strings and an [nggalbum] shortcode
-				if ( is_singular() ) {
-					global $wp_query;
-					// sanitize query values
-					$ngg_album = empty( $wp_query->query['album'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['album'] );
-					$ngg_gallery = empty( $wp_query->query['gallery'] ) ? '' : preg_replace( '/[^0-9]/', '', $wp_query->query['gallery'] );
-					if ( ( ! empty( $ngg_album ) || ! empty( $ngg_gallery ) ) && ! empty( $post ) && 
-						preg_match( '/\[(nggalbum|album)(| [^\]]*id=[\'"]*([0-9]+)[\'"]*[^\]]*| [^\]]*)\]/im', $post->post_content ) ) {
+		// use_post = false when used for open graph meta tags and buttons in widget,
+		// rue when buttons are added to individual posts on an index webpage
+		// most of this code is from yoast wordpress seo, to try and match its canonical url value
+		public function get_sharing_url( $use_post = false, $add_page = true, $source_id = '' ) {
+			$url = false;
+			if ( is_singular() || $use_post !== false ) {
+				if ( $use_post === false ) {
+					$obj = get_queried_object();
+				} elseif ( $use_post === true ) {
+					global $post;
+					$obj = get_post( $post->ID );
+				} elseif ( is_numeric( $use_post ) ) {
+					$obj = get_post( $use_post );
+				}
+				$url = get_permalink( $obj->ID );
+				if ( $add_page && get_query_var( 'page' ) > 1 ) {
+					global $wp_rewrite;
+					$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
+					if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
+						if ( ! $wp_rewrite->using_permalinks() )
+							$url = add_query_arg( 'page', get_query_var( 'page' ), $url );
+						else $url = user_trailingslashit( trailingslashit( $url ).get_query_var( 'page' ) );
+					}
+				}
+			} else {
+				if ( is_search() )
+					$url = get_search_link();
+				elseif ( is_front_page() )
+					$url = home_url( '/' );
+				elseif ( $this->is_posts_page() )
+					$url = get_permalink( get_option( 'page_for_posts' ) );
+				elseif ( is_tax() || is_tag() || is_category() ) {
+					$term      = get_queried_object();
+					$url = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
+					if ( ! $url )
+						$url = get_term_link( $term, $term->taxonomy );
+				}
+				elseif ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() )
+					$url = get_post_type_archive_link( get_query_var( 'post_type' ) );
+				elseif ( is_author() )
+					$url = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
+				elseif ( is_archive() ) {
+					if ( is_date() ) {
+						if ( is_day() )
+							$url = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+						elseif ( is_month() )
+							$url = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
+						elseif ( is_year() )
+							$url = get_year_link( get_query_var( 'year' ) );
+					}
+				}
+				if ( ! empty( $url ) && $add_page && get_query_var( 'paged' ) > 1 ) {
+					global $wp_rewrite;
+					if ( ! $wp_rewrite->using_permalinks() )
+						$url = add_query_arg( 'paged', get_query_var( 'paged' ), $url );
+					else {
+						if ( is_front_page() ) {
+							$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
+							$url = home_url( $base );
+						}
+						$url = user_trailingslashit( trailingslashit( $url ).trailingslashit( $wp_rewrite->pagination_base ).get_query_var( 'paged' ) );
+					}
+				}
+			}
+			if ( ! empty( $url ) && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
+				$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
-						$this->p->debug->log( 'is_singular with nggalbum shortcode and query' );
-						$is_nggalbum = true;
-						$strip_query = 'notrack';	// keep the album/gallery query values
-					}
-				}
-				// use permalink for singular pages (without nggalbum query info) or posts within a loop (use_post is true)
-				if ( ( is_singular() && $is_nggalbum == false ) || ( $use_post && ! empty( $post ) ) ) {
-					$url = get_permalink( $post->ID );
-					$strip_query = 'none';	// don't modify the permalinks
-				} else {
-					$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-					$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-				}
-			}
-			switch ( $strip_query ) {
-				case 'noquery' :
-					if ( strpos( $url, '?' ) !== false ) {
-						$url_arr = explode( '?', $url );
-						$url = reset( $url_arr );
-					}
-					break;
-				case 'notrack' :
-					// strip out tracking query arguments by facebook, google, etc.
-					$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
-					break;
-			}
-			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $src_id );
+			$this->p->debug->log( 'sharing url = '.$url );
+			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $source_id );
+		}
+
+		public function is_posts_page() {
+			return ( is_home() && 'page' == get_option( 'show_on_front' ) );
 		}
 
 		public function get_cache_url( $url ) {
@@ -229,7 +258,15 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				// if it starts with a slash, just add the home_url() prefix
 				if ( preg_match( '/^\//', $url ) ) 
 					$url = home_url( $url );
-				else $url = trailingslashit( $this->get_sharing_url( 'noquery' ), false ).$url;
+				else {
+					$base = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+					$base .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+					if ( strpos( $base, '?' ) !== false ) {
+						$base_parts = explode( '?', $base );
+						$base = reset( $base_parts );
+					}
+					$url = trailingslashit( $base, false ).$url;
+				}
 				$this->p->debug->log( 'relative url fixed = '.$url );
 			}
 			return $url;
@@ -546,13 +583,14 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $twitter_cap_len;
 		}
 
-		public function get_src_id( $src_name, $atts = array() ) {
+		public function get_source_id( $src_name, $atts = array() ) {
 			global $post;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
-			$src_id = $src_name.( empty( $atts['css_id'] ) ? '' : '-'.preg_replace( '/^ngfb-/','', $atts['css_id'] ) );
+			$source_id = $src_name.( empty( $atts['css_id'] ) ? 
+				'' : '-'.preg_replace( '/^ngfb-/','', $atts['css_id'] ) );
 			if ( $use_post == true && ! empty( $post ) ) 
-				$src_id = $src_id.'-post-'.$post->ID;
-			return $src_id;
+				$source_id = $source_id.'-post-'.$post->ID;
+			return $source_id;
 		}
 
 		public function flush_post_cache( $post_id ) {
@@ -565,7 +603,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$lang = get_locale();
 				$name = is_page( $post_id ) ? 'Page' : 'Post';
 				$cache_type = 'object cache';
-				$sharing_url = $this->p->util->get_sharing_url( 'none', get_permalink( $post_id ) );
+				$sharing_url = $this->p->util->get_sharing_url( $post_id );
 				$transients = array(
 					'NgfbOpengraph::get' => array(
 						'og array' => 'lang:'.$lang.'_sharing_url:'.$sharing_url,
