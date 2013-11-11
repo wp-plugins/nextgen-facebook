@@ -76,23 +76,28 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function get_title( $textlen = 70, $trailing = '',
 			$use_post = false, $use_cache = true, $add_hashtags = false ) {
 
-			global $post;
-			$title = '';
+			$obj = new stdClass;
+			$title = false;
 			$parent_title = '';
 			$paged_suffix = '';
 			$hashtags = '';
 
-			// check for custom meta title
-			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
-				$title = $this->p->meta->get_options( $post->ID, 'og_title' );
-				if ( $title != '' )
+			if ( is_singular() || $use_post !== false ) {
+				if ( $use_post === false ) { $obj = get_queried_object(); }
+				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
+				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
+				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $desc; }
+
+				// get title from custom settings
+				$title = $this->p->meta->get_options( $obj->ID, 'og_title' );
+				if ( ! empty( $title ) )
 					$this->p->debug->log( 'custom meta title = "'.$title.'"' );
 			}
 
 			// get seed if no custom meta title
-			if ( $title == '' ) {
+			if ( empty( $title ) ) {
 				$title = apply_filters( $this->p->cf['lca'].'_title_seed', '' );
-				if ( $title != '' )
+				if ( ! empty( $title ) )
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 
@@ -101,14 +106,15 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$add_hashtags = true;
 				$title = $match[1];
 				$hashtags = trim( $match[2] );
-			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
+			} elseif ( is_singular() || $use_post !== false ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
-					$hashtags = $this->get_hashtags( $post->ID );
+					$hashtags = $this->get_hashtags( $obj->ID );
 			}
 
 			// construct a title of our own
-			if ( $title == '' ) {
-				if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
+			if ( empty( $title ) ) {
+				// $obj is created above, so we should be good
+				if ( is_singular() || $use_post !== false ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
 					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
@@ -117,13 +123,13 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 						$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
 						$this->p->debug->log( 'wp_title() = "'.$title.'"' );
 					} else {
-						$title = get_the_title( $post->ID );	// since wp 0.71 
+						$title = get_the_title( $obj->ID );	// since wp 0.71 
 						$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
 					}
 
 					// get the parent's title if no seo package is installed
-					if ( $this->p->is_avail['seo']['*'] == false && ! empty( $post->post_parent ) )
-						$parent_title = get_the_title( $post->post_parent );
+					if ( $this->p->is_avail['seo']['*'] == false && ! empty( $obj->post_parent ) )
+						$parent_title = get_the_title( $obj->post_parent );
 
 				// by default, use the wordpress title if an seo plugin is available
 				} elseif ( $this->p->is_avail['seo']['*'] == true ) {
@@ -198,22 +204,26 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function get_description( $textlen = 156, $trailing = '',
 			$use_post = false, $use_cache = true, $add_hashtags = true ) {
 
-			global $post;
-			$desc = '';
+			$obj = new stdClass;
+			$desc = false;
 			$hashtags = '';
 
-			// check for custom meta description
-			// og_desc meta is the fallback for all other description fields as well (link_desc, tc_desc, etc.)
-			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
-				$desc = $this->p->meta->get_options( $post->ID, 'og_desc' );
-				if ( $desc != '' )
+			if ( is_singular() || $use_post !== false ) {
+				if ( $use_post === false ) { $obj = get_queried_object(); }
+				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
+				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
+				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $desc; }
+
+				// get description from custom settings
+				$desc = $this->p->meta->get_options( $obj->ID, 'og_desc' );
+				if ( ! empty( $desc ) )
 					$this->p->debug->log( 'custom meta description = "'.$desc.'"' );
 			}
 
 			// get seed if no custom meta description
-			if ( $desc == '' ) {
+			if ( empty( $desc ) ) {
 				$desc = apply_filters( $this->p->cf['lca'].'_description_seed', '' );
-				if ( $desc != '' )
+				if ( ! empty( $desc ) )
 					$this->p->debug->log( 'description seed = "'.$desc.'"' );
 			}
 		
@@ -222,33 +232,36 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$add_hashtags = true;
 				$desc = $match[1];
 				$hashtags = trim( $match[2] );
-			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
+			} elseif ( is_singular() || $use_post !== false ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
-					$hashtags = $this->get_hashtags( $post->ID );
+					$hashtags = $this->get_hashtags( $obj->ID );
 			}
 
-			// if there's no custom description, and no pre-seed, then go ahead and generate the description value
-			if ( $desc == '' ) {
-				if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
+			// if there's no custom description, and no pre-seed, 
+			// then go ahead and generate the description value
+			if ( empty( $desc ) ) {
+				// $obj is created above, so we should be good
+				if ( is_singular() || $use_post !== false ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
 					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post->ID ) ? 'true' : 'false' ) );
+					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $obj->ID ) ? 'true' : 'false' ) );
 	
 					// use the excerpt, if we have one
-					if ( has_excerpt( $post->ID ) ) {
-						$desc = $post->post_excerpt;
+					if ( has_excerpt( $obj->ID ) ) {
+						$desc = $obj->post_excerpt;
 						if ( ! empty( $this->p->options['plugin_filter_excerpt'] ) ) {
 							$filter_removed = $this->p->social->remove_filter( 'get_the_excerpt' );
-							$this->p->debug->log( 'calling apply_filters()' );
+							$this->p->debug->log( 'calling apply_filters(\'get_the_excerpt\')' );
 							$desc = apply_filters( 'get_the_excerpt', $desc );
 							if ( ! empty( $filter_removed ) )
 								$this->p->social->add_filter( 'get_the_excerpt' );
 						}
 					} 
-			
+
+					// if there's no excerpt, then fallback to the content
 					if ( empty( $desc ) )
-						$desc = $this->get_content( $this->p->options['plugin_filter_content'], $use_cache );
+						$desc = $this->get_content( $obj->ID, $use_cache );
 			
 					// ignore everything until the first paragraph tag if $this->p->options['og_desc_strip'] is true
 					if ( $this->p->options['og_desc_strip'] ) 
@@ -286,29 +299,38 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$desc = $this->p->util->cleanup_html_tags( $desc );
 
 			if ( $textlen > 0 ) {
-				if ( ! empty( $hashtags ) ) $textlen = $textlen - strlen( $hashtags ) -1;
+				if ( ! empty( $hashtags ) ) 
+					$textlen = $textlen - strlen( $hashtags ) -1;
 				$desc = $this->p->util->limit_text_length( $desc, $textlen, '...' );
 			}
-			if ( ! empty( $hashtags ) ) $desc .= ' '.$hashtags;
+			if ( ! empty( $hashtags ) ) 
+				$desc .= ' '.$hashtags;
 
 			return apply_filters( $this->p->cf['lca'].'_description', $desc );
 		}
 
-		public function get_content( $filter_content = true, $use_cache = true ) {
-			global $post;
-			if ( empty( $post ) ) return;
-			$this->p->debug->log( 'using content from post id '.$post->ID );
+		public function get_content( $use_post = true, $use_cache = true ) {
+
+			$obj = new stdClass;
+			$content = false;
+
+			if ( $use_post === false ) { $obj = get_queried_object(); } 
+			elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); } 
+			elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); } 
+			else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $content; }
+
+			$this->p->debug->log( 'using content from obj id '.$obj->ID );
+			$filter_content = $this->p->options['plugin_filter_content'];
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 
 			/*
 			 * Retrieve The Content
 			 */
-
 			if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
 				constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
 					$this->p->debug->log( 'object cache is disabled' );
 			else {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$obj->ID.'_'.$filter_name.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				if ( $use_cache == false )
@@ -325,12 +347,11 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$content = apply_filters( $this->p->cf['lca'].'_content_seed', '' );
 			if ( ! empty( $content ) )
 				$this->p->debug->log( 'content seed = "'.$content.'"' );
-			else $content = $post->post_content;
+			else $content = $obj->post_content;
 
 			/*
 			 * Modify The Content
 			 */
-
 			// save content length (for comparison) before making changes
 			$content_strlen_before = strlen( $content );
 
@@ -368,6 +389,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 						is_object( $this->shortcode[$id] ) )
 							$this->shortcode[$id]->add();
 			}
+
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
 			$content = preg_replace( '/^.*<!--'.$this->p->cf['lca'].'-content-->(.*)<!--\/'.
 				$this->p->cf['lca'].'-content-->.*$/', '$1', $content );

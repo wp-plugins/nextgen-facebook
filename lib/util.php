@@ -119,14 +119,11 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function get_sharing_url( $use_post = false, $add_page = true, $source_id = '' ) {
 			$url = false;
 			if ( is_singular() || $use_post !== false ) {
-				if ( $use_post === false ) {
-					$obj = get_queried_object();
-				} elseif ( $use_post === true ) {
-					global $post;
-					$obj = get_post( $post->ID );
-				} elseif ( is_numeric( $use_post ) ) {
-					$obj = get_post( $use_post );
-				}
+				if ( $use_post === false ) { $obj = get_queried_object(); }
+				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
+				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
+				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $url; }
+
 				$url = get_permalink( $obj->ID );
 				if ( $add_page && get_query_var( 'page' ) > 1 ) {
 					global $wp_rewrite;
@@ -146,9 +143,8 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					$url = get_permalink( get_option( 'page_for_posts' ) );
 				elseif ( is_tax() || is_tag() || is_category() ) {
 					$term = get_queried_object();
-					$url = apply_filters( $this->p->cf['lca'].'_get_term_url', $term );
-					if ( empty( $url ) )
-						$url = get_term_link( $term, $term->taxonomy );
+					$url = get_term_link( $term, $term->taxonomy );
+					$url = apply_filters( $this->p->cf['lca'].'_get_term_url', $url, $term );
 				}
 				elseif ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() )
 					$url = get_post_type_archive_link( get_query_var( 'post_type' ) );

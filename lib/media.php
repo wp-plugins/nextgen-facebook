@@ -281,7 +281,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$size_info = $this->get_size_info( $size_name );
 			// allow custom content to be passed
 			if ( empty( $content ) )
-				$content = $this->p->webpage->get_content( $this->p->options['plugin_filter_content'] );
+				$content = $this->p->webpage->get_content();
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
@@ -421,7 +421,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		public function get_content_videos( $num = 0, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			$content = $this->p->webpage->get_content( $this->p->options['plugin_filter_content'] );
+			$content = $this->p->webpage->get_content();
 			if ( empty( $content ) ) { $this->p->debug->log( 'exiting early: empty post content' ); return $og_ret; }
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );
