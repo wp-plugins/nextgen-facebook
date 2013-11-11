@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.16d1
+Version: 6.16dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -127,13 +127,13 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 */
 			$this->cache = new SucomCache( $this );
 			$this->script = new SucomScript( $this );
+			$this->webpage = new SucomWebpage( $this );	// title, desc, etc., plus shortcodes
 
 			$this->user = new NgfbUser( $this );
 			$this->media = new NgfbMedia( $this );
-			$this->webpage = new NgfbWebpage( $this );		// title, desc, etc., plus shortcodes
 			$this->meta = new NgfbPostMeta( $this );
-			$this->social = new NgfbSocial( $this );		// wp_head and wp_footer js and buttons
-			$this->style = new NgfbStyle( $this );
+			$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
+			$this->style = new NgfbStyle( $this );		// extends SucomStyle
 
 			if ( is_admin() ) {
 				$this->msg = new NgfbMessages( $this );

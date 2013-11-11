@@ -32,6 +32,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 			if ( $this->p->debug->is_on() )
 				foreach ( array( 
+					'is_author',
 					'is_archive',
 					'is_category',
 					'is_tag',

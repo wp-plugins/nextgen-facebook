@@ -1,16 +1,16 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://surniaulula.com/wp-content/uploads/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbWebpage' ) ) {
+if ( ! class_exists( 'SucomWebpage' ) ) {
 
-	class NgfbWebpage {
+	class SucomWebpage {
 
 		private $p;
 		private $shortcode = array();
@@ -97,7 +97,12 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					$this->p->debug->log( 'title seed = "'.$title.'"' );
 			}
 
-			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9_\-]+$/', $title ) ) {
+			// check for hashtags in meta or seed title, remove and then add again after shorten
+			if ( preg_match( '/(.*)(( #[a-z0-9\-]+)+)$/U', $title, $match ) ) {
+				$add_hashtags = true;
+				$title = $match[1];
+				$hashtags = $match[2];
+			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
 					$hashtags = $this->get_hashtags( $post->ID );
 			}
@@ -211,8 +216,13 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 				if ( $desc != '' )
 					$this->p->debug->log( 'description seed = "'.$desc.'"' );
 			}
-			
-			if ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) && ! preg_match( '/ #[a-z0-9]+$/', $desc ) ) {
+		
+			// check for hashtags in meta or seed description, remove and then add again after shorten
+			if ( preg_match( '/(.*)(( #[a-z0-9\-]+)+)$/U', $desc, $match ) ) {
+				$add_hashtags = true;
+				$desc = $match[1];
+				$hashtags = $match[2];
+			} elseif ( ! empty( $post ) && ( is_singular() || ! empty( $use_post ) ) ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
 					$hashtags = $this->get_hashtags( $post->ID );
 			}
@@ -288,34 +298,36 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 			$this->p->debug->log( 'using content from post id '.$post->ID );
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 
-			/***************************************************************************
-			 * Retrieve the content                                                    *
-			 ***************************************************************************/
+			/*
+			 * Retrieve The Content
+			 */
 
-			if ( defined( 'NGFB_OBJECT_CACHE_DISABLE' ) && NGFB_OBJECT_CACHE_DISABLE )
-				$this->p->debug->log( 'object cache is disabled' );
+			if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
+				constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
+					$this->p->debug->log( 'object cache is disabled' );
 			else {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
-				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
-				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache salt '.$cache_salt );
-				$content = $use_cache === true ? wp_cache_get( $cache_id, __METHOD__ ) : false;
-				if ( $content !== false ) {
-					$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache '.$cache_id );
-					return $content;
+				if ( $use_cache == false )
+					$this->p->debug->log( 'use cache = false' );
+				else {
+					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
+					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
+					$cache_type = 'object cache';
+					$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache salt '.$cache_salt );
+					$content = wp_cache_get( $cache_id, __METHOD__ );
+					if ( $content !== false ) {
+						$this->p->debug->log( $cache_type.': '.$filter_name.' content retrieved from wp_cache '.$cache_id );
+						return $content;
+					}
 				}
 			}
-
 			$content = apply_filters( $this->p->cf['lca'].'_content_seed', '' );
 			if ( ! empty( $content ) )
 				$this->p->debug->log( 'content seed = "'.$content.'"' );
+			else $content = $post->post_content;
 
-			if ( empty( $content ) )
-				$content = $post->post_content;
-
-			/***************************************************************************
-			 * Modify the content                                                      *
-			 ***************************************************************************/
+			/*
+			 * Modify The Content
+			 */
 
 			// save content length (for comparison) before making changes
 			$content_strlen_before = strlen( $content );
@@ -354,9 +366,9 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 						is_object( $this->shortcode[$id] ) )
 							$this->shortcode[$id]->add();
 			}
-
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
-			$content = preg_replace( '/^.*<!--ngfb-content-->(.*)<!--\/ngfb-content-->.*$/', '$1', $content );
+			$content = preg_replace( '/^.*<!--'.$this->p->cf['lca'].'-content-->(.*)<!--\/'.
+				$this->p->cf['lca'].'-content-->.*$/', '$1', $content );
 			$content = preg_replace( '/<a +rel="author" +href="" +style="display:none;">Google\+<\/a>/', ' ', $content );
 			$content = str_replace( ']]>', ']]&gt;', $content );
 
@@ -366,9 +378,12 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 			// apply filters before caching
 			$content = apply_filters( $this->p->cf['lca'].'_content', $content );
 
-			if ( ! defined( 'NGFB_OBJECT_CACHE_DISABLE' ) || ! NGFB_OBJECT_CACHE_DISABLE ) {
+			if ( ! defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) || 
+				! constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) ) {
+
 				wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.
+					$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $content;
 		}
@@ -386,7 +401,8 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		}
 
 		public function get_hashtags( $post_id = '' ) {
-			if ( empty( $this->p->options['og_desc_hashtags'] ) ) return;
+			if ( empty( $this->p->options['og_desc_hashtags'] ) ) 
+				return;
 			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', '', $post_id );
 			if ( ! empty( $text ) )
 				$this->p->debug->log( 'hashtags seed = "'.$text.'"' );

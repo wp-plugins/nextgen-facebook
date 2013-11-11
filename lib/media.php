@@ -362,8 +362,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 							break;
 					}
-
-
 				}
 				return $og_ret;
 			}

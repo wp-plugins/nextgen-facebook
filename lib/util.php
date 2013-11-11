@@ -577,7 +577,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					),
 				);
 				$objects = array(
-					'NgfbWebpage::get_content' => array(
+					'SucomWebpage::get_content' => array(
 						'filtered content html' => 'lang:'.$lang.'_post:'.$post_id.'_filtered',
 						'unfiltered content html' => 'lang:'.$lang.'_post:'.$post_id.'_unfiltered',
 					),
