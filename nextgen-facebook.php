@@ -69,7 +69,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 * load all plugin options
 			 */
 			$this->check = new NgfbCheck( $this );
-			$this->is_avail = $this->check->available();
+			$this->is_avail = $this->check->get_avail();
 			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
 			$this->set_options();		// local method for early load
 

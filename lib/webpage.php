@@ -33,12 +33,19 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		// called from Tumblr class
 		public function get_quote() {
 			global $post;
-			$quote = '';
-			if ( empty( $post ) ) return $quote;
-			if ( has_excerpt( $post->ID ) ) $quote = get_the_excerpt( $post->ID );	// since wp 2.3.0, since wp 0.71 
-			else $quote = $post->post_content;					// fallback to regular content
-			$quote = $this->p->util->cleanup_html_tags( $quote, false );		// remove shortcodes, etc., but don't strip html tags
-			return apply_filters( $this->p->cf['lca'].'_quote', $quote );		// since wp 0.71 
+			if ( empty( $post ) ) 
+				return '';
+			$quote = apply_filters( $this->p->cf['lca'].'_quote_seed', '' );
+			if ( $quote != '' )
+				$this->p->debug->log( 'quote seed = "'.$quote.'"' );
+			else {
+				if ( has_excerpt( $post->ID ) ) 
+					$quote = get_the_excerpt( $post->ID );
+				else $quote = $post->post_content;
+			}
+			// remove shortcodes, etc., but don't strip html tags
+			$quote = $this->p->util->cleanup_html_tags( $quote, false );
+			return apply_filters( $this->p->cf['lca'].'_quote', $quote );
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
@@ -111,11 +118,11 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					}
 
 					// get the parent's title if no seo package is installed
-					if ( $this->p->is_avail['any_seo'] == false && ! empty( $post->post_parent ) )
+					if ( $this->p->is_avail['seo']['*'] == false && ! empty( $post->post_parent ) )
 						$parent_title = get_the_title( $post->post_parent );
 
 				// by default, use the wordpress title if an seo plugin is available
-				} elseif ( $this->p->is_avail['any_seo'] == true ) {
+				} elseif ( $this->p->is_avail['seo']['*'] == true ) {
 
 					// use separator on right for compatibility with aioseo
 					$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
@@ -164,7 +171,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 
 			if ( $textlen > 0 ) {
 				// seo-like title modifications
-				if ( $this->p->is_avail['any_seo'] == false ) {
+				if ( $this->p->is_avail['seo']['*'] == false ) {
 					if ( $paged > 1 ) {
 						if ( ! empty( $this->p->options['og_title_sep'] ) )
 							$paged_suffix .= $this->p->options['og_title_sep'].' ';
@@ -303,16 +310,6 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 			if ( ! empty( $content ) )
 				$this->p->debug->log( 'content seed = "'.$content.'"' );
 
-			// exceptions for some woocommerce pages
-			if ( empty( $content ) && ! empty( $this->p->is_avail['woocommerce'] ) ) {
-				if ( is_cart() )
-					$content = 'Shopping Cart';
-				elseif ( is_checkout() )
-					$content = 'Checkout Page';
-				elseif ( is_account_page() )
-					$content = 'Account Page';
-			}
-
 			if ( empty( $content ) )
 				$content = $post->post_content;
 
@@ -339,7 +336,6 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					if ( array_key_exists( $id, $this->shortcode ) && 
 						is_object( $this->shortcode[$id] ) )
 							$this->shortcode[$id]->remove();
-				unset ( $id, $name );
 
 				$this->p->debug->log( 'calling apply_filters()' );
 				$content = apply_filters( 'the_content', $content );
@@ -357,7 +353,6 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 					if ( array_key_exists( $id, $this->shortcode ) && 
 						is_object( $this->shortcode[$id] ) )
 							$this->shortcode[$id]->add();
-				unset ( $id, $name );
 			}
 
 			$content = preg_replace( '/[\r\n\t ]+/s', ' ', $content );	// put everything on one line
@@ -392,7 +387,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 
 		public function get_hashtags( $post_id = '' ) {
 			if ( empty( $this->p->options['og_desc_hashtags'] ) ) return;
-			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', false );
+			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', '', $post_id );
 			if ( ! empty( $text ) )
 				$this->p->debug->log( 'hashtags seed = "'.$text.'"' );
 			else {
@@ -406,7 +401,7 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		}
 
 		public function get_tags( $post_id = '' ) {
-			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array() );
+			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array(), $post_id );
 			if ( ! empty( $tags ) )
 				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
 			else {
@@ -432,17 +427,21 @@ if ( ! class_exists( 'NgfbWebpage' ) ) {
 		}
 
 		public function get_wp_tags( $post_id ) {
-			$tags = array();
-			$post_ids = array ( $post_id );	// array of one
-			if ( $this->p->options['og_page_parent_tags'] && is_page( $post_id ) )
-				$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
-			foreach ( $post_ids as $id ) {
-				if ( $this->p->options['og_page_title_tag'] && is_page( $id ) )
-					$tags[] = get_the_title( $id );
-				foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name )
-					$tags[] = $tag_name;
+			$tags = apply_filters( $this->p->cf['lca'].'_wp_tags_seed', array(), $post_id );
+			if ( ! empty( $tags ) )
+				$this->p->debug->log( 'wp tags seed = "'.implode( ',', $tags ).'"' );
+			else {
+				$post_ids = array ( $post_id );	// array of one
+				if ( $this->p->options['og_page_parent_tags'] && is_page( $post_id ) )
+					$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
+				foreach ( $post_ids as $id ) {
+					if ( $this->p->options['og_page_title_tag'] && is_page( $id ) )
+						$tags[] = get_the_title( $id );
+					foreach ( wp_get_post_tags( $id, array( 'fields' => 'names') ) as $tag_name )
+						$tags[] = $tag_name;
+				}
+				$tags = array_map( 'strtolower', $tags );
 			}
-			$tags = array_map( 'strtolower', $tags );
 			return apply_filters( $this->p->cf['lca'].'_wp_tags', $tags, $post_id );
 		}
 	}

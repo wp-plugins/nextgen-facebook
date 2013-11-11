@@ -60,7 +60,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					'plugin_bitly_api_key',
 				) as $key ) $opts[$key] = '********';
 
-				$this->p->debug->show_html( $this->p->is_avail, 'available features' );
+				$this->p->debug->show_html( print_r( $this->p->is_avail, true ), 'available features' );
 				$this->p->debug->show_html( null, 'debug log' );
 				$this->p->debug->show_html( $opts, 'ngfb settings' );
 			}

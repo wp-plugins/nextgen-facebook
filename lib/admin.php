@@ -57,7 +57,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			$libs = $this->p->cf['lib']['setting'];
 			if ( is_multisite() )
-				$libs = array_merge( $libs, $this->p->cf['lib']['network_setting'] );
+				$libs = array_merge( $libs, $this->p->cf['lib']['site_setting'] );
 			foreach ( $libs as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
@@ -87,7 +87,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function add_network_admin_menus() {
-			$this->add_admin_menus( $this->p->cf['lib']['network_setting'] );
+			$this->add_admin_menus( $this->p->cf['lib']['site_setting'] );
 		}
 
 		protected function add_menu_page( $parent_id ) {
@@ -186,7 +186,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		public function save_site_options() {
 
 			$page = empty( $_POST['page'] ) ? 
-				key( $this->p->cf['lib']['network_setting'] ) : $_POST['page'];
+				key( $this->p->cf['lib']['site_setting'] ) : $_POST['page'];
 
 			if ( empty( $_POST[ NGFB_NONCE ] ) ) {
 				$this->p->debug->log( 'Nonce token validation post field missing.' );
@@ -359,7 +359,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 				settings_fields( $this->p->cf['lca'].'_setting' ); 
 
-			} elseif ( ! empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
+			} elseif ( ! empty( $this->p->cf['lib']['site_setting'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
@@ -463,7 +463,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						$this->get_nonce(), NGFB_NONCE ) );
 
 			// don't show the 'Clear All Cache' and 'Reset Metaboxes' buttons on network admin pages
-			if ( empty( $this->p->cf['lib']['network_setting'][$this->menu_id] ) ) {
+			if ( empty( $this->p->cf['lib']['site_setting'][$this->menu_id] ) ) {
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
 						$this->get_nonce(), NGFB_NONCE ) );

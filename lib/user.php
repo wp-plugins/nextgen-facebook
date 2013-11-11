@@ -25,38 +25,27 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 
 		public function add_contact_methods( $fields = array() ) { 
-
 			// loop through each social website option prefix
 			if ( ! empty( $this->p->cf['opt']['pre'] ) && is_array( $this->p->cf['opt']['pre'] ) ) {
-
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 					$cm_opt = 'plugin_cm_'.$pre.'_';
-	
 					// not all social websites have a contact fields, so check
 					if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
-	
 						$enabled = $this->p->options[$cm_opt.'enabled'];
 						$name = $this->p->options[$cm_opt.'name'];
 						$label = $this->p->options[$cm_opt.'label'];
-	
 						if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) )
 							$fields[$name] = $label;
 					}
 				}
-				unset( $id, $pre );
 			}
-
 			if ( $this->p->check->is_aop() && 
 				! empty( $this->p->cf['wp']['cm'] ) && is_array( $this->p->cf['wp']['cm'] ) ) {
-
 				foreach ( $this->p->cf['wp']['cm'] as $id => $name ) {
 					$cm_opt = 'wp_cm_'.$id.'_';
-
 					if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
-
 						$enabled = $this->p->options[$cm_opt.'enabled'];
 						$label = $this->p->options[$cm_opt.'label'];
-
 						if ( ! empty( $enabled ) ) {
 							if ( ! empty( $label ) )
 								$fields[$id] = $label;
@@ -64,8 +53,6 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 					}
 				}
 			}
-			unset( $id, $name );
-
 			ksort( $fields, SORT_STRING );
 			return $fields;
 		}
@@ -77,19 +64,14 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				$cm_opt = 'plugin_cm_'.$pre.'_';
-
 				// not all social websites have a contact fields, so check
 				if ( array_key_exists( $cm_opt.'name', $this->p->options ) ) {
-
 					$enabled = $this->p->options[$cm_opt.'enabled'];
 					$name = $this->p->options[$cm_opt.'name'];
 					$label = $this->p->options[$cm_opt.'label'];
-
 					if ( ! empty( $enabled ) && ! empty( $name ) && ! empty( $label ) ) {
-
 						// sanitize values only for those enabled contact methods
 						$val = wp_filter_nohtml_kses( $_POST[$name] );
-
 						if ( ! empty( $val ) ) {
 							// use the social prefix id to decide on actions
 							switch ( $id ) {

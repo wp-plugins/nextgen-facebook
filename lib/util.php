@@ -421,7 +421,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			$page = 'admin.php?page='.$this->p->cf['lca'].'-'.$submenu;
 			if ( array_key_exists( $submenu, $this->p->cf['lib']['setting'] ) )
 				$url = admin_url( $page );
-			elseif ( array_key_exists( $submenu, $this->p->cf['lib']['network_setting'] ) )
+			elseif ( array_key_exists( $submenu, $this->p->cf['lib']['site_setting'] ) )
 				$url = network_admin_url( $page );
 
 			if ( ! empty( $query ) ) 
@@ -557,29 +557,50 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		public function flush_post_cache( $post_id ) {
 			switch ( get_post_status( $post_id ) ) {
-				case 'draft' :
-				case 'pending' :
-				case 'private' :
-				case 'publish' :
-					$lang = get_locale();
-					$name = is_page( $post_id ) ? 'Page' : 'Post';
-					$cache_type = 'object cache';
-					$sharing_url = $this->p->util->get_sharing_url( 'none', get_permalink( $post_id ) );
-					foreach ( array(
-						'og array' => 'NgfbOpengraph::get(lang:'.$lang.'_sharing_url:'.$sharing_url.')',
-						'the_excerpt html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt)',
-						'the_content html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:the_content)',
-						'admin_sharing html' => 'NgfbSocial::filter(lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing)',
-					) as $cache_origin => $cache_salt ) {
+
+			case 'draft' :
+			case 'pending' :
+			case 'private' :
+			case 'publish' :
+				$lang = get_locale();
+				$name = is_page( $post_id ) ? 'Page' : 'Post';
+				$cache_type = 'object cache';
+				$sharing_url = $this->p->util->get_sharing_url( 'none', get_permalink( $post_id ) );
+				$transients = array(
+					'NgfbOpengraph::get' => array(
+						'og array' => 'lang:'.$lang.'_sharing_url:'.$sharing_url,
+					),
+					'NgfbSocial::filter' => array(
+						'the_excerpt html' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt',
+						'the_content html' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_content',
+						'admin_sharing html' => 'lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing',
+					),
+				);
+				$objects = array(
+					'NgfbWebpage::get_content' => array(
+						'filtered content html' => 'lang:'.$lang.'_post:'.$post_id.'_filtered',
+						'unfiltered content html' => 'lang:'.$lang.'_post:'.$post_id.'_unfiltered',
+					),
+				);
+				$deleted = 0;
+				foreach ( $transients as $group => $arr ) {
+					foreach ( $arr as $name => $val ) {
+						$cache_salt = $group.'('.$val.')';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
-						$this->p->debug->log( $cache_type.': '.$cache_origin.' transient salt '.$cache_salt );
-						if ( delete_transient( $cache_id ) ) {
-							$this->p->debug->log( $cache_type.': '.$cache_origin.' transient deleted '.$cache_id );
-							// duplicate notices are ignored, so only one notice message will be shown
-							$this->p->notice->inf( 'WordPress object cache flushed for '.$name.' ID #'.$post_id, true );
-						}
+						if ( delete_transient( $cache_id ) ) $deleted++;
 					}
-					break;
+				}
+				foreach ( $objects as $group => $arr ) {
+					foreach ( $arr as $name => $val ) {
+						$cache_salt = $group.'('.$val.')';
+						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
+						if ( wp_cache_delete( $cache_id, $group ) ) $deleted++;
+					}
+				}
+				if ( $deleted > 0 )
+					$this->p->notice->inf( $deleted.' items flushed from the WordPress object and transient caches for post ID #'.$post_id, true );
+				$this->p->debug->show_html( null, 'debug log' );
+				break;
 			}
 		}
 

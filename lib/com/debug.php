@@ -94,8 +94,7 @@ if ( ! class_exists( 'SucomDebug' ) ) {
 					if ( $is_assoc ) ksort( $data );
 					foreach ( $data as $key => $val ) 
 						$html .= $is_assoc ? "\t$key = $val\n" : "\t$val\n";
-					unset ( $key, $val );
-					} else {
+				} else {
 					if ( preg_match( '/^Array/', $data ) ) $html .= "\n";	// check for print_r() output
 					$html .= $data;
 				}

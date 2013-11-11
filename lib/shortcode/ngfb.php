@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 	class NgfbShortcodeNgfb {
 
 		private $p;
-		private $sc = 'ngfb';
+		private $scid = 'ngfb';
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -24,8 +24,8 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 
 		public function wpautop() {
 			// make sure wpautop() does not have a higher priority than 10, otherwise it will 
-			// format the shortcode output (shortcodes filters are run at priority 11).
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
+			// format the shortcode output (shortcode filters are run at priority 11).
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
 				$default_priority = 10;
 				foreach ( array( 'get_the_excerpt', 'the_excerpt', 'the_content' ) as $tag ) {
 					$filter_priority = has_filter( $tag, 'wpautop' );
@@ -39,21 +39,21 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 		}
 
 		public function add() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
-        			add_shortcode( $this->sc, array( &$this, 'shortcode' ) );
-				$this->p->debug->log( '['.$this->sc.'] shortcode added' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
+        			add_shortcode( $this->scid, array( &$this, 'shortcode' ) );
+				$this->p->debug->log( '['.$this->scid.'] shortcode added' );
 			}
 		}
 
 		public function remove() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->sc] ) ) {
-				remove_shortcode( $this->sc );
-				$this->p->debug->log( '['.$this->sc.'] shortcode removed' );
+			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
+				remove_shortcode( $this->scid );
+				$this->p->debug->log( '['.$this->scid.'] shortcode removed' );
 			}
 		}
 
 		public function shortcode( $atts, $content = null ) { 
-			$atts = apply_filters( $this->sc.'_shortcode', $atts, $content );
+			$atts = apply_filters( $this->scid.'_shortcode', $atts, $content );
 			global $post;
 			$html = '';
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( 'notrack', null, true ) : $atts['url'];

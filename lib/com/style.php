@@ -30,7 +30,7 @@ if ( ! class_exists( 'SucomStyle' ) ) {
 			switch ( $hook ) {
 				case 'post.php' :
 				case 'post-new.php' :
-					wp_enqueue_style( 'sucom_table_settings' );
+					wp_enqueue_style( 'sucom_table_setting' );
 					wp_enqueue_style( 'sucom_metabox_tabs' );
 					break;
 				case ( preg_match( '/_page_'.$this->p->cf['lca'].'-/', $hook ) ? true : false ) :

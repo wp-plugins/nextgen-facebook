@@ -22,72 +22,36 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		}
 
 		// used before any class objects are created, so keep in main class
-		public function available( $idx = '' ) {
+		public function get_avail() {
 			$ret = array();
-
-			// ngfb pro
 			$ret['aop'] = class_exists( $this->p->cf['lca'].'AddonPro' ) ? true : false;
-
-			// available since php v4.0.6+
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
-			// php curl
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
-
-			// post thumbnail feature is supported by wp theme // since wp 2.9.0
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			// nextgen gallery plugin
-			// use in combination with $this->p->ngg_version
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
 
-			// bbPress
-			$ret['bbpress'] = class_exists( 'bbPress' ) ? true : false;
-
-			/*
-			 * Supported SEO Plugins
-			 */
-			$ret['any_seo'] = false;	// by default, define any_seo value as false
-			foreach ( $this->p->cf['lib']['seo'] as $id => $name ) {
-				$func_name = '';
-				$class_name = '';
-				switch ( $id ) {
-					case 'aioseop':	$class_name = 'All_in_One_SEO_Pack'; break;
-					case 'seou':	$class_name = 'SEO_Ultimate'; break;
-					case 'wpseo':	$func_name = 'wpseo_init'; break;
+			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
+				$ret[$sub] = array();
+				$ret[$sub]['*'] = false;
+				foreach ( $libs as $id => $name ) {
+					$func_name = '';
+					$class_name = '';
+					switch ( $id ) {
+						case 'aioseop':		$class_name = 'All_in_One_SEO_Pack'; break;
+						case 'seou':		$class_name = 'SEO_Ultimate'; break;
+						case 'wpseo':		$func_name = 'wpseo_init'; break;
+						case 'woocommerce':	$class_name = 'Woocommerce'; break;
+						case 'marketpress':	$class_name = 'MarketPress'; break;
+						case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
+						case 'bbpress':		$class_name = 'bbPress'; break;
+					}
+					if ( ( ! empty( $func_name ) && function_exists( $func_name ) )  || 
+						( ! empty( $class_name ) && class_exists( $class_name ) ) )
+							$ret[$sub]['*'] = $ret[$sub][$id] = true;
+					else $ret[$sub][$id] = false;
 				}
-				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$ret['any_seo'] = $ret[$id] = true;
-				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$ret['any_seo'] = $ret[$id] = true;
-				else $ret[$id] = false;
 			}
-			unset ( $id, $name );
-
-			/*
-			 * Supported eCommerce Plugins
-			 */
-			foreach ( $this->p->cf['lib']['ecom'] as $id => $name ) {
-				$func_name = '';
-				$class_name = '';
-				switch ( $id ) {
-					case 'woocommerce':	$class_name = 'Woocommerce'; break;
-					case 'marketpress':	$class_name = 'MarketPress'; break;
-					case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
-				}
-				if ( ! empty( $func_name ) && function_exists( $func_name ) ) 
-					$ret['any_ecom'] = $ret[$id] = true;
-				elseif ( ! empty( $class_name ) && class_exists( $class_name ) ) 
-					$ret['any_ecom'] = $ret[$id] = true;
-				else $ret[$id] = false;
-			}
-			unset ( $id, $name );
-
-			if ( ! empty( $idx ) ) {
-				if ( array_key_exists( $idx, $ret ) )
-					return $ret[$idx];
-				else return false;
-			} return $ret;
+			return $ret;
 		}
 
 		// called from ngfbAdmin
@@ -109,7 +73,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// Yoast WordPress SEO
-			if ( $this->p->is_avail['wpseo'] == true ) {
+			if ( $this->p->is_avail['seo']['wpseo'] == true ) {
 				$opts = get_option( 'wpseo_social' );
 				if ( ! empty( $opts['opengraph'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo opengraph meta data option is enabled' );
@@ -133,7 +97,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// SEO Ultimate
-			if ( $this->p->is_avail['seou'] == true ) {
+			if ( $this->p->is_avail['seo']['seou'] == true ) {
 				$opts = get_option( 'seo_ultimate' );
 				if ( ! empty( $opts['modules'] ) && is_array( $opts['modules'] ) ) {
 					if ( array_key_exists( 'opengraph', $opts['modules'] ) && $opts['modules']['opengraph'] !== -10 ) {
@@ -146,7 +110,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// All in One SEO Pack
-			if ( $this->p->is_avail['aioseop'] == true ) {
+			if ( $this->p->is_avail['seo']['aioseop'] == true ) {
 				$opts = get_option( 'aioseop_options' );
 				if ( array_key_exists( 'aiosp_google_disable_profile', $opts ) && empty( $opts['aiosp_google_disable_profile'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'aioseop google plus profile is enabled' );

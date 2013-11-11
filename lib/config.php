@@ -31,7 +31,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					'style' => 'Social Style',
 					'about' => 'About',
 				),
-				'network_setting' => array(
+				'site_setting' => array(
 					'network' => 'Network',
 				),
 				'website' => array(
@@ -249,12 +249,10 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				// settings classes extend lib/admin.php and objects are created by lib/admin.php
 				foreach ( self::$cf['lib']['setting'] as $id => $name )
 					require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
-				unset ( $id, $name );
 
 				if ( is_multisite() ) {
-					foreach ( self::$cf['lib']['network_setting'] as $id => $name )
-						require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
-					unset ( $id, $name );
+					foreach ( self::$cf['lib']['site_setting'] as $id => $name )
+						require_once( $plugin_dir.'lib/site_setting/'.$id.'.php' );
 				}
 				require_once( $plugin_dir.'lib/com/form.php' );
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
@@ -264,24 +262,21 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				require_once( $plugin_dir.'lib/functions.php' );
 
 				foreach ( self::$cf['lib']['shortcode'] as $id => $name )
-					require_once( $plugin_dir.'lib/shortcodes/'.$id.'.php' );
-				unset ( $id, $name );
+					require_once( $plugin_dir.'lib/shortcode/'.$id.'.php' );
 			}
 
 			// website classes extend both lib/social.php and lib/setting/social.php
 			foreach ( self::$cf['lib']['website'] as $id => $name )
-				if ( file_exists( $plugin_dir.'lib/websites/'.$id.'.php' ) )
-					require_once( $plugin_dir.'lib/websites/'.$id.'.php' );
-			unset ( $id, $name );
+				if ( file_exists( $plugin_dir.'lib/website/'.$id.'.php' ) )
+					require_once( $plugin_dir.'lib/website/'.$id.'.php' );
 
-			// widgets are added to wp when library file is loaded
+			// widgets are added to wordpress when library file is loaded
 			// no need to create the class object later on
 			foreach ( self::$cf['lib']['widget'] as $id => $name )
-				if ( file_exists( $plugin_dir.'lib/widgets/'.$id.'.php' ) )
-					require_once( $plugin_dir.'lib/widgets/'.$id.'.php' );
-			unset ( $id, $name );
+				if ( file_exists( $plugin_dir.'lib/widget/'.$id.'.php' ) )
+					require_once( $plugin_dir.'lib/widget/'.$id.'.php' );
 
-			// additional classes are loaded and extended by the addon construct
+			// additional classes are loaded and extended by the pro addon construct
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
 				require_once( $plugin_dir.'lib/pro/addon.php' );
 

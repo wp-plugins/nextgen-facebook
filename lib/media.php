@@ -371,7 +371,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		// called by ngfbTwitterCards to build Gallery Card
+		// called by ngfbTwitterCard to build the Gallery Card
 		public function get_gallery_images( $num = 0, $size_name = 'large', $want_this = 'gallery', $check_dupes = false ) {
 			global $post;
 			$og_ret = array();
