@@ -673,6 +673,12 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
+= Version 6.16dev1 =
+
+* **Added support for bbPress forums, topics and tags** (Pro version).
+* Improved the `flush_post_cache()` method to include wp_cache objects.
+* Moved lib/webpage.php to lib/com/webpage.php.
+
 = Version 6.15.0 =
 
 * **Added a new 'Number of Hashtags to Include' option to append tag names (converted to hashtags) in the Open Graph / Rich Pin description, tweet text, and social captions.**
