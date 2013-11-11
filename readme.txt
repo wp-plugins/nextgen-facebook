@@ -720,6 +720,10 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
+= 6.16dev2 =
+
+Added support for bbPress forums, topics and tags (Pro version), improved the flush_post_cache() and `get_sharing_url()` methods, added a new ngfb_get_term_url filter for WordPress SEO support (Pro version).
+
 = 6.15.0 =
 
 Added a new 'Number of Hashtags to Include' option to include tag names in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links. Several internal code changes/improvements/updates.
