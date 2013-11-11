@@ -306,12 +306,12 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
 					$this->p->debug->log( 'object cache is disabled' );
 			else {
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
+				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
+				$cache_type = 'object cache';
 				if ( $use_cache == false )
 					$this->p->debug->log( 'use cache = false' );
 				else {
-					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_'.$filter_name.')';
-					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
-					$cache_type = 'object cache';
 					$this->p->debug->log( $cache_type.': '.$filter_name.' content wp_cache salt '.$cache_salt );
 					$content = wp_cache_get( $cache_id, __METHOD__ );
 					if ( $content !== false ) {

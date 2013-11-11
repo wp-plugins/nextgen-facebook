@@ -145,9 +145,9 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				elseif ( $this->is_posts_page() )
 					$url = get_permalink( get_option( 'page_for_posts' ) );
 				elseif ( is_tax() || is_tag() || is_category() ) {
-					$term      = get_queried_object();
-					$url = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
-					if ( ! $url )
+					$term = get_queried_object();
+					$url = apply_filters( $this->p->cf['lca'].'_get_term_url', $term );
+					if ( empty( $url ) )
 						$url = get_term_link( $term, $term->taxonomy );
 				}
 				elseif ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() )
