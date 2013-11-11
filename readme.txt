@@ -673,13 +673,14 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
-= Version 6.16dev2 =
+= Version 6.16dev3 =
 
 * **Added support for bbPress forums, topics and tags** (Pro version).
-* Added a 'Site Description' field to customize the WordPress Tagline.
+* Added a 'Site Description' option to customize the WordPress Tagline.
 * Improved the `flush_post_cache()` method to include wp_cache objects.
 * Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
 * Added a new `ngfb_get_term_url` filter for WordPress SEO support (Pro version).
+* Added a call to `wp_cache_add_non_persistent_groups()` for content object cache, which does not need to be persistent.
 * Moved the lib/webpage.php file to lib/com/webpage.php.
 
 = Version 6.15.0 =
@@ -721,7 +722,7 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.16dev2 =
+= 6.16dev3 =
 
 Added support for bbPress forums, topics and tags (Pro version), improved the flush_post_cache() and `get_sharing_url()` methods, added a new ngfb_get_term_url filter for WordPress SEO support (Pro version).
 
