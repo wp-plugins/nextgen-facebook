@@ -673,7 +673,7 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
-= Version 6.16dev4 =
+= Version 6.16dev5 =
 
 * **Added support for bbPress forums, topics and tags** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline.
@@ -723,7 +723,7 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.16dev3 =
+= 6.16dev5 =
 
 Added support for bbPress forums, topics and tags (Pro version), improved the flush_post_cache() and `get_sharing_url()` methods, added a new ngfb_get_term_url filter for WordPress SEO support (Pro version).
 

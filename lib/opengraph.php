@@ -176,7 +176,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 		}
 
 		public function get_all_videos( $num = 0, $post_id = '', $check_dupes = true ) {
-			if ( empty( $post_id ) )
+			if ( empty( $post_id ) ) {
 				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return array();
@@ -199,7 +199,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 		}
 
 		public function get_all_images( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
-			if ( empty( $post_id ) )
+			if ( empty( $post_id ) ) {
 				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return array();
