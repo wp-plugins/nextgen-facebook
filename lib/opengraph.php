@@ -33,9 +33,9 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				$this->p->debug->log( 'open graph is disabled' );
 				return array();
 			}
+
 			$source_id = $this->p->util->get_source_id( 'opengraph' );
 			$sharing_url = $this->p->util->get_sharing_url( false, true, $source_id );
-
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
@@ -50,12 +50,14 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				}
 			}
 
-			global $post;
+			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return array();
+			}
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums();
 			$og = apply_filters( $this->p->cf['lca'].'_og_seed', array() );
-
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
 
@@ -87,8 +89,8 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				// singular posts/pages are articles by default
 				// check post_type for exceptions (like product pages)
 				if ( is_singular() ) {
-					if ( ! empty( $post ) )
-						$post_type = $post->post_type;
+					if ( ! empty( $obj->post_type ) )
+						$post_type = $obj->post_type;
 					switch ( $post_type ) {
 						case 'product' :
 							$og['og:type'] = 'product';
@@ -113,8 +115,8 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			// if the page is an article, then define the other article meta tags
 			if ( array_key_exists( 'og:type', $og ) && $og['og:type'] == 'article' ) {
 				if ( is_singular() && ! array_key_exists( 'article:author', $og ) ) {
-					if ( ! empty( $post ) && $post->post_author )
-						$og['article:author'] = $this->p->user->get_author_url( $post->post_author, 
+					if ( ! empty( $obj->post_author ) )
+						$og['article:author'] = $this->p->user->get_author_url( $obj->post_author, 
 							$this->p->options['og_author_field'] );
 					elseif ( ! empty( $this->p->options['og_def_author_id'] ) )
 						$og['article:author'] = $this->p->user->get_author_url( $this->p->options['og_def_author_id'], 
@@ -140,7 +142,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			// check first, to add video preview images
 			if ( ! array_key_exists( 'og:video', $og ) ) {
 				if ( $og_max['og_vid_max'] > 0 ) {
-					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'] );
+					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'], $obj->ID );
 					if ( is_array( $og['og:video'] ) ) {
 						foreach ( $og['og:video'] as $val ) {
 							if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -156,7 +158,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			// get all images
 			if ( ! array_key_exists( 'og:image', $og ) ) {
 				if ( $og_max['og_img_max'] > 0 ) {
-					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME, $obj->ID );
 					// if we didn't find any images, then use the default image
 					if ( empty( $og['og:image'] ) && empty( $has_video_image ) )
 						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
@@ -173,12 +175,18 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og;
 		}
 
-		public function get_all_videos( $num = 0, $check_dupes = true ) {
-			global $post;
+		public function get_all_videos( $num = 0, $post_id = '', $check_dupes = true ) {
+			if ( empty( $post_id ) )
+				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return array();
+				}
+				$post_id = $obj->ID;
+			}
 			$og_ret = array();
-			if ( ! empty( $post ) ) {
+			if ( ! empty( $post_id ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post->ID, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post_id, $check_dupes ) );
 			}
 
 			// if we haven't reached the limit of images yet, keep going
@@ -190,15 +198,21 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og_ret;
 		}
 
-		public function get_all_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true ) {
-			global $post;
+		public function get_all_images( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
+			if ( empty( $post_id ) )
+				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return array();
+				}
+				$post_id = $obj->ID;
+			}
 			$og_ret = array();
 
-			// check for attachment page
-			if ( ! empty( $post ) && is_attachment( $post->ID ) ) {
+			// check for an attachment page
+			if ( ! empty( $post_id ) && is_attachment( $post_id ) ) {
 				$og_image = array();
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_image = $this->p->media->get_attachment_image( $num_remains, $size_name, $post->ID, $check_dupes );
+				$og_image = $this->p->media->get_attachment_image( $num_remains, $size_name, $post_id, $check_dupes );
 
 				// if an attachment is not an image, then use the default image instead
 				if ( empty( $og_ret ) ) {
@@ -219,9 +233,9 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			}
 
 			// check for custom meta, featured, or attached image(s)
-			if ( ! empty( $post ) ) {
+			if ( ! empty( $post_id ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post->ID, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post_id, $check_dupes ) );
 
 				// keep going to find more images
 				// the featured / attached image(s) will be listed first in the open graph meta property tags

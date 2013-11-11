@@ -145,7 +145,6 @@ if ( ! class_exists( 'NgfbAdminSocialFacebook' ) && class_exists( 'NgfbAdminSoci
 			}
 			return $ret;
 		}
-
 	}
 }
 

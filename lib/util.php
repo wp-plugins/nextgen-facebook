@@ -113,17 +113,32 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			}
 		}
 
+		public function get_the_object( $use_post = false ) {
+			$obj = false;
+
+			if ( $use_post === false ) 
+				$obj = get_queried_object();
+			elseif ( $use_post === true ) { 
+				global $post; 
+				if ( isset( $post->ID ) )
+					$obj = $post;
+			} elseif ( is_numeric( $use_post ) ) 
+				$obj = get_post( $use_post );
+			else $this->p->debug->log( 'cannot determine object type' );
+
+			return $obj;
+		}
+
 		// use_post = false when used for open graph meta tags and buttons in widget,
-		// rue when buttons are added to individual posts on an index webpage
+		// true when buttons are added to individual posts on an index webpage
 		// most of this code is from yoast wordpress seo, to try and match its canonical url value
 		public function get_sharing_url( $use_post = false, $add_page = true, $source_id = '' ) {
 			$url = false;
 			if ( is_singular() || $use_post !== false ) {
-				if ( $use_post === false ) { $obj = get_queried_object(); }
-				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
-				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
-				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $url; }
-
+				if ( ( $obj = $this->get_the_object( $use_post ) ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return $url;
+				}
 				$url = get_permalink( $obj->ID );
 				if ( $add_page && get_query_var( 'page' ) > 1 ) {
 					global $wp_rewrite;

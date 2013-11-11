@@ -14,7 +14,7 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 		global $ngfb;
 
 		if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-			$this->p->debug->log( 'transient cache is disabled' );
+			$ngfb->debug->log( 'transient cache is disabled' );
 		else {
 			$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
 			$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );

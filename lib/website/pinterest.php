@@ -58,7 +58,6 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 
 			);
 		}
-
 	}
 }
 
@@ -147,5 +146,4 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
-
 ?>

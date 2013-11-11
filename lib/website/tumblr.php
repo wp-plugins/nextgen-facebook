@@ -76,7 +76,6 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				$this->p->admin->form->get_input( 'tumblr_desc_len', 'short' ).' Characters or less</td>',
 			);
 		}
-
 	}
 }
 
@@ -201,8 +200,6 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 
 			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$js_url.'"></script>';
 		}
-		
 	}
-
 }
 ?>

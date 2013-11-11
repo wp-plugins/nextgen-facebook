@@ -47,7 +47,6 @@ if ( ! class_exists( 'NgfbAdminSocialLinkedin' ) && class_exists( 'NgfbAdminSoci
 				$this->p->admin->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
 			);
 		}
-
 	}
 }
 
@@ -91,8 +90,6 @@ if ( ! class_exists( 'NgfbSocialLinkedin' ) && class_exists( 'NgfbSocial' ) ) {
 
 			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
-
 	}
-
 }
 ?>

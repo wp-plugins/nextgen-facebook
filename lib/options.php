@@ -753,30 +753,24 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			$opts['options_version'] = $this->options_version;
 			$opts['plugin_version'] = $this->p->cf['version'];
 
-			// don't save unless someone is there to see the success / error messages
-			// plugin activation may hide notices, so main plugin class tests for activation and exits early
-			if ( is_admin() ) {
+			// update_option() returns false if options are the same or there was an error, 
+			// so check to make sure they need to be updated to avoid throwing a false error
+			if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
 
-				// update_option() returns false if options are the same or there was an error, 
-				// so check to make sure they need to be updated to avoid throwing a false error
-				if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
+				if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
+					$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
 
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
-						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ) );
-
-					if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
-						if ( $old_opts_ver !== $this->options_version ) {
-							$this->p->debug->log( 'upgraded plugin options have been saved' );
-							$this->p->notice->inf( 'Plugin settings have been upgraded and saved.' );
-						}
-					} else {
-						$this->p->debug->log( 'failed to save the upgraded plugin options' );
-						$this->p->notice->err( 'The plugin settings have been upgraded, 
-							but WordPress returned an error when saving them.' );
-						return $opts;
+				if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
+					if ( $old_opts_ver !== $this->options_version ) {
+						$this->p->debug->log( 'upgraded plugin options have been saved' );
+						$this->p->notice->inf( 'Plugin settings have been upgraded and saved.', true );
 					}
-				} else $this->p->debug->log( 'new and old options array is identical' );
-			} else $this->p->debug->log( 'not in admin interface: postponing options save' );
+				} else {
+					$this->p->debug->log( 'failed to save the upgraded plugin options' );
+					$this->p->notice->err( 'The plugin settings have been upgraded, but WordPress returned an error when saving them.', true );
+					return $opts;
+				}
+			} else $this->p->debug->log( 'new and old options array is identical' );
 
 			$this->p->debug->log( 'options successfully upgraded' );
 			return $opts;

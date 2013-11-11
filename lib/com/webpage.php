@@ -76,18 +76,15 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function get_title( $textlen = 70, $trailing = '',
 			$use_post = false, $use_cache = true, $add_hashtags = false ) {
 
-			$obj = new stdClass;
 			$title = false;
 			$parent_title = '';
 			$paged_suffix = '';
 			$hashtags = '';
-
 			if ( is_singular() || $use_post !== false ) {
-				if ( $use_post === false ) { $obj = get_queried_object(); }
-				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
-				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
-				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $desc; }
-
+				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return $title;
+				}
 				// get title from custom settings
 				$title = $this->p->meta->get_options( $obj->ID, 'og_title' );
 				if ( ! empty( $title ) )
@@ -204,16 +201,13 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function get_description( $textlen = 156, $trailing = '',
 			$use_post = false, $use_cache = true, $add_hashtags = true ) {
 
-			$obj = new stdClass;
 			$desc = false;
 			$hashtags = '';
-
 			if ( is_singular() || $use_post !== false ) {
-				if ( $use_post === false ) { $obj = get_queried_object(); }
-				elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); }
-				elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); }
-				else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $desc; }
-
+				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return $desc;
+				}
 				// get description from custom settings
 				$desc = $this->p->meta->get_options( $obj->ID, 'og_desc' );
 				if ( ! empty( $desc ) )
@@ -310,16 +304,12 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		public function get_content( $use_post = true, $use_cache = true ) {
-
-			$obj = new stdClass;
 			$content = false;
-
-			if ( $use_post === false ) { $obj = get_queried_object(); } 
-			elseif ( $use_post === true ) { global $post; $obj = get_post( $post->ID ); } 
-			elseif ( is_numeric( $use_post ) ) { $obj = get_post( $use_post ); } 
-			else { $this->p->debug->log( 'exiting early: cannot determine object type' ); return $content; }
-
-			$this->p->debug->log( 'using content from obj id '.$obj->ID );
+			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return $content;
+			}
+			$this->p->debug->log( 'using content from object id '.$obj->ID );
 			$filter_content = $this->p->options['plugin_filter_content'];
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 

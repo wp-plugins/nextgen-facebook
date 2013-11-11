@@ -81,7 +81,6 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				) . '</td>',
 			);
 		}
-
 	}
 }
 
@@ -122,8 +121,6 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 
 			return '<script type="text/javascript" id="gplus-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "gplus-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}
-		
 	}
-
 }
 ?>

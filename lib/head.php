@@ -69,7 +69,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		// called from add_header() and the work/header.php template
 		public function html( $meta_tags = array() ) {
-			global $post;
+			
+			$obj = $this->p->util->get_the_object();
 			$author_url = '';
 		
 			echo "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";
@@ -101,8 +102,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				unset ( $meta_tags['link:author'] );
 			} else {
 				if ( is_singular() ) {
-					if ( ! empty( $post ) && $post->post_author )
-						$link_rel['author'] = $this->p->user->get_author_url( $post->post_author, 
+					if ( ! empty( $obj->post_author ) )
+						$link_rel['author'] = $this->p->user->get_author_url( $obj->post_author, 
 							$this->p->options['link_author_field'] );
 					elseif ( ! empty( $this->p->options['link_def_author_id'] ) )
 						$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
@@ -122,8 +123,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
-					if ( is_singular() && ! empty( $post ) )
-						$meta_tags['description'] = $this->p->meta->get_options( $post->ID, 'meta_desc' );
+					if ( is_singular() && ! empty( $obj->ID ) )
+						$meta_tags['description'] = $this->p->meta->get_options( $obj->ID, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',
 							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false

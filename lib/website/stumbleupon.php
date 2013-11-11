@@ -76,7 +76,6 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge.'</td>',
 			);
 		}
-
 	}
 }
 
