@@ -118,9 +118,9 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 			if ( $use_post === false ) 
 				$obj = get_queried_object();
-			elseif ( $use_post === true ) { 
+			if ( $use_post === true || empty( $obj ) ) {	// fallback to $post if object is empty
 				global $post; 
-				if ( isset( $post->ID ) )
+				if ( isset( $post->ID ) )		// at a minimum, we need a post ID
 					$obj = $post;
 			} elseif ( is_numeric( $use_post ) ) 
 				$obj = get_post( $use_post );

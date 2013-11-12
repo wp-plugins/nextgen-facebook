@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares.
-Version: 6.16dev6
+Version: 6.16dev7
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -112,7 +112,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 					$this->options = $this->opt->get_defaults();
 					$this->options['options_version'] = $this->opt->options_version;
-					$this->options['plugin_version'] = $this->cf['version'];
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );
@@ -150,6 +149,11 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 * check options array read from database - upgrade options if necessary
 			 */
 			$this->options = $this->opt->check_options( $this->options );
+			if ( is_multisite() && ( empty( $this->site_options['options_version'] ) || 
+				$this->site_options['options_version'] !== $this->opt->options_version ) ) {
+				$this->debug->log( 'site options version different than saved: calling upgrade() method.' );
+				$this->site_options = $this->opt->site_upgrade( $this->site_options, $this->opt->get_site_defaults() );
+			}
 
 			/*
 			 * setup class properties, etc. based on option values
@@ -217,15 +221,17 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				if ( is_array( $this->options ) && is_array( $this->site_options ) ) {
 					foreach ( $this->site_options as $key => $val ) {
 						if ( array_key_exists( $key, $this->options ) && 
-							array_key_exists( $key.'_use', $this->site_options ) ) {
+							array_key_exists( $key.':use', $this->site_options ) ) {
 
-							if ( $this->site_options[$key.'_use'] == 'force' ||
-								( $this->site_options[$key.'_use'] == 'empty' && empty( $this->options[$key] ) ) )
+							if ( $this->site_options[$key.':use'] == 'force' ||
+								( $this->site_options[$key.':use'] == 'empty' && empty( $this->options[$key] ) ) )
 									$this->options[$key] = $this->site_options[$key];
 						}
 					}
 				}
 			}
+			$this->options = apply_filters( $this->cf['lca'].'_get_options', $this->options );
+			$this->site_options = apply_filters( $this->cf['lca'].'_get_site_options', $this->site_options );
 		}
 	}
 

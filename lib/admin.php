@@ -162,19 +162,16 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$def_opts = $this->p->opt->get_defaults();
 			$opts = $this->p->util->restore_checkboxes( $opts );
 			$opts = array_merge( $this->p->options, $opts );
-			$opts = $this->p->opt->sanitize( $opts, $def_opts );
-
-			// remove any options that shouldn't exist
-			foreach ( $opts as $key => $val )
-				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
-					unset( $opts[$key] );
-			unset ( $key, $val );
+			$opts = $this->p->opt->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
 
 			// update the social stylesheet
 			if ( empty( $opts['buttons_link_css'] ) ) 
 				$this->p->style->unlink_social();
 			else $this->p->style->update_social( $opts );
 
+			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts );
+
+			// wordpress manages the option table update, but we must provide the update message
 			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->cf['uca'].' Info</b> : '.
 				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
@@ -202,19 +199,21 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				exit;
 			}
 
-			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ? 
-				array() : $this->p->util->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
+			$def_opts = $this->p->opt->get_site_defaults();
+			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ?  $def_opts : 
+				$this->p->util->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
+			$opts = array_merge( $this->p->site_options, $opts );
+			$opts = $this->p->opt->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
 
 			if ( empty( $this->p->site_options['plugin_tid'] ) ) {
 				$this->p->update_error = '';
 				delete_option( $this->p->cf['lca'].'_update_error' );
 			}
-
+			$opts = apply_filters( $this->p->cf['lca'].'_save_site_options', $opts );
 			update_site_option( NGFB_SITE_OPTIONS_NAME, $opts );
 
 			// store message in user options table
 			$this->p->notice->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ), true );
-
 			wp_redirect( $this->p->util->get_admin_url( $page ).'&settings-updated=true' );
 			exit;
 		}
@@ -363,7 +362,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
-				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 			}
 			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );

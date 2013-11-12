@@ -134,20 +134,20 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
-			'A custom Image ID to include (or list first) in the Open Graph meta tags, 
+			'A custom Image ID to include (and list first) in the Open Graph meta tags, 
 			\'Large Image Summary\' Twitter Card meta tag, Pinterest and Tumblr social
-			sharing buttons (this is the image they will share).' ) .
+			sharing buttons (the image that they will share).' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Image URL', 'medium', null, 
-			'A custom image URL, instead of an Image ID, to include (or list first)
+			'A custom image URL, instead of an Image ID, to include (and list first)
 			in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Video URL', 'medium', null, 
-			'A custom video URL, from YouTube or Vimeo, to include (or list first) in the 
+			'A custom video URL, from YouTube or Vimeo, to include (and list first) in the 
 			Open Graph meta tags, \'Player\' Twitter Card meta tag, and the Tumblr social 
-			sharing button (this is the video that will be shared).' ) .
+			sharing button (the video that will be shared).' ).
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Maximum Images', 'medium', null, 

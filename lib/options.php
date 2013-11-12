@@ -14,80 +14,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 		private $p;
 
-		private $renamed = array(
-			'add_meta_desc' => 'inc_description',
-			'og_def_img' => 'og_def_img_url',
-			'og_def_home' => 'og_def_img_on_index',
-			'og_def_on_home' => 'og_def_img_on_index',
-			'og_def_on_search' => 'og_def_img_on_search',
-			'buttons_on_home' => 'buttons_on_index',
-			'buttons_lang' => 'gp_lang',
-			'ngfb_cache_hours' => 'plugin_file_cache_hrs',
-			'fb_enable' => 'fb_on_the_content', 
-			'gp_enable' => 'gp_on_the_content',
-			'twitter_enable' => 'twitter_on_the_content',
-			'linkedin_enable' => 'linkedin_on_the_content',
-			'pin_enable' => 'pin_on_the_content',
-			'stumble_enable' => 'stumble_on_the_content',
-			'tumblr_enable' => 'tumblr_on_the_content',
-			'buttons_location' => 'buttons_location_the_content',
-			'plugin_pro_tid' => 'plugin_tid',
-			'og_admins' => 'fb_admins',
-			'og_app_id' => 'fb_app_id',
-			'link_desc_len' => 'meta_desc_len',
-			'ngfb_version' => 'options_version',
-			'ngfb_opts_ver' => 'options_version',
-			'ngfb_plugin_ver' => 'plugin_version',
-			'ngfb_pro_tid' => 'plugin_tid',
-			'ngfb_preserve' => 'plugin_preserve',
-			'ngfb_reset' => 'plugin_reset',
-			'ngfb_debug' => 'plugin_debug',
-			'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
-			'ngfb_skip_small_img' => 'plugin_ignore_small_img',
-			'ngfb_filter_content' => 'plugin_filter_content',
-			'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
-			'ngfb_add_to_post' => 'plugin_add_to_post',
-			'ngfb_add_to_page' => 'plugin_add_to_page',
-			'ngfb_add_to_attachment' => 'plugin_add_to_attachment',
-			'ngfb_verify_certs' => 'plugin_verify_certs',
-			'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
-			'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
-			'ngfb_min_shorten' => 'plugin_min_shorten',
-			'ngfb_googl_api_key' => 'plugin_googl_api_key',
-			'ngfb_bitly_login' => 'plugin_bitly_login',
-			'ngfb_bitly_api_key' => 'plugin_bitly_api_key',
-			'ngfb_cdn_urls' => 'plugin_cdn_urls',
-			'ngfb_cdn_folders' => 'plugin_cdn_folders',
-			'ngfb_cdn_excl' => 'plugin_cdn_excl',
-			'ngfb_cdn_not_https' => 'plugin_cdn_not_https',
-			'ngfb_cdn_www_opt' => 'plugin_cdn_www_opt',
-			'ngfb_cm_fb_name' => 'plugin_cm_fb_name', 
-			'ngfb_cm_fb_label' => 'plugin_cm_fb_label', 
-			'ngfb_cm_fb_enabled' => 'plugin_cm_fb_enabled',
-			'ngfb_cm_gp_name' => 'plugin_cm_gp_name', 
-			'ngfb_cm_gp_label' => 'plugin_cm_gp_label', 
-			'ngfb_cm_gp_enabled' => 'plugin_cm_gp_enabled',
-			'ngfb_cm_linkedin_name' => 'plugin_cm_linkedin_name', 
-			'ngfb_cm_linkedin_label' => 'plugin_cm_linkedin_label', 
-			'ngfb_cm_linkedin_enabled' => 'plugin_cm_linkedin_enabled',
-			'ngfb_cm_pin_name' => 'plugin_cm_pin_name', 
-			'ngfb_cm_pin_label' => 'plugin_cm_pin_label', 
-			'ngfb_cm_pin_enabled' => 'plugin_cm_pin_enabled',
-			'ngfb_cm_tumblr_name' => 'plugin_cm_tumblr_name', 
-			'ngfb_cm_tumblr_label' => 'plugin_cm_tumblr_label', 
-			'ngfb_cm_tumblr_enabled' => 'plugin_cm_tumblr_enabled',
-			'ngfb_cm_twitter_name' => 'plugin_cm_twitter_name', 
-			'ngfb_cm_twitter_label' => 'plugin_cm_twitter_label', 
-			'ngfb_cm_twitter_enabled' => 'plugin_cm_twitter_enabled',
-			'ngfb_cm_yt_name' => 'plugin_cm_yt_name', 
-			'ngfb_cm_yt_label' => 'plugin_cm_yt_label', 
-			'ngfb_cm_yt_enabled' => 'plugin_cm_yt_enabled',
-			'ngfb_cm_skype_name' => 'plugin_cm_skype_name', 
-			'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
-			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
-		);
-
-		public $options_version = '105';	// increment when adding/removing default options
+		// increment when changing default options
+		public $options_version = '113';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -108,9 +36,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 		public $site_defaults = array(
 			'options_version' => '',
-			'plugin_version' => '',
 			'plugin_tid' => '',
-			'plugin_tid_use' => 'default',
+			'plugin_tid:use' => 'default',
 		);
 
 		public $defaults = array(
@@ -368,18 +295,18 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function get_site_defaults( $idx = '' ) {
+			$defs = apply_filters( $this->p->cf['lca'].'_get_site_defaults', $this->site_defaults );
 			if ( ! empty( $idx ) ) {
-				if ( array_key_exists( $idx, $this->site_defaults ) )
-					return $this->site_defaults[$idx];
+				if ( array_key_exists( $idx, $defs ) )
+					return $defs[$idx];
 				else return false;
-			} else return $this->site_defaults;
+			} else return $defs;
 		}
 
 		public function get_defaults( $idx = '' ) {
-
-			// css files are only loaded once into defaults
 			foreach ( $this->p->cf['css'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
+				// css files are only loaded once into defaults to minimize disk i/o
 				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
 						$this->p->notice->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
@@ -407,14 +334,15 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( is_array( $this->p->site_options ) ) {
 				foreach ( $this->p->site_options as $key => $val ) {
 					if ( array_key_exists( $key, $this->defaults ) && 
-						array_key_exists( $key.'_use', $this->p->site_options ) ) {
+						array_key_exists( $key.':use', $this->p->site_options ) ) {
 
-						if ( $this->p->site_options[$key.'_use'] == 'default' )
+						if ( $this->p->site_options[$key.':use'] == 'default' )
 							$this->defaults[$key] = $this->p->site_options[$key];
 					}
 				}
 			}
 
+			$this->defaults = apply_filters( $this->p->cf['lca'].'_get_defaults', $this->defaults );
 			if ( ! empty( $idx ) ) 
 				if ( array_key_exists( $idx, $this->defaults ) )
 					return $this->defaults[$idx];
@@ -444,11 +372,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function check_options( &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-				if ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ||
-					empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
+				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
+					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
-					$this->p->debug->log( 'plugin version different than options version: calling upgrade() method.' );
-					$opts = $this->upgrade( $opts, $this->get_defaults() );
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
+						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
+
+					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
+						$this->p->debug->log( 'plugin or options version different than saved: calling upgrade() method.' );
+						$opts = $this->upgrade( $opts, $this->get_defaults() );
+					} else $this->save_options( NGFB_OPTIONS_NAME, $opts );	// updates the plugin version option
 				}
 				// add support for post types that may have been added
 				$opts = $this->add_to_post_types( $opts );
@@ -483,7 +416,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
-
 			}
 			return $opts;
 		}
@@ -492,217 +424,323 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function sanitize( $opts = array(), $def_opts = array() ) {
 
 			// make sure we have something to work with
-			if ( ! empty( $def_opts ) && is_array( $def_opts ) ) {
+			if ( empty( $def_opts ) || ! is_array( $def_opts ) )
+				return $opts;
 
-				// loop through all the known option keys
-				foreach ( $def_opts as $key => $def_val ) {
-					/*
-					 * remove html (except from css), decode entities, and strip slashes
-					 */
-					if ( array_key_exists( $key, $opts ) ) {
-						switch ( $key ) {
-							case 'buttons_css_social':
-							case 'buttons_css_excerpt':
-							case 'buttons_css_content':
-							case 'buttons_css_shortcode':
-							case 'buttons_css_widget':
-								break;
-							default:
-								$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
-								break;
-						}
-						$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
-					}
-
+			// loop through all the known option keys
+			foreach ( $def_opts as $key => $def_val ) {
+				/*
+				 * remove html (except from css), decode entities, and strip slashes
+				 */
+				if ( array_key_exists( $key, $opts ) ) {
 					switch ( $key ) {
-						/*
-						 * twitter-style usernames
-						 */
-						case 'tc_site':
-							$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
-								strtolower( $opts[$key] ) ), 0, 15 );
-							if ( ! empty( $opts[$key] ) ) 
-								$opts[$key] = '@'.$opts[$key];
-							break;
-						/*
-						 * strip leading urls off Facebook usernames
-						 */
-						case 'fb_admins':
-							$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
-								$opts[$key] );
-							break;
-						/*
-						 * must be a url (reset to default if not)
-						 */
-						case 'og_img_url':
-						case 'og_vid_url':
-						case 'og_def_img_url':
-						case 'og_publisher_url':
-						case 'link_publisher_url':
-						case 'pin_img_url':
-						case 'plugin_cdn_urls':
-							if ( ! empty( $opts[$key] ) && 
-								strpos( $opts[$key], '://' ) === false ) 
-									$opts[$key] = $def_val;
-							break;
-						/*
-						 * must be numeric (blank or zero is ok)
-						 */
-						case 'link_def_author_id':
-						case 'og_desc_hashtags': 
-						case 'og_img_max':
-						case 'og_vid_max':
-						case 'og_img_id':
-						case 'og_def_img_id':
-						case 'og_def_author_id':
-						case 'plugin_file_cache_hrs':
-							if ( ! empty( $opts[$key] ) && 
-								! is_numeric( $opts[$key] ) )
-									$opts[$key] = $def_val;
-							break;
-						/*
-						 * integer options that must me 1 or more (not zero)
-						 */
-						case 'meta_desc_len': 
-						case 'og_desc_len': 
-						case 'og_img_width': 
-						case 'og_img_height': 
-						case 'og_title_len': 
-						case 'fb_order': 
-						case 'gp_order': 
-						case 'twitter_order': 
-						case 'linkedin_order': 
-						case 'managewp_order': 
-						case 'stumble_order': 
-						case 'stumble_badge':
-						case 'pin_order': 
-						case 'pin_cap_len': 
-						case 'tumblr_order': 
-						case 'tumblr_desc_len': 
-						case 'tumblr_cap_len':
-						case 'plugin_object_cache_exp':
-						case 'plugin_min_shorten':
-							if ( empty( $opts[$key] ) || 
-								! is_numeric( $opts[$key] ) )
-									$opts[$key] = $def_val;
-							break;
-						/*
-						 * needs to be filtered
-						 */
-						case 'og_title_sep':
-							$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
-						/*
-						 * text strings that can be blank
-						 */
-						case 'fb_app_id':
-						case 'gp_expandto':
-						case 'og_title':
-						case 'og_desc':
-						case 'og_site_name':
-						case 'og_site_description':
-						case 'meta_desc':
-						case 'tc_desc':
-						case 'pin_desc':
-						case 'tumblr_img_desc':
-						case 'tumblr_vid_desc':
-						case 'twitter_desc':
-						case 'plugin_tid':
-						case 'plugin_googl_api_key':
-						case 'plugin_bitly_api_key':
-						case 'plugin_cdn_folders':
-						case 'plugin_cdn_excl':
-							if ( ! empty( $opts[$key] ) )
-								$opts[$key] = trim( $opts[$key] );
-							break;
-						/*
-						 * options that cannot be blank
-						 */
-						case 'link_author_field':
-						case 'og_art_section':
-						case 'og_img_id_pre': 
-						case 'og_def_img_id_pre': 
-						case 'og_author_field':
-						case 'buttons_location_the_excerpt': 
-						case 'buttons_location_the_content': 
 						case 'buttons_css_social':
 						case 'buttons_css_excerpt':
 						case 'buttons_css_content':
 						case 'buttons_css_shortcode':
 						case 'buttons_css_widget':
-						case 'fb_js_loc': 
-						case 'fb_lang': 
-						case 'fb_markup': 
-						case 'gp_js_loc': 
-						case 'gp_lang': 
-						case 'gp_action': 
-						case 'gp_size': 
-						case 'gp_annotation': 
-						case 'twitter_js_loc': 
-						case 'twitter_count': 
-						case 'twitter_size': 
-						case 'linkedin_js_loc': 
-						case 'linkedin_counter':
-						case 'managewp_js_loc': 
-						case 'managewp_type':
-						case 'stumble_js_loc': 
-						case 'pin_js_loc': 
-						case 'pin_count_layout':
-						case 'pin_img_size':
-						case 'pin_caption':
-						case 'tumblr_js_loc': 
-						case 'tumblr_button_style':
-						case 'tumblr_img_size':
-						case 'tumblr_caption':
-						case 'plugin_cm_fb_name': 
-						case 'plugin_cm_fb_label': 
-						case 'plugin_cm_gp_name': 
-						case 'plugin_cm_gp_label': 
-						case 'plugin_cm_linkedin_name': 
-						case 'plugin_cm_linkedin_label': 
-						case 'plugin_cm_pin_name': 
-						case 'plugin_cm_pin_label': 
-						case 'plugin_cm_tumblr_name': 
-						case 'plugin_cm_tumblr_label': 
-						case 'plugin_cm_twitter_name': 
-						case 'plugin_cm_twitter_label': 
-						case 'plugin_cm_yt_name': 
-						case 'plugin_cm_yt_label': 
-						case 'plugin_cm_skype_name': 
-						case 'plugin_cm_skype_label': 
-						case 'wp_cm_aim_label': 
-						case 'wp_cm_jabber_label': 
-						case 'wp_cm_yim_label': 
-							if ( empty( $opts[$key] ) ) 
-								$opts[$key] = $def_val;
 							break;
-						/*
-						 * everything else is a 1/0 checkbox option
-						 */
 						default:
-							// make sure the default option is also 1/0
-							if ( $def_val === 0 || $def_val === 1 )
-								$opts[$key] = empty( $opts[$key] ) ? 0 : 1;
+							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
 							break;
 					}
+					$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
 				}
-				unset ( $key, $def_val );
-
-				if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
-					$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
-	
+				switch ( $key ) {
+					/*
+					 * twitter-style usernames
+					 */
+					case 'tc_site':
+						$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
+							strtolower( $opts[$key] ) ), 0, 15 );
+						if ( ! empty( $opts[$key] ) ) 
+							$opts[$key] = '@'.$opts[$key];
+						break;
+					/*
+					 * strip leading urls off Facebook usernames
+					 */
+					case 'fb_admins':
+						$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
+							$opts[$key] );
+						break;
+					/*
+					 * must be a url (reset to default if not)
+					 */
+					case 'og_img_url':
+					case 'og_vid_url':
+					case 'og_def_img_url':
+					case 'og_publisher_url':
+					case 'link_publisher_url':
+					case 'pin_img_url':
+					case 'plugin_cdn_urls':
+						if ( ! empty( $opts[$key] ) && strpos( $opts[$key], '://' ) === false ) {
+							$this->p->notice->inf( 'The value of option \''.$key.'\' must be a URL'.
+								' - resetting the option to its default value.', true );
+							$opts[$key] = $def_val;
+						}
+						break;
+					/*
+					 * must be numeric (blank or zero is ok)
+					 */
+					case 'link_def_author_id':
+					case 'og_desc_hashtags': 
+					case 'og_img_max':
+					case 'og_vid_max':
+					case 'og_img_id':
+					case 'og_def_img_id':
+					case 'og_def_author_id':
+					case 'plugin_file_cache_hrs':
+						if ( ! empty( $opts[$key] ) && ! is_numeric( $opts[$key] ) ) {
+							$this->p->notice->inf( 'The value of option \''.$key.'\' must be numeric'.
+								' - resetting the option to its default value.', true );
+							$opts[$key] = $def_val;
+						}
+						break;
+					/*
+					 * integer options that must me 1 or more (not zero)
+					 */
+					case 'meta_desc_len': 
+					case 'og_desc_len': 
+					case 'og_img_width': 
+					case 'og_img_height': 
+					case 'og_title_len': 
+					case 'fb_order': 
+					case 'gp_order': 
+					case 'twitter_order': 
+					case 'linkedin_order': 
+					case 'managewp_order': 
+					case 'stumble_order': 
+					case 'stumble_badge':
+					case 'pin_order': 
+					case 'pin_cap_len': 
+					case 'tumblr_order': 
+					case 'tumblr_desc_len': 
+					case 'tumblr_cap_len':
+					case 'plugin_object_cache_exp':
+					case 'plugin_min_shorten':
+						if ( empty( $opts[$key] ) || ! is_numeric( $opts[$key] ) ) {
+							$this->p->notice->inf( 'The value of option \''.$key.'\' must be greater or equal to 1'.
+								' - resetting the option to its default value.', true );
+							$opts[$key] = $def_val;
+						}
+						break;
+					/*
+					 * needs to be textured and decoded
+					 */
+					case 'og_title_sep':
+						$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
+						break;
+					/*
+					 * must be alpha-numeric uppercase
+					 */
+					case 'plugin_tid':
+						if ( ! empty( $opts[$key] ) && preg_match( '/[^A-Z0-9]/', $opts[$key] ) ) {
+							$this->p->notice->inf( '\''.$opts[$key].'\' is not an accepted value for option \''.$key.'\''.
+								' - resetting the option to its default value.', true );
+							$opts[$key] = $def_val;
+						}
+						break;
+					/*
+					 * text strings that can be blank
+					 */
+					case 'og_art_section':
+					case 'fb_app_id':
+					case 'gp_expandto':
+					case 'og_title':
+					case 'og_desc':
+					case 'og_site_name':
+					case 'og_site_description':
+					case 'meta_desc':
+					case 'tc_desc':
+					case 'pin_desc':
+					case 'tumblr_img_desc':
+					case 'tumblr_vid_desc':
+					case 'twitter_desc':
+					case 'plugin_googl_api_key':
+					case 'plugin_bitly_api_key':
+					case 'plugin_cdn_folders':
+					case 'plugin_cdn_excl':
+						if ( ! empty( $opts[$key] ) )
+							$opts[$key] = trim( $opts[$key] );
+						break;
+					/*
+					 * options that cannot be blank
+					 */
+					case 'link_author_field':
+					case 'og_img_id_pre': 
+					case 'og_def_img_id_pre': 
+					case 'og_author_field':
+					case 'buttons_location_the_excerpt': 
+					case 'buttons_location_the_content': 
+					case 'buttons_css_social':
+					case 'buttons_css_excerpt':
+					case 'buttons_css_content':
+					case 'buttons_css_shortcode':
+					case 'buttons_css_widget':
+					case 'fb_js_loc': 
+					case 'fb_lang': 
+					case 'fb_markup': 
+					case 'gp_js_loc': 
+					case 'gp_lang': 
+					case 'gp_action': 
+					case 'gp_size': 
+					case 'gp_annotation': 
+					case 'twitter_js_loc': 
+					case 'twitter_count': 
+					case 'twitter_size': 
+					case 'linkedin_js_loc': 
+					case 'linkedin_counter':
+					case 'managewp_js_loc': 
+					case 'managewp_type':
+					case 'stumble_js_loc': 
+					case 'pin_js_loc': 
+					case 'pin_count_layout':
+					case 'pin_img_size':
+					case 'pin_caption':
+					case 'tumblr_js_loc': 
+					case 'tumblr_button_style':
+					case 'tumblr_img_size':
+					case 'tumblr_caption':
+					case 'plugin_tid:use':
+					case 'plugin_cm_fb_name': 
+					case 'plugin_cm_fb_label': 
+					case 'plugin_cm_gp_name': 
+					case 'plugin_cm_gp_label': 
+					case 'plugin_cm_linkedin_name': 
+					case 'plugin_cm_linkedin_label': 
+					case 'plugin_cm_pin_name': 
+					case 'plugin_cm_pin_label': 
+					case 'plugin_cm_tumblr_name': 
+					case 'plugin_cm_tumblr_label': 
+					case 'plugin_cm_twitter_name': 
+					case 'plugin_cm_twitter_label': 
+					case 'plugin_cm_yt_name': 
+					case 'plugin_cm_yt_label': 
+					case 'plugin_cm_skype_name': 
+					case 'plugin_cm_skype_label': 
+					case 'wp_cm_aim_label': 
+					case 'wp_cm_jabber_label': 
+					case 'wp_cm_yim_label': 
+						if ( empty( $opts[$key] ) ) {
+							$this->p->notice->inf( 'The value of option \''.$key.'\' cannot be empty'.
+								' - resetting the option to its default value.', true );
+							$opts[$key] = $def_val;
+						}
+						break;
+					/*
+					 * everything else is a 1/0 checkbox option
+					 */
+					default:
+							// make sure the default option is also 1/0
+						if ( $def_val === 0 || $def_val === 1 )
+							$opts[$key] = empty( $opts[$key] ) ? 0 : 1;
+						break;
+				}
 			}
+			unset ( $key, $def_val );
+
+			// og_desc_len must be at least 156 chars (defined in config)
+			if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
+				$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
+
 			return $opts;
 		}
 
-		public function upgrade( &$opts = array(), $def_opts = array() ) {
-
+		// second argument accepts output from functons, so don't force reference
+		public function site_upgrade( &$opts = array(), $def_opts = array() ) {
 			// make sure we have something to work with
 			if ( empty( $opts ) || ! is_array( $opts ) ) {
 				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
 				return $opts;
 			}
+			$renamed_keys = array(
+				'plugin_tid_use' => 'plugin_tid:use',
+			);
+			$opts = $this->rename_keys( $renamed_keys, $opts );
+			$opts = $this->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
+			$this->save_options( NGFB_SITE_OPTIONS_NAME, $opts );
+			return $opts;
+		}
 
-			$opts = $this->rename_keys( $this->renamed, $opts );
+		// second argument accepts output from functons, so don't force reference
+		public function upgrade( &$opts = array(), $def_opts = array() ) {
+			// make sure we have something to work with
+			if ( empty( $opts ) || ! is_array( $opts ) ) {
+				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
+				return $opts;
+			}
+			$renamed_keys = array(
+				'add_meta_desc' => 'inc_description',
+				'og_def_img' => 'og_def_img_url',
+				'og_def_home' => 'og_def_img_on_index',
+				'og_def_on_home' => 'og_def_img_on_index',
+				'og_def_on_search' => 'og_def_img_on_search',
+				'buttons_on_home' => 'buttons_on_index',
+				'buttons_lang' => 'gp_lang',
+				'ngfb_cache_hours' => 'plugin_file_cache_hrs',
+				'fb_enable' => 'fb_on_the_content', 
+				'gp_enable' => 'gp_on_the_content',
+				'twitter_enable' => 'twitter_on_the_content',
+				'linkedin_enable' => 'linkedin_on_the_content',
+				'pin_enable' => 'pin_on_the_content',
+				'stumble_enable' => 'stumble_on_the_content',
+				'tumblr_enable' => 'tumblr_on_the_content',
+				'buttons_location' => 'buttons_location_the_content',
+				'plugin_pro_tid' => 'plugin_tid',
+				'og_admins' => 'fb_admins',
+				'og_app_id' => 'fb_app_id',
+				'link_desc_len' => 'meta_desc_len',
+				'ngfb_version' => 'options_version',
+				'ngfb_opts_ver' => 'options_version',
+				'ngfb_pro_tid' => 'plugin_tid',
+				'ngfb_preserve' => 'plugin_preserve',
+				'ngfb_reset' => 'plugin_reset',
+				'ngfb_debug' => 'plugin_debug',
+				'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
+				'ngfb_skip_small_img' => 'plugin_ignore_small_img',
+				'ngfb_filter_content' => 'plugin_filter_content',
+				'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
+				'ngfb_add_to_post' => 'plugin_add_to_post',
+				'ngfb_add_to_page' => 'plugin_add_to_page',
+				'ngfb_add_to_attachment' => 'plugin_add_to_attachment',
+				'ngfb_verify_certs' => 'plugin_verify_certs',
+				'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
+				'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
+				'ngfb_min_shorten' => 'plugin_min_shorten',
+				'ngfb_googl_api_key' => 'plugin_googl_api_key',
+				'ngfb_bitly_login' => 'plugin_bitly_login',
+				'ngfb_bitly_api_key' => 'plugin_bitly_api_key',
+				'ngfb_cdn_urls' => 'plugin_cdn_urls',
+				'ngfb_cdn_folders' => 'plugin_cdn_folders',
+				'ngfb_cdn_excl' => 'plugin_cdn_excl',
+				'ngfb_cdn_not_https' => 'plugin_cdn_not_https',
+				'ngfb_cdn_www_opt' => 'plugin_cdn_www_opt',
+				'ngfb_cm_fb_name' => 'plugin_cm_fb_name', 
+				'ngfb_cm_fb_label' => 'plugin_cm_fb_label', 
+				'ngfb_cm_fb_enabled' => 'plugin_cm_fb_enabled',
+				'ngfb_cm_gp_name' => 'plugin_cm_gp_name', 
+				'ngfb_cm_gp_label' => 'plugin_cm_gp_label', 
+				'ngfb_cm_gp_enabled' => 'plugin_cm_gp_enabled',
+				'ngfb_cm_linkedin_name' => 'plugin_cm_linkedin_name', 
+				'ngfb_cm_linkedin_label' => 'plugin_cm_linkedin_label', 
+				'ngfb_cm_linkedin_enabled' => 'plugin_cm_linkedin_enabled',
+				'ngfb_cm_pin_name' => 'plugin_cm_pin_name', 
+				'ngfb_cm_pin_label' => 'plugin_cm_pin_label', 
+				'ngfb_cm_pin_enabled' => 'plugin_cm_pin_enabled',
+				'ngfb_cm_tumblr_name' => 'plugin_cm_tumblr_name', 
+				'ngfb_cm_tumblr_label' => 'plugin_cm_tumblr_label', 
+				'ngfb_cm_tumblr_enabled' => 'plugin_cm_tumblr_enabled',
+				'ngfb_cm_twitter_name' => 'plugin_cm_twitter_name', 
+				'ngfb_cm_twitter_label' => 'plugin_cm_twitter_label', 
+				'ngfb_cm_twitter_enabled' => 'plugin_cm_twitter_enabled',
+				'ngfb_cm_yt_name' => 'plugin_cm_yt_name', 
+				'ngfb_cm_yt_label' => 'plugin_cm_yt_label', 
+				'ngfb_cm_yt_enabled' => 'plugin_cm_yt_enabled',
+				'ngfb_cm_skype_name' => 'plugin_cm_skype_name', 
+				'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
+				'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
+			);
+			$opts = $this->rename_keys( $renamed_keys, $opts );
 
 			// these option names may have been used in the past, so remove them, just in case
 			if ( $opts['options_version'] < 30 ) {
@@ -726,59 +764,42 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					unset( $opts['og_img_size'] );
 				}
 			}
+			$opts = $this->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
+			$this->save_options( NGFB_OPTIONS_NAME, $opts );
+			return $opts;
+		}
 
-			// unset options that no longer exist
-			foreach ( $opts as $key => $val )
-				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
-				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-					if ( $this->p->debug->is_on() == true )
-						$this->p->notice->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
-					unset( $opts[$key] );
-				}
-			unset ( $key, $val );
-
-			// add missing options and set to defaults
-			foreach ( $def_opts as $key => $def_val ) {
-				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-					$this->p->debug->log( 'adding missing '.$key.' option.' );
-					$opts[$key] = $def_val;
-				}
+		public function save_options( $options_name, &$opts ) {
+			// make sure we have something to work with
+			if ( empty( $opts ) || ! is_array( $opts ) ) {
+				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
+				return $opts;
 			}
-
-			// sanitize and verify the options - just in case
-			$opts = $this->sanitize( $opts, $def_opts );
-
 			// mark the new options as current
-			$old_opts_ver = $opts['options_version'];
+			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->options_version;
 			$opts['plugin_version'] = $this->p->cf['version'];
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error
-			if ( get_option( NGFB_OPTIONS_NAME ) !== $opts ) {
-
-				if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
-					$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
-
-				if ( update_option( NGFB_OPTIONS_NAME, $opts ) == true ) {
-					if ( $old_opts_ver !== $this->options_version ) {
-						$this->p->debug->log( 'upgraded plugin options have been saved' );
+			if ( get_option( $options_name ) !== $opts ) {
+				if ( update_option( $options_name, $opts ) == true ) {
+					if ( $previous_opts_version !== $this->options_version ) {
+						$this->p->debug->log( 'upgraded '.$options_name.' settings have been saved' );
 						$this->p->notice->inf( 'Plugin settings have been upgraded and saved.', true );
 					}
 				} else {
-					$this->p->debug->log( 'failed to save the upgraded plugin options' );
+					$this->p->debug->log( 'failed to save the upgraded '.$options_name.' settings.' );
 					$this->p->notice->err( 'The plugin settings have been upgraded, but WordPress returned an error when saving them.', true );
-					return $opts;
+					return false;
 				}
 			} else $this->p->debug->log( 'new and old options array is identical' );
-
-			$this->p->debug->log( 'options successfully upgraded' );
-			return $opts;
+			return true;
 		}
 
-		public function rename_keys( $renamed = array(), $opts = array() ) {
+		public function rename_keys( $keys = array(), $opts = array() ) {
 			// move old option values to new option names
-			foreach ( $renamed as $old => $new )
+			foreach ( $keys as $old => $new )
 				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
 				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
 					if ( $this->p->debug->is_on() == true )
@@ -791,7 +812,25 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
+		public function cleanup( &$opts = array(), &$def_opts = array() ) {
+			// unset options that no longer exist
+			foreach ( $opts as $key => $val )
+				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
+				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
+					if ( $this->p->debug->is_on() == true )
+						$this->p->notice->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
+					unset( $opts[$key] );
+				}
+			// add missing options and set to defaults
+			foreach ( $def_opts as $key => $def_val ) {
+				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
+					$this->p->debug->log( 'adding missing '.$key.' option.' );
+					$opts[$key] = $def_val;
+				}
+			}
+			$opts = $this->sanitize( $opts, $def_opts );
+			return $opts;
+		}
 	}
-
 }
 ?>

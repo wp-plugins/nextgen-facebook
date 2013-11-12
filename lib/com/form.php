@@ -36,6 +36,9 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			if ( ! is_array( $check ) ) $check = array( 1, 0 );
+			if ( $this->in_options( $name.':use' ) && 
+				$this->options[$name.':use'] == 'force' )
+					return $this->get_fake_checkbox( $this->options[$name], $check, $class, $id );
 			return $this->get_hidden( 'is_checkbox_'.$name, 1 ).
 				'<input type="checkbox" name="'.$this->options_name.'['.$name.']" value="'.$check[0].'"'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
@@ -43,6 +46,13 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ).
 				' title="default is '.
 				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ).'" />'."\n";
+		}
+
+		public function get_fake_checkbox( $value, $check = array( '1', '0' ), $class = '', $id = '' ) {
+			return '<input type="checkbox" disabled="disabled"'.
+				( empty( $class ) ? '' : ' class="'.$class.'"' ).
+				( empty( $id ) ? '' : ' id="'.$id.'"' ).
+				( checked( $value, $check[0], false ) ).' />'."\n";
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
@@ -109,6 +119,9 @@ if ( ! class_exists( 'SucomForm' ) ) {
 
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
+			if ( $this->in_options( $name.':use' ) && 
+				$this->options[$name.':use'] == 'force' )
+					return $this->get_fake_input( $this->options[$name], $class, $id );
 			$html = '';
 			$placeholder = htmlentities( $placeholder );
 			if ( ! empty( $len ) && ! empty( $id ) ) {
@@ -136,11 +149,6 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
 				' value="'.esc_attr( $value ).'" />'."\n";
-		}
-
-		public function get_fake_checkbox( $value, $check = array( '1', '0' ) ) {
-			return '<input type="checkbox" disabled="disabled"'.
-				( checked( $value, $check[0], false ) ).' />'."\n";
 		}
 
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {

@@ -69,9 +69,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			$ret = array();
 			$pro_msg = '';
 			$input = '';
-			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid_use'] ) && $this->p->site_options['plugin_tid_use'] == 'force' ) {
+			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' ) {
 				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
-				$input = $this->p->admin->form->get_fake_input( $this->p->options['plugin_tid'] );
+				$input = $this->p->admin->form->get_input( 'plugin_tid' );
 			} elseif ( $this->p->is_avail['aop'] ) {
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';

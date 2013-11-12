@@ -220,7 +220,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->p->admin->form->get_checkbox( 'og_author_fallback' ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Default Author', null, null, '
-					A default author for webpages missing authorship information (for example, an index webpage without posts). 
+					A default author for webpages <em>missing authorship information</em> (for example, an index webpage without posts). 
 					If you have several authors on your website, you should probably leave this option set to <em>[none]</em> (the default).' ).
 					'<td>'.$this->p->admin->form->get_select( 'og_def_author_id', $user_ids, null, null, true ).'</td>';
 	
@@ -229,17 +229,20 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					(homepage, archives, categories, author, etc.). 
 					If this option is checked, index webpages will be labeled as a an \'article\' with authorship 
 					attributed to the <em>Default Author </em> (default is unchecked).
-					If the <em>Default Author</em> is <em>[none]</em>, then the index webpages will be labeled as a \'webpage\'.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'og_def_author_on_index' ).'</td>';
+					If the <em>Default Author</em> is <em>[none]</em>, then the index webpages will be labeled as a \'website\'.' ).
+					'<td>'.$this->p->admin->form->get_checkbox( 'og_def_author_on_index' ).' defines index webpages as articles</td>';
 	
 					$ret[] = $this->p->util->th( 'Default Author on Search Results', null, null, '
-					Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'og_def_author_on_search' ).'</td>';
+					Check this option if you would like to force the <em>Default Author</em> on search result webpages as well.
+					If this option is checked, search results will be labeled as a an \'article\' with authorship
+					attributed to the <em>Default Author </em> (default is unchecked).' ).
+					'<td>'.$this->p->admin->form->get_checkbox( 'og_def_author_on_search' ).' defines search webpages as articles</td>';
 
-					$ret[] = $this->p->util->th( 'Publisher Page URL', 'highlight', null, '
+					$ret[] = $this->p->util->th( 'Article Publisher Page URL', 'highlight', null, '
 					The URL of your website\'s social page (usually a Facebook page). 
 					For example, the Publisher Page URL for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
 					is <a href="https://www.facebook.com/SurniaUlulaCom" target="_blank">https://www.facebook.com/SurniaUlulaCom</a>.
+					The Publisher Page URL will be included on <em>article</em> type webpages (not indexes).
 					See the Google Settings below for a <em>Publisher Link URL</em> for Google.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_publisher_url', 'wide' ).'</td>';
 

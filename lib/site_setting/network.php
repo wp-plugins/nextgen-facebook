@@ -46,7 +46,11 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_rows( $id ) {
 			$ret = array();
-			$use = array( 'default' => 'As Default Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' );
+			$use = array( 
+				'default' => 'As Default Value', 
+				'empty' => 'If Value is Empty', 
+				'force' => 'Force This Value',
+			);
 			$use_msg = esc_attr( 'Individual sites / blogs may use this value as a default when the plugin is first activated, 
 			if the current site / blog option value is blank, or force every site / blog to use this value (disabling editing of this field).' );
 
@@ -64,7 +68,7 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
 					'<td>'.$this->form->get_input( 'plugin_tid' ).'</td>'.
 					'<td>All Sites Use <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
-					$use_msg.'" /> '.$this->form->get_select( 'plugin_tid_use', $use ).'</td>';
+					$use_msg.'" /> '.$this->form->get_select( 'plugin_tid:use', $use ).'</td>';
 
 					break;
 
@@ -73,5 +77,4 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 	}
 }
-
 ?>

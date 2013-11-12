@@ -240,7 +240,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				}
 			} elseif ( ! empty( $img_url ) ) {
 				$this->p->debug->log( 'found custom meta image url = "'.$img_url.'"' );
-				$image[] = $img_url;
+				array_push( $image, $img_url, null, null, null );
 			}
 
 			if ( ! empty( $image ) ) {
@@ -397,7 +397,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							// provide the expanded content and extract images
 							$og_ret = array_merge( $og_ret, 
 								$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
-							if ( ! empty( $og_ret ) ) return $og_ret;	// return immediately and ignore any other type of image
+							if ( ! empty( $og_ret ) ) 
+								return $og_ret;		// return immediately and ignore any other type of image
 							break;
 					}
 				} else $this->p->debug->log( '[gallery] shortcode not found' );
@@ -423,8 +424,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( ( $check_dupes == false && ! empty( $video_url ) ) || $this->p->util->is_uniq_url( $video_url ) ) {
 				$this->p->debug->log( 'found custom meta video url = "'.$video_url.'"' );
 				$og_video = $this->get_video_info( $video_url );
-				if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) 
-					return $og_ret;
+				if ( ! empty( $og_video ) && 
+					$this->p->util->push_max( $og_ret, $og_video, $num ) ) 
+						return $og_ret;
 			}
 			return $og_ret;
 		}
@@ -450,7 +452,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
 						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
 						$og_video = $this->get_video_info( $embed_url, $embed_width, $embed_height );
-						if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
+						if ( ! empty( $og_video ) && 
+							$this->p->util->push_max( $og_ret, $og_video, $num ) ) 
+								return $og_ret;
 					}
 				}
 			} else $this->p->debug->log( 'no <iframe|embed/> html tag(s) found' );
@@ -458,7 +462,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		}
 
 		private function get_video_info( $embed_url, $embed_width = 0, $embed_height = 0 ) {
-			if ( empty( $embed_url ) ) return array();
+			if ( empty( $embed_url ) ) 
+				return array();
 			$og_video = array(
 				'og:video' => '',
 				'og:video:type' => 'application/x-shockwave-flash',

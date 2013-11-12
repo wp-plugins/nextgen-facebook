@@ -34,25 +34,25 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 		public function log( $type, $msg = '', $store = false, $user = true ) {
 			if ( empty( $msg ) ) 
 				return;
-			if ( $store == true ) {
-				$user_id = get_current_user_id();	// since wp 3.0
-				if ( empty( $user_id ) )		// exclude wp-cron
+			if ( $store == true ) {						// save the message in the database
+				$user_id = get_current_user_id();			// since wp 3.0
+				if ( empty( $user_id ) )				// exclude wp-cron and/or empty user ids
 					$user = false;
-				$msg_opt = $this->p->cf['lca'].'_notices_'.$type;
-				if ( $user == true )
+				$msg_opt = $this->p->cf['lca'].'_notices_'.$type;	// the option name
+				if ( $user == true )					// get the message array from the user table
 					$msg_arr = get_user_option( $msg_opt, $user_id );
-				else $msg_arr = get_option( $msg_opt );
+				else $msg_arr = get_option( $msg_opt );			// get the message array from the options table
 				if ( $msg_arr === false ) 
-					$msg_arr = array();
-				if ( ! in_array( $msg, $msg_arr ) ) {
-					if ( $store == true )
-						$this->p->debug->log( 'storing '.$type.' message'.( $user == true ? ' for user '.$user_id : '' ).': '.$msg );
+					$msg_arr = array();				// if the array doesn't already exist, define a new one
+				if ( ! in_array( $msg, $msg_arr ) ) {			// dont't save duplicates
+					$this->p->debug->log( 'storing '.$type.' message'.
+						( $user == true ? ' for user '.$user_id : '' ).': '.$msg );
 					$msg_arr[] = $msg;
 				}
-				if ( $user == true )
+				if ( $user == true )					// update the user option table
 					update_user_option( $user_id, $msg_opt, $msg_arr );
-				else update_option( $msg_opt, $msg_arr );
-			} elseif ( ! in_array( $msg, $this->log[$type] ) )
+				else update_option( $msg_opt, $msg_arr );		// update the option table
+			} elseif ( ! in_array( $msg, $this->log[$type] ) )		// dont't save duplicates
 				$this->log[$type][] = $msg;
 		}
 
