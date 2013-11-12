@@ -137,7 +137,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 					$atts['embed'] = $this->p->meta->get_options( $post->ID, 'og_vid_url' );
 					if ( empty( $atts['embed'] ) ) {
 						$videos = array();
-						$videos = $this->p->media->get_content_videos( 1, false );	// get the first video, if any
+						$videos = $this->p->media->get_content_videos( 1, $post->ID, false );
 						if ( ! empty( $videos[0]['og:video'] ) ) 
 							$atts['embed'] = $videos[0]['og:video'];
 					}

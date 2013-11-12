@@ -164,25 +164,38 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 			return $ret;
 		}
-		
+
+		// returns an array of $pid and $video_url
+		protected function get_social_vars( $post_id ) {
+
+			$pid = $this->p->meta->get_options( $post_id, 'og_img_id' );
+			$pre = $this->p->meta->get_options( $post_id, 'og_img_id_pre' );
+			$img_url = $this->p->meta->get_options( $post_id, 'og_img_url' );
+			$video_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
+
+			if ( empty( $pid ) ) {
+				if ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) )
+					$pid = get_post_thumbnail_id( $post_id );
+				else $pid = $this->p->media->get_first_attached_image_id( $post_id );
+			}
+
+			if ( empty( $video_url ) ) {
+				$videos = array();
+				// get the first video, if any - don't check for duplicates
+				$videos = $this->p->media->get_content_videos( 1, $post_id, false );
+				if ( ! empty( $videos[0]['og:video'] ) ) 
+					$video_url = $videos[0]['og:video'];
+			}
+
+			return array( $pid, $video_url );
+		}
+
 		protected function get_rows_social( $post ) {
 			$ret = array();
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 			$twitter_cap_len = $this->p->util->tweet_max_len( get_permalink( $post->ID ) );
-			$pid = $this->p->meta->get_options( $post->ID, 'og_img_id' );
-			$vid_url = $this->p->meta->get_options( $post->ID, 'og_vid_url' );
-
-			if ( empty( $pid ) ) {
-				if ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-					$pid = get_post_thumbnail_id( $post->ID );
-				else $pid = $this->p->media->get_first_attached_image_id( $post->ID );
-				if ( empty( $vid_url ) ) {
-					$videos = array();
-					$videos = $this->p->media->get_content_videos( 1, false );	// get the first video, if any
-					if ( ! empty( $videos[0]['og:video'] ) ) $vid_url = $videos[0]['og:video'];
-				}
-			}
+			list( $pid, $video_url ) = $this->get_social_vars( $post->ID );
 
 			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
 

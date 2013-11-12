@@ -648,7 +648,6 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				}
 				if ( $deleted > 0 )
 					$this->p->notice->inf( $deleted.' items flushed from the WordPress object and transient caches for post ID #'.$post_id, true );
-				$this->p->debug->show_html( null, 'debug log' );
 				break;
 			}
 		}

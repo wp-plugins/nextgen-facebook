@@ -25,7 +25,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $doctype.' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
-		public function get() {
+		public function get( $post_id = '' ) {
 			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ||
 				! empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) ) {
@@ -50,13 +50,16 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				}
 			}
 
-			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
-				$this->p->debug->log( 'exiting early: invalid object type' );
-				return array();
+			if ( empty( $post_id ) ) {
+				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return array();
+				}
+				$post_id = $obj->ID;
 			}
 			$post_type = '';
 			$has_video_image = '';
-			$og_max = $this->get_max_nums();
+			$og_max = $this->get_max_nums( $post_id );
 			$og = apply_filters( $this->p->cf['lca'].'_og_seed', array() );
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
@@ -142,7 +145,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			// check first, to add video preview images
 			if ( ! array_key_exists( 'og:video', $og ) ) {
 				if ( $og_max['og_vid_max'] > 0 ) {
-					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'], $obj->ID );
+					$og['og:video'] = $this->get_all_videos( $og_max['og_vid_max'], $post_id );
 					if ( is_array( $og['og:video'] ) ) {
 						foreach ( $og['og:video'] as $val ) {
 							if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
@@ -158,11 +161,11 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			// get all images
 			if ( ! array_key_exists( 'og:image', $og ) ) {
 				if ( $og_max['og_img_max'] > 0 ) {
-					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], NGFB_OG_SIZE_NAME, $obj->ID );
+					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], 
+						constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ), $post_id );
 					// if we didn't find any images, then use the default image
 					if ( empty( $og['og:image'] ) && empty( $has_video_image ) )
 						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
-	
 				} else $this->p->debug->log( 'images disabled: maximum images = 0' );
 			}
 
@@ -186,13 +189,15 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_meta_video( $num_remains, $post_id, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, 
+					$this->p->media->get_meta_video( $num_remains, $post_id, $check_dupes ) );
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_content_videos( $num_remains, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, 
+					$this->p->media->get_content_videos( $num_remains, $post_id, $check_dupes ) );
 			}
 			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
@@ -217,7 +222,8 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				// if an attachment is not an image, then use the default image instead
 				if ( empty( $og_ret ) ) {
 					$num_remains = $this->p->media->num_remains( $og_ret, $num );
-					$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
+					$og_ret = array_merge( $og_ret, 
+						$this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
 				} else $og_ret = array_merge( $og_ret, $og_image );
 
 				return $og_ret;
@@ -228,14 +234,16 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				( is_search() && ! empty( $this->p->options['og_def_img_on_search'] ) ) ) {
 
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, 
+					$this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
 				return $og_ret;	// stop here and return the image array
 			}
 
 			// check for custom meta, featured, or attached image(s)
 			if ( ! empty( $post_id ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_post_images( $num_remains, $size_name, $post_id, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, 
+					$this->p->media->get_post_images( $num_remains, $size_name, $post_id, $check_dupes ) );
 
 				// keep going to find more images
 				// the featured / attached image(s) will be listed first in the open graph meta property tags
@@ -256,14 +264,16 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				// if no query images were found, continue with ngg shortcodes in content
 				} elseif ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 					$num_remains = $this->p->media->num_remains( $og_ret, $num );
-					$og_ret = array_merge( $og_ret, $this->p->media->ngg->get_shortcode_images( $num_remains, $size_name, $check_dupes ) );
+					$og_ret = array_merge( $og_ret, 
+						$this->p->media->ngg->get_shortcode_images( $num_remains, $size_name, $check_dupes ) );
 				}
 			}
 
 			// if we haven't reached the limit of images yet, keep going
 			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num_remains, $size_name, $check_dupes ) );
+				$og_ret = array_merge( $og_ret, 
+					$this->p->media->get_content_images( $num_remains, $size_name, $post_id, $check_dupes ) );
 			}
 
 			$this->p->util->slice_max( $og_ret, $num );

@@ -99,12 +99,12 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 			return array( null, null, null, null );
 		}
 
-		public function get_content_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true, $content = null ) {
+		public function get_content_images( $num = 0, $size_name = 'thumbnail', $use_post = true, $check_dupes = true, $content = null ) {
 			if ( $this->p->is_avail['ngg'] !== true ) return;
 			$og_ret = array();
 			// allow custom content to be passed
 			if ( empty( $content ) )
-				$content = $this->p->webpage->get_content();
+				$content = $this->p->webpage->get_content( $use_post );
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
@@ -171,7 +171,9 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 					case 'nggtags' :
 						$content = do_shortcode( $match[0] );
 						$content = preg_replace( '/\['.$shortcode_type.'[^\]]*\]/', '', $content );	// prevent loops, just in case
-						$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num, $size_name, $check_dupes, $content ) );
+						// provide the expanded content and extract images
+						$og_ret = array_merge( $og_ret, 
+							$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
 						break;
 					default :
 						// always trust hard-coded shortcode ID more than query arguments

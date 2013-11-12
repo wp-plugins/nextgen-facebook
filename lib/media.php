@@ -223,10 +223,13 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$image = array();
 			$og_ret = array();
-			if ( empty( $post_id ) ) return $og_ret;
+			if ( empty( $post_id ) ) 
+				return $og_ret;
+
 			$pid = $this->p->meta->get_options( $post_id, 'og_img_id' );
 			$pre = $this->p->meta->get_options( $post_id, 'og_img_id_pre' );
-			$url = $this->p->meta->get_options( $post_id, 'og_img_url' );
+			$img_url = $this->p->meta->get_options( $post_id, 'og_img_url' );
+
 			if ( $pid > 0 ) {
 				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' ) {
 					$this->p->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
@@ -235,17 +238,20 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$this->p->debug->log( 'found custom meta image id = ' . $pid );
 					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
-			} elseif ( ! empty( $url ) ) {
-				$this->p->debug->log( 'found custom meta image url = ' . $url );
-				$image[] = $url;
+			} elseif ( ! empty( $img_url ) ) {
+				$this->p->debug->log( 'found custom meta image url = "'.$img_url.'"' );
+				$image[] = $img_url;
 			}
+
 			if ( ! empty( $image ) ) {
 				list( $og_image['og:image'], $og_image['og:image:width'], 
 					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
+
 				if ( ! empty( $og_image['og:image'] ) &&
 					$this->p->util->push_max( $og_ret, $og_image, $num ) )
 						return $og_ret;
 			}
+
 			return $og_ret;
 		}
 
@@ -276,19 +282,19 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		public function get_content_images( $num = 0, $size_name = 'thumbnail', $check_dupes = true, $content = null ) {
+		public function get_content_images( $num = 0, $size_name = 'thumbnail', $use_post = true, $check_dupes = true, $content = null ) {
 			$og_ret = array();
 			$size_info = $this->get_size_info( $size_name );
 			// allow custom content to be passed
 			if ( empty( $content ) )
-				$content = $this->p->webpage->get_content();
+				$content = $this->p->webpage->get_content( $use_post );
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
 			// check html tags for ngg images
 			if ( $this->p->is_avail['ngg'] == true ) {
-				$og_ret = $this->ngg->get_content_images( $num, $size_name, $check_dupes, $content );
+				$og_ret = $this->ngg->get_content_images( $num, $size_name, $use_post, $check_dupes, $content );
 				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
 			}
@@ -388,7 +394,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 						case 'gallery' :
 							$content = do_shortcode( $match[0] );
 							$content = preg_replace( '/\[' . $shortcode_type . '[^\]]*\]/', '', $content );	// prevent loops, just in case
-							$og_ret = array_merge( $og_ret, $this->p->media->get_content_images( $num, $size_name, $check_dupes, $content ) );
+							// provide the expanded content and extract images
+							$og_ret = array_merge( $og_ret, 
+								$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
 							if ( ! empty( $og_ret ) ) return $og_ret;	// return immediately and ignore any other type of image
 							break;
 					}
@@ -407,22 +415,28 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		public function get_meta_video( $num = 0, $post_id = '', $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			if ( ! empty( $post_id ) ) {
-				$embed_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
-				if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
-					$this->p->debug->log( 'found custom meta video url = ' . $embed_url );
-					$og_video = $this->get_video_info( $embed_url );
-					if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) return $og_ret;
-				}
+			if ( empty( $post_id ) ) 
+				return $og_ret;
+
+			$video_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
+
+			if ( ( $check_dupes == false && ! empty( $video_url ) ) || $this->p->util->is_uniq_url( $video_url ) ) {
+				$this->p->debug->log( 'found custom meta video url = "'.$video_url.'"' );
+				$og_video = $this->get_video_info( $video_url );
+				if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) 
+					return $og_ret;
 			}
 			return $og_ret;
 		}
 
-		public function get_content_videos( $num = 0, $check_dupes = true ) {
+		public function get_content_videos( $num = 0, $use_post = true, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			$content = $this->p->webpage->get_content();
-			if ( empty( $content ) ) { $this->p->debug->log( 'exiting early: empty post content' ); return $og_ret; }
+			$content = $this->p->webpage->get_content( $use_post );
+			if ( empty( $content ) ) { 
+				$this->p->debug->log( 'exiting early: empty post content' ); 
+				return $og_ret; 
+			}
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
@@ -549,5 +563,4 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		}
 	}
 }
-
 ?>

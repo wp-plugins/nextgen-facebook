@@ -29,7 +29,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		// called by WP wp_head action
 		public function add_header() {
-
 			if ( $this->p->debug->is_on() )
 				foreach ( array( 
 					'is_author',
@@ -70,7 +69,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 		// called from add_header() and the work/header.php template
 		public function html( $meta_tags = array() ) {
 			
-			$obj = $this->p->util->get_the_object();
+			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return array();
+			}
+			$post_id = $obj->ID;
 			$author_url = '';
 		
 			echo "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";
@@ -108,6 +111,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					elseif ( ! empty( $this->p->options['link_def_author_id'] ) )
 						$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
 							$this->p->options['link_author_field'] );
+
 				// check for default author info on indexes and searches
 				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['link_def_author_on_index'] ) && ! empty( $this->p->options['link_def_author_id'] ) )
 					|| ( is_search() && ! empty( $this->p->options['link_def_author_on_search'] ) && ! empty( $this->p->options['link_def_author_id'] ) ) ) {
@@ -123,8 +127,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
-					if ( is_singular() && ! empty( $obj->ID ) )
-						$meta_tags['description'] = $this->p->meta->get_options( $obj->ID, 'meta_desc' );
+					if ( is_singular() && ! empty( $post_id ) )
+						$meta_tags['description'] = $this->p->meta->get_options( $post_id, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',
 							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false
@@ -201,8 +205,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			} else $this->p->debug->log( 'meta '.$name.' is disabled - skipping' );
 			return $meta_html;
 		}
-
 	}
-
 }
 ?>
