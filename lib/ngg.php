@@ -58,6 +58,7 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 			$image = $nggdb->find_image( $pid );	// returns an nggImage object
 			if ( ! empty( $image ) ) {
 				$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
+				$this->p->debug->log( 'cached_singlepic_file() = '.$img_url );
 				// if the image file doesn't exist, use the dynamic image url
 				if ( empty( $img_url ) ) {
 					$img_url = trailingslashit( site_url() ).
