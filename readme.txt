@@ -643,21 +643,7 @@ You can also enter multiple comma-delimited values, and use numbered wildcards l
 
 = NGFB Filter Hooks =
 
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). For example, here is a filter I use on [UnderwaterFocus](http://underwaterfocus.com/) to remove the 'Wiki-' prefix from WordPress tags. The following code hooks the `uwf_filter_ngfb_tags()` function into the 'ngfb_tags' filter. The function receives an array of tags, which it transforms and returns. Generally, custom code is added to the `functions.php` file of your (child) theme.
-
-`
-add_filter( 'ngfb_tags', 'filter_ngfb_tags', 10, 1 );
-
-function filter_ngfb_tags( $tags = array() ) {
-        foreach ( $tags as $num => $tag_name ) {
-		$tag_name = preg_replace( '/^wiki-/i', '', $tag_name );
-                $tags[$num] = $tag_name;
-        }
-        return $tags;
-}
-`
-
-[All NGFB Filter Hooks are documented on the Pro version support website](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks).
+Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). [All NGFB Filter Hooks are documented on the Pro version support website](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks).
 
 == Screenshots ==
 
