@@ -688,20 +688,24 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
-= Version 6.16dev8 =
+= Version 6.16rc1 =
 
-* **Added support for bbPress forums, topics and tags** (Pro version).
-* Added a 'Site Description' option to customize the WordPress Tagline.
+NGFB Open Graph+ (Pro version) now supports bbPress forums. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
+
+* **Added support for bbPress forums, topics, tags and profiles** (Pro version).
+* Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
 * Added detection of Gravatar image URLs in the content text.
-* Improved the `flush_post_cache()` method to include wp_cache objects.
+* Improved the `flush_post_cache()` method to include wp_cache objects (which may be persistant).
 * Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
-* Added a new `ngfb_get_term_url` filter for WordPress SEO support (Pro version).
+* Added a new `ngfb_get_term_url` filter for better WordPress SEO support (Pro version).
 * Added new `ngfb_get_meta_options`, `ngfb_save_meta_options`, and `ngfb_get_meta_defaults` filters for the post meta options array (Pro version).
-* Added a call to `wp_cache_add_non_persistent_groups()` for the content object cache group, which does not need to be persistent.
-* Modified several methods to use `get_queried_object()` instead of the global $post object. This should circumvent broken themes that do not setup/create the global $post object properly.
-* Moved the lib/webpage.php file to lib/com/webpage.php.
+* Added a call to `wp_cache_add_non_persistent_groups()` for the content object cache group (the content cache object does not need to be persistent).
+* Modified several methods to try and use `get_queried_object()` first, instead of the global $post object. This should circumvent broken themes that do not setup/create the global $post object properly.
+* Moved the 'Add Page Title in Tags' and 'Add Page Ancestor Tags' options to the Title and Description tab.
 
 = Version 6.15.0 =
+
+There are several changes to the underlying structure in this new version, including the definition of some common / multi-project PHP classes, css, and javascript files. You will find a new ‘Number of Hashtags to Include’ option on the General settings page under the ‘Title and Description’ tab. It is disabled by default (value of 0), but is certainly worth enabling — probably with a value of 3 or 4, depending on the length of your tag names.
 
 * **Added a new 'Number of Hashtags to Include' option to append tag names (converted to hashtags) in the Open Graph / Rich Pin description, tweet text, and social captions.**
 * Added support for NextGEN Gallery v2+ 'data-image-id' attribute.
@@ -740,9 +744,9 @@ There are several code improvements in this new version and one visible new feat
 
 == Upgrade Notice ==
 
-= 6.16dev7 =
+= 6.16rc1 =
 
-Added support for bbPress forums, topics and tags (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to switch from using $post to get_queried_object().
+Added support for bbPress forums, topics, tags and profiles (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 
 = 6.15.0 =
 
