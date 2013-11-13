@@ -119,13 +119,14 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			if ( $use_post === false ) 
 				$obj = get_queried_object();
 
-			if ( $use_post === true || empty( $obj ) ) {	// fallback to $post if object is empty
+			if ( $use_post === true || ! isset( $obj->ID ) ) {	// fallback to $post if object is empty
 				global $post; 
-				if ( isset( $post->ID ) )
-					$obj = get_post( $post->ID );
+				return $post;
 			} elseif ( is_numeric( $use_post ) ) 
-				$obj = get_post( $use_post );
-			else $this->p->debug->log( 'cannot determine object type' );
+				return get_post( $use_post );
+
+			if ( $obj === false )
+				$this->p->debug->log( 'cannot determine object type' );
 
 			return $obj;
 		}

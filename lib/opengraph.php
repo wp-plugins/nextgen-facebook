@@ -55,7 +55,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return array();
 				}
-				$post_id = $obj->ID;	// can be 0 for some plugin pages
+				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			}
 			$post_type = '';
 			$has_video_image = '';
@@ -129,7 +129,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$og['article:publisher'] = $this->p->options['og_publisher_url'];
 
 				if ( ! array_key_exists( 'article:tag', $og ) )
-					$og['article:tag'] = $this->p->webpage->get_tags();
+					$og['article:tag'] = $this->p->webpage->get_tags( $post_id );
 
 				if ( ! array_key_exists( 'article:section', $og ) )
 					$og['article:section'] = $this->p->webpage->get_section();
@@ -185,7 +185,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return array();
 				}
-				$post_id = $obj->ID;	// can be 0 for some plugin pages
+				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			}
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {	// post id should be > 0 for post meta
@@ -211,7 +211,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return array();
 				}
-				$post_id = $obj->ID;	// can be 0 for some plugin pages
+				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			}
 			$og_ret = array();
 

@@ -173,7 +173,7 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 						$content = preg_replace( '/\['.$shortcode_type.'[^\]]*\]/', '', $content );	// prevent loops, just in case
 						// provide the expanded content and extract images
 						$og_ret = array_merge( $og_ret, 
-							$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
+							$this->p->media->get_content_images( $num, $size_name, $post->ID, $check_dupes, $content ) );
 						break;
 					default :
 						// always trust hard-coded shortcode ID more than query arguments

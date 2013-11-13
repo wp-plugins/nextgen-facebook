@@ -73,7 +73,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return array();
 			}
-			$post_id = $obj->ID;	// can be 0 for some plugin pages
+			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$author_url = '';
 		
 			echo "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";

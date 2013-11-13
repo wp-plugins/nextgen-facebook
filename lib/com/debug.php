@@ -66,12 +66,12 @@ if ( ! class_exists( 'SucomDebug' ) ) {
 		}
 
 		public function show_html( $data = null, $title = null ) {
-			if ( $this->active !== true ) return;
+			if ( $this->is_on( 'html' ) !== true ) return;
 			echo $this->get_html( $data, $title, 2 );
 		}
 
 		public function get_html( $data = null, $title = null, $backtrace = 1 ) {
-			if ( $this->active !== true ) return;
+			if ( $this->is_on( 'html' ) !== true ) return;
 			$from = '';
 			$html = '<!-- '.$this->display_name.' debug';
 			$stack = debug_backtrace();
