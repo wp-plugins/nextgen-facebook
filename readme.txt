@@ -684,6 +684,8 @@ function filter_ngfb_tags( $tags = array() ) {
 
 NGFB Open Graph+ (Pro version) now supports bbPress forums. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
+You can [download GPL version 6.16rc1 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc1.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
+
 * **Added support for bbPress forums, topics, tags and profiles** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
 * Added detection of Gravatar image URLs in the content text.
