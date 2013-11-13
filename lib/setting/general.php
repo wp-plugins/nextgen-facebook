@@ -118,17 +118,6 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 						'<td>'.$this->p->admin->form->get_checkbox( 'og_ngg_tags' ).'</td>';
 					} else $ret[] = $this->p->admin->form->get_hidden( 'og_ngg_tags' );
 	
-					$ret[] = $this->p->util->th( 'Add Page Ancestor Tags', null, null, '
-					Add the WordPress tags from the Page ancestors (parent, parent of parent, etc.) 
-					to the Open Graph / Rich Pin tag list (default is unchecked).' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_parent_tags' ).'</td>';
-	
-					$ret[] = $this->p->util->th( 'Add Page Title as Tag', null, null, '
-					Add the title of the Page to the Open Graph / Rich Pin tag list as well (default is unchecked). 
-					If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
-					This option works well if the title of your Pages are short (one or two words) and subject-oriented.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_title_tag' ).'</td>';
-	
 					$ret[] = $this->p->util->th( 'Maximum Images', 'highlight', null, '
 					The maximum number of images to list in the Open Graph / Rich Pin meta property tags -- this includes 
 					the <em>featured</em> or <em>attached</em> images, and any images found in the Post or Page content. 
@@ -186,9 +175,21 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					default is '.$this->p->opt->get_defaults( 'og_desc_len' ).' characters.' ).
 					'<td>'.$this->p->admin->form->get_input( 'og_desc_len', 'short' ).' characters or less</td>';
 
+					$ret[] = $this->p->util->th( 'Add Page Title in Tags', null, null, '
+					Add the title of the <em>Page</em> to the Open Graph / Rich Pin article tags and Hashtag list (default is unchecked). 
+					If the <em>Add Page Ancestor Tags</em> option is checked, all the titles of the ancestor Pages will be added as well. 
+					This option works well if the title of your Pages are short (one or two words) and subject-oriented.' ).
+					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_title_tag' ).'</td>';
+	
+					$ret[] = $this->p->util->th( 'Add Page Ancestor Tags', null, null, '
+					Add the WordPress tags from the <em>Page</em> ancestors (parent, parent of parent, etc.) 
+					to the Open Graph / Rich Pin article tags and Hashtag list (default is unchecked).' ).
+					'<td>'.$this->p->admin->form->get_checkbox( 'og_page_parent_tags' ).'</td>';
+	
 					$ret[] = $this->p->util->th( 'Number of Hashtags to Include', 'highlight', null, '
-					The maximum number of tag names, converted to hashtags, to include in the Open Graph / Rich Pin description, tweet text, and social captions.
-					Each tag name will be converted to lowercase, with whitespaces removed. 
+					The maximum number of tag names (not their slugs), converted to hashtags, to include in the 
+					Open Graph / Rich Pin description, tweet text, and social captions.
+					Each tag name is converted to lowercase with any whitespaces removed. 
 					Select \'0\' (the default) to disable this feature.' ).
 					'<td>'.$this->p->admin->form->get_select( 'og_desc_hashtags', 
 						range( 0, $this->p->cf['form']['max_desc_hashtags'] ), 'short', null, true ).' tag names</td>';

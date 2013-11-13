@@ -673,10 +673,11 @@ function filter_ngfb_tags( $tags = array() ) {
 
 == Changelog ==
 
-= Version 6.16dev7 =
+= Version 6.16dev8 =
 
 * **Added support for bbPress forums, topics and tags** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline.
+* Added detection of Gravatar image URLs in the content text.
 * Improved the `flush_post_cache()` method to include wp_cache objects.
 * Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
 * Added a new `ngfb_get_term_url` filter for WordPress SEO support (Pro version).

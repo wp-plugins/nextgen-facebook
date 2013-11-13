@@ -20,7 +20,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			require_once ( NGFB_PLUGINDIR . 'lib/ngg.php' );
+			require_once ( NGFB_PLUGINDIR.'lib/ngg.php' );
 			$this->ngg = new NgfbMediaNgg( $plugin );
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
@@ -38,13 +38,13 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( is_array( $size_name ) ) return;
 			if ( isset( $_wp_additional_image_sizes[$size_name]['width'] ) )
 				$width = intval( $_wp_additional_image_sizes[$size_name]['width'] );
-			else $width = get_option( $size_name . '_size_w' );
+			else $width = get_option( $size_name.'_size_w' );
 			if ( isset( $_wp_additional_image_sizes[$size_name]['height'] ) )
 				$height = intval( $_wp_additional_image_sizes[$size_name]['height'] );
-			else $height = get_option( $size_name . '_size_h' );
+			else $height = get_option( $size_name.'_size_h' );
 			if ( isset( $_wp_additional_image_sizes[$size_name]['crop'] ) )
 				$crop = intval( $_wp_additional_image_sizes[$size_name]['crop'] );
-			else $crop = get_option( $size_name . '_crop' ) == 1 ? 1 : 0;
+			else $crop = get_option( $size_name.'_crop' ) == 1 ? 1 : 0;
 			return array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
@@ -59,7 +59,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		public function get_post_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			$log_args = ',"'.$size_name.'",'.$post_id.( $check_dupes ? 'true' : 'false' );
 			$num_remains = $this->num_remains( $og_ret, $num );
 			$og_ret = array_merge( $og_ret, $this->get_meta_image( $num_remains, $size_name, $post_id, $check_dupes ) );
 			if ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
@@ -95,7 +94,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		public function get_first_attached_image_id( $post_id = '' ) {
+		public function get_first_attached_image_id( $post_id ) {
 			if ( ! empty( $post_id ) ) {
 				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
 				$attach = reset( $images );
@@ -105,7 +104,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return;
 		}
 
-		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id = '', $check_dupes = true ) {
+		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'attach_id' => $attach_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			if ( ! empty( $attach_id ) ) {
@@ -116,12 +115,12 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					if ( ! empty( $og_image['og:image'] ) &&
 						$this->p->util->push_max( $og_ret, $og_image, $num ) )
 							return $og_ret;
-				} else $this->p->debug->log( 'attachment id ' . $attach_id . ' is not an image' );
+				} else $this->p->debug->log( 'attachment id '.$attach_id.' is not an image' );
 			}
 			return $og_ret;
 		}
 
-		public function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
+		public function get_attached_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {
@@ -219,11 +218,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_crop );
 		}
 
-		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id = '', $check_dupes = true ) {
+		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$image = array();
 			$og_ret = array();
-			if ( empty( $post_id ) ) 
+			if ( empty( $post_id ) )	// post id must be > 0 to have post meta
 				return $og_ret;
 
 			$pid = $this->p->meta->get_options( $post_id, 'og_img_id' );
@@ -235,7 +234,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$this->p->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
 					$image = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				} else {
-					$this->p->debug->log( 'found custom meta image id = ' . $pid );
+					$this->p->debug->log( 'found custom meta image id = '.$pid );
 					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
 			} elseif ( ! empty( $img_url ) ) {
@@ -273,7 +272,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
 				$og_image = array();	// clear all array values
 				$og_image['og:image'] = $url;
-				$this->p->debug->log( 'using default img url = ' . $og_image['og:image'] );
+				$this->p->debug->log( 'using default img url = '.$og_image['og:image'] );
 			}
 			// returned array must be two-dimensional
 			if ( ! empty( $og_image['og:image'] ) && 
@@ -283,6 +282,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		}
 
 		public function get_content_images( $num = 0, $size_name = 'thumbnail', $use_post = true, $check_dupes = true, $content = null ) {
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'use_post' => $use_post, 'check_dupes' => $check_dupes, 'content' => strlen( $content ).' chars' ) );
 			$og_ret = array();
 			$size_info = $this->get_size_info( $size_name );
 			// allow custom content to be passed
@@ -301,7 +301,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			// img attributes in order of preference
 			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
 				preg_match_all( '/<(img)[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-				$this->p->debug->log( count( $match ) . ' x matching <img/> html tag(s) found' );
+				$this->p->debug->log( count( $match ).' x matching <img/> html tag(s) found' );
 				foreach ( $match as $img_num => $img_arr ) {
 					$tag_value = $img_arr[0];
 					$tag_name = $img_arr[1];
@@ -327,10 +327,18 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							if ( $this->p->is_avail['ngg'] == true && 
 								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
 		
-								$this->p->debug->log( $attr_name . ' ngg pre-v2 cache image = ' . $og_image['og:image'] );
+								$this->p->debug->log( $attr_name.' ngg pre-v2 cache image = '.$og_image['og:image'] );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
-		
+	
+							// recognize gravatar images in the content
+							} elseif ( preg_match( '/^https?:\/\/[^\.]+\.gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
+
+								$this->p->debug->log( $attr_name.' gravatar image = '.$og_image['og:image'] );
+								$og_image['og:image'] = $match[0].'?s='.$size_info['width'].'&d=404&r=G';
+								$og_image['og:image:width'] = $size_info['width'];
+								$og_image['og:image:height'] = $size_info['width'];
+
 							} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
 								$this->p->util->is_uniq_url( $og_image['og:image'] ) == true ) {
 		
@@ -377,6 +385,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 		// called by ngfbTwitterCard to build the Gallery Card
 		public function get_gallery_images( $num = 0, $size_name = 'large', $want_this = 'gallery', $check_dupes = false ) {
+			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'want_this' => $want_this, 'check_dupes' => $check_dupes ) );
 			global $post;
 			$og_ret = array();
 			if ( $want_this == 'gallery' ) {
@@ -393,7 +402,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					switch ( $shortcode_type ) {
 						case 'gallery' :
 							$content = do_shortcode( $match[0] );
-							$content = preg_replace( '/\[' . $shortcode_type . '[^\]]*\]/', '', $content );	// prevent loops, just in case
+							$content = preg_replace( '/\['.$shortcode_type.'[^\]]*\]/', '', $content );	// prevent loops, just in case
 							// provide the expanded content and extract images
 							$og_ret = array_merge( $og_ret, 
 								$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
@@ -413,10 +422,10 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		public function get_meta_video( $num = 0, $post_id = '', $check_dupes = true ) {
+		public function get_meta_video( $num = 0, $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
-			if ( empty( $post_id ) ) 
+			if ( empty( $post_id ) ) 	// post id must be > 0 to have post meta
 				return $og_ret;
 
 			$video_url = $this->p->meta->get_options( $post_id, 'og_vid_url' );
@@ -440,9 +449,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return $og_ret; 
 			}
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
-				$this->p->debug->log( count( $match_all ) . ' x video html tag(s) found' );
+				$this->p->debug->log( count( $match_all ).' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
-					$this->p->debug->log( '<' . $media[1] . '/> html tag found = ' . $media[2] );
+					$this->p->debug->log( '<'.$media[1].'/> html tag found = '.$media[2] );
 					$embed_url = $media[2];
 					if ( strpos( $embed_url, '?' ) !== false ) {
 						$embed_url_parts = explode( '?', $embed_url );
@@ -479,21 +488,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD ) {
-						$api_url = $prot . 'api.wistia.com/v1/medias/' . $vid_name . '.xml';
-						$this->p->debug->log( 'fetching video details from ' . $api_url );
-						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient', false, 'api:' . NGFB_WISTIA_API_PWD ) );
+						$api_url = $prot.'api.wistia.com/v1/medias/'.$vid_name.'.xml';
+						$this->p->debug->log( 'fetching video details from '.$api_url );
+						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient', false, 'api:'.NGFB_WISTIA_API_PWD ) );
 						if ( ! empty( $xml->embedCode ) ) {
 							$embed = preg_match( '/<embed(.*)><\/embed>/i', (string) $xml->embedCode, $match ) ? $match[1] : '';
 							$embed_src = preg_match( '/ src=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
 							$embed_var = preg_match( '/ flashvars=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
 							if ( ! empty( $embed_src ) && ! empty( $embed_var ) )
-								$og_video['og:video'] = $embed_src . '?' . $embed_var;
+								$og_video['og:video'] = $embed_src.'?'.$embed_var;
 							$og_video['og:video:width'] = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
 							$og_video['og:video:height'] = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';
 						}
 					}
-					$api_url = $prot . 'fast.wistia.com/oembed.xml?url=http%3A//home.wistia.com/medias/' . $vid_name;
-					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$api_url = $prot.'fast.wistia.com/oembed.xml?url=http%3A//home.wistia.com/medias/'.$vid_name;
+					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->thumbnail_url ) ) {
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
@@ -507,11 +516,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				}
 			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$og_video['og:video'] = $prot . 'www.youtube.com/v/' . $vid_name;
-				$og_video['og:image'] = $prot . 'img.youtube.com/vi/' . $vid_name . '/0.jpg';	// 0, hqdefault, maxresdefault
+				$og_video['og:video'] = $prot.'www.youtube.com/v/'.$vid_name;
+				$og_video['og:image'] = $prot.'img.youtube.com/vi/'.$vid_name.'/0.jpg';	// 0, hqdefault, maxresdefault
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot . 'gdata.youtube.com/feeds/api/videos?q=' . $vid_name . '&max-results=1&format=5';
-					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$api_url = $prot.'gdata.youtube.com/feeds/api/videos?q='.$vid_name.'&max-results=1&format=5';
+					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->entry[0] ) ) {
 						$this->p->debug->log( 'setting og:video and og:image from youtube api xml' );
@@ -535,10 +544,10 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				}
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				$og_video['og:video'] = $prot . 'vimeo.com/moogaloop.swf?clip_id=' . $vid_name;
+				$og_video['og:video'] = $prot.'vimeo.com/moogaloop.swf?clip_id='.$vid_name;
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot . 'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/' . $vid_name;
-					$this->p->debug->log( 'fetching video details from ' . $api_url );
+					$api_url = $prot.'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;
+					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 					if ( ! empty( $xml->thumbnail_url ) ) {
 						$this->p->debug->log( 'setting og:video and og:image from vimeo api xml' );

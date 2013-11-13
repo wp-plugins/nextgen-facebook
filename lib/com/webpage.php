@@ -85,8 +85,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $title;
 				}
-				// get title from custom settings
-				$title = $this->p->meta->get_options( $obj->ID, 'og_title' );
+				$post_id = $obj->ID;	// can be 0 for some plugin pages
+				$title = $this->p->meta->get_options( $post_id, 'og_title' );
 				if ( ! empty( $title ) )
 					$this->p->debug->log( 'custom meta title = "'.$title.'"' );
 			}
@@ -105,12 +105,12 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$hashtags = trim( $match[2] );
 			} elseif ( is_singular() || $use_post !== false ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
-					$hashtags = $this->get_hashtags( $obj->ID );
+					$hashtags = $this->get_hashtags( $post_id );
 			}
 
 			// construct a title of our own
 			if ( empty( $title ) ) {
-				// $obj is created above, so we should be good
+				// $obj and $post_id are defined above, with the same test, so we should be good
 				if ( is_singular() || $use_post !== false ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
@@ -120,7 +120,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 						$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
 						$this->p->debug->log( 'wp_title() = "'.$title.'"' );
 					} else {
-						$title = get_the_title( $obj->ID );	// since wp 0.71 
+						$title = get_the_title( $post_id );
 						$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
 					}
 
@@ -208,8 +208,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $desc;
 				}
-				// get description from custom settings
-				$desc = $this->p->meta->get_options( $obj->ID, 'og_desc' );
+				$post_id = $obj->ID;	// can be 0 for some plugin pages
+				$desc = $this->p->meta->get_options( $post_id, 'og_desc' );
 				if ( ! empty( $desc ) )
 					$this->p->debug->log( 'custom meta description = "'.$desc.'"' );
 			}
@@ -228,21 +228,21 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$hashtags = trim( $match[2] );
 			} elseif ( is_singular() || $use_post !== false ) {
 				if ( $add_hashtags && ! empty( $this->p->options['og_desc_hashtags'] ) )
-					$hashtags = $this->get_hashtags( $obj->ID );
+					$hashtags = $this->get_hashtags( $post_id );
 			}
 
 			// if there's no custom description, and no pre-seed, 
 			// then go ahead and generate the description value
 			if ( empty( $desc ) ) {
-				// $obj is created above, so we should be good
+				// $obj and $post_id are defined above, with the same test, so we should be good
 				if ( is_singular() || $use_post !== false ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
 					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $obj->ID ) ? 'true' : 'false' ) );
+					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post_id ) ? 'true' : 'false' ) );
 	
 					// use the excerpt, if we have one
-					if ( has_excerpt( $obj->ID ) ) {
+					if ( has_excerpt( $post_id ) ) {
 						$desc = $obj->post_excerpt;
 						if ( ! empty( $this->p->options['plugin_filter_excerpt'] ) ) {
 							$filter_removed = $this->p->social->remove_filter( 'get_the_excerpt' );
@@ -255,7 +255,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 
 					// if there's no excerpt, then fallback to the content
 					if ( empty( $desc ) )
-						$desc = $this->get_content( $obj->ID, $use_cache );
+						$desc = $this->get_content( $post_id, $use_cache );
 			
 					// ignore everything until the first paragraph tag if $this->p->options['og_desc_strip'] is true
 					if ( $this->p->options['og_desc_strip'] ) 
@@ -309,7 +309,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $content;
 			}
-			$this->p->debug->log( 'using content from object id '.$obj->ID );
+			$post_id = $obj->ID;	// can be 0 for some plugin pages
+			$this->p->debug->log( 'using content from object id '.$post_id );
 			$filter_content = $this->p->options['plugin_filter_content'];
 			$filter_name = $filter_content  ? 'filtered' : 'unfiltered';
 
@@ -320,7 +321,10 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
 					$this->p->debug->log( 'object cache is disabled' );
 			else {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$obj->ID.'_'.$filter_name.')';
+				// if the post id is 0, then add the sharing url to ensure a unique salt string
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_'.$filter_name.
+					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $post_id, false ) : '' ).')';
+
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				if ( $use_cache == false )
@@ -416,7 +420,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			return apply_filters( $this->p->cf['lca'].'_section', $section );
 		}
 
-		public function get_hashtags( $post_id = '' ) {
+		public function get_hashtags( $post_id ) {
 			if ( empty( $this->p->options['og_desc_hashtags'] ) ) 
 				return;
 			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', '', $post_id );
@@ -432,22 +436,21 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			return apply_filters( $this->p->cf['lca'].'_hashtags', $text, $post_id );
 		}
 
-		public function get_tags( $post_id = '' ) {
+		public function get_tags( $post_id ) {
 			$tags = apply_filters( $this->p->cf['lca'].'_tags_seed', array(), $post_id );
 			if ( ! empty( $tags ) )
 				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
 			else {
 				if ( is_singular() || ! empty( $post_id ) ) {
-					if ( empty( $post_id ) ) { global $post; $post_id = $post->ID; }
 					$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
-
 					if ( $this->p->options['og_ngg_tags'] && 
 						$this->p->is_avail['postthumb'] == true && 
 						has_post_thumbnail( $post_id ) ) {
 
 						$pid = get_post_thumbnail_id( $post_id );
-						// featured images from ngg pre-v2 had 'ngg-' prefix
+
 						if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
+						// featured images from ngg pre-v2 had 'ngg-' prefix
 							$tags = array_merge( $tags, $this->p->media->ngg->get_tags( $pid ) );
 					}
 				} elseif ( is_search() )
@@ -464,6 +467,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$this->p->debug->log( 'wp tags seed = "'.implode( ',', $tags ).'"' );
 			else {
 				$post_ids = array ( $post_id );	// array of one
+				// add the parent tags if option is enabled
 				if ( $this->p->options['og_page_parent_tags'] && is_page( $post_id ) )
 					$post_ids = array_merge( $post_ids, get_post_ancestors( $post_id ) );
 				foreach ( $post_ids as $id ) {
@@ -478,5 +482,4 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 	}
 }
-
 ?>

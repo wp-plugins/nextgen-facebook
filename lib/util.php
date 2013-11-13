@@ -12,13 +12,14 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 	class NgfbUtil {
 
-		private $goo;	// ngfbGoogl
-		private $bit;	// ngfbBitly
-		private $urls_found = array();
+		private $goo;			// NgfbGoogl class object
+		private $bit;			// NgfbBitly class object
+		private $urls_found = array();	// array to detect duplicate images, etc.
+		private $sharing_url;		// save and return sharing url
 
 		protected $p;
 
-		public $rewriter;
+		public $rewriter;	// rewriting class object set by Pro addon
 
 		// executed by ngfbUtilPro() as well
 		public function __construct( &$plugin ) {
@@ -115,13 +116,13 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		public function get_the_object( $use_post = false ) {
 			$obj = false;
-
 			if ( $use_post === false ) 
 				$obj = get_queried_object();
+
 			if ( $use_post === true || empty( $obj ) ) {	// fallback to $post if object is empty
 				global $post; 
-				if ( isset( $post->ID ) )		// at a minimum, we need a post ID
-					$obj = $post;
+				if ( isset( $post->ID ) )
+					$obj = get_post( $post->ID );
 			} elseif ( is_numeric( $use_post ) ) 
 				$obj = get_post( $use_post );
 			else $this->p->debug->log( 'cannot determine object type' );
@@ -188,6 +189,15 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					}
 				}
 			}
+
+			// fallback for themes/plugins that don't use the standard wordpress functions/variables
+			if ( empty ( $url ) ) {
+				$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+				$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+				// strip out tracking query arguments by facebook, google, etc.
+				$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
+			}
+
 			if ( ! empty( $url ) && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
 				$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
@@ -218,6 +228,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 			$short_url = false;
 
+			// cache the shortened url to minimize the number of lookups
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
