@@ -187,6 +187,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = TABLE OF CONTENTS =
 
+* Doesn’t an SEO plugin cover that?
 * Where do I start?
 * What is the difference between the GPL and Pro versions?
 * How do I install the Pro version?
@@ -212,6 +213,16 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * Why is the Open Graph title the same for every webpage?
 * Why aren't Pins from my website posting Rich?
 
+= Doesn’t an SEO plugin cover that? =
+
+SEO plugins have been around for many years -- with most of the website traffic coming from search engines, it made sense to optimize content for search engines (thus the term "Search Engine Optimization"). But the market has been changing over the last few years, and now many websites see 50% or more of their traffic coming from social websites -- and when you share content on social websites, they need different things than a search engine does.
+
+SEO plugins have tried to offer some social features, but they can only offer the basics -- letting the social website know about the title, a short description, and maybe a default image.
+
+But what about your images from NextGEN Gallery? SEO plugins don’t resolve shortcodes to retrieve images. How about videos? With preview images? SEO plugins don’t use Youtube / Vimeo / Wistia APIs to fetch that information. How about WooCommerce / WP e-Commerce / MarketPress products? SEOs don’t offer information on prices, variations, stock levels, categories, etc. How about bbPress forum / topics / profiles?
+
+All of these, and much, much more, is covered by the NGFB Open Graph+ plugin -- it covers the other half that SEO plugins don’t. ;-) 
+
 = Where do I start? =
 
 Have a look at the selection of videos available on [Surnia Ulula's Youtube Channel](https://www.youtube.com/user/SurniaUlulaCom). Familiarize yourself with the difference between meta tags and social buttons -- the first provides information about the webpage to social websites, the other just shares the URL of the current webpage. ;-)
@@ -232,11 +243,15 @@ The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) of NG
 
 = How do I install the Pro version? =
 
-Updating to the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After your purchase, an email will be sent to you with an Authentication ID and installation instructions. Enter your Authentication ID on the plugin's Advanced settings page, and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
+Updating to the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) is simple and easy -- click on the "Purchase the Pro Version" button on any NGFB Open Graph+ settings page. After your purchase, an email will be sent to you with an Authentication ID and installation instructions. Enter your Authentication ID on the plugin's Advanced settings page (or the Network settings page for multisites), and after saving the changes, an update for NGFB Open Graph+ will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
 
 = Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase is assigned a unique Authentication ID. You must purchase a new license for each additional website using the NGFB Open Graph+ Pro plugin. [Contact me by email](mailto:jsm@surniaulula.com) for volume discounts.
+NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase (of one or more licenses) is assigned a unique Authentication ID. The Authentication ID allows you to install, upgrade, and activate the Pro version on one or more websites (depending on how many licenses you purchased).
+
+Discounts are available for purchases of 3 or more licenses. The 3 license pack, for example, is a good choice if you have a Dev, Staging, and Production website infrastructure. Large websites, using multiple load-balanced servers, only need one license if they use a single WordPress Site Address.
+
+Sites within a Network / multisite all use different Site Addresses, so each site must be licensed. The Open Graph+ settings in the Network admin interface allow you to define a default Authentication ID for all sites (which can be customized / modified in each site's Advanced settings page), or force all sites to use a single Authentication ID.
 
 = Can I use other social sharing buttons than those of NGFB Open Graph+? =
 
