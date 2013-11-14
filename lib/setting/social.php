@@ -52,8 +52,9 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 					add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_'.$id, array( &$this, 'add_class_postbox_website' ) );
 				}
 			}
-			$reset_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
-			$this->p->user->reset_metabox_prefs( $this->pagehook, $reset_ids, 'closed' );
+			// these metabox ids should be closed by default (array_diff() selects everything except)
+			$closed_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
+			$this->p->user->reset_metabox_prefs( $this->pagehook, $closed_ids, 'closed' );
 		}
 
 		public function add_class_postbox_website( $classes ) {
@@ -102,8 +103,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_hidden( 'buttons_add_to_'.$post_type->name ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['buttons_add_to_'.$post_type->name] ).' '.
+				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
 					$post_type->label.'</p>';
 
 			return array(

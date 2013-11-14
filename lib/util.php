@@ -25,33 +25,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->setup_vars();
 			$this->add_actions();
-		}
-
-		private function setup_vars() {
-			if ( $this->p->is_avail['curl'] == true && ! empty( $this->p->options['twitter_shortener'] ) ) {
-				switch ( $this->p->options['twitter_shortener'] ) {
-					case 'googl' :
-						require_once ( NGFB_PLUGINDIR.'lib/ext/googl.php' );
-						if ( class_exists( 'ngfbGoogl' ) ) {
-							$api_key = empty( $this->p->options['plugin_googl_api_key'] ) ?  
-								'' : $this->p->options['plugin_googl_api_key'];
-							$this->goo = new NgfbGoogl( $api_key, $this->p->debug );
-						}
-						break;
-					case 'bitly' :
-						require_once ( NGFB_PLUGINDIR.'lib/ext/bitly.php' );
-						if ( class_exists( 'ngfbBitly' ) ) {
-							$login = empty( $this->p->options['plugin_bitly_login'] ) ?  
-								'' : $this->p->options['plugin_bitly_login'];
-							$api_key = empty( $this->p->options['plugin_bitly_api_key'] ) ?  
-								'' : $this->p->options['plugin_bitly_api_key'];
-							$this->bit = new NgfbBitly( $login, $api_key, $this->p->debug );
-						}
-						break;
-				}
-			}
 		}
 
 		protected function add_actions() {

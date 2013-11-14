@@ -26,16 +26,13 @@ if ( ! class_exists( 'NgfbAdminAbout' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook . '_description', 'Description', array( &$this, 'show_metabox_description' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_faq', 'FAQ', array( &$this, 'show_metabox_faq' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
-			add_meta_box( $this->pagehook . '_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_description', 'Description', array( &$this, 'show_metabox_description' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_faq', 'FAQ', array( &$this, 'show_metabox_faq' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_remaining', 'Other Notes', array( &$this, 'show_metabox_remaining' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
 
+			// these metabox ids should be closed by default
 			$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'description', 'remaining', 'changelog' ), 'closed' );
-		}
-
-		protected function show_form() {
-			do_meta_boxes( $this->pagehook, 'normal', null ); 
 		}
 
 		public function show_metabox_description() {

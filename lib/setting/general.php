@@ -336,8 +336,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				<strong>Your website must be authorized by Twitter for each type of Twitter Card you support</strong>. 
 				See the <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
 				for more information on the authorization process.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'tc_enable' ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['tc_enable'] ).'</td>',
+				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'tc_enable' ).'</td>',
 
 				$this->p->util->th( 'Maximum Description Length', null, null, '
 				The maximum length of text used for the Twitter Card description.
@@ -413,8 +412,6 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				array( 'none' => '', 'author' => 'Author Index', 'url' => 'Website' ) 
 			);
 		}
-
 	}
 }
-
 ?>

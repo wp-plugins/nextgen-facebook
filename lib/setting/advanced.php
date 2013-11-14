@@ -37,7 +37,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'activation' => 'Activate and Update',
 				'content' => 'Content and Filters',
 				'cache' => 'File and Object Cache',
-				'shorten' => 'URL Shortening',
+				'apikeys' => 'API Keys',
 				'rewrite' => 'URL Rewrite',
 			);
 			$tab_rows = array();
@@ -65,110 +65,27 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			$this->p->util->do_tabs( 'cm', $show_tabs, $tab_rows );
 		}
 
-		protected function get_pre_activation() {
-			$ret = array();
-			$pro_msg = '';
-			$input = '';
-			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' ) {
-				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid' );
-			} elseif ( $this->p->is_avail['aop'] ) {
-				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
-				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid' );
-			} else {
-				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
-				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
-				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
-				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid' );
-			}
+		public function show_metabox_taglist() {
+			echo '<table class="sucom-setting" style="padding-bottom:0;"><tr><td>';
+			echo '<p>'.$this->p->cf['full'].' will add the following Facebook and Open Graph meta tags to your webpages. 
+			If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
+			prevent duplicates from being added (for example, the "description" meta tag is unchecked by default if any 
+			known SEO plugin was detected).</p>
+			</td></tr></table>';
 
-			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
+			echo '<table class="sucom-setting" style="padding-bottom:0;">';
+			foreach ( $this->get_more_taglist() as $num => $row ) 
+				echo '<tr>', $row, '</tr>';
+			unset( $num, $row );
+			echo '</table>';
 
-			return $ret;
-		}
+			echo '<table class="sucom-setting"><tr>';
+			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
+			'Include meta property tags of type og:* without any content (default is unchecked).' );
+			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
+			' class="checkbox blank">'.$this->p->admin->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
+			echo '<td width="100%"></td></tr></table>';
 
-		protected function get_more_content() {
-			$add_to_checkboxes = '';
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_hidden( 'plugin_add_to_'.$post_type->name ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_add_to_'.$post_type->name] ).' '.
-					$post_type->label.'</p>';
-
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
-
-				$this->p->util->th( 'Show Custom Settings on', null, null, 
-				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
-				is available on the Posts, Pages, Media, and most custom post type admin pages by default. 
-				If your theme (or another plugin) supports additional custom post types, and you would like to 
-				<em>exclude</em> the Custom Settings metabox from these admin pages, uncheck the appropriate options here.' ).
-				'<td class="blank">'.$add_to_checkboxes.'</td>',
-			);
-		}
-
-		protected function get_more_cache() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
-
-				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
-				$this->p->cf['full'].' can save social sharing images and JavaScript to a cache folder, 
-				providing URLs to these cached files instead of the originals. 
-				A value of \'0\' hours (the default) disables this feature. 
-				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
-				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. 
-				The cached files are served from the '.NGFB_CACHEURL.' folder.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_file_cache_hrs' ). 
-				$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
-
-				$this->p->util->th( 'Verify SSL Certificates', null, null, 
-				'Enable verification of peer SSL certificates when fetching content to be cached using HTTPS. 
-				The PHP \'curl\' function will use the '.NGFB_CURL_CAINFO.' certificate file by default. 
-				You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
-				alternate certificate file (see the constants.txt file in the plugin folder for additional information).' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_verify_certs' ).
-				$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_verify_certs'] ).'</td>',
-			);
-		}
-
-		protected function get_more_rewrite() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
-
-				$this->p->util->th( 'Static Content URL(s)', 'highlight', null, 
-				'Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), 
-				and cached social media files. Leave this option blank to disable the rewriting feature (default is disabled).
-				Wildcarding and multiple CDN hostnames are supported -- see the 
-				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
-				more information and examples.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_urls' ). 
-					$this->p->options['plugin_cdn_urls'].'</td>',
-
-				$this->p->util->th( 'Include Folders', null, null, '
-				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
-				(the default value is "<em>wp-content, wp-includes</em>").').
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_folders' ). 
-					$this->p->options['plugin_cdn_folders'].'</td>',
-
-				$this->p->util->th( 'Exclude Patterns', null, null,
-				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
-				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
-				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->cf['full'].' cache folder 
-				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_excl' ).
-					$this->p->options['plugin_cdn_excl'].'</td>',
-
-				$this->p->util->th( 'Not when Using HTTPS', null, null, 
-				'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_not_https' ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_cdn_not_https'] ).'</td>',
-
-				$this->p->util->th( 'www is Optional', null, null, 
-				'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_www_opt' ). 
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['plugin_cdn_www_opt'] ).'</td>',
-			);
 		}
 
 		protected function get_more_taglist() {
@@ -178,8 +95,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
 				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
 					$cells[] = '<td class="taglist blank checkbox">'.
-					$this->p->admin->form->get_hidden( $opt ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options[$opt] ).'</td>'.
+					$this->p->admin->form->get_fake_checkbox( $opt ).'</td>'.
 					'<th class="taglist">'.$match[1].'</th>'."\n";
 				}
 			}
@@ -214,7 +130,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$sorted_opt_pre = $this->p->cf['opt']['pre'];
 					ksort( $sorted_opt_pre );
-
 					foreach ( $sorted_opt_pre as $id => $pre ) {
 						$cm_opt = 'plugin_cm_'.$pre.'_';
 
@@ -232,8 +147,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
 								$ret[] = $this->p->util->th( $name ).
-								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
-								$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
+								'<td class="blank checkbox">'.$this->p->admin->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'name' ).
 								$this->p->options[$cm_opt.'name'].'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'label' ).
@@ -262,13 +176,13 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 							if ( $this->p->check->is_aop() ) {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
+								'<td>'.$this->p->admin->form->get_fake_input( $cm_opt.'name' ).'</td>'.
 								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
 								$ret[] = $this->p->util->th( $name ).
 								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
-									$this->p->admin->form->get_fake_checkbox( $this->p->options[$cm_opt.'enabled'] ).'</td>'.
-								'<td>'.$this->p->admin->form->get_fake_input( $id ).'</td>'.
+									$this->p->admin->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
+								'<td>'.$this->p->admin->form->get_fake_input( $cm_opt.'name' ).'</td>'.
 								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'label' ).
 									$this->p->options[$cm_opt.'label'].'</td>';
 							}
@@ -298,7 +212,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'content':
-
 					$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
 					'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
@@ -324,11 +237,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 
 					$ret = array_merge( $ret, $this->get_more_content() );
-
 					break;
 
 				case 'cache':
-
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, null, 
 					$this->p->cf['full'].' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
 					and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
@@ -337,67 +248,157 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td nowrap>'.$this->p->admin->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
 
 					$ret = array_merge( $ret, $this->get_more_cache() );
-
 					break;
 
-				case 'shorten':
-
-					$ret[] = $this->p->util->th( 'Minimum URL Length to Shorten', null, null, 
-					'URLs shorter than this length will not be shortened (default is '.
-					$this->p->opt->defaults['plugin_min_shorten'].').' ).
-					'<td>'.$this->p->admin->form->get_input( 'plugin_min_shorten', 'short' ).' Characters</td>';
-
-					$ret[] = $this->p->util->th( 'Goo.gl Simple API Access Key', null, null, 
-					'The "Google URL Shortener API Key" for this website. If you don\'t already have one, visit Google\'s 
-					<a href="https://developers.google.com/url-shortener/v1/getting_started#APIKey" target="_blank">acquiring 
-					and using an API Key</a> documentation, and follow the directions to acquire your <em>Simple API Access Key</em>.' ).
-					'<td>'.$this->p->admin->form->get_input( 'plugin_googl_api_key', 'wide' ).'</td>';
-
-					$ret[] = $this->p->util->th( 'Bit.ly Username', null, null, 
-					'The Bit.ly username for the following API key. If you don\'t already have one, see 
-					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
-					'<td>'.$this->p->admin->form->get_input( 'plugin_bitly_login' ).'</td>';
-
-					$ret[] = $this->p->util->th( 'Bit.ly API Key', null, null, 
-					'The Bit.ly API key for this website. If you don\'t already have one, see 
-					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
-					'<td>'.$this->p->admin->form->get_input( 'plugin_bitly_api_key', 'wide' ).'</td>';
-
+				case 'apikeys':
+					$ret = array_merge( $ret, $this->get_more_apikeys() );
 					break;
 
 				case 'rewrite':
-
 					$ret = array_merge( $ret, $this->get_more_rewrite() );
-
 					break;
 			}
 			return $ret;
 		}
 
-		public function show_metabox_taglist() {
-			echo '<table class="sucom-setting" style="padding-bottom:0;"><tr><td>';
-			echo '<p>'.$this->p->cf['full'].' will add the following Facebook and Open Graph meta tags to your webpages. 
-			If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
-			prevent duplicates from being added (for example, the "description" meta tag is unchecked by default if any 
-			known SEO plugin was detected).</p>
-			</td></tr></table>';
+		protected function get_pre_activation() {
+			$ret = array();
+			$pro_msg = '';
+			$input = '';
+			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' ) {
+				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
+				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+			} elseif ( $this->p->is_avail['aop'] ) {
+				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
+				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
+				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+			} else {
+				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
+				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
+				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
+				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
+				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+			}
 
-			echo '<table class="sucom-setting" style="padding-bottom:0;">';
-			foreach ( $this->get_more_taglist() as $num => $row ) 
-				echo '<tr>', $row, '</tr>';
-			unset( $num, $row );
-			echo '</table>';
+			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
 
-			echo '<table class="sucom-setting"><tr>';
-			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
-			'Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
-			' class="checkbox blank">'.$this->p->admin->form->get_hidden( 'og_empty_tags' ).
-			$this->p->admin->form->get_fake_checkbox( $this->p->options['og_empty_tags'] ) ).'</td>';
-			echo '<td width="100%"></td></tr></table>';
-
+			return $ret;
 		}
 
+		protected function get_more_content() {
+			$add_to_checkboxes = '';
+			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
+					$post_type->label.'</p>';
+
+			return array(
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+
+				$this->p->util->th( 'Show Custom Settings on', null, null, 
+				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
+				is available on the Posts, Pages, Media, and most custom post type admin pages by default. 
+				If your theme (or another plugin) supports additional custom post types, and you would like to 
+				<em>exclude</em> the Custom Settings metabox from these admin pages, uncheck the appropriate options here.' ).
+				'<td class="blank">'.$add_to_checkboxes.'</td>',
+			);
+		}
+
+		protected function get_more_cache() {
+			return array(
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+
+				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
+				$this->p->cf['full'].' can save social sharing images and JavaScript to a cache folder, 
+				providing URLs to these cached files instead of the originals. 
+				A value of \'0\' hours (the default) disables this feature. 
+				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
+				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. 
+				The cached files are served from the '.NGFB_CACHEURL.' folder.' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_file_cache_hrs' ). 
+				$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
+
+				$this->p->util->th( 'Verify SSL Certificates', null, null, 
+				'Enable verification of peer SSL certificates when fetching content to be cached using HTTPS. 
+				The PHP \'curl\' function will use the '.NGFB_CURL_CAINFO.' certificate file by default. 
+				You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
+				alternate certificate file (see the constants.txt file in the plugin folder for additional information).' ).
+				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>',
+			);
+		}
+
+		protected function get_more_apikeys() {
+			return array(
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+
+				$this->p->util->th( 'Google Project Application BrowserKey', null, null, 
+				'The Google BrowserKey for this website / project. If you don\'t already have one, visit
+				<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
+				create a new project for your website, and under the API & auth -&gt; Registered apps, 
+				register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
+				and enter it\'s Browser Key here.' ).
+				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_google_api_key' ).
+					$this->p->options['plugin_google_api_key'].'</td>',
+
+				$this->p->util->th( 'Google URL Shortener API is On?', null, null,
+				'and enter it\'s Browser Key here.' ).
+				'<td class="blank">'.$this->p->admin->form->get_fake_radio( 'plugin_google_shorten',
+					array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
+
+				$this->p->util->th( 'Bit.ly Username', null, null, 
+				'The Bit.ly username for the following API key. If you don\'t already have one, see 
+				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
+				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_bitly_login' ).
+					$this->p->options['plugin_bitly_login'].'</td>',
+
+				$this->p->util->th( 'Bit.ly API Key', null, null, 
+				'The Bit.ly API key for this website. If you don\'t already have one, see 
+				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
+				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_bitly_api_key' ).
+					$this->p->options['plugin_bitly_api_key'].'</td>',
+			);
+		}
+
+		protected function get_more_rewrite() {
+			return array(
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+
+				$this->p->util->th( 'URL Length to Shorten', null, null, 
+				'URLs shorter than this length will not be shortened (default is '.$this->p->opt->defaults['plugin_min_shorten'].').' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_min_shorten' ).
+					$this->p->options['plugin_min_shorten'].' characters</td>',
+
+				$this->p->util->th( 'Static Content URL(s)', 'highlight', null, 
+				'Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), 
+				and cached social media files. Leave this option blank to disable the rewriting feature (default is disabled).
+				Wildcarding and multiple CDN hostnames are supported -- see the 
+				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
+				more information and examples.' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_urls' ). 
+					$this->p->options['plugin_cdn_urls'].'</td>',
+
+				$this->p->util->th( 'Include Folders', null, null, '
+				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
+				(the default value is "<em>wp-content, wp-includes</em>").').
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_folders' ). 
+					$this->p->options['plugin_cdn_folders'].'</td>',
+
+				$this->p->util->th( 'Exclude Patterns', null, null,
+				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
+				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
+				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->cf['full'].' cache folder 
+				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
+				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_excl' ).
+					$this->p->options['plugin_cdn_excl'].'</td>',
+
+				$this->p->util->th( 'Not when Using HTTPS', null, null, 
+				'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ).
+				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_cdn_not_https' ).'</td>',
+
+				$this->p->util->th( 'www is Optional', null, null, 
+				'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ).
+				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_cdn_www_opt' ).'</td>',
+			);
+		}
 	}
 }
 

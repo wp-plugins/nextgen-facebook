@@ -666,17 +666,20 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16rc2 =
+= Version 6.16rc3 =
 
 NGFB Open Graph+ (Pro version) now supports bbPress forums. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
-You can [download GPL version 6.16rc2 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc2.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
+You can [download GPL version 6.16rc3 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc3.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
 
 * **Added support for bbPress forums, topics, tags and profiles** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
+* Renamed the 'URL Shortening' tab, on the Advanced settings page, to 'API Keys'.
+* Added a 'Google URL Shortener API is On?' option to validate that the service has been enabled in the Google Cloud Console.
 * Added detection of Gravatar image URLs in the content text.
 * Improved the `flush_post_cache()` method to include wp_cache objects (which may be persistant).
 * Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
+* Improved the `reset_metabox_prefs()` method reset only individual metaboxes, not the whole settings page.
 * Added a new `ngfb_get_term_url` filter for better WordPress SEO support (Pro version).
 * Added new `ngfb_get_meta_options`, `ngfb_save_meta_options`, and `ngfb_get_meta_defaults` filters for the post meta options array (Pro version).
 * Added a call to `wp_cache_add_non_persistent_groups()` for the content object cache group (the content cache object does not need to be persistent).
@@ -706,7 +709,7 @@ There are several changes to the underlying structure in this new version, inclu
 
 == Upgrade Notice ==
 
-= 6.16rc2 =
+= 6.16rc3 =
 
 Added support for bbPress forums, topics, tags and profiles (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 

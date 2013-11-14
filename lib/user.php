@@ -120,46 +120,68 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 			return $url;
 		}
 
-		public function reset_metabox_prefs( $pagehook, $metabox_ids = array(), $state = '', $force = false ) {
+		public function reset_metabox_prefs( $pagehook, $box_ids = array(), $meta_name = '', $section = '', $force = false ) {
 			$user_id = get_current_user_id();	// since wp 3.0
-
-			// if forced, remove all existing metabox preferences for that pagehook
-			if ( $force == true )
-				foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name )
-					delete_user_option( $user_id, $meta_name.'_'.$pagehook, true );
-
-			// define a new state to set for the metabox_ids given
-			switch ( $state ) {
-				case 'order' : 
-					$meta_key = 'meta-box-order_'.$pagehook; 
-					break ;
-				case 'hidden' : 
-					$meta_key = 'metaboxhidden_'.$pagehook; 
-					break ;
-				case 'closed' : 
-					$meta_key = 'closedpostboxes_'.$pagehook; 
-					break ;
-				default :
-					$meta_key = '';
-					break;
+			// define a new state to set for the box_ids given
+			switch ( $meta_name ) {
+				case 'order':	$meta_states = array( 'meta-box-order' ); break ;
+				case 'hidden':	$meta_states = array( 'metaboxhidden' ); break ;
+				case 'closed':	$meta_states = array( 'closedpostboxes' ); break ;
+				default: $meta_states = array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ); break;
 			}
-
-			// if preferences don't already exist for that state, then create them
-			if ( ! empty( $meta_key ) ) {
-				$opts = get_user_option( $meta_key, $user_id );	// since wp 2.0.0 
-				if ( ! is_array( $opts ) )
+			foreach ( $meta_states as $state ) {
+				// define the meta_key for that option
+				$meta_key = $state.'_'.$pagehook; 
+				// an empty box_ids array means reset the whole page
+				if ( $force && empty( $box_ids ) )
+					delete_user_option( $user_id, $meta_key, true );
+				$is_changed = false;
+				$is_default = false;
+				$opts = get_user_option( $meta_key, $user_id );
+				if ( ! is_array( $opts ) ) {
+					$is_changed = true;
+					$is_default = true;
 					$opts = array();
-				if ( empty( $opts ) ) {
-					foreach ( $metabox_ids as $id ) 
-						$opts[] = $pagehook.'_'.$id;
-					update_user_option( $user_id, $meta_key, array_unique( $opts ), true );	// since wp 2.0
 				}
+				if ( $is_default || $force ) {
+					foreach ( $box_ids as $id ) {
+						// change the order only if forced (default is controlled by add_meta_box() order)
+						if ( $force && $state == 'meta-box-order' && ! empty( $opts[$section] ) ) {
+							// don't proceed if the metabox is already first
+							if ( strpos( $opts[$section], $pagehook.'_'.$id ) !== 0 ) {
+								$boxes = explode( ',', $opts[$section] );
+								// remove the box, no matter its position in the array
+								if ( $key = array_search( $pagehook.'_'.$id, $boxes ) !== false )
+									unset( $boxes[$key] );
+								// assume we want to be top-most
+								array_unshift( $boxes, $pagehook.'_'.$id );
+								$opts[$section] = implode( ',', $boxes );
+								$is_changed = true;
+							}
+						} else {
+							// check to see if the metabox is present for that state
+							$key = array_search( $pagehook.'_'.$id, $opts );
+
+							// if we're not targetting , then clear it
+							if ( empty( $meta_name ) && $key !== false ) {
+								unset( $opts[$key] );
+								$is_changed = true;
+							// otherwise if we want a state, add if it's missing
+							} elseif ( ! empty( $meta_name ) && $key === false ) {
+								$opts[] = $pagehook.'_'.$id;
+								$is_changed = true;
+							}
+						}
+					}
+				}
+				if ( $is_default || $is_changed )
+					update_user_option( $user_id, $meta_key, array_unique( $opts ), true );
 			}
 		}
 
 		static function delete_metabox_prefs( $user_id = false ) {
 			$cf = NgfbPluginConfig::get_config();
-			foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $meta_name ) {
+			foreach ( array( 'meta-box-order', 'metaboxhidden', 'closedpostboxes' ) as $state ) {
 				$menu_ids = array( key( $cf['lib']['setting'] ) );
 				foreach ( $menu_ids as $menu ) {
 					$setting_ids = array_keys( $cf['lib']['setting'] );
@@ -168,13 +190,15 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 							$parent_slug = 'options-general.php';
 						else $parent_slug = $cf['lca'].'-'.$menu;
 						$menu_slug = $cf['lca'].'-'.$submenu;
-						$hookname = get_plugin_page_hookname( $menu_slug, $parent_slug);
-						$meta_key = $meta_name.'_'.$hookname;
-						if ( $user_id !== false )
+						$pagehook = get_plugin_page_hookname( $menu_slug, $parent_slug);
+						$meta_key = $state.'_'.$pagehook;
+
+						if ( $user_id !== false ) {
 							delete_user_option( $user_id, $meta_key, true );
-						else
+						} else {
 							foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
 								delete_user_option( $user->ID, $meta_key, true );
+						}
 					}
 				}
 			}

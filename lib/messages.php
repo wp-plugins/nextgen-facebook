@@ -47,11 +47,12 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					$msg .= 'Customize Open Graph and Twitter Card meta tags for each <em>individual</em> Post and Page?<br/>';
 					$msg .= 'Change the Facebook, Google+ and Twitter social button language as the webpage switches language?<br/>';
 					$msg .= 'Integrate with 3rd party plugins like WordPress SEO, All-In-One SEO, WooCommerce, bbPress and more?<br/>';
-					$msg .= 'Speed-up page loads with file caching for <em>external</em> social images and JavaScript?<br/>';
-					$msg .= '<p style="font-size:1.2em;">Help support '.$this->p->cf['full'].' by <a href="'.$this->p->cf['url']['purchase'].'" 
+					$msg .= 'Speed-up page loads with file caching of remote social JavaScript and images?<br/>';
+					$msg .= 'Shorten URLs for Twitter and rewrite URLs for Content Delivery Networks (CDNs)?<br/>';
+					$msg .= '<p style="font-size:1.2em;">Help support this plugin by <a href="'.$this->p->cf['url']['purchase'].'" 
 					target="_blank">purchasing the Pro version today</a>.</p>';
-					$msg .= '<p>Upgrading to the Pro version is easy and simple! Enter the unique <em>Authentication ID</em> 
-					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress.</p>';
+					$msg .= '<p>Upgrading to the Pro version is simple and easy! Enter the unique <em>Authentication ID</em> 
+					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress!</p>';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>Developing and supporting the '.$this->p->cf['full'].' plugin takes most of my work days (and week-ends).

@@ -15,7 +15,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		private $p;
 
 		// increment when changing default options
-		public $options_version = '113';
+		public $options_version = '114';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -249,7 +249,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_file_cache_hrs' => 0,
 			'plugin_object_cache_exp' => 900,
 			'plugin_min_shorten' => 21,
-			'plugin_googl_api_key' => '',
+			'plugin_google_api_key' => '',
+			'plugin_google_shorten' => 0,
 			'plugin_bitly_login' => '',
 			'plugin_bitly_api_key' => '',
 			'plugin_cdn_urls' => '',
@@ -281,10 +282,13 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_cm_skype_name' => 'skype', 
 			'plugin_cm_skype_label' => 'Skype Username', 
 			'plugin_cm_skype_enabled' => 0,
+			'wp_cm_aim_name' => 'aim', 
 			'wp_cm_aim_label' => 'AIM', 
 			'wp_cm_aim_enabled' => 1,
+			'wp_cm_jabber_name' => 'jabber', 
 			'wp_cm_jabber_label' => 'Jabber / Google Talk', 
 			'wp_cm_jabber_enabled' => 1,
+			'wp_cm_yim_name' => 'yim',
 			'wp_cm_yim_label' => 'Yahoo IM', 
 			'wp_cm_yim_enabled' => 1,
 		);
@@ -556,7 +560,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					case 'tumblr_img_desc':
 					case 'tumblr_vid_desc':
 					case 'twitter_desc':
-					case 'plugin_googl_api_key':
+					case 'plugin_google_api_key':
 					case 'plugin_bitly_api_key':
 					case 'plugin_cdn_folders':
 					case 'plugin_cdn_excl':
@@ -707,7 +711,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
 				'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
 				'ngfb_min_shorten' => 'plugin_min_shorten',
-				'ngfb_googl_api_key' => 'plugin_googl_api_key',
+				'ngfb_googl_api_key' => 'plugin_google_api_key',
 				'ngfb_bitly_login' => 'plugin_bitly_login',
 				'ngfb_bitly_api_key' => 'plugin_bitly_api_key',
 				'ngfb_cdn_urls' => 'plugin_cdn_urls',
@@ -739,6 +743,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				'ngfb_cm_skype_name' => 'plugin_cm_skype_name', 
 				'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
 				'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
+				'plugin_googl_api_key' => 'plugin_google_api_key',
 			);
 			$opts = $this->rename_keys( $renamed_keys, $opts );
 

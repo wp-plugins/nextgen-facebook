@@ -56,35 +56,31 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			$ret[] = $this->p->util->th( 'Text Length', 'short' ).'<td>'.
 			$this->p->admin->form->get_input( 'twitter_cap_len', 'short' ).' Characters or less</td>';
 
-			if ( $this->p->is_avail['aop'] == true )
-				$ret[] = $this->p->util->th( 'Add via @username', 'short', null, 
-				'Append the Website\'s @username (entered on the ' .
-				$this->p->util->get_admin_url( 'general#ngfb-tab_pub_twitter', 'General / Twitter' ).' settings tab) to the Tweet.
-				The Website @username will also be recommended for following after the Post / Page is shared.' ).
-				'<td>'.$this->p->admin->form->get_checkbox( 'twitter_via' ).'</td>';
-			else
-				$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
-				'Append the Website\'s @username (entered on the ' .
-				$this->p->util->get_admin_url( 'general', 'General settings page\'s' ).' Twitter tab) to the Tweet.
-				The Website @username will also be recommended for following after the Post / Page is shared.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'twitter_via' ).
-					$this->p->admin->form->get_fake_checkbox( $this->p->options['twitter_via'] ).'</td>';
-
-			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
-			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
-			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
-			'<td>'.$this->p->admin->form->get_checkbox( 'twitter_rel_author' ).'</td>';
-
 			$ret[] = $this->p->util->th( 'Do Not Track', 'short', null,
 			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
 			'<td>'.$this->p->admin->form->get_checkbox( 'twitter_dnt' ).'</td>';
 
+			$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
+			'Append the website\'s @username (entered on the ' .
+			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'General / Twitter' ).' settings tab) to the Tweet.
+			The website\'s @username will also be displayed and recommended for following after the Post / Page is shared.' ).
+			( $this->p->check->is_aop() == true ? '<td>'.$this->p->admin->form->get_checkbox( 'twitter_via' ).'</td>' :
+			'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
+
+			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
+			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
+			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
+			( $this->p->check->is_aop() == true ? '<td>'.$this->p->admin->form->get_checkbox( 'twitter_via' ).'</td>' :
+			'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
+
 			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
 			If you select a URL shortening service, you must also enter your API Key for that service on the '.
-			$this->p->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Advanced / URL Shortening' ).' settings tab.' ) .
-			'<td>'.$this->p->admin->form->get_select( 'twitter_shortener', 
-				array( '' => 'none', 'googl' => 'Goo.gl', 'bitly' => 'Bit.ly' ), 'medium' ).'&nbsp;&nbsp;' .
-				$this->p->util->get_admin_url( 'advanced#ngfb-tab_plugin_shorten', 'Enter your API Keys' ).'</td>';
+			$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings API Keys tab' ).'.' ) .
+			( $this->p->check->is_aop() == true ?  '<td>'.$this->p->admin->form->get_select( 'twitter_shortener', 
+			array( '' => 'none', 'googl' => 'Goo.gl', 'bitly' => 'Bit.ly' ), 'medium' ).
+			'&nbsp;&nbsp;'.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Enter your API Keys' ) :
+			'<td class="blank">'.$this->p->admin->form->get_hidden( 'twitter_shortener' ).
+			$this->p->options['twitter_shortener'] ).'</td>';
 
 			return $ret;
 		}
@@ -134,16 +130,18 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], $this->p->util->get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
-				if ( ! empty( $opts['twitter_via'] ) )
-					$atts['via'] = preg_replace( '/^@/', '', $opts['tc_site'] );
+				if ( ! empty( $opts['twitter_via'] ) && 
+					$this->p->check->is_aop() )
+						$atts['via'] = preg_replace( '/^@/', '', $opts['tc_site'] );
+				else $atts['via'] = '';
 			}
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
-				if ( ! empty( $opts['twitter_rel_author'] ) && ! empty( $post ) && $use_post == true )
-					$atts['related'] = preg_replace( '/^@/', '', 
-						get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
-				else
-					$atts['related'] = '';
+				if ( ! empty( $opts['twitter_rel_author'] ) && 
+					$this->p->check->is_aop() && ! empty( $post ) && $use_post == true )
+						$atts['related'] = preg_replace( '/^@/', '', 
+							get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
+				else $atts['related'] = '';
 			}
 
 			if ( ! array_key_exists( 'hashtags', $atts ) )
