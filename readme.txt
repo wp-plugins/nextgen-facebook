@@ -12,7 +12,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-NGFB Open Graph+ adds HTML tags (Open Graph, Rich Pins, Twitter Cards) to the head section of webpages for improved Google Search results, and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website!
+NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of webpages for improved Google Search results, and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website!
 
 = Recent Reviews =
 
@@ -371,7 +371,7 @@ This is a known issue with the JavaScript code Facebook uses. If the "Like" butt
 #page { overflow:visible; }
 </pre>
 
-There is also a known issue with Facebook's "Like" button flyout and the WP *Twenty Eleven* and *Twenty Twelve* based themes. Including the following CSS in your stylesheet should fix the problem:
+There is also another known issue with Facebook's "Like" button flyout and the WP *Twenty Eleven* and *Twenty Twelve* based themes. Including the following CSS in your stylesheet should fix the problem:
 
 `
 .ngfb-buttons iframe { max-width:none; }
