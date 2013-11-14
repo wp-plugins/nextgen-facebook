@@ -137,18 +137,23 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function get_sharing_url( $use_post = false, $add_page = true, $source_id = '' ) {
 			$url = false;
 			if ( is_singular() || $use_post !== false ) {
+
 				if ( ( $obj = $this->get_the_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $url;
 				}
-				$url = get_permalink( $obj->ID );
-				if ( $add_page && get_query_var( 'page' ) > 1 ) {
-					global $wp_rewrite;
-					$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
-					if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
-						if ( ! $wp_rewrite->using_permalinks() )
-							$url = add_query_arg( 'page', get_query_var( 'page' ), $url );
-						else $url = user_trailingslashit( trailingslashit( $url ).get_query_var( 'page' ) );
+
+				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
+				if ( ! empty( $post_id ) ) {
+					$url = get_permalink( $post_id );
+					if ( $add_page && get_query_var( 'page' ) > 1 ) {
+						global $wp_rewrite;
+						$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
+						if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
+							if ( ! $wp_rewrite->using_permalinks() )
+								$url = add_query_arg( 'page', get_query_var( 'page' ), $url );
+							else $url = user_trailingslashit( trailingslashit( $url ).get_query_var( 'page' ) );
+						}
 					}
 				}
 			} else {

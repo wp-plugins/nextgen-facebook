@@ -41,5 +41,4 @@ if ( ! class_exists( 'SucomScript' ) ) {
 		}
 	}
 }
-
 ?>

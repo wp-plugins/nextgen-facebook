@@ -50,13 +50,12 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 				}
 			}
 
-			if ( $post_id === false ) {
-				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
-					$this->p->debug->log( 'exiting early: invalid object type' );
-					return array();
-				}
-				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
+			if ( ( $obj = $this->p->util->get_the_object( $post_id ) ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return array();
 			}
+
+			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$post_type = '';
 			$has_video_image = '';
 			$og_max = $this->get_max_nums( $post_id );
@@ -132,7 +131,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					$og['article:tag'] = $this->p->webpage->get_tags( $post_id );
 
 				if ( ! array_key_exists( 'article:section', $og ) )
-					$og['article:section'] = $this->p->webpage->get_section();
+					$og['article:section'] = $this->p->webpage->get_section( $post_id );
 
 				if ( ! array_key_exists( 'article:published_time', $og ) )
 					$og['article:published_time'] = get_the_date('c');
@@ -178,15 +177,9 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og;
 		}
 
-		public function get_all_videos( $num = 0, $post_id = false, $check_dupes = true ) {
+		public function get_all_videos( $num = 0, $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
-			if ( $post_id === false ) {
-				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
-					$this->p->debug->log( 'exiting early: invalid object type' );
-					return array();
-				}
-				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
-			}
+
 			$og_ret = array();
 			if ( ! empty( $post_id ) ) {	// post id should be > 0 for post meta
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
@@ -204,17 +197,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og_ret;
 		}
 
-		public function get_all_images( $num = 0, $size_name = 'thumbnail', $post_id = false, $check_dupes = true ) {
+		public function get_all_images( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
-			if ( $post_id === false ) {
-				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
-					$this->p->debug->log( 'exiting early: invalid object type' );
-					return array();
-				}
-				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
-			}
-			$og_ret = array();
 
+			$og_ret = array();
 			// check for an attachment page
 			if ( ! empty( $post_id ) && is_attachment( $post_id ) ) {	// post id should be > 0 for attachment pages
 				$og_image = array();
@@ -235,7 +221,6 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			if ( ( ! empty( $this->p->options['og_def_img_on_index'] ) && ( is_home() || is_archive() ) && ! is_author() ) ||
 				( ! empty( $this->p->options['og_def_img_on_search'] ) && is_search() ) ) {
 
-				$this->p->debug->log( 'HERE' );
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
 				$og_ret = array_merge( $og_ret, 
 					$this->p->media->get_default_image( $num_remains, $size_name, $check_dupes ) );
@@ -283,11 +268,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og_ret;
 		}
 
-		public function get_max_nums( $post_id = false ) {
-			if ( $post_id === false ) {
-				global $post;
-				$post_id = $post->ID;	// can be 0 for some plugin pages
-			}
+		public function get_max_nums( $post_id ) {
 			$og_max = array();
 			foreach ( array( 'og_vid_max', 'og_img_max' ) as $max_name ) {
 				$num_meta = false;

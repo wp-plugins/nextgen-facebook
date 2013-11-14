@@ -73,6 +73,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return array();
 			}
+
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$author_url = '';
 		
@@ -91,7 +92,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			echo '" />'."\n";
 
 			/*
-			 * Meta Tags for Google
+			 * Meta HTML Tags for Google
 			 */
 			$link_rel = array();
 			if ( array_key_exists( 'link:publisher', $meta_tags ) ) {
@@ -125,6 +126,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				if ( ! empty( $val ) )
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
 
+			// the meta "description" html tag
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
 					if ( is_singular() && ! empty( $post_id ) )
@@ -132,11 +134,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',
 							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false
-				}
-				if ( ! empty( $meta_tags['description'] ) ) {
-					// get_description is already decoded and html clean, so just encode html entities
-					$charset = get_bloginfo( 'charset' );
-					$meta_tags['description'] = htmlentities( $meta_tags['description'], ENT_QUOTES, $charset, false );
 				}
 			}
 			$meta_tags = apply_filters( $this->p->cf['lca'].'_meta_tags', $meta_tags );

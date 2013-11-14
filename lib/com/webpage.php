@@ -304,6 +304,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		public function get_content( $use_post = true, $use_cache = true ) {
+
 			$content = false;
 			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
@@ -325,7 +326,6 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					// if the post id is 0, then add the sharing url to ensure a unique salt string
 					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_'.$filter_name.
 						( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $post_id, false ) : '' ).')';
-	
 					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					$cache_type = 'object cache';
 					if ( $use_cache == false )
@@ -415,15 +415,15 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			return $content;
 		}
 
-		public function get_section() {
-			global $post;
+		public function get_section( $post_id ) {
 			$section = '';
-			if ( is_singular() && ! empty( $post ) )
-				$section = $this->p->meta->get_options( $post->ID, 'og_art_section' );
+			if ( is_singular() )
+				$section = $this->p->meta->get_options( $post_id, 'og_art_section' );
 			if ( ! empty( $section ) ) 
 				$this->p->debug->log( 'found custom meta section = "'.$section.'"' );
 			else $section = $this->p->options['og_art_section'];
-			if ( $section == 'none' ) $section = '';
+			if ( $section == 'none' )
+				$section = '';
 			return apply_filters( $this->p->cf['lca'].'_section', $section );
 		}
 

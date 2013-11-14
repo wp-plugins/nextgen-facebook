@@ -34,7 +34,6 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				if ( class_exists( $classname ) )
 					$this->website[$id] = New $classname( $this->p );
 			}
-			unset ( $id, $name );
 		}
 
 		public function add_filter( $type = 'the_content' ) {
@@ -127,12 +126,15 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type:'.$type.')';
+				// if the post id is 0, then add the sharing url to ensure a unique salt string
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type'.$type.
+					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $post->ID, false ) : '' ).')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );
 				$html = get_transient( $cache_id );
 			}
+
 			if ( $html !== false )
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
 			else {
@@ -271,20 +273,20 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				};</script>';
 		}
 
-		public function get_css( $css_name, $atts = array(), $css_class_other = '' ) {
+		public function get_css( $css_name, $atts = array(), $css_class_extra = '', $css_id_extra = '' ) {
 			global $post;
-			$use_post = empty( $atts['is_widget'] ) || is_singular() ? true : false;
 
 			$css_class = $css_name.'-'.( empty( $atts['css_class'] ) ? 
 				'button' : $atts['css_class'] );
-
-			if ( ! empty( $css_class_other ) ) 
-				$css_class = $css_class_other.' '.$css_class;
-
 			$css_id = $css_name.'-'.( empty( $atts['css_id'] ) ? 
 				'button' : $atts['css_id'] );
 
-			if ( $use_post == true && ! empty( $post ) ) 
+			if ( ! empty( $css_class_extra ) ) 
+				$css_class = $css_class_extra.' '.$css_class;
+			if ( ! empty( $css_id_extra ) ) 
+				$css_id = $css_id_extra.' '.$css_id;
+
+			if ( is_singular() && ! empty( $post->ID ) ) 
 				$css_id .= ' '.$css_id.'-post-'.$post->ID;
 
 			return 'class="'.$css_class.'" id="'.$css_id.'"';
@@ -305,6 +307,5 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			return false;
 		}
 	}
-
 }
 ?>
