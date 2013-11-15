@@ -102,7 +102,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+			foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $post_type )
 				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
 					$post_type->label.'</p>';
 
@@ -118,5 +118,4 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 	}
 }
-
 ?>

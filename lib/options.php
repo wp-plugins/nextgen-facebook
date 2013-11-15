@@ -356,16 +356,21 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function add_to_post_types( &$opts = array() ) {
-			foreach ( array( 'buttons_add_to_', 'plugin_add_to_' ) as $pre ) {
-				foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
-					$key = $pre.$post_type->name;
-					if ( ! array_key_exists( $key, $opts ) ) {
+			// buttons_add_to = include social buttons on that post type
+			// plugin_add_to = include the custom settings metabox on the editing page for that post type
+			foreach ( array( 
+				'buttons_add_to_' => array( 'public' => true ),
+				'plugin_add_to_' => array( 'show_ui' => true, 'public' => true ),
+			) as $add_to => $include ) {
+				foreach ( get_post_types( $include, 'objects' ) as $post_type ) {
+					$option_name = $add_to.$post_type->name;
+					if ( ! array_key_exists( $option_name, $opts ) ) {
 						switch ( $post_type->name ) {
 							case 'shop_coupon':
-								$opts[$key] = 0;
+								$opts[$option_name] = 0;
 								break;
 							default:
-								$opts[$key] = 1;
+								$opts[$option_name] = 1;
 								break;
 						}
 					}

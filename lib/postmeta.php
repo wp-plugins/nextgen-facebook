@@ -33,6 +33,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 		public function add_metaboxes() {
 			// is there at least one social button enabled?
+			// if not, then don't include the sharing metabox on the editing pages
 			$enabled = false;
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
@@ -40,6 +41,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 					break;
 				}
 			}
+			// include the custom settings metabox on the editing page for that post type
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
 				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
 					add_meta_box( NGFB_META_NAME, $this->p->cf['menu'].' Custom Settings', 
