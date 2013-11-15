@@ -641,7 +641,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						break;
 				}
 			}
-			unset ( $key, $def_val );
+
+			if ( empty( $opts['plugin_google_api_key'] ) )
+				$opts['plugin_google_shorten'] = 0;
 
 			// og_desc_len must be at least 156 chars (defined in config)
 			if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 

@@ -293,13 +293,13 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 							$this->get_nonce(), NGFB_NONCE ) ) 
 				);
 			}
+			// the plugin information metabox on all settings pages needs this
+			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );
+
 			// add child metaboxes first, since they contain the default reset_metabox_prefs()
 			$this->p->admin->setting[$this->menu_id]->add_meta_boxes();
-			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );	// the version info metabox on all settings pages needs this
 
-			if ( $this->p->check->is_aop() )
-				add_meta_box( $this->pagehook.'_thankyou', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
-			else {
+			if ( ! $this->p->check->is_aop() ) {
 				add_meta_box( $this->pagehook.'_purchase', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'purchase' ), null, 'side', true );
@@ -307,6 +307,9 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_news', __( 'News Feed', NGFB_TEXTDOM ), array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_info', __( 'Plugin Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
+
+			if ( $this->p->check->is_aop() )
+				add_meta_box( $this->pagehook.'_thankyou', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
@@ -459,17 +462,17 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			if ( ! empty( $this->p->options['plugin_tid'] ) )
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
-						$this->get_nonce(), NGFB_NONCE ) );
+						$this->get_nonce(), NGFB_NONCE ) ).' ';
 
 			// don't show the 'Clear All Cache' and 'Reset Metaboxes' buttons on network admin pages
 			if ( empty( $this->p->cf['lib']['site_setting'][$this->menu_id] ) ) {
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
-						$this->get_nonce(), NGFB_NONCE ) );
+						$this->get_nonce(), NGFB_NONCE ) ).' ';
 
 				$action_buttons .= $this->p->admin->form->get_button( __( 'Reset Metaboxes', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_metabox_prefs' ),
-						$this->get_nonce(), NGFB_NONCE ) );
+						$this->get_nonce(), NGFB_NONCE ) ).' ';
 			}
 
 			if ( ! empty( $action_buttons ) )
