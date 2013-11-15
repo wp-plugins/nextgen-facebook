@@ -58,7 +58,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$post_type = '';
 			$has_video_image = '';
-			$og_max = $this->get_max_nums( $post_id );
+			$og_max = $this->p->util->get_max_nums( $post_id );
 			$og = apply_filters( $this->p->cf['lca'].'_og_seed', array() );
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, $this->p->util->get_lang( 'facebook' ) );
@@ -268,19 +268,19 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 			return $og_ret;
 		}
 
-		public function get_max_nums( $post_id ) {
-			$og_max = array();
-			foreach ( array( 'og_vid_max', 'og_img_max' ) as $max_name ) {
-				$num_meta = false;
-				if ( ! empty( $post_id ) )
-					$num_meta = $this->p->meta->get_options( $post_id, $max_name );
-				if ( $num_meta !== false ) {
-					$og_max[$max_name] = $num_meta;
-					$this->p->debug->log( 'found custom meta '.$max_name.' = '.$num_meta );
-				} else $og_max[$max_name] = $this->p->options[$max_name];
+		public function parse( $html ) {
+			$doc = new DomDocument();	// since PHP v4.1.0
+			$doc->loadHTML( $html );
+			$xpath = new DOMXPath( $doc );
+			$query = '//*/meta[starts-with(@property, \'og:\')]';
+			$metas = $xpath->query( $query );
+			$rmetas = array();
+			foreach ( $metas as $meta ) {
+				$property = $meta->getAttribute('property');
+				$content = $meta->getAttribute('content');
+				$rmetas[$property] = $content;
 			}
-			unset ( $max_name );
-			return $og_max;
+			return $rmetas;
 		}
 	}
 }

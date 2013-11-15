@@ -70,7 +70,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			$cache_id = md5( $cache_salt );		// no lca prefix on filenames
 			$cache_file = $this->base_dir.$cache_id.$url_ext;
 			$cache_url = $this->base_url.$cache_id.$url_ext.$url_frag;
-			$cache_data = '';
+			$cache_data = false;
 
 			if ( $want_this == 'raw' ) {
 				$cache_data = $this->get_cache_data( $cache_salt, $cache_name, $url_ext, $expire_secs );
@@ -149,12 +149,9 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			if ( $http_code == 200 ) {
 				if ( empty( $cache_data ) )
 					$this->p->debug->log( 'cache_data returned from "'.$get_url.'" is empty' );
-				elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true ) {
+				elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true )
 					$this->p->debug->log( 'cache_data sucessfully saved' );
-
-					// return url or data immediately on success
-					return $want_this == 'url' ? $cache_url : $cache_data;
-				}
+				return $want_this == 'url' ? $cache_url : $cache_data;
 			} else {
 				if ( is_admin() )
 					$this->p->notice->err( 'Error connecting to <a href="'.$get_url.'" target="_blank">'.$get_url.'</a> for caching. 
@@ -174,7 +171,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 		}
 
 		private function get_cache_data( $cache_salt, $cache_name = 'file', $url_ext = '', $expire_secs = false ) {
-			$cache_data = '';
+			$cache_data = false;
 			switch ( $cache_name ) {
 				case 'wp_cache' :
 					if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 

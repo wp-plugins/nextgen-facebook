@@ -506,6 +506,20 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $deleted;
 		}
 
+		public function get_max_nums( $post_id ) {
+			$og_max = array();
+			foreach ( array( 'og_vid_max', 'og_img_max' ) as $max_name ) {
+				$num_meta = false;
+				if ( ! empty( $post_id ) )
+					$num_meta = $this->p->meta->get_options( $post_id, $max_name );
+				if ( $num_meta !== false ) {
+					$og_max[$max_name] = $num_meta;
+					$this->p->debug->log( 'found custom meta '.$max_name.' = '.$num_meta );
+				} else $og_max[$max_name] = $this->p->options[$max_name];
+			}
+			return $og_max;
+		}
+
 		public function push_max( &$dst, &$src, $num = 0 ) {
 			if ( ! is_array( $dst ) || ! is_array( $src ) ) return false;
 			if ( ! empty( $src ) ) array_push( $dst, $src );

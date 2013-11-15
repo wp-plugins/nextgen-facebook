@@ -479,8 +479,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				'og:video:width' => $embed_width,
 				'og:video:height' => $embed_height,
 				'og:image' => '',
-				'og:image:width' => '',
-				'og:image:height' => '',
+				'og:image:width' => 0,
+				'og:image:height' => 0,
 			);
 			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
 
@@ -515,8 +515,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 						$og_video['og:image:secure_url'] = preg_replace( '/http:\/\/embed[^\.]*\./', 'https://embed-ssl.', $og_video['og:image'] );
 					}
 				}
-			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
-				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
+			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
+				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 				$og_video['og:video'] = $prot.'www.youtube.com/v/'.$vid_name;
 				$og_video['og:image'] = $prot.'img.youtube.com/vi/'.$vid_name.'/0.jpg';	// 0, hqdefault, maxresdefault
 				if ( function_exists( 'simplexml_load_string' ) ) {
@@ -541,6 +541,17 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 										array( $thumb_url, $thumb_width, $thumb_height );
 							}
 						}
+					}
+				}
+				// the google youtube api does not provide video width/height (seriously), 
+				// so if missing from method args, get them from the youtube opengraph meta tags
+				if ( ! empty( $og_video['og:video'] ) && ( $og_video['og:video:width'] == 0 || $og_video['og:video:height'] == 0 ) ) {
+					$og_fetch = $prot.'www.youtube.com/watch?v='.$vid_name;
+					$this->p->debug->log( 'fetching missing video width/height from '.$og_fetch );
+					if ( ( $og_html = $this->p->cache->get( $og_fetch, 'raw', 'transient' ) ) !== false ) {
+						$og_meta = $this->p->head->og->parse( $og_html );
+						$og_video['og:video:width'] = $og_meta['og:video:width'];
+						$og_video['og:video:height'] = $og_meta['og:video:height'];
 					}
 				}
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
