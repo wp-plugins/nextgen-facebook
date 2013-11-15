@@ -660,11 +660,11 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16rc5 =
+= Version 6.16rc6 =
 
 NGFB Open Graph+ (Pro version) now supports bbPress forums. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
-You can [download GPL version 6.16rc5 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc5.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
+You can [download GPL version 6.16rc6 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc6.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
 
 * **Added support for bbPress forums, topics, tags and profiles** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
@@ -680,7 +680,10 @@ You can [download GPL version 6.16rc5 (release candidate) from WordPress.org](ht
 * Modified several methods to try and use `get_queried_object()` first, instead of the global $post object. This should circumvent broken themes that do not setup/create the global $post object properly.
 * Moved the 'Add Page Title in Tags' and 'Add Page Ancestor Tags' options to the Title and Description tab.
 * Replaced the `NGFB_WISTIA_API_PWD` constant with a 'Wistia API Password' option on the Advanced settings page.
-* Added a backup HTTP request for Youtube video width/height if/when missing from their API.
+* Added a fallback HTTP request for Youtube videos without a width and height (which is missing from their API).
+* Renamed the `get_short_url()` method to `shorten_url()`.
+* Renamed the 'ngfb_short_url' filter to 'ngfb_shorten_url'.
+* Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 = Version 6.15.0 =
 
@@ -705,7 +708,7 @@ There are several changes to the underlying structure in this new version, inclu
 
 == Upgrade Notice ==
 
-= 6.16rc5 =
+= 6.16rc6 =
 
 Added support for bbPress forums, topics, tags and profiles (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 

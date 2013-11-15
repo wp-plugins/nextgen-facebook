@@ -12,16 +12,14 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 	class NgfbUtil {
 
-		private $goo;			// NgfbGoogl class object
-		private $bit;			// NgfbBitly class object
 		private $urls_found = array();	// array to detect duplicate images, etc.
 		private $sharing_url;		// save and return sharing url
 
 		protected $p;
 
-		public $rewriter;	// rewriting class object set by Pro addon
+		public $shortener;		// shortening class object set by Pro addon
+		public $rewriter;		// rewriting class object set by Pro addon
 
-		// executed by ngfbUtilPro() as well
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -199,59 +197,13 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return ( $this->p->util->rewrite_url( $this->p->cache->get( $url ) ) );
 		}
 
-		public function get_short_url( $long_url, $shortener = '' ) {
-			if ( empty( $shortener ) || 
-				$this->p->is_avail['curl'] == false || 
-				strlen( $long_url ) < $this->p->options['plugin_min_shorten'] ||
-				( defined( 'NGFB_CURL_DISABLE' ) && NGFB_CURL_DISABLE ) ) 
-					return apply_filters( $this->p->cf['lca'].'_short_url', false, $long_url );
-
-			$short_url = false;
-
-			// cache the shortened url to minimize the number of lookups
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$this->p->debug->log( 'transient cache is disabled' );
-			else {
-				$cache_salt = __METHOD__.'(url:'.$long_url.')';
-				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
-				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': short_url transient salt '.$cache_salt );
-				$short_url = get_transient( $cache_id );
+		public function shorten_url( $long_url, $service = '' ) {
+			$short_url = $long_url;
+			if ( is_object( $this->shortener ) && method_exists( $this->shortener, 'short' ) ) {
+				if ( ( $short_url = $this->shortener->short( $long_url, $service ) ) === false )
+					$short_url = $long_url;
 			}
-
-			if ( $short_url !== false ) {
-				$this->p->debug->log( $cache_type.': short_url retrieved from transient '.$cache_id );
-				return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
-			} else {
-				switch ( $shortener ) {
-					case 'googl' :
-						if ( is_object( $this->goo ) )
-							$short_url = $this->goo->shorten( $long_url );
-						break;
-					case 'bitly' :
-						if ( is_object( $this->bit ) ) {
-							$short_ret = $this->bit->shorten( $long_url );
-							$short_url = empty( $short_ret['url'] ) ? '' : $short_ret['url'];
-						}
-						break;
-					default :
-						$this->p->debug->log( 'invalid shortener requested ('.$shortener.')' );
-						$short_url = false;
-						break;
-				}
-				if ( empty( $short_url ) )
-					$this->p->debug->log( 'failed to shorten url = '.$long_url );
-				else {
-					$this->p->debug->log( 'url successfully shortened = '.$short_url );
-					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
-						set_transient( $cache_id, $short_url, $this->p->cache->object_expire );
-						$this->p->debug->log( $cache_type.': short_url saved to transient '.
-							$cache_id.' ('.$this->p->cache->object_expire.' seconds)' );
-					}
-					return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
-				}
-			}
-			return apply_filters( $this->p->cf['lca'].'_short_url', $short_url, $long_url );
+			return apply_filters( $this->p->cf['lca'].'_shorten_url', $short_url, $long_url );
 		}
 
 		public function fix_relative_url( $url = '' ) {
@@ -590,7 +542,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		}
 
 		public function tweet_max_len( $long_url ) {
-			$short_url = $this->get_short_url( $long_url, $this->p->options['twitter_shortener'] );
+			$short_url = $this->shorten_url( $long_url, $this->p->options['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 			$twitter_cap_len = $this->p->options['twitter_cap_len'] - strlen( $short_url ) - 1;
 			if ( ! empty( $this->p->options['tc_site'] ) && ! empty( $this->p->options['twitter_via'] ) )

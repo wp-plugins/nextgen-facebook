@@ -69,7 +69,11 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly' );
-			if ( ! empty( $this->p->options['plugin_google_shorten' ] ) ) $shorteners['googl'] = 'Goo.gl';
+			if ( ! empty( $this->p->options['plugin_bitly_login' ] ) &&
+				! empty( $this->p->options['plugin_bitly_api_key' ] ) )
+					$shorteners['bitly'] = 'Bit.ly';
+			if ( ! empty( $this->p->options['plugin_google_shorten' ] ) ) 
+				$shorteners['googl'] = 'Goo.gl';
 			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
 			If you select a URL shortening service, you must also enter your API Key for that service on the '.
 			$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings API Keys tab' ).'.' ) .
@@ -104,7 +108,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			$long_url = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
-			$short_url = $this->p->util->get_short_url( $long_url, $opts['twitter_shortener'] );
+			$short_url = $this->p->util->shorten_url( $long_url, $opts['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 
 			if ( array_key_exists( 'tweet', $atts ) )

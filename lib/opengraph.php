@@ -26,18 +26,18 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 		}
 
 		public function get( $post_id = false ) {
-			if ( ( defined( 'DISABLE_NGFB_OPEN_GRAPH' ) && DISABLE_NGFB_OPEN_GRAPH ) || 
-				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && NGFB_OPEN_GRAPH_DISABLE ) ||
-				! empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) ) {
-
+			if ( ( defined( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) && 
+				constant( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) ||
+				! empty( $_SERVER[$this->p->cf['uca'].'_OPEN_GRAPH_DISABLE'] ) ) {
 				$this->p->debug->log( 'open graph is disabled' );
 				return array();
 			}
 
 			$source_id = $this->p->util->get_source_id( 'opengraph' );
 			$sharing_url = $this->p->util->get_sharing_url( false, true, $source_id );
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$this->p->debug->log( 'transient cache is disabled' );
+			if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
+				constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
+					$this->p->debug->log( 'transient cache is disabled' );
 			else {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
@@ -164,13 +164,15 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 						constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ), $post_id );
 					// if we didn't find any images, then use the default image
 					if ( empty( $og['og:image'] ) && empty( $has_video_image ) )
-						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], NGFB_OG_SIZE_NAME );
+						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], 
+							constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ) );
 				} else $this->p->debug->log( 'images disabled: maximum images = 0' );
 			}
 
 			// run filter before saving to transient cache
 			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
-			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+			if ( ! defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) || 
+				! constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': og array saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
