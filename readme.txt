@@ -379,13 +379,7 @@ There is also another known issue with Facebook's "Like" button flyout and the W
 
 = Why doesn't Facebook embed my videos from Wistia? =
 
-Sharing URLs for Wistia videos are only available from a password protected Wistia API. You can find your Wistia API password from the Wistia Account Dashboard, under API Settings. You must define the `NGFB_WISTIA_API_PWD` constant in your WordPress `wp-config.php` file with your API password. For example (replace the stars with your API password):
-
-`
-define('NGFB_WISTIA_API_PWD', '****************************************');
-`
-
-After defining the `NGFB_WISTIA_API_PWD` constant, Facebook, Twitter, Google+, etc. will be able to correctly include and play these videos.
+Information on Wistia videos is only available from a password protected Wistia API. You can enter your Wistia API password on the Open Graph+ Advanced settings page. After entering the Wistia API password, Facebook, Twitter, Google+, etc. will be able to correctly include and play your embedded Wistia videos.
 
 = What about Google Search and Google Plus? =
 
@@ -666,11 +660,11 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16rc3 =
+= Version 6.16rc4 =
 
 NGFB Open Graph+ (Pro version) now supports bbPress forums. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
-You can [download GPL version 6.16rc3 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc3.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
+You can [download GPL version 6.16rc4 (release candidate) from WordPress.org](http://downloads.wordpress.org/plugin/nextgen-facebook.6.16rc4.zip). [Installation instructions for the archive are also available](http://wordpress.org/plugins/nextgen-facebook/installation/). You can contact me by email to request the Pro version archive -- please include your unique Authentication ID in the email.
 
 * **Added support for bbPress forums, topics, tags and profiles** (Pro version).
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
@@ -685,6 +679,7 @@ You can [download GPL version 6.16rc3 (release candidate) from WordPress.org](ht
 * Added a call to `wp_cache_add_non_persistent_groups()` for the content object cache group (the content cache object does not need to be persistent).
 * Modified several methods to try and use `get_queried_object()` first, instead of the global $post object. This should circumvent broken themes that do not setup/create the global $post object properly.
 * Moved the 'Add Page Title in Tags' and 'Add Page Ancestor Tags' options to the Title and Description tab.
+* Replaced the `NGFB_WISTIA_API_PWD` constant with a 'Wistia API Password' option on the Advanced settings page.
 
 = Version 6.15.0 =
 
@@ -709,7 +704,7 @@ There are several changes to the underlying structure in this new version, inclu
 
 == Upgrade Notice ==
 
-= 6.16rc3 =
+= 6.16rc4 =
 
 Added support for bbPress forums, topics, tags and profiles (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 

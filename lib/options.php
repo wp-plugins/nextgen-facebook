@@ -253,6 +253,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_google_shorten' => 0,
 			'plugin_bitly_login' => '',
 			'plugin_bitly_api_key' => '',
+			'plugin_wistia_pwd' => 0,
 			'plugin_cdn_urls' => '',
 			'plugin_cdn_folders' => 'wp-content, wp-includes',
 			'plugin_cdn_excl' => '',
@@ -562,6 +563,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					case 'twitter_desc':
 					case 'plugin_google_api_key':
 					case 'plugin_bitly_api_key':
+					case 'plugin_wistia_pwd':
 					case 'plugin_cdn_folders':
 					case 'plugin_cdn_excl':
 						if ( ! empty( $opts[$key] ) )

@@ -330,25 +330,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
-				$this->p->util->th( 'Google Project Application BrowserKey', null, null, 
-				'The Google BrowserKey for this website / project. If you don\'t already have one, visit
-				<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
-				create a new project for your website, and under the API &amp; auth - Registered apps, 
-				register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
-				and enter it\'s BrowserKey here.' ).
-				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_google_api_key' ).
-				$this->p->options['plugin_google_api_key'].'</td>',
-
-				$this->p->util->th( 'Google URL Shortener API is On?', null, null,
-				'In order to use Google\'s URL Shortener for URLs in Tweets, you must turn on the 
-				URL Shortener API from <a href="https://cloud.google.com/console#/project" 
-				target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
-				menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
-				the \'Yes\' option here. You can then select the Google URL Shortener in the '.
-				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).
-				'<td class="blank">'.$this->p->admin->form->get_fake_radio( 'plugin_google_shorten',
-				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
-
 				$this->p->util->th( 'Bit.ly Username', null, null, 
 				'The Bit.ly username for the following API key. If you don\'t already have one, see 
 				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
@@ -360,6 +341,32 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
 				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_bitly_api_key' ).
 				$this->p->options['plugin_bitly_api_key'].'</td>',
+
+				$this->p->util->th( 'Google Project Application BrowserKey', null, null, 
+				'The Google BrowserKey for this website / project. If you don\'t already have one, visit
+				<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
+				create a new project for your website, and under the API &amp; auth - Registered apps, 
+				register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
+				and enter it\'s BrowserKey here.' ).
+				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_google_api_key' ).
+				$this->p->options['plugin_google_api_key'].'</td>',
+
+				$this->p->util->th( 'Google URL Shortener API is ON', null, null,
+				'In order to use Google\'s URL Shortener for URLs in Tweets, you must turn on the 
+				URL Shortener API from <a href="https://cloud.google.com/console#/project" 
+				target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
+				menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
+				the \'Yes\' option here. You can then select the Google URL Shortener in the '.
+				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).
+				'<td class="blank">'.$this->p->admin->form->get_fake_radio( 'plugin_google_shorten',
+				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
+
+				$this->p->util->th( 'Wistia API Password', null, null, 
+				'Retrieving information on Wistia videos requires an API password. 
+				You can find the API password from the Wistia Account Dashboard, under API Settings.' ).
+				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_wistia_pwd' ).
+				$this->p->options['plugin_wistia_pwd'].'</td>',
+
 			);
 		}
 

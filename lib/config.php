@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.16rc3',			// plugin version
+			'version' => '6.16rc4',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -171,7 +171,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			// *_CURL_DISABLE		true|false
 			// *_CURL_PROXY			http://hostname:port/
 			// *_CURL_PROXYUSERPWD		user:password
-			// *_WISTIA_API_PWD		password
 
 			if ( defined( $uca.'_DEBUG' ) && 
 				! defined( $uca.'_HTML_DEBUG' ) )

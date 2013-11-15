@@ -487,10 +487,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					if ( defined( 'NGFB_WISTIA_API_PWD' ) && NGFB_WISTIA_API_PWD ) {
+					if ( ! empty( $this->p->options['plugin_wistia_pwd'] ) ) {
 						$api_url = $prot.'api.wistia.com/v1/medias/'.$vid_name.'.xml';
 						$this->p->debug->log( 'fetching video details from '.$api_url );
-						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient', false, 'api:'.NGFB_WISTIA_API_PWD ) );
+						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 
+							'raw', 'transient', false, 'api:'.$this->p->options['plugin_wistia_pwd'] ) );
 						if ( ! empty( $xml->embedCode ) ) {
 							$embed = preg_match( '/<embed(.*)><\/embed>/i', (string) $xml->embedCode, $match ) ? $match[1] : '';
 							$embed_src = preg_match( '/ src=[\'"]?([^\'"]+)[\'"]?/i', $embed, $match ) ? $match[1] : '';

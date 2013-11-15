@@ -54,10 +54,14 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 
 		public function shortcode( $atts, $content = null ) { 
 			$atts = apply_filters( $this->scid.'_shortcode', $atts, $content );
-			global $post;
+			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return $content;
+			}
+			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$html = '';
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( true ) : $atts['url'];
-			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post->ID ) ? 'shortcode' : $atts['css_id'];
+			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post_id ) ? 'shortcode' : $atts['css_id'];
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
 
 			if ( ! empty( $atts['buttons'] ) && $this->p->social->is_disabled() == false ) {
@@ -68,7 +72,7 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 				else {
 					$keys = implode( '|', array_keys( $atts ) );
 					$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
-					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
+					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
 					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					$cache_type = 'object cache';
 					$this->p->debug->log( $cache_type.': shortcode transient salt '.$cache_salt );
@@ -98,5 +102,4 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 		}
 	}
 }
-
 ?>
