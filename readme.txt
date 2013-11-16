@@ -255,9 +255,9 @@ Sites within a Network / multisite all use different Site Addresses, so each sit
 
 = Can I use other social sharing buttons than those of NGFB Open Graph+? =
 
-Absolutely. NGFB Open Graph+'s primary function is to create Open Graph and related meta tags (Twitter Cards, SEO, etc.). Aside from Pinterest and Tumblr, social buttons only send a URL to the social websites. Those websites then connect *back* to the shared URL, read the meta tags, and show the results in a social sharing popup window. The Pinterest and Tumblr sharing buttons must send more information, such as captions, media type (image, video), post type, etc.
+Absolutely. NGFB Open Graph+'s primary function is to create meta tags (Open Graph, Rich Pin, Twitter Cards, SEO, etc.). Aside from Pinterest and Tumblr, **social buttons should only send a URL to the social websites**. The social websites can then connect *back* to the shared URL, read the meta tags, and show the results in an overlay / popup window. The Pinterest and Tumblr sharing buttons are an exception - they must include additional information, such as captions, media type (image, video), post type, etc.
 
-NGFB Open Graph+ creates accurate titles, descriptions, adds images, videos, etc. according to your content and preferences. If you decide to use different social sharing buttons, please make sure they only share a URL, and not the title, description, etc. 
+NGFB Open Graph+ creates accurate meta tags for titles, descriptions, images, videos, products, etc. according to your content and preferences. **If you decide to use social sharing buttons from other plugins, make sure they only share the URL, and not the title, description, etc.** -- otherwise they may override information from the meta tags.
 
 = What features of NextGEN Gallery v1.x and v2.x are supported? =
 

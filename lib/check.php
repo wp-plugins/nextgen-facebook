@@ -188,5 +188,4 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		}
 	}
 }
-
 ?>
