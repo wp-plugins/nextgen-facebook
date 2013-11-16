@@ -29,7 +29,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		// called by WP wp_head action
 		public function add_header() {
-			if ( $this->p->debug->is_on() )
+			if ( $this->p->debug->is_on() ) {
 				foreach ( array( 
 					'is_author',
 					'is_archive',
@@ -44,6 +44,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					'is_product_tag',
 					) as $func ) if ( function_exists( $func ) )
 						$this->p->debug->log( $func.'() = '.( $func() ? 'true' : 'false' ) );
+			}
 
 			if ( method_exists( $this->og, 'get' ) )
 				$this->html( $this->og->get() );

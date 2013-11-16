@@ -83,6 +83,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		}
 
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
+			$this->p->debug->args( array( 'text' => 'N/A', 'type' => $type, 'opts' => 'N/A' ) );
 			if ( empty( $opts ) ) 
 				$opts = $this->p->options;
 

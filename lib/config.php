@@ -239,7 +239,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/social.php' );
-			require_once( $plugin_dir.'lib/style.php' );
+			require_once( $plugin_dir.'lib/style.php' );	// extends lib/com/style.php
 
 			if ( is_admin() ) {
 				require_once( $plugin_dir.'lib/messages.php' );
@@ -278,9 +278,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			// additional classes are loaded and extended by the pro addon construct
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
 				require_once( $plugin_dir.'lib/pro/addon.php' );
-
 		}
 	}
 }
-
 ?>
