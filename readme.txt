@@ -709,7 +709,7 @@ There are several changes to the underlying structure in this new version, inclu
 
 = 6.16rc8 =
 
-Added support for bbPress forums, topics, tags and profiles (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
+Fixed Auto-Resize feature, added support for bbPress (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 
 = 6.15.0 =
 
