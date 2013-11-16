@@ -202,10 +202,12 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$fullsizepath = get_attached_file( $pid );
 					$this->p->debug->log( 'calling image_make_intermediate_size()' );
 					$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
-					if ( $resized === false )
-						$this->p->debug->log( 'image resize failed' );
-					else {
-						$this->p->debug->log( 'image resize was successful' );
+					$this->p->debug->log( 'image_make_intermediate_size() reported '.( $resized === false ? 'failure' : 'success' ) );
+
+					// update the image metadata and re-read to validate
+					if ( $resized !== false ) {
+						$img_meta['sizes'][$size_name] = $resized;
+						wp_update_attachment_metadata( $pid, $img_meta );
 						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
 						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 						if ( empty( $img_url ) ) {
