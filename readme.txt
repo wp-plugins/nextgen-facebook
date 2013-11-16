@@ -660,9 +660,9 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16rc8 =
+= Version 6.16.0 =
 
-**NGFB Open Graph+ (Pro version) now supports bbPress forums**. Since bbPress content, as retrieved from WordPress, contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
+**NGFB Open Graph+ (Pro version) now supports bbPress forums**. Since bbPress content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
 * **Added support for bbPress forums, topics, tags and profiles** (Pro version).
 * Fixed the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
@@ -707,7 +707,7 @@ There are several changes to the underlying structure in this new version, inclu
 
 == Upgrade Notice ==
 
-= 6.16rc8 =
+= 6.16.0 =
 
 Fixed Auto-Resize feature, added support for bbPress (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
 
