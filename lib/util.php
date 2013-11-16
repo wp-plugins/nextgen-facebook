@@ -179,7 +179,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			if ( ! empty( $url ) && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
 				$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
-			$this->p->debug->log( 'sharing url = '.$url );
+			//$this->p->debug->log( 'sharing url = '.$url );
 			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $source_id );
 		}
 
