@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: NGFB Open Graph+
+Plugin Name: NGFB Open Graph+ Pro
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
@@ -223,9 +223,11 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 						if ( array_key_exists( $key, $this->options ) && 
 							array_key_exists( $key.':use', $this->site_options ) ) {
 
-							if ( $this->site_options[$key.':use'] == 'force' ||
-								( $this->site_options[$key.':use'] == 'empty' && empty( $this->options[$key] ) ) )
-									$this->options[$key] = $this->site_options[$key];
+							if ( $this->site_options[$key.':use'] == 'force' ) {
+								$this->options[$key.':use'] = 'force';
+								$this->options[$key] = $this->site_options[$key];
+							} elseif ( $this->site_options[$key.':use'] == 'empty' && empty( $this->options[$key] ) )
+								$this->options[$key] = $this->site_options[$key];
 						}
 					}
 				}
