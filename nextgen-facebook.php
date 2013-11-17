@@ -33,7 +33,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 		public function __construct() {
 
-			// php 5.3+ is required to use static classname variables
 			require_once ( dirname( __FILE__ ).'/lib/config.php' );
 			$this->cf = ngfbPluginConfig::get_config();
 			ngfbPluginConfig::set_constants( __FILE__ );
