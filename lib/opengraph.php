@@ -22,10 +22,8 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 		}
 	
 		public function add_doctype( $doctype ) {
-			return $doctype.' xmlns:og="http://ogp.me/ns"'.
-				' xmlns:og="http://ogp.me/ns/article"'.
-				' xmlns:og="http://ogp.me/ns/website"'.
-				' xmlns:fb="http://ogp.me/ns/fb"';
+			return $doctype.' xmlns:og="http://ogp.me/ns#"'.
+				' xmlns:fb="http://ogp.me/ns/fb#"';
 		}
 
 		public function get( $post_id = false ) {
@@ -97,10 +95,22 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 					if ( ! empty( $obj->post_type ) )
 						$post_type = $obj->post_type;
 					switch ( $post_type ) {
-						case 'product' :
-							$og['og:type'] = 'product';
+						case 'article':
+						case 'book':
+						case 'music.song':
+						case 'music.album':
+						case 'music.playlist':
+						case 'music.radio_station':
+						case 'product':
+						case 'profile':
+						case 'video.episode':
+						case 'video.movie':
+						case 'video.other':
+						case 'video.tv_show':
+						case 'website':
+							$og['og:type'] = $post_type;
 							break;
-						default :
+						default:
 							$og['og:type'] = 'article';
 							break;
 					}
