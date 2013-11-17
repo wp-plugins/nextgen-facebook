@@ -116,7 +116,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'size' => 32,
 				'src' => array(
 					'facebook.png' => 'https://www.facebook.com/SurniaUlulaCom',
-					'gplus.png' => 'https://plus.google.com/u/2/103457833348046432604/posts',
+					'gplus.png' => 'https://plus.google.com/b/112667121431724484705/112667121431724484705/posts',
 					'linkedin.png' => 'https://www.linkedin.com/in/jsmoriss',
 					'twitter.png' => 'https://twitter.com/surniaululacom',
 					'youtube.png' => 'https://www.youtube.com/user/SurniaUlulaCom',
