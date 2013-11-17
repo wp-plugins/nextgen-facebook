@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, socialgraph, multisite, managewp, hashtags
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, socialgraph, multisite, managewp, hashtags, bbpress
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -31,7 +31,7 @@ NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http:/
 
 Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
-NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings, though many settings and options are also available. 
+NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings (though many settings and options are available to customize).
 
 = Images and Videos =
 
@@ -41,7 +41,7 @@ NGFB Open Graph+ detects and uses all images, associated or included in your web
 
 NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= e-Commerce Products =
+= eCommerce Products =
 
 NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). 
 
@@ -49,9 +49,13 @@ NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordp
 * MarketPress WordPress eCommerce support offers product prices, currency, variations, sale prices, images and inventory levels.
 * WP e-Commerce support features product prices, currency, images, custom meta and category pages.
 
+= Forums =
+
+NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/), which includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages.
+
 = HashTags =
 
-NGFB Open Graph+ can include tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
+NGFB Open Graph+ can include WordPress and NextGEN Gallery tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Optional Social Buttons =
 
