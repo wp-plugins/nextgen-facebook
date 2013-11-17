@@ -660,6 +660,10 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
+= Version 6.16.0.1 =
+
+* Fixed a small typo in the WordPress SEO addon (Pro version).
+
 = Version 6.16.0 =
 
 **NGFB Open Graph+ (Pro version) now supports bbPress forums**. Since bbPress content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
@@ -684,34 +688,9 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Renamed the 'ngfb_short_url' filter to 'ngfb_shorten_url'.
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
-= Version 6.15.0 =
-
-There are several changes to the underlying structure in this new version, including the definition of some common / multi-project PHP classes, css, and javascript files. You will find a new ‘Number of Hashtags to Include’ option on the General settings page under the ‘Title and Description’ tab. It is disabled by default (value of 0), but is certainly worth enabling — probably with a value of 3 or 4, depending on the length of your tag names.
-
-* **Added a new 'Number of Hashtags to Include' option to append tag names (converted to hashtags) in the Open Graph / Rich Pin description, tweet text, and social captions.**
-* Added support for NextGEN Gallery v2+ 'data-image-id' attribute.
-* Added a 'Reset Metaboxes' button on the settings pages to reset the plugin metabox layout.
-* Updated the Custom Settings Validation Tools tab to show buttons instead of links.
-* Changed default 'Include on Static Homepage' value from checked to unchecked.
-* Changed the test for values returned by `get_transient()` in opengraph.php from `!== false` to `is_array()`.
-* Added a test for `is_feed()` and NGFB_DISABLED constant in the social sharing widget.
-* Moved the cache/debug/form/notice/script/style/update.php files from lib/ to lib/com/.
-* Renamed all class prefixes from `ngfb` to `Ngfb` and `Sucom` (for classes under lib/com/).
-* Added a check for filter type (content, excerpt, or admin_sharing) to skip adding social buttons to content text when in the admin interface.
-* Added a check to make sure the 'og_author_fallback' feature only applies to the 'og_author_field' and 'link_author_field' contact methods.
-* Attached images to Posts/Pages are now sorted in reverse numerical order (so newest images first) before selection / processing.
-* Added new 'ngfb_hashtags' and 'ngfb_attached_images' filters.
-* Moved the constants.txt file to http://support.surniaulula.com/support/solutions/articles/1000000154-constants.
-* Updated the filter hooks documentation in http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks.
-* Fixed an incorrect call to `restore_checkboxes()` when saving multisite network options.
-
 == Upgrade Notice ==
 
-= 6.16.0 =
+= 6.16.0.1 =
 
 Fixed Auto-Resize feature, added support for bbPress (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
-
-= 6.15.0 =
-
-Added a new 'Number of Hashtags to Include' option to include tag names in the Open Graph / Rich Pin description, tweet text, and social captions. Updated the Custom Settings Validation Tools tab to show buttons instead of links. Several internal code changes/improvements/updates.
 
