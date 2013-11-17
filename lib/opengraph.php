@@ -22,7 +22,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 		}
 	
 		public function add_doctype( $doctype ) {
-			return $doctype.' xmlns:og="http://ogp.me/ns" xmlns:fb="http://ogp.me/ns/fb"';
+			return $doctype.' xmlns:og="http://ogp.me/ns"'.
+				' xmlns:og="http://ogp.me/ns/article"'.
+				' xmlns:og="http://ogp.me/ns/website"'.
+				' xmlns:fb="http://ogp.me/ns/fb"';
 		}
 
 		public function get( $post_id = false ) {
