@@ -386,9 +386,11 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				$opts['options_version'] !== $this->options_version ) ) {
 
 				$this->p->debug->log( 'site options version different than saved' );
-				require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
-				if ( ! is_object( $this->upg ) )
+				// only load upgrade class when needed to save memory
+				if ( ! is_object( $this->upg ) ) {
+					require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
 					$this->upg = new NgfbOptionsUpgrade( $this->p );
+				}
 				$opts = $this->upg->site_options( $opts, $this->get_site_defaults() );
 			}
 			return $opts;
@@ -397,22 +399,26 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function check_options( &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
-		
 				// check version in saved options, upgrade if they don't match
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
-
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
+					// if we have the gpl version, and no authentication id, then show/save an update message
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
+						// messages are only required in admin interface, so check in case we're not
+						if ( ! is_object( $this->p->msg ) ) {
+							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
+							$this->p->msg = new NgfbMessages( $this->p );
+						}
 						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
-
+					}
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
-
 						$this->p->debug->log( 'options version different than saved' );
-						require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
-						if ( ! is_object( $this->upg ) )
+						// only load upgrade class when needed to save memory
+						if ( ! is_object( $this->upg ) ) {
+							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
 							$this->upg = new NgfbOptionsUpgrade( $this->p );
+						}
 						$opts = $this->upg->options( $opts, $this->get_defaults() );
-
 					} else $this->save_options( NGFB_OPTIONS_NAME, $opts );	// updates the plugin version option
 				}
 
@@ -427,7 +433,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					$opts_err_msg = 'returned an empty array when reading '.NGFB_OPTIONS_NAME.' from';
 				else 
 					$opts_err_msg = 'returned an unknown condition when reading '.NGFB_OPTIONS_NAME.' from';
-
 				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
 				$opts = $this->get_defaults();
 			}
