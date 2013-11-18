@@ -680,7 +680,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Fixed the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
 * Renamed the 'URL Shortening' tab, on the Advanced settings page, to 'API Keys'.
-* Added a 'Google URL Shortener API is On?' option to validate that the service has been enabled in the Google Cloud Console.
+* Added a 'Google URL Shortener API is On' option to validate that the service has been enabled in the Google Cloud Console.
 * Added detection of Gravatar image URLs in the content text.
 * Improved the `flush_post_cache()` method to include wp_cache objects (which may be persistant).
 * Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
