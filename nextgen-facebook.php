@@ -220,7 +220,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 							switch ( $this->site_options[$key.':use'] ) {
 								case'force':
-									$this->options[$key.':use'] = 'force';
+									$this->options[$key.':is'] = 'disabled';
 									$this->options[$key] = $this->site_options[$key];
 									break;
 								case 'empty':

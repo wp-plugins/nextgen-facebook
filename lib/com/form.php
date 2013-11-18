@@ -36,8 +36,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			if ( ! is_array( $check ) ) $check = array( 1, 0 );
-			if ( $this->in_options( $name.':use' ) && 
-				$this->options[$name.':use'] == 'force' )
+			if ( $this->in_options( $name.':is' ) && 
+				$this->options[$name.':is'] == 'disabled' )
 					return $this->get_fake_checkbox( $name, $check, $class, $id );
 			return $this->get_hidden( 'is_checkbox_'.$name, 1 ).
 				'<input type="checkbox" name="'.$this->options_name.'['.$name.']" value="'.$check[0].'"'.
@@ -142,8 +142,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			if ( $this->in_options( $name.':use' ) && 
-				$this->options[$name.':use'] == 'force' )
+			if ( $this->in_options( $name.':is' ) && 
+				$this->options[$name.':is'] == 'disabled' )
 					return $this->get_fake_input( $name, $class, $id );
 			$html = '';
 			$placeholder = htmlentities( $placeholder );
