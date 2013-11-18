@@ -105,7 +105,7 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 							.sucom-update-nag p,
 							.sucom-update-nag ul {
 								min-width:600px;
-								max-width:800px;
+								max-width:700px;
 								margin:10px auto 10px auto;
 							}
 							.sucom-update-nag li {
