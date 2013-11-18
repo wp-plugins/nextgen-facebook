@@ -58,12 +58,17 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 				case 'network' :
 					if ( $this->p->is_avail['aop'] )
 						$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
-						and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
+						and installation instructions. Enter the Authentication ID here, to define a value for all sites within the network,
+						or enter the Authentication ID(s) individually on each site\'s Advanced settings page. Note that the default site / blog 
+						must be licensed to allow Pro version updates from the Network Admin interface.';
 					else
 						$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
-						and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
-						for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
-						Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
+						and installation instructions. Enter the Authentication ID here, to define a value for all sites within the network,
+						or enter the Authentication ID(s) individually on each site\'s Advanced settings page. Note that the default site / blog 
+						must be licensed to allow Pro version updates from the Network Admin interface.
+						Once the default site / blog is licensed, an update for '.$this->p->cf['full'].' will appear on the 
+						<a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress Updates</a> page. 
+						Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
 		
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).
 					'<td>'.$this->form->get_input( 'plugin_tid' ).'</td>'.

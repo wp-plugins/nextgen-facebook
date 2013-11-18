@@ -101,23 +101,17 @@ class NgfbParseReadme {
 		if ( $_short_description[1] )
 			$file_contents = $this->chop_string( $file_contents, $_short_description[1] );
 
-		// == Section ==
-		// Break into sections
-		// $_sections[0] will be the title of the first section, $_sections[1] will be the content of the first section
-		// the array alternates from there:  title2, content2, title3, content3... and so forth
 		$_sections = preg_split('/^[\s]*==[\s]*(.+?)[\s]*==/m', $file_contents, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 
 		$sections = array();
 		for ( $i=1; $i <= count($_sections); $i +=2 ) {
 			$_sections[$i] = preg_replace('/^[\s]*=[\s]+(.+?)[\s]+=/m', '<h4>$1</h4>', $_sections[$i]);
 			$_sections[$i] = $this->filter_text( $_sections[$i], true );
+			$_sections[$i] = preg_replace( '/\[youtube https:\/\/www\.youtube\.com\/watch\?v=([^\]]+)\]/', '<div class="video"><object width="532" height="325"><param name="movie" value="http://www.youtube.com/v/$1?fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="never"></param><embed src="http://www.youtube.com/v/$1?fs=1" type="application/x-shockwave-flash" allowscriptaccess="never" allowfullscreen="true" width="532" height="325"></embed></object></div>', $_sections[$i] );
 			$title = $this->sanitize_text( $_sections[$i-1] );
 			$sections[str_replace(' ', '_', strtolower($title))] = array('title' => $title, 'content' => $_sections[$i]);
 		}
 
-		// Special sections
-		// This is where we nab our special sections, so we can enforce their order and treat them differently, if needed
-		// upgrade_notice is not a section, but parse it like it is for now
 		$final_sections = array();
 		foreach ( array('description', 'installation', 'frequently_asked_questions', 'screenshots', 'changelog', 'change_log', 'upgrade_notice') as $special_section ) {
 			if ( isset($sections[$special_section]) ) {
@@ -137,8 +131,6 @@ class NgfbParseReadme {
 			}
 		}
 
-		// Parse the upgrade_notice section specially:
-		// 1.0 => blah, 1.1 => fnord
 		if ( isset($final_sections['upgrade_notice']) ) {
 			$upgrade_notice = array();
 			$split = preg_split( '#<h4>(.*?)</h4>#', $final_sections['upgrade_notice'], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
@@ -147,26 +139,18 @@ class NgfbParseReadme {
 			unset( $final_sections['upgrade_notice'] );
 		} else { $upgrade_notice = ''; }
 
-		// No description?
-		// No problem... we'll just fall back to the old style of description
-		// We'll even let you use markup this time!
 		$excerpt = false;
 		if ( !isset($final_sections['description']) ) {
 			$final_sections = array_merge(array('description' => $this->filter_text( $_short_description[2], true )), $final_sections);
 			$excerpt = true;
 		}
 
-		// dump the non-special sections into $remaining_content
-		// their order will be determined by their original order in the readme.txt
 		$remaining_content = '';
 		foreach ( $sections as $s_name => $s_data ) {
 			$remaining_content .= "\n<h3>{$s_data['title']}</h3>\n{$s_data['content']}";
 		}
 		$remaining_content = trim($remaining_content);
 
-		// All done!
-		// $r['tags'] and $r['contributors'] are simple arrays
-		// $r['sections'] is an array with named elements
 		$r = array(
 			'name' => $name,
 			'tags' => $tags,
@@ -189,7 +173,7 @@ class NgfbParseReadme {
 		return $r;
 	}
 
-	function chop_string( $string, $chop ) { // chop a "prefix" from a string: Agressive! uses strstr not 0 === strpos
+	function chop_string( $string, $chop ) {
 		if ( $_string = strstr($string, $chop) ) {
 			$_string = substr($_string, strlen($chop));
 			return trim($_string);
@@ -198,7 +182,7 @@ class NgfbParseReadme {
 		}
 	}
 
-	function user_sanitize( $text, $strict = false ) { // whitelisted chars
+	function user_sanitize( $text, $strict = false ) {
 		if ( function_exists('user_sanitize') ) // bbPress native
 			return user_sanitize( $text, $strict );
 
@@ -213,7 +197,6 @@ class NgfbParseReadme {
 
 	function sanitize_text( $text ) { // not fancy
 		$text = strip_tags($text);
-		//$text = wp_specialchars($text); Depreciated since 2.8
 		$text = esc_html($text);
 		$text = trim($text);
 		return $text;
@@ -221,15 +204,12 @@ class NgfbParseReadme {
 
 	function filter_text( $text, $markdown = false ) {
 		$text = trim($text);
-
 	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown );
-
 		if ( $markdown ) {
 			if ( ! function_exists( 'ngfb_markdown' ) )
 				require_once( NGFB_README_MARKDOWN );
 			$text = ngfb_markdown( $text, $this->debug );
 		}
-
 		$allowed = array(
 			'a' => array(
 				'name' => array(),
@@ -250,28 +230,24 @@ class NgfbParseReadme {
 			'h3' => array(),
 			'h4' => array()
 		);
-
 		$text = balanceTags($text);
-		
 		$text = wp_kses( $text, $allowed );
 		$text = trim($text);
 		return $text;
 	}
 
 	function code_trick( $text, $markdown ) {
-		// If doing markdown, first take any user formatted code blocks and turn them into backticks so that
-		// markdown will preserve things like underscores in code blocks
 		if ( $markdown )
 			$text = preg_replace_callback("!(<pre><code>|<code>)(.*?)(</code></pre>|</code>)!s", array( __CLASS__,'decodeit'), $text);
 
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 		if ( !$markdown ) {
-			// This gets the "inline" code blocks, but can't be used with Markdown.
+			// this gets the "inline" code blocks, but can't be used with markdown
 			$text = preg_replace_callback("|(`)(.*?)`|", array( __CLASS__, 'encodeit'), $text);
-			// This gets the "block level" code blocks and converts them to PRE CODE
+			// this gets the "block level" code blocks and converts them to pre code
 			$text = preg_replace_callback("!(^|\n)`(.*?)`!s", array( __CLASS__, 'encodeit'), $text);
 		} else {
-			// Markdown can do inline code, we convert bbPress style block level code to Markdown style
+			// markdown can do inline code, we convert bbPress style block level code to markdown style
 			$text = preg_replace_callback("!(^|\n)([ \t]*?)`(.*?)`!s", array( __CLASS__, 'indent'), $text);
 		}
 		return $text;
