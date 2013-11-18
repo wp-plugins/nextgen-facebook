@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.16.0.1
+Version: 6.16.1dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -148,11 +148,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 * check options array read from database - upgrade options if necessary
 			 */
 			$this->options = $this->opt->check_options( $this->options );
-			if ( is_multisite() && ( empty( $this->site_options['options_version'] ) || 
-				$this->site_options['options_version'] !== $this->opt->options_version ) ) {
-				$this->debug->log( 'site options version different than saved: calling upgrade() method.' );
-				$this->site_options = $this->opt->site_upgrade( $this->site_options, $this->opt->get_site_defaults() );
-			}
+			$this->site_options = $this->opt->check_site_options( $this->site_options );
 
 			/*
 			 * setup class properties, etc. based on option values
@@ -222,9 +218,16 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 						if ( array_key_exists( $key, $this->options ) && 
 							array_key_exists( $key.':use', $this->site_options ) ) {
 
-							if ( $this->site_options[$key.':use'] == 'force' ||
-								( $this->site_options[$key.':use'] == 'empty' && empty( $this->options[$key] ) ) )
+							switch ( $this->site_options[$key.':use'] ) {
+								case'force':
+									$this->options[$key.':use'] = 'force';
 									$this->options[$key] = $this->site_options[$key];
+									break;
+								case 'empty':
+									if ( empty( $this->options[$key] ) )
+										$this->options[$key] = $this->site_options[$key];
+									break;
+							}
 						}
 					}
 				}

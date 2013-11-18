@@ -162,7 +162,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$def_opts = $this->p->opt->get_defaults();
 			$opts = $this->p->util->restore_checkboxes( $opts );
 			$opts = array_merge( $this->p->options, $opts );
-			$opts = $this->p->opt->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
+			$opts = $this->p->opt->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 
 			// update the social stylesheet
 			if ( empty( $opts['buttons_link_css'] ) ) 
@@ -203,7 +203,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$opts = empty( $_POST[NGFB_SITE_OPTIONS_NAME] ) ?  $def_opts : 
 				$this->p->util->restore_checkboxes( $_POST[NGFB_SITE_OPTIONS_NAME] );
 			$opts = array_merge( $this->p->site_options, $opts );
-			$opts = $this->p->opt->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
+			$opts = $this->p->opt->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 
 			if ( empty( $this->p->site_options['plugin_tid'] ) ) {
 				$this->p->update_error = '';
@@ -224,22 +224,22 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$old_css_file = trailingslashit( $upload_dir['basedir'] ).'ngfb-social-buttons.css';
 			$user_opts = $this->p->user->get_options();
 
-			if ( ! empty( $_GET['settings-updated'] ) ) {
+			if ( ! empty( $this->p->update_error ) && empty( $this->p->options['plugin_tid'] ) ) {
+				$this->p->update_error = '';
+				delete_option( $this->p->cf['lca'].'_update_error' );
+			}
 
-				// if the settings are being updated, and there is no Authentication ID,
-				// then clear any update error messages
-				if ( empty( $this->p->options['plugin_tid'] ) ) {
-					$this->p->update_error = '';
-					delete_option( $this->p->cf['lca'].'_update_error' );
+			if ( ! empty( $_GET['settings-updated'] ) ) {
 
 				// if the pro version plugin is installed, not active, and we have an
 				// Authentication ID, then check for updates
-				} elseif ( $this->p->is_avail['aop'] && 
+				if ( $this->p->is_avail['aop'] && 
 					! $this->p->check->is_aop() && 
 					! empty( $this->p->options['plugin_tid'] ) )
 						$this->p->update->check_for_updates();
 
 			} elseif ( ! empty( $_GET['action'] ) ) {
+
 				if ( empty( $_GET[ NGFB_NONCE ] ) )
 					$this->p->debug->log( 'Nonce token validation query field missing.' );
 				elseif ( ! wp_verify_nonce( $_GET[ NGFB_NONCE ], $this->get_nonce() ) )

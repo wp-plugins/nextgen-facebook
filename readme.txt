@@ -664,6 +664,10 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
+= Version 6.16.1dev1 =
+
+* Moved the options upgrade properies and methods to lib/upgrade.php.
+
 = Version 6.16.0.1 =
 
 * Fixed a small typo in the WordPress SEO addon (Pro version).

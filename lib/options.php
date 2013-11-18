@@ -12,10 +12,12 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 	class NgfbOptions {
 
-		private $p;
+		private $upg;
+
+		protected $p;
 
 		// increment when changing default options
-		public $options_version = '115';
+		public $options_version = '116';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -336,7 +338,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			$this->defaults['inc_description'] = empty( $this->p->is_avail['seo']['*'] ) ? 1 : 0;
 
 			// check for default values from network admin settings
-			if ( is_array( $this->p->site_options ) ) {
+			if ( is_multisite() && is_array( $this->p->site_options ) ) {
 				foreach ( $this->p->site_options as $key => $val ) {
 					if ( array_key_exists( $key, $this->defaults ) && 
 						array_key_exists( $key.':use', $this->p->site_options ) ) {
@@ -379,9 +381,24 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
+		public function check_site_options( &$opts = array() ) {
+			if ( is_multisite() && ( empty( $opts['options_version'] ) || 
+				$opts['options_version'] !== $this->options_version ) ) {
+
+				$this->p->debug->log( 'site options version different than saved' );
+				require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
+				if ( ! is_object( $this->upg ) )
+					$this->upg = new NgfbOptionsUpgrade( $this->p );
+				$opts = $this->upg->site_options( $opts, $this->get_site_defaults() );
+			}
+			return $opts;
+		}
+
 		public function check_options( &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
+		
+				// check version in saved options, upgrade if they don't match
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
@@ -389,11 +406,17 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
 
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
-						$this->p->debug->log( 'plugin or options version different than saved: calling upgrade() method.' );
-						$opts = $this->upgrade( $opts, $this->get_defaults() );
+
+						$this->p->debug->log( 'options version different than saved' );
+						require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
+						if ( ! is_object( $this->upg ) )
+							$this->upg = new NgfbOptionsUpgrade( $this->p );
+						$opts = $this->upg->options( $opts, $this->get_defaults() );
+
 					} else $this->save_options( NGFB_OPTIONS_NAME, $opts );	// updates the plugin version option
 				}
-				// add support for post types that may have been added
+
+				// add support for post types that may have been added since options last saved
 				$opts = $this->add_to_post_types( $opts );
 			} else {
 				if ( $opts === false )
@@ -437,45 +460,51 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( empty( $def_opts ) || ! is_array( $def_opts ) )
 				return $opts;
 
-			// loop through all the known option keys
+			// unset options that no longer exist
+			foreach ( $opts as $key => $val )
+				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
+				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) )
+					unset( $opts[$key] );
+
+			// add missing options and set to defaults
 			foreach ( $def_opts as $key => $def_val ) {
-				/*
-				 * remove html (except from css), decode entities, and strip slashes
-				 */
-				if ( array_key_exists( $key, $opts ) ) {
-					switch ( $key ) {
-						case 'buttons_css_social':
-						case 'buttons_css_excerpt':
-						case 'buttons_css_content':
-						case 'buttons_css_shortcode':
-						case 'buttons_css_widget':
-							break;
-						default:
-							$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
-							break;
-					}
-					$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
+
+				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
+					$opts[$key] = $def_val;
+					continue;
 				}
+
+				/* remove html (except from css), decode entities, and strip slashes */
 				switch ( $key ) {
-					/*
-					 * twitter-style usernames
-					 */
+					case 'buttons_css_social':
+					case 'buttons_css_excerpt':
+					case 'buttons_css_content':
+					case 'buttons_css_shortcode':
+					case 'buttons_css_widget':
+						break;
+					default:
+						$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
+						break;
+				}
+				$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
+
+				switch ( $key ) {
+
+					/* twitter-style usernames */
 					case 'tc_site':
 						$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
 							strtolower( $opts[$key] ) ), 0, 15 );
 						if ( ! empty( $opts[$key] ) ) 
 							$opts[$key] = '@'.$opts[$key];
 						break;
-					/*
-					 * strip leading urls off Facebook usernames
-					 */
+
+					/* strip leading urls off Facebook usernames */
 					case 'fb_admins':
 						$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
 							$opts[$key] );
 						break;
-					/*
-					 * must be a url (reset to default if not)
-					 */
+
+					/* must be a url (reset to default if not) */
 					case 'og_img_url':
 					case 'og_vid_url':
 					case 'og_def_img_url':
@@ -489,9 +518,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-					/*
-					 * must be numeric (blank or zero is ok)
-					 */
+
+					/* must be numeric (blank or zero is ok) */
 					case 'link_def_author_id':
 					case 'og_desc_hashtags': 
 					case 'og_img_max':
@@ -506,9 +534,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-					/*
-					 * integer options that must me 1 or more (not zero)
-					 */
+
+					/* integer options that must me 1 or more (not zero) */
 					case 'meta_desc_len': 
 					case 'og_desc_len': 
 					case 'og_img_width': 
@@ -534,15 +561,13 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-					/*
-					 * needs to be textured and decoded
-					 */
+
+					/* needs to be textured and decoded */
 					case 'og_title_sep':
 						$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
 						break;
-					/*
-					 * must be alpha-numeric uppercase
-					 */
+
+					/* must be alpha-numeric uppercase */
 					case 'plugin_tid':
 						if ( ! empty( $opts[$key] ) && preg_match( '/[^A-Z0-9]/', $opts[$key] ) ) {
 							$this->p->notice->inf( '\''.$opts[$key].'\' is not an accepted value for option \''.$key.'\''.
@@ -550,9 +575,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-					/*
-					 * text strings that can be blank
-					 */
+
+					/* text strings that can be blank */
 					case 'og_art_section':
 					case 'fb_app_id':
 					case 'gp_expandto':
@@ -574,9 +598,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						if ( ! empty( $opts[$key] ) )
 							$opts[$key] = trim( $opts[$key] );
 						break;
-					/*
-					 * options that cannot be blank
-					 */
+
+					/* options that cannot be blank */
 					case 'link_author_field':
 					case 'og_img_id_pre': 
 					case 'og_def_img_id_pre': 
@@ -638,9 +661,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-					/*
-					 * everything else is a 1/0 checkbox option
-					 */
+
+					/* everything else is a 1/0 checkbox option */
 					default:
 							// make sure the default option is also 1/0
 						if ( $def_val === 0 || $def_val === 1 )
@@ -656,130 +678,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
 				$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
 
-			return $opts;
-		}
-
-		// second argument accepts output from functons, so don't force reference
-		public function site_upgrade( &$opts = array(), $def_opts = array() ) {
-			// make sure we have something to work with
-			if ( empty( $opts ) || ! is_array( $opts ) ) {
-				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
-				return $opts;
-			}
-			$renamed_keys = array(
-				'plugin_tid_use' => 'plugin_tid:use',
-			);
-			$opts = $this->rename_keys( $renamed_keys, $opts );
-			$opts = $this->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
-			$this->save_options( NGFB_SITE_OPTIONS_NAME, $opts );
-			return $opts;
-		}
-
-		// second argument accepts output from functons, so don't force reference
-		public function upgrade( &$opts = array(), $def_opts = array() ) {
-			// make sure we have something to work with
-			if ( empty( $opts ) || ! is_array( $opts ) ) {
-				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
-				return $opts;
-			}
-			$renamed_keys = array(
-				'add_meta_desc' => 'inc_description',
-				'og_def_img' => 'og_def_img_url',
-				'og_def_home' => 'og_def_img_on_index',
-				'og_def_on_home' => 'og_def_img_on_index',
-				'og_def_on_search' => 'og_def_img_on_search',
-				'buttons_on_home' => 'buttons_on_index',
-				'buttons_lang' => 'gp_lang',
-				'ngfb_cache_hours' => 'plugin_file_cache_hrs',
-				'fb_enable' => 'fb_on_the_content', 
-				'gp_enable' => 'gp_on_the_content',
-				'twitter_enable' => 'twitter_on_the_content',
-				'linkedin_enable' => 'linkedin_on_the_content',
-				'pin_enable' => 'pin_on_the_content',
-				'stumble_enable' => 'stumble_on_the_content',
-				'tumblr_enable' => 'tumblr_on_the_content',
-				'buttons_location' => 'buttons_location_the_content',
-				'plugin_pro_tid' => 'plugin_tid',
-				'og_admins' => 'fb_admins',
-				'og_app_id' => 'fb_app_id',
-				'link_desc_len' => 'meta_desc_len',
-				'ngfb_version' => 'options_version',
-				'ngfb_opts_ver' => 'options_version',
-				'ngfb_pro_tid' => 'plugin_tid',
-				'ngfb_preserve' => 'plugin_preserve',
-				'ngfb_reset' => 'plugin_reset',
-				'ngfb_debug' => 'plugin_debug',
-				'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
-				'ngfb_skip_small_img' => 'plugin_ignore_small_img',
-				'ngfb_filter_content' => 'plugin_filter_content',
-				'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
-				'ngfb_add_to_post' => 'plugin_add_to_post',
-				'ngfb_add_to_page' => 'plugin_add_to_page',
-				'ngfb_add_to_attachment' => 'plugin_add_to_attachment',
-				'ngfb_verify_certs' => 'plugin_verify_certs',
-				'ngfb_file_cache_hrs' => 'plugin_file_cache_hrs',
-				'ngfb_object_cache_exp' => 'plugin_object_cache_exp',
-				'ngfb_min_shorten' => 'plugin_min_shorten',
-				'ngfb_googl_api_key' => 'plugin_google_api_key',
-				'ngfb_bitly_login' => 'plugin_bitly_login',
-				'ngfb_bitly_api_key' => 'plugin_bitly_api_key',
-				'ngfb_cdn_urls' => 'plugin_cdn_urls',
-				'ngfb_cdn_folders' => 'plugin_cdn_folders',
-				'ngfb_cdn_excl' => 'plugin_cdn_excl',
-				'ngfb_cdn_not_https' => 'plugin_cdn_not_https',
-				'ngfb_cdn_www_opt' => 'plugin_cdn_www_opt',
-				'ngfb_cm_fb_name' => 'plugin_cm_fb_name', 
-				'ngfb_cm_fb_label' => 'plugin_cm_fb_label', 
-				'ngfb_cm_fb_enabled' => 'plugin_cm_fb_enabled',
-				'ngfb_cm_gp_name' => 'plugin_cm_gp_name', 
-				'ngfb_cm_gp_label' => 'plugin_cm_gp_label', 
-				'ngfb_cm_gp_enabled' => 'plugin_cm_gp_enabled',
-				'ngfb_cm_linkedin_name' => 'plugin_cm_linkedin_name', 
-				'ngfb_cm_linkedin_label' => 'plugin_cm_linkedin_label', 
-				'ngfb_cm_linkedin_enabled' => 'plugin_cm_linkedin_enabled',
-				'ngfb_cm_pin_name' => 'plugin_cm_pin_name', 
-				'ngfb_cm_pin_label' => 'plugin_cm_pin_label', 
-				'ngfb_cm_pin_enabled' => 'plugin_cm_pin_enabled',
-				'ngfb_cm_tumblr_name' => 'plugin_cm_tumblr_name', 
-				'ngfb_cm_tumblr_label' => 'plugin_cm_tumblr_label', 
-				'ngfb_cm_tumblr_enabled' => 'plugin_cm_tumblr_enabled',
-				'ngfb_cm_twitter_name' => 'plugin_cm_twitter_name', 
-				'ngfb_cm_twitter_label' => 'plugin_cm_twitter_label', 
-				'ngfb_cm_twitter_enabled' => 'plugin_cm_twitter_enabled',
-				'ngfb_cm_yt_name' => 'plugin_cm_yt_name', 
-				'ngfb_cm_yt_label' => 'plugin_cm_yt_label', 
-				'ngfb_cm_yt_enabled' => 'plugin_cm_yt_enabled',
-				'ngfb_cm_skype_name' => 'plugin_cm_skype_name', 
-				'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
-				'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
-				'plugin_googl_api_key' => 'plugin_google_api_key',
-			);
-			$opts = $this->rename_keys( $renamed_keys, $opts );
-
-			// these option names may have been used in the past, so remove them, just in case
-			if ( $opts['options_version'] < 30 ) {
-				unset( $opts['og_img_width'] );
-				unset( $opts['og_img_height'] );
-				unset( $opts['og_img_crop'] );
-			}
-
-			if ( ! empty( $opts['twitter_shorten'] ) )
-				$opts['twitter_shortener'] = 'googl';
-
-			// upgrade the old 'og_img_size' name into width / height / crop values
-			if ( array_key_exists( 'og_img_size', $opts ) ) {
-				if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
-					$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
-					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
-						$opts['og_img_width'] = $size_info['width'];
-						$opts['og_img_height'] = $size_info['height'];
-						$opts['og_img_crop'] = $size_info['crop'];
-					}
-					unset( $opts['og_img_size'] );
-				}
-			}
-			$opts = $this->cleanup( $opts, $def_opts );	// cleanup excess options and sanitize
-			$this->save_options( NGFB_OPTIONS_NAME, $opts );
 			return $opts;
 		}
 
@@ -809,41 +707,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 			} else $this->p->debug->log( 'new and old options array is identical' );
 			return true;
-		}
-
-		public function rename_keys( $keys = array(), $opts = array() ) {
-			// move old option values to new option names
-			foreach ( $keys as $old => $new )
-				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
-				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
-					if ( $this->p->debug->is_on() == true )
-						$this->p->notice->inf( 'Renamed \''.$old.'\' option to \''.
-							$new.'\' with a value of \''.$opts[$old].'\'.' );
-					$opts[$new] = $opts[$old];
-					unset( $opts[$old] );
-				}
-			unset ( $old, $new );
-			return $opts;
-		}
-
-		public function cleanup( &$opts = array(), &$def_opts = array() ) {
-			// unset options that no longer exist
-			foreach ( $opts as $key => $val )
-				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
-				if ( ! empty( $key ) && ! array_key_exists( $key, $def_opts ) ) {
-					if ( $this->p->debug->is_on() == true )
-						$this->p->notice->inf( 'Removing deprecated option \''.$key.'\' with a value of \''.$val.'\'.' );
-					unset( $opts[$key] );
-				}
-			// add missing options and set to defaults
-			foreach ( $def_opts as $key => $def_val ) {
-				if ( ! empty( $key ) && ! array_key_exists( $key, $opts ) ) {
-					$this->p->debug->log( 'adding missing '.$key.' option.' );
-					$opts[$key] = $def_val;
-				}
-			}
-			$opts = $this->sanitize( $opts, $def_opts );
-			return $opts;
 		}
 	}
 }

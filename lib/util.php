@@ -52,6 +52,17 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $found;
 		}
 
+		public function rename_keys( &$opts = array(), &$keys = array() ) {
+			// move old option values to new option names
+			foreach ( $keys as $old => $new )
+				// rename if the old array key exists, but not the new one (we don't want to overwrite current values)
+				if ( ! empty( $old ) && ! empty( $new ) && array_key_exists( $old, $opts ) && ! array_key_exists( $new, $opts ) ) {
+					$opts[$new] = $opts[$old];
+					unset( $opts[$old] );
+				}
+			return $opts;
+		}
+
 		public function restore_checkboxes( &$opts ) {
 			// unchecked checkboxes are not provided, so re-create them here based on hidden values
 			$checkbox = $this->preg_grep_keys( '/^is_checkbox_/', $opts, false, '' );
@@ -179,7 +190,6 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			if ( ! empty( $url ) && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
 				$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
-			//$this->p->debug->log( 'sharing url = '.$url );
 			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $source_id );
 		}
 
