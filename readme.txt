@@ -658,7 +658,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 = Version 6.16.1dev2 =
 
-* Moved the options upgrade properies / methods to lib/upgrade.php (to save a few Kb of memory).
+* Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 
 = Version 6.16.0.1 =
 
