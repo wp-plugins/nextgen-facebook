@@ -12,7 +12,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 	class NgfbOptionsUpgrade extends NgfbOptions {
 
-		private $site_renamed_keys = array(
+		private $renamed_site_keys = array(
 			'plugin_tid_use' => 'plugin_tid:use',
 		);
 
@@ -98,12 +98,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 		// second argument accepts output from functions, so don't force reference
 		public function site_options( &$opts = array(), $def_opts = array() ) {
-			// make sure we have something to work with
-			if ( empty( $opts ) || ! is_array( $opts ) ) {
-				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
-				return $opts;
-			}
-			$opts = $this->p->util->rename_keys( $opts, $this->site_renamed_keys );
+			$opts = $this->p->util->rename_keys( $opts, $this->renamed_site_keys );
 			$opts = $this->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 			$this->save_options( NGFB_SITE_OPTIONS_NAME, $opts );
 			return $opts;
@@ -111,11 +106,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 		// second argument accepts output from functions, so don't force reference
 		public function options( &$opts = array(), $def_opts = array() ) {
-			// make sure we have something to work with
-			if ( empty( $opts ) || ! is_array( $opts ) ) {
-				$this->p->debug->log( 'exiting early: options variable is empty and/or not array' );
-				return $opts;
-			}
 			$opts = $this->p->util->rename_keys( $opts, $this->renamed_keys );
 
 			// these option names may have been used in the past, so remove them, just in case
