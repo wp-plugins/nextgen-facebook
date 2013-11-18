@@ -102,8 +102,17 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 								overflow:hidden;
 								line-height:1.4em;
 							}
-							.sucom-update-nag p {
-								margin:10px 0 10px 0;
+							.sucom-update-nag p,
+							.sucom-update-nag ul {
+								min-width:620px;
+								max-width:840px;
+								margin:10px auto 10px auto;
+							}
+							.sucom-update-nag li {
+								font-weight:bold;
+								font-size:1.1em;
+								text-align:left;
+								margin:2px 0;
 							}
 						</style>';
 					}

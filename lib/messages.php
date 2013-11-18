@@ -41,16 +41,26 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					}
 					break;
 				case 'pro_details' :
-					$msg = '<p style="font-weight:bold;font-size:1.1em;">Would you like to... 
-					Add support for <a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>,
-					including <em>Gallery, Photo, Large Image, Player and Product</em> Cards?<br/>';
-					$msg .= 'Customize Open Graph and Twitter Card meta tags for each <em>individual</em> Post and Page?<br/>';
-					$msg .= 'Change the Facebook, Google+ and Twitter social button language as the webpage switches language?<br/>';
-					$msg .= 'Integrate with 3rd party plugins like WordPress SEO, All-In-One SEO, WooCommerce, bbPress and more?<br/>';
-					$msg .= 'Speed-up page loads with file caching of remote social JavaScript and images?<br/>';
-					$msg .= 'Shorten URLs for Twitter and rewrite URLs for Content Delivery Networks (CDNs)?<br/>';
+					$msg .= '<ul>';
+					$msg .= '<li>Would you like to...</li>';
+					$msg .= '<li>Add support for <em>Gallery, Photo, Large Image, Player and Product</em> 
+						<a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>?</li>';
+					$msg .= '<li>Customize Open Graph, Rich Pin and Twitter Card meta tags for <em>individual</em> Post and Page?</li>';
+					$msg .= '<li>Integrate with 3rd party plugins like 
+						<a href="http://wordpress.org/plugins/wordpress-seo/" target="_blank">WordPress SEO</a>,
+						<a href="http://wordpress.org/plugins/all-in-one-seo-pack/" target="_blank">All-In-One SEO</a>,
+						<a href="http://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>, 
+						<a href="http://wordpress.org/plugins/wordpress-ecommerce/" target="_blank">MarketPress</a>, 
+						<a href="http://wordpress.org/plugins/wp-e-commerce/" target="_blank">WP e-Commerce</a>, and 
+						<a href="http://wordpress.org/plugins/bbpress/" target="_blank">bbPress</a>?</li>';
+					$msg .= '<li>Speed-up page loads with file caching of remote social JavaScript and images?</li>';
+					$msg .= '<li>Change the Facebook, Google+ and Twitter social button language dynamically?</li>';
+					$msg .= '<li>Shorten URLs for Twitter and rewrite URLs for Content Delivery Networks (CDNs)?</li>';
+					$msg .= '</ul>';
+
 					$msg .= '<p style="font-size:1.2em;">Help support this plugin by <a href="'.$this->p->cf['url']['purchase'].'" 
 					target="_blank">purchasing the Pro version today</a>.</p>';
+
 					$msg .= '<p>Upgrading to the Pro version is simple and easy! Enter the unique <em>Authentication ID</em> 
 					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress!</p>';
 					break;

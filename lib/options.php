@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '116';
+		public $options_version = '135';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
