@@ -114,7 +114,7 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 
 = Multisite Aware =
 
-The Pro version license(s) can be assigned to the whole multisite network and/or to specific sites within the multisite network.
+The Pro version license(s) can be assigned to the whole multisite network and/or to specific sites within the multisite network. Note that the default site / blog must be licensed to allow Pro version updates from the Network Admin interface.
 
 == Installation ==
 
@@ -251,11 +251,11 @@ Updating to the [Pro version](http://surniaulula.com/extend/plugins/nextgen-face
 
 = Can I use the Pro version on multiple websites? =
 
-NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase (of one or more licenses) is assigned a unique Authentication ID. The Authentication ID allows you to install, upgrade, and activate the Pro version on one or more websites (depending on how many licenses you purchased).
+NGFB Open Graph+ Pro is [licensed for a Single Website](http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/pro.txt), and each purchase (of one or more licenses) is assigned a unique Authentication ID. The Authentication ID allows you to install, upgrade and activate the Pro version on one or more websites (depending on how many licenses you purchased).
 
-Discounts are available for purchases of 3 or more licenses. The 3 license pack, for example, is a good choice if you have a Dev, Staging, and Production website infrastructure. Large websites, using multiple load-balanced servers, only need one license if they use a single WordPress Site Address.
+Discounts are available for purchases of 3 or more licenses. The 3 license pack, for example, is a good choice if you have a Dev, Staging, and Production website infrastructure. Large websites, using multiple load-balanced servers, only need one license if they use a single WordPress Site Address URL.
 
-Sites within a Network / multisite all use different Site Addresses, so each site must be licensed. The Open Graph+ settings in the Network admin interface allow you to define a default Authentication ID for all sites (which can be customized / modified in each site's Advanced settings page), or force all sites to use a single Authentication ID.
+Sites within a Network / multisite all use different Site Addresses, so each site must be licensed. The Open Graph+ settings in the Network admin interface allow you to define a default Authentication ID for all sites (which can be customized / modified in each site's Advanced settings page), or force all sites to use a single Authentication ID. Note that the default site / blog must be licensed to allow Pro version updates from the Network Admin interface, so purchase a number of licenses accordingly.
 
 = Can I use other social sharing buttons than those of NGFB Open Graph+? =
 
@@ -664,7 +664,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1dev1 =
+= Version 6.16.1dev2 =
 
 * Moved the options upgrade properies and methods to lib/upgrade.php.
 
