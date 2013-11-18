@@ -470,14 +470,6 @@ define('NGFB_WP_DEBUG', true);
 
 NGFB Open Graph+ is multisite aware and provides a network settings page in the Network Admin interface. [See the Multisite Support solutions page for additional information](http://support.surniaulula.com/support/solutions/articles/1000000140-multisite-support).
 
-== Support for Wistia Videos ==
-
-If you embed videos from Wistia in your content, and you would like Facebook, Twitter, Google+, etc. to embed and play them as well, you must define an `NGFB_WISTIA_API_PWD` constant in your WordPress `wp-config.php` file. The sharing URLs for Wistia videos are only available from a password protected Wistia API. You can find your Wistia API password from the Wistia Account Dashboard, under API Settings. For example (replace the stars with your API password):
-
-`
-define('NGFB_WISTIA_API_PWD', '****************************************');
-`
-
 == Twitter Cards ==
 
 Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
@@ -666,7 +658,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 = Version 6.16.1dev2 =
 
-* Moved the options upgrade properies and methods to lib/upgrade.php.
+* Moved the options upgrade properies / methods to lib/upgrade.php (to save a few Kb of memory).
 
 = Version 6.16.0.1 =
 
