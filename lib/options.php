@@ -38,6 +38,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 		public $site_defaults = array(
 			'options_version' => '',
+			'plugin_version' => '',
 			'plugin_tid' => '',
 			'plugin_tid:use' => 'default',
 		);
@@ -362,7 +363,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			// plugin_add_to = include the custom settings metabox on the editing page for that post type
 			foreach ( array( 
 				'buttons_add_to_' => array( 'public' => true ),
-				'plugin_add_to_' => array( 'show_ui' => true, 'public' => true ),
+				'plugin_add_to_' => array( 'show_ui' => true, 'public' => true )
 			) as $add_to => $include ) {
 				foreach ( get_post_types( $include, 'objects' ) as $post_type ) {
 					$option_name = $add_to.$post_type->name;
@@ -381,30 +382,18 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
-		public function check_site_options( &$opts = array() ) {
-			if ( is_multisite() && ( empty( $opts['options_version'] ) || 
-				$opts['options_version'] !== $this->options_version ) ) {
-
-				$this->p->debug->log( 'site options version different than saved' );
-				// only load upgrade class when needed to save memory
-				if ( ! is_object( $this->upg ) ) {
-					require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
-					$this->upg = new NgfbOptionsUpgrade( $this->p );
-				}
-				$opts = $this->upg->site_options( $opts, $this->get_site_defaults() );
-			}
-			return $opts;
-		}
-
-		public function check_options( &$opts = array() ) {
+		public function check_options( $options_name, &$opts = array() ) {
 			$opts_err_msg = '';
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
+
 				// check version in saved options, upgrade if they don't match
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
+
 					// if we have the gpl version, and no authentication id, then show/save an update message
 					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
-						// messages are only required in admin interface, so check in case we're not
+
+						// messages object is created when in admin interface, so check in case the object is not available
 						if ( ! is_object( $this->p->msg ) ) {
 							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
 							$this->p->msg = new NgfbMessages( $this->p );
@@ -412,39 +401,47 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
 					}
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
-						$this->p->debug->log( 'options version different than saved' );
-						// only load upgrade class when needed to save memory
+						$this->p->debug->log( $options_name.' version different than saved' );
+						// only load upgrade class when needed to save a few Kb
 						if ( ! is_object( $this->upg ) ) {
 							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
 							$this->upg = new NgfbOptionsUpgrade( $this->p );
 						}
-						$opts = $this->upg->options( $opts, $this->get_defaults() );
-					} else $this->save_options( NGFB_OPTIONS_NAME, $opts );	// updates the plugin version option
+						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
+					// update the options to save the plugin version
+					} else $this->save_options( $options_name, $opts );
 				}
 
 				// add support for post types that may have been added since options last saved
-				$opts = $this->add_to_post_types( $opts );
+				if ( $options_name == NGFB_OPTIONS_NAME )
+					$opts = $this->add_to_post_types( $opts );
+
 			} else {
 				if ( $opts === false )
-					$opts_err_msg = 'could not find an entry for '.NGFB_OPTIONS_NAME.' in';
+					$opts_err_msg = 'could not find an entry for '.$options_name.' in';
 				elseif ( ! is_array( $opts ) )
-					$opts_err_msg = 'returned a non-array value when reading '.NGFB_OPTIONS_NAME.' from';
+					$opts_err_msg = 'returned a non-array value when reading '.$options_name.' from';
 				elseif ( empty( $opts ) )
-					$opts_err_msg = 'returned an empty array when reading '.NGFB_OPTIONS_NAME.' from';
-				else 
-					$opts_err_msg = 'returned an unknown condition when reading '.NGFB_OPTIONS_NAME.' from';
+					$opts_err_msg = 'returned an empty array when reading '.$options_name.' from';
+				else $opts_err_msg = 'returned an unknown condition when reading '.$options_name.' from';
+
 				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
-				$opts = $this->get_defaults();
+
+				if ( $options_name == NGFB_SITE_OPTIONS_NAME )
+					$opts = $this->get_site_defaults();
+				else $opts = $this->get_defaults();
 			}
 			if ( is_admin() ) {
 				if ( ! empty( $opts_err_msg ) ) {
-					$url = $this->p->util->get_admin_url( 'general' );
+					$url = $this->p->util->get_admin_url( 'network' );
 					$this->p->notice->err( 'WordPress '.$opts_err_msg.' the options table. 
-						Plugin settings have been returned to their default values (though nothing has been saved back to the database yet). 
+						Plugin settings have been returned to their default values 
+						(though nothing has been saved back to the database yet). 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
-				if ( $this->p->options['og_img_width'] < $this->p->cf['head']['min_img_width'] || 
-					$this->p->options['og_img_height'] < $this->p->cf['head']['min_img_height'] ) {
+				if ( $options_name == NGFB_OPTIONS_NAME && 
+					( $this->p->options['og_img_width'] < $this->p->cf['head']['min_img_width'] || 
+					$this->p->options['og_img_height'] < $this->p->cf['head']['min_img_height'] ) ) {
 
 					$url = $this->p->util->get_admin_url( 'general' );
 					$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
@@ -696,9 +693,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			// mark the new options as current
 			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->options_version;
-
-			if ( $options_name == NGFB_OPTIONS_NAME )
-				$opts['plugin_version'] = $this->p->cf['version'];
+			$opts['plugin_version'] = $this->p->cf['version'];
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error

@@ -364,6 +364,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 			}
 			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );

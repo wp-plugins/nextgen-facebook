@@ -147,8 +147,9 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			/*
 			 * check options array read from database - upgrade options if necessary
 			 */
-			$this->options = $this->opt->check_options( $this->options );
-			$this->site_options = $this->opt->check_site_options( $this->site_options );
+			$this->options = $this->opt->check_options( NGFB_OPTIONS_NAME, $this->options );
+			if ( is_multisite() )
+				$this->site_options = $this->opt->check_options( NGFB_SITE_OPTIONS_NAME, $this->site_options );
 
 			/*
 			 * setup class properties, etc. based on option values
