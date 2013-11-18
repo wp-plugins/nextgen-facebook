@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '135';
+		public $options_version = '136';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -686,6 +686,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
+		// saved both options and site options
 		public function save_options( $options_name, &$opts ) {
 			// make sure we have something to work with
 			if ( empty( $opts ) || ! is_array( $opts ) ) {
@@ -695,15 +696,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			// mark the new options as current
 			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->options_version;
-			$opts['plugin_version'] = $this->p->cf['version'];
+
+			if ( $options_name == NGFB_OPTIONS_NAME )
+				$opts['plugin_version'] = $this->p->cf['version'];
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error
 			if ( get_option( $options_name ) !== $opts ) {
-				if ( update_option( $options_name, $opts ) == true ) {
+				if ( $options_name == NGFB_SITE_OPTIONS_NAME )
+					$rc = update_site_option( $options_name, $opts );
+				else $rc = update_option( $options_name, $opts );
+				if ( $rc === true ) {
 					if ( $previous_opts_version !== $this->options_version ) {
 						$this->p->debug->log( 'upgraded '.$options_name.' settings have been saved' );
-						$this->p->notice->inf( 'Plugin settings have been upgraded and saved.', true );
+						$this->p->notice->inf( 'Plugin settings ('.$options_name.') have been upgraded and saved.', true );
 					}
 				} else {
 					$this->p->debug->log( 'failed to save the upgraded '.$options_name.' settings.' );

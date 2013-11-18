@@ -140,6 +140,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 					unset( $opts['og_img_size'] );
 				}
 			}
+
 			$opts = $this->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 			$this->save_options( NGFB_OPTIONS_NAME, $opts );
 			return $opts;
