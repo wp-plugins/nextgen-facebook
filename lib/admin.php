@@ -299,7 +299,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			// add child metaboxes first, since they contain the default reset_metabox_prefs()
 			$this->p->admin->setting[$this->menu_id]->add_meta_boxes();
 
-			if ( ! $this->p->check->is_aop() ) {
+			if ( ! $this->p->check->is_aop() && ( empty( $this->p->options['plugin_tid'] ) || ! empty( $this->p->update_error ) ) ) {
 				add_meta_box( $this->pagehook.'_purchase', __( 'Pro Version', NGFB_TEXTDOM ), array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'purchase' ), null, 'side', true );
