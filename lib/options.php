@@ -385,9 +385,14 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) )
+					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
+						// messages are only required in admin interface, so check in case
+						if ( ! is_object( $this->p->msg ) ) {
+							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
+							$this->p->msg = new NgfbMessages( $this->p );
+						}
 						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
-
+					}
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 						$this->p->debug->log( 'plugin or options version different than saved: calling upgrade() method.' );
 						$opts = $this->upgrade( $opts, $this->get_defaults() );

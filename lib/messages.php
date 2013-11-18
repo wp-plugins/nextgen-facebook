@@ -88,5 +88,4 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 		}
 	}
 }
-
 ?>
