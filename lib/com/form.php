@@ -161,8 +161,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
 				' value="'.esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ).'" '.
-				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder.'\';"'.
-				' onBlur="if ( this.value == \''. $placeholder.'\' ) this.value = \'\';"'.
+				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
 				'/>';
 			return $html;
 		}
@@ -175,7 +175,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		}
 
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
-			if ( empty( $name ) ) return;	// just in case
+			if ( empty( $name ) ) return;		// just in case
+			$placeholder = trim( $placeholder );	// just in case
 			$html = '';
 			if ( ! empty( $len ) && ! empty( $id ) ) {
 				$html .= '<script type="text/javascript">
@@ -191,10 +192,9 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
 				( empty( $len ) && empty( $class ) ? '' : ' rows="'.round($len / 100).'"' ).
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
-				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder.'\';"'.
-				' onBlur="if ( this.value == \''. $placeholder.'\' ) this.value = \'\';"'.
-				'>'.esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ).
-				'</textarea>';
+				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
+				'>'.esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ).'</textarea>';
 			return $html;
 		}
 

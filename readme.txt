@@ -656,8 +656,9 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1dev2 =
+= Version 6.16.1dev3 =
 
+* Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 
 = Version 6.16.0.1 =
