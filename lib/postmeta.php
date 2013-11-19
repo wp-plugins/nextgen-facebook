@@ -111,13 +111,13 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">'.$this->p->options['og_art_section'].'</td>';
 
 			$ret[] = $this->p->util->th( 'Default Title', 'medium', null, 
-			'A custom title for the Open Graph meta tags, Twitter Card meta tags (all Twitter Card formats), 
+			'A custom title for the Open Graph, Rich Pin, Twitter Card meta tags (all Twitter Card formats), 
 			and possibly the Pinterest, Tumblr, and Twitter sharing caption / text, depending on some option 
 			settings. The default title value is refreshed when the (draft or published) '.$post_type_name.' is saved.' ) .
 			'<td class="blank">'.$this->p->webpage->get_title( $this->p->options['og_title_len'], '...', true ).'</td>';
 		
 			$ret[] = $this->p->util->th( 'Default Description', 'medium', null, 
-			'A custom description for the Open Graph meta tags, and the fallback description 
+			'A custom description for the Open Graph, Rich Pin meta tags, and the fallback description 
 			for all other meta tags and social sharing buttons.
 			The default description value is based on the content, or excerpt if one is available, 
 			and is refreshed when the (draft or published) '.$post_type_name.' is saved.

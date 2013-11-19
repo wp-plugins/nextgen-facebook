@@ -16,11 +16,11 @@ NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards)
 
 = Recent Reviews =
 
+* **Useful plugin good support** by Joeltrv, November 19
 * **Great plugin with support to match** by Elizabeth Lowrey, November 14
 * **AWESOME! Works like a charm!** by undergroundnetwork, November 14
 * **Doneright &amp; Doneright** by Pharaoh145, October 29
 * **Great plugin and better support** by cocinaor, October 18
-* **Very well made** by lucaferr, September 26
 * [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
