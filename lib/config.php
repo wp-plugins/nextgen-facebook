@@ -66,6 +66,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					'forum' => array(
 						'bbpress' => 'bbPress',
 					),
+					'media' => array(
+						'wistia' => 'Wistia',
+					),
 				),
 			),
 			'opt' => array(				// options
@@ -231,12 +234,12 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/com/script.php' );
 			require_once( $plugin_dir.'lib/com/style.php' );
 			require_once( $plugin_dir.'lib/com/webpage.php' );
+			require_once( $plugin_dir.'lib/com/media.php' );
 
 			require_once( $plugin_dir.'lib/check.php' );
 			require_once( $plugin_dir.'lib/util.php' );
 			require_once( $plugin_dir.'lib/options.php' );
 			require_once( $plugin_dir.'lib/user.php' );
-			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/social.php' );
 			require_once( $plugin_dir.'lib/style.php' );	// extends lib/com/style.php

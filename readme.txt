@@ -658,8 +658,10 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 = Version 6.16.1dev3 =
 
+* **Added support for Wistia Inline Embed API / SEO and Popover Embed videos** (Pro version).
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
+* Moved the lib/media.php and lib/ngg.php library files to lib/com/.
 
 = Version 6.16.0.1 =
 
@@ -690,6 +692,10 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.16.1dev3 =
+
+Added support for Wistia Inline Embed API / SEO and Popover Embed videos (Pro version), fixed Custom Settings onFocus / onBlur events.
 
 = 6.16.0.1 =
 

@@ -233,6 +233,10 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 					}
 				}
 			}
+
+			// allow the wistia addon to load if the plugin_wistia_pwd is defined
+			$this->is_avail['media']['wistia'] = empty( $this->options['plugin_wistia_pwd'] ) ? false : true;
+
 			$this->options = apply_filters( $this->cf['lca'].'_get_options', $this->options );
 			$this->site_options = apply_filters( $this->cf['lca'].'_get_site_options', $this->site_options );
 		}

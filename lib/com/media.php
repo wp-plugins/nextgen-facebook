@@ -451,13 +451,12 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 				return $og_ret; 
 			}
 			// detect standard iframe/embed tags - use the content_videos filter for custom html5/javascript methods
-			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ||
-				( $match_all = apply_filters( $this->p->cf['lca'].'_content_videos', false, $content ) ) !== false ) {
-				$this->p->debug->log( count( $match_all ).' x video html tag(s) found' );
+			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
+				$this->p->debug->log( count( $match_all ).' x video <iframe|embed/> html tag(s) found' );
 				foreach ( $match_all as $media ) {
 					$this->p->debug->log( '<'.$media[1].'/> html tag found = '.$media[2] );
 					$embed_url = $media[2];
-					if ( strpos( $embed_url, '?' ) !== false ) {
+					if ( strpos( $embed_url, '?' ) !== false ) {	// remove the query string
 						$embed_url_parts = explode( '?', $embed_url );
 						$embed_url = reset( $embed_url_parts );
 					}
@@ -471,6 +470,26 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 					}
 				}
 			} else $this->p->debug->log( 'no <iframe|embed/> html tag(s) found' );
+
+			$filter_name = $this->p->cf['lca'].'_content_videos';
+			if ( has_filter( $filter_name ) ) {
+				$this->p->debug->log( 'applying filter '.$filter_name ); 
+				// should return an array of arrays
+				if ( ( $match_all = apply_filters( $this->p->cf['lca'].'_content_videos', false, $content ) ) !== false ) {
+					if ( is_array( $match_all ) ) {
+						$this->p->debug->log( count( $match_all ).' x videos returned by '.$filter_name.' filter' );
+						foreach ( $match_all as $media ) {
+							// media = array( url, width, height )
+							if ( ( $check_dupes == false && ! empty( $media[0] ) ) || $this->p->util->is_uniq_url( $media[0] ) ) {
+								$og_video = $this->get_video_info( $media[0], $media[1], $media[2] );	// url, width, height
+								if ( ! empty( $og_video ) && 
+									$this->p->util->push_max( $og_ret, $og_video, $num ) ) 
+										return $og_ret;
+							}
+						}
+					} else $this->p->debug->log( $filter_name.' filter did not return false or an array' ); 
+				}
+			}
 			return $og_ret;
 		}
 
