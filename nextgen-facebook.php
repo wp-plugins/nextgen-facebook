@@ -223,11 +223,16 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 						if ( array_key_exists( $key, $this->options ) && 
 							array_key_exists( $key.':use', $this->site_options ) ) {
 
-							if ( $this->site_options[$key.':use'] == 'force' ) {
-								$this->options[$key.':use'] = 'force';
-								$this->options[$key] = $this->site_options[$key];
-							} elseif ( $this->site_options[$key.':use'] == 'empty' && empty( $this->options[$key] ) )
-								$this->options[$key] = $this->site_options[$key];
+							switch ( $this->site_options[$key.':use'] ) {
+								case'force':
+									$this->options[$key.':is'] = 'disabled';
+									$this->options[$key] = $this->site_options[$key];
+									break;
+								case 'empty':
+									if ( empty( $this->options[$key] ) )
+										$this->options[$key] = $this->site_options[$key];
+									break;
+							}
 						}
 					}
 				}

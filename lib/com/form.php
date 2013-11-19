@@ -36,8 +36,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			if ( ! is_array( $check ) ) $check = array( 1, 0 );
-			if ( $this->in_options( $name.':use' ) && 
-				$this->options[$name.':use'] == 'force' )
+			if ( $this->in_options( $name.':is' ) && 
+				$this->options[$name.':is'] == 'disabled' )
 					return $this->get_fake_checkbox( $name, $check, $class, $id );
 			return $this->get_hidden( 'is_checkbox_'.$name, 1 ).
 				'<input type="checkbox" name="'.$this->options_name.'['.$name.']" value="'.$check[0].'"'.
@@ -142,8 +142,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
-			if ( $this->in_options( $name.':use' ) && 
-				$this->options[$name.':use'] == 'force' )
+			if ( $this->in_options( $name.':is' ) && 
+				$this->options[$name.':is'] == 'disabled' )
 					return $this->get_fake_input( $name, $class, $id );
 			$html = '';
 			$placeholder = htmlentities( $placeholder );
@@ -161,8 +161,8 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
 				' value="'.esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ).'" '.
-				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder.'\';"'.
-				' onBlur="if ( this.value == \''. $placeholder.'\' ) this.value = \'\';"'.
+				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
 				'/>';
 			return $html;
 		}
@@ -191,10 +191,9 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
 				( empty( $len ) && empty( $class ) ? '' : ' rows="'.round($len / 100).'"' ).
 				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
-				' onFocus="if ( this.value == \'\' ) this.value = \''. $placeholder.'\';"'.
-				' onBlur="if ( this.value == \''. $placeholder.'\' ) this.value = \'\';"'.
-				'>'.esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ).
-				'</textarea>';
+				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
+				'>'.esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ).'</textarea>';
 			return $html;
 		}
 
