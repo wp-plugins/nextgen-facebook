@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, image, facebook, google, google plus, g+, twitter, linkedin, social, seo, search engine optimization, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, socialgraph, multisite, managewp, hashtags, bbpress
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, facebook, google, google plus, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, marketpress, e-commerce, multisite, managewp, hashtags, bbpress
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Requires At Least: 3.0
@@ -25,13 +25,13 @@ NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards)
 
 = Social and SEO =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
 Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
-NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings (though many settings and options are available to customize).
+NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
 = Images and Videos =
 
@@ -70,7 +70,7 @@ NGFB Open Graph+ comes with several social sharing buttons, that you can optiona
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (aka the WordPress locale).
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (WordPress locale).
 
 = Custom Contacts =
 
@@ -90,21 +90,21 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Best Performance =
 
-NGFB Open Graph+ is fast and tuned for performance, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
+**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
 
-NGFB Open Graph+ also includes and creates only the PHP library files and object classes it needs, thus having a *much smaller footprint / size* than most other full featured plugins.
+NGFB Open Graph+ only includes the PHP library files and creates the object classes it needs, thus having a *much smaller footprint / size* than most other full featured plugins.
 
 = Clean Uninstall =
 
-Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database. 
+Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
 
 = Great Support =
 
-NGFB Open Graph+ is being actively developed and supported. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have questions or suggestions, post them to the WordPress [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook).
+**NGFB Open Graph+ is actively being developed and supported**. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.surniaulula.com/support/home).
 
 = Developer Friendly =
 
-NGFB Open Graph+ also offers a wide variety of filter hooks, functions, methods and constants to customize the output and behavior of the plugin.
+NGFB Open Graph+ also offers a [wide variety of filter hooks](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks), functions, methods and [constants](http://support.surniaulula.com/solution/articles/1000000154-constants) to customize the output and behavior of the plugin.
 
 = Pro Version =
 
