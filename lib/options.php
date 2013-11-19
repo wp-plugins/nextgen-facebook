@@ -256,7 +256,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_google_shorten' => 0,
 			'plugin_bitly_login' => '',
 			'plugin_bitly_api_key' => '',
-			'plugin_wistia_pwd' => 0,
+			'plugin_wistia_pwd' => '',
 			'plugin_cdn_urls' => '',
 			'plugin_cdn_folders' => 'wp-content, wp-includes',
 			'plugin_cdn_excl' => '',

@@ -1,16 +1,16 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://surniaulula.com/wp-content/uploads/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbMediaNgg' ) ) {
+if ( ! class_exists( 'SucomNgg' ) ) {
 
-	class NgfbMediaNgg {
+	class SucomNgg {
 
 		private $p;
 

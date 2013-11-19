@@ -59,6 +59,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					'plugin_tid', 
 					'plugin_googl_api_key', 
 					'plugin_bitly_api_key',
+					'plugin_wistia_pwd',
 				) as $key ) $opts[$key] = '********';
 
 				$this->p->debug->show_html( print_r( $this->p->is_avail, true ), 'available features' );
@@ -95,35 +96,35 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			/*
 			 * Meta HTML Tags for Google
 			 */
-			$link_rel = array();
+			$links = array();
 			if ( array_key_exists( 'link:publisher', $meta_tags ) ) {
-				$link_rel['publisher'] = $meta_tags['link:publisher'];
+				$links['publisher'] = $meta_tags['link:publisher'];
 				unset ( $meta_tags['link:publisher'] );
 			} elseif ( ! empty( $this->p->options['link_publisher_url'] ) )
-				$link_rel['publisher'] = $this->p->options['link_publisher_url'];
+				$links['publisher'] = $this->p->options['link_publisher_url'];
 
 			if ( array_key_exists( 'link:author', $meta_tags ) ) {
-				$link_rel['author'] = $meta_tags['link:author'];
+				$links['author'] = $meta_tags['link:author'];
 				unset ( $meta_tags['link:author'] );
 			} else {
 				if ( is_singular() ) {
 					if ( ! empty( $obj->post_author ) )
-						$link_rel['author'] = $this->p->user->get_author_url( $obj->post_author, 
+						$links['author'] = $this->p->user->get_author_url( $obj->post_author, 
 							$this->p->options['link_author_field'] );
 					elseif ( ! empty( $this->p->options['link_def_author_id'] ) )
-						$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
+						$links['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
 							$this->p->options['link_author_field'] );
 
 				// check for default author info on indexes and searches
 				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['link_def_author_on_index'] ) && ! empty( $this->p->options['link_def_author_id'] ) )
 					|| ( is_search() && ! empty( $this->p->options['link_def_author_on_search'] ) && ! empty( $this->p->options['link_def_author_id'] ) ) ) {
 
-					$link_rel['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
+					$links['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
 						$this->p->options['link_author_field'] );
 				}
 			}
-			$link_rel = apply_filters( $this->p->cf['lca'].'_link_rel', $link_rel );
-			foreach ( $link_rel as $key => $val )
+			$links = apply_filters( $this->p->cf['lca'].'_link', $links );
+			foreach ( $links as $key => $val )
 				if ( ! empty( $val ) )
 					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
 
@@ -137,7 +138,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false
 				}
 			}
-			$meta_tags = apply_filters( $this->p->cf['lca'].'_meta_tags', $meta_tags );
+			$meta_tags = apply_filters( $this->p->cf['lca'].'_meta', $meta_tags );
 
 			/*
 			 * Print the Multi-Dimensional Array as HTML

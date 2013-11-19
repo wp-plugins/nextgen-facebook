@@ -175,8 +175,7 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		}
 
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
-			if ( empty( $name ) ) return;		// just in case
-			$placeholder = trim( $placeholder );	// just in case
+			if ( empty( $name ) ) return;	// just in case
 			$html = '';
 			if ( ! empty( $len ) && ! empty( $id ) ) {
 				$html .= '<script type="text/javascript">

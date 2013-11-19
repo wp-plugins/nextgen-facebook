@@ -1,16 +1,16 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://surniaulula.com/wp-content/uploads/license/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbMedia' ) ) {
+if ( ! class_exists( 'SucomMedia' ) ) {
 
-	class NgfbMedia {
+	class SucomMedia {
 
 		private $p;
 
@@ -20,8 +20,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			require_once ( NGFB_PLUGINDIR.'lib/ngg.php' );
-			$this->ngg = new NgfbMediaNgg( $plugin );
+			require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/com/ngg.php' );
+			$this->ngg = new SucomNgg( $plugin );
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 		}
@@ -164,7 +164,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( empty( $img_url ) ) { 
 				$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
 
-			// make sure the returned ngfb image size matches the size we requested, 
+			// make sure the returned image size matches the size we requested, 
 			// if not then possibly resize the image
 			if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
 
@@ -385,7 +385,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
-		// called by ngfbTwitterCard to build the Gallery Card
+		// called by TwitterCard class to build the Gallery Card
 		public function get_gallery_images( $num = 0, $size_name = 'large', $want_this = 'gallery', $check_dupes = false ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'want_this' => $want_this, 'check_dupes' => $check_dupes ) );
 			global $post;
@@ -450,7 +450,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
-			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
+			// detect standard iframe/embed tags - use the content_videos filter for custom html5/javascript methods
+			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ||
+				( $match_all = apply_filters( $this->p->cf['lca'].'_content_videos', false, $content ) ) !== false ) {
 				$this->p->debug->log( count( $match_all ).' x video html tag(s) found' );
 				foreach ( $match_all as $media ) {
 					$this->p->debug->log( '<'.$media[1].'/> html tag found = '.$media[2] );

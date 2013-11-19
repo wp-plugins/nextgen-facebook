@@ -126,9 +126,9 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			$this->cache = new SucomCache( $this );
 			$this->script = new SucomScript( $this );
 			$this->webpage = new SucomWebpage( $this );	// title, desc, etc., plus shortcodes
+			$this->media = new SucomMedia( $this );		// images, videos, etc., plug ngg
 
 			$this->user = new NgfbUser( $this );
-			$this->media = new NgfbMedia( $this );
 			$this->meta = new NgfbPostMeta( $this );
 			$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 			$this->style = new NgfbStyle( $this );		// extends SucomStyle
