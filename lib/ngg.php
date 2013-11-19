@@ -42,11 +42,8 @@ if ( ! class_exists( 'NgfbMediaNgg' ) ) {
 		// called to get an image url from an ngg picture id and a media size name (the pid must be formatted as 'ngg-#')
 		// TODO find a way to get accurate size information back from NGG v2+
 		public function get_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
-
-			if ( $this->p->is_avail['ngg'] !== true ||
-				! is_string( $pid ) || 
-				substr( $pid, 0, 4 ) !== 'ngg-' )
-					return array( null, null, null, null );
+			if ( $this->p->is_avail['ngg'] !== true || ! is_string( $pid ) || substr( $pid, 0, 4 ) !== 'ngg-' )
+				return array( null, null, null, null );
 
 			$size_info = $this->p->media->get_size_info( $size_name );
 			$pid = substr( $pid, 4 );

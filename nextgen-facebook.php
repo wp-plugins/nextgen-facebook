@@ -42,7 +42,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			$reg_class = __CLASS__.'Register';
 			$this->reg = new $reg_class( $this );
 
-			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );	// since wp 1.2.0
+			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );
 		}
 
 		// called by WP init action

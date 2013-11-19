@@ -100,7 +100,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 				}
 				if ( ! empty( $atts['pid'] ) ) {
 					// if the post thumbnail id has the form 'ngg-' then it's a NextGEN image
-					if ( is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
+					if ( $this->p->is_avail['ngg'] == true && is_string( $atts['pid'] ) && substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
 						list( $atts['photo'], $atts['width'], $atts['height'], 
 							$atts['cropped'] ) = $this->p->media->ngg->get_image_src( $atts['pid'], $atts['size'], false );
 					} else {
