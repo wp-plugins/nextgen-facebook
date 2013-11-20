@@ -96,43 +96,39 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			$this->p->debug->mark();
 		}
 
-		// second argument accepts output from functions, so don't force reference
-		public function site_options( &$opts = array(), $def_opts = array() ) {
-			$opts = $this->p->util->rename_keys( $opts, $this->renamed_site_keys );
-			$opts = $this->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
-			$this->save_options( NGFB_SITE_OPTIONS_NAME, $opts );
-			return $opts;
-		}
+		// def_opts accepts output from functions, so don't force reference
+		public function options( $options_name, &$opts = array(), $def_opts = array() ) {
 
-		// second argument accepts output from functions, so don't force reference
-		public function options( &$opts = array(), $def_opts = array() ) {
 			$opts = $this->p->util->rename_keys( $opts, $this->renamed_keys );
 
-			// these option names may have been used in the past, so remove them, just in case
-			if ( $opts['options_version'] < 30 ) {
-				unset( $opts['og_img_width'] );
-				unset( $opts['og_img_height'] );
-				unset( $opts['og_img_crop'] );
-			}
-
-			if ( ! empty( $opts['twitter_shorten'] ) )
-				$opts['twitter_shortener'] = 'googl';
-
-			// upgrade the old 'og_img_size' name into width / height / crop values
-			if ( array_key_exists( 'og_img_size', $opts ) ) {
-				if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
-					$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
-					if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
-						$opts['og_img_width'] = $size_info['width'];
-						$opts['og_img_height'] = $size_info['height'];
-						$opts['og_img_crop'] = $size_info['crop'];
+			// custom value changes for regular options
+			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
+				// these option names may have been used in the past, so remove them, just in case
+				if ( $opts['options_version'] < 30 ) {
+					unset( $opts['og_img_width'] );
+					unset( $opts['og_img_height'] );
+					unset( $opts['og_img_crop'] );
+				}
+	
+				if ( ! empty( $opts['twitter_shorten'] ) )
+					$opts['twitter_shortener'] = 'googl';
+	
+				// upgrade the old og_img_size name into width / height / crop values
+				if ( array_key_exists( 'og_img_size', $opts ) ) {
+					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
+						$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
+						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+							$opts['og_img_width'] = $size_info['width'];
+							$opts['og_img_height'] = $size_info['height'];
+							$opts['og_img_crop'] = $size_info['crop'];
+						}
+						unset( $opts['og_img_size'] );
 					}
-					unset( $opts['og_img_size'] );
 				}
 			}
 
 			$opts = $this->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
-			$this->save_options( NGFB_OPTIONS_NAME, $opts );
+			$this->save_options( $options_name, $opts );
 			return $opts;
 		}
 	}
