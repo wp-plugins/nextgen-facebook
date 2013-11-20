@@ -150,10 +150,10 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 			$this->p->debug->args( array( 'pid' => $pid, 'size_name' => $size_name, 'check_dupes' => $check_dupes ) );
 			$size_info = $this->get_size_info( $size_name );
 			$img_url = '';
-			$img_width = 0;
-			$img_height = 0;
+			$img_width = -1;
+			$img_height = -1;
 			$img_inter = true;
-			$img_crop = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true / false
+			$img_cropped = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true/false
 			$ret_empty = array( null, null, null, null );
 
 			if ( ! wp_attachment_is_image( $pid ) ) {	// since wp 2.1.0
@@ -184,7 +184,9 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
 					$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 					if ( empty( $img_url ) ) { 
-						$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
+						$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); 
+						return $ret_empty; 
+					}
 
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
@@ -211,13 +213,15 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
 						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 						if ( empty( $img_url ) ) {
-							$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
+							$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); 
+							return $ret_empty;
+						}
 					}
 				}
 			}
 			$img_url = $this->p->util->fix_relative_url( $img_url );
 			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_crop );
+				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_cropped );
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
@@ -241,18 +245,15 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 				}
 			} elseif ( ! empty( $img_url ) ) {
 				$this->p->debug->log( 'found custom meta image url = "'.$img_url.'"' );
-				array_push( $image, $img_url, null, null, null );
+				array_push( $image, $img_url, -1, -1, -1 );	// must have four elements for list() to follow
 			}
-
 			if ( ! empty( $image ) ) {
 				list( $og_image['og:image'], $og_image['og:image:width'], 
 					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
-
 				if ( ! empty( $og_image['og:image'] ) &&
 					$this->p->util->push_max( $og_ret, $og_image, $num ) )
 						return $og_ret;
 			}
-
 			return $og_ret;
 		}
 
@@ -263,6 +264,10 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 			$pid = empty( $this->p->options['og_def_img_id'] ) ? '' : $this->p->options['og_def_img_id'];
 			$pre = empty( $this->p->options['og_def_img_id_pre'] ) ? '' : $this->p->options['og_def_img_id_pre'];
 			$url = empty( $this->p->options['og_def_img_url'] ) ? '' : $this->p->options['og_def_img_url'];
+			if ( $pid === '' && $url === '' ) {
+				$this->p->debug->log( 'exiting early: no default image defined' );
+				return $og_ret;
+			}
 			if ( $pid > 0 ) {
 				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' )
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
@@ -302,7 +307,7 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 			}
 			// img attributes in order of preference
 			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
-				preg_match_all( '/<(img)[^>]*? (share-'.$size_name.'|share|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+				preg_match_all( '/<(img)[^>]*? (data-share-src|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ).' x matching <img/> html tag(s) found' );
 				foreach ( $match as $img_num => $img_arr ) {
 					$tag_value = $img_arr[0];
@@ -321,9 +326,8 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 						default :
 							$og_image = array(
 								'og:image' => $this->p->util->fix_relative_url( $attr_value ),
-								'og:image:width' => '',
-								'og:image:height' => '',
-								'og:image:cropped' => '',
+								'og:image:width' => -1,
+								'og:image:height' => -1,
 							);
 							// check for ngg pre-v2 image pids in the url
 							if ( $this->p->is_avail['ngg'] == true && 
@@ -352,20 +356,13 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 		
 							} else continue;	// skip anything that is "not good" (duplicate or empty)
 
-							// set value to 0 if not valid, to avoid error when comparing image sizes
-							if ( ! is_numeric( $og_image['og:image:width'] ) ) 
-								$og_image['og:image:width'] = 0;
-							if ( ! is_numeric( $og_image['og:image:height'] ) ) 
-								$og_image['og:image:height'] = 0;
-
 							$this->p->debug->log( 'found image: '.$og_image['og:image'].
 								' ('.$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
 
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
 							if ( $attr_name == 'share-'.$size_name || $attr_name == 'share' || 
-								( $attr_name == 'src' && defined( 'NGFB_MIN_IMG_SIZE_DISABLE' ) && NGFB_MIN_IMG_SIZE_DISABLE ) ||
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
-								( $attr_name == 'src' && $size_info['crop'] == 1 && 
+								( $attr_name == 'src' && $size_info['crop'] === 1 && 
 									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
 									( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
@@ -461,8 +458,8 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 						$embed_url = reset( $embed_url_parts );
 					}
 					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
-						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
-						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : 0;
+						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : -1;
+						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : -1;
 						$og_video = $this->get_video_info( $embed_url, $embed_width, $embed_height );
 						if ( ! empty( $og_video ) && 
 							$this->p->util->push_max( $og_ret, $og_video, $num ) ) 

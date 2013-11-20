@@ -178,30 +178,42 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		private function get_meta_html( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
-			if ( ! empty( $this->p->options['inc_'.$name] ) ) {
-				if ( $val != "" || ( ! empty( $this->p->options['og_empty_tags'] ) && strpos( $name, 'og:' ) === 0 ) ) {
-					$charset = get_bloginfo( 'charset' );
-					$val = htmlentities( $this->p->util->cleanup_html_tags( $this->p->util->decode( $val ) ), 
-						ENT_QUOTES, $charset, false );
-					$this->p->debug->log( 'meta '.$name.' = "'.$val.'"' );
-					if ( $cmt ) $meta_html .= "<!-- $cmt -->";
 
-					// by default, echo a <meta property="" content=""> html tag
-					if ( $name == 'description' || strpos( $name, 'twitter:' ) === 0 ) {
-						$meta_html .= '<meta name="'.$name.'" content="'.$val.'" />'."\n";
-					} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
-						strpos( $val, 'https:' ) === 0 && ! empty( $this->p->options['inc_'.$name] ) ) {
+			if ( empty( $this->p->options['inc_'.$name] ) ) {
+				$this->p->debug->log( 'meta '.$name.' is disabled - skipping' );
+				return $meta_html;
+			} elseif ( $val === -1 ) {
+				$this->p->debug->log( 'meta '.$name.' is -1 - ignored' );
+				return $meta_html;
+			} elseif ( $val === '' && ( strpos( $name, 'og:' ) === false || empty( $this->p->options['og_empty_tags'] ) ) ) {
+				$this->p->debug->log( 'meta '.$name.' is empty - skipping' );
+				return $meta_html;
+			}
 
-						$non_sec = preg_replace( '/^https:/', 'http:', $val );
-						$meta_html .= '<meta property="'.$name.'" content="'.$non_sec.'" />'."\n";
-						// add an additional secure_url meta tag
-						if ( $cmt ) $meta_html .= "<!-- $cmt -->";
-						$meta_html .= '<meta property="'.$name.':secure_url" content="'.$val.'" />'."\n";
-					} else {
-						$meta_html .= '<meta property="'.$name.'" content="'.$val.'" />'."\n";
-					}
-				} else $this->p->debug->log( 'meta '.$name.' is empty - skipping' );
-			} else $this->p->debug->log( 'meta '.$name.' is disabled - skipping' );
+			$charset = get_bloginfo( 'charset' );
+			$val = htmlentities( $this->p->util->cleanup_html_tags( $this->p->util->decode( $val ) ), 
+				ENT_QUOTES, $charset, false );
+			$this->p->debug->log( 'meta '.$name.' = "'.$val.'"' );
+			if ( $cmt ) $meta_html .= "<!-- $cmt -->";
+
+			// by default, echo a <meta property="" content=""> html tag
+			// the description and twitter card tags are exceptions
+			if ( $name == 'description' || strpos( $name, 'twitter:' ) === 0 ) {
+
+				$meta_html .= '<meta name="'.$name.'" content="'.$val.'" />'."\n";
+
+			} elseif ( ( $name == 'og:image' || $name == 'og:video' ) && 
+				strpos( $val, 'https:' ) === 0 && ! empty( $this->p->options['inc_'.$name] ) ) {
+
+				$http_url = preg_replace( '/^https:/', 'http:', $val );
+				$meta_html .= '<meta property="'.$name.'" content="'.$http_url.'" />'."\n";
+
+				// add an additional secure_url meta tag
+				if ( $cmt ) $meta_html .= "<!-- $cmt -->";
+				$meta_html .= '<meta property="'.$name.':secure_url" content="'.$val.'" />'."\n";
+
+			} else $meta_html .= '<meta property="'.$name.'" content="'.$val.'" />'."\n";
+
 			return $meta_html;
 		}
 	}

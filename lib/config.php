@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.16.1dev4',		// plugin version
+			'version' => '6.16.1dev5',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -167,7 +167,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			// *_WP_DEBUG			true|false
 			// *_HTML_DEBUG			true|false
 			// *_OPEN_GRAPH_DISABLE		true|false
-			// *_MIN_IMG_SIZE_DISABLE	true|false
 			// *_OBJECT_CACHE_DISABLE	true|false
 			// *_TRANSIENT_CACHE_DISABLE	true|false
 			// *_FILE_CACHE_DISABLE		true|false

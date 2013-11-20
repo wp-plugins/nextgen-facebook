@@ -48,7 +48,7 @@ if ( ! class_exists( 'SucomNgg' ) ) {
 			$size_info = $this->p->media->get_size_info( $size_name );
 			$pid = substr( $pid, 4 );
 			$img_url = '';
-			$img_crop = $size_info['crop'] == 1 ? 'true' : 'false';
+			$img_cropped = $size_info['crop'] == 1 ? 'true' : 'false';	// visual feedback, not a real true/false
 			$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
 
 			global $nggdb;
@@ -78,12 +78,10 @@ if ( ! class_exists( 'SucomNgg' ) ) {
 					}
 				} else {
 					$this->p->debug->log( 'accurate image dimensions are not available for ngg v2' );
-					$size_info['width'] = '';
-					$size_info['height'] = '';
-					$img_crop = '';
+					$size_info['width'] = -1;
+					$size_info['height'] = -1;
 				}
 			}
-
 			$this->p->debug->log( 'image for pid:'.$pid.' size:'.$size_name.' = '.$img_url.
 				' ('.$size_info['width'].'x'.$size_info['height'].')' );
 
@@ -91,7 +89,7 @@ if ( ! class_exists( 'SucomNgg' ) ) {
 
 			if ( ! empty( $img_url ) ) {
 				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-					return array( $this->p->util->rewrite_url( $img_url ), $size_info['width'], $size_info['height'], $img_crop );
+					return array( $this->p->util->rewrite_url( $img_url ), $size_info['width'], $size_info['height'], $img_cropped );
 			} else $this->p->debug->log( 'image rejected: image url is empty' );
 
 			return array( null, null, null, null );

@@ -165,7 +165,6 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 								$has_video_image = 1;
 							}
 						}
-						unset ( $vid );
 					}
 				} else $this->p->debug->log( 'videos disabled: maximum videos = 0' );
 			}
