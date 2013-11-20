@@ -185,7 +185,12 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			} elseif ( $val === -1 ) {
 				$this->p->debug->log( 'meta '.$name.' is -1 - ignored' );
 				return $meta_html;
-			} elseif ( $val === '' && ( strpos( $name, 'og:' ) === false || empty( $this->p->options['og_empty_tags'] ) ) ) {
+			// ignore all empty non-open graph meta tags, 
+			// and open-graph meta tags as well if the option allows
+			} elseif ( $val === '' && 
+				( preg_match( '/^description|fb:|twitter:/', $name ) || 
+					empty( $this->p->options['og_empty_tags'] ) ) ) {
+
 				$this->p->debug->log( 'meta '.$name.' is empty - skipping' );
 				return $meta_html;
 			}

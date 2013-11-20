@@ -420,7 +420,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			if ( is_singular() )
 				$section = $this->p->meta->get_options( $post_id, 'og_art_section' );
 			if ( ! empty( $section ) ) 
-				$this->p->debug->log( 'found custom meta section = "'.$section.'"' );
+				$this->p->debug->log( 'found custom meta section = '.$section );
 			else $section = $this->p->options['og_art_section'];
 			if ( $section == 'none' )
 				$section = '';
