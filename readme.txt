@@ -303,16 +303,16 @@ The plugin also looks for any &lt;img/&gt; HTML tags with a 'width' and 'height'
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB Open Graph+ will only use an image equal to, or larger than, the Image Dimensions you've chosen.
 
-If you want to display smaller image thumbnails in your content, and still have NGFB Open Graph+ use the larger versions of those thumbnails, you can add a "data-share" attribute with a URL to the larger image. For example:
+If you want to display smaller image thumbnails in your content, and still have NGFB Open Graph+ use the larger versions of those thumbnails, you can add a "data-share-src" attribute with a URL to the larger image. For example:
 
 `
 <img
-    data-share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
+    data-share-src="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
     src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "data-share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "data-share" attribute to the `<img/>` HTML tag, and would like NGFB Open Graph+ to share smaller image thumbnails (not recommended), you can uncheck the 'Ignore Small Images' option on the Advanced settings page.
+The order in which the attributes are listed is important -- place the 'data-share-src' attribute before the 'src' attribute to give it a higher priority. If you do not want (or cannot add) a 'data-share-src' attribute to the `<img/>` HTML tag, and would like NGFB Open Graph+ to share smaller image thumbnails (not recommended), you can uncheck the 'Ignore Small Images' option on the Advanced settings page.
 
 = How do I attach an image without showing it on the webpage? =
 
@@ -320,7 +320,7 @@ Aside from using featured images, `<img/>` HTML tags in the content, etc., NGFB 
 
 = How can I share a single NextGEN Gallery image? =
 
-You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the "Show ImageBrowser" option in the Gallery settings. When using the "ImageBrowser" option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
+You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the *Show ImageBrowser* option in the Gallery settings. When using the ImageBrowser option, images will be displayed on their own, with a unique URL that can be shared (instead of layering an effect over the current browser window).
 
 = How can I exclude certain parts of the content text? =
 
@@ -656,6 +656,8 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 * **Added support for Wistia Inline Embed API / SEO and Popover Embed videos** (Pro version).
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
+* Removed the `NGFB_MIN_IMG_SIZE_DISABLE` constant (since an option exists for the same feature).
+* Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
 
