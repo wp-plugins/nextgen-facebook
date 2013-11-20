@@ -16,11 +16,11 @@ NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards)
 
 = Recent Reviews =
 
+* **Useful plugin good support** by Joeltrv, November 19
 * **Great plugin with support to match** by Elizabeth Lowrey, November 14
 * **AWESOME! Works like a charm!** by undergroundnetwork, November 14
 * **Doneright &amp; Doneright** by Pharaoh145, October 29
 * **Great plugin and better support** by cocinaor, October 18
-* **Very well made** by lucaferr, September 26
 * [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
 
 = Social and SEO =
@@ -656,7 +656,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1dev3 =
+= Version 6.16.1dev4 =
 
 * **Added support for Wistia Inline Embed API / SEO and Popover Embed videos** (Pro version).
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
@@ -693,7 +693,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1dev3 =
+= 6.16.1dev4 =
 
 Added support for Wistia Inline Embed API / SEO and Popover Embed videos (Pro version), fixed Custom Settings onFocus / onBlur events.
 
