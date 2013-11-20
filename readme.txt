@@ -301,22 +301,18 @@ The plugin also looks for any &lt;img/&gt; HTML tags with a 'width' and 'height'
 
 = Why does the plugin ignore the &lt;img/&gt; HTML tags in my content? =
 
-If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB will only use an image equal to, or larger than, the 'Image Size Name' you've chosen.
+If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB Open Graph+ will only use an image equal to, or larger than, the Image Dimensions you've chosen.
 
-If you want to display smaller image thumbnails in your content (on index webpages, for example), and still have NGFB use the larger versions of those thumbnails, you can add a "share" attribute with a URL to the larger image. For example:
+If you want to display smaller image thumbnails in your content, and still have NGFB Open Graph+ use the larger versions of those thumbnails, you can add a "data-share" attribute with a URL to the larger image. For example:
 
 `
 <img
-    share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
+    data-share="http://underwaterfocus.com/wp-content/gallery/cache/40_crop_200x200_20080514-152313-mevallee-2951.jpg"
     src="http://underwaterfocus.com/wp-content/gallery/2008-05-bonaire-na/thumbs/thumbs_20080514-152313-mevallee-2951.jpg"
     width="150" height="150" />
 `
 
-The order in which the attributes are listed is important -- place the "share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "share" attribute to the `<img/>` HTML tag, and would like NGFB to share smaller image thumbnails, you can uncheck the 'Ignore Small Images' option on the plugin settings page. You can also disable the feature by using the following constant in your wp-config.php or template files (before the `wp_head()` function call).
-
-`
-define( 'NGFB_MIN_IMG_SIZE_DISABLE', true );
-`
+The order in which the attributes are listed is important -- place the "data-share" attribute before the "src" attribute to give it a higher priority. If you do not want (or cannot add) a "data-share" attribute to the `<img/>` HTML tag, and would like NGFB Open Graph+ to share smaller image thumbnails (not recommended), you can uncheck the 'Ignore Small Images' option on the Advanced settings page.
 
 = How do I attach an image without showing it on the webpage? =
 
