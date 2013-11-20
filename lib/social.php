@@ -139,7 +139,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			if ( $html !== false )
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
 			else {
-				// sort enabled social buttons by their prefered order
+				// sort enabled social buttons by their preferred order
 				$sorted_ids = array();
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
 					if ( ! empty( $opts[$pre.'_on_'.$type] ) )

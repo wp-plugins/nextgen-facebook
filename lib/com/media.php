@@ -432,9 +432,10 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 			if ( ( $check_dupes == false && ! empty( $video_url ) ) || $this->p->util->is_uniq_url( $video_url ) ) {
 				$this->p->debug->log( 'found custom meta video url = "'.$video_url.'"' );
 				$og_video = $this->get_video_info( $video_url );
-				if ( ! empty( $og_video ) && 
-					$this->p->util->push_max( $og_ret, $og_video, $num ) ) 
-						return $og_ret;
+				if ( empty( $og_video ) )	// fallback to custom video URL
+					$og_video['og:video'] = $video_url;
+				if ( $this->p->util->push_max( $og_ret, $og_video, $num ) ) 
+					return $og_ret;
 			}
 			return $og_ret;
 		}
@@ -499,15 +500,15 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 				'og:video:width' => $embed_width,
 				'og:video:height' => $embed_height,
 				'og:image' => '',
-				'og:image:width' => 0,
-				'og:image:height' => 0,
+				'og:image:width' => -1,
+				'og:image:height' => -1,
 			);
 			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
 
 			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					if ( ! empty( $this->p->options['plugin_wistia_pwd'] ) ) {
+					if ( $this->p->is_avail['media']['wistia'] ) {	// is available when an api password is set
 						$api_url = $prot.'api.wistia.com/v1/medias/'.$vid_name.'.xml';
 						$this->p->debug->log( 'fetching video details from '.$api_url );
 						$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 

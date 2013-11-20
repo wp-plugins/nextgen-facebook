@@ -116,6 +116,8 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			settings. The default title value is refreshed when the (draft or published) '.$post_type_name.' is saved.' ) .
 			'<td class="blank">'.$this->p->webpage->get_title( $this->p->options['og_title_len'], '...', true ).'</td>';
 		
+			// don't read the description content from the cache for this first input field
+			// the content cache will be updated and used for the following get_description() calls
 			$ret[] = $this->p->util->th( 'Default Description', 'medium', null, 
 			'A custom description for the Open Graph, Rich Pin meta tags, and the fallback description 
 			for all other meta tags and social sharing buttons.
@@ -128,7 +130,8 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$ret[] = $this->p->util->th( 'Google Description', 'medium', null, 
 			'A custom description for the Google Search description meta tag.
 			The default description value is refreshed when the '.$post_type_name.' is saved.' ) .
-			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...', true, true, false ).'</td>';
+			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...', true, true, false ).	// no hashtags
+			'</td>';
 
 			$ret[] = $this->p->util->th( 'Twitter Card Description', 'medium', null, 
 			'A custom description for the Twitter Card description meta tag (all Twitter Card formats).
@@ -136,20 +139,21 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
-			'A custom Image ID to include (and list first) in the Open Graph meta tags, 
-			\'Large Image Summary\' Twitter Card meta tag, Pinterest and Tumblr social
-			sharing buttons (the image that they will share).' ) .
+			'A custom Image ID to include (and list first) in the Open Graph, Rich Pin, 
+			and \'Large Image Summary\' Twitter Card meta tags, 
+			along with the Pinterest and Tumblr social sharing buttons.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Image URL', 'medium', null, 
-			'A custom image URL, instead of an Image ID, to include (and list first)
-			in the Open Graph and \'Large Image Summary\' Twitter Card meta tags.' ) .
+			'A custom image URL, instead of an Image ID, to include (first) in the Open Graph, Rich Pin, 
+			and \'Large Image Summary\' Twitter Card meta tags.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Video URL', 'medium', null, 
-			'A custom video URL, from YouTube or Vimeo, to include (and list first) in the 
-			Open Graph meta tags, \'Player\' Twitter Card meta tag, and the Tumblr social 
-			sharing button (the video that will be shared).' ).
+			'A custom video URL to include (first) in the Open Graph, Rich Pin, 
+			and \'Player\' Twitter Card meta tags, along with the Tumblr social sharing button.
+			If the URL is from Youtube, Vimeo, or Wistia, an API connection will be made to 
+			retrieve the preferred video URL, dimensions, and preview image.' ).
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Maximum Images', 'medium', null, 

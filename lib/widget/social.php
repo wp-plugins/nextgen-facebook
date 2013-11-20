@@ -51,7 +51,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				}
 			}
 
-			// sort enabled social buttons by their prefered order
+			// sort enabled social buttons by their preferred order
 			$sorted_ids = array();
 			foreach ( $ngfb->cf['opt']['pre'] as $id => $pre )
 				if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
