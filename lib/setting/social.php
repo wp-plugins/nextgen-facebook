@@ -14,26 +14,20 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public $website = array();
 
-		protected $p;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
-			$this->setup_vars();
+			$this->set_objects();
 		}
 
-		private function setup_vars() {
+		private function set_objects() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
-			unset ( $id, $name );
 		}
 
 		protected function add_meta_boxes() {
@@ -50,6 +44,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 					$name = $name == 'GooglePlus' ? 'Google+' : $name;
 					add_meta_box( $this->pagehook.'_'.$id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
 					add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_'.$id, array( &$this, 'add_class_postbox_website' ) );
+					$this->website[$id]->form = &$this->get_form_ref();
 				}
 			}
 			// these metabox ids should be closed by default (array_diff() selects everything except)
@@ -76,25 +71,25 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</td></tr><tr>';
 			echo $this->p->util->th( 'Location in Content Text', null, null, '
 				Individual social sharing button(s) must also be enabled below.' ); 
-			echo '<td>', $this->p->admin->form->get_select( 'buttons_location_the_content', 
+			echo '<td>', $this->form->get_select( 'buttons_location_the_content', 
 				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Location in Excerpt Text', null, null, '
 				Individual social sharing button(s) must also be enabled below.' ); 
-			echo '<td>', $this->p->admin->form->get_select( 'buttons_location_the_excerpt', 
+			echo '<td>', $this->form->get_select( 'buttons_location_the_excerpt', 
 				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Include on Index Webpages', null, null, '
 				Add the following social sharing buttons to each entry of an index webpage (non-static homepage, category, archive, etc.). 
 				By Default, social sharing buttons are <em>not</em> included on index webpages (default is unchecked).
 				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
-			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_on_index' ), '</td>';
+			echo '<td>', $this->form->get_checkbox( 'buttons_on_index' ), '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Include on Static Homepage', null, null, '
 				If a static Post or Page has been chosen for the homepage, add the following
 				social sharing buttons to the static homepage as well (default is unchecked).
 				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
-			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_on_front' ), '</td>';
+			echo '<td>', $this->form->get_checkbox( 'buttons_on_front' ), '</td>';
 			echo '</tr>';
 			foreach ( $this->get_more_social() as $row ) echo '<tr>'.$row.'</tr>';
 			echo '</table>';
@@ -103,7 +98,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		protected function get_more_social() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
+				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
 					$post_type->label.'</p>';
 
 			return array(

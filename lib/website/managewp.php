@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialManagewp' ) && class_exists( 'NgfbAdminSoci
 
 	class NgfbAdminSocialManagewp extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -22,20 +20,20 @@ if ( ! class_exists( 'NgfbAdminSocialManagewp' ) && class_exists( 'NgfbAdminSoci
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				'Content '.$this->p->admin->form->get_checkbox( 'managewp_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->p->admin->form->get_checkbox( 'managewp_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'managewp_on_admin_sharing' ). 
+				'Content '.$this->form->get_checkbox( 'managewp_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->form->get_checkbox( 'managewp_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->form->get_checkbox( 'managewp_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'managewp_order', 
+				$this->form->get_select( 'managewp_order', 
 					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'managewp_js_loc', $this->js_locations ) . '</td>',
+				$this->form->get_select( 'managewp_js_loc', $this->js_locations ) . '</td>',
 
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'managewp_counter', 
+				$this->form->get_select( 'managewp_counter', 
 					array( 
 						'small' => 'Small',
 						'big' => 'Big',

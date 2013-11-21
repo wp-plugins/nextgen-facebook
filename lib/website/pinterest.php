@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 
 	class NgfbAdminSocialPinterest extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -23,20 +21,20 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
 				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ).'<td>'.
-				'Content '.$this->p->admin->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->p->admin->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'pin_on_admin_sharing' ). 
+				'Content '.$this->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->form->get_checkbox( 'pin_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'pin_order', 
+				$this->form->get_select( 'pin_order', 
 					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
+				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
 
 				$this->p->util->th( 'Pin Count Layout', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'pin_count_layout', 
+				$this->form->get_select( 'pin_count_layout', 
 					array( 
 						'none' => '',
 						'horizontal' => 'Horizontal',
@@ -45,16 +43,16 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 				).'</td>',
 
 				$this->p->util->th( 'Pin Button Image', 'short' ).'<td>'.
-				$this->p->admin->form->get_input( 'pin_img_url' ),
+				$this->form->get_input( 'pin_img_url' ),
 
 				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->p->admin->form->get_select_img_size( 'pin_img_size' ).'</td>',
+				$this->form->get_select_img_size( 'pin_img_size' ).'</td>',
 
 				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'pin_caption', $this->captions ).'</td>',
+				$this->form->get_select( 'pin_caption', $this->captions ).'</td>',
 
 				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-				$this->p->admin->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>',
+				$this->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>',
 
 			);
 		}

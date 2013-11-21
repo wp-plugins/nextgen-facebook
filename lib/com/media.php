@@ -503,6 +503,8 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 				'og:image:width' => -1,
 				'og:image:height' => -1,
 			);
+			$og_video = $attach_ids = apply_filters( $this->p->cf['lca'].'_video_info_seed', 
+				$og_video, $embed_url, $embed_width, $embed_height );
 			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
 
 			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
@@ -592,9 +594,10 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 					}
 				}
 			}
-			$this->p->debug->log( 'image = '.$og_video['og:image'].' ('.$og_video['og:image:width'].'x'.$og_video['og:image:height'].')' );
-			$this->p->debug->log( 'video = '.$og_video['og:video'].' ('.$og_video['og:video:width'].'x'.$og_video['og:video:height'].')' );
-
+			$this->p->debug->log( 'video = '.$og_video['og:video'].
+				' ('.$og_video['og:video:width'].'x'.$og_video['og:video:height'].')' );
+			$this->p->debug->log( 'image = '.$og_video['og:image'].
+				' ('.$og_video['og:image:width'].'x'.$og_video['og:image:height'].')' );
 			if ( empty( $og_video['og:video'] ) ) {
 				unset ( 
 					$og_video['og:video'],
@@ -603,6 +606,8 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 					$og_video['og:video:height']
 				);
 			}
+			$og_video = $attach_ids = apply_filters( $this->p->cf['lca'].'_video_info', 
+				$og_video, $embed_url, $embed_width, $embed_height );
 			if ( empty( $og_video['og:video'] ) && 
 				empty( $og_video['og:image'] ) ) 
 					return array();

@@ -12,22 +12,15 @@ if ( ! class_exists( 'NgfbAdminNetwork' ) && class_exists( 'NgfbAdmin' ) ) {
 
 	class NgfbAdminNetwork extends NgfbAdmin {
 
-		protected $p;
-		protected $form;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		// executed by NgfbAdminAdvancedPro() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
-			$this->setup_vars();
 		}
 
-		private function setup_vars() {
+		protected function set_form() {
 			$def_site_opts = $this->p->opt->get_site_defaults();
 			$this->form = new SucomForm( $this->p, NGFB_SITE_OPTIONS_NAME, $this->p->site_options, $def_site_opts );
 		}

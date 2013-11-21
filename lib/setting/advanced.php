@@ -12,11 +12,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 	class NgfbAdminAdvanced extends NgfbAdmin {
 
-		protected $p;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		// executed by NgfbAdminAdvancedPro() as well
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
@@ -82,8 +77,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<table class="sucom-setting"><tr>';
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
 			'Include meta property tags of type og:* without any content (default is unchecked).' );
-			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->p->admin->form->get_checkbox( 'og_empty_tags' ) :
-			' class="checkbox blank">'.$this->p->admin->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
+			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->form->get_checkbox( 'og_empty_tags' ) :
+			' class="checkbox blank">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';
 
 		}
@@ -95,7 +90,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
 				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
 					$cells[] = '<td class="taglist blank checkbox">'.
-					$this->p->admin->form->get_fake_checkbox( $opt ).'</td>'.
+					$this->form->get_fake_checkbox( $opt ).'</td>'.
 					'<th class="taglist">'.$match[1].'</th>'."\n";
 				}
 			}
@@ -142,15 +137,15 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->check->is_aop() ) {
 								$ret[] = $this->p->util->th( $name ).
-								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_input( $cm_opt.'name' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
+								'<td class="checkbox">'.$this->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
+								'<td>'.$this->form->get_input( $cm_opt.'name' ).'</td>'.
+								'<td>'.$this->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
 								$ret[] = $this->p->util->th( $name ).
-								'<td class="blank checkbox">'.$this->p->admin->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'name' ).
+								'<td class="blank checkbox">'.$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
+								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'name' ).
 								$this->p->options[$cm_opt.'name'].'</td>'.
-								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'label' ).
+								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
 								$this->p->options[$cm_opt.'label'].'</td>';
 							}
 						}
@@ -175,15 +170,15 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->check->is_aop() ) {
 								$ret[] = $this->p->util->th( $name ).
-								'<td class="checkbox">'.$this->p->admin->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_fake_input( $cm_opt.'name' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_input( $cm_opt.'label' ).'</td>';
+								'<td class="checkbox">'.$this->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
+								'<td>'.$this->form->get_fake_input( $cm_opt.'name' ).'</td>'.
+								'<td>'.$this->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
 								$ret[] = $this->p->util->th( $name ).
-								'<td class="blank checkbox">'.$this->p->admin->form->get_hidden( $cm_opt.'enabled' ).
-									$this->p->admin->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->p->admin->form->get_fake_input( $cm_opt.'name' ).'</td>'.
-								'<td class="blank">'.$this->p->admin->form->get_hidden( $cm_opt.'label' ).
+								'<td class="blank checkbox">'.$this->form->get_hidden( $cm_opt.'enabled' ).
+									$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
+								'<td>'.$this->form->get_fake_input( $cm_opt.'name' ).'</td>'.
+								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
 									$this->p->options[$cm_opt.'label'].'</td>';
 							}
 						}
@@ -197,24 +192,24 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Preserve Settings on Uninstall', 'highlight', null, 
 					'Check this option if you would like to preserve all '.$this->p->cf['full'].
 					' settings when you <em>uninstall</em> the plugin (default is unchecked).' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_preserve' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_preserve' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, null, 
 					'Check this option if you would like to reset the '.$this->p->cf['full'].
 					' settings to their default values when you <em>deactivate</em>, and then 
 					<em>re-activate</em> the plugin (default is unchecked).' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_reset' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_reset' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Add Hidden Debug Info', null, null, 
 					'Include hidden debug information with the Open Graph meta tags (default is unchecked).' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_debug' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_debug' ).'</td>';
 
 					break;
 
 				case 'content':
 					$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
 					'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', 'highlight', null, 
 					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
@@ -223,18 +218,18 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					You can uncheck this option to include smaller images from the content, 
 					or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
 					for additional solutions.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
 					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
 					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
 					embedded videos that may be provided by these.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_content' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_filter_content' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
 					'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
 					Check this option if you use shortcodes in your excerpt, for example.' ).
-					'<td>'.$this->p->admin->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
+					'<td>'.$this->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 
 					$ret = array_merge( $ret, $this->get_more_content() );
 					break;
@@ -245,7 +240,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
 					The default is '.$this->p->opt->defaults['plugin_object_cache_exp'].' seconds, and the minimum value is 
 					1 second (such a low value is not recommended).' ).
-					'<td nowrap>'.$this->p->admin->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
+					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
 
 					$ret = array_merge( $ret, $this->get_more_cache() );
 					break;
@@ -267,17 +262,17 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			$input = '';
 			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' ) {
 				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+				$input = $this->form->get_input( 'plugin_tid', 'mono' );
 			} elseif ( $this->p->is_avail['aop'] ) {
 				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+				$input = $this->form->get_input( 'plugin_tid', 'mono' );
 			} else {
 				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
 				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
 				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
 				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
-				$input = $this->p->admin->form->get_input( 'plugin_tid', 'mono' );
+				$input = $this->form->get_input( 'plugin_tid', 'mono' );
 			}
 
 			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
@@ -288,7 +283,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		protected function get_more_content() {
 			$add_to_checkboxes = '';
 			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->p->admin->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
+				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
 					$post_type->label.'</p>';
 
 			return array(
@@ -314,7 +309,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
 				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. 
 				The cached files are served from the '.NGFB_CACHEURL.' folder.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_file_cache_hrs' ). 
+				'<td class="blank">'.$this->form->get_hidden( 'plugin_file_cache_hrs' ). 
 				$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
 
 				$this->p->util->th( 'Verify SSL Certificates', null, null, 
@@ -322,7 +317,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				The PHP \'curl\' function will use the '.NGFB_CURL_CAINFO.' certificate file by default. 
 				You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
 				alternate certificate file (see the constants.txt file in the plugin folder for additional information).' ).
-				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>',
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>',
 			);
 		}
 
@@ -333,13 +328,13 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				$this->p->util->th( 'Bit.ly Username', null, null, 
 				'The Bit.ly username for the following API key. If you don\'t already have one, see 
 				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
-				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_bitly_login' ).
+				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_login' ).
 				$this->p->options['plugin_bitly_login'].'</td>',
 
 				$this->p->util->th( 'Bit.ly API Key', null, null, 
 				'The Bit.ly API key for this website. If you don\'t already have one, see 
 				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
-				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_bitly_api_key' ).
+				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_api_key' ).
 				$this->p->options['plugin_bitly_api_key'].'</td>',
 
 				$this->p->util->th( 'Google Project Application BrowserKey', null, null, 
@@ -348,7 +343,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				create a new project for your website, and under the API &amp; auth - Registered apps, 
 				register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
 				and enter it\'s BrowserKey here.' ).
-				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_google_api_key' ).
+				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_google_api_key' ).
 				$this->p->options['plugin_google_api_key'].'</td>',
 
 				$this->p->util->th( 'Google URL Shortener API is ON', null, null,
@@ -358,13 +353,13 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
 				the \'Yes\' option here. You can then select the Google URL Shortener in the '.
 				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).
-				'<td class="blank">'.$this->p->admin->form->get_fake_radio( 'plugin_google_shorten',
+				'<td class="blank">'.$this->form->get_fake_radio( 'plugin_google_shorten',
 				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
 
 				$this->p->util->th( 'Wistia API Password', null, null, 
 				'Retrieving information on Wistia videos requires an API password. 
 				You can find the API password from the Wistia Account Dashboard, under API Settings.' ).
-				'<td class="blank mono">'.$this->p->admin->form->get_hidden( 'plugin_wistia_pwd' ).
+				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_wistia_pwd' ).
 				$this->p->options['plugin_wistia_pwd'].'</td>',
 
 			);
@@ -376,7 +371,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				$this->p->util->th( 'URL Length to Shorten', null, null, 
 				'URLs shorter than this length will not be shortened (default is '.$this->p->opt->defaults['plugin_min_shorten'].').' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_min_shorten' ).
+				'<td class="blank">'.$this->form->get_hidden( 'plugin_min_shorten' ).
 					$this->p->options['plugin_min_shorten'].' characters</td>',
 
 				$this->p->util->th( 'Static Content URL(s)', 'highlight', null, 
@@ -385,13 +380,13 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				Wildcarding and multiple CDN hostnames are supported -- see the 
 				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
 				more information and examples.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_urls' ). 
+				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_urls' ). 
 					$this->p->options['plugin_cdn_urls'].'</td>',
 
 				$this->p->util->th( 'Include Folders', null, null, '
 				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
 				(the default value is "<em>wp-content, wp-includes</em>").').
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_folders' ). 
+				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_folders' ). 
 					$this->p->options['plugin_cdn_folders'].'</td>',
 
 				$this->p->util->th( 'Exclude Patterns', null, null,
@@ -399,16 +394,16 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
 				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->cf['full'].' cache folder 
 				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
-				'<td class="blank">'.$this->p->admin->form->get_hidden( 'plugin_cdn_excl' ).
+				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_excl' ).
 					$this->p->options['plugin_cdn_excl'].'</td>',
 
 				$this->p->util->th( 'Not when Using HTTPS', null, null, 
 				'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ).
-				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_cdn_not_https' ).'</td>',
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_not_https' ).'</td>',
 
 				$this->p->util->th( 'www is Optional', null, null, 
 				'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ).
-				'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'plugin_cdn_www_opt' ).'</td>',
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_www_opt' ).'</td>',
 			);
 		}
 	}

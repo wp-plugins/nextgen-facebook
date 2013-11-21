@@ -38,7 +38,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 			$this->p->check->conflicts();
-			$this->setup_vars();
+			$this->set_objects();
 
 			add_action( 'admin_init', array( &$this, 'register_setting' ) );
 			add_action( 'admin_menu', array( &$this, 'add_admin_menus' ), -1 );
@@ -51,10 +51,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 		}
 
-		private function setup_vars() {
-			$def_opts = $this->p->opt->get_defaults();
-			$this->form = new SucomForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
-
+		private function set_objects() {
 			$libs = $this->p->cf['lib']['setting'];
 			if ( is_multisite() )
 				$libs = array_merge( $libs, $this->p->cf['lib']['site_setting'] );
@@ -63,7 +60,15 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				if ( class_exists( $classname ) )
 					$this->setting[$id] = new $classname( $this->p, $id, $name );
 			}
-			unset ( $id, $name );
+		}
+
+		protected function set_form() {
+			$def_opts = $this->p->opt->get_defaults();
+			$this->form = new SucomForm( $this->p, NGFB_OPTIONS_NAME, $this->p->options, $def_opts );
+		}
+
+		protected function &get_form_ref() {	// return reference
+			return $this->form;
 		}
 
 		public function register_setting() {
@@ -294,7 +299,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				);
 			}
 			// the plugin information metabox on all settings pages needs this
-			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );
+			$this->set_readme( $this->p->cf['update_hours'] * 3600 );
 
 			// add child metaboxes first, since they contain the default reset_metabox_prefs()
 			$this->p->admin->setting[$this->menu_id]->add_meta_boxes();
@@ -315,9 +320,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		public function show_page() {
 			if ( $this->menu_id !== 'contact' )		// the "settings" page displays its own error messages
 				settings_errors( NGFB_OPTIONS_NAME );	// display "error" and "updated" messages
-
+			$this->set_form();				// define form for side boxes and show_form()
 			$this->p->debug->show_html( null, 'Debug Log' );
-
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
 				<?php screen_icon('options-general'); ?>
@@ -356,8 +360,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		protected function show_form() {
 			if ( ! empty( $this->p->cf['lib']['setting'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="options.php">';
-				echo $this->p->admin->form->get_hidden( 'options_version', $this->p->opt->options_version );
-				echo $this->p->admin->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
+				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 				settings_fields( $this->p->cf['lca'].'_setting' ); 
 
 			} elseif ( ! empty( $this->p->cf['lib']['site_setting'][$this->menu_id] ) ) {
@@ -461,17 +465,17 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			$action_buttons = '';
 			if ( ! empty( $this->p->options['plugin_tid'] ) )
-				$action_buttons .= $this->p->admin->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
+				$action_buttons .= $this->form->get_button( __( 'Check for Updates', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=check_for_updates' ), 
 						$this->get_nonce(), NGFB_NONCE ) ).' ';
 
 			// don't show the 'Clear All Cache' and 'Reset Metaboxes' buttons on network admin pages
 			if ( empty( $this->p->cf['lib']['site_setting'][$this->menu_id] ) ) {
-				$action_buttons .= $this->p->admin->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
+				$action_buttons .= $this->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
 						$this->get_nonce(), NGFB_NONCE ) ).' ';
 
-				$action_buttons .= $this->p->admin->form->get_button( __( 'Reset Metaboxes', NGFB_TEXTDOM ), 
+				$action_buttons .= $this->form->get_button( __( 'Reset Metaboxes', NGFB_TEXTDOM ), 
 					'button-primary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_metabox_prefs' ),
 						$this->get_nonce(), NGFB_NONCE ) ).' ';
 			}
@@ -488,7 +492,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			echo '<p>Thank you,</p>';
 			echo '<p class="sig">js.</p>';
 			echo '<p class="centered">';
-			echo $this->p->admin->form->get_button( 
+			echo $this->form->get_button( 
 				( $this->p->is_avail['aop'] ? 
 					__( 'Purchase a Pro License', NGFB_TEXTDOM ) :
 					__( 'Purchase the Pro Version', NGFB_TEXTDOM ) ), 

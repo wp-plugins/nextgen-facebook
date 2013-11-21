@@ -18,10 +18,10 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->setup_vars();
+			$this->set_objects();
 		}
 
-		private function setup_vars() {
+		private function set_objects() {
 			foreach ( $this->p->cf['lib']['shortcode'] as $id => $name ) {
 				$classname = $this->p->cf['cca'].'Shortcode'.ucfirst( $id );
 				if ( class_exists( $classname ) )

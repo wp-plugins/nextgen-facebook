@@ -12,11 +12,6 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 	class NgfbAdminStyle extends NgfbAdmin {
 
-		protected $p;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -35,7 +30,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 				Add the following styles to all webpages (default is checked).
 				All styles will be minimized into a single stylesheet with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 
 				The stylesheet is created or removed, depending on whether this option is checked or unchecked.' ); 
-			echo '<td>', $this->p->admin->form->get_checkbox( 'buttons_link_css' ), '</td>';
+			echo '<td>', $this->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
 
 			$tab_rows = array();
@@ -56,7 +51,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" 
 					target="_blank">Other Notes</a> webpage for additional stylesheet information, 
 					including how to hide the social buttons for specific Posts, Pages, categories, tags, etc.</p></td>'.
-					'<td>'.$this->p->admin->form->get_textarea( 'buttons_css_social', 'large css' ).'</td>';
+					'<td>'.$this->form->get_textarea( 'buttons_css_social', 'large css' ).'</td>';
 					break;
 				case 'excerpt' :
 					$ret[] = '<td class="textinfo">
@@ -69,7 +64,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 .ngfb-excerpt-buttons 
     .ngfb-buttons
         .facebook-button { }</pre></td><td>'.
-					$this->p->admin->form->get_textarea( 'buttons_css_excerpt', 'large css' ).'</td>';
+					$this->form->get_textarea( 'buttons_css_excerpt', 'large css' ).'</td>';
 					break;
 				case 'content' :
 					$ret[] = '<td class="textinfo">
@@ -82,7 +77,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 .ngfb-content-buttons 
     .ngfb-buttons
         .facebook-button { }</pre></td><td>'.
-					$this->p->admin->form->get_textarea( 'buttons_css_content', 'large css' ).'</td>';
+					$this->form->get_textarea( 'buttons_css_content', 'large css' ).'</td>';
 					break;
 				case 'shortcode' :
 					$ret[] = '<td class="textinfo">
@@ -94,7 +89,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 .ngfb-shortcode-buttons 
     .ngfb-buttons
         .facebook-button { }</pre></td><td>'.
-					$this->p->admin->form->get_textarea( 'buttons_css_shortcode', 'large css' ).'</td>';
+					$this->form->get_textarea( 'buttons_css_shortcode', 'large css' ).'</td>';
 					break;
 				case 'widget' :
 					$ret[] = '<td class="textinfo">
@@ -113,7 +108,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 #ngfb-widget-buttons-2
     .ngfb-buttons
         #facebook-ngfb-widget-buttons-2 { }</pre></td><td>'.
-					$this->p->admin->form->get_textarea( 'buttons_css_widget', 'large css' ).'</td>';
+					$this->form->get_textarea( 'buttons_css_widget', 'large css' ).'</td>';
 					break;
 			}
 			return $ret;

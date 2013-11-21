@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 	class NgfbAdminSocialStumbleupon extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -46,14 +44,14 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 			$badge .= '<div class="badge-col-left">';
 			foreach ( array( 1, 2, 3, 6 ) as $i ) {
 				$badge .= '<div class="badge" id="badge-'.$i.'">';
-				$badge .= '<input type="radio" name="'.$this->p->admin->form->options_name.'[stumble_badge]" 
+				$badge .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
 					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
 				$badge .= '</div>';
 			}
 			$badge .= '</div><div class="badge-col-right">';
 			foreach ( array( 4, 5 ) as $i ) {
 				$badge .= '<div class="badge" id="badge-'.$i.'">';
-				$badge .= '<input type="radio" name="'.$this->p->admin->form->options_name.'[stumble_badge]" 
+				$badge .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
 					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
 				$badge .= '</div>';
 			}
@@ -61,17 +59,17 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-				'Content '.$this->p->admin->form->get_checkbox( 'stumble_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->p->admin->form->get_checkbox( 'stumble_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'stumble_on_admin_sharing' ). 
+				'Content '.$this->form->get_checkbox( 'stumble_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->form->get_checkbox( 'stumble_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->form->get_checkbox( 'stumble_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'stumble_order', 
+				$this->form->get_select( 'stumble_order', 
 					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
+				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
 
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge.'</td>',
 			);

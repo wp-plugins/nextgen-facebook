@@ -12,11 +12,6 @@ if ( ! class_exists( 'NgfbAdminContact' ) && class_exists( 'NgfbAdminAdvanced' )
 
 	class NgfbAdminContact extends NgfbAdminAdvanced {
 
-		protected $p;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();

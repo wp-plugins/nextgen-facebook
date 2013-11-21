@@ -18,7 +18,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->setup_vars();
+			$this->set_objects();
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
@@ -28,7 +28,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			$this->add_filter( 'the_content' );
 		}
 
-		private function setup_vars() {
+		private function set_objects() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )

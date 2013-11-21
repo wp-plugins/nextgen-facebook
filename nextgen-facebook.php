@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.16.1dev5
+Version: 6.16.1dev6
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -51,7 +51,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
 
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-			$this->setup_vars();
+			$this->set_objects();
 			if ( $this->debug->is_on() == true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
@@ -62,7 +62,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		}
 
 		// get the options, upgrade the options (if necessary), and validate their values
-		public function setup_vars( $activate = false ) {
+		public function set_objects( $activate = false ) {
 
 			/*
 			 * load all plugin options
@@ -136,9 +136,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			if ( is_admin() ) {
 				$this->msg = new NgfbMessages( $this );
 				$this->admin = new NgfbAdmin( $this );
-			} else {
-				$this->head = new NgfbHead( $this );		// wp_head / opengraph
-			}
+			} else $this->head = new NgfbHead( $this );	// wp_head opengraph and twitter cards
 
 			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )

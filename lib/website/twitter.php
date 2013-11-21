@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 
 	class NgfbAdminSocialTwitter extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -23,50 +21,50 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-			'Content '.$this->p->admin->form->get_checkbox( 'twitter_on_the_content' ).'&nbsp;'.
-			'Excerpt '.$this->p->admin->form->get_checkbox( 'twitter_on_the_excerpt' ).'&nbsp;'.
-			'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'twitter_on_admin_sharing' ). 
+			'Content '.$this->form->get_checkbox( 'twitter_on_the_content' ).'&nbsp;'.
+			'Excerpt '.$this->form->get_checkbox( 'twitter_on_the_excerpt' ).'&nbsp;'.
+			'Edit Post/Page '.$this->form->get_checkbox( 'twitter_on_admin_sharing' ). 
 			'</td>';
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_order', 
+			$this->form->get_select( 'twitter_order', 
 				range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
+			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_lang', $this->p->util->get_lang( 'twitter' ) ).'</td>';
+			$this->form->get_select( 'twitter_lang', $this->p->util->get_lang( 'twitter' ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_count', array( 'none' => '', 
+			$this->form->get_select( 'twitter_count', array( 'none' => '', 
 			'horizontal' => 'Horizontal', 'vertical' => 'Vertical' ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Button Size', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ).'</td>';
+			$this->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Tweet Text', 'short' ).'<td>'.
-			$this->p->admin->form->get_select( 'twitter_caption', $this->captions ).'</td>';
+			$this->form->get_select( 'twitter_caption', $this->captions ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Text Length', 'short' ).'<td>'.
-			$this->p->admin->form->get_input( 'twitter_cap_len', 'short' ).' Characters or less</td>';
+			$this->form->get_input( 'twitter_cap_len', 'short' ).' Characters or less</td>';
 
 			$ret[] = $this->p->util->th( 'Do Not Track', 'short', null,
 			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
-			'<td>'.$this->p->admin->form->get_checkbox( 'twitter_dnt' ).'</td>';
+			'<td>'.$this->form->get_checkbox( 'twitter_dnt' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
 			'Append the website\'s @username (entered on the ' .
 			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'General / Twitter' ).' settings tab) to the Tweet.
 			The website\'s @username will also be displayed and recommended for following after the Post / Page is shared.' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->p->admin->form->get_checkbox( 'twitter_via' ).'</td>' :
-			'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
+			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
+			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
 
 			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->p->admin->form->get_checkbox( 'twitter_via' ).'</td>' :
-			'<td class="blank">'.$this->p->admin->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
+			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
+			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly' );
 			if ( ! empty( $this->p->options['plugin_bitly_login' ] ) &&
@@ -77,9 +75,9 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
 			If you select a URL shortening service, you must also enter your API Key for that service on the '.
 			$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings API Keys tab' ).'.' ) .
-			( $this->p->check->is_aop() == true ?  '<td>'.$this->p->admin->form->get_select( 'twitter_shortener', $shorteners, 'medium' ).
+			( $this->p->check->is_aop() == true ?  '<td>'.$this->form->get_select( 'twitter_shortener', $shorteners, 'medium' ).
 			'&nbsp;&nbsp;'.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Enter your API Keys' ) :
-			'<td class="blank">'.$this->p->admin->form->get_hidden( 'twitter_shortener' ).$this->p->options['twitter_shortener'] ).'</td>';
+			'<td class="blank">'.$this->form->get_hidden( 'twitter_shortener' ).$this->p->options['twitter_shortener'] ).'</td>';
 
 			return $ret;
 		}

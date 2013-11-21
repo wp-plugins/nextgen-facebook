@@ -12,11 +12,6 @@ if ( ! class_exists( 'NgfbAdminAbout' ) && class_exists( 'NgfbAdmin' ) ) {
 
 	class NgfbAdminAbout extends NgfbAdmin {
 
-		protected $p;
-		protected $menu_id;
-		protected $menu_name;
-		protected $pagehook;
-
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();

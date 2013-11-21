@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 
 	class NgfbAdminSocialTumblr extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -28,7 +26,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 						<div class="btn_wizard_example clearfix">
 						<label for="share_'.$i.$t.'">
 						<input type="radio" id="share_'.$i.$t.'" 
-							name="'.$this->p->admin->form->options_name.'[tumblr_button_style]" 
+							name="'.$this->form->options_name.'[tumblr_button_style]" 
 							value="share_'.$i.$t.'" '.
 							checked( 'share_'.$i.$t, $this->p->options['tumblr_button_style'], false ).'/>
 						<img src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share_'.$i.$t.'.png' ).'" 
@@ -46,34 +44,34 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
 				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
 				custom Posts, or the webpage link.' ).'<td>'.
-				'Content '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->p->admin->form->get_checkbox( 'tumblr_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'tumblr_on_admin_sharing' ). 
+				'Content '.$this->form->get_checkbox( 'tumblr_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->form->get_checkbox( 'tumblr_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->form->get_checkbox( 'tumblr_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'tumblr_order', 
+				$this->form->get_select( 'tumblr_order', 
 					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
+				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
 
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons.'</td>',
 
 				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
-				$this->p->admin->form->get_checkbox( 'tumblr_photo' ).'</td>',
+				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
 				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->p->admin->form->get_select_img_size( 'tumblr_img_size' ).'</td>',
+				$this->form->get_select_img_size( 'tumblr_img_size' ).'</td>',
 
 				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
-				$this->p->admin->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
+				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
 
 				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-				$this->p->admin->form->get_input( 'tumblr_cap_len', 'short' ).' Characters or less</td>',
+				$this->form->get_input( 'tumblr_cap_len', 'short' ).' Characters or less</td>',
 
 				$this->p->util->th( 'Link Description', 'short' ).'<td>'.
-				$this->p->admin->form->get_input( 'tumblr_desc_len', 'short' ).' Characters or less</td>',
+				$this->form->get_input( 'tumblr_desc_len', 'short' ).' Characters or less</td>',
 			);
 		}
 	}

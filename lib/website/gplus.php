@@ -12,8 +12,6 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 
 	class NgfbAdminSocialGplus extends NgfbAdminSocial {
 
-		protected $p;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -22,23 +20,23 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				'Content '.$this->p->admin->form->get_checkbox( 'gp_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->p->admin->form->get_checkbox( 'gp_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->p->admin->form->get_checkbox( 'gp_on_admin_sharing' ). 
+				'Content '.$this->form->get_checkbox( 'gp_on_the_content' ).'&nbsp;'.
+				'Excerpt '.$this->form->get_checkbox( 'gp_on_the_excerpt' ).'&nbsp;'.
+				'Edit Post/Page '.$this->form->get_checkbox( 'gp_on_admin_sharing' ). 
 				'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_order', 
+				$this->form->get_select( 'gp_order', 
 					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
+				$this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
 
 				$this->p->util->th( 'Default Language', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_lang', $this->p->util->get_lang( 'gplus' ) ) . '</td>',
+				$this->form->get_select( 'gp_lang', $this->p->util->get_lang( 'gplus' ) ) . '</td>',
 
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_action', 
+				$this->form->get_select( 'gp_action', 
 					array( 
 						'plusone' => 'G +1', 
 						'share' => 'G+ Share',
@@ -46,7 +44,7 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				) . '</td>',
 
 				$this->p->util->th( 'Button Size', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_size', 
+				$this->form->get_select( 'gp_size', 
 					array( 
 						'small' => 'Small [ 15px ]',
 						'medium' => 'Medium [ 20px ]',
@@ -56,7 +54,7 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				) . '</td>',
 
 				$this->p->util->th( 'Annotation', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_annotation', 
+				$this->form->get_select( 'gp_annotation', 
 					array( 
 						'none' => '',
 						'inline' => 'Inline',
@@ -66,7 +64,7 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				) . '</td>',
 
 				$this->p->util->th( 'Expand to', 'short' ) . '<td>' . 
-				$this->p->admin->form->get_select( 'gp_expandto', 
+				$this->form->get_select( 'gp_expandto', 
 					array( 
 						'none' => '',
 						'top' => 'Top',
@@ -87,8 +85,6 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 
 	class NgfbSocialGplus {
-
-		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;

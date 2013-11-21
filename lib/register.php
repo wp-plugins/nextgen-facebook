@@ -59,7 +59,7 @@ if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.', NGFB_TEXTDOM ), 
 					$this->p->cf['full'], $this->p->cf['wp']['min_version'] ) .'</p>' );
 			}
-			$this->p->setup_vars( true );
+			$this->p->set_objects( true );
 		}
 
 		private function deactivate_plugin() {
