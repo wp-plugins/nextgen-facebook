@@ -661,6 +661,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
+* Optimized the loading of plugin and form settings when in the admin interface.
 
 = Version 6.16.0.1 =
 
