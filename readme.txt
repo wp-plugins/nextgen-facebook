@@ -652,7 +652,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1dev5 =
+= Version 6.16.1dev6 =
 
 * **Added support for Wistia Inline Embed API / SEO and Popover Embed videos** (Pro version).
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
@@ -661,6 +661,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
+* Optimized the loading of plugin and form settings when in the admin interface.
 
 = Version 6.16.0.1 =
 
@@ -692,7 +693,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1dev5 =
+= 6.16.1dev6 =
 
 Added support for Wistia Inline Embed API / SEO and Popover Embed videos (Pro version), fixed Custom Settings onFocus / onBlur events.
 
