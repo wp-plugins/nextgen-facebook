@@ -221,5 +221,4 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 	}
 }
-
 ?>

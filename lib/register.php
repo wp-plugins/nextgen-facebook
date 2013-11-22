@@ -95,7 +95,8 @@ if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 			$expired = $wpdb->get_col( $dbquery ); 
 			foreach( $expired as $transient ) { 
 				$key = str_replace('_transient_timeout_', '', $transient);
-				delete_transient( $key );
+				if ( ! empty( $key ) )
+					delete_transient( $key );
 			}
 		}
 	}
