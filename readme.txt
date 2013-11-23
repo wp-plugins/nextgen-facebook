@@ -172,7 +172,7 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Go to the wp-admin/ section of your website
 1. Select the *Open Graph* menu item
 1. Select the *Advanced* sub-menu item
-1. Check the "Preserve on Uninstall" option if you would like to keep NGFB settings in the database
+1. Check the "Preserve on Uninstall" option if you would like to keep NGFB Open Graph+ settings in the database.
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
 1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Deactivate* link
@@ -662,6 +662,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
 * Improved / optimized the loading of plugin and form settings when in the admin interface.
+* Added error suppression when parsing HTML from Youtube for video sizes.
 
 = Version 6.16.0.1 =
 
