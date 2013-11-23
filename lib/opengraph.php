@@ -284,7 +284,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 
 		public function parse( $html ) {
 			$doc = new DomDocument();	// since PHP v4.1.0
-			$doc->loadHTML( $html );
+			$doc->@loadHTML( $html );	// suppress parsing errors
 			$xpath = new DOMXPath( $doc );
 			$query = '//*/meta[starts-with(@property, \'og:\')]';
 			$metas = $xpath->query( $query );
