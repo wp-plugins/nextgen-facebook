@@ -652,16 +652,17 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1dev6 =
+= Version 6.16.1rc1 =
 
-* **Added support for Wistia Inline Embed API / SEO and Popover Embed videos** (Pro version).
+* **Added support for Wistia inline embed API / SEO and popover embed video formats** (Pro version).
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * Added a fallback to using the custom Video URL as-is if the URL is not recognized / supported (Pro Version).
 * Removed the `NGFB_MIN_IMG_SIZE_DISABLE` constant (since an option exists for the same feature).
 * Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
-* Optimized the loading of plugin and form settings when in the admin interface.
+* Improved / optimized the loading of plugin and form settings when in the admin interface.
+* Added error suppression when parsing HTML from Youtube for video sizes.
 
 = Version 6.16.0.1 =
 
@@ -693,9 +694,9 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1dev6 =
+= 6.16.1rc1 =
 
-Added support for Wistia Inline Embed API / SEO and Popover Embed videos (Pro version), fixed Custom Settings onFocus / onBlur events.
+Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, improved / optimized option loading in admin interface.
 
 = 6.16.0.1 =
 
