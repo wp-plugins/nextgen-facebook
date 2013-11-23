@@ -180,10 +180,10 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$meta_html = '';
 
 			if ( empty( $this->p->options['inc_'.$name] ) ) {
-				$this->p->debug->log( 'meta '.$name.' is disabled - skipping' );
+				$this->p->debug->log( 'meta '.$name.' is disabled (skipped)' );
 				return $meta_html;
 			} elseif ( $val === -1 ) {
-				$this->p->debug->log( 'meta '.$name.' is -1 - ignored' );
+				$this->p->debug->log( 'meta '.$name.' is -1 (skipped)' );
 				return $meta_html;
 			// ignore all empty non-open graph meta tags, 
 			// and open-graph meta tags as well if the option allows
@@ -191,7 +191,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				( preg_match( '/^description|fb:|twitter:/', $name ) || 
 					empty( $this->p->options['og_empty_tags'] ) ) ) {
 
-				$this->p->debug->log( 'meta '.$name.' is empty - skipping' );
+				$this->p->debug->log( 'meta '.$name.' is empty (skipped)' );
 				return $meta_html;
 			}
 

@@ -299,7 +299,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				);
 			}
 			// the plugin information metabox on all settings pages needs this
-			$this->set_readme( $this->p->cf['update_hours'] * 3600 );
+			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );
 
 			// add child metaboxes first, since they contain the default reset_metabox_prefs()
 			$this->p->admin->setting[$this->menu_id]->add_meta_boxes();
