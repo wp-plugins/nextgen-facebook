@@ -1,16 +1,16 @@
 
-NEXTGEN FACEBOOK OPEN GRAPH+ PRO
+NEXTGEN FACEBOOK (NGFB) OPEN GRAPH+ PRO
 SINGLE WEBSITE LICENSE AGREEMENT
 
 IMPORTANT: READ THIS AGREEMENT CAREFULLY. BY INSTALLING, COPYING, RUNNING, OR
-OTHERWISE USING THE NEXTGEN FACEBOOK OPEN GRAPH+ PRO APPLICATION, YOU AGREE TO
-BE BOUND BY THE TERMS OF THIS LICENSE AGREEMENT. IF YOU DO NOT AGREE TO THE
-TERMS OF THIS LICENSE AGREEMENT, PLEASE DO NOT INSTALL, RUN, COPY, OR OTHERWISE
-USE THE NEXTGEN FACEBOOK OPEN GRAPH+ PRO APPLICATION.
+OTHERWISE USING THE NEXTGEN FACEBOOK (NGFB) OPEN GRAPH+ PRO APPLICATION, YOU
+AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE AGREEMENT. IF YOU DO NOT AGREE
+TO THE TERMS OF THIS LICENSE AGREEMENT, PLEASE DO NOT INSTALL, RUN, COPY, OR
+OTHERWISE USE THE NEXTGEN FACEBOOK (NGFB) OPEN GRAPH+ PRO APPLICATION.
 
 This License Agreement ("License") is a legal agreement between you and
 Jean-Sebastien Morisset ("The Author") concerning your use of the NextGEN
-Facebook Open Graph+ Pro application, together with any electronic
+Facebook (NGFB) Open Graph+ Pro application, together with any electronic
 documentation that may be provided therewith (collectively, "the Application")
 through the Application. YOU HEREBY AGREE, BOTH ON YOUR OWN BEHALF AND AS AN
 AUTHORIZED REPRESENTATIVE OF ANY ORGANIZATION FOR WHICH YOU ARE USING THE
@@ -63,7 +63,7 @@ and you accept, a personal, nonexclusive, nontransferable license to install
 and use the Application at a single website. For the purposes of this License
 the single website shall mean a website, accessible by one fully qualified
 domain name and path to its document root (as defined in the WordPress Site
-Address URL). This License is effective until terminated as provided below.
+Address field). This License is effective until terminated as provided below.
 You may terminate this License by destroying the Application and any copies of
 the Application in your possession. This License will terminate automatically
 upon any violation of its terms by you or the Employer.
