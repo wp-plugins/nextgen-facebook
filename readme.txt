@@ -172,7 +172,7 @@ The plugin settings are available under an *Open Graph* admin menu, where you ca
 1. Go to the wp-admin/ section of your website
 1. Select the *Open Graph* menu item
 1. Select the *Advanced* sub-menu item
-1. Check the "Preserve on Uninstall" option if you would like to keep NGFB settings in the database
+1. Check the "Preserve on Uninstall" option if you would like to keep NGFB Open Graph+ settings in the database.
 1. Select the *Plugins* menu item
 1. Select the *Installed Plugins* sub-menu
 1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Deactivate* link
@@ -652,17 +652,18 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1rc1 =
+= Version 6.16.1rc2 =
 
-* **Added support for Wistia inline embed API / SEO and popover embed video formats** (Pro version).
-* Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
-* Added a fallback to using the custom Video URL as-is if the URL is not recognized / supported (Pro Version).
+* **Added support for Wistia inline embed API / SEO and popover embed video formats**. (Pro version)
+* Added a Sharing URL option to the Open Graph+ Custom Settings metabox.
+* Added a fallback to using the custom Video URL as-is if the URL is not recognized / supported. (Pro Version)
 * Removed the `NGFB_MIN_IMG_SIZE_DISABLE` constant (since an option exists for the same feature).
 * Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
-* Moved the lib/media.php and lib/ngg.php library files to lib/com/.
 * Improved / optimized the loading of plugin and form settings when in the admin interface.
 * Added error suppression when parsing HTML from Youtube for video sizes.
+* Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
+* **Fixed the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names**. (Pro version)
 
 = Version 6.16.0.1 =
 
@@ -694,9 +695,9 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1rc1 =
+= 6.16.1rc2 =
 
-Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, improved / optimized option loading in admin interface.
+Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, fixed AIO SEO Pack and WP SEO class names (Pro version), improved / optimized option loading in admin interface.
 
 = 6.16.0.1 =
 
