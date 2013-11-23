@@ -148,6 +148,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						}
 					}
 				}
+				$url = apply_filters( $this->p->cf['lca'].'_post_url', $url, $post_id );
 			} else {
 				if ( is_search() )
 					$url = get_search_link();
@@ -158,7 +159,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				elseif ( is_tax() || is_tag() || is_category() ) {
 					$term = get_queried_object();
 					$url = get_term_link( $term, $term->taxonomy );
-					$url = apply_filters( $this->p->cf['lca'].'_get_term_url', $url, $term );
+					$url = apply_filters( $this->p->cf['lca'].'_term_url', $url, $term );
 				}
 				elseif ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() )
 					$url = get_post_type_archive_link( get_query_var( 'post_type' ) );

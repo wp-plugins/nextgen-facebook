@@ -643,16 +643,17 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1rc2 =
+= Version 6.16.1rc3 =
 
 * **Added support for Wistia inline embed API / SEO and popover embed video formats**. (Pro version)
-* Added a Sharing URL option to the Open Graph+ Custom Settings metabox.
+* Added a Sharing URL option to the Open Graph+ Custom Settings metabox. (Pro version)
 * Added a fallback to using the custom Video URL as-is if the URL is not recognized / supported. (Pro Version)
+* Added a check for enabled 'Preserve Settings on Uninstall' option, and if enabled, disable the 'Reset Settings on Activate' option.
 * Removed the `NGFB_MIN_IMG_SIZE_DISABLE` constant (since an option exists for the same feature).
 * Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Improved / optimized the loading of plugin and form settings when in the admin interface.
-* Added error suppression when parsing HTML from Youtube for video sizes.
+* Added error suppression when parsing HTML from Youtube.
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * **Fixed the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names**. (Pro version)
 
@@ -686,7 +687,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1rc2 =
+= 6.16.1rc3 =
 
 Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, fixed AIO SEO Pack and WP SEO class names (Pro version), improved / optimized option loading in admin interface.
 

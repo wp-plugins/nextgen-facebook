@@ -510,6 +510,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						break;
 
 					/* must be a url (reset to default if not) */
+					case 'sharing_url':
 					case 'og_img_url':
 					case 'og_vid_url':
 					case 'og_def_img_url':
@@ -674,6 +675,12 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = empty( $opts[$key] ) ? 0 : 1;
 						break;
 				}
+			}
+
+			// preserve and reset options are not compatible, disable reset if preserve option is checked
+			if ( ! empty( $opts['plugin_preserve'] ) ) {
+				$opts['plugin_reset'] = 0;
+				$opts['plugin_reset:is'] = 'disabled';
 			}
 
 			if ( empty( $opts['plugin_google_api_key'] ) )

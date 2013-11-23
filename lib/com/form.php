@@ -140,30 +140,33 @@ if ( ! class_exists( 'SucomForm' ) ) {
 			return $html;
 		}
 
+		private function get_id_jquery( $id ) {
+			return ( empty( $id ) ? '' : '<script type="text/javascript">
+				jQuery(document).ready(function(){
+					jQuery(\'#'.$id.'\').focus(function(){ sucomTextLen(\''.$id.'\'); });
+					jQuery(\'#'.$id.'\').keyup(function(){ sucomTextLen(\''.$id.'\'); });
+				});</script>' );
+		}
+
 		public function get_input( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			if ( $this->in_options( $name.':is' ) && 
 				$this->options[$name.':is'] == 'disabled' )
 					return $this->get_fake_input( $name, $class, $id );
 			$html = '';
+			$value = $this->in_options( $name ) ? $this->options[$name] : '';
 			$placeholder = htmlentities( $placeholder );
-			if ( ! empty( $len ) && ! empty( $id ) ) {
-				$html .= '<script type="text/javascript">
-						jQuery(document).ready(function(){
-							jQuery(\'#'.$id.'\').focus(function(){ sucomTextLen(\''.$id.'\'); });
-							jQuery(\'#'.$id.'\').keyup(function(){ sucomTextLen(\''.$id.'\'); });
-						});
-					</script>';
-			}
+			if ( ! empty( $len ) && ! empty( $id ) )
+				$html .= $this->get_id_jquery( $id );
+			
 			$html .= '<input type="text" name="'.$this->options_name.'['.$name.']"'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
-				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
-				' value="'.esc_attr( $this->in_options( $name ) ? $this->options[$name] : '' ).'" '.
-				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
-				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
-				'/>';
+				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"'.
+					' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+					' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"' ).
+				' value="'.esc_attr( $value ).'" />';
 			return $html;
 		}
 
@@ -177,22 +180,19 @@ if ( ! class_exists( 'SucomForm' ) ) {
 		public function get_textarea( $name, $class = '', $id = '', $len = 0, $placeholder = '' ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '';
-			if ( ! empty( $len ) && ! empty( $id ) ) {
-				$html .= '<script type="text/javascript">
-						jQuery(document).ready(function(){
-							jQuery(\'#'.$id.'\').focus(function(){ sucomTextLen(\''.$id.'\'); });
-							jQuery(\'#'.$id.'\').keyup(function(){ sucomTextLen(\''.$id.'\'); });
-						});
-					</script>';
-			}
+			$value = $this->in_options( $name ) ? $this->options[$name] : '';
+			$placeholder = htmlentities( $placeholder );
+			if ( ! empty( $len ) && ! empty( $id ) )
+				$html .= $this->get_id_jquery( $id );
+
 			$html .= '<textarea name="'.$this->options_name.'['.$name.']"'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
 				( empty( $len ) ? '' : ' maxLength="'.$len.'"' ).
 				( empty( $len ) && empty( $class ) ? '' : ' rows="'.round($len / 100).'"' ).
-				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"' ).
-				' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
-				' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"'.
+				( empty( $placeholder ) ? '' : ' placeholder="'.$placeholder.'"'.
+					' onFocus="if ( this.value == \'\' ) this.value = \''.esc_js( $placeholder ).'\';"'.
+					' onBlur="if ( this.value == \''.esc_js( $placeholder ).'\' ) this.value = \'\';"' ).
 				'>'.esc_textarea( $this->in_options( $name ) ? $this->options[$name] : '' ).'</textarea>';
 			return $html;
 		}

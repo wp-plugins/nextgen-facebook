@@ -197,7 +197,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, null, 
 					'Check this option if you would like to reset the '.$this->p->cf['full'].
 					' settings to their default values when you <em>deactivate</em>, and then 
-					<em>re-activate</em> the plugin (default is unchecked).' ).
+					<em>re-activate</em> the plugin (default is unchecked). This option will
+					be disabled if the \'Preserve Settings on Uninstall\' option is checked.' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_reset' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Add Hidden Debug Info', null, null, 
