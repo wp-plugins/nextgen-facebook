@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.16.1rc1
+Version: 6.16.1rc2
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -21,7 +21,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
-			$style, $script, $cache, $admin, $head, $webpage,
+			$style, $script, $cache, $admin, $head, $og, $webpage,
 			$social, $seo, $pro, $update, $reg;
 
 		public $cf = array();		// config array defined in construct method
@@ -125,18 +125,22 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			 */
 			$this->cache = new SucomCache( $this );
 			$this->script = new SucomScript( $this );
-			$this->webpage = new SucomWebpage( $this );	// title, desc, etc., plus shortcodes
+			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
 
 			$this->user = new NgfbUser( $this );
 			$this->meta = new NgfbPostMeta( $this );
-			$this->media = new NgfbMedia( $this );		// images, videos, etc., plug ngg
-			$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
-			$this->style = new NgfbStyle( $this );		// extends SucomStyle
+			$this->media = new NgfbMedia( $this );			// images, videos, etc., plug ngg
+			$this->social = new NgfbSocial( $this );		// wp_head and wp_footer js and buttons
+			$this->style = new NgfbStyle( $this );			// extends SucomStyle
 
 			if ( is_admin() ) {
+				$this->og = new SucomOpengraph( $this );	// og parsing method
 				$this->msg = new NgfbMessages( $this );
 				$this->admin = new NgfbAdmin( $this );
-			} else $this->head = new NgfbHead( $this );	// wp_head opengraph and twitter cards
+			} else {
+				$this->head = new NgfbHead( $this );		// adds opengraph and twitter card meta tags
+				$this->og = new NgfbOpengraph( $this );
+			}
 
 			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] == true )

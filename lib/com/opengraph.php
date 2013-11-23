@@ -12,7 +12,7 @@ if ( ! class_exists( 'SucomOpengraph' ) ) {
 
 	class SucomOpengraph {
 
-		private $p;
+		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;

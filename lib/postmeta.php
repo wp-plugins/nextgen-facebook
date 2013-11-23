@@ -164,6 +164,11 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'The maximum number of embedded videos to include in the Open Graph meta tags for this '.$post_type_name.'.' ) .
 			'<td class="blank">'.$this->p->options['og_vid_max'].'</td>';
 
+			$ret[] = $this->p->util->th( 'Sharing URL', 'medium', null, 
+			'A custom sharing URL used in the Open Graph meta tags and social sharing buttons.
+			The default sharing URL may be influenced by other supported SEO plugins.' ).
+			'<td class="blank">'.$this->p->util->get_sharing_url( true ).'</td>';
+
 			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
 			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$post_type_name.'.' ) .
 			'<td class="blank">&nbsp;</td>';

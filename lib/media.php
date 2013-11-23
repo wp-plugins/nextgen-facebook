@@ -574,7 +574,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$og_fetch = $prot.'www.youtube.com/watch?v='.$vid_name;
 					$this->p->debug->log( 'fetching missing video width/height from '.$og_fetch );
 					if ( ( $og_html = $this->p->cache->get( $og_fetch, 'raw', 'transient' ) ) !== false ) {
-						$og_meta = $this->p->head->og->parse( $og_html );
+						$og_meta = $this->p->og->parse( $og_html );
 						$og_video['og:video:width'] = $og_meta['og:video:width'];
 						$og_video['og:video:height'] = $og_meta['og:video:height'];
 					}

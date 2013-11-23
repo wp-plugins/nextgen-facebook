@@ -113,26 +113,36 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $obj;
 		}
 
+		public function get_meta_sharing_url( $post_id ) {
+			$url = false;
+			if ( empty( $post_id ) )	// post id must be > 0 to have post meta
+				return $url;
+			$url = $this->p->meta->get_options( $post_id, 'sharing_url' );
+			if ( ! empty( $url ) )
+				$this->p->debug->log( 'found custom meta sharing url = '.$url );
+			return $url;
+		}
+
 		// use_post = false when used for open graph meta tags and buttons in widget,
 		// true when buttons are added to individual posts on an index webpage
 		// most of this code is from yoast wordpress seo, to try and match its canonical url value
 		public function get_sharing_url( $use_post = false, $add_page = true, $source_id = '' ) {
 			$url = false;
 			if ( is_singular() || $use_post !== false ) {
-
 				if ( ( $obj = $this->get_the_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $url;
 				}
-
 				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 				if ( ! empty( $post_id ) ) {
-					$url = get_permalink( $post_id );
+					$url = $this->get_meta_sharing_url( $post_id );
+					if ( empty( $url ) )
+						$url = get_permalink( $post_id );
 					if ( $add_page && get_query_var( 'page' ) > 1 ) {
 						global $wp_rewrite;
 						$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
 						if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
-							if ( ! $wp_rewrite->using_permalinks() )
+							if ( ! $wp_rewrite->using_permalinks() || strpos( $url, '?' ) !== false )
 								$url = add_query_arg( 'page', get_query_var( 'page' ), $url );
 							else $url = user_trailingslashit( trailingslashit( $url ).get_query_var( 'page' ) );
 						}
@@ -186,8 +196,10 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$url = preg_replace( '/([\?&])(fb_action_ids|fb_action_types|fb_source|fb_aggregation_id|utm_source|utm_medium|utm_campaign|utm_term|gclid|pk_campaign|pk_kwd)=[^&]*&?/i', '$1', $url );
 			}
 
-			if ( ! empty( $url ) && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
-				$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
+			if ( ! empty( $url ) && 
+				isset( $this->options['force_transport'] ) && 
+				'default' != $this->options['force_transport'] )
+					$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
 			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $source_id );
 		}

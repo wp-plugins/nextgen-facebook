@@ -20,12 +20,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			if ( class_exists( $this->p->cf['cca'].'Opengraph' ) )
-				$classname = $this->p->cf['cca'].'Opengraph';
-			else $classname = 'SucomOpengraph';
-
-			$this->og = new $classname( $plugin );
-
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
 
@@ -48,8 +42,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 						$this->p->debug->log( $func.'() = '.( $func() ? 'true' : 'false' ) );
 			}
 
-			if ( method_exists( $this->og, 'get' ) )
-				$this->html( $this->og->get() );
+			if ( method_exists( $this->p->og, 'get_array' ) )
+				$this->show_html( $this->p->og->get_array() );
 
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
@@ -71,7 +65,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 		}
 
 		// called from add_header() and the work/header.php template
-		public function html( $meta_tags = array() ) {
+		public function show_html( $meta_tags = array() ) {
 			
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );

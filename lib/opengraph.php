@@ -8,11 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbOpenGraph' ) && class_exists( 'SucomOpenGraph' ) ) {
+if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 
-	class NgfbOpenGraph extends SucomOpenGraph {
-
-		private $p;
+	class NgfbOpengraph extends SucomOpengraph {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -26,7 +24,8 @@ if ( ! class_exists( 'NgfbOpenGraph' ) && class_exists( 'SucomOpenGraph' ) ) {
 				' xmlns:fb="http://ogp.me/ns/fb#"';
 		}
 
-		public function get( $post_id = false ) {
+		public function get_array( $post_id = false ) {
+
 			if ( ( defined( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) && 
 				constant( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) ||
 				! empty( $_SERVER[$this->p->cf['uca'].'_OPEN_GRAPH_DISABLE'] ) ) {
