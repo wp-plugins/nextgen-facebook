@@ -662,6 +662,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Moved the lib/media.php and lib/ngg.php library files to lib/com/.
 * Improved / optimized the loading of plugin and form settings when in the admin interface.
+* Added error suppression when parsing HTML from Youtube for video sizes.
 
 = Version 6.16.0.1 =
 
