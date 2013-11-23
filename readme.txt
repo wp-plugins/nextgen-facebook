@@ -14,15 +14,6 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website!
 
-= Recent Reviews =
-
-* **If only all plugin developers were like this guy** by thetruejoe90, November 20
-* **Useful plugin good support** by Joeltrv, November 19
-* **Great plugin with support to match** by Elizabeth Lowrey, November 14
-* **AWESOME! Works like a charm!** by undergroundnetwork, November 14
-* **Doneright &amp; Doneright** by Pharaoh145, October 29
-* [Read more reviews on WordPress.org](http://wordpress.org/support/view/plugin-reviews/nextgen-facebook)...
-
 = Social and SEO =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
