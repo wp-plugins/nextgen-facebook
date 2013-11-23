@@ -568,7 +568,7 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 				}
 				// the google youtube api does not provide video width/height (seriously), 
 				// so if missing from method args, get them from the youtube opengraph meta tags
-				if ( ! empty( $og_video['og:video'] ) && ( $og_video['og:video:width'] == 0 || $og_video['og:video:height'] == 0 ) ) {
+				if ( ! empty( $og_video['og:video'] ) && ( $og_video['og:video:width'] <= 0 || $og_video['og:video:height'] <= 0 ) ) {
 					$og_fetch = $prot.'www.youtube.com/watch?v='.$vid_name;
 					$this->p->debug->log( 'fetching missing video width/height from '.$og_fetch );
 					if ( ( $og_html = $this->p->cache->get( $og_fetch, 'raw', 'transient' ) ) !== false ) {
