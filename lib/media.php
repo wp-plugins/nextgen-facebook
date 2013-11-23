@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'SucomMedia' ) ) {
+if ( ! class_exists( 'NgfbMedia' ) ) {
 
-	class SucomMedia {
+	class NgfbMedia {
 
 		private $p;
 
@@ -20,8 +20,8 @@ if ( ! class_exists( 'SucomMedia' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/com/ngg.php' );
-			$this->ngg = new SucomNgg( $plugin );
+			require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/ngg.php' );
+			$this->ngg = new NgfbNgg( $plugin );
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 		}

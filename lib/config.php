@@ -233,15 +233,16 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/com/script.php' );
 			require_once( $plugin_dir.'lib/com/style.php' );
 			require_once( $plugin_dir.'lib/com/webpage.php' );
-			require_once( $plugin_dir.'lib/com/media.php' );
+			require_once( $plugin_dir.'lib/com/opengraph.php' );
 
 			require_once( $plugin_dir.'lib/check.php' );
 			require_once( $plugin_dir.'lib/util.php' );
 			require_once( $plugin_dir.'lib/options.php' );
 			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
+			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/social.php' );
-			require_once( $plugin_dir.'lib/style.php' );	// extends lib/com/style.php
+			require_once( $plugin_dir.'lib/style.php' );			// extends lib/com/style.php
 
 			if ( is_admin() ) {
 				require_once( $plugin_dir.'lib/messages.php' );
@@ -259,7 +260,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else {
 				require_once( $plugin_dir.'lib/head.php' );
-				require_once( $plugin_dir.'lib/opengraph.php' );
+				require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 				require_once( $plugin_dir.'lib/functions.php' );
 
 				foreach ( self::$cf['lib']['shortcode'] as $id => $name )

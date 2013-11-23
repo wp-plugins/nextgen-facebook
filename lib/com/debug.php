@@ -19,9 +19,7 @@ if ( ! class_exists( 'SucomDebug' ) ) {
 		private $buffer = array();	// accumulate text strings going to html output
 		private $subsys = array();	// associative array to enable various outputs 
 
-		public function __construct( &$plugin, 
-			$subsys = array( 'html' => false, 'wp' => false ) ) {
-
+		public function __construct( &$plugin, $subsys = array( 'html' => false, 'wp' => false ) ) {
 			$this->p =& $plugin;
 			$this->display_name = $this->p->cf['lca'];
 			$this->log_prefix = $this->p->cf['uca'];

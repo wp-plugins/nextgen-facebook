@@ -13,7 +13,6 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 	class NgfbUtil {
 
 		private $urls_found = array();	// array to detect duplicate images, etc.
-		private $sharing_url;		// save and return sharing url
 
 		protected $p;
 

@@ -8,9 +8,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbOpengraph' ) ) {
+if ( ! class_exists( 'NgfbOpenGraph' ) && class_exists( 'SucomOpenGraph' ) ) {
 
-	class NgfbOpengraph {
+	class NgfbOpenGraph extends SucomOpenGraph {
 
 		private $p;
 
@@ -280,21 +280,6 @@ if ( ! class_exists( 'NgfbOpengraph' ) ) {
 
 			$this->p->util->slice_max( $og_ret, $num );
 			return $og_ret;
-		}
-
-		public function parse( $html ) {
-			$doc = new DomDocument();		// since PHP v4.1.0
-			$ret = @$doc->loadHTML( $html );	// suppress parsing errors
-			$xpath = new DOMXPath( $doc );
-			$query = '//*/meta[starts-with(@property, \'og:\')]';
-			$metas = $xpath->query( $query );
-			$rmetas = array();
-			foreach ( $metas as $meta ) {
-				$property = $meta->getAttribute('property');
-				$content = $meta->getAttribute('content');
-				$rmetas[$property] = $content;
-			}
-			return $rmetas;
 		}
 	}
 }

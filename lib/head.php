@@ -20,9 +20,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			$classname = $this->p->cf['cca'].'Opengraph';
-			if ( class_exists( $classname ) )
-				$this->og = new $classname( $plugin );
+			if ( class_exists( $this->p->cf['cca'].'Opengraph' ) )
+				$classname = $this->p->cf['cca'].'Opengraph';
+			else $classname = 'SucomOpengraph';
+
+			$this->og = new $classname( $plugin );
 
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 		}
