@@ -202,7 +202,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				'default' != $this->options['force_transport'] )
 					$url = preg_replace( '`^http[s]?`', $this->options['force_transport'], $url );
 
-			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $source_id );
+			return apply_filters( $this->p->cf['lca'].'_sharing_url', $url, $use_post, $add_page, $source_id );
 		}
 
 		public function is_posts_page() {
