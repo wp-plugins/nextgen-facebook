@@ -167,7 +167,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$ret[] = $this->p->util->th( 'Sharing URL', 'medium', null, 
 			'A custom sharing URL used in the Open Graph, Rich Pin meta tags and social sharing buttons.
 			The default sharing URL may be influenced by settings from supported SEO plugins.
-			Please make sure any custom URL you enter here is functional and redirects properly.' ).
+			Please make sure any custom URL you enter here is functional and redirects correctly.' ).
 			'<td class="blank">'.$this->p->util->get_sharing_url( true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
