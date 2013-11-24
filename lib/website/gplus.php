@@ -97,9 +97,11 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 				$opts = $this->p->options;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'gplus', $atts );
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
-				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
+				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'],
+					$use_post, $atts['add_page'], $source_id );
 			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 
 			$html = '<!-- GooglePlus Button --><div '.$this->p->social->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;

@@ -103,9 +103,11 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'twitter', $atts );
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
 			$long_url = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
-				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
+				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
+					$use_post, $atts['add_page'], $source_id );
 			$short_url = $this->p->util->shorten_url( $long_url, $opts['twitter_shortener'] );
 			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
 

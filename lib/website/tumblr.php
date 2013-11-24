@@ -94,9 +94,11 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			global $post; 
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'tumblr', $atts );
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
 			$atts['url'] = empty( $atts['url'] ) ? 
-				$this->p->util->get_sharing_url( $use_post, true, $source_id ) : 
-				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], $source_id );
+				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
+				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
+					$use_post, $atts['add_page'], $source_id );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $opts['tumblr_button_style'];
 			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['tumblr_img_size'];
 
