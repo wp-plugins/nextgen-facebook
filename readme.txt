@@ -643,7 +643,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1rc3 =
+= Version 6.16.1 =
 
 * **Added support for Wistia inline embed API / SEO and popover embed video formats**. (Pro version)
 * Added a Sharing URL option to the Open Graph+ Custom Settings metabox. (Pro version)
@@ -688,7 +688,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Upgrade Notice ==
 
-= 6.16.1rc3 =
+= 6.16.1 =
 
 Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, fixed AIO SEO Pack and WP SEO class names (Pro version), improved / optimized option loading in admin interface.
 
