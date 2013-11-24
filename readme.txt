@@ -656,6 +656,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 * Added error suppression when parsing HTML from Youtube.
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * **Fixed the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names**. (Pro version)
+* Changed the 'ngfb_sharing_url' filter arguments from ( $url, $source_id ) to ( $url, $use_post, $add_page, $source_id ).
 
 = Version 6.16.0.1 =
 
