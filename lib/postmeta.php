@@ -63,7 +63,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				$this->p->social->add_header();
 				echo $this->p->social->filter( $content, 'admin_sharing', $opts );
 				$this->p->social->add_footer();
-			} else echo '<p class="centered">In order to share this '.$post_type_name.', it must first be published with public visibility.</p>';
+			} else echo '<p class="centered">The '.$post_type_name.' must be published<br/>before it can be shared.</p>';
 			echo '</td></tr></table>';
 		}
 
@@ -168,7 +168,9 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'A custom sharing URL used in the Open Graph, Rich Pin meta tags and social sharing buttons.
 			The default sharing URL may be influenced by settings from supported SEO plugins.
 			Please make sure any custom URL you enter here is functional and redirects correctly.' ).
-			'<td class="blank">'.$this->p->util->get_sharing_url( true ).'</td>';
+			'<td class="blank">'.( get_post_status( $post->ID ) == 'publish' ? 
+				$this->p->util->get_sharing_url( true ) :
+				'<p>The '.$post_type_name.' must be published to retrieve the sharing URL.</p>' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
 			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$post_type_name.'.' ) .
