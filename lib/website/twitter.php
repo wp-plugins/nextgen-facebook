@@ -98,7 +98,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) 
-				$opts = $this->p->options;
+				$opts =& $this->p->options;
 			global $post; 
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
