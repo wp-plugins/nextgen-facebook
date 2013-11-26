@@ -115,7 +115,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 				$atts['caption'] = $atts['tweet'];
 
 			if ( ! array_key_exists( 'caption', $atts ) ) {
-				if ( ! empty( $post ) && $use_post == true ) 
+				if ( ! empty( $post->ID ) && $use_post == true ) 
 					$atts['caption'] = $this->p->meta->get_options( $post->ID, 'twitter_desc' );
 
 				if ( empty( $atts['caption'] ) ) {
