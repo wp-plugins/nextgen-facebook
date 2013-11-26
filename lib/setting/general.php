@@ -142,15 +142,15 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->form->get_select( 'og_art_section', $this->p->util->get_topics() ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Site Name', 'highlight', null, '
-					By default, the Site Title in the <a href="'.get_admin_url( null, 'options-general.php' ).'">WordPress General Settings</a>
-					page is used for the Open Graph / Rich Pin site name. You may override that default value here.' ).
+					By default, the Site Title from the <a href="'.get_admin_url( null, 'options-general.php' ).'">WordPress General Settings</a>
+					page is used for the Open Graph, Rich Pin site name (og:site_name meta tag). You may override the default Site Title value here.' ).
 					'<td>'.$this->form->get_input( 'og_site_name', 
 						null, null, null, get_bloginfo( 'name', 'display' ) ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Site Description', 'highlight', null, '
 					By default, the Tagline in the <a href="'.get_admin_url( null, 'options-general.php' ).'">WordPress General Settings</a>
-					page is used as a description for the index home page, and as fallback for the Open Graph / Rich Pin description field.
-					You may override that default value here.' ).
+					page is used as a description for the index home page, and as fallback for the Open Graph, Rich Pin 
+					description field (og:description meta tag). You may override that default value here.' ).
 					'<td>'.$this->form->get_input( 'og_site_description', 
 						'wide', null, null, get_bloginfo( 'description', 'display' ) ).'</td>';
 
