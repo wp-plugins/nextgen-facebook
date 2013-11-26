@@ -85,7 +85,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
 			$this->p->debug->args( array( 'text' => 'N/A', 'type' => $type, 'opts' => 'N/A' ) );
 			if ( empty( $opts ) ) 
-				$opts = $this->p->options;
+				$opts =& $this->p->options;
 
 			// should we skip the social buttons for this content type or webpage?
 			if ( is_admin() ) {
@@ -115,21 +115,25 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					break;
 				}
 			}
-			unset( $id, $pre );
 			if ( $enabled == false ) {
 				$this->p->debug->log( $type.' filter exiting early: no buttons enabled' );
 				return $text;
 			}
 
-			// fetch buttons from transient cache, or generate new button html
-			global $post;
+			// get the post id for the transient cache salt
+			if ( ( $obj = $this->p->util->get_the_object( true ) ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return $text;
+			}
+			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
+
 			$html = false;
 			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
 				$this->p->debug->log( 'transient cache is disabled' );
 			else {
 				// if the post id is 0, then add the sharing url to ensure a unique salt string
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post->ID.'_type'.$type.
-					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $post->ID, false ) : '' ).')';
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_type:'.$type.
+					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );

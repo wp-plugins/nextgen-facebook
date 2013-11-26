@@ -325,7 +325,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				else {
 					// if the post id is 0, then add the sharing url to ensure a unique salt string
 					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_'.$filter_name.
-						( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $post_id, false ) : '' ).')';
+						( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $use_post ) : '' ).')';
 					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					$cache_type = 'object cache';
 					if ( $use_cache == false )
