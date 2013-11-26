@@ -70,7 +70,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					$caption = '';
 					break;
 			}
-			return apply_filters( $this->p->cf['lca'].'_caption', $caption );
+			return apply_filters( $this->p->cf['lca'].'_caption', $caption, $type, $length, 
+				$use_post, $use_cache, $add_hashtags );
 		}
 
 		public function get_title( $textlen = 70, $trailing = '',
