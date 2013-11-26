@@ -62,7 +62,7 @@ if ( ! class_exists( 'NgfbSocialLinkedin' ) && class_exists( 'NgfbSocial' ) ) {
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
 			if ( empty( $opts ) ) 
-				$opts = $this->p->options;
+				$opts =& $this->p->options;
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'linkedin', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;

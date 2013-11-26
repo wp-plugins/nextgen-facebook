@@ -90,7 +90,8 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 
 		public function get_html( $atts = array(), $opts = array() ) {
 			$this->p->debug->mark();
-			if ( empty( $opts ) ) $opts = $this->p->options;
+			if ( empty( $opts ) ) 
+				$opts =& $this->p->options;
 			global $post; 
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'tumblr', $atts );
