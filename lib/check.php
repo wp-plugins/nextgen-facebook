@@ -13,12 +13,22 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 	class NgfbCheck {
 
 		private $p;
+		private $active_plugins;
+		private $network_plugins;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			if ( is_object( $this->p->debug ) && 
 				method_exists( $this->p->debug, 'mark' ) )
 					$this->p->debug->mark();
+
+			$this->active_plugins = get_option( 'active_plugins', array() ); 
+			if ( is_multisite() ) {
+				$this->network_plugins = array_keys( get_site_option( 'active_sitewide_plugins', array() ) );
+				if ( $this->network_plugins )
+					$this->active_plugins = array_merge( $this->active_plugins, $this->network_plugins );
+			}
+
 		}
 
 		// used before any class objects are created, so keep in main class
@@ -28,25 +38,51 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ? true : false;
+
+			$ret['ngg'] = class_exists( 'nggdb' ) || 
+				class_exists( 'C_NextGEN_Bootstrap' ) ||
+				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
 
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
 				foreach ( $libs as $id => $name ) {
-					$func_name = '';
-					$class_name = '';
+					$func_name = false;
+					$class_name = false;
+					$pluginbase = false;
 					switch ( $id ) {
-						case 'aioseop':		$class_name = 'All_in_One_SEO_Pack'; break;
-						case 'seou':		$class_name = 'SEO_Ultimate'; break;
-						case 'wpseo':		$func_name = 'wpseo_init'; break;
-						case 'woocommerce':	$class_name = 'Woocommerce'; break;
-						case 'marketpress':	$class_name = 'MarketPress'; break;
-						case 'wpecommerce':	$class_name = 'WP_eCommerce'; break;
-						case 'bbpress':		$class_name = 'bbPress'; break;
+						case 'aioseop':
+							$class_name = 'All_in_One_SEO_Pack';
+							$pluginbase = 'all-in-one-seo-pack/all-in-one-seo-pack.php';
+							break;
+						case 'seou':
+							$class_name = 'SEO_Ultimate'; 
+							$pluginbase = 'seo-ultimate/seo-ultimate.php';
+							break;
+						case 'wpseo':
+							$func_name = 'wpseo_init'; 
+							$pluginbase = 'wordpress-seo/wp-seo.php';
+							break;
+						case 'woocommerce':
+							$class_name = 'Woocommerce';
+							$pluginbase = 'woocommerce/woocommerce.php';
+							break;
+						case 'marketpress':
+							$class_name = 'MarketPress'; 
+							$pluginbase = 'wordpress-ecommerce/marketpress.php';
+							break;
+						case 'wpecommerce':
+							$class_name = 'WP_eCommerce';
+							$pluginbase = 'wp-e-commerce/wp-shopping-cart.php';
+							break;
+						case 'bbpress':
+							$class_name = 'bbPress'; 
+							$pluginbase = 'bbpress/bbpress.php';
+							break;
 					}
-					if ( ( ! empty( $func_name ) && function_exists( $func_name ) )  || 
-						( ! empty( $class_name ) && class_exists( $class_name ) ) )
+					if ( ( $func_name && function_exists( $func_name ) ) || 
+						( $class_name && class_exists( $class_name ) ) ||
+						( $pluginbase && in_array( $pluginbase, $this->active_plugins ) ) )
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 					else $ret[$sub][$id] = false;
 				}

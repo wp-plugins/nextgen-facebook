@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.16.1',			// plugin version
+			'version' => '6.16.2dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -151,12 +151,23 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			$lca = self::$cf['lca'];
 			$uca = self::$cf['uca'];
 
-			define( $uca.'_FILEPATH', $plugin_filepath );
-			define( $uca.'_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );	// since wp 1.2.0 
-			define( $uca.'_PLUGINBASE', plugin_basename( $plugin_filepath ) );			// since wp 1.5
+			// .../wordpress/wp-content/plugins/nextgen-facebook/nextgen-facebook.php
+			define( $uca.'_FILEPATH', $plugin_filepath );						
+
+			// .../wordpress/wp-content/plugins/nextgen-facebook/
+			define( $uca.'_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
+
+			// nextgen-facebook/nextgen-facebook.php
+			define( $uca.'_PLUGINBASE', plugin_basename( $plugin_filepath ) );
+
+			// nextgen-facebook
 			define( $uca.'_TEXTDOM', self::$cf['slug'] );
+
+			// http://.../wp-content/plugins/nextgen-facebook/
 			define( $uca.'_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
+
 			define( $uca.'_NONCE', md5( constant( $uca.'_PLUGINDIR' ).'-'.self::$cf['version'] ) );
+
 			define( 'AUTOMATTIC_README_MARKDOWN', constant( $uca.'_PLUGINDIR' ).'lib/ext/markdown.php' );
 
 			/*
