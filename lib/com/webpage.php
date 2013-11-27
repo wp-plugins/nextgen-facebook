@@ -63,8 +63,9 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					break;
 				case 'both' :
 					$title = $this->get_title( null, null, $use_post, $use_cache, false );
-					$caption = $title.': '.$this->get_description( $length - strlen( $title ) - 2, '...', 
-						$use_post, $use_cache, $add_hashtags );
+					$caption = $title.' '.$this->p->options['og_title_sep'].' '.
+						$this->get_description( $length - strlen( $title ) - 2, '...', 
+							$use_post, $use_cache, $add_hashtags );
 					break;
 				default :
 					$caption = '';
@@ -141,24 +142,20 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 	
 				// category title, with category parents
 				} elseif ( is_category() ) { 
-	
-					$title = single_cat_title( '', false );		// since wp 0.71
-					$this->p->debug->log( 'single_cat_title() = "'.$title.'"' );
-					$cat_parents = get_category_parents( get_cat_ID( $title ), false, 
-						' '.$this->p->options['og_title_sep'].' ', false );
-	
-					// use is_wp_error() to avoid "Object of class WP_Error could not be converted to string" error
-					if ( is_wp_error( $cat_parents ) ) {
+
+					$term = get_queried_object();
+					$title = $term->name;
+					$cat_parents = get_category_parents( $term->term_id, false, ' '.$this->p->options['og_title_sep'].' ', false );
+
+					if ( is_wp_error( $cat_parents ) )
 						$this->p->debug->log( 'get_category_parents() returned WP_Error object.' );
-					} else {
+					else {
 						$this->p->debug->log( 'get_category_parents() = "'.$cat_parents.'"' );
 						if ( ! empty( $cat_parents ) ) {
-							$title = trim( $cat_parents, ' '.$this->p->options['og_title_sep'] );
-							// special fix for category names that end with three dots
+							$title = $cat_parents;
 							$title = preg_replace( '/\.\.\. \\'.$this->p->options['og_title_sep'].' /', '... ', $title );
 						}
 					}
-					unset ( $cat_parents );
 	
 				} else {
 					/* The title text depends on the query:
@@ -178,7 +175,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				}
 			}
 
-			$title = trim( $title, ' '.$this->p->options['og_title_sep'] );	// trim spaces and excess separator
+			// trim excess separator
+			$title = preg_replace( '/ \\'.$this->p->options['og_title_sep'].' *$/', '', $title );
 
 			if ( $textlen > 0 ) {
 				// seo-like title modifications
@@ -194,7 +192,6 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				if ( ! empty( $parent_title ) ) $textlen = $textlen - strlen( $parent_title ) - 3;
 				if ( ! empty( $hashtags ) ) $textlen = $textlen - strlen( $hashtags ) - 1;
 				$title = $this->p->util->limit_text_length( $title, $textlen, $trailing );
-				$this->p->debug->log( 'limit_text_length() = "'.$title.'"' );
 			} $title = $this->p->util->cleanup_html_tags( $title );
 
 			if ( ! empty( $parent_title ) ) $title .= ' ('.$parent_title.')';

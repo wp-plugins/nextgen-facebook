@@ -279,7 +279,8 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		}
 
 		public function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
-			$text = $this->decode_utf8( $text );
+			$charset = get_bloginfo( 'charset' );
+			$text = html_entity_decode( $text, ENT_QUOTES, $charset );
 			$text = preg_replace( '/<\/p>/i', ' ', $text);					// replace end of paragraph with a space
 			$text = $this->cleanup_html_tags( $text );					// remove any remaining html tags
 			if ( $textlen > 0 ) {
@@ -292,7 +293,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				} else $trailing = '';							// truncate trailing string if text is shorter than limit
 				$text = $text.$trailing;						// trim and add trailing string (if provided)
 			}
-			$text = $this->encode_utf8( $text );
+			$text = htmlentities( $text, ENT_QUOTES, $charset, false );			// double_encode = false
 			return $text;
 		}
 

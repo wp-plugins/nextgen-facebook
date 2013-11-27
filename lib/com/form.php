@@ -155,7 +155,6 @@ if ( ! class_exists( 'SucomForm' ) ) {
 					return $this->get_fake_input( $name, $class, $id );
 			$html = '';
 			$value = $this->in_options( $name ) ? $this->options[$name] : '';
-			$placeholder = htmlentities( $placeholder );
 			if ( ! empty( $len ) && ! empty( $id ) )
 				$html .= $this->get_id_jquery( $id );
 			
@@ -181,7 +180,6 @@ if ( ! class_exists( 'SucomForm' ) ) {
 			if ( empty( $name ) ) return;	// just in case
 			$html = '';
 			$value = $this->in_options( $name ) ? $this->options[$name] : '';
-			$placeholder = htmlentities( $placeholder );
 			if ( ! empty( $len ) && ! empty( $id ) )
 				$html .= $this->get_id_jquery( $id );
 
