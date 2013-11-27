@@ -643,7 +643,17 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
+= Version 6.16.1.1 =
+
+* Improved the management of UTF-8 encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return UTF-8 encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening.
+
 = Version 6.16.1 =
+
+NGFB Open Graph+ version 6.16.1 completes support for all Wistia video formats by adding recognition for the inline embed API / SEO and popover embed video formats. A new Sharing URL option has also been added to the Open Graph+ Custom Settings metabox on the Edit Post/Page admin pages. This option will reflect any changes made by WordPress SEO by Yoast, and allows you to customize the URL for tracking purposes – just make sure your modified custom URL functions correctly before publishing your Post / Page. ;-)
+
+This release also includes two minor fixes – the onFocus and onBlur events in the Open Graph+ Custom Settings metabox was not working properly, and during an earlier code optimization / re-organization, two Pro addon classes – WordPress SEO and All-In-One SEO Pack -  were left with incorrect class names.
+
+Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for that filter has changed.
 
 * **Added support for Wistia inline embed API / SEO and popover embed video formats**. (Pro version)
 * Added a Sharing URL option to the Open Graph+ Custom Settings metabox. (Pro version)
