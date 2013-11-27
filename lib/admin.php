@@ -176,11 +176,9 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts );
 
-			// wordpress manages the option table update, but we must provide the update message
-			add_settings_error( NGFB_OPTIONS_NAME, 'updated', '<b>'.$this->p->cf['uca'].' Info</b> : '.
-				__( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
-				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.' ), 
-					$this->p->options['plugin_object_cache_exp'] ), 'updated' );
+			$this->p->notice->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
+				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.', NGFB_TEXTDOM ), 
+					$this->p->options['plugin_object_cache_exp'] ), true );
 
 			return $opts;
 		}
