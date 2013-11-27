@@ -143,7 +143,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 				else $atts['related'] = '';
 			}
 
-			// hashtags are (usually) included in the caption instead
+			// hashtags are included in the caption instead
 			if ( ! array_key_exists( 'hashtags', $atts ) )
 				$atts['hashtags'] = '';
 

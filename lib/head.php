@@ -192,7 +192,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			}
 
 			$charset = get_bloginfo( 'charset' );
-			$val = htmlentities( $this->p->util->encode_utf8( $val ), ENT_QUOTES, $charset, false );	// double_encode = false
+			$val = htmlentities( $val, ENT_QUOTES, $charset, false );	// double_encode = false
 
 			$this->p->debug->log( 'meta '.$name.' = "'.$val.'"' );
 			if ( $cmt ) $meta_html .= "<!-- $cmt -->";

@@ -479,7 +479,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					continue;
 				}
 
-				/* remove html (except from css), decode entities, and strip slashes */
+				/* don't remove html tags from css */
 				switch ( $key ) {
 					case 'buttons_css_social':
 					case 'buttons_css_excerpt':
@@ -491,7 +491,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
 						break;
 				}
-				$opts[$key] = stripslashes( html_entity_decode( $opts[$key] ) );
+				$charset = get_bloginfo( 'charset' );
+				$opts[$key] = stripslashes( $opts[$key] );
+				$opts[$key] = htmlentities( $opts[$key], ENT_QUOTES, $charset, false );	// double_encode = false
 
 				switch ( $key ) {
 
