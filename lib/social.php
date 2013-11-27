@@ -201,7 +201,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
 			// is_singular = false on admin edit page
-			if ( ! is_admin() && is_singular() && $this->p->social->is_disabled() ) {
+			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
 				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
 			}
@@ -305,7 +305,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					$this->p->debug->log( 'found custom meta buttons disabled = true' );
 					return true;
 				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
-					$this->p->debug->log( 'social buttons disabled for post type '.$post_type );
+					$this->p->debug->log( 'social buttons disabled for post '.$post->ID.' of type '.$post_type );
 					return true;
 				}
 			}
