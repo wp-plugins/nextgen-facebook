@@ -70,6 +70,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					$caption = '';
 					break;
 			}
+			// title and description htmlentities already encoded
 			return apply_filters( $this->p->cf['lca'].'_caption', $caption, $type, $length, 
 				$use_post, $use_cache, $add_hashtags );
 		}
@@ -81,6 +82,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$parent_title = '';
 			$paged_suffix = '';
 			$hashtags = '';
+			$post_id = 0;
+
 			if ( is_singular() || $use_post !== false ) {
 				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
@@ -120,7 +123,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					if ( is_singular() ) {
 						$title = wp_title( $this->p->options['og_title_sep'], false, 'right' );
 						$this->p->debug->log( 'wp_title() = "'.$title.'"' );
-					} else {
+					} elseif ( ! empty( $post_id ) ) {
 						$title = get_the_title( $post_id );
 						$this->p->debug->log( 'get_the_title() = "'.$title.'"' );
 					}
@@ -169,17 +172,17 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				}
 	
 				// just in case
-				if ( $title == '' )
+				if ( empty( $title ) ) {
 					$title = get_bloginfo( 'name', 'display' );
+					$this->p->debug->log( 'get_bloginfo() = "'.$title.'"' );
+				}
 			}
 
-			$title = $this->p->util->decode( $title );
-			$title = $this->p->util->cleanup_html_tags( $title );
 			$title = trim( $title, ' '.$this->p->options['og_title_sep'] );	// trim spaces and excess separator
 
 			if ( $textlen > 0 ) {
 				// seo-like title modifications
-				if ( $this->p->is_avail['seo']['*'] == false ) {
+				if ( $this->p->is_avail['seo']['*'] === false ) {
 					$paged = get_query_var( 'paged' );
 					if ( $paged > 1 ) {
 						if ( ! empty( $this->p->options['og_title_sep'] ) )
@@ -191,11 +194,15 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				if ( ! empty( $parent_title ) ) $textlen = $textlen - strlen( $parent_title ) - 3;
 				if ( ! empty( $hashtags ) ) $textlen = $textlen - strlen( $hashtags ) - 1;
 				$title = $this->p->util->limit_text_length( $title, $textlen, $trailing );
-			}
+				$this->p->debug->log( 'limit_text_length() = "'.$title.'"' );
+			} $title = $this->p->util->cleanup_html_tags( $title );
+
 			if ( ! empty( $parent_title ) ) $title .= ' ('.$parent_title.')';
 			if ( ! empty( $paged_suffix ) ) $title .= ' '.$paged_suffix;
 			if ( ! empty( $hashtags ) ) $title .= ' '.$hashtags;
 
+			$charset = get_bloginfo( 'charset' );
+			$title = htmlentities( $title, ENT_QUOTES, $charset, false );	// double_encode = false
 			return apply_filters( $this->p->cf['lca'].'_title', $title );
 		}
 
@@ -290,17 +297,17 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				else $desc = get_bloginfo( 'description', 'display' );
 			}
 
-			$desc = $this->p->util->decode( $desc );
-			$desc = $this->p->util->cleanup_html_tags( $desc );
-
 			if ( $textlen > 0 ) {
 				if ( ! empty( $hashtags ) ) 
 					$textlen = $textlen - strlen( $hashtags ) -1;
 				$desc = $this->p->util->limit_text_length( $desc, $textlen, '...' );
-			}
+			} else $desc = $this->p->util->cleanup_html_tags( $desc );
+
 			if ( ! empty( $hashtags ) ) 
 				$desc .= ' '.$hashtags;
 
+			$charset = get_bloginfo( 'charset' );
+			$desc = htmlentities( $desc, ENT_QUOTES, $charset, false );	// double_encode = false
 			return apply_filters( $this->p->cf['lca'].'_description', $desc );
 		}
 

@@ -570,7 +570,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 					/* needs to be textured and decoded */
 					case 'og_title_sep':
-						$opts[$key] = $this->p->util->decode( trim( wptexturize( ' '.$opts[$key].' ' ) ) );
+						$opts[$key] = trim( wptexturize( ' '.$opts[$key].' ' ) );
 						break;
 
 					/* must be alpha-numeric uppercase */
