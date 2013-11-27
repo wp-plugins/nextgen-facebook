@@ -248,35 +248,51 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $url;
 		}
 	
-		public function decode( $str ) {
-			// if we don't have something to decode, return immediately
-			if ( strpos( $str, '&#' ) === false ) return $str;
-
-			// convert certain entities manually to something non-standard
-			$str = preg_replace( '/&#8230;/', '...', $str );
-
-			// if mb_decode_numericentity is not available, return the string un-converted
-			if ( $this->p->is_avail['mbdecnum'] != true ) return $str;
-
-			return preg_replace( '/&#\d{2,5};/ue', 'ngfbUtil::decode_utf8_entity( \'$0\' )', $str );
+		public function encode_utf8( $decoded ) {
+			if ( ! mb_detect_encoding( $decoded, 'UTF-8') == 'UTF-8' )
+				$encoded = utf8_encode( $decoded );
+			else $encoded = $decoded;
+			return $encoded;
 		}
 
-		private function decode_utf8_entity( $entity ) {
+		public function decode_utf8( $encoded ) {
+			// if we don't have something to decode, return immediately
+			if ( strpos( $encoded, '&#' ) === false )
+				return $encoded;
+
+			// convert certain entities manually to something non-standard
+			$encoded = preg_replace( '/&#8230;/', '...', $encoded );
+
+			// if mb_decode_numericentity is not available, return the string un-converted
+			if ( $this->p->is_avail['mbdecnum'] !== true )
+				return $encoded;
+
+			$decoded = preg_replace( '/&#\d{2,5};/ue', 
+				'NgfbUtil::decode_utf8_entity( \'$0\' )', $encoded );
+
+			return $decoded;
+		}
+
+		public static function decode_utf8_entity( $entity ) {
 			$convmap = array( 0x0, 0x10000, 0, 0xfffff );
 			return mb_decode_numericentity( $entity, $convmap, 'UTF-8' );
 		}
 
 		public function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
-			$text = preg_replace( '/<\/p>/i', ' ', $text);				// replace end of paragraph with a space
-			$text = $this->cleanup_html_tags( $text );				// remove any remaining html tags
-			if ( strlen( $trailing ) > $textlen )
-				$trailing = substr( $text, 0, $textlen );			// trim the trailing string, if too long
-			if ( strlen( $text ) > $textlen ) {
-				$text = substr( $text, 0, $textlen - strlen( $trailing ) );
-				$text = trim( preg_replace( '/[^ ]*$/', '', $text ) );		// remove trailing bits of words
-				$text = preg_replace( '/[,\.]*$/', '', $text );			// remove trailing puntuation
-			} else $trailing = '';							// truncate trailing string if text is shorter than limit
-			$text = esc_attr( $text ).$trailing;					// trim and add trailing string (if provided)
+			$text = $this->decode_utf8( $text );
+			$text = preg_replace( '/<\/p>/i', ' ', $text);					// replace end of paragraph with a space
+			$text = $this->cleanup_html_tags( $text );					// remove any remaining html tags
+			if ( $textlen > 0 ) {
+				if ( strlen( $trailing ) > $textlen )
+					$trailing = substr( $trailing, 0, $textlen );			// trim the trailing string, if too long
+				if ( strlen( $text ) > $textlen ) {
+					$text = substr( $text, 0, $textlen - strlen( $trailing ) );
+					$text = trim( preg_replace( '/[^ ]*$/', '', $text ) );		// remove trailing bits of words
+					$text = preg_replace( '/[,\.]*$/', '', $text );			// remove trailing puntuation
+				} else $trailing = '';							// truncate trailing string if text is shorter than limit
+				$text = $text.$trailing;						// trim and add trailing string (if provided)
+			}
+			$text = $this->encode_utf8( $text );
 			return $text;
 		}
 

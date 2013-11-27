@@ -175,17 +175,17 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( ! empty( $atts['photo'] ) ) {
 				$query .= 'photo?source='. urlencode( $atts['photo'] );
 				$query .= '&amp;clickthru='.urlencode( $atts['url'] );
-				$query .= '&amp;caption='.urlencode( $this->p->util->decode( $atts['caption'] ) );
+				$query .= '&amp;caption='.urlencode( $atts['caption'] );
 			} elseif ( ! empty( $atts['embed'] ) ) {
 				$query .= 'video?embed='.urlencode( $atts['embed'] );
-				$query .= '&amp;caption='.urlencode( $this->p->util->decode( $atts['caption'] ) );
+				$query .= '&amp;caption='.urlencode( $atts['caption'] );
 			} elseif ( ! empty( $atts['quote'] ) ) {
 				$query .= 'quote?quote='.urlencode( $atts['quote'] );
-				$query .= '&amp;source='.urlencode( $this->p->util->decode( $atts['title'] ) );
+				$query .= '&amp;source='.urlencode( $atts['title'] );
 			} elseif ( ! empty( $atts['url'] ) ) {
 				$query .= 'link?url='.urlencode( $atts['url'] );
-				$query .= '&amp;name='.urlencode( $this->p->util->decode( $atts['title'] ) );
-				$query .= '&amp;description='.urlencode( $this->p->util->decode( $atts['description'] ) );
+				$query .= '&amp;name='.urlencode( $atts['title'] );
+				$query .= '&amp;description='.urlencode( $atts['description'] );
 			}
 			if ( empty( $query ) ) return;
 

@@ -122,8 +122,8 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 					$opts['pin_cap_len'], $use_post );
 
 			$query = 'url='.urlencode( $atts['url'] );
-			$query .= '&amp;media='. urlencode( $atts['photo'] );
-			$query .= '&amp;description='.urlencode( $this->p->util->decode( $atts['caption'] ) );
+			$query .= '&amp;media='.urlencode( $atts['photo'] );
+			$query .= '&amp;description='.urlencode( $atts['caption'] );
 
 			if ( empty( $this->p->options['pin_img_url'] ) )
 				$img = $prot.'assets.pinterest.com/images/PinExt.png';
