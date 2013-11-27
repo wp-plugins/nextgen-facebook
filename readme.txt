@@ -643,9 +643,10 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.1.1 =
+= Version 6.16.2dev1 =
 
-* Improved the management of UTF-8 encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return UTF-8 encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening.
+* Improved the management of UTF-8 encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return UTF-8 encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening. The 'ngfb_title', 'ngfb_description', and 'ngfb_caption' filters will now receive UTF-8 encoded strings.
+* Improved the detection of 3rd party plugins for conflict and addon support checks by verifying loaded class/function names, plus the active plugins array from WordPress.
 
 = Version 6.16.1 =
 
@@ -666,7 +667,7 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added error suppression when parsing HTML from Youtube.
 * Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
 * **Fixed the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names**. (Pro version)
-* Changed the 'ngfb_sharing_url' filter arguments from ( $url, $source_id ) to ( $url, $use_post, $add_page, $source_id ).
+* Changed the 'ngfb_sharing_url' filter arguments from `( $url, $source_id )` to `( $url, $use_post, $add_page, $source_id )`.
 
 = Version 6.16.0.1 =
 
@@ -697,6 +698,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.16.2dev1 =
+
+Improved the management of UTF-8 encoded and non-encoded strings internally, improved the detection of 3rd party plugins for conflict and addon support checks.
 
 = 6.16.1 =
 
