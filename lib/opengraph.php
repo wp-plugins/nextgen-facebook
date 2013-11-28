@@ -57,7 +57,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$post_type = '';
-			$has_video_image = '';
+			$has_video_image = false;
 			$og_max = $this->p->util->get_max_nums( $post_id );
 			$og = apply_filters( $this->p->cf['lca'].'_og_seed', array() );
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en-US' : $this->p->options['fb_lang'];
@@ -136,6 +136,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 						$og['article:author'] = $this->p->user->get_author_url( $this->p->options['og_def_author_id'], 
 							$this->p->options['og_author_field'] );
 				}
+
 				if ( ! array_key_exists( 'article:publisher', $og ) )
 					$og['article:publisher'] = $this->p->options['og_publisher_url'];
 
@@ -161,7 +162,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 						foreach ( $og['og:video'] as $val ) {
 							if ( is_array( $val ) && ! empty( $val['og:image'] ) ) {
 								$this->p->debug->log( 'og:image found in og:video array (no default image required)' );
-								$has_video_image = 1;
+								$has_video_image = true;
 							}
 						}
 					}
@@ -173,15 +174,29 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 				if ( $og_max['og_img_max'] > 0 ) {
 					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], 
 						constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ), $post_id );
-					// if we didn't find any images, then use the default image
-					if ( empty( $og['og:image'] ) && empty( $has_video_image ) )
-						$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], 
-							constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ) );
+					if ( empty( $og['og:image'] ) && $has_video_image === false )
+							$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], 
+								constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ) );
 				} else $this->p->debug->log( 'images disabled: maximum images = 0' );
+			}
+
+			// only a few opengraph meta tags are allowed to be empty
+			foreach ( $og as $key => $val ) {
+				switch ( $key ) {
+					case 'og:locale':
+					case 'og:site_name':
+					case 'og:description':
+						break;
+					default:
+						if ( $val === '' || ( is_array( $val ) && empty( $val ) ) )
+							unset( $og[$key] );
+						break;
+				}
 			}
 
 			// run filter before saving to transient cache
 			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
+
 			if ( ! defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) || 
 				! constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );

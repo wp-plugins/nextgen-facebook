@@ -356,13 +356,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).
 				'<td class="blank">'.$this->form->get_fake_radio( 'plugin_google_shorten',
 				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
-
-				$this->p->util->th( 'Wistia API Password', null, null, 
-				'Retrieving information on Wistia videos requires an API password. 
-				You can find the API password from the Wistia Account Dashboard, under API Settings.' ).
-				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_wistia_pwd' ).
-				$this->p->options['plugin_wistia_pwd'].'</td>',
-
 			);
 		}
 
