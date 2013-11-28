@@ -280,7 +280,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		public function limit_text_length( $text, $textlen = 300, $trailing = '' ) {
 			$charset = get_bloginfo( 'charset' );
-			$text = html_entity_decode( $text, ENT_QUOTES, $charset );
+			$text = html_entity_decode( $this->decode_utf8( $text ), ENT_QUOTES, $charset );
 			$text = preg_replace( '/<\/p>/i', ' ', $text);					// replace end of paragraph with a space
 			$text = $this->cleanup_html_tags( $text );					// remove any remaining html tags
 			if ( $textlen > 0 ) {

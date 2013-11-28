@@ -465,6 +465,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( empty( $def_opts ) || ! is_array( $def_opts ) )
 				return $opts;
 
+			$charset = get_bloginfo( 'charset' );
+
 			// unset options that no longer exist
 			foreach ( $opts as $key => $val )
 				// check that the key doesn't exist in the default options (which is a complete list of the current options used)
@@ -479,21 +481,21 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					continue;
 				}
 
-				/* don't remove html tags from css */
+				/* don't remove / encode html tags from css */
 				switch ( $key ) {
 					case 'buttons_css_social':
 					case 'buttons_css_excerpt':
 					case 'buttons_css_content':
 					case 'buttons_css_shortcode':
 					case 'buttons_css_widget':
+						//$opts[$key] = html_entity_decode( $this->p->util->decode_utf8( $opts[$key] ) );
 						break;
 					default:
+						$opts[$key] = stripslashes( $opts[$key] );
 						$opts[$key] = wp_filter_nohtml_kses( $opts[$key] );
+						$opts[$key] = htmlentities( $opts[$key], ENT_QUOTES, $charset, false );	// double_encode = false
 						break;
 				}
-				$charset = get_bloginfo( 'charset' );
-				$opts[$key] = stripslashes( $opts[$key] );
-				$opts[$key] = htmlentities( $opts[$key], ENT_QUOTES, $charset, false );	// double_encode = false
 
 				switch ( $key ) {
 
