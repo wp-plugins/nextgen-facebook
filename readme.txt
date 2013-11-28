@@ -643,10 +643,12 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.2dev1 =
+= Version 6.16.2rc1 =
 
 * Improved the management of html encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening. The 'ngfb_title', 'ngfb_description', and 'ngfb_caption' filters will now receive encoded strings.
 * Improved the detection of 3rd party plugins for conflict and addon support checks by verifying loaded class/function names, plus the active plugins array from WordPress.
+* Changed the Wistia v1 API call for the new oembed SEO API call (which doesn't need a password).
+* Removed the 'Wistia API Password' option, which is no longer required for the API call.
 
 = Version 6.16.1 =
 
@@ -699,9 +701,9 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 
 == Upgrade Notice ==
 
-= 6.16.2dev1 =
+= 6.16.2rc1 =
 
-Improved the management of html encoded and non-encoded strings internally, improved the detection of 3rd party plugins for conflict and addon support checks.
+Improved the management of html encoded and non-encoded strings internally, improved the detection of 3rd party plugins for conflict and addon support checks, changed the Wistia API call for the new oembed SEO API, which doesn't require a password.
 
 = 6.16.1 =
 
