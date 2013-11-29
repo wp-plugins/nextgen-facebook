@@ -218,13 +218,13 @@ But what about your images from NextGEN Gallery? SEO plugins don’t resolve sho
 
 All of these, and much, much more, is covered by the NGFB Open Graph+ plugin -- it covers the other half that SEO plugins don’t. ;-) 
 
-<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/" target="" rel="alternate">Link to original article</a>
+Link to original article: <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/" target="" rel="alternate">Doesn’t an SEO plugin cover that?</a>
 
 = Where do I start? =
 
 Have a look at the selection of videos available on [Surnia Ulula's Youtube Channel](https://www.youtube.com/user/SurniaUlulaCom). Familiarize yourself with the difference between meta tags and social buttons -- the first provides information about the webpage to social websites, the other just shares the URL of the current webpage. ;-)
 
-Read through the [FAQ](http://wordpress.org/plugins/nextgen-facebook/faq/) and [Other Notes](http://wordpress.org/plugins/nextgen-facebook/other_notes/) on WordPress.org. NGFB Open Graph+ can detect images and videos from a variety of sources (attached, featured, content, etc.), along with e-commerce product information.
+Read through the [FAQ](http://faq.ngfb.surniaulula.com/) and [Other Notes](http://notes.ngfb.surniaulula.com/) the support website. NGFB Open Graph+ is a powerful tool, which can detect images and videos from a variety of sources (attached, featured, content, etc.), along with e-commerce product information. It's worth reading some of the most common questions to get an idea of what it can do.
 
 Enable the Twitter Cards on the Open Graph+ General settings page, under Publisher Settings (Pro version).
 
@@ -234,9 +234,15 @@ Pinterest Rich Pins are an extension of Open Graph meta tags, so once you've val
 
 Submit a sampling of Posts and Pages to the [Twitter Card Validator](https://dev.twitter.com/docs/cards/validation/validator) -- each card type must be approved individually. Choose Posts with featured images, galleries, products, etc. and submit an example of each.
 
+Links to all the various validation services are available in the Custom Settings box on any Post / Page editing page.
+
+Link to original article: <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/" target="" rel="alternate">Where do I start?</a>
+
 = What is the difference between the GPL and Pro versions? =
 
 The [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) of NGFB Open Graph+ adds support for [Twitter Cards](https://dev.twitter.com/docs/cards), e-commerce products ([WooCommerce](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/)), tighter integration with SEO plugins ([WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/)), dynamically changes the social button language to match the webpage, allows you to customize the Open Graph title, description, image, video, number of images / videos included, and enable / disable social buttons *for each individual Post and Page*. You can also enable a file cache to save social sharing images and JavaScripts locally, and provide URLs to these cached files instead of the originals (to further improve page load times). If you use a CDN or dedicated server to handle static content, the Pro version also includes a URL rewriting feature (for encoded URLs that other rewriting plugins cannot detect). 
+
+Link to original article: <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/" target="" rel="alternate">What is the difference between the GPL and Pro versions?</a>
 
 = How do I install the Pro version? =
 
@@ -250,7 +256,7 @@ Discounts are available for purchases of 3 or more licenses. The 3 license pack,
 
 Sites within a Network / multisite all use different Site Addresses, so each site must be licensed. The Open Graph+ settings in the Network admin interface allow you to define a default Authentication ID for all sites (which can be customized / modified in each site's Advanced settings page), or force all sites to use a single Authentication ID. Note that the default site / blog must be licensed to allow Pro version updates from the Network Admin interface, so purchase a number of licenses accordingly.
 
-= Can I use other social sharing buttons than those of NGFB Open Graph+? =
+= Can I use other social sharing buttons? =
 
 Absolutely. NGFB Open Graph+'s primary function is to create meta tags (Open Graph, Rich Pin, Twitter Cards, SEO, etc.). Aside from Pinterest and Tumblr, **social buttons should only send a URL to the social websites**. The social websites can then connect *back* to the shared URL, read the meta tags, and show the results in an overlay / popup window. The Pinterest and Tumblr sharing buttons are an exception - they must include additional information, such as captions, media type (image, video), post type, etc.
 
@@ -269,7 +275,7 @@ NextGEN Open Graph+ was written specifically to support features of NextGEN Gall
 * NextGEN Gallery album and gallery preview images and descriptions.
 * Image tags (keywords) from NextGEN Gallery.
 
-= How does NGFB Open Graph+ find images for the Open Graph meta tags? =
+= How does NGFB Open Graph+ find images? =
 
 The images used in the Open Graph meta tags for Posts and Pages are chosen in this sequence:
 
@@ -292,7 +298,7 @@ All of these methods will lead to a properly sized image of the correct dimensio
 
 The plugin also looks for any &lt;img/&gt; HTML tags with a 'width' and 'height' attribute that is large enough (larger than the dimensions defined in the plugin settings).
 
-= Why does the plugin ignore the &lt;img/&gt; HTML tags in my content? =
+= Why does the plugin ignore the &lt;img/&gt; HTML tags? =
 
 If one or more `<img/>` HTML tags is being ignored, it's probably because the **image width and height attributes are missing, or their values are less than the 'Image Size Name' you've chosen on the settings page**. NGFB Open Graph+ will only use an image equal to, or larger than, the Image Dimensions you've chosen.
 
@@ -317,7 +323,9 @@ You could create a Page with the `&#91;singlepic&#93;` shortcode, or select the 
 
 = How can I exclude certain parts of the content text? =
 
-By default, NGFB will use the excerpt for the Open Graph description value. If an excerpt isn't available, the content text will be used instead. If there are parts of your content text that you don't want NGFB to pickup, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
+By default, NGFB Open Graph+ will use the excerpt for the various description values. If an excerpt isn't available, the content text will be used instead.  If there are parts of your content text that you don't want the plugin to see, you can wrap those sections between `<!--ngfb-ignore-->` and `<!--/ngfb-ignore-->` comment tags.
+
+Link to original article: <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-exclude-certain-parts-of-the-content-text/" target="" rel="alternate">How can I exclude certain parts of the content text?</a>
 
 = Why don't my Twitter Cards show on Twitter? =
 
@@ -378,11 +386,11 @@ Information on Wistia videos is only available from a password protected Wistia 
 
 Google reads the Open Graph meta tags as well, along with other "structured data markup" on your webpage. You can see what Google picks up from your webpages by using it's [Rich Snippets Testing Tool](http://www.google.com/webmasters/tools/richsnippets). Use the "Author Link URL" and "Publisher Link URL" options on the NGFB settings page to have Google associate author profiles with your search results.
 
-= Does LinkedIn read the Open Graph tags? =
+= Does LinkedIn read the Open Graph meta tags? =
 
 According to LinkedIn's [Setting Display Tags for Shares](https://developer.linkedin.com/documents/setting-display-tags-shares) information page, they use three of the Open Graph tags (title, description, and url).
 
-= The W3C Markup Validation Service says "there is no attribute '<em>property</em>'". =
+= W3C says "there is no attribute '<em>property</em>'" =
 
 The Facebook / Open Graph meta *property* attribute is not part of the HTML5 standard, so the [W3C Markup Validator](http://validator.w3.org/) is correct in throwing up an error. In practice though, this incorrect attribute is completely harmless -- social sites (Facebook, Google+, etc.) look for it and don't care if it's part of the standard or not. If you want to address the W3C validator error, you'll have to change the DOCTYPE of your website to XHTML+RDFa (an example follows). The DOCTYPE definition is usually located in the `header.php` file of your theme.
 
@@ -390,7 +398,7 @@ The Facebook / Open Graph meta *property* attribute is not part of the HTML5 sta
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 `
 
-= Why are there duplicate Facebook / Google fields on the user profile page? =
+= Why are there duplicate contact fields on the user profile page? =
 
 NGFB Open Graph+ adds a "Facebook URL" and "Google URL" field to the profile page. If you already have another plugin that adds these fields to the profile page (under different names), you can tell NGFB to use these other field names instead. You can also remove or change the description of these additional fields (changing "Google URL" to "Google Link" for example). See the "Rename or Add Profile URL Fields" section in the [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) tab for additional information.
 
