@@ -180,6 +180,8 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
+= Table of Contents =
+
 * [Can I Share a Single Image on a Webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/)
 * [Can I use other social sharing buttons?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-other-social-sharing-buttons/)
 * [Can I use the Pro version on multiple websites?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-the-pro-version-on-multiple-websites/)
