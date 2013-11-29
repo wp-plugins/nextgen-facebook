@@ -847,5 +847,4 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		}
 	}
 }
-
 ?>

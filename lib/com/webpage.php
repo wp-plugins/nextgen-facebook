@@ -27,7 +27,6 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				if ( class_exists( $classname ) )
 					$this->shortcode[$id] = new $classname( $this->p );
 			}
-			unset ( $id, $name );
 		}
 
 		// called from Tumblr class
@@ -45,12 +44,12 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			}
 			// remove shortcodes, etc., but don't strip html tags
 			$quote = $this->p->util->cleanup_html_tags( $quote, false );
+
 			return apply_filters( $this->p->cf['lca'].'_quote', $quote );
 		}
 
 		// called from Tumblr, Pinterest, and Twitter classes
-		public function get_caption( $type = 'title', $length = 200, 
-			$use_post = true, $use_cache = true, $add_hashtags = true ) {
+		public function get_caption( $type = 'title', $length = 200, $use_post = true, $use_cache = true, $add_hashtags = true ) {
 
 			switch( strtolower( $type ) ) {
 				case 'title' :
@@ -76,8 +75,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$use_post, $use_cache, $add_hashtags );
 		}
 
-		public function get_title( $textlen = 70, $trailing = '',
-			$use_post = false, $use_cache = true, $add_hashtags = false ) {
+		public function get_title( $textlen = 70, $trailing = '', $use_post = false, $use_cache = true, $add_hashtags = false ) {
 
 			$title = false;
 			$parent_title = '';
@@ -203,8 +201,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			return apply_filters( $this->p->cf['lca'].'_title', $title );
 		}
 
-		public function get_description( $textlen = 156, $trailing = '',
-			$use_post = false, $use_cache = true, $add_hashtags = true ) {
+		public function get_description( $textlen = 156, $trailing = '', $use_post = false, $use_cache = true, $add_hashtags = true ) {
 
 			$desc = false;
 			$hashtags = '';
