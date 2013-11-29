@@ -128,7 +128,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			}
 
 			$opts = $this->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
-			$this->save_options( $options_name, $opts );
 			return $opts;
 		}
 	}
