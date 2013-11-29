@@ -407,8 +407,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$this->upg = new NgfbOptionsUpgrade( $this->p );
 						}
 						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
+					}
 					// update the options to save the plugin version
-					} else $this->save_options( $options_name, $opts );
+					$this->save_options( $options_name, $opts );
 				}
 
 				// add support for post types that may have been added since options last saved
