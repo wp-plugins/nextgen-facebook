@@ -180,7 +180,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
-* [Can I Share a Single Image on a * Webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/)
+* [Can I Share a Single Image on a Webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/)
 * [Can I use other social sharing buttons?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-other-social-sharing-buttons/)
 * [Can I use the Pro version on multiple websites?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-the-pro-version-on-multiple-websites/)
 * [Does LinkedIn read the Open Graph meta tags?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/does-linkedin-read-the-open-graph-meta-tags/)
@@ -196,7 +196,6 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * [What features of NextGEN Gallery v1.x and v2.x are supported?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-v1-x-and-v2-x-are-supported/)
 * [What is the difference between the GPL and Pro versions?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/)
 * [Where do I start?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/)
-* [Why are there duplicate contact fields on the user profile page?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-are-there-duplicate-contact-fields-on-the-user-profile-page/)
 * [Why aren’t Pins from my website posting Rich?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/)
 * [Why do my Facebook shares have small images?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/)
 * [Why does Facebook play videos instead of linking them?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-play-videos-instead-of-linking-them/)
