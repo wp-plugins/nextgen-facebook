@@ -137,5 +137,4 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 		}
 	}
 }
-
 ?>

@@ -408,7 +408,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						}
 						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
 					}
-					// update the options to save the plugin version
+					// update the options to save the plugin and options version
 					$this->save_options( $options_name, $opts );
 				}
 
@@ -452,7 +452,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 					}
 				}
-				if ( $this->p->is_avail['aop'] == true && empty( $this->p->options['plugin_tid'] ) )
+				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
 			}
 			return $opts;
