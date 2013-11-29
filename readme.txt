@@ -645,7 +645,7 @@ Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter)
 
 == Changelog ==
 
-= Version 6.16.2rc1 =
+= Version 6.16.2 =
 
 * Improved the management of html encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening. The 'ngfb_title', 'ngfb_description', and 'ngfb_caption' filters will now receive encoded strings.
 * Improved the detection of 3rd party plugins for conflict and addon support checks by verifying loaded class/function names, plus the active plugins array from WordPress.
@@ -703,7 +703,7 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 
 == Upgrade Notice ==
 
-= 6.16.2rc1 =
+= 6.16.2 =
 
 Improved the management of html encoded and non-encoded strings internally, improved the detection of 3rd party plugins for conflict and addon support checks, changed the Wistia API call for the new oembed SEO API, which doesn't require a password.
 
