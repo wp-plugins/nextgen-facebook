@@ -218,6 +218,8 @@ But what about your images from NextGEN Gallery? SEO plugins don’t resolve sho
 
 All of these, and much, much more, is covered by the NGFB Open Graph+ plugin -- it covers the other half that SEO plugins don’t. ;-) 
 
+<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/" target="" rel="alternate">Link to original article</a>
+
 = Where do I start? =
 
 Have a look at the selection of videos available on [Surnia Ulula's Youtube Channel](https://www.youtube.com/user/SurniaUlulaCom). Familiarize yourself with the difference between meta tags and social buttons -- the first provides information about the webpage to social websites, the other just shares the URL of the current webpage. ;-)
