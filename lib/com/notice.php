@@ -109,8 +109,8 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 								margin:10px auto 10px auto;
 							}
 							.sucom-update-nag li {
+								list-style:circle inside none;
 								font-weight:bold;
-								font-size:1.1em;
 								text-align:left;
 								margin:2px 0;
 							}
