@@ -245,6 +245,8 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Version 6.16.2 =
 
+Version 6.16.2 has a few internal code improvements - specifically, standardizing the handling of HTML encoded and non-encoded strings. The detection of 3rd party plugins, and support for Wistia videos, has also been improved.
+
 * Improved the management of html encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening. The 'ngfb_title', 'ngfb_description', and 'ngfb_caption' filters will now receive encoded strings.
 * Improved the detection of 3rd party plugins for conflict and addon support checks by verifying loaded class/function names, plus the active plugins array from WordPress.
 * Changed the Wistia v1 API call for the new oembed SEO API call (which doesn't need a password).

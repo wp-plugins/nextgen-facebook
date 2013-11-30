@@ -41,8 +41,8 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					}
 					break;
 				case 'pro_details' :
+					$msg .= '<p style="font-size:1.2em;">Would you like to...</p>';
 					$msg .= '<ul>';
-					$msg .= '<li>Would you like to...</li>';
 					$msg .= '<li>Add support for <em>Gallery, Photo, Large Image, Player and Product</em> 
 						<a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>?</li>';
 					$msg .= '<li>Customize Open Graph, Rich Pin and Twitter Card meta tags for <em>individual</em> Post and Page?</li>';
