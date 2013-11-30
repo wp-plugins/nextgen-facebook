@@ -180,7 +180,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Frequently Asked Questions ==
 
-= Table of Contents =
+= Frequently Asked Questions =
 
 * [Can I Share a Single Image on a Webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/)
 * [Can I use other social sharing buttons?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-other-social-sharing-buttons/)
@@ -208,225 +208,19 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * [Why don’t my Twitter Cards show on Twitter?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/)
 * [Why is the Open Graph title the same for every webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/)
 
-== Resources ==
-
-For on-going news and information about the NGFB Open Graph+ plugin, you can subscribe and / or follow me on:
-
-* [@surniaululacom on Twitter](https://twitter.com/surniaululacom)
-* [#ngfbog hashtag on Twitter](https://twitter.com/search?q=%23ngfbog)
-* [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom)
-* [Surnia Ulula on Facebook](https://www.facebook.com/pages/Surnia-Ulula/200643823401977)
-* [Surnia Ulula on Google+](https://plus.google.com/u/2/103457833348046432604/posts)
-* [RSS Feed from Surnia Ulula](http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/)
-* [Surnia Ulula's Support Website[(http://support.surniaulula.com/) (Pro version only)
-
-Need help? See the plugin [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/), [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) or visit the [Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) on WordPress.org. If you have the Pro version, you may also contact me by email (simply reply to the email you received when purchasing the Pro version).
-
-== Debugging and Problem Solving ==
-
-NGFB Open Graph+ follows the latest recommended WordPress coding practices, but on occasion, it may break *other* themes and/or plugins that do not.
-
-= WordPress Content Filters =
-
-WordPress allows plugins and themes to hook into various filters, which are then used by WordPress to expand shortcodes, etc. WordPress generally calls a filter (like 'the_content') once to expand text for the webpage. As a consequence, some authors mistakenly assume that a filter they have created will only be executed once. WordPress filters are available to any theme and/or plugin that needs to expand text (title, excerpt, content, etc.), which NGFB Open Graph+ uses to provide a complete and accurate meta tag description (as an example).
-
-On the Open Graph+ Advanced settings page, you can uncheck the 'Apply Content Filters' and 'Apply Excerpt Filters' to see if your problem is related to a WordPress filter hook. If unchecking these options fixes your problem, you should determine which filter is at fault and report the issue with the theme and/or plugin author. Using the WordPress `apply_filters()` function more than once should not break a theme and/or plugin.
-
-As an alternative to disabling content / excerpt filters, you can also use a custom 'Default Description' in the Custom Settings metabox located on most Pages and Posts. NGFB Open Graph+ will then use the custom description instead of applying filters to generate a description from the content.
-
-= Debug and Error Messages =
-
-Turning on the WordPress debug log can be highly illuminating -- your theme and plugins may be generating many errors, which you would never see unless you turn on the WordPress debug log. To enable the WordPress debug log, without displaying the errors to your visitors, add the following to your `wp-config.php` file.
-
-`
-define('WP_DEBUG', true);
-if ( defined('WP_DEBUG') && WP_DEBUG == true ) {
-	define('WP_DEBUG_LOG', true);
-	define('WP_DEBUG_DISPLAY', false);
-	@ini_set('display_errors',0);
-}
-`
-
-NGFB Open Graph+ can also generate debug / activity messages by ckecking the 'Add Hidden Debug Info' on the Open Graph+ Advanced settings page. The debug messages will be added directly to the webpage as HTML comments, to allow debugging issues remotely. You can also define the following constant to enable the same behavior.
-
-`
-define('NGFB_HTML_DEBUG', true);
-`
-
-If you would like to send NGFB Open Graph+ debug messages to the WordPress log file instead (or as well), you can define the following constant.
-
-`
-define('NGFB_WP_DEBUG', true);
-`
-
-== Multisite ==
-
-NGFB Open Graph+ is multisite aware and provides a network settings page in the Network Admin interface. [See the Multisite Support solutions page for additional information](http://support.surniaulula.com/support/solutions/articles/1000000140-multisite-support).
-
-== Twitter Cards ==
-
-Your website must be 'authorized' by Twitter for each type of Twitter Card. NGFB Open Graph+ Pro supports the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards. For each type card, you must submit a sample URL from your website to Twitter's validation tool:
-
-1. Make sure the 'Enable Twitter Cards' option is checked on NGFB Open Graph+ Pro's General settings page.
-1. Go to Twitter's [Card Validator](https://dev.twitter.com/docs/cards/validation/validator).
-1. 'Cancel' the Card Catalog popup (these are just examples).
-1. Choose the 'Validate &amp; Apply' tab.
-1. Enter an example URL from your website for the Twitter Card you would like to get approved. The Twitter Card type depends on the webpage content (see following).
-1. If the Twitter Card type has not been approved yet, you may click on the 'Request Approval' button.
-1. Fill-in and submit the form.
-
-NGFB Open Graph+ Pro creates the Twitter Cards based on the content of your webpages.
-
-* Product : Product information from a supported e-commerce plugin.
-* Player : An embedded video in the content from YouTube, Vimeo, or Wistia.
-* Gallery Card : Provided by NextGEN Gallery shortcodes (*nggalbum*, *nggallery*, and *nggtags*).
-* Photo Card : An Attachment or NextGEN Gallery ImageBrowser webpage.
-* Large Image Summary Card : An image defined in the Post or Page Metabox, a Featured, Attached, or NextGEN Gallery *singlepic* shortcode image. 
-* Summary : All other webpages.
-
-An 'ngfb_tc' filter hook is also available to customize the Twitter Card meta tags.
-
-== Shortcodes ==
-
-You can add one or more social sharing buttons to your content by using the `&#91;ngfb&#93;` shortcode. **The "Enable Shortcode" option must be enabled on the NGFB settings page** (disabled by default).
-
-`
-&#91;ngfb buttons="facebook, gplus, linkedin, pinterest, stumbleupon, tumblr, twitter"&#93;
-`
-
-You may use several arguments:
-
-* `buttons` : A list of buttons to include, as shown in the example above.
-* `url` : A specific URL to share, instead of the current webpage or Post URL.
-* `pid` : A picture ID to share for the Pinterest and Tumblr buttons. NextGEN Gallery picture IDs must be in the form of 'ngg-#' (for example: `pid="ngg-123"`).
-* `photo` : A specific photo / image URL to share for the Pinterest and Tumblr buttons. The `photo` argument takes precedence over the `pid` argument.
-* `css_class` : A CSS class name.
-* `css_id` : A CSS id name.
-
-Note that by default (like all other methods used to add NGFB social buttons), a *featured* or *attached* image must be present for the Pinterest button to show (unless the `pid` or `photo` argument is used).
-
-== Stylesheets ==
-
-= Social Buttons Style =
-
-NGFB Open Graph+ uses several layers of classes to describe all its social buttons, and each button has it's own individual class name and id as well. You may add styling for social buttons to an existing stylesheet (from your theme, for example), or use the built-in stylesheet editor found on the Social Style settings page.
-
-The default styles offer a fairly complete example of CSS styling for the NGFB social buttons. In the default Social Buttons Style section I've specified the width (and height) for each button's `<div>`. This takes a little more work to get right, but *pre-defining the height and width of each button helps the page rendering speed significantly*. The `.ngfb-buttons` class is included within one of four other classes: `.ngfb-content-buttons` and `.ngfb-excerpt-buttons` for buttons enabled on the Social Sharing settings page, `.ngfb-widget-buttons` for buttons enabled from the widget, and `.ngfb-shortcode-buttons` for buttons added using the `&#91;ngfb&#93;` shortcode.
-
-= Hide Social Buttons =
-
-You can also hide the social buttons (or pretty much any object) in a webpage or post by using `display:none` in your stylesheet. As an example, if you use the "Inspect Element" feature of Firefox (right-click on the object to inspect) -- or use "View Source" to see the webpage's HTML -- you should find your content wrapped in a `<div>` HTML tag similar to this one:
-
-`
-<div class="postid-123 post type-post status-publish format-standard 
-	hentry category-test category-wordpress tag-css tag-html">
-		The post content text...
-</div>
-`
-
-You could use any of these class names to hide one or more NGFB social buttons enabled on the settings page. For example, the following stylesheet hides the social buttons on Post <em>123</em>, any page in category <em>Test</em>, and posts using the Aside and Status formats:
-
-`
-.post-123 .ngfb-buttons,
-.category-test .ngfb-buttons,
-.format-aside .ngfb-buttons,
-.format-status .ngfb-buttons { display:none; }
-`
-
-[The Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) also includes a Custom Settings checkbox to enable/disable social buttons on each Post and Page without the use of CSS.
-
-== Performance Tuning ==
-
-The code for NGFB is highly optimized -- the plugin will not load or execute code it does not have to. And unlike most plugins, NGFB Open Graph+ makes full use of all available caching techniques:
-
-* Non-persistent ([WP Object Cache](http://codex.wordpress.org/Class_Reference/WP_Object_Cache)) object caching for rendered (filtered) Post and Page content.
-* Persitent ([Transient API](http://codex.wordpress.org/Transients_API)) object caching for the Open Graph meta tags, social buttons widget, shortcodes and content social buttons.
-* Using an optional file / disk based cache for javascript and images from social websites (Pro version).
-
-= Tuning the Plugin Settings =
-
-You may consider the following option settings to fine-tune the plugin for optimal performance.
-
-* If your website content does not have any embedded videos, or you prefer not to include information on embedded videos in your Open Graph meta property tags, you can set the "Maximum Number of Videos" to "0". This will prevent the plugin from searching your content text for embedded videos.
-
-* If you generally have a *featured* image for your posts and pages, you may set the "Maximum Number of Images" to "1". This will prevent the plugin from searching your content for additional images (the *featured* image counts as "1" and the plugin will stop there).
-
-* For posts and pages, if no excerpt text has been entered, the content text is used to define the Open Graph description meta property value. If you generally don't use excerpts, and your content does not rely on shortcodes or plugins to render its text, you may uncheck the "Apply Content Filters" option.
-
-* If you don't use the `&#91;ngfb&#93;` shortcode, you can uncheck the "Enable Shortcode" option if it has been enabled (the default is unchecked).
-
-* If your infrastructure can serve JavaScript and image files faster and more reliably than Facebook, Google+, etc., you can set the "File Cache Expiry" option in the Pro version to several hours (the default of "0" hours disables this option).
-
-* If the featured image, excerpt (or content text), etc., is not generally revised after publishing, you can increase the "Object Cache Expiry" option from 300 seconds (the default) to 600 or even 900 seconds.
-
-= Defragment the Database =
-
-The database tables in MySQL can become fragmented as entries are added/removed/updated, especially the options table which holds the transient object cache entries. You should defragment you database tables at least daily. I use [Phil Dufault's `mysqlfragfinder.sh`](https://github.com/pdufault/mysqlfragfinder) script for my own databases.
-
-Here is an example crontab entry:
-
-`
-# defragment mysql tables
-0 3 * * *       export TERM=vt100; /usr/local/bin/mysqlfragfinder.sh >/var/tmp/mysqlfragfinder.log
-`
-
-And to prevent the script from stopping for a password, add an entry for it in the `~/.my.cnf` file:
-
-`
-[mysqlfragfinder.sh]
-host="127.0.0.1"
-user="********"
-pass="********"
-`
-
-== Advanced Usage ==
-
-= Include Social Buttons from Template File(s) =
-
-The `ngfb_get_social_buttons()` function can be used to include social buttons anywhere in your template files. As an example, the following PHP code includes the Facebook, Google+, and Twitter social buttons from within a loop, post, or page (the `$post->ID` must be available):
-
-`
-<?php if ( function_exists( 'ngfb_get_social_buttons' ) ) 
-	echo ngfb_get_social_buttons( array( 'facebook', 'gplus', 'twitter' ) ); ?>
-`
-
-The social button names for the array can be "facebook", "gplus", "linkedin", "pinterest", "stumbleupon", "tumblr", and "twitter".
-
-You can also use the `ngfb_get_social_buttons()` function *outside* of a loop, post, or page, but you will have to provide additional information to the function. Since the `$post` variable is not available outside of a loop (to get the permalink), at a minimum you will have to provide the webpage URL. Here's an example from a custom NextGEN Gallery template (plugins/nextgen-gallery/view/): 
-
-`
-if ( function_exists( 'ngfb_get_social_buttons' ) ) { 
-	$url = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-	$url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	echo ngfb_get_social_buttons( array( 'pinterest', 'tumblr' ),
-		array ( 'pid' => 'ngg-'.$image->pid, 'url' => $url, 'caption' => $image->caption ) );
-}
-`
-
-This creates a Pinterest and Tumblr button to share a picture from a NextGEN Gallery, sets the URL to the current webpage address, and uses the picture's caption as well. All social buttons, besides Pinterest and Tumblr, only need the URL defined.
-
-= Disable Open Graph Meta Tags =
-
-You can exclude the Open Graph meta tags from being added to certain webpages. You must set the `NGFB_OPEN_GRAPH_DISABLE` constant to true in your theme's header.php before the `wp_head()` function. Here's an example that disables NGFB's meta tags for image search results (a custom 'meta' template is called to define the Open Graph tags):
-
-`
-global $nggSearch
-if ( is_search() && $nggSearch->found_images ) {
-	define( 'NGFB_OPEN_GRAPH_DISABLE', true );
-	echo $nggSearch->return_result( 'meta' );
-}
-wp_head();
-`
-
-= URL Rewriting =
-
-NGFB Open Graph+ (Pro version) provides advanced URL rewriting features, allowing you to rewrite URLs in the Open Graph meta tags, *encoded image URLs* shared by social buttons (Pinterest and Tumblr), and cached social media files. As an example, <u>http://mydomain.com/wp-content/gallery/test/image.jpg</u> can be rewritten as <u>http://static.mydomain.com/wp-content/gallery/test/image.jpg</u>. The <em>Static Content URL(s)</em> option value for this example would be <em>http://static.mydomain.com/</em>.
-
-You can also enter multiple comma-delimited values, and use numbered wildcards like <em>http://cdn%3%.static.mydomain.com/</em> for example (which expands to cdn1, cdn2, and cdn3), or <em>http://cdn%4-6%.static.mydomain.com/</em> (which expands to cdn4, cdn5, and cdn6). If wildcards or multiple <em>Static Content URL(s)</em> are entered, a random URL in the range is chosen for each rewrite.
-
-= NGFB Filter Hooks =
-
-Several [filter hooks](http://codex.wordpress.org/Function_Reference/add_filter) are available within the [NGFB Open Graph+](http://surniaulula.com/extend/plugins/nextgen-facebook/) plugin to manipulate text (title, description, content, etc.) and arrays (tags, open graph, etc.). [All NGFB Filter Hooks are documented on the Pro version support website](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks).
+== Notes ==
+
+* [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
+* [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
+* [Disable Open Graph](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/disable-open-graph/)
+* [Image Attachments](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/image-attachments/)
+* [Multisite / Network Support](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/)
+* [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/)
+* [Resources and Contacts](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/)
+* [Shortcodes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/)
+* [Social Buttons Function](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons-function/)
+* [Styling Social Buttons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/)
+* [URL Rewriting](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/)
 
 == Screenshots ==
 
