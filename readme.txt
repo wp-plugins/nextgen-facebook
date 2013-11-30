@@ -208,7 +208,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * [Why don’t my Twitter Cards show on Twitter?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/)
 * [Why is the Open Graph title the same for every webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/)
 
-== Notes ==
+== Other / Additional Notes ==
 
 * [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
 * [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
