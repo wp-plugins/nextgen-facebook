@@ -120,5 +120,4 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 	}
 	add_action( 'widgets_init', create_function( '', 'return register_widget( "NgfbWidgetSocialSharing" );' ) );
 }
-
 ?>

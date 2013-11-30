@@ -488,7 +488,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					case 'buttons_css_content':
 					case 'buttons_css_shortcode':
 					case 'buttons_css_widget':
-						//$opts[$key] = html_entity_decode( $this->p->util->decode_utf8( $opts[$key] ) );
 						break;
 					default:
 						$opts[$key] = stripslashes( $opts[$key] );
