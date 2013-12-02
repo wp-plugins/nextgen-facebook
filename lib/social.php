@@ -60,7 +60,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		public function filter_the_excerpt( $text ) {
 			$id = $this->p->cf['lca'].' excerpt-buttons';
-			$text = preg_replace_callback( '/(<!-- '.$id.' begin -->.*<!-- '.$id.' end -->)(<\/[pP]>|)/Us', 
+			$text = preg_replace_callback( '/(<!-- '.$id.' begin -->.*<!-- '.$id.' end -->)(<\/p>)?/Usi', 
 				array( __CLASS__, 'remove_paragraph_tags' ), $text );
 			return $text;
 		}

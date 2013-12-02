@@ -304,7 +304,9 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			$text = preg_replace( '/<script\b[^>]*>(.*?)<\/script>/i', ' ', $text);			// remove javascript
 			$text = preg_replace( '/<style\b[^>]*>(.*?)<\/style>/i', ' ', $text);			// remove inline stylesheets
 			$text = preg_replace( '/<!--ngfb-ignore-->(.*?)<!--\/ngfb-ignore-->/i', ' ', $text);	// remove text between comment strings
-			if ( $strip_tags == true ) $text = strip_tags( $text );					// remove remaining html tags
+			if ( $strip_tags == true ) 
+				$text = strip_tags( $text );							// remove remaining html tags
+			$text = preg_replace( '/  +/s', ' ', $text );						// truncate multiple spaces
 			return trim( $text );
 		}
 
