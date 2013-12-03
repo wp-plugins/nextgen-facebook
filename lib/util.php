@@ -614,7 +614,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$cache_type = 'object cache';
 				$sharing_url = $this->p->util->get_sharing_url( $post_id );
 				$transients = array(
-					'NgfbOpengraph::get' => array(
+					'NgfbOpengraph::get_array' => array(
 						'og array' => 'lang:'.$lang.'_sharing_url:'.$sharing_url,
 					),
 					'NgfbSocial::filter' => array(
