@@ -139,7 +139,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
-			'A custom Image ID to include (ist first) in the Open Graph, Rich Pin, 
+			'A custom Image ID to include (first) in the Open Graph, Rich Pin, 
 			and \'Large Image Summary\' Twitter Card meta tags, 
 			along with the Pinterest and Tumblr social sharing buttons.' ) .
 			'<td class="blank">&nbsp;</td>';
