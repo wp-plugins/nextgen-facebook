@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.16.2',			// plugin version
+			'version' => '6.17dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -65,6 +65,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					),
 					'forum' => array(
 						'bbpress' => 'bbPress',
+					),
+					'social' => array(
+						'buddypress' => 'BuddyPress',
 					),
 					'media' => array(
 						'wistia' => 'Wistia',

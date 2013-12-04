@@ -326,7 +326,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			}
 			unset ( $id, $name );
 
-			$this->defaults = $this->add_to_post_types( $this->defaults );
+			$this->defaults = $this->add_post_type_options( $this->defaults );
 
 			$this->defaults['link_author_field'] = empty( $this->p->options['plugin_cm_gp_name'] ) ? 
 				$this->defaults['plugin_cm_gp_name'] : $this->p->options['plugin_cm_gp_name'];
@@ -357,15 +357,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			else return $this->defaults;
 		}
 
-		public function add_to_post_types( &$opts = array() ) {
-			// buttons_add_to = include social buttons on that post type
-			// plugin_add_to = include the custom settings metabox on the editing page for that post type
-			foreach ( array( 
-				'buttons_add_to_' => array( 'public' => true ),
-				'plugin_add_to_' => array( 'show_ui' => true, 'public' => true )
-			) as $add_to => $include ) {
-				foreach ( get_post_types( $include, 'objects' ) as $post_type ) {
-					$option_name = $add_to.$post_type->name;
+		public function add_post_type_options( &$opts = array() ) {
+			foreach ( array( 'buttons', 'plugin' ) as $prefix ) {
+				foreach ( $this->p->util->get_post_types( $prefix ) as $post_type ) {
+					$option_name = $prefix.'_add_to_'.$post_type->name;
 					if ( ! array_key_exists( $option_name, $opts ) ) {
 						switch ( $post_type->name ) {
 							case 'shop_coupon':
@@ -414,7 +409,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 				// add support for post types that may have been added since options last saved
 				if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) )
-					$opts = $this->add_to_post_types( $opts );
+					$opts = $this->add_post_type_options( $opts );
 
 			} else {
 				if ( $opts === false )

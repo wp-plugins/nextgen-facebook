@@ -243,6 +243,10 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
+= Version 6.17dev1 =
+
+* **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'**.
+
 = Version 6.16.2 =
 
 Version 6.16.2 has a few internal code improvements - specifically, standardizing the handling of HTML encoded and non-encoded strings. The detection of 3rd party plugins, and support for Wistia videos, has also been improved.

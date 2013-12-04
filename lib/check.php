@@ -28,7 +28,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( $this->network_plugins )
 					$this->active_plugins = array_merge( $this->active_plugins, $this->network_plugins );
 			}
+		}
 
+		public function get_active() {
+			return $this->active_plugins;
 		}
 
 		// used before any class objects are created, so keep in main class
@@ -78,6 +81,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'bbpress':
 							$class_name = 'bbPress'; 
 							$pluginbase = 'bbpress/bbpress.php';
+							break;
+						case 'buddypress':
+							$class_name = 'BuddyPress'; 
+							$pluginbase = 'buddypress/bp-loader.php';
 							break;
 					}
 					if ( ( $func_name && function_exists( $func_name ) ) || 

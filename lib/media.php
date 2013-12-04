@@ -76,7 +76,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			$og_image = array();
-			$size_info = $this->get_size_info( $size_name );
 			if ( ! empty( $post_id ) && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 				// featured images from ngg pre-v2 had 'ngg-' prefix
@@ -87,11 +86,10 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 				}
-				if ( ! empty( $og_image['og:image'] ) &&
-					$this->p->util->push_max( $og_ret, $og_image, $num ) )
-						return $og_ret;
+				if ( ! empty( $og_image['og:image'] ) )
+					$this->p->util->push_max( $og_ret, $og_image, $num );
 			}
-			return $og_ret;
+			return apply_filters( $this->p->cf['lca'].'_og_featured', $og_ret, $num, $size_name, $post_id, $check_dupes );
 		}
 
 		public function get_first_attached_image_id( $post_id ) {
@@ -133,17 +131,17 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					}
 					rsort( $attach_ids, SORT_NUMERIC ); 
 					$this->p->debug->log( 'found '.count( $attach_ids ).' attached images for post id '.$post_id );
-					$attach_ids = apply_filters( $this->p->cf['lca'].'_attached_images', $attach_ids, $post_id );
+					$attach_ids = apply_filters( $this->p->cf['lca'].'_attached_image_ids', $attach_ids, $post_id );
 					foreach ( $attach_ids as $pid ) {
 						$og_image = array();
 						list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 							$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 						if ( ! empty( $og_image['og:image'] ) &&
 							$this->p->util->push_max( $og_ret, $og_image, $num ) )
-								return $og_ret;
+								break;	// end foreach and apply filters
 					}
 			}
-			return $og_ret;
+			return apply_filters( $this->p->cf['lca'].'_og_attached_images', $og_ret, $num, $size_name, $post_id, $check_dupes );
 		}
 
 		public function get_attachment_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
@@ -338,7 +336,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
 	
 							// recognize gravatar images in the content
-							} elseif ( preg_match( '/^https?:\/\/[^\.]+\.gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
+							} elseif ( preg_match( '/^https?:\/\/([^\.]+\.)?gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
 
 								$this->p->debug->log( $attr_name.' gravatar image = '.$og_image['og:image'] );
 								$og_image['og:image'] = $match[0].'?s='.$size_info['width'].'&d=404&r=G';
@@ -360,7 +358,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								' ('.$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
 
 							// if we're picking up an img from 'src', make sure it's width and height is large enough
-							if ( $attr_name == 'share-'.$size_name || $attr_name == 'share' || 
+							if ( $attr_name == 'data-share-src' || 
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
 								( $attr_name == 'src' && $size_info['crop'] === 1 && 
 									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
@@ -404,7 +402,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							$content = preg_replace( '/\['.$shortcode_type.'[^\]]*\]/', '', $content );	// prevent loops, just in case
 							// provide the expanded content and extract images
 							$og_ret = array_merge( $og_ret, 
-								$this->p->media->get_content_images( $num, $size_name, $use_post, $check_dupes, $content ) );
+								$this->p->media->get_content_images( $num, $size_name, null, $check_dupes, $content ) );
 							if ( ! empty( $og_ret ) ) 
 								return $og_ret;		// return immediately and ignore any other type of image
 							break;

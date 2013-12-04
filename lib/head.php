@@ -26,7 +26,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 		// called by WP wp_head action
 		public function add_header() {
 			if ( $this->p->debug->is_on() ) {
-				foreach ( array( 
+				$is_functions = array( 
 					'is_author',
 					'is_archive',
 					'is_category',
@@ -38,8 +38,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					'is_product',
 					'is_product_category',
 					'is_product_tag',
-					) as $func ) if ( function_exists( $func ) )
-						$this->p->debug->log( $func.'() = '.( $func() ? 'true' : 'false' ) );
+				);
+				$is_functions = apply_filters( $this->p->cf['lca'].'_is_functions', $is_functions );
+				foreach ( $is_functions as $function ) 
+					if ( function_exists( $function ) && $function() )
+						$this->p->debug->log( $function.'() = true' );
 			}
 
 			if ( method_exists( $this->p->og, 'get_array' ) )
@@ -52,13 +55,18 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 				$opts = $this->p->options;
 				foreach ( array( 
+					'buttons_css_social',
+					'buttons_css_excerpt',
+					'buttons_css_content',
+					'buttons_css_shortcode',
+					'buttons_css_widget',
 					'plugin_tid', 
 					'plugin_googl_api_key', 
 					'plugin_bitly_api_key',
-					'plugin_wistia_pwd',
 				) as $key ) $opts[$key] = '********';
 
 				$this->p->debug->show_html( print_r( $this->p->is_avail, true ), 'available features' );
+				$this->p->debug->show_html( print_r( $this->p->check->get_active(), true ), 'active plugins' );
 				$this->p->debug->show_html( null, 'debug log' );
 				$this->p->debug->show_html( $opts, 'ngfb settings' );
 			}

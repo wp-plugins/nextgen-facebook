@@ -283,9 +283,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_more_content() {
 			$add_to_checkboxes = '';
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type )
+			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type )
 				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
-					$post_type->label.'</p>';
+					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
 
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
