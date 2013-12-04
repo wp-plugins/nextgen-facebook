@@ -411,6 +411,13 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) )
 					$opts = $this->add_post_type_options( $opts );
 
+				if ( ! empty( $this->p->is_avail['seo']['*'] ) &&
+					array_key_exists( 'inc_description', $opts ) ) {
+
+					$opts['inc_description'] = 0;
+					$opts['inc_description:is'] = 'disabled';
+				}
+
 			} else {
 				if ( $opts === false )
 					$opts_err_msg = 'could not find an entry for '.$options_name.' in';

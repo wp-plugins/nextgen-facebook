@@ -53,7 +53,10 @@ if ( ! class_exists( 'SucomForm' ) ) {
 				'<input type="checkbox" disabled="disabled"'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
-				( checked( $this->options[$name], $check[0], false ) ).' />';
+				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ).
+				' title="default is '.
+				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ).
+				' (option is disabled)" />';
 		}
 
 		public function get_radio( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
