@@ -139,14 +139,16 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
-			'A custom Image ID to include (and list first) in the Open Graph, Rich Pin, 
+			'A custom Image ID to include (first) in the Open Graph, Rich Pin, 
 			and \'Large Image Summary\' Twitter Card meta tags, 
 			along with the Pinterest and Tumblr social sharing buttons.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Image URL', 'medium', null, 
 			'A custom image URL, instead of an Image ID, to include (first) in the Open Graph, Rich Pin, 
-			and \'Large Image Summary\' Twitter Card meta tags.' ) .
+			and \'Large Image Summary\' Twitter Card meta tags. Please make sure your custom image
+			is large enough, or it may be ignored by the social website(s). <strong>Facebook recommends 
+			an image size of 1200x630, 600x315 as a minimum, and will ignore any images less than 200x200</strong>.' ) .
 			'<td class="blank">&nbsp;</td>';
 
 			$ret[] = $this->p->util->th( 'Video URL', 'medium', null, 
