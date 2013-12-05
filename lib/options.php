@@ -428,7 +428,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				else $opts_err_msg = 'returned an unknown condition when reading '.$options_name.' from';
 
 				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
-
 				if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
 					$opts = $this->get_site_defaults();
 				else $opts = $this->get_defaults();
@@ -453,6 +452,15 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							is smaller than the minimum of '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].'. 
 							<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 					}
+				}
+				if ( ! empty( $this->p->is_avail['ecom']['*'] ) &&
+					$opts['tc_prod_def_l2'] === 'Location' &&
+					$opts['tc_prod_def_d2'] === 'Unknown' ) {
+
+					$this->p->notice->inf( 'An eCommerce plugin has been detected. Please update Twitter\'s
+						<em>Product Card Default 2nd Attribute</em> option values on the '.
+						$this->p->util->get_admin_url( 'general', 'General settings page' ). ' 
+						(to something else than the combination of \'Location\' and \'Unknown\').' );
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );

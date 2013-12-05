@@ -394,7 +394,8 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				The <em>Product</em> Twitter Card needs a minimum of two product attributes.
 				The first attribute will be the product price, and if your product has additional attribute fields associated with it 
 				(weight, size, color, etc), these will be included in the <em>Product</em> Card as well (maximum of 4 attributes). 
-				If you product does not have a second attribute field, then this default second attribute label and value will be used.' ).
+				<strong>If your product does not have additional attributes beyond just a price</strong>, then this default second attribute label and value will be used. 
+				You may modify both the Label <em>and</em> Value for whatever is most appropriate for your website and/or products.' ).
 				'<td class="blank">'.
 				$this->form->get_hidden( 'tc_prod_def_l2' ).'Label: '.$this->p->options['tc_prod_def_l2'].' '.
 				$this->form->get_hidden( 'tc_prod_def_d2' ).'Value:'.$this->p->options['tc_prod_def_d2'].
