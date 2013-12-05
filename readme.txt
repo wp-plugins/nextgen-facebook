@@ -248,6 +248,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 * **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'**.
 * Added support for BuddyPress member, group and forum webpages (Pro version).
 * Added a check for any SEO plugin, and if found, the "description" meta tag option will be disabled.
+* Added a check for any eCommerce plugin, plus default 'Product Card Default 2nd Attribute' option values.
 
 = Version 6.16.2 =
 
