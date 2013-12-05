@@ -243,12 +243,13 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17dev1 =
+= Version 6.17dev2 =
 
-* **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'**.
-* Added support for BuddyPress member, group and forum webpages (Pro version).
-* Added a check for any SEO plugin, and if found, the "description" meta tag option will be disabled.
-* Added a check for any eCommerce plugin, plus default 'Product Card Default 2nd Attribute' option values.
+* **Added support for BuddyPress member, group and forum webpages** (Pro version).
+* Added a check for any (known) SEO plugin, and if found, the "description" meta tag option will be disabled.
+* Added a check for any (known) eCommerce plugin, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
+* Fixed duplicate image detection in the content for gravatar images.
+* **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'** (which is more accurate, and allows for additional filters with similar names).
 
 = Version 6.16.2 =
 
