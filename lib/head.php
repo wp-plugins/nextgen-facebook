@@ -197,6 +197,9 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 				$this->p->debug->log( 'meta '.$name.' is empty (skipped)' );
 				return $meta_html;
+			} elseif ( is_object( $val ) ) {
+				$this->p->debug->log( 'meta '.$name.' value is an object (skipped)' );
+				return $meta_html;
 			}
 
 			$charset = get_bloginfo( 'charset' );
