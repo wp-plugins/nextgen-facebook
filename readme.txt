@@ -28,17 +28,17 @@ NGFB Open Graph+ is a *complete* social sharing solution that uses the existing 
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= Images and Videos =
+= 3rd Party Integration =
+
+**Images and Videos**
 
 NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library.
 
-= Plugin Integration =
+**Enhanced SEO**
 
-**SEO**
+NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph and Twitter Card meta tags.
 
-NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpre ss-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph and Twitter Card meta tags.
-
-**eCommerce**
+**eCommerce Products**
 
 NGFB Open Graph+ (Pro version) also supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). 
 
@@ -46,7 +46,7 @@ NGFB Open Graph+ (Pro version) also supports [WooCommerce v1.x and v2.x](http://
 
 NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/), making sure your meta tags reflect the content being viewed, including appropriate titles, descriptions, images, etc.
 
-= Optional Social Buttons =
+= Social Buttons =
 
 NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
