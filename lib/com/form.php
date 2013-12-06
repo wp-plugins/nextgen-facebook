@@ -33,63 +33,52 @@ if ( ! class_exists( 'SucomForm' ) ) {
 			return '<input type="hidden" name="'.$this->options_name.'['.$name.']" value="'.$value.'" />';
 		}
 
-		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '' ) {
+		public function get_checkbox( $name, $check = array( 1, 0 ), $class = '', $id = '', $disabled = false ) {
 			if ( empty( $name ) ) return;	// just in case
 			if ( ! is_array( $check ) ) $check = array( 1, 0 );
 			if ( $this->in_options( $name.':is' ) && 
 				$this->options[$name.':is'] == 'disabled' )
-					return $this->get_fake_checkbox( $name, $check, $class, $id );
-			return $this->get_hidden( 'is_checkbox_'.$name, 1 ).
-				'<input type="checkbox" name="'.$this->options_name.'['.$name.']" value="'.$check[0].'"'.
+					$disabled = true;
+			$html = $disabled === true ? $this->get_hidden( $name ) : $this->get_hidden( 'is_checkbox_'.$name, 1 );
+			$html .= '<input type="checkbox"'.
+				( $disabled === true ? ' disabled="disabled"' : ' name="'.$this->options_name.'['.$name.']" value="'.$check[0].'"' ).
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).
 				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ).
-				' title="default is '.
-				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ).'" />';
+				' title="default is '.( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ).
+				( $disabled === true ? ' (option disabled)' : '' ).'" />';
+			return $html;
 		}
 
 		public function get_fake_checkbox( $name, $check = array( '1', '0' ), $class = '', $id = '' ) {
-			return $this->get_hidden( $name ).$this->get_hidden( 'is_checkbox_'.$name, 1 ).
-				'<input type="checkbox" disabled="disabled"'.
-				( empty( $class ) ? '' : ' class="'.$class.'"' ).
-				( empty( $id ) ? '' : ' id="'.$id.'"' ).
-				( $this->in_options( $name ) ? checked( $this->options[$name], $check[0], false ) : '' ).
-				' title="default is '.
-				( $this->in_defaults( $name ) && $this->defaults[$name] == $check[0] ? 'checked' : 'unchecked' ).
-				' (option is disabled)" />';
+			return $this->get_checkbox( $name, $check, $class, $id, true );
 		}
 
-		public function get_radio( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
+		public function get_radio( $name, $values = array(), $class = '', $id = '', $is_assoc = false, $disabled = false ) {
 			if ( empty( $name ) || ! is_array( $values ) ) return;
-			if ( $is_assoc == false ) $is_assoc = $this->p->util->is_assoc( $values );
-			$html = '';
+			if ( $is_assoc == false ) 
+				$is_assoc = $this->p->util->is_assoc( $values );
+			if ( $this->in_options( $name.':is' ) && 
+				$this->options[$name.':is'] == 'disabled' )
+					$disabled = true;
+			$html = $disabled === true ? $this->get_hidden( $name ) : '';
 			foreach ( $values as $val => $desc ) {
 				// if the array is NOT associative (so regular numered array), 
 				// then the description is used as the saved value as well
 				if ( $is_assoc == false ) $val = $desc;
-				$html .= '<input type="radio" name="'.$this->options_name.'['.$name.']"'.
+				$html .= '<input type="radio"'.
+					( $disabled === true ? ' disabled="disabled"' : ' name="'.$this->options_name.'['.$name.']" value="'.$val.'"' ).
 					( empty( $class ) ? '' : ' class="'.$class.'"' ).
 					( empty( $id ) ? '' : ' id="'.$id.'"' ).
-					( checked( $this->options[$name], $val, false ) ).
-					' value="'.$val.'"'.
-					' title="default is '.$values[$this->defaults[$name]].'" /> '.$desc.'&nbsp;&nbsp;';
+					( $this->in_options( $name ) ? checked( $this->options[$name], $val, false ) : '' ).
+					( $this->in_defaults( $name ) ? ' title="default is '.$values[$this->defaults[$name]].'"' : '' ).
+					'/> '.$desc.'&nbsp;&nbsp;';
 			}
 			return $html;
 		}
 
 		public function get_fake_radio( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {
-			if ( empty( $name ) || ! is_array( $values ) ) return;
-			if ( $is_assoc == false ) $is_assoc = $this->p->util->is_assoc( $values );
-			$html = $this->get_hidden( $name );
-			foreach ( $values as $val => $desc ) {
-				if ( $is_assoc == false ) $val = $desc;
-				$html .= '<input type="radio" disabled="disabled"'.
-					( empty( $class ) ? '' : ' class="'.$class.'"' ).
-					( empty( $id ) ? '' : ' id="'.$id.'"' ).
-					( checked( $this->options[$name], $val, false ) ).
-					' title="default is '.$values[$this->defaults[$name]].'" /> '.$desc.'&nbsp;&nbsp;';
-			}
-			return $html;
+			return $this->get_radio( $name, $values, $class, $id, $is_assoc, true );
 		}
 
 		public function get_select( $name, $values = array(), $class = '', $id = '', $is_assoc = false ) {

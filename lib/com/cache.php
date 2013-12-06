@@ -37,24 +37,24 @@ if ( ! class_exists( 'SucomCache' ) ) {
 				$this->ignore_urls = array();
 		}
 
-		public function get( $url, $want_this = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
+		public function get( $url, $return = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
 			if ( $this->p->is_avail['curl'] == false ) {
 
 				$this->p->debug->log( 'curl is not available: '.$url );
-				return $want_this == 'url' ? $url : '';
+				return $return == 'url' ? $url : false;
 
 			} elseif ( defined( $this->p->cf['uca'].'_CURL_DISABLE' ) && 
 				constant( $this->p->cf['uca'].'_CURL_DISABLE' ) ) {
 
 				$this->p->debug->log( 'curl is disabled: '.$url );
-				return $want_this == 'url' ? $url : '';
+				return $return == 'url' ? $url : false;
 
 			} elseif ( defined( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) && 
 				constant( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) ) {
 
 				$this->p->debug->log( 'file cache is disabled: '.$url );
-				return $want_this == 'url' ? $url : '';
+				return $return == 'url' ? $url : false;
 			}
 
 			$get_url = preg_replace( '/#.*$/', '', $url );	// remove the fragment
@@ -71,30 +71,41 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			$cache_file = $this->base_dir.$cache_id.$url_ext;
 			$cache_url = $this->base_url.$cache_id.$url_ext.$url_frag;
 			$cache_data = false;
+			$file_expire = $expire_secs === false ? $this->file_expire : $expire_secs;
 
-			if ( $want_this == 'raw' ) {
-				$cache_data = $this->get_cache_data( $cache_salt, $cache_name, $url_ext, $expire_secs );
-				if ( ! empty( $cache_data ) ) {
-					$this->p->debug->log( 'cache_data is present - returning '.strlen( $cache_data ).' chars' );
-					return $cache_data;
-				}
-			} elseif ( $want_this == 'url' ) {
-				$file_expire = $expire_secs == false ? $this->file_expire : $expire_secs;
-				if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
-					$this->p->debug->log( 'cache_file is current - returning cache url "'.$cache_url.'"' );
-					return $cache_url;
-				} else $this->p->debug->log( 'cache_file is too old or doesn\'t exist - fetching a new copy' );
+			switch ( $return ) {
+				case 'raw':
+					$cache_data = $this->get_cache_data( $cache_salt, $cache_name, $url_ext, $expire_secs );
+					if ( ! empty( $cache_data ) ) {
+						$this->p->debug->log( 'cache_data is present - returning '.strlen( $cache_data ).' chars' );
+						return $cache_data;
+					}
+					break;
+				case 'url':
+					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
+						$this->p->debug->log( 'cache_file is current - returning cache url '.$cache_url );
+						return $cache_url;
+					}
+					break;
+				case 'filepath':
+					if ( file_exists( $cache_file ) && filemtime( $cache_file ) > time() - $file_expire ) {
+						$this->p->debug->log( 'cache_file is current - returning cache filepath '.$cache_file );
+						return $cache_file;
+					}
+					break;
+				default:
+					return false;
+					break;
 			}
 
-			// broken URLs are ignored for $ignore_time seconds
+			// broken urls are ignored for $ignore_time seconds
 			if ( ! empty( $this->ignore_urls ) && array_key_exists( $get_url, $this->ignore_urls ) ) {
 				$time_remaining = $this->ignore_time - ( time() - $this->ignore_urls[$get_url] );
 				if ( $time_remaining > 0 ) {
-					$this->p->debug->log( 'ignoring URL '.$get_url.' for another '.$time_remaining.' second(s). ' );
-					return $want_this == 'url' ? $url : '';
+					$this->p->debug->log( 'ignoring url '.$get_url.' for another '.$time_remaining.' second(s). ' );
+					return $return == 'url' ? $url : false;
 				} else {
 					unset( $this->ignore_urls[$get_url] );
-
 					$cache_salt = __CLASS__.'(ignore_urls)';
 					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					set_transient( $cache_id, $this->ignore_urls, $this->ignore_time );
@@ -151,7 +162,12 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					$this->p->debug->log( 'cache_data returned from "'.$get_url.'" is empty' );
 				elseif ( $this->save_cache_data( $cache_salt, $cache_data, $cache_name, $url_ext, $expire_secs ) == true )
 					$this->p->debug->log( 'cache_data sucessfully saved' );
-				return $want_this == 'url' ? $cache_url : $cache_data;
+				switch ( $return ) {
+					case 'raw': return $cache_data; break;
+					case 'url': return $cache_url; break;
+					case 'filepath': return $cache_file; break;
+					default: return false; break;
+				}
 			} else {
 				if ( is_admin() )
 					$this->p->notice->err( 'Error connecting to <a href="'.$get_url.'" target="_blank">'.$get_url.'</a> for caching. 
@@ -167,7 +183,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			}
 
 			// return original url or empty data on failure
-			return $want_this == 'url' ? $url : '';
+			return $return == 'url' ? $url : false;
 		}
 
 		private function get_cache_data( $cache_salt, $cache_name = 'file', $url_ext = '', $expire_secs = false ) {

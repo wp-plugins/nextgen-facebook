@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.17dev1',		// plugin version
+			'version' => '6.17dev3',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -132,7 +132,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			'form' => array(
 				'max_desc_hashtags' => 10,
 				'max_media_items' => 20,
-				'max_cache_hours' => 24,
+				'file_cache_hours' => array( 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 ),
 			),
 			'head' => array(
 				'min_img_width' => 200,

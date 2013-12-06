@@ -189,15 +189,13 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				// if the image is not cropped, then both sizes have to be off
 				// if the image is supposed to be cropped, then only one size needs to be off
 				} elseif ( ( empty( $size_info['crop'] ) && 
-					( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && 
-						$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
-							( ! empty( $size_info['crop'] ) && 
-								( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || 
-									$img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
+						( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
+					( ! empty( $size_info['crop'] ) && 
+						( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
 
 					$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
 						$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
-						' ('.$size_info['width'].'x'.$size_info['height'].')' );
+						' ('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
 
 					$fullsizepath = get_attached_file( $pid );
 					$this->p->debug->log( 'calling image_make_intermediate_size()' );
@@ -306,20 +304,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			// img attributes in order of preference
 			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
 				preg_match_all( '/<(img)[^>]*? (data-share-src|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+
 				$this->p->debug->log( count( $match ).' x matching <img/> html tag(s) found' );
+
 				foreach ( $match as $img_num => $img_arr ) {
 					$tag_value = $img_arr[0];
 					$tag_name = $img_arr[1];
 					$attr_name = $img_arr[2];
 					$attr_value = $img_arr[3];
 					$this->p->debug->log( 'match '.$img_num.': '.$tag_name.' '.$attr_name.'="'.$attr_value.'"' );
+
+					$og_image = array();
 					switch ( $attr_name ) {
 						case 'data-wp-pid' :
 							list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 								$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $attr_value, $size_name, $check_dupes );
-							if ( ! empty( $og_image['og:image'] ) && 
-								$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
-									return $og_ret;
 							break;
 						default :
 							$og_image = array(
@@ -331,48 +330,44 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							if ( $this->p->is_avail['ngg'] == true && 
 								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
 		
-								$this->p->debug->log( $attr_name.' ngg pre-v2 cache image = '.$og_image['og:image'] );
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
 	
 							// recognize gravatar images in the content
 							} elseif ( preg_match( '/^https?:\/\/([^\.]+\.)?gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
 
-								$this->p->debug->log( $attr_name.' gravatar image = '.$og_image['og:image'] );
 								$og_image['og:image'] = $match[0].'?s='.$size_info['width'].'&d=404&r=G';
 								$og_image['og:image:width'] = $size_info['width'];
 								$og_image['og:image:height'] = $size_info['width'];
 
-							} elseif ( ( $check_dupes == false && ! empty( $og_image['og:image'] ) ) || 
-								$this->p->util->is_uniq_url( $og_image['og:image'] ) == true ) {
-		
-								// try and get the width and height from the image tag
+							// try and get the width and height from the image tag
+							} elseif ( ! empty( $og_image['og:image'] ) ) {
+
 								if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
 									$og_image['og:image:width'] = $match[1];
 								if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
 									$og_image['og:image:height'] = $match[1];
-		
-							} else continue;	// skip anything that is "not good" (duplicate or empty)
+							}
 
-							$this->p->debug->log( 'found image: '.$og_image['og:image'].
-								' ('.$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
-
-							// if we're picking up an img from 'src', make sure it's width and height is large enough
+							// make sure the image width and height are large enough
 							if ( $attr_name == 'data-share-src' || 
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
 								( $attr_name == 'src' && $size_info['crop'] === 1 && 
 									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
 									( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
-		
-								if ( ! empty( $og_image['og:image'] ) && 
-									$this->p->util->push_max( $og_ret, $og_image, $num ) )
-										return $og_ret;
-		
-							} else $this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small' );
-
+								// data-share-src attribute used and/or image size is acceptable
+							} else {
+								$this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small ('.
+									$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
+								$og_image = array();
+							}
 							break;
 					}
+					if ( ! empty( $og_image['og:image'] ) )
+						if ( $check_dupes === false || $this->p->util->is_uniq_url( $og_image['og:image'] ) )
+							if ( $this->p->util->push_max( $og_ret, $og_image, $num ) )
+								return $og_ret;
 				}
 				return $og_ret;
 			}

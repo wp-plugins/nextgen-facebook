@@ -67,7 +67,7 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 					$cachename = $image->pid.'_'.$crop_arg.'_'. $size_info['width'].'x'.$size_info['height'].'_'.$image->filename;
 					$cachefolder = WINABSPATH.$this->p->ngg_options['gallerypath'].'cache/';
 					$cached_file = $cachefolder.$cachename;
-					//$cached_url = site_url().'/'.$this->p->ngg_options['gallerypath'].'cache/'.$cachename;
+
 					if ( file_exists( $cached_file ) ) {
 						$file_info = getimagesize( $cached_file );
 						if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {

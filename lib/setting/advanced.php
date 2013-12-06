@@ -214,12 +214,22 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', 'highlight', null, 
 					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
-					The img html tags must have a width and height attribute, and their size must be equal to or larger than the 
-					<em>Image Dimensions</em> you\'ve chosen (on the General Settings page). 
+					The img html tags must have a width and height attribute, 
+					and their size must be equal or larger than the <em>Image Dimensions</em> you\'ve entered on the General Settings page. 
 					You can uncheck this option to include smaller images from the content, 
 					or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
 					for additional solutions.' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
+
+					/*
+					$ret[] =  $this->p->util->th( 'Get Images of Unknown Size', null, null, 
+					$this->p->cf['full'].' will attempt to include images from img/ html tags it finds in the content.
+					If the image dimensions cannot be determined and the <em>Ignore Small Images</em> option is checked, 
+					the plugin can retrieve those images to a cache folder, allowing it to inspect and determine the image dimensions. 
+					<strong>Enabling this feature will create a copy of all images in the content without width and height attributes. 
+					Use cautiously.</strong>' ).
+					'<td>'.$this->form->get_checkbox( 'plugin_get_img_size' ).'</td>';
+					*/
 
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
 					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
@@ -385,9 +395,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				$this->p->util->th( 'Exclude Patterns', null, null,
 				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
-				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option above), 
-				the URLs to this cached content will be rewritten as well. To exclude the '.$this->p->cf['full'].' cache folder 
-				from being rewritten, use \'<em>/nextgen-facebook/cache/</em>\' as a value here.' ).
+				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option), 
+				the URLs to this cached content will be rewritten as well (that\'s a good thing).
+				To exclude the '.$this->p->cf['full'].' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_excl' ).
 					$this->p->options['plugin_cdn_excl'].'</td>',
 

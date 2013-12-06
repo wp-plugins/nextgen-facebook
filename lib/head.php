@@ -25,6 +25,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		// called by WP wp_head action
 		public function add_header() {
+			// add various function test results top-most in the debug log
+			// hook into ngfb_is_functions to extend the default array of function names
 			if ( $this->p->debug->is_on() ) {
 				$is_functions = array( 
 					'is_author',

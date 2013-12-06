@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '144';
+		public $options_version = '145';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -243,6 +243,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_debug' => 0,
 			'plugin_shortcode_ngfb' => 0,
 			'plugin_ignore_small_img' => 1,
+			'plugin_get_img_size' => 0,
 			'plugin_filter_content' => 1,
 			'plugin_filter_excerpt' => 0,
 			'plugin_add_to_post' => 1,
@@ -413,9 +414,18 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 				if ( ! empty( $this->p->is_avail['seo']['*'] ) &&
 					array_key_exists( 'inc_description', $opts ) ) {
-
 					$opts['inc_description'] = 0;
 					$opts['inc_description:is'] = 'disabled';
+				}
+
+				if ( empty( $opts['plugin_file_cache_hrs'] ) ) {
+					$opts['plugin_get_img_size'] = 0;
+					$opts['plugin_get_img_size:is'] = 'disabled';
+				}
+
+				if ( empty( $opts['plugin_google_api_key'] ) ) {
+					$opts['plugin_google_shorten'] = 0;
+					$opts['plugin_google_shorten:is'] = 'disabled';
 				}
 
 			} else {
