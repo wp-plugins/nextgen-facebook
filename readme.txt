@@ -30,7 +30,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = 3rd Party Integration =
 
-##### Images and Videos #####
+**Images and Videos**
 
 <ul>NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library.</ul>
 
