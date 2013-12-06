@@ -501,11 +501,16 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		public function delete_expired_file_cache( $all = false ) {
 			$deleted = 0;
-			if ( $dh = opendir( NGFB_CACHEDIR ) ) {
+			$time = isset ( $_SERVER['REQUEST_TIME'] ) ? (int) $_SERVER['REQUEST_TIME'] : time() ; 
+			$time = empty( $this->p->options['plugin_file_cache_hrs'] ) ? 
+				$time : $time - ( $this->options['plugin_file_cache_hrs'] * 60 * 60 );
+			$cachedir = constant( $this->p->cf['uca'].'_CACHEDIR' );
+			if ( $dh = opendir( $cachedir ) ) {
 				while ( $fn = readdir( $dh ) ) {
-					if ( ! preg_match( '/^(\.|index\.php)/', $fn ) && is_file( NGFB_CACHEDIR.$fn ) && 
-						( $all === true || filemtime( NGFB_CACHEDIR.$fn ) < time() - $this->p->cache->file_expire ) ) {
-						unlink( NGFB_CACHEDIR.$fn );
+					$filepath = $cachedir.$fn;
+					if ( ! preg_match( '/^(\..*|index\.php)$/', $fn ) && is_file( $filepath ) && 
+						( $all === true || filemtime( $filepath ) < $time ) ) {
+						unlink( $filepath );
 						$deleted++;
 					}
 				}
