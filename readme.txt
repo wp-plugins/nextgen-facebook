@@ -36,7 +36,7 @@ NGFB Open Graph+ detects and uses all images, associated or included in your web
 
 **Enhanced SEO**
 
-NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph and Twitter Card meta tags.
+NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph, Rich Pin, and Twitter Card meta tags.
 
 **eCommerce Products**
 
