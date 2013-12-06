@@ -44,7 +44,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 **Forums and Social**
 
-<ul>NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/), making sure your meta tags reflect the content being viewed, including appropriate titles, descriptions, images, etc.</ul>
+<ul>NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the content being viewed, including appropriate titles, descriptions, images, etc.</ul>
 
 = Social Buttons =
 
