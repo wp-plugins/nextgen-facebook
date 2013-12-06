@@ -14,7 +14,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- an essential plugin for every WordPress website!
 
-= Social and SEO =
+= Meta Tags =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) HTML tags to the head section of webpages. These HTML tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
@@ -24,29 +24,27 @@ Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](htt
 
 NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
+= Twitter Cards =
+
+NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
+
 = Images and Videos =
 
 NGFB Open Graph+ detects and uses all images, associated or included in your webpage content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library.
 
-= Twitter Cards =
+= Plugin Integration =
 
-NGFB Open Graph+ (Pro version) also provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
+**SEO**
 
-= eCommerce Products =
+NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpre ss-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph and Twitter Card meta tags.
 
-NGFB Open Graph+ (Pro version) supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). 
+**eCommerce**
 
-* WooCommerce support offers product prices, currency, image galleries, stock status, weight, dimensions, extended attributes, category and tag pages.
-* MarketPress WordPress eCommerce support offers product prices, currency, variations, sale prices, images and inventory levels.
-* WP e-Commerce support features product prices, currency, images, custom meta and category pages.
+NGFB Open Graph+ (Pro version) also supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/). 
 
-= Forums =
+**Forums and Social**
 
-NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/), which includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages.
-
-= HashTags =
-
-NGFB Open Graph+ can include WordPress and NextGEN Gallery tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
+NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/), making sure your meta tags reflect the content being viewed, including appropriate titles, descriptions, images, etc.
 
 = Optional Social Buttons =
 
@@ -61,7 +59,7 @@ NGFB Open Graph+ comes with several social sharing buttons, that you can optiona
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (WordPress locale).
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include WordPress and NextGEN Gallery tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
 
 = Custom Contacts =
 
