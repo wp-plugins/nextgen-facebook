@@ -250,14 +250,15 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17dev4 =
+= Version 6.17dev5 =
 
 * **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
+* Added optional social buttons for bbPress single template pages (Pro version).
 * Fixed duplicate image detection in the content for gravatar images.
-* Added a check for any (known) SEO plugin, and if found, the "description" meta tag option will be disabled.
-* Added a check for any (known) eCommerce plugin, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
+* Added a check for known SEO plugins, and if found, the "description" meta tag option will be disabled.
+* Added a check for known eCommerce plugins, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
+* Modified the 'File Cache Expiry' option available values from 0-24 hours, to a selection of 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 hours.
 * **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'** (which is more accurate, and allows for additional filters with similar names).
-* **Modified the 'File Cache Expiry' option available values from 0-24 hours, to a selection of 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 hours**.
 
 = Version 6.16.2 =
 
