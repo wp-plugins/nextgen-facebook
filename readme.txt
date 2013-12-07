@@ -48,7 +48,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = Social Buttons =
 
-NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, as a widget, shortcode, or even call as a function from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, on BuddyPress activity entries, as a widget, shortcode, or even a function call from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+
@@ -59,7 +59,7 @@ NGFB Open Graph+ comes with several social sharing buttons, that you can optiona
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) matches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include WordPress and NextGEN Gallery tag names, converted to hastags, in the Open Graph / Rich Pin description, tweet text and social captions.
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph / Rich Pin description, tweet text, and social captions.
 
 = Custom Contacts =
 
@@ -208,6 +208,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Other / Additional Notes ==
 
+* [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)
 * [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
 * [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
 * [Disable Open Graph](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/disable-open-graph/)
@@ -241,9 +242,9 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17dev3 =
+= Version 6.17dev4 =
 
-* **Added support for BuddyPress member, group and forum webpages** (Pro version).
+* **Added support for BuddyPress member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
 * Fixed duplicate image detection in the content for gravatar images.
 * Added a check for any (known) SEO plugin, and if found, the "description" meta tag option will be disabled.
 * Added a check for any (known) eCommerce plugin, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
