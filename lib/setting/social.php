@@ -31,9 +31,16 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		protected function show_on_checkboxes( $prefix, $show_on = array() ) {
-			$html = '';
-			foreach ( apply_filters( $this->p->cf['lca'].'_social_buttons_on', $show_on, $prefix ) as $suffix => $desc )
+			$html = '<table>';
+			$cols = 0;
+			foreach ( apply_filters( $this->p->cf['lca'].'_social_buttons_on', $show_on, $prefix ) as $suffix => $desc ) {
+				$cols++;
+				$html .= $cols === 1 ? '<tr><td>' : '<td>';
 				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';
+				$html .= $cols === 3 ? '</td></tr>' : '</td>';
+			}
+			$html .= $cols < 3 ? '</tr>' : '';
+			$html .= '</table>';
 			return $html;
 		}
 

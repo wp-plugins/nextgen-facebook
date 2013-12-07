@@ -151,8 +151,10 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 				if ( ! empty( $post_id ) ) {
 					$url = $this->get_meta_sharing_url( $post_id );
+
 					if ( empty( $url ) )
 						$url = get_permalink( $post_id );
+				
 					if ( $add_page && get_query_var( 'page' ) > 1 ) {
 						global $wp_rewrite;
 						$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
