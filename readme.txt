@@ -48,7 +48,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = Social Buttons =
 
-NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on the Post / Page editing page, above / below your content or excerpt, on BuddyPress activity entries, as a widget, shortcode, or even a function call from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a widget, shortcode, or even a function call from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
 
 * Facebook
 * Google+
@@ -244,7 +244,7 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 = Version 6.17dev4 =
 
-* **Added support for BuddyPress member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
+* **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
 * Fixed duplicate image detection in the content for gravatar images.
 * Added a check for any (known) SEO plugin, and if found, the "description" meta tag option will be disabled.
 * Added a check for any (known) eCommerce plugin, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
@@ -287,9 +287,9 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 
 = Version 6.16.0 =
 
-**NGFB Open Graph+ (Pro version) now supports bbPress forums**. Since bbPress content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
+**NGFB Open Graph+ (Pro version) now supports [bbPress](http://wordpress.org/plugins/bbpress/) forums**. Since [bbPress](http://wordpress.org/plugins/bbpress/) content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
-* **Added support for bbPress forums, topics, tags and profiles** (Pro version).
+* **Added support for [bbPress](http://wordpress.org/plugins/bbpress/) forums, topics, tags and profiles** (Pro version).
 * Fixed the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
 * Renamed the 'URL Shortening' tab, on the Advanced settings page, to 'API Keys'.
