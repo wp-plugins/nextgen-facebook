@@ -59,10 +59,7 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-				'Content '.$this->form->get_checkbox( 'stumble_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->form->get_checkbox( 'stumble_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->form->get_checkbox( 'stumble_on_admin_sharing' ). 
-				'</td>',
+				( $this->show_on_checkboxes( 'stumble', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_order', 

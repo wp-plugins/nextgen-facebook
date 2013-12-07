@@ -364,11 +364,11 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					$option_name = $prefix.'_add_to_'.$post_type->name;
 					if ( ! array_key_exists( $option_name, $opts ) ) {
 						switch ( $post_type->name ) {
-							case 'shop_coupon':
-								$opts[$option_name] = 0;
+							case 'product':
+								$opts[$option_name] = 1;
 								break;
 							default:
-								$opts[$option_name] = 1;
+								$opts[$option_name] = 0;
 								break;
 						}
 					}
@@ -418,7 +418,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					$opts['inc_description:is'] = 'disabled';
 				}
 
-				if ( empty( $opts['plugin_file_cache_hrs'] ) ) {
+				if ( empty( $opts['plugin_file_cache_hrs'] ) || empty( $opts['plugin_ignore_small_img'] ) ) {
 					$opts['plugin_get_img_size'] = 0;
 					$opts['plugin_get_img_size:is'] = 'disabled';
 				}

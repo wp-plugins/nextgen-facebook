@@ -30,6 +30,13 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			}
 		}
 
+		protected function show_on_checkboxes( $prefix, $show_on = array() ) {
+			$html = '';
+			foreach ( apply_filters( $this->p->cf['lca'].'_social_buttons_on', $show_on, $prefix ) as $suffix => $desc )
+				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';
+			return $html;
+		}
+
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
 			add_meta_box( $this->pagehook.'_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
@@ -105,9 +112,9 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'Include on Post Types', null, null, '
-				By default, social sharing buttons are added to the Post, Page, Media and most custom post type webpages. 
-				If your theme (or another plugin) supports additional custom post types, and you would like to <em>exclude</em> the 
-				social sharing buttons from these webpages, uncheck the appropriate options here.' ) .
+				Enabled social sharing buttons are added to the Post, Page, Media and Product custom post types by default.
+				If your theme (or another plugin) supports additional custom post types, and you would like to include
+				social sharing buttons on these webpages, check the appropriate option(s) here.' ) .
 				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}

@@ -140,9 +140,9 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$html = get_transient( $cache_id );
 			}
 
-			if ( $html !== false )
+			if ( $html !== false ) {
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
-			else {
+			} else {
 				// sort enabled social buttons by their preferred order
 				$sorted_ids = array();
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
@@ -166,21 +166,18 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				}
 			}
 
-			// add buttons to the text and return
-			if ( $type == 'admin_sharing' )
-				$text = $this->p->debug->get_html().$text.$html; 
-			elseif ( ! empty( $opts[ 'buttons_location_'.$type ] ) ) {
-				switch ( $opts[ 'buttons_location_'.$type ] ) {
-					case 'top' : 
-						$text = $this->p->debug->get_html().$html.$text; 
-						break;
-					case 'bottom' : 
-						$text = $this->p->debug->get_html().$text.$html; 
-						break;
-					case 'both' : 
-						$text = $this->p->debug->get_html().$html.$text.$html; 
-						break;
-				}
+			$buttons_location = empty( $opts['buttons_location_'.$type] ) ? 'bottom' : $opts['buttons_location_'.$type];
+
+			switch ( $buttons_location ) {
+				case 'top' : 
+					$text = $this->p->debug->get_html().$html.$text; 
+					break;
+				case 'bottom': 
+					$text = $this->p->debug->get_html().$text.$html; 
+					break;
+				case 'both' : 
+					$text = $this->p->debug->get_html().$html.$text.$html; 
+					break;
 			}
 			return $text;
 		}
@@ -220,10 +217,10 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 						|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
 						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
 	
-						if ( ! empty( $this->p->options[$pre.'_on_the_content'] ) 
-							|| ! empty( $this->p->options[$pre.'_on_the_excerpt'] ) ) {
+						foreach ( $this->p->util->preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
+							if ( ! empty( $val ) )
 								$ids[] = $id;
-						}
+
 					}
 					// check for enabled buttons in widget
 					foreach ( $widget_settings as $instance ) {

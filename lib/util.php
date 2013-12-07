@@ -125,7 +125,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					break;
 			}
 			$post_types = $include !== false ? get_post_types( $include, $output ) : array();
-			return apply_filters( $this->p->cf['lca'].'_post_type_objects', $post_types, $prefix, $output );
+			return apply_filters( $this->p->cf['lca'].'_post_types', $post_types, $prefix, $output );
 		}
 
 		public function get_meta_sharing_url( $post_id ) {
@@ -163,7 +163,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						}
 					}
 				}
-				$url = apply_filters( $this->p->cf['lca'].'_post_url', $url, $post_id );
+				$url = apply_filters( $this->p->cf['lca'].'_post_url', $url, $post_id, $use_post, $add_page, $source_id );
 			} else {
 				if ( is_search() )
 					$url = get_search_link();

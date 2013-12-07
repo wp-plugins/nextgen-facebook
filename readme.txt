@@ -241,9 +241,9 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17dev3 =
+= Version 6.17dev4 =
 
-* **Added support for BuddyPress member, group and forum webpages** (Pro version).
+* **Added support for BuddyPress member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
 * Fixed duplicate image detection in the content for gravatar images.
 * Added a check for any (known) SEO plugin, and if found, the "description" meta tag option will be disabled.
 * Added a check for any (known) eCommerce plugin, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.

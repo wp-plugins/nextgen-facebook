@@ -20,14 +20,10 @@ if ( ! class_exists( 'NgfbAdminSocialLinkedin' ) && class_exists( 'NgfbAdminSoci
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				'Content '.$this->form->get_checkbox( 'linkedin_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->form->get_checkbox( 'linkedin_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->form->get_checkbox( 'linkedin_on_admin_sharing' ). 
-				'</td>',
+				( $this->show_on_checkboxes( 'linkedin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_order', 
-					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'linkedin_order', range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',

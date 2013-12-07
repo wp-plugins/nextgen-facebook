@@ -21,10 +21,7 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-			'Content '.$this->form->get_checkbox( 'twitter_on_the_content' ).'&nbsp;'.
-			'Excerpt '.$this->form->get_checkbox( 'twitter_on_the_excerpt' ).'&nbsp;'.
-			'Edit Post/Page '.$this->form->get_checkbox( 'twitter_on_admin_sharing' ). 
-			'</td>';
+			( $this->show_on_checkboxes( 'twitter', $this->p->cf['social']['show_on'] ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_order', 

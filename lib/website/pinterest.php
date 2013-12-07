@@ -21,14 +21,10 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short', null,
 				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ).'<td>'.
-				'Content '.$this->form->get_checkbox( 'pin_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->form->get_checkbox( 'pin_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->form->get_checkbox( 'pin_on_admin_sharing' ). 
-				'</td>',
+				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_order', 
-					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
+				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',

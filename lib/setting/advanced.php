@@ -212,19 +212,20 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
-					$ret[] =  $this->p->util->th( 'Ignore Small Images', 'highlight', null, 
+					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, null, 
 					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
-					The img html tags must have a width and height attribute, 
-					and their size must be equal or larger than the <em>Image Dimensions</em> you\'ve entered on the General Settings page. 
+					The img html tags must have a width and height attribute, and their size must be equal or larger than the 
+					<em>Image Dimensions</em> you\'ve entered on the General Settings page. 
 					You can uncheck this option to include smaller images from the content, 
 					or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
-					for additional solutions.' ).
+					for additional solutions. If you uncheck this option, thumbnail images from your content 
+					may be included in your meta tags.' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
 					/*
 					$ret[] =  $this->p->util->th( 'Get Images of Unknown Size', null, null, 
-					$this->p->cf['full'].' will attempt to include images from img/ html tags it finds in the content.
-					If the image dimensions cannot be determined and the <em>Ignore Small Images</em> option is checked, 
+					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
+					If the image dimensions cannot be determined <strong>and the <em>Ignore Small Images</em> option is checked</strong>, 
 					the plugin can retrieve those images to a cache folder, allowing it to inspect and determine the image dimensions. 
 					<strong>Enabling this feature will create a copy of all images in the content without width and height attributes. 
 					Use cautiously.</strong>' ).
@@ -302,9 +303,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				$this->p->util->th( 'Show Custom Settings on', null, null, 
 				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
-				is available on the Posts, Pages, Media, and most custom post type admin pages by default. 
+				is available on the Posts, Pages, Media, and Product admin pages by default. 
 				If your theme (or another plugin) supports additional custom post types, and you would like to 
-				<em>exclude</em> the Custom Settings metabox from these admin pages, uncheck the appropriate options here.' ).
+				include the Custom Settings metabox on their admin pages, check the appropriate option(s) here.' ).
 				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}

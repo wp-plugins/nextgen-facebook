@@ -44,10 +44,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
 				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
 				custom Posts, or the webpage link.' ).'<td>'.
-				'Content '.$this->form->get_checkbox( 'tumblr_on_the_content' ).'&nbsp;'.
-				'Excerpt '.$this->form->get_checkbox( 'tumblr_on_the_excerpt' ).'&nbsp;'.
-				'Edit Post/Page '.$this->form->get_checkbox( 'tumblr_on_admin_sharing' ). 
-				'</td>',
+				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_order', 
@@ -79,7 +76,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 
 if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 
-	class NgfbSocialtumblr {
+	class NgfbSocialTumblr {
 
 		protected $p;
 
