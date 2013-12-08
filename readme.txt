@@ -30,9 +30,11 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = 3rd Party Integration =
 
+Supporting code for 3rd party integration is only loaded if/when 3rd party plugins are detected, which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-)
+
 **Images and Videos**
 
-NGFB Open Graph+ detects and uses all images, associated or included in your Post / Page content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library (including galleries). NextGEN Gallery and Media Library images are resized appropriately for the Open Graph meta tags, each Twitter Card format, and sharing on Pinterest.
+NGFB Open Graph+ detects and uses all images, associated or included in your Post / Page content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library (including WordPress galleries). NextGEN Gallery and Media Library images are resized appropriately for the Open Graph meta tags, the various Twitter Card formats, and sharing on Pinterest.
 
 **Enhanced SEO**
 
@@ -81,7 +83,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 **NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
 
-NGFB Open Graph+ only includes the PHP library files and creates the object classes it needs, thus having a *much smaller footprint / size* than most other full featured plugins.
+**NGFB Open Graph+ loads only the libraries and object classes it needs**, which keeps it much smaller and faster than most plugins.
 
 = Clean Uninstall =
 
@@ -107,74 +109,8 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Installation ==
 
-= Install Methods =
-
-To install the [GPL version](http://wordpress.org/plugins/nextgen-facebook/) from WordPress.org, follow the *Automated Install* method described bellow.
-
-If you have purchased the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/), an email will be sent to you with Authentication ID and installation instructions. Enter your Authentication ID on the Advanced settings page of the GPL version, and after saving the changes, an update will appear on the WordPress Updates page. Update the NGFB Open Graph+ plugin from within WordPress, as you would any other plugin, to download and activate the new Pro version.
-
-If you downloaded the NGFB Open Graph+ plugin as an archive file -- either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [other GPL versions from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/) -- follow the *Automated Removal* (if NGFB Open Graph+ is already installed) and the *Semi-Automated Install* methods to remove, install, and activate the new plugin. Please take care to check the "Preserve on Uninstall" option on the Advanced settings page before removing the plugin (as explained in the *Automated Removal* procedure).
-
-If you need to roll-back and re-install an older GPL version, you can find them all on the [WordPress.org Developers](http://wordpress.org/plugins/nextgen-facebook/developers/) page.
-
-**Automated Install** (GPL version)
-
-1. Go to the wp-admin/ section of your website
-1. Select the *Plugins* menu item
-1. Select the *Add New* sub-menu item
-1. In the *Search* box, enter "NGFB Open Graph"
-1. Click the *Search Plugins* button
-1. Click the *Install Now* link for "NGFB Open Graph"
-1. Click the *Activate Plugin* link
-
-**Semi-Automated Install** (GPL and Pro versions)
-
-Note that if you already have NGFB Open Graph+ installed, you will have to remove it first, before you can re-install it using this method.
-
-1. Download the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
-1. Go to the wp-admin/ section of your website
-1. Select the *Plugins* menu item
-1. Select the *Add New* sub-menu item
-1. Click on *Upload* link (just under the Install Plugins page title)
-1. Click the *Browser...* button
-1. Navigate your local folders / directories and choose the zip file you downloaded previously
-1. Click on the *Install Now* button
-1. Click the *Activate Plugin* link
-
-**Manual Install** (GPL and Pro versions)
-
-1. Download and unzip the plugin archive file (either [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) or [from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/developers/))
-1. Upload the entire nextgen-facebook/ folder to your website's wordpress/wp-content/plugins/ directory
-1. Go to the wp-admin/ section of your website
-1. Select the *Plugins* menu item
-1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Activate* link
-
-Once installed and activated, the NGFB Open Graph+ plugin will start adding all the essential Open Graph meta tags to your webpages immediately -- there's no need to configure any additional settings. Although if you have at least one image in your Media Library or [NextGEN Gallery](http://wordpress.org/plugins/nextgen-gallery/) that represents your website, you may want to define that one as your Default Image on the General Settings page.
-
-The plugin settings are available under an *Open Graph* admin menu, where you can select a default image, include social buttons in your content, change the shared thumbnail image size, and much, much more.
-
-= Uninstall Methods =
-
-**Automated Removal**
-
-1. Go to the wp-admin/ section of your website
-1. Select the *Open Graph* menu item
-1. Select the *Advanced* sub-menu item
-1. Check the "Preserve on Uninstall" option if you would like to keep NGFB Open Graph+ settings in the database.
-1. Select the *Plugins* menu item
-1. Select the *Installed Plugins* sub-menu
-1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Deactivate* link
-1. Scroll down to the "NGFB Open Graph+" plugin, and click its *Delete* link
-1. Click on the *Yes, Delete these files and data* button
-
-Note: Unless you checked the "Preserve on Uninstall" option on the Advanced settings page, deleting the plugin will also remove all of its settings from the database.
-
-**Manual Removal**
-
-1. Remove the wordpress/wp-content/plugins/nextgen-facebook/ folder from your website
-
-Note: Removing the plugin folder manually will not remove its settings from the database. This may be desirable if you want to upload a new plugin archive, without loosing the existing settings.
+* [Installation Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/)
+* [Uninstall Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/)
 
 == Frequently Asked Questions ==
 
@@ -246,15 +182,17 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17rc2 =
+= Version 6.17.0 =
+
+Version 6.17.0 adds support for BuddyPress (Pro version). Like all other 3rd party integration addons, the supporting code is only loaded if/when 3rd party plugins are detected, which keeps NGFB Open Graph+ smaller than its feature set would suggest. ;-) Support for BuddyPress includes meta tags for member, group, and forum pages, along with optional social sharing buttons for activity entries. BuddyPress is not very well integrated with the WordPress core functions - see the [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/) notes for details on optimizing its configuration for NGFB Open Graph+.
 
 * **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
-* Added optional social sharing buttons for bbPress single template pages (Pro version).
-* Fixed duplicate image detection in the content for gravatar images.
+* Added support for social sharing buttons on bbPress single page templates (Pro version).
 * Added a check for known SEO plugins, and if found, the "description" meta tag option will be disabled.
 * Added a check for known eCommerce plugins, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
 * Modified the 'File Cache Expiry' option available values from 0-24 hours, to a selection of 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 hours.
 * **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'** (which is more accurate, and allows for additional filters with similar names).
+* Fixed duplicate image detection in the content for gravatar images.
 
 = Version 6.16.2 =
 
@@ -315,6 +253,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.17.0 =
+
+Added support for meta tags and social buttons on BuddyPress pages, added support for social buttons on bbPress single templates, fixed duplicate image detection for gravatar images, added check for SEO plugins to disable the desciption meta tag.
 
 = 6.16.2 =
 

@@ -512,38 +512,35 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 
 				switch ( $key ) {
-
-					/* twitter-style usernames */
+					/* 
+					 * twitter-style usernames (prepend with an at).
+					 */
 					case 'tc_site':
 						$opts[$key] = substr( preg_replace( '/[^a-z0-9_]/', '', 
 							strtolower( $opts[$key] ) ), 0, 15 );
 						if ( ! empty( $opts[$key] ) ) 
 							$opts[$key] = '@'.$opts[$key];
 						break;
-
-					/* strip leading urls off Facebook usernames */
+					/* 
+					 * strip leading urls off facebook usernames
+					 */
 					case 'fb_admins':
 						$opts[$key] = preg_replace( '/(http|https):\/\/[^\/]*?\//', '', 
 							$opts[$key] );
 						break;
-
-					/* must be a url (reset to default if not) */
-					case 'sharing_url':
-					case 'og_img_url':
-					case 'og_vid_url':
-					case 'og_def_img_url':
-					case 'og_publisher_url':
-					case 'link_publisher_url':
-					case 'pin_img_url':
-					case 'plugin_cdn_urls':
+					/* 
+					 * must be a url
+					 */
+					case ( preg_match( '/^[a-z_]+_urls?$/', $key ) ? true : false ):
 						if ( ! empty( $opts[$key] ) && strpos( $opts[$key], '://' ) === false ) {
 							$this->p->notice->inf( 'The value of option \''.$key.'\' must be a URL'.
 								' - resetting the option to its default value.', true );
 							$opts[$key] = $def_val;
 						}
 						break;
-
-					/* must be numeric (blank or zero is ok) */
+					/* 
+					 * must be numeric (blank or zero is ok)
+					 */
 					case 'link_def_author_id':
 					case 'og_desc_hashtags': 
 					case 'og_img_max':
@@ -558,8 +555,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-
-					/* integer options that must me 1 or more (not zero) */
+					/* 
+					 * integer options that must be 1 or more (not zero)
+					 */
 					case 'meta_desc_len': 
 					case 'og_desc_len': 
 					case 'og_img_width': 
@@ -585,13 +583,15 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-
-					/* needs to be textured and decoded */
+					/* 
+					 * must be texturized 
+					 */
 					case 'og_title_sep':
 						$opts[$key] = trim( wptexturize( ' '.$opts[$key].' ' ) );
 						break;
-
-					/* must be alpha-numeric uppercase */
+					/* 
+					 * must be alpha-numeric uppercase
+					 */
 					case 'plugin_tid':
 						if ( ! empty( $opts[$key] ) && preg_match( '/[^A-Z0-9]/', $opts[$key] ) ) {
 							$this->p->notice->inf( '\''.$opts[$key].'\' is not an accepted value for option \''.$key.'\''.
@@ -599,8 +599,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							$opts[$key] = $def_val;
 						}
 						break;
-
-					/* text strings that can be blank */
+					/* 
+					 * text strings that can be blank
+					 */
 					case 'og_art_section':
 					case 'fb_app_id':
 					case 'gp_expandto':
@@ -621,69 +622,45 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						if ( ! empty( $opts[$key] ) )
 							$opts[$key] = trim( $opts[$key] );
 						break;
-
-					/* options that cannot be blank */
+					/* 
+					 * options that cannot be blank
+					 */
+					case ( preg_match( '/^buttons_css_/', $key ) ? true : false ):
+					case ( preg_match( '/^buttons_location_/', $key ) ? true : false ):
+					case ( preg_match( '/^(plugin|wp)_cm_[a-z]+_(name|label)$/', $key ) ? true : false ):
+					case ( preg_match( '/^[a-z]+_js_loc$/', $key ) ? true : false ):
 					case 'link_author_field':
 					case 'og_img_id_pre': 
 					case 'og_def_img_id_pre': 
 					case 'og_author_field':
-					case 'buttons_location_the_excerpt': 
-					case 'buttons_location_the_content': 
-					case ( preg_match( '/^buttons_css_/', $key ) ? true : false ):
-					case 'fb_js_loc': 
 					case 'fb_lang': 
 					case 'fb_markup': 
-					case 'gp_js_loc': 
 					case 'gp_lang': 
 					case 'gp_action': 
 					case 'gp_size': 
 					case 'gp_annotation': 
-					case 'twitter_js_loc': 
 					case 'twitter_count': 
 					case 'twitter_size': 
-					case 'linkedin_js_loc': 
 					case 'linkedin_counter':
-					case 'managewp_js_loc': 
 					case 'managewp_type':
-					case 'stumble_js_loc': 
-					case 'pin_js_loc': 
 					case 'pin_count_layout':
 					case 'pin_img_size':
 					case 'pin_caption':
-					case 'tumblr_js_loc': 
 					case 'tumblr_button_style':
 					case 'tumblr_img_size':
 					case 'tumblr_caption':
 					case 'plugin_tid:use':
-					case 'plugin_cm_fb_name': 
-					case 'plugin_cm_fb_label': 
-					case 'plugin_cm_gp_name': 
-					case 'plugin_cm_gp_label': 
-					case 'plugin_cm_linkedin_name': 
-					case 'plugin_cm_linkedin_label': 
-					case 'plugin_cm_pin_name': 
-					case 'plugin_cm_pin_label': 
-					case 'plugin_cm_tumblr_name': 
-					case 'plugin_cm_tumblr_label': 
-					case 'plugin_cm_twitter_name': 
-					case 'plugin_cm_twitter_label': 
-					case 'plugin_cm_yt_name': 
-					case 'plugin_cm_yt_label': 
-					case 'plugin_cm_skype_name': 
-					case 'plugin_cm_skype_label': 
-					case 'wp_cm_aim_label': 
-					case 'wp_cm_jabber_label': 
-					case 'wp_cm_yim_label': 
 						if ( empty( $opts[$key] ) ) {
 							$this->p->notice->inf( 'The value of option \''.$key.'\' cannot be empty'.
 								' - resetting the option to its default value.', true );
 							$opts[$key] = $def_val;
 						}
 						break;
-
-					/* everything else is a 1/0 checkbox option */
+					/* 
+					 * everything else is a 1/0 checkbox option 
+					 */
 					default:
-							// make sure the default option is also 1/0
+						// make sure the default option is also 1/0
 						if ( $def_val === 0 || $def_val === 1 )
 							$opts[$key] = empty( $opts[$key] ) ? 0 : 1;
 						break;

@@ -56,16 +56,14 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'ngfb constants' );
 
 				$opts = $this->p->options;
-				foreach ( array( 
-					'buttons_css_social',
-					'buttons_css_excerpt',
-					'buttons_css_content',
-					'buttons_css_shortcode',
-					'buttons_css_widget',
-					'plugin_tid', 
-					'plugin_googl_api_key', 
-					'plugin_bitly_api_key',
-				) as $key ) $opts[$key] = '********';
+				foreach ( $opts as $key => $val ) {
+					switch ( $key ) {
+						case ( preg_match( '/^buttons_css_/', $key ) ? true : false ):
+						case ( preg_match( '/_key$/', $key ) ? true : false ):
+						case 'plugin_tid':
+							$opts[$key] = '********';
+					}
+				}
 
 				$this->p->debug->show_html( print_r( $this->p->is_avail, true ), 'available features' );
 				$this->p->debug->show_html( print_r( $this->p->check->get_active(), true ), 'active plugins' );
