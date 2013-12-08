@@ -30,7 +30,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = 3rd Party Integration =
 
-Supporting code for 3rd party integration is only loaded if/when 3rd party plugins are detected, which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-)
+Note that supporting code for 3rd party integration is only loaded if / when individual 3rd party plugins are detected - this keeps NGFB Open Graph+ much smaller (and faster) than its features would suggest. ;-)
 
 **Images and Videos**
 
