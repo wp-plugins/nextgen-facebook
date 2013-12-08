@@ -30,7 +30,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = 3rd Party Integration =
 
-Supporting code for 3rd party integration is only loaded if/when 3rd party plugins are detected, which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-)
+Note that supporting code for 3rd party integration is only loaded if / when individual 3rd party plugins are detected - which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-)
 
 **Images and Videos**
 
@@ -108,6 +108,8 @@ Upgrading to the Pro version is simple and easy -- click on the "Purchase the Pr
 The Pro version license(s) can be assigned to the whole multisite network and/or to specific sites within the multisite network. Note that the default site / blog must be licensed to allow Pro version updates from the Network Admin interface.
 
 == Installation ==
+
+= Install and Uninstall =
 
 * [Installation Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/)
 * [Uninstall Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/)
