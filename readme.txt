@@ -109,6 +109,8 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Installation ==
 
+= Install and Uninstall =
+
 * [Installation Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/)
 * [Uninstall Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/)
 
