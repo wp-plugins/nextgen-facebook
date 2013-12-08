@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.17rc1',			// plugin version
+			'version' => '6.17rc2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -96,7 +96,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					'yim' => 'Yahoo IM',
 				),
 			),
-			'css' => array(				// stylesheets
+			'css' => array(				// filter with 'ngfb_style_tabs'
 				'social' => 'Buttons Style',
 				'excerpt' => 'Excerpt Style',
 				'content' => 'Content Style',

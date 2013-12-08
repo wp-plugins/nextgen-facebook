@@ -12,7 +12,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-**NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- An essential plugin for every WordPress website!**
+**NGFB Open Graph+ adds HTML tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more - An essential plugin for every WordPress website!**
 
 = Meta Tags =
 
@@ -22,9 +22,9 @@ NGFB Open Graph+ adds [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http:/
 
 Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
-NGFB Open Graph+ is a *complete* social sharing solution that uses the existing content of your webpages to build HTML meta tags -- there's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
+NGFB Open Graph+ is a complete social sharing solution that uses the existing content of your webpages to build HTML meta tags - There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
-= Twitter Cards =
+**Twitter Cards**
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
@@ -246,10 +246,10 @@ Note: Removing the plugin folder manually will not remove its settings from the 
 
 == Changelog ==
 
-= Version 6.17rc1 =
+= Version 6.17rc2 =
 
 * **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
-* Added optional social buttons for bbPress single template pages (Pro version).
+* Added optional social sharing buttons for bbPress single template pages (Pro version).
 * Fixed duplicate image detection in the content for gravatar images.
 * Added a check for known SEO plugins, and if found, the "description" meta tag option will be disabled.
 * Added a check for known eCommerce plugins, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.

@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '145';
+		public $options_version = '146';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -317,7 +317,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				// css files are only loaded once into defaults to minimize disk i/o
 				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->p->notice->err( 'Failed to open <u>'.$css_file.'</u> for reading.' );
+						$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
 					else {
 						$this->defaults['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
 						$this->p->debug->log( 'read css from file '.$css_file );
@@ -325,7 +325,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					}
 				}
 			}
-			unset ( $id, $name );
 
 			$this->defaults = $this->add_post_type_options( $this->defaults );
 
@@ -503,11 +502,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 				/* don't remove / encode html tags from css */
 				switch ( $key ) {
-					case 'buttons_css_social':
-					case 'buttons_css_excerpt':
-					case 'buttons_css_content':
-					case 'buttons_css_shortcode':
-					case 'buttons_css_widget':
+					case ( preg_match( '/^buttons_css_/', $key ) ? true : false ):
 						break;
 					default:
 						$opts[$key] = stripslashes( $opts[$key] );
@@ -634,11 +629,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					case 'og_author_field':
 					case 'buttons_location_the_excerpt': 
 					case 'buttons_location_the_content': 
-					case 'buttons_css_social':
-					case 'buttons_css_excerpt':
-					case 'buttons_css_content':
-					case 'buttons_css_shortcode':
-					case 'buttons_css_widget':
+					case ( preg_match( '/^buttons_css_/', $key ) ? true : false ):
 					case 'fb_js_loc': 
 					case 'fb_lang': 
 					case 'fb_markup': 
