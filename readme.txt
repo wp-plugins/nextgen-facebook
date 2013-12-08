@@ -146,11 +146,12 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Other / Additional Notes ==
 
-* [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)
 * [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
 * [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
 * [Disable Open Graph](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/disable-open-graph/)
 * [Image Attachments](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/image-attachments/)
+* [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
+  * [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
 * [Multisite / Network Support](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/)
 * [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/)
 * [Resources and Contacts](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/)
