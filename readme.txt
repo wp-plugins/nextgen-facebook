@@ -186,7 +186,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 = Version 6.17.0 =
 
-Version 6.17.0 adds support for BuddyPress (Pro version). Like all other 3rd party integration addons, the supporting code is only loaded if/when 3rd party plugins are detected, which keeps NGFB Open Graph+ smaller than its feature set would suggest. ;-) Support for BuddyPress includes meta tags for member, group, and forum pages, along with optional social sharing buttons for activity entries. BuddyPress is not very well integrated with the WordPress core functions - see the [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/) notes for details on optimizing its configuration for NGFB Open Graph+.
+Version 6.17.0 adds support for BuddyPress (Pro version). Like all other 3rd party integration addons, the supporting code is only loaded if / when 3rd party plugins are detected, which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-) Support for BuddyPress includes meta tags for member, group, and forum pages, along with optional social sharing buttons for activity entries. BuddyPress is not very well integrated with the WordPress core functions - please see the [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/) notes for details on optimizing its configuration for NGFB Open Graph+.
 
 * **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
 * Added support for social sharing buttons on bbPress single page templates (Pro version).
@@ -194,7 +194,7 @@ Version 6.17.0 adds support for BuddyPress (Pro version). Like all other 3rd par
 * Added a check for known eCommerce plugins, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
 * Modified the 'File Cache Expiry' option available values from 0-24 hours, to a selection of 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 hours.
 * **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'** (which is more accurate, and allows for additional filters with similar names).
-* Fixed duplicate image detection in the content for gravatar images.
+* **Fixed** duplicate image detection in the content for gravatar images.
 
 = Version 6.16.2 =
 
@@ -222,20 +222,20 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
 * Improved / optimized the loading of plugin and form settings when in the admin interface.
 * Added error suppression when parsing HTML from Youtube.
-* Fixed the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
-* **Fixed the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names**. (Pro version)
+* **Fixed** the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
+* **Fixed** the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names (Pro version).
 * Changed the 'ngfb_sharing_url' filter arguments from `( $url, $source_id )` to `( $url, $use_post, $add_page, $source_id )`.
 
 = Version 6.16.0.1 =
 
-* Fixed a small typo in the WordPress SEO addon (Pro version).
+* **Fixed** a small typo in the WordPress SEO addon (Pro version).
 
 = Version 6.16.0 =
 
 **NGFB Open Graph+ (Pro version) now supports [bbPress](http://wordpress.org/plugins/bbpress/) forums**. Since [bbPress](http://wordpress.org/plugins/bbpress/) content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
 
 * **Added support for [bbPress](http://wordpress.org/plugins/bbpress/) forums, topics, tags and profiles** (Pro version).
-* Fixed the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
+* **Fixed** the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
 * Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
 * Renamed the 'URL Shortening' tab, on the Advanced settings page, to 'API Keys'.
 * Added a 'Google URL Shortener API is On' option to validate that the service has been enabled in the Google Cloud Console.
