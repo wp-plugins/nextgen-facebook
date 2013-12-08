@@ -25,12 +25,12 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		);
 
 		protected $p;
-		protected $form;
 		protected $menu_id;
 		protected $menu_name;
 		protected $pagehook;
 		protected $readme;
 
+		public $form;
 		public $lang = array();
 		public $setting = array();
 

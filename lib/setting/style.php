@@ -34,11 +34,11 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</tr></table>';
 
 			$tab_rows = array();
-			foreach ( $this->p->cf['css'] as $id => $name )
-				$tab_rows[$id] = $this->get_rows( $id );
-			unset( $id, $name );
+			$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['css'] );
+			foreach ( $style_tabs as $id => $name )
+				$tab_rows[$id] = apply_filters( $this->p->cf['lca'].'_style_rows', $this->get_rows( $id ), $id, $this->form );
 
-			$this->p->util->do_tabs( 'css', $this->p->cf['css'], $tab_rows );
+			$this->p->util->do_tabs( 'css', $style_tabs, $tab_rows );
 		}
 
 		public function get_rows( $id ) {
