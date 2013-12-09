@@ -32,7 +32,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 **NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
 
-**NGFB Open Graph+ loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+**NGFB Open Graph+ only loads the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 = 3rd Party Integration =
 
