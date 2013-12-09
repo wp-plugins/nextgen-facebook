@@ -85,15 +85,11 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Clean Uninstall =
 
-Try the NGFB Open Graph+ plugin with complete confidence -- when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
+**Try the NGFB Open Graph+ plugin with complete confidence** - when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
 
 = Great Support =
 
 **NGFB Open Graph+ is actively being developed and supported**. You can review the [FAQ](http://surniaulula.com/extend/plugins/nextgen-facebook/faq/) and [Other Notes](http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.surniaulula.com/support/home).
-
-= Developer Friendly =
-
-NGFB Open Graph+ also offers a [wide variety of filter hooks](http://support.surniaulula.com/support/solutions/articles/1000000153-filter-hooks), functions, methods and [constants](http://support.surniaulula.com/solution/articles/1000000154-constants) to customize the output and behavior of the plugin.
 
 = Pro Version =
 
