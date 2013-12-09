@@ -28,9 +28,13 @@ NGFB Open Graph+ is a complete social sharing solution that uses the existing co
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Cards, including configurable image sizes for each card type.
 
-= 3rd Party Integration =
+= Best Performance =
 
-Note that 3rd party integration code is only loaded if / when individual 3rd party plugins are detected, which keeps the NGFB Open Graph+ plugin smaller than its feature set would suggest. ;-)
+**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
+
+**NGFB Open Graph+ loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+
+= 3rd Party Integration =
 
 **Images and Videos**
 
@@ -78,12 +82,6 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 * Twitter 
 * Yahoo IM
 * YouTube
-
-= Best Performance =
-
-**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques as well (persistent / non-persistent object and disk caching).
-
-**NGFB Open Graph+ only loads the libraries and object classes it needs**, which keeps it much smaller and faster than most plugins.
 
 = Clean Uninstall =
 
@@ -184,6 +182,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.18dev1 =
+
+* Added the `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing button features.
 
 = Version 6.17.0 =
 
