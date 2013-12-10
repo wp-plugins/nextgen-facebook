@@ -143,7 +143,6 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 * [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
 * [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
 * [Disable Open Graph](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/disable-open-graph/)
-* [Image Attachments](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/image-attachments/)
 * [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
   * [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
 * [Multisite / Network Support](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/)
@@ -153,6 +152,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 * [Social Buttons Function](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons-function/)
 * [Styling Social Buttons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/)
 * [URL Rewriting](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/)
+* [Working with Image Attachments](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/)
 
 == Screenshots ==
 
