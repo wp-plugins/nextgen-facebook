@@ -231,13 +231,12 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, null, 
-					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
+					$this->p->cf['full'].' will attempt to include images from the img html tags it finds in the content.
 					The img html tags must have a width and height attribute, and their size must be equal or larger than the 
 					<em>Image Dimensions</em> you\'ve entered on the General Settings page. 
-					You can uncheck this option to include smaller images from the content, 
-					or refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/faq/">FAQ</a> 
-					for additional solutions. If you uncheck this option, thumbnail images from your content 
-					may be included in your meta tags.' ).
+					Uncheck this option to include smaller images from the content, Media Library, etc.
+					<strong>Unchecking this option is not advised</strong> - 
+					images that are much too small for some social websites may be included in your meta tags.' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
 					/*

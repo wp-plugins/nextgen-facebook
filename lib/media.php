@@ -157,44 +157,41 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_cropped = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true/false
 			$ret_empty = array( null, null, null, null );
 
-			if ( ! wp_attachment_is_image( $pid ) ) {	// since wp 2.1.0
-				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); return $ret_empty; }
+			if ( ! wp_attachment_is_image( $pid ) ) {
+				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); 
+				return $ret_empty; 
+			}
 
 			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
 			$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-			if ( empty( $img_url ) ) { 
-				$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); return $ret_empty; }
 
-			// make sure the returned image size matches the size we requested, 
-			// if not then possibly resize the image
+			// make sure the returned image size matches the size we requested, if not then possibly resize the image
+			// we do this because image_downsize() does not always return accurate image sizes
 			if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
 
-				// get the actual image sizes
+				// get the actual image sizes from the metadata array
 				$img_meta = wp_get_attachment_metadata( $pid );
 
+				// are our intermediate image sizes accurate in the metadata array?
+				$is_correct_width = $img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
+				$is_correct_height = $img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
+
 				if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
+					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty / missing image sizes' );
 
-					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty/missing image sizes' );
-
-				// if the full size image is too small, get the full size image instead
+				// if the full / original image size is too small, get the full size image URL instead
 				} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
 
-					$this->p->debug->log( 'original image '.$img_meta['width'].'x'.$img_meta['height'].' is smaller than '.
-						$size_name.' '.$size_info['width'].'x'.$size_info['height'].': retrieving full size image' );
+					$this->p->debug->log( 'original meta sizes '.$img_meta['width'].'x'.$img_meta['height'].' smaller than '.
+						$size_name.' '.$size_info['width'].'x'.$size_info['height'].' - fetching "full" image size attributes' );
 
 					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
 					$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-					if ( empty( $img_url ) ) { 
-						$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); 
-						return $ret_empty; 
-					}
 
-				// if the image is not cropped, then both sizes have to be off
-				// if the image is supposed to be cropped, then only one size needs to be off
-				} elseif ( ( empty( $size_info['crop'] ) && 
-						( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] && $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ||
-					( ! empty( $size_info['crop'] ) && 
-						( $img_meta['sizes'][$size_name]['width'] != $size_info['width'] || $img_meta['sizes'][$size_name]['height'] != $size_info['height'] ) ) ) {
+				// wordpress returns image sizes based on the information in the metadata array
+				// check to see if our intermediate image sizes are correct in the metadata array
+				} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
+					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
 
 					$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
 						$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
@@ -205,18 +202,30 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
 					$this->p->debug->log( 'image_make_intermediate_size() reported '.( $resized === false ? 'failure' : 'success' ) );
 
-					// update the image metadata and re-read to validate
+					// update the image metadata 
 					if ( $resized !== false ) {
 						$img_meta['sizes'][$size_name] = $resized;
 						wp_update_attachment_metadata( $pid, $img_meta );
+						// request the image size again to validate
 						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
 						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-						if ( empty( $img_url ) ) {
-							$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' ); 
-							return $ret_empty;
-						}
 					}
 				}
+			}
+			if ( empty( $img_url ) ) { 
+				$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' );
+				return $ret_empty;
+			}
+			if ( ! empty( $this->p->options['plugin_ignore_small_img'] ) ) {
+				$is_correct_width = $img_width >= $size_info['width'] ? true : false;
+				$is_correct_height = $img_height >= $size_info['height'] ? true : false;
+				if ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
+					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
+						$this->p->debug->log( 'exiting early: returned image dimensions are smaller than '.
+							'('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
+						return $ret_empty;
+				}
+
 			}
 			$img_url = $this->p->util->fix_relative_url( $img_url );
 			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
