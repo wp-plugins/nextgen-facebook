@@ -182,9 +182,11 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 = Version 6.18dev1 =
 
 * Improved the 'Plugin Status' metabox on the settings pages to display the features and classes loaded by the plugin.
+* Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
 * Added the `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
 * Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable checks for Wistia videos in the content.
 * Fine-tuned the loading of Pro addons and social sharing features.
+* Increased the default object expiry time from 900s to 1800s.
 
 = Version 6.17.0 =
 
