@@ -32,9 +32,15 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'activation' => 'Activate and Update',
 				'content' => 'Content and Filters',
 				'cache' => 'File and Object Cache',
-				'apikeys' => 'API Keys',
 				'rewrite' => 'URL Rewrite',
+				'apikeys' => 'API Keys',
 			);
+
+			// for now, the apikeys tab contains only url shortening api keys
+			// only show if the social sharing button features are enabled
+			if ( ! $this->p->is_avail['ssb'] )
+				unset( $show_tabs['apikeys'] );
+
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
 				$tab_rows[$key] = $this->get_rows( $key );
@@ -208,9 +214,21 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'content':
-					$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
-					'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
-					'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
+					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
+					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
+					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
+					embedded videos that may be provided by these.' ).
+					'<td>'.$this->form->get_checkbox( 'plugin_filter_content' ).'</td>';
+
+					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
+					'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
+					Check this option if you use shortcodes in your excerpt, for example.' ).
+					'<td>'.$this->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
+
+					if ( $this->p->is_avail['ssb'] )
+						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
+						'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
+						'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, null, 
 					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
@@ -231,17 +249,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					Use cautiously.</strong>' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_get_img_size' ).'</td>';
 					*/
-
-					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
-					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
-					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
-					embedded videos that may be provided by these.' ).
-					'<td>'.$this->form->get_checkbox( 'plugin_filter_content' ).'</td>';
-
-					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
-					'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
-					Check this option if you use shortcodes in your excerpt, for example.' ).
-					'<td>'.$this->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 
 					$ret = array_merge( $ret, $this->get_more_content() );
 					break;
@@ -300,6 +307,12 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+
+				$this->p->util->th( 'Check for Wistia Videos', null, null, 
+				'Check the content and Custom Settings for Wistia video URLs, 
+				and retrieve the preferred oEmbed sharing URL, video dimensions, 
+				along with the video preview image.' ).
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_wistia_api' ).'</td>',
 
 				$this->p->util->th( 'Show Custom Settings on', null, null, 
 				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
@@ -364,9 +377,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
 				menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
 				the \'Yes\' option here. You can then select the Google URL Shortener in the '.
-				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).
-				'<td class="blank">'.$this->form->get_fake_radio( 'plugin_google_shorten',
-				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
+				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).'<td class="blank">'.
+				$this->form->get_fake_radio( 'plugin_google_shorten', array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
 			);
 		}
 

@@ -38,6 +38,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 			$this->p->check->conflicts();
+
 			$this->set_objects();
 
 			add_action( 'admin_init', array( &$this, 'register_setting' ) );
@@ -85,10 +86,11 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				$libs = $this->p->cf['lib']['setting'];
 			$this->menu_id = key( $libs );
 			$this->menu_name = $libs[$this->menu_id];
-			$this->setting[$this->menu_id]->add_menu_page( $this->menu_id );
+			if ( array_key_exists( $this->menu_id, $this->setting ) )
+				$this->setting[$this->menu_id]->add_menu_page( $this->menu_id );
 			foreach ( $libs as $id => $name )
-				$this->setting[$id]->add_submenu_page( $this->menu_id );
-			unset ( $id, $name );
+				if ( array_key_exists( $id, $this->setting ) )
+					$this->setting[$id]->add_submenu_page( $this->menu_id );
 		}
 
 		public function add_network_admin_menus() {
@@ -169,10 +171,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$opts = array_merge( $this->p->options, $opts );
 			$opts = $this->p->opt->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 
-			// update the social stylesheet
-			if ( empty( $opts['buttons_link_css'] ) ) 
-				$this->p->style->unlink_social();
-			else $this->p->style->update_social( $opts );
+			if ( $this->p->is_avail['ssb'] ) 
+				$this->p->style->update_social( $opts );
 
 			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts );
 
@@ -307,8 +307,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'purchase' ), null, 'side', true );
 			}
+			add_meta_box( $this->pagehook.'_info', __( 'Plugin Status', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_news', __( 'News Feed', NGFB_TEXTDOM ), array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
-			add_meta_box( $this->pagehook.'_info', __( 'Plugin Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->p->check->is_aop() )
@@ -451,13 +451,39 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 			echo '<table class="sucom-setting">';
 			echo '<tr><th class="side">'.__( 'Installed', NGFB_TEXTDOM ).':</th>';
-			echo '<td>'.$this->p->cf['version'].' (';
-			if ( $this->p->is_avail['aop'] ) echo __( 'Pro', NGFB_TEXTDOM );
+			echo '<td colspan="2">'.$this->p->cf['version'].' (';
+			if ( $this->p->is_avail['aop'] ) 
+				echo __( 'Pro', NGFB_TEXTDOM );
 			else echo __( 'GPL', NGFB_TEXTDOM );
 			echo ')</td></tr>';
-			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td>'.$stable_tag.'</td></tr>';
-			echo '<tr><th class="side">'.__( 'Latest', NGFB_TEXTDOM ).':</th><td>'.$latest_version.'</td></tr>';
-			echo '<tr><td colspan="2" id="latest_notice"><p>'.$latest_notice.'</p>';
+
+			$cca = $this->p->cf['cca'];
+			$builtin = array(
+				'SocialSharing' => $cca.'Social',
+				'NextGENGallery' => $cca.'Ngg',
+				'ShortcodeNgfb' => $cca.'ShortcodeNgfb',
+				'WidgetSocialSharing' => $cca.'WidgetSocialSharing',
+			);
+			$this->show_plugin_status( $builtin );
+
+			$addons = array(
+				'CustomSettings' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'req',
+				'LocaleLanguage' => class_exists( $cca.'Language' ) ? 'on' : 'req',
+				'TwitterCards' => class_exists( $cca.'TwitterCard' ) ? 'on' : 'req',
+				'URLRewriter' => class_exists( $cca.'RewritePro' ) ? 'on' : 
+					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'req' ),
+				'URLShortener' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
+					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'req' ),
+			);
+			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs )
+				foreach ( $libs as $id => $name )
+					$addons[$name] = class_exists( $cca.ucfirst( $sub ).ucfirst( $id ) ) ? 'on' : 
+						( $this->p->is_avail[$sub][$id] ? 'req' : 'off' );
+			$this->show_plugin_status( $addons, false );
+
+			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td colspan="2">'.$stable_tag.'</td></tr>';
+			echo '<tr><th class="side">'.__( 'Latest', NGFB_TEXTDOM ).':</th><td colspan="2">'.$latest_version.'</td></tr>';
+			echo '<tr><td colspan="3" id="latest_notice"><p>'.$latest_notice.'</p>';
 			echo '<p><a href="'.$this->p->cf['url']['changelog'].'" target="_blank">'.__( 'See the Changelog for additional details...', NGFB_TEXTDOM ).'</a></p>';
 			echo '</td></tr>';
 
@@ -482,6 +508,31 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo '<tr><td colspan="2" class="actions">'.$action_buttons.'</td></tr>';
 
 			echo '</table>';
+		}
+
+		private function show_plugin_status( $feature = array(), $builtin = true ) {
+			$leds = array( 
+				'on' => 'green-led.png',
+				'off' => 'gray-led.png',
+				'req' => 'red-led.png',
+			);
+			$titles = array( 
+				'on' => 'Code is Loaded',
+				'off' => 'Code is Inactive',
+				'req' => 'Code is Needed',
+			);
+			foreach ( $leds as $status => $img )
+				$leds[$status] = '<td style="padding:0;"><img src="'.NGFB_URLPATH.
+					'images/'.$img.'" width="12" height="12" title="'.$titles[$status].'" /></td>';
+
+			ksort( $feature );
+			$first = key( $feature );
+			foreach ( $feature as $name => $status ) {
+				if ( ! array_key_exists( $status, $leds ) )
+					$status = class_exists( $status ) ? 'on' : $status = 'off';
+				echo '<tr><th class="side">'.( $name === $first ? __( ( $builtin === true ? 'GPL' : 'Pro' ), 
+					NGFB_TEXTDOM ).':' : '' ).'</th><td>'.$name.'</td>'.$leds[$status].'</tr>';
+			}
 		}
 
 		public function show_metabox_purchase() {
@@ -515,7 +566,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$img_size = $this->p->cf['follow']['size'];
 			foreach ( $this->p->cf['follow']['src'] as $img => $url )
 				echo '<a href="'.$url.'" target="_blank"><img src="'.NGFB_URLPATH.'images/'.$img.'" 
-					width="'.$img_size.'" height="'.$img_size.'"></a> ';
+					width="'.$img_size.'" height="'.$img_size.'" /></a> ';
 			echo '</p></td></tr></table>';
 		}
 
@@ -530,5 +581,4 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 	}
 }
-
 ?>

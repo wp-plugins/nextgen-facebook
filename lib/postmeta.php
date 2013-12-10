@@ -35,17 +35,20 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			// is there at least one social button enabled?
 			// if not, then don't include the sharing metabox on the editing pages
 			$enabled = false;
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
-					$enabled = true;
-					break;
+			if ( $this->p->is_avail['ssb'] )
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
+						$enabled = true;
+						break;
+					}
 				}
-			}
+
 			// include the custom settings metabox on the editing page for that post type
-			foreach ( get_post_types( array( 'show_ui' => true, 'public' => true ), 'objects' ) as $post_type ) {
+			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type ) {
 				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
 					add_meta_box( NGFB_META_NAME, $this->p->cf['menu'].' Custom Settings', 
 						array( &$this->p->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
+
 					if ( $enabled == true )
 						add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
 							array( &$this->p->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
@@ -54,6 +57,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		}
 
 		public function show_sharing( $post ) {
+			if ( ! $this->p->is_avail['ssb'] ) return;
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 			echo '<table class="sucom-setting side"><tr><td>';
@@ -72,11 +76,17 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$def_opts = $this->get_defaults();
 			$this->form = new SucomForm( $this->p, NGFB_META_NAME, $opts, $def_opts );
 			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
+
 			$show_tabs = array( 
 				'header' => 'Webpage Header', 
 				'social' => 'Social Sharing', 
 				'tools' => 'Validation Tools',
 			);
+
+			// only show if the social sharing button features are enabled
+			if ( ! $this->p->is_avail['ssb'] )
+				unset( $show_tabs['social'] );
+
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
 				$tab_rows[$key] = $this->get_rows( $key, $post );

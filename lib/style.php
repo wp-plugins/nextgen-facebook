@@ -29,7 +29,8 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 		}
 
 		public function wp_enqueue_styles( $hook ) {
-			if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
+			// only include social styles if option is checked and social features are not disabled
+			if ( $this->p->is_avail['ssb'] && ! empty( $this->p->options['buttons_link_css'] ) ) {
 				wp_register_style( $this->p->cf['lca'].'_social_buttons', $this->social_css_min_url, false, $this->p->cf['version'] );
 				if ( ! file_exists( $this->social_css_min_file ) ) {
 					$this->p->debug->log( 'updating '.$this->social_css_min_file );
@@ -41,20 +42,22 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 		}
 
 		public function update_social( &$opts ) {
-			if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
-				$this->p->debug->log( 'Error opening '.$this->social_css_min_file.' for writing.' );
-			else {
-				$css_data = '';
-				$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['css'] );
-				foreach ( $style_tabs as $id => $name )
-					$css_data .= $opts['buttons_css_'.$id];
-
-				require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-				$css_data = ngfbMinifyCssCompressor::process( $css_data );
-				fwrite( $fh, $css_data );
-				fclose( $fh );
-				$this->p->debug->log( 'updated css file '.$this->social_css_min_file );
-			}
+			if ( $this->p->is_avail['ssb'] && ! empty( $this->p->options['buttons_link_css'] ) ) {
+				if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
+					$this->p->debug->log( 'Error opening '.$this->social_css_min_file.' for writing.' );
+				else {
+					$css_data = '';
+					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['css'] );
+					foreach ( $style_tabs as $id => $name )
+						$css_data .= $opts['buttons_css_'.$id];
+	
+					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
+					$css_data = ngfbMinifyCssCompressor::process( $css_data );
+					fwrite( $fh, $css_data );
+					fclose( $fh );
+					$this->p->debug->log( 'updated css file '.$this->social_css_min_file );
+				}
+			} else $this->unlink_social();
 		}
 
 		public function unlink_social() {

@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.17.0',			// plugin version
+			'version' => '6.18dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -70,7 +70,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 						'buddypress' => 'BuddyPress',
 					),
 					'media' => array(
-						'wistia' => 'Wistia',
+						'wistia' => 'WistiaVideoAPI',
 					),
 				),
 			),
@@ -147,8 +147,24 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				),
 			),
 		);
+		private static $cf_filtered = false;
 
 		public static function get_config( $idx = '' ) { 
+			if ( self::$cf_filtered === false ) {
+				// remove the social sharing libs if disabled
+				if ( defined( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) &&
+					constant( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) ) {
+					unset (
+						self::$cf['lib']['setting']['social'],
+						self::$cf['lib']['setting']['style'],
+						self::$cf['lib']['shortcode']['ngfb'],
+						self::$cf['lib']['widget']['social']
+					);
+					self::$cf['lib']['website'] = array();
+				}
+				self::$cf = apply_filters( self::$cf['lca'].'_get_config', self::$cf );
+				self::$cf_filtered = true;
+			}
 			if ( ! empty( $idx ) ) {
 				if ( array_key_exists( $idx, self::$cf ) )
 					return self::$cf[$idx];
@@ -158,94 +174,86 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 		public static function set_constants( $plugin_filepath ) { 
 
-			$lca = self::$cf['lca'];
-			$uca = self::$cf['uca'];
+			$cf = self::get_config();
+			$cp = $cf['uca'].'_';	// constant prefix
 
 			// .../wordpress/wp-content/plugins/nextgen-facebook/nextgen-facebook.php
-			define( $uca.'_FILEPATH', $plugin_filepath );						
+			define( $cp.'FILEPATH', $plugin_filepath );						
 
 			// .../wordpress/wp-content/plugins/nextgen-facebook/
-			define( $uca.'_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
+			define( $cp.'PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
 
 			// nextgen-facebook/nextgen-facebook.php
-			define( $uca.'_PLUGINBASE', plugin_basename( $plugin_filepath ) );
+			define( $cp.'PLUGINBASE', plugin_basename( $plugin_filepath ) );
 
 			// nextgen-facebook
-			define( $uca.'_TEXTDOM', self::$cf['slug'] );
+			define( $cp.'TEXTDOM', $cf['slug'] );
 
 			// http://.../wp-content/plugins/nextgen-facebook/
-			define( $uca.'_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
+			define( $cp.'URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
 
-			define( $uca.'_NONCE', md5( constant( $uca.'_PLUGINDIR' ).'-'.self::$cf['version'] ) );
+			define( $cp.'NONCE', md5( constant( $cp.'PLUGINDIR' ).'-'.$cf['version'] ) );
 
-			define( 'AUTOMATTIC_README_MARKDOWN', constant( $uca.'_PLUGINDIR' ).'lib/ext/markdown.php' );
+			define( 'AUTOMATTIC_README_MARKDOWN', constant( $cp.'PLUGINDIR' ).'lib/ext/markdown.php' );
 
 			/*
 			 * Allow some constants to be pre-defined in wp-config.php
 			 */
 
-			// *_RESET			true|false
-			// *_WP_DEBUG			true|false
-			// *_HTML_DEBUG			true|false
-			// *_OPEN_GRAPH_DISABLE		true|false
-			// *_OBJECT_CACHE_DISABLE	true|false
-			// *_TRANSIENT_CACHE_DISABLE	true|false
-			// *_FILE_CACHE_DISABLE		true|false
-			// *_CURL_DISABLE		true|false
-			// *_CURL_PROXY			http://hostname:port/
-			// *_CURL_PROXYUSERPWD		user:password
+			if ( defined( $cp.'DEBUG' ) && 
+				! defined( $cp.'HTML_DEBUG' ) )
+					define( $cp.'HTML_DEBUG', constant( $cp.'DEBUG' ) );
 
-			if ( defined( $uca.'_DEBUG' ) && 
-				! defined( $uca.'_HTML_DEBUG' ) )
-					define( $uca.'_HTML_DEBUG', constant( $uca.'_DEBUG' ) );
+			if ( ! defined( $cp.'CACHEDIR' ) )
+				define( $cp.'CACHEDIR', constant( $cp.'PLUGINDIR' ).'cache/' );
 
-			if ( ! defined( $uca.'_CACHEDIR' ) )
-				define( $uca.'_CACHEDIR', constant( $uca.'_PLUGINDIR' ).'cache/' );
+			if ( ! defined( $cp.'CACHEURL' ) )
+				define( $cp.'CACHEURL', constant( $cp.'URLPATH' ).'cache/' );
 
-			if ( ! defined( $uca.'_CACHEURL' ) )
-				define( $uca.'_CACHEURL', constant( $uca.'_URLPATH' ).'cache/' );
+			if ( ! defined( $cp.'OPTIONS_NAME' ) )
+				define( $cp.'OPTIONS_NAME', $cf['lca'].'_options' );
 
-			if ( ! defined( $uca.'_OPTIONS_NAME' ) )
-				define( $uca.'_OPTIONS_NAME', $lca.'_options' );
+			if ( ! defined( $cp.'SITE_OPTIONS_NAME' ) )
+				define( $cp.'SITE_OPTIONS_NAME', $cf['lca'].'_site_options' );
 
-			if ( ! defined( $uca.'_SITE_OPTIONS_NAME' ) )
-				define( $uca.'_SITE_OPTIONS_NAME', $lca.'_site_options' );
+			if ( ! defined( $cp.'META_NAME' ) )
+				define( $cp.'META_NAME', '_'.$cf['lca'].'_meta' );
 
-			if ( ! defined( $uca.'_META_NAME' ) )
-				define( $uca.'_META_NAME', '_'.$lca.'_meta' );
+			if ( ! defined( $cp.'MENU_PRIORITY' ) )
+				define( $cp.'MENU_PRIORITY', '99.10' );
 
-			if ( ! defined( $uca.'_MENU_PRIORITY' ) )
-				define( $uca.'_MENU_PRIORITY', '99.10' );
+			if ( ! defined( $cp.'INIT_PRIORITY' ) )
+				define( $cp.'INIT_PRIORITY', 12 );
 
-			if ( ! defined( $uca.'_INIT_PRIORITY' ) )
-				define( $uca.'_INIT_PRIORITY', 12 );
+			if ( ! defined( $cp.'HEAD_PRIORITY' ) )
+				define( $cp.'HEAD_PRIORITY', 10 );
 
-			if ( ! defined( $uca.'_HEAD_PRIORITY' ) )
-				define( $uca.'_HEAD_PRIORITY', 10 );
-
-			if ( ! defined( $uca.'_SOCIAL_PRIORITY' ) )
-				define( $uca.'_SOCIAL_PRIORITY', 100 );
+			if ( ! defined( $cp.'SOCIAL_PRIORITY' ) )
+				define( $cp.'SOCIAL_PRIORITY', 100 );
 			
-			if ( ! defined( $uca.'_FOOTER_PRIORITY' ) )
-				define( $uca.'_FOOTER_PRIORITY', 100 );
+			if ( ! defined( $cp.'FOOTER_PRIORITY' ) )
+				define( $cp.'FOOTER_PRIORITY', 100 );
 			
-			if ( ! defined( $uca.'_OG_SIZE_NAME' ) )
-				define( $uca.'_OG_SIZE_NAME', $lca.'-open-graph' );
+			if ( ! defined( $cp.'OG_SIZE_NAME' ) )
+				define( $cp.'OG_SIZE_NAME', $cf['lca'].'-open-graph' );
 
-			if ( ! defined( $uca.'_DEBUG_FILE_EXP' ) )
-				define( $uca.'_DEBUG_FILE_EXP', 300 );
+			if ( ! defined( $cp.'DEBUG_FILE_EXP' ) )
+				define( $cp.'DEBUG_FILE_EXP', 300 );
 
-			if ( ! defined( $uca.'_CURL_USERAGENT' ) )
-				define( $uca.'_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
+			if ( ! defined( $cp.'CURL_USERAGENT' ) )
+				define( $cp.'CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
 
-			if ( ! defined( $uca.'_CURL_CAINFO' ) )
-				define( $uca.'_CURL_CAINFO', constant( $uca.'_PLUGINDIR' ).'share/curl/cacert.pem' );
+			if ( ! defined( $cp.'CURL_CAINFO' ) )
+				define( $cp.'CURL_CAINFO', constant( $cp.'PLUGINDIR' ).'share/curl/cacert.pem' );
 
 		}
 
-		public static function require_libs() {
+		public static function require_libs( $plugin_filepath ) {
 			
-			$plugin_dir = constant( self::$cf['uca'].'_PLUGINDIR' );
+			$cf = self::get_config();
+			$cp = $cf['uca'].'_';	// constant prefix
+
+			$plugin_dir = constant( $cp.'PLUGINDIR' );
 
 			require_once( $plugin_dir.'lib/com/debug.php' );
 			require_once( $plugin_dir.'lib/com/cache.php' );
@@ -262,40 +270,48 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/media.php' );
-			require_once( $plugin_dir.'lib/social.php' );
-			require_once( $plugin_dir.'lib/style.php' );			// extends lib/com/style.php
+			require_once( $plugin_dir.'lib/style.php' );		// extends lib/com/style.php
+
+			// NGFB_SOCIAL_SHARING_DISABLE constant can disable social sharing button features, 
+			// but so can simply removing the lib/social.php file
+			if ( ( ! defined( $cp.'SOCIAL_SHARING_DISABLE' ) ||
+				! constant( $cp.'SOCIAL_SHARING_DISABLE' ) ) &&
+					file_exists( $plugin_dir.'lib/social.php' ) )
+						require_once( $plugin_dir.'lib/social.php' );
 
 			if ( is_admin() ) {
 				require_once( $plugin_dir.'lib/messages.php' );
 				require_once( $plugin_dir.'lib/admin.php' );
 
-				// settings classes extend lib/admin.php and objects are created by lib/admin.php
-				foreach ( self::$cf['lib']['setting'] as $id => $name )
+				// settings classes extend lib/admin.php, and settings objects are created by lib/admin.php
+				foreach ( $cf['lib']['setting'] as $id => $name )
 					require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
 
-				if ( is_multisite() ) {
-					foreach ( self::$cf['lib']['site_setting'] as $id => $name )
+				// load the network settings if we're a multisite
+				if ( is_multisite() )
+					foreach ( $cf['lib']['site_setting'] as $id => $name )
 						require_once( $plugin_dir.'lib/site_setting/'.$id.'.php' );
-				}
+
 				require_once( $plugin_dir.'lib/com/form.php' );
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else {
 				require_once( $plugin_dir.'lib/head.php' );
 				require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 				require_once( $plugin_dir.'lib/functions.php' );
-
-				foreach ( self::$cf['lib']['shortcode'] as $id => $name )
-					require_once( $plugin_dir.'lib/shortcode/'.$id.'.php' );
 			}
 
+			foreach ( $cf['lib']['shortcode'] as $id => $name )
+				if ( file_exists( $plugin_dir.'lib/shortcode/'.$id.'.php' ) )
+					require_once( $plugin_dir.'lib/shortcode/'.$id.'.php' );
+
 			// website classes extend both lib/social.php and lib/setting/social.php
-			foreach ( self::$cf['lib']['website'] as $id => $name )
+			foreach ( $cf['lib']['website'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/website/'.$id.'.php' ) )
 					require_once( $plugin_dir.'lib/website/'.$id.'.php' );
 
 			// widgets are added to wordpress when library file is loaded
 			// no need to create the class object later on
-			foreach ( self::$cf['lib']['widget'] as $id => $name )
+			foreach ( $cf['lib']['widget'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/widget/'.$id.'.php' ) )
 					require_once( $plugin_dir.'lib/widget/'.$id.'.php' );
 

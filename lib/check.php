@@ -37,19 +37,19 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		// used before any class objects are created, so keep in main class
 		public function get_avail() {
 			$ret = array();
-			$ret['aop'] = class_exists( $this->p->cf['lca'].'AddonPro' ) ? true : false;
+			$ret['ssb'] = class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
+			$ret['aop'] = class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			$ret['ngg'] = class_exists( 'nggdb' ) || 
-				class_exists( 'C_NextGEN_Bootstrap' ) ||
+			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ||
 				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
 
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
 				foreach ( $libs as $id => $name ) {
+					$checkbox = false;
 					$func_name = false;
 					$class_name = false;
 					$pluginbase = false;
@@ -86,10 +86,14 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$class_name = 'BuddyPress'; 
 							$pluginbase = 'buddypress/bp-loader.php';
 							break;
+						case 'wistia':
+							$checkbox = 'plugin_wistia_api';
+							break;
 					}
 					if ( ( $func_name && function_exists( $func_name ) ) || 
 						( $class_name && class_exists( $class_name ) ) ||
-						( $pluginbase && in_array( $pluginbase, $this->active_plugins ) ) )
+						( $pluginbase && in_array( $pluginbase, $this->active_plugins ) ) ||
+						( $checkbox && ! empty( $this->p->options[$checkbox] ) ) )
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 					else $ret[$sub][$id] = false;
 				}

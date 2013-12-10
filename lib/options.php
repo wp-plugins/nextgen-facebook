@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '146';
+		public $options_version = '148';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -241,17 +241,18 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_preserve' => 0,
 			'plugin_reset' => 0,
 			'plugin_debug' => 0,
+			'plugin_filter_content' => 1,
+			'plugin_filter_excerpt' => 0,
 			'plugin_shortcode_ngfb' => 0,
 			'plugin_ignore_small_img' => 1,
 			'plugin_get_img_size' => 0,
-			'plugin_filter_content' => 1,
-			'plugin_filter_excerpt' => 0,
+			'plugin_wistia_api' => 1,
 			'plugin_add_to_post' => 1,
 			'plugin_add_to_page' => 1,
 			'plugin_add_to_attachment' => 1,
 			'plugin_verify_certs' => 0,
 			'plugin_file_cache_hrs' => 0,
-			'plugin_object_cache_exp' => 900,
+			'plugin_object_cache_exp' => 1800,
 			'plugin_min_shorten' => 21,
 			'plugin_google_api_key' => '',
 			'plugin_google_shorten' => 0,
@@ -312,16 +313,19 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function get_defaults( $idx = '' ) {
-			foreach ( $this->p->cf['css'] as $id => $name ) {
-				$css_file = constant( $this->p->cf['uca'].'_PLUGINDIR').'css/'.$id.'-buttons.css';
-				// css files are only loaded once into defaults to minimize disk i/o
-				if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
-					if ( ! $fh = @fopen( $css_file, 'rb' ) )
-						$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
-					else {
-						$this->defaults['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
-						$this->p->debug->log( 'read css from file '.$css_file );
-						fclose( $fh );
+
+			if ( $this->p->is_avail['ssb'] ) {
+				foreach ( $this->p->cf['css'] as $id => $name ) {
+					$css_file = constant( $this->p->cf['uca'].'_PLUGINDIR').'css/'.$id.'-buttons.css';
+					// css files are only loaded once into defaults to minimize disk i/o
+					if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
+						if ( ! $fh = @fopen( $css_file, 'rb' ) )
+							$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
+						else {
+							$this->defaults['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
+							$this->p->debug->log( 'read css from file '.$css_file );
+							fclose( $fh );
+						}
 					}
 				}
 			}
@@ -416,17 +420,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					$opts['inc_description'] = 0;
 					$opts['inc_description:is'] = 'disabled';
 				}
-
-				if ( empty( $opts['plugin_file_cache_hrs'] ) || empty( $opts['plugin_ignore_small_img'] ) ) {
-					$opts['plugin_get_img_size'] = 0;
-					$opts['plugin_get_img_size:is'] = 'disabled';
-				}
-
-				if ( empty( $opts['plugin_google_api_key'] ) ) {
-					$opts['plugin_google_shorten'] = 0;
-					$opts['plugin_google_shorten:is'] = 'disabled';
-				}
-
 			} else {
 				if ( $opts === false )
 					$opts_err_msg = 'could not find an entry for '.$options_name.' in';
@@ -667,14 +660,25 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 			}
 
+			/*
+			 * Adjust dependent options
+			 */
+
 			// preserve and reset options are not compatible, disable reset if preserve option is checked
 			if ( ! empty( $opts['plugin_preserve'] ) ) {
 				$opts['plugin_reset'] = 0;
 				$opts['plugin_reset:is'] = 'disabled';
 			}
 
-			if ( empty( $opts['plugin_google_api_key'] ) )
+			if ( empty( $opts['plugin_google_api_key'] ) ) {
 				$opts['plugin_google_shorten'] = 0;
+				$opts['plugin_google_shorten:is'] = 'disabled';
+			}
+
+			if ( empty( $opts['plugin_file_cache_hrs'] ) || empty( $opts['plugin_ignore_small_img'] ) ) {
+				$opts['plugin_get_img_size'] = 0;
+				$opts['plugin_get_img_size:is'] = 'disabled';
+			}
 
 			// og_desc_len must be at least 156 chars (defined in config)
 			if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 

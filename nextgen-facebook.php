@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.17.0
+Version: 6.18dev1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -34,9 +34,9 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		public function __construct() {
 
 			require_once ( dirname( __FILE__ ).'/lib/config.php' );
-			$this->cf = ngfbPluginConfig::get_config();
-			ngfbPluginConfig::set_constants( __FILE__ );
-			ngfbPluginConfig::require_libs();		// keep in construct for widgets
+			$this->cf = NgfbPluginConfig::get_config();
+			NgfbPluginConfig::set_constants( __FILE__ );
+			NgfbPluginConfig::require_libs( __FILE__ );	// keep in construct for widgets
 
 			require_once ( dirname( __FILE__ ).'/lib/register.php' );
 			$reg_class = __CLASS__.'Register';
@@ -67,10 +67,11 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			/*
 			 * load all plugin options
 			 */
-			$this->check = new NgfbCheck( $this );
-			$this->is_avail = $this->check->get_avail();
+			$this->set_options();				// local method for early load
 			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
-			$this->set_options();		// local method for early load
+
+			$this->check = new NgfbCheck( $this );
+			$this->is_avail = $this->check->get_avail();	// uses options
 
 			if ( $this->is_avail['aop'] == true ) 
 				$this->cf['full'] = $this->cf['full_pro'];
@@ -130,8 +131,10 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			$this->user = new NgfbUser( $this );
 			$this->meta = new NgfbPostMeta( $this );
 			$this->media = new NgfbMedia( $this );			// images, videos, etc., plug ngg
-			$this->social = new NgfbSocial( $this );		// wp_head and wp_footer js and buttons
 			$this->style = new NgfbStyle( $this );			// extends SucomStyle
+
+			if ( $this->is_avail['ssb'] == true )
+				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 
 			if ( is_admin() ) {
 				$this->og = new SucomOpengraph( $this );	// og parsing method
@@ -235,10 +238,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 					}
 				}
 			}
-
-			// allow the wistia addon to load if the plugin_wistia_pwd is defined
-			$this->is_avail['media']['wistia'] = empty( $this->options['plugin_wistia_pwd'] ) ? false : true;
-
 			$this->options = apply_filters( $this->cf['lca'].'_get_options', $this->options );
 			$this->site_options = apply_filters( $this->cf['lca'].'_get_site_options', $this->site_options );
 		}

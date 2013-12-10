@@ -20,8 +20,10 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/ngg.php' );
-			$this->ngg = new NgfbNgg( $plugin );
+			if ( $this->p->is_avail['ngg'] === true ) {
+				require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/ngg.php' );
+				$this->ngg = new NgfbNgg( $plugin );
+			}
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 		}
@@ -78,8 +80,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$og_image = array();
 			if ( ! empty( $post_id ) && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
+
 				// featured images from ngg pre-v2 had 'ngg-' prefix
-				if ( $this->p->is_avail['ngg'] == true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
+				if ( $this->p->is_avail['ngg'] === true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
 				} else {
@@ -232,7 +235,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_url = $this->p->meta->get_options( $post_id, 'og_img_url' );
 
 			if ( $pid > 0 ) {
-				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' ) {
+				if ( $this->p->is_avail['ngg'] === true && $pre == 'ngg' ) {
 					$this->p->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
 					$image = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				} else {
@@ -265,7 +268,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return $og_ret;
 			}
 			if ( $pid > 0 ) {
-				if ( $this->p->is_avail['ngg'] == true && $pre == 'ngg' )
+				if ( $this->p->is_avail['ngg'] === true && $pre == 'ngg' )
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
 						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
 				else
@@ -296,7 +299,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return $og_ret; 
 			}
 			// check html tags for ngg images
-			if ( $this->p->is_avail['ngg'] == true ) {
+			if ( $this->p->is_avail['ngg'] === true ) {
 				$og_ret = $this->ngg->get_content_images( $num, $size_name, $use_post, $check_dupes, $content );
 				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
@@ -327,7 +330,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								'og:image:height' => -1,
 							);
 							// check for ngg pre-v2 image pids in the url
-							if ( $this->p->is_avail['ngg'] == true && 
+							if ( $this->p->is_avail['ngg'] === true && 
 								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
 		
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
@@ -405,7 +408,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				} else $this->p->debug->log( '[gallery] shortcode not found' );
 			}
 			// check for ngg gallery
-			if ( $this->p->is_avail['ngg'] == true ) {
+			if ( $this->p->is_avail['ngg'] === true ) {
 				$og_ret = $this->ngg->get_gallery_images( $num , $size_name, $want_this, $check_dupes );
 				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
@@ -433,6 +436,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			return $og_ret;
 		}
 
+		/* Purpose: Check the content for generic <iframe|embed/> html tags. Apply ngfb_content_videos filter for more specialized checks. */
 		public function get_content_videos( $num = 0, $use_post = true, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
@@ -496,33 +500,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				'og:image:width' => -1,
 				'og:image:height' => -1,
 			);
-			$og_video = $attach_ids = apply_filters( $this->p->cf['lca'].'_video_info_seed', 
-				$og_video, $embed_url, $embed_width, $embed_height );
 			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
-
-			if ( preg_match( '/^.*(wistia\.net|wistia\.com|wi\.st)\/([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
-				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
-				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot.'fast.wistia.com/oembed.xml?url=http%3A//home.wistia.com/medias/'.$vid_name.'%3FembedType=seo';
-					$this->p->debug->log( 'fetching video details from '.$api_url );
-					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
-					if ( ! empty( $xml->thumbnail_url ) ) {
-						$og_video['og:image'] = (string) $xml->thumbnail_url;
-						$og_video['og:image'] = preg_replace( '/^https:\/\/embed-ssl\./', 'http://embed.', $og_video['og:image'] );
-						if ( ! empty( $this->p->options['og_vid_https'] ) )
-							$og_video['og:image:secure_url'] = preg_replace( '/^http:\/\/embed\./', 'https://embed-ssl.', $og_video['og:image'] );
-						$og_video['og:image:width'] = $og_video['og:video:width'] = (string) $xml->thumbnail_width;
-						$og_video['og:image:height'] = $og_video['og:video:height'] = (string) $xml->thumbnail_height;
-					}
-					if ( ! empty( $xml->html ) && 
-						preg_match( '/<meta itemprop=[\'"]embedURL[\'"] content="([^\'"]+)"/', (string) $xml->html, $match ) ) {
-						$og_video['og:video'] = $match[1];
-						$og_video['og:video'] = preg_replace( '/^https:\/\/embed-ssl\./', 'http://embed.', $og_video['og:video'] );
-						if ( ! empty( $this->p->options['og_vid_https'] ) )
-							$og_video['og:video:secure_url'] = preg_replace( '/^http:\/\/embed\./', 'https://embed-ssl.', $og_video['og:video'] );
-					}
-				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
-			} elseif ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
+			/*
+			 * YouTube video API
+			 */
+			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 				$og_video['og:video'] = $prot.'www.youtube.com/v/'.$vid_name;
 				$og_video['og:image'] = $prot.'img.youtube.com/vi/'.$vid_name.'/0.jpg';	// 0, hqdefault, maxresdefault
@@ -564,6 +546,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 						$og_video['og:video:height'] = $og_meta['og:video:height'];
 					}
 				}
+			/*
+			 * Vimeo video API
+			 */
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
 				$og_video['og:video'] = $prot.'vimeo.com/moogaloop.swf?clip_id='.$vid_name;
@@ -579,8 +564,14 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					}
 				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
 			}
+			/*
+			 * Other video APIs
+			 */
+			$og_video = apply_filters( $this->p->cf['lca'].'_video_info', $og_video, $embed_url, $embed_width, $embed_height );
+
 			$this->p->debug->log( 'video = '.$og_video['og:video'].' ('.$og_video['og:video:width'].'x'.$og_video['og:video:height'].')' );
 			$this->p->debug->log( 'image = '.$og_video['og:image'].' ('.$og_video['og:image:width'].'x'.$og_video['og:image:height'].')' );
+
 			if ( empty( $og_video['og:video'] ) ) {
 				unset ( 
 					$og_video['og:video'],
@@ -589,11 +580,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					$og_video['og:video:height']
 				);
 			}
-			$og_video = $attach_ids = apply_filters( $this->p->cf['lca'].'_video_info', 
-				$og_video, $embed_url, $embed_width, $embed_height );
-			if ( empty( $og_video['og:video'] ) && 
-				empty( $og_video['og:image'] ) ) 
-					return array();
+
+			if ( empty( $og_video['og:video'] ) && empty( $og_video['og:image'] ) ) 
+				return array();
 			else return $og_video;
 		}
 	}

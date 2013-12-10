@@ -16,8 +16,8 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		protected $p;
 
-		public $shortener;		// shortening class object set by Pro addon
-		public $rewriter;		// rewriting class object set by Pro addon
+		public $shortener;	// defined by the AddonPro class
+		public $rewriter;	// defined by the AddonPro class
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -236,12 +236,12 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return ( $this->p->util->rewrite_url( $this->p->cache->get( $url ) ) );
 		}
 
+		/* Purpose: Used by Twitter related methods to shorten URLs. $this->shortener is defined by the AddonPro class */
 		public function shorten_url( $long_url, $service = '' ) {
-			$short_url = $long_url;
-			if ( is_object( $this->shortener ) && method_exists( $this->shortener, 'short' ) ) {
+			if ( is_object( $this->shortener ) ) {
 				if ( ( $short_url = $this->shortener->short( $long_url, $service ) ) === false )
 					$short_url = $long_url;
-			}
+			} else $short_url = $long_url;
 			return apply_filters( $this->p->cf['lca'].'_shorten_url', $short_url, $long_url );
 		}
 
@@ -311,6 +311,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				$text = $text.$trailing;						// trim and add trailing string (if provided)
 			}
 			$text = htmlentities( $text, ENT_QUOTES, $charset, false );			// double_encode = false
+			$text = preg_replace( '/&nbsp;/', ' ', $text);					// just in case
 			return $text;
 		}
 
@@ -327,8 +328,9 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return trim( $text );
 		}
 
+		/* Purpose: Rewrite image URLs for the meta tags and buttons (pinterest and tumblr). */
 		public function rewrite_url( $url = '' ) {
-			if ( is_object( $this->rewriter ) && method_exists( $this->rewriter, 'html' ) ) {
+			if ( ! empty( $this->p->options['plugin_cdn_urls'] ) && is_object( $this->rewriter ) ) {
 				$url = '"'.$url.'"';	// rewrite method uses reference
 				$url = trim( $this->rewriter->html( $url ), '"' );
 			}
@@ -640,15 +642,18 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						'og array' => 'lang:'.$lang.'_sharing_url:'.$sharing_url,
 					),
 					'NgfbSocial::filter' => array(
-						'the_excerpt html' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt',
-						'the_content html' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_content',
-						'admin_sharing html' => 'lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing',
+						'the_excerpt' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt',
+						'the_content' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_content',
+						'admin_sharing' => 'lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing',
 					),
 				);
 				$objects = array(
 					'SucomWebpage::get_content' => array(
-						'filtered content html' => 'lang:'.$lang.'_post:'.$post_id.'_filtered',
-						'unfiltered content html' => 'lang:'.$lang.'_post:'.$post_id.'_unfiltered',
+						'filtered content' => 'lang:'.$lang.'_post:'.$post_id.'_filtered',
+						'unfiltered content' => 'lang:'.$lang.'_post:'.$post_id.'_unfiltered',
+					),
+					'SucomWebpage::get_hashtags' => array(
+						'hashtags' => 'lang:'.$lang.'_post:'.$post_id,
 					),
 				);
 				$deleted = 0;

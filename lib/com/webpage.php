@@ -240,8 +240,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				if ( is_singular() || $use_post !== false ) {
 	
 					$this->p->debug->log( 'use_post = '.( $use_post ? 'true' : 'false' ) );
-					$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
-					$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post_id ) ? 'true' : 'false' ) );
+					//$this->p->debug->log( 'is_singular() = '.( is_singular() ? 'true' : 'false' ) );
+					//$this->p->debug->log( 'has_excerpt() = '.( has_excerpt( $post_id ) ? 'true' : 'false' ) );
 	
 					// use the excerpt, if we have one
 					if ( has_excerpt( $post_id ) ) {
@@ -321,10 +321,9 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			 * Retrieve The Content
 			 */
 			if ( $filter_content == true ) {
-				if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
-					constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
-						$this->p->debug->log( 'object cache is disabled' );
-				else {
+				if ( ! defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' )  ||
+					! constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) ) {
+
 					// if the post id is 0, then add the sharing url to ensure a unique salt string
 					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_'.$filter_name.
 						( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( $use_post ) : '' ).')';
@@ -403,16 +402,13 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			// apply filters before caching
 			$content = apply_filters( $this->p->cf['lca'].'_content', $content );
 
-			if ( $filter_content == true ) {
-				if ( ! defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) || 
-					! constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) ) {
-	
-					// only some caching plugins implement this function
-					wp_cache_add_non_persistent_groups( array( __METHOD__ ) );
-					wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
-					$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.
-						$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
-				}
+			if ( $filter_content == true && ! empty( $cache_id ) ) {
+				// only some caching plugins implement this function
+				wp_cache_add_non_persistent_groups( array( __METHOD__ ) );
+
+				wp_cache_set( $cache_id, $content, __METHOD__, $this->p->cache->object_expire );
+				$this->p->debug->log( $cache_type.': '.$filter_name.' content saved to wp_cache '.
+					$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			return $content;
 		}
@@ -432,6 +428,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		public function get_hashtags( $post_id ) {
 			if ( empty( $this->p->options['og_desc_hashtags'] ) ) 
 				return;
+
 			$text = apply_filters( $this->p->cf['lca'].'_hashtags_seed', '', $post_id );
 			if ( ! empty( $text ) )
 				$this->p->debug->log( 'hashtags seed = "'.$text.'"' );
@@ -452,14 +449,16 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			else {
 				if ( is_singular() || ! empty( $post_id ) ) {
 					$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
-					if ( $this->p->options['og_ngg_tags'] && 
+
+					if ( $this->p->is_avail['ngg'] === true && 
+						$this->p->options['og_ngg_tags'] && 
 						$this->p->is_avail['postthumb'] == true && 
 						has_post_thumbnail( $post_id ) ) {
 
 						$pid = get_post_thumbnail_id( $post_id );
 
-						if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 						// featured images from ngg pre-v2 had 'ngg-' prefix
+						if ( is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' )
 							$tags = array_merge( $tags, $this->p->media->ngg->get_tags( $pid ) );
 					}
 				} elseif ( is_search() )

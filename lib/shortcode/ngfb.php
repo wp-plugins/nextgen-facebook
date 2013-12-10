@@ -18,8 +18,10 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->wpautop();
-			$this->add();
+			if ( ! is_admin() && $this->p->is_avail['ssb'] ) {
+				$this->wpautop();
+				$this->add();
+			}
 		}
 
 		public function wpautop() {

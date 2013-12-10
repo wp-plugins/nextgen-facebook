@@ -63,17 +63,13 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
 			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
-			$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly' );
-			if ( ! empty( $this->p->options['plugin_bitly_login' ] ) &&
-				! empty( $this->p->options['plugin_bitly_api_key' ] ) )
-					$shorteners['bitly'] = 'Bit.ly';
-			if ( ! empty( $this->p->options['plugin_google_shorten' ] ) ) 
-				$shorteners['googl'] = 'Goo.gl';
+			$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
 			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
-			If you select a URL shortening service, you must also enter your API Key for that service on the '.
-			$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings API Keys tab' ).'.' ) .
+			If you select a URL shortening service here, <strong>you must also enter its API credentials</strong>
+			on the '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings page' ).',
+			under the API Keys tab.' ).
 			( $this->p->check->is_aop() == true ?  '<td>'.$this->form->get_select( 'twitter_shortener', $shorteners, 'medium' ).
-			'&nbsp;&nbsp;'.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Enter your API Keys' ) :
+			'&nbsp;&nbsp;[ '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'API Keys' ).' ]' :
 			'<td class="blank">'.$this->form->get_hidden( 'twitter_shortener' ).$this->p->options['twitter_shortener'] ).'</td>';
 
 			return $ret;

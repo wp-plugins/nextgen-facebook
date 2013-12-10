@@ -267,18 +267,23 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 			}
 
 			// check for ngg shortcodes and query vars
-			if ( $this->p->is_avail['ngg'] == true && ! $this->p->util->is_maxed( $og_ret, $num ) ) {
+			if ( $this->p->is_avail['ngg'] === true && 
+				! $this->p->util->is_maxed( $og_ret, $num ) ) {
+
 				$ngg_query_og_ret = array();
 				$num_remains = $this->p->media->num_remains( $og_ret, $num );
-				if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
+				if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) )
 					$ngg_query_og_ret = $this->p->media->ngg->get_query_images( $num_remains, $size_name, $check_dupes );
-				}
+
 				// if we found images in the query, skip content shortcodes
 				if ( count( $ngg_query_og_ret ) > 0 ) {
+
 					$this->p->debug->log( count( $ngg_query_og_ret ).' image(s) returned - skipping additional shortcode images' );
 					$og_ret = array_merge( $og_ret, $ngg_query_og_ret );
+
 				// if no query images were found, continue with ngg shortcodes in content
 				} elseif ( ! $this->p->util->is_maxed( $og_ret, $num ) ) {
+
 					$num_remains = $this->p->media->num_remains( $og_ret, $num );
 					$og_ret = array_merge( $og_ret, 
 						$this->p->media->ngg->get_shortcode_images( $num_remains, $size_name, $check_dupes ) );
