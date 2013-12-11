@@ -459,28 +459,28 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			$cca = $this->p->cf['cca'];
 			$builtin = array(
-				'DebugMessages' => 'SucomDebug',
-				'FileCache' => $this->p->is_avail['cache']['file'] ? 'on' : 'rec',
-				'GetCache' => 'SucomCache',
-				'NextGENGallery' => $cca.'Ngg',
-				'ObjectCache' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec',
-				'OpenGraph' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec',
-				'ProUpdateCheck' => 'SucomUpdate',
-				'SocialSharing' => $cca.'Social',
-				'ShortcodeNgfb' => $cca.'ShortcodeNgfb',
-				'TransientCache' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec',
-				'WidgetSocialSharing' => $cca.'WidgetSocialSharing',
+				'Debug Messages' => 'SucomDebug',
+				'File Cache' => $this->p->is_avail['cache']['file'] ? 'on' : 'rec',
+				'Get URL Cache' => 'SucomCache',
+				'NextGEN Gallery' => $cca.'Ngg',
+				'Object Cache' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec',
+				'Open Graph / Rich Pin' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec',
+				'Pro Update Check' => 'SucomUpdate',
+				'Social Sharing' => $cca.'Social',
+				'Shortcode Ngfb' => $cca.'ShortcodeNgfb',
+				'Transient Cache' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec',
+				'Widget Social Sharing' => $cca.'WidgetSocialSharing',
 			);
 			$this->show_plugin_status( $builtin );
 
 			$addons = array(
-				'CustomSettings' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec',
-				'LocaleLanguage' => class_exists( $cca.'Language' ) ? 'on' : 'rec',
-				'TwitterCards' => class_exists( $cca.'Opengraph' ) && 
+				'Post Custom Settings' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec',
+				'Locale Language' => class_exists( $cca.'Language' ) ? 'on' : 'rec',
+				'Twitter Cards' => class_exists( $cca.'Opengraph' ) && 
 					class_exists( $cca.'TwitterCard' ) ? 'on' : 'rec',
-				'URLRewriter' => class_exists( $cca.'RewritePro' ) ? 'on' : 
+				'URL Rewriter' => class_exists( $cca.'RewritePro' ) ? 'on' : 
 					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ),
-				'URLShortener' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
+				'URL Shortener' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
 					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs )

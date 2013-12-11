@@ -43,12 +43,15 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ||
 				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
 
-			$ret['og'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/opengraph.php' ) &&
+			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || ! constant( 'NGFB_META_TAGS_DISABLE' ) ) &&
+				empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
+			$ret['opengraph'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/opengraph.php' ) &&
 				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! constant( 'NGFB_OPEN_GRAPH_DISABLE' ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
 			$ret['ssb'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/social.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! constant( 'NGFB_SOCIAL_SHARING_DISABLE' ) ) &&
+				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
 			$ret['aop'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;

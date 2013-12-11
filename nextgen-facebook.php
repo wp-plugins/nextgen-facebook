@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.18dev3
+Version: 6.18dev4
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -146,7 +146,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			} else {
 				$this->head = new NgfbHead( $this );		// adds opengraph and twitter card meta tags
 
-				if ( $this->is_avail['og'] == true )
+				if ( $this->is_avail['opengraph'] )
 					$this->og = new NgfbOpengraph( $this );
 			}
 
@@ -173,14 +173,13 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				$this->options['og_img_height'], 
 				( empty( $this->options['og_img_crop'] ) ? false : true ) );
 
-			// set the file cache expiration values
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
-			$this->cache->file_expire = 0;	// file caching is disabled by default
 			if ( $this->check->is_aop() ) {
+				$this->is_avail['cache']['file'] = true;
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
-			}
+			} else { $this->cache->file_expire = 0; $this->is_avail['cache']['file'] = false; }
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {

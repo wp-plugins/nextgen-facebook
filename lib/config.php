@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.18dev3',		// plugin version
+			'version' => '6.18dev4',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -303,10 +303,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				( ! defined( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) || ! constant( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
-
-			foreach ( $cf['lib']['shortcode'] as $id => $name )
-				if ( file_exists( $plugin_dir.'lib/shortcode/'.$id.'.php' ) )
-					require_once( $plugin_dir.'lib/shortcode/'.$id.'.php' );
 
 			// website classes extend both lib/social.php and lib/setting/social.php
 			foreach ( $cf['lib']['website'] as $id => $name )

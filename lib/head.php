@@ -47,8 +47,11 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 						$this->p->debug->log( $function.'() = true' );
 			}
 
-			if ( $this->p->is_avail['og'] )
-				$this->show_html( $this->p->og->get_array() );
+			if ( $this->p->is_avail['metatags'] ) {
+				if ( $this->p->is_avail['opengraph'] )
+					$this->show_html( $this->p->og->get_array() );
+				else $this->show_html();
+			}
 
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );

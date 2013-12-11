@@ -45,7 +45,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					$msg .= '<ul>';
 					$msg .= '<li>Add support for <em>Gallery, Photo, Large Image, Player and Product</em> 
 						<a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>?</li>';
-					$msg .= '<li>Customize Open Graph, Rich Pin and Twitter Card meta tags for <em>individual</em> Post and Page?</li>';
+					$msg .= '<li>Customize Open Graph, Rich Pin and Twitter Card meta tags for <em>individual</em> Posts and Pages?</li>';
 					$msg .= '<li>Integrate with
 						<a href="http://wordpress.org/plugins/wordpress-seo/" target="_blank">WordPress SEO</a>,
 						<a href="http://wordpress.org/plugins/all-in-one-seo-pack/" target="_blank">All-In-One SEO</a>,
