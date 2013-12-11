@@ -179,7 +179,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.18dev3 =
+= Version 6.18dev4 =
 
 * Improved the 'Plugin Status' metabox on the settings pages to display the features and classes loaded by the plugin.
 * Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
