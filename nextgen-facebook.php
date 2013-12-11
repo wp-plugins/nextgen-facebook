@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.18dev2
+Version: 6.18dev3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -64,15 +64,15 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		// get the options, upgrade the options (if necessary), and validate their values
 		public function set_objects( $activate = false ) {
 
+			$plugin_dir = constant( $this->cf['uca'].'_'.'PLUGINDIR' );
+
 			/*
-			 * load all plugin options
+			 * plugin options
 			 */
 			$this->set_options();				// local method for early load
 			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
-
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();	// uses options
-
 			if ( $this->is_avail['aop'] == true ) 
 				$this->cf['full'] = $this->cf['full_pro'];
 			if ( $this->is_avail['ngg'] == true ) {
@@ -82,15 +82,18 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			}
 	
 			/*
-			 * create essential class objects
+			 * essential class objects
 			 */
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
-			$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			if ( $html_debug || $wp_debug ) {
+				require_once( $plugin_dir.'lib/com/debug.php' );
+				$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			} else $this->debug = new NgfbNoDebug();
+
 			$this->notice = new SucomNotice( $this );
 
-			$this->check = new NgfbCheck( $this );
 			$this->util = new NgfbUtil( $this );
 			$this->opt = new NgfbOptions( $this );
 
@@ -122,7 +125,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			}
 
 			/*
-			 * continue creating remaining object classes
+			 * remaining object classes
 			 */
 			$this->cache = new SucomCache( $this );
 			$this->script = new SucomScript( $this );
@@ -142,7 +145,9 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				$this->admin = new NgfbAdmin( $this );
 			} else {
 				$this->head = new NgfbHead( $this );		// adds opengraph and twitter card meta tags
-				$this->og = new NgfbOpengraph( $this );
+
+				if ( $this->is_avail['og'] == true )
+					$this->og = new NgfbOpengraph( $this );
 			}
 
 			// create pro class object last - it extends several previous classes
@@ -170,7 +175,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 			// set the file cache expiration values
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
-			$this->cache->file_expire = 0;
+			$this->cache->file_expire = 0;	// file caching is disabled by default
 			if ( $this->check->is_aop() ) {
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
@@ -179,14 +184,13 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {
-				if ( ! defined( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
-					define( $this->cf['uca'].'_OBJECT_CACHE_DISABLE', true );
-				$cache_msg = 'object cache '.(constant( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) === true ? 'is' : 'could not be' ).' disabled, ';
-
-				if ( ! defined( $this->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
-					define( $this->cf['uca'].'_TRANSIENT_CACHE_DISABLE', true );
-				$cache_msg .= 'and transient cache '.(constant( $this->cf['uca'].'_OBJECT_CACHE_DISABLE' ) === true ? 'is' : 'could not be' ).' disabled.';
-
+				foreach ( array( 'object', 'transient' ) as $name ) {
+					$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
+					$this->is_avail['cache'][$name] = defined( $constant_name ) && ! constant( $constant_name ) ? true : false;
+				}
+				$cache_msg = 'object cache '.( $this->is_avail['cache']['object'] ? 'could not be' : 'is' ).
+					' disabled, and transient cache '.( $this->is_avail['cache']['transient'] ? 'could not be' : 'is' ).
+					' disabled.';
 				$this->debug->log( 'HTML debug mode active: '.$cache_msg );
 				$this->notice->inf( 'HTML debug mode active -- '.$cache_msg.' '.
 					__( 'Informational messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
@@ -195,6 +199,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_tid'] ) ) {
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
+				require_once( $plugin_dir.'lib/com/update.php' );
 				$this->update = new SucomUpdate( $this );
 				if ( is_admin() ) {
 					// if update_hours * 2 has passed without an update check, then force one now
@@ -245,6 +250,18 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
         global $ngfb;
 	$ngfb = new NgfbPlugin();
+}
+
+if ( ! class_exists( 'NgfbNoDebug' ) ) {
+
+	class NgfbNoDebug {
+		public function mark() { return; }
+		public function args() { return; }
+		public function log() { return; }
+		public function show_html() { return; }
+		public function get_html() { return; }
+		public function is_on() { return false; }
+	}
 }
 
 ?>

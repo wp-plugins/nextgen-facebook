@@ -34,9 +34,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			}
 			extract( $args );
 
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$ngfb->debug->log( 'transient cache is disabled' );
-			else {
+			if ( $ngfb->is_avail['cache']['transient'] ) {
 				$sharing_url = $ngfb->util->get_sharing_url();
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
@@ -70,11 +68,10 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			$widget_html .= $after_widget;
 			$widget_html .= '<!-- '.$ngfb->cf['lca'].' '.$args['widget_id'].' end -->';
 
-			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+			if ( $ngfb->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $widget_html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type.': widget_html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}
-
 			$ngfb->debug->show_html();
 			echo $widget_html;
 		}

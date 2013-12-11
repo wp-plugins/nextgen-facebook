@@ -25,20 +25,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 		}
 
 		public function get_array( $post_id = false ) {
-
-			if ( ( defined( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) && 
-				constant( $this->p->cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) ||
-				! empty( $_SERVER[$this->p->cf['uca'].'_OPEN_GRAPH_DISABLE'] ) ) {
-				$this->p->debug->log( 'open graph is disabled' );
-				return array();
-			}
-
 			$source_id = $this->p->util->get_source_id( 'opengraph' );
 			$sharing_url = $this->p->util->get_sharing_url( false, true, $source_id );
-			if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
-				constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
-					$this->p->debug->log( 'transient cache is disabled' );
-			else {
+
+			if ( $this->p->is_avail['cache']['transient'] ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
@@ -54,7 +44,6 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return array();
 			}
-
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$post_type = '';
 			$has_video_image = false;
@@ -197,8 +186,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 			// run filter before saving to transient cache
 			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
 
-			if ( ! defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) || 
-				! constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) ) {
+			if ( $this->p->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': og array saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}

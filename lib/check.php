@@ -37,13 +37,27 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		// used before any class objects are created, so keep in main class
 		public function get_avail() {
 			$ret = array();
-			$ret['ssb'] = class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
-			$ret['aop'] = class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
-			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
+			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ||
 				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
+
+			$ret['og'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/opengraph.php' ) &&
+				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! constant( 'NGFB_OPEN_GRAPH_DISABLE' ) ) &&
+				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
+				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
+			$ret['ssb'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/social.php' ) &&
+				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! constant( 'NGFB_SOCIAL_SHARING_DISABLE' ) ) &&
+				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
+			$ret['aop'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/pro/addon.php' ) &&
+				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
+
+			foreach ( $this->p->cf['cache'] as $name => $val ) {
+				$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
+				$ret['cache'][$name] = defined( $constant_name ) &&
+					constant( $constant_name ) ? false : true;
+			}
 
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				$ret[$sub] = array();

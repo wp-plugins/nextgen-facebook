@@ -307,7 +307,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', array( &$this, 'add_class_postbox_highlight_side' ) );
 				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'purchase' ), null, 'side', true );
 			}
-			add_meta_box( $this->pagehook.'_info', __( 'Plugin Status', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
+			add_meta_box( $this->pagehook.'_info', __( 'Plugin Status', NGFB_TEXTDOM ), array( &$this, 'show_metabox_status' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_news', __( 'News Feed', NGFB_TEXTDOM ), array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
@@ -436,7 +436,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->show_feed( $this->p->cf['url']['feed'], 3, $this->p->cf['lca'].'_feed' );
 		}
 
-		public function show_metabox_info() {
+		public function show_metabox_status() {
 			$stable_tag = __( 'N/A', NGFB_TEXTDOM );
 			$latest_version = __( 'N/A', NGFB_TEXTDOM );
 			$latest_notice = '';
@@ -459,26 +459,34 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			$cca = $this->p->cf['cca'];
 			$builtin = array(
-				'SocialSharing' => $cca.'Social',
+				'DebugMessages' => 'SucomDebug',
+				'FileCache' => $this->p->is_avail['cache']['file'] ? 'on' : 'rec',
+				'GetCache' => 'SucomCache',
 				'NextGENGallery' => $cca.'Ngg',
+				'ObjectCache' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec',
+				'OpenGraph' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec',
+				'ProUpdateCheck' => 'SucomUpdate',
+				'SocialSharing' => $cca.'Social',
 				'ShortcodeNgfb' => $cca.'ShortcodeNgfb',
+				'TransientCache' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec',
 				'WidgetSocialSharing' => $cca.'WidgetSocialSharing',
 			);
 			$this->show_plugin_status( $builtin );
 
 			$addons = array(
-				'CustomSettings' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'req',
-				'LocaleLanguage' => class_exists( $cca.'Language' ) ? 'on' : 'req',
-				'TwitterCards' => class_exists( $cca.'TwitterCard' ) ? 'on' : 'req',
+				'CustomSettings' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec',
+				'LocaleLanguage' => class_exists( $cca.'Language' ) ? 'on' : 'rec',
+				'TwitterCards' => class_exists( $cca.'Opengraph' ) && 
+					class_exists( $cca.'TwitterCard' ) ? 'on' : 'rec',
 				'URLRewriter' => class_exists( $cca.'RewritePro' ) ? 'on' : 
-					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'req' ),
+					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ),
 				'URLShortener' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
-					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'req' ),
+					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs )
 				foreach ( $libs as $id => $name )
 					$addons[$name] = class_exists( $cca.ucfirst( $sub ).ucfirst( $id ) ) ? 'on' : 
-						( $this->p->is_avail[$sub][$id] ? 'req' : 'off' );
+						( $this->p->is_avail[$sub][$id] ? 'rec' : 'off' );
 			$this->show_plugin_status( $addons, false );
 
 			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td colspan="2">'.$stable_tag.'</td></tr>';
@@ -505,7 +513,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 
 			if ( ! empty( $action_buttons ) )
-				echo '<tr><td colspan="2" class="actions">'.$action_buttons.'</td></tr>';
+				echo '<tr><td colspan="3" class="actions">'.$action_buttons.'</td></tr>';
 
 			echo '</table>';
 		}
@@ -514,12 +522,12 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$leds = array( 
 				'on' => 'green-led.png',
 				'off' => 'gray-led.png',
-				'req' => 'red-led.png',
+				'rec' => 'red-led.png',
 			);
 			$titles = array( 
 				'on' => 'Code is Loaded',
 				'off' => 'Code is Inactive',
-				'req' => 'Code is Needed',
+				'rec' => 'Recommended Feature',
 			);
 			foreach ( $leds as $status => $img )
 				$leds[$status] = '<td style="padding:0;"><img src="'.NGFB_URLPATH.
@@ -530,7 +538,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			foreach ( $feature as $name => $status ) {
 				if ( ! array_key_exists( $status, $leds ) )
 					$status = class_exists( $status ) ? 'on' : $status = 'off';
-				echo '<tr><th class="side">'.( $name === $first ? __( ( $builtin === true ? 'GPL' : 'Pro' ), 
+				echo '<tr><th class="side">'.( $name === $first ? __( ( $builtin === true ? 'Base' : 'Pro' ), 
 					NGFB_TEXTDOM ).':' : '' ).'</th><td>'.$name.'</td>'.$leds[$status].'</tr>';
 			}
 		}

@@ -145,5 +145,4 @@ if ( ! class_exists( 'SucomDebug' ) ) {
 		}	
 	}
 }
-
 ?>

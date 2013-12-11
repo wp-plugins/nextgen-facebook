@@ -408,13 +408,10 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function parse_readme( $expire_secs = 0 ) {
 			$this->p->debug->args( array( 'expire_secs' => $expire_secs ) );
 			$readme = '';
-			$use_local = false;
+			$use_local = false;	// fetch readme from wordpress.org by default
 			$plugin_info = array();
 
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE ) {
-				$this->p->debug->log( 'transient cache is disabled' );
-				$use_local = true;
-			} else {
+			if ( $this->p->is_avail['cache']['transient'] ) {
 				$cache_salt = __METHOD__.'(file:'.$this->p->cf['url']['readme'].')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
@@ -424,10 +421,10 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 					$this->p->debug->log( $cache_type.': plugin_info retrieved from transient '.$cache_id );
 					return $plugin_info;
 				}
-			}
+			} else $use_local = true;	// use local if we cannot cache the readme
 
 			// get remote readme.txt file
-			if ( $use_local == false )
+			if ( ! $use_local )
 				$readme = $this->p->cache->get( $this->p->cf['url']['readme'], 'raw', 'file', $expire_secs );
 
 			// fallback to local readme.txt file
@@ -440,8 +437,9 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			if ( ! empty( $readme ) ) {
 				$parser = new NgfbParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
+
 				// remove possibly inaccurate information from local file
-				if ( $use_local == true ) {
+				if ( $use_local ) {
 					foreach ( array( 'stable_tag', 'upgrade_notice' ) as $key )
 						if ( array_key_exists( $key, $plugin_info ) )
 							unset( $plugin_info[$key] );
@@ -449,7 +447,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			}
 
 			// save the parsed readme (aka $plugin_info) to the transient cache
-			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+			if ( $this->p->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $plugin_info, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': plugin_info saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}

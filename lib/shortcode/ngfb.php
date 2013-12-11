@@ -69,9 +69,7 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 			if ( ! empty( $atts['buttons'] ) && $this->p->social->is_disabled() == false ) {
 				$atts['css_id'] .= '-buttons';
 
-				if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-					$this->p->debug->log( 'transient cache is disabled' );
-				else {
+				if ( $this->p->is_avail['cache']['transient'] ) {
 					$keys = implode( '|', array_keys( $atts ) );
 					$vals = preg_replace( '/[, ]+/', '_', implode( '|', array_values( $atts ) ) );
 					$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
@@ -94,7 +92,7 @@ if ( ! class_exists( 'NgfbShortcodeNgfb' ) ) {
 					$this->p->social->get_js( 'post-shortcode', $ids ).
 					'<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' end -->';
 
-				if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+				if ( $this->p->is_avail['cache']['transient'] ) {
 					set_transient( $cache_id, $html, $this->p->cache->object_expire );
 					$this->p->debug->log( $cache_type.': html saved to transient '.
 						$cache_id.' ('.$this->p->cache->object_expire.' seconds)');

@@ -40,22 +40,14 @@ if ( ! class_exists( 'SucomCache' ) ) {
 		public function get( $url, $return = 'url', $cache_name = 'file', $expire_secs = false, $curl_userpwd = '' ) {
 
 			if ( $this->p->is_avail['curl'] == false ) {
-
 				$this->p->debug->log( 'curl is not available: '.$url );
 				return $return == 'url' ? $url : false;
-
 			} elseif ( defined( $this->p->cf['uca'].'_CURL_DISABLE' ) && 
 				constant( $this->p->cf['uca'].'_CURL_DISABLE' ) ) {
-
 				$this->p->debug->log( 'curl is disabled: '.$url );
 				return $return == 'url' ? $url : false;
-
-			} elseif ( defined( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) && 
-				constant( $this->p->cf['uca'].'_FILE_CACHE_DISABLE' ) ) {
-
-				$this->p->debug->log( 'file cache is disabled: '.$url );
+			} elseif ( ! $this->p->is_avail['cache']['file'] )
 				return $return == 'url' ? $url : false;
-			}
 
 			$get_url = preg_replace( '/#.*$/', '', $url );	// remove the fragment
 			$url_path = parse_url( $get_url, PHP_URL_PATH );
@@ -190,10 +182,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 			$cache_data = false;
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-					if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
-						constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
-							$this->p->debug->log( 'object cache is disabled' );
-					else {
+					if ( $this->p->is_avail['cache']['object'] ) {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
@@ -203,10 +192,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					}
 					break;
 				case 'transient' :
-					if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
-						constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
-							$this->p->debug->log( 'transient cache is disabled' );
-					else {
+					if ( $this->p->is_avail['cache']['transient'] ) {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca']. '_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
@@ -253,10 +239,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 
 			switch ( $cache_name ) {
 				case 'wp_cache' :
-					if ( defined( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) && 
-						constant( $this->p->cf['uca'].'_OBJECT_CACHE_DISABLE' ) )
-							$this->p->debug->log( 'object cache is disabled' );
-					else {
+					if ( $this->p->is_avail['cache']['object'] ) {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
@@ -267,10 +250,7 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					}
 					break;
 				case 'transient' :
-					if ( defined( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) && 
-						constant( $this->p->cf['uca'].'_TRANSIENT_CACHE_DISABLE' ) )
-							$this->p->debug->log( 'transient cache is disabled' );
-					else {
+					if ( $this->p->is_avail['cache']['transient'] ) {
 						$cache_type = 'object cache';
 						$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );	// add a prefix to the object cache id
 						$this->p->debug->log( $cache_type.': cache_data '.$cache_name.' salt '.$cache_salt );
@@ -309,5 +289,4 @@ if ( ! class_exists( 'SucomCache' ) ) {
 		}
 	}
 }
-
 ?>

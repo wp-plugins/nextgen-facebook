@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.18dev2',		// plugin version
+			'version' => '6.18dev3',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -22,6 +22,11 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			'full' => 'NGFB Open Graph+',		// full plugin name
 			'full_pro' => 'NGFB Open Graph+ Pro',
 			'update_hours' => 12,			// check for pro updates
+			'cache' => array(
+				'file' => true,
+				'object' => true,
+				'transient' => true,
+			),
 			'lib' => array(				// libraries
 				'setting' => array (
 					'general' => 'General',
@@ -251,14 +256,11 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 		public static function require_libs( $plugin_filepath ) {
 			
 			$cf = self::get_config();
-			$cp = $cf['uca'].'_';	// constant prefix
 
-			$plugin_dir = constant( $cp.'PLUGINDIR' );
+			$plugin_dir = constant( $cf['uca'].'_'.'PLUGINDIR' );
 
-			require_once( $plugin_dir.'lib/com/debug.php' );
 			require_once( $plugin_dir.'lib/com/cache.php' );
 			require_once( $plugin_dir.'lib/com/notice.php' );
-			require_once( $plugin_dir.'lib/com/update.php' );
 			require_once( $plugin_dir.'lib/com/script.php' );
 			require_once( $plugin_dir.'lib/com/style.php' );
 			require_once( $plugin_dir.'lib/com/webpage.php' );
@@ -272,11 +274,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/style.php' );		// extends lib/com/style.php
 
-			// NGFB_SOCIAL_SHARING_DISABLE constant can disable social sharing button features, 
-			// but so can simply removing the lib/social.php file
-			if ( ( ! defined( $cp.'SOCIAL_SHARING_DISABLE' ) ||
-				! constant( $cp.'SOCIAL_SHARING_DISABLE' ) ) &&
-					file_exists( $plugin_dir.'lib/social.php' ) )
+			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
+				( ! defined( $cf['uca'].'_SOCIAL_SHARING_DISABLE' ) || 
+					! constant( $cf['uca'].'_SOCIAL_SHARING_DISABLE' ) ) )
 						require_once( $plugin_dir.'lib/social.php' );
 
 			if ( is_admin() ) {
@@ -296,9 +296,13 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else {
 				require_once( $plugin_dir.'lib/head.php' );
-				require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 				require_once( $plugin_dir.'lib/functions.php' );
 			}
+
+			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
+				( ! defined( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) || ! constant( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) &&
+				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
+					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
 			foreach ( $cf['lib']['shortcode'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/shortcode/'.$id.'.php' ) )

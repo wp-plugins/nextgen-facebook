@@ -13,9 +13,7 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		if ( $ngfb->is_avail['ssb'] ) {
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$ngfb->debug->log( 'transient cache is disabled' );
-			else {
+			if ( $ngfb->is_avail['cache']['transient'] ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
@@ -32,7 +30,7 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 				$ngfb->social->get_js( 'post-social-buttons', $ids ) .
 				'<!-- '.$ngfb->cf['lca'].' social buttons end -->';
 	
-			if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+			if ( $ngfb->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}

@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
-					$this->website[$id] = New $classname( $this->p );
+					$this->website[$id] = new $classname( $this->p );
 			}
 		}
 
@@ -128,9 +128,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 
 			$html = false;
-			if ( defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) && NGFB_TRANSIENT_CACHE_DISABLE )
-				$this->p->debug->log( 'transient cache is disabled' );
-			else {
+			if ( $this->p->is_avail['cache']['transient'] ) {
 				// if the post id is 0, then add the sharing url to ensure a unique salt string
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_type:'.$type.
 					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
@@ -158,7 +156,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 						'<div class="'.$this->p->cf['lca'].'-'.$css_type.'">'.$html.'</div>'.
 						'<!-- '.$this->p->cf['lca'].' '.$css_type.' end -->';
 
-					if ( ! defined( 'NGFB_TRANSIENT_CACHE_DISABLE' ) || ! NGFB_TRANSIENT_CACHE_DISABLE ) {
+					if ( $this->p->is_avail['cache']['transient'] ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
 						$this->p->debug->log( $cache_type.': '.$type.' html saved to transient '.
 							$cache_id.' ('.$this->p->cache->object_expire.' seconds)' );

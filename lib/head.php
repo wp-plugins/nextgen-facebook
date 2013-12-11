@@ -47,7 +47,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 						$this->p->debug->log( $function.'() = true' );
 			}
 
-			if ( method_exists( $this->p->og, 'get_array' ) )
+			if ( $this->p->is_avail['og'] )
 				$this->show_html( $this->p->og->get_array() );
 
 			if ( $this->p->debug->is_on() ) {
