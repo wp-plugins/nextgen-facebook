@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '212';
+		public $options_version = '214';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -455,14 +455,15 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 					}
 				}
-				if ( ! empty( $this->p->is_avail['ecom']['*'] ) &&
+				if ( $this->p->check->is_aop() &&
+					! empty( $this->p->is_avail['ecom']['*'] ) &&
 					$opts['tc_prod_def_l2'] === 'Location' &&
 					$opts['tc_prod_def_d2'] === 'Unknown' ) {
 
 					$this->p->notice->inf( 'An eCommerce plugin has been detected. Please update Twitter\'s
 						<em>Product Card Default 2nd Attribute</em> option values on the '.
 						$this->p->util->get_admin_url( 'general', 'General settings page' ). ' 
-						(to something else than the combination of \'Location\' and \'Unknown\').' );
+						(to something else than \'Location\' and \'Unknown\').' );
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );

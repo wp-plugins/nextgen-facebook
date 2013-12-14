@@ -86,7 +86,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					WordPress Media Library can be found in the URL when editing an image (post=123 in the URL, for example). 
 					The NextGEN Gallery Image IDs are easier to find -- it\'s the number in the first column when viewing a Gallery.' ).
 					'<td>'.$this->form->get_input( 'og_def_img_id', 'short' ).' in the '.
-					$this->form->get_select( 'og_def_img_id_pre', $id_pre, 'medium' ).'</td>';
+					$this->form->get_select( 'og_def_img_id_pre', $id_pre ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Default Image URL', null, null, '
 					You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 

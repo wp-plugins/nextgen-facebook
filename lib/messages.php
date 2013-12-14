@@ -45,7 +45,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					<style type="text/css">
 						.sucom-update-nag p,
 						.sucom-update-nag ul {
-							font-size:1.1em;
+							font-size:1.066em;
 						}
 					</style>
 					<p>Would you like to...</p><ul>
@@ -58,7 +58,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 						<strong>WooCommerce</strong>, and many more?</li>
 					<li><strong>Speed-up page loads</strong> by caching social JavaScript, change social button languages dynamically, 
 						shorten URLs for Twitter?</li>
-					</ul><p><a href="'.$this->p->cf['url']['purchase'].'" target="_blank">It\'s simple, easy and affordable - purchase
+					</ul><p><a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Upgrading is simple, easy and affordable - purchase
 						your '.$this->p->cf['full_pro'].' version today</a>.</p>
 					';
 					break;
@@ -79,9 +79,9 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_free' :
-					$msg = '<p><strong>Need help with the <em>GPL</em> version?</strong>
-					Review the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">FAQ</a>, 
-					the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Other Notes</a>, or visit the 
+					$msg = '<p><strong>Need help with the GPL version?</strong>
+					Review the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">Frequently Asked Questions</a>, 
+					the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Other Notes</a>, and / or visit the 
 					<a href="'.$this->p->cf['url']['support'].'" target="_blank">Support Forum</a> on WordPress.org.</p>';
 					break;
 				case 'help_pro' :
