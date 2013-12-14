@@ -267,24 +267,24 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 				$ret[] = $this->p->util->th( 'Facebook Debugger' ).'
 				<td class="validate"><p>Verify the Open Graph and Rich Pin meta tags, and refresh the Facebook cache for this '.$post_type_name.'.</p></td>
-				<td class="validate">'.$this->form->get_button( 'Validate Open Graph', 'button-primary', null, 
+				<td class="validate">'.$this->form->get_button( 'Validate Open Graph', 'button-secondary', null, 
 					'https://developers.facebook.com/tools/debug/og/object?q='.urlencode( get_permalink( $post->ID ) ), true ).'</td>';
 	
 				$ret[] = $this->p->util->th( 'Google Structured Data Testing Tool' ).'
 				<td class="validate"><p>Check that Google can correctly parse your structured data markup and display it in search results.</p></td>
-				<td class="validate">'.$this->form->get_button( 'Validate Data Markup', 'button-primary', null, 
+				<td class="validate">'.$this->form->get_button( 'Validate Data Markup', 'button-secondary', null, 
 					'http://www.google.com/webmasters/tools/richsnippets?q='.urlencode( get_permalink( $post->ID ) ), true ).'</td>';
 	
 				$ret[] = $this->p->util->th( 'Pinterest Rich Pin Validator' ).'
 				<td class="validate"><p>Validate the Open Graph / Rich Pin meta tags, and apply to display them on Pinterest.</p></td>
-				<td class="validate">'.$this->form->get_button( 'Validate Rich Pins', 'button-primary', null, 
+				<td class="validate">'.$this->form->get_button( 'Validate Rich Pins', 'button-secondary', null, 
 					'http://developers.pinterest.com/rich_pins/validator/?link='.urlencode( get_permalink( $post->ID ) ), true ).'</td>';
 	
 				$ret[] = $this->p->util->th( 'Twitter Card Validator' ).'
 				<td class="validate"><p>The Twitter Card Validator does not accept query arguments -- copy-paste the following URL into the validation input field.
 				To enable the display of Twitter Card information in tweets you must submit a URL for each type of card for approval.</p>'.
 				$this->form->get_text( get_permalink( $post->ID ), 'wide' ).'</td>
-				<td class="validate">'.$this->form->get_button( 'Validate Twitter Card', 'button-primary', null, 
+				<td class="validate">'.$this->form->get_button( 'Validate Twitter Card', 'button-secondary', null, 
 					'https://dev.twitter.com/docs/cards/validation/validator', true ).'</td>';
 
 			} else $ret[] = '<td><p class="centered">In order to access the Validation Tools, the '.$post_type_name.' must first be published with public visibility.</p></td>';

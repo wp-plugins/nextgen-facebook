@@ -90,6 +90,8 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 						echo '
 						<style type="text/css">
 							.sucom-update-nag {
+								display:block;
+								line-height:1.4em;
 								color:#333;
 								background:#eeeeff;
 								background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #eeeeff), color-stop(77%, #ddddff));
@@ -99,20 +101,18 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 								background-image: linear-gradient(to top, #eeeeff 7%, #ddddff 77%);
 								border:1px dashed #ccc;
 								padding:10px 40px 10px 40px;
-								overflow:hidden;
-								line-height:1.4em;
+								margin-top:0;
 							}
 							.sucom-update-nag p,
 							.sucom-update-nag ul {
-								min-width:600px;
-								max-width:700px;
-								margin:10px auto 10px auto;
+								max-width:885px;
+								margin:15px auto 15px auto;
+								text-align:center;
 							}
 							.sucom-update-nag li {
-								list-style:circle inside none;
-								font-weight:bold;
+								list-style:circle outside none;
 								text-align:left;
-								margin:2px 0;
+								margin:5px 0 5px 20px;
 							}
 						</style>';
 					}
@@ -124,11 +124,11 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 								break;
 							case 'err' :
 								echo '<div class="error"><div style="float:left;"><p><b>', 
-									$this->p->cf['uca'], ' Warning</b> :</p></div><p>', $msg, '</p></div>', "\n";
+									$this->p->cf['menu'], ' Warning</b> :</p></div><p>', $msg, '</p></div>', "\n";
 								break;
 							case 'inf' :
 								echo '<div class="updated fade"><div style="float:left;"><p><b>', 
-									$this->p->cf['uca'], ' Info</b> :</p></div><p>', $msg, '</p></div>', "\n";
+									$this->p->cf['menu'], ' Info</b> :</p></div><p>', $msg, '</p></div>', "\n";
 								break;
 						}
 					}

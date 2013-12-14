@@ -48,9 +48,9 @@ if ( ! class_exists( 'NgfbAdminSocialFacebook' ) && class_exists( 'NgfbAdminSoci
 					$this->form->get_select( 'fb_lang', $this->p->util->get_lang( 'facebook' ) ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Button Type', 'short highlight', null,
-					'The Share button has been deprecated, and replaced by Facebook for the Like and Send button. 
+					'The Share button has been deprecated and replaced by the Facebook Like and Send buttons. 
 					It is still available and functional, but no longer supported. The Share button offers the 
-					additional option of posting on a Facebook Page.' ).
+					additional option of posting to a Facebook Page.' ).
 					'<td>'.$this->form->get_select( 'fb_button', 
 						array(
 							'like' => 'Like and Send',

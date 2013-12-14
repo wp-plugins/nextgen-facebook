@@ -569,7 +569,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			$html = '<th'.( empty( $class ) ? '' : ' class="'.$class.'"' ).
 				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title;
 			if ( ! empty( $tooltip_text ) )
-				$html .= '<img src="'.NGFB_URLPATH.'images/question-mark.png" 
+				$html .= '<img src="'.NGFB_URLPATH.'images/question-mark.png" width="14" height="14"
 					class="'.$tooltip_class.'" alt="'.esc_attr( $tooltip_text ).'" />';
 			$html .= '</p></th>'."\n";
 			return $html;

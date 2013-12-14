@@ -84,7 +84,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
 			'Include meta property tags of type og:* without any content (default is unchecked).' );
 			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->form->get_checkbox( 'og_empty_tags' ) :
-			' class="checkbox blank">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
+			' class="blank checkbox">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';
 
 		}
@@ -254,8 +254,10 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'cache':
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, null, 
-					$this->p->cf['full'].' saves the rendered (filtered) content to a non-presistant cache (wp_cache), 
-					and the completed Open Graph meta tags and social buttons to a persistant (transient) cache. 
+					$this->p->cf['full'].' saves filtered / rendered content to a non-persistant cache 
+					(aka <a href="http://codex.wordpress.org/Class_Reference/WP_Object_Cache" target="_blank">WP Object Cache</a>), 
+					and Open Graph, Rich Pin, Twitter Card meta tags, and social buttons to a persistant (aka 
+					<a href="http://codex.wordpress.org/Transients_API" target="_blank">Transient</a>) cache. 
 					The default is '.$this->p->opt->defaults['plugin_object_cache_exp'].' seconds, and the minimum value is 
 					1 second (such a low value is not recommended).' ).
 					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
@@ -327,12 +329,12 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
-				$this->p->cf['full'].' can save social sharing images and JavaScript to a cache folder, 
+				$this->p->cf['full'].' can save social sharing JavaScript and images to a cache folder, 
 				providing URLs to these cached files instead of the originals. 
-				A value of \'0\' hours (the default) disables this feature. 
+				A value of 0 Hours (the default) disables the file caching feature. 
 				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
-				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, which does not work correctly when cached. 
-				The cached files are served from the '.NGFB_CACHEURL.' folder.' ).
+				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, 
+				which does not work correctly when cached.' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_file_cache_hrs' ). 
 				$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
 
@@ -391,11 +393,11 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					$this->p->options['plugin_min_shorten'].' characters</td>',
 
 				$this->p->util->th( 'Static Content URL(s)', 'highlight', null, 
-				'Rewrite image URLs in the Open Graph meta tags, encoded image URLs shared by social buttons (Pinterest and Tumblr), 
-				and cached social media files. Leave this option blank to disable the rewriting feature (default is disabled).
-				Wildcarding and multiple CDN hostnames are supported -- see the 
-				<a href="http://wordpress.org/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> for 
-				more information and examples.' ).
+				'Rewrite image URLs in the Open Graph, Rich Pin, and Twitter Card meta tags, encoded image URLs shared by social buttons 
+				(like Pinterest and Tumblr), and cached social media files. Leave this option blank to disable the URL rewriting feature 
+				(default is disabled). Wildcarding and multiple CDN hostnames are supported -- see the 
+				<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/" target="_blank">URL Rewriting</a> 
+				notes for more information and examples.' ) .
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_urls' ). 
 					$this->p->options['plugin_cdn_urls'].'</td>',
 

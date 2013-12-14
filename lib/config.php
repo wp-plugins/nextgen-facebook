@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.18dev4',		// plugin version
+			'version' => '6.18rc1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -59,14 +59,14 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				),
 				'pro' => array(
 					'seo' => array(
-						'aioseop' => 'AllinOneSEOPack',
-						'seou' => 'SEOUltimate',
-						'wpseo' => 'WordPressSEO',
+						'aioseop' => 'All in One SEO Pack',
+						'seou' => 'SEO Ultimate',
+						'wpseo' => 'WordPress SEO',
 					),
 					'ecom' => array(
 						'woocommerce' => 'WooCommerce',
 						'marketpress' => 'MarketPress',
-						'wpecommerce' => 'WPeCommerce',
+						'wpecommerce' => 'WP e-Commerce',
 					),
 					'forum' => array(
 						'bbpress' => 'bbPress',
@@ -75,7 +75,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 						'buddypress' => 'BuddyPress',
 					),
 					'media' => array(
-						'wistia' => 'WistiaVideoAPI',
+						'wistia' => 'Wistia Video API',
 					),
 				),
 			),
@@ -116,10 +116,8 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'notes' => 'http://wordpress.org/plugins/nextgen-facebook/other_notes/',
 				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
 				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-				'pro_faq' => 'http://faq.ngfb.surniaulula.com/',
-				'pro_notes' => 'http://notes.ngfb.surniaulula.com/',
+				'pro_codex' => 'http://codex.ngfb.surniaulula.com/',
 				'pro_support' => 'http://support.ngfb.surniaulula.com/',
-				'pro_forum' => 'http://forum.ngfb.surniaulula.com/',
 				'pro_ticket' => 'http://ticket.ngfb.surniaulula.com/',
 				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 			),

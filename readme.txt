@@ -179,12 +179,13 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.18dev4 =
+= Version 6.18rc1 =
 
-* Improved the 'Plugin Status' metabox on the settings pages to display the features and classes loaded by the plugin.
-* Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
-* Added the `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
+* Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
+* Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin.
 * Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable checks for Wistia videos in the content.
+* Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
+* Added suppport for a `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
 * Fine-tuned the loading of Pro addons and social sharing features.
 * Increased the default object expiry time from 900s to 1800s.
 
@@ -259,6 +260,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.18rc1 =
+
+Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tunes loading of Pro addons.
 
 = 6.17.0 =
 

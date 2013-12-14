@@ -68,12 +68,12 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					<strong>Facebook recommends an image size of 1200x630, 600x315 as a minimum, and will ignore any images less than 200x200</strong>.
 					If the original image is smaller than the dimensions entered here, then the full-size image will be used instead.' ).
 					'<td>Width '.$this->form->get_input( 'og_img_width', 'short' ).' x '.
-					'Height '.$this->form->get_input( 'og_img_height', 'short' ).'&nbsp;'.
-					'Cropped '.$this->form->get_checkbox( 'og_img_crop' ).'&nbsp;'.
-					 'Auto-Resize Media Images <img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
+					'Height '.$this->form->get_input( 'og_img_height', 'short' ).' &nbsp; '.
+					'Cropped '.$this->form->get_checkbox( 'og_img_crop' ).' &nbsp; '.
+					 'Auto-Resize Media Images<img src="'.NGFB_URLPATH.'images/question-mark.png" class="sucom_tooltip'.'" alt="'.
 					 esc_attr( 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
 					 WordPress Media Library (default is unchecked). You should enable this option unless you have custom /
-					 manually cropped images, which will be lost when re-generating image sizes.' ).'" /> '.
+					 manually cropped images, which will be lost when re-generating image sizes.' ).'" />'.
 					 $this->form->get_checkbox( 'og_img_resize' ).
 					 '</td>';
 	
@@ -329,9 +329,10 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				$this->p->util->th( 'Enable Twitter Cards', 'highlight', null, 
 				'Add Twitter Card meta tags to all webpage headers.
-				<strong>Your website must be authorized by Twitter for each type of Twitter Card you support</strong>. 
-				See the <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/other_notes/" target="_blank">Other Notes</a> 
-				for more information on the authorization process.' ).
+				<strong>Your website must be "authorized" by Twitter for each type of Twitter Card you support</strong>. 
+				See the FAQ entry titled <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/" 
+				target="_blank">Why don’t my Twitter Cards show on Twitter?</a> for more information on Twitter\'s 
+				authorization process.' ).
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'tc_enable' ).'</td>',
 
 				$this->p->util->th( 'Maximum Description Length', null, null, '
@@ -397,8 +398,8 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 				<strong>If your product does not have additional attributes beyond just a price</strong>, then this default second attribute label and value will be used. 
 				You may modify both the Label <em>and</em> Value for whatever is most appropriate for your website and/or products.' ).
 				'<td class="blank">'.
-				$this->form->get_hidden( 'tc_prod_def_l2' ).'Label: '.$this->p->options['tc_prod_def_l2'].' '.
-				$this->form->get_hidden( 'tc_prod_def_d2' ).'Value:'.$this->p->options['tc_prod_def_d2'].
+				$this->form->get_hidden( 'tc_prod_def_l2' ).'Label: '.$this->p->options['tc_prod_def_l2'].' &nbsp; '.
+				$this->form->get_hidden( 'tc_prod_def_d2' ).'Value: '.$this->p->options['tc_prod_def_d2'].
 				'</td>',
 
 			);

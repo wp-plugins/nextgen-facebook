@@ -310,6 +310,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		public function get_content( $use_post = true, $use_cache = true ) {
+			//$this->p->debug->args( array( 'use_post' => $use_post, 'use_cache' => $use_cache ) );
 
 			$content = false;
 			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
@@ -448,7 +449,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 				$this->p->debug->log( 'tags seed = "'.implode( ',', $tags ).'"' );
 			else {
 				if ( is_singular() || ! empty( $post_id ) ) {
-					$tags = array_merge( $tags, $this->get_wp_tags( $post_id ) );
+					$tags = $this->get_wp_tags( $post_id );
 
 					if ( $this->p->is_avail['ngg'] === true && 
 						$this->p->options['og_ngg_tags'] && 
@@ -463,6 +464,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 					}
 				} elseif ( is_search() )
 					$tags = preg_split( '/ *, */', get_search_query( false ) );
+
 				$tags = array_unique( array_map( 'strtolower', $tags ) );
 				$this->p->debug->log( 'tags = "'.implode( ',', $tags ).'"' );
 			}

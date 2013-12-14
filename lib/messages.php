@@ -41,28 +41,26 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					}
 					break;
 				case 'pro_details' :
-					$msg .= '<p style="font-size:1.2em;">Would you like to...</p>';
-					$msg .= '<ul>';
-					$msg .= '<li>Add support for <em>Gallery, Photo, Large Image, Player and Product</em> 
-						<a href="https://dev.twitter.com/docs/cards" target="_blank">Twitter Cards</a>?</li>';
-					$msg .= '<li>Customize Open Graph, Rich Pin and Twitter Card meta tags for <em>individual</em> Posts and Pages?</li>';
-					$msg .= '<li>Integrate with
-						<a href="http://wordpress.org/plugins/wordpress-seo/" target="_blank">WordPress SEO</a>,
-						<a href="http://wordpress.org/plugins/all-in-one-seo-pack/" target="_blank">All-In-One SEO</a>,
-						<a href="http://wordpress.org/plugins/woocommerce/" target="_blank">WooCommerce</a>, 
-						<a href="http://wordpress.org/plugins/wordpress-ecommerce/" target="_blank">MarketPress</a>, 
-						<a href="http://wordpress.org/plugins/wp-e-commerce/" target="_blank">WP e-Commerce</a>, and 
-						<a href="http://wordpress.org/plugins/bbpress/" target="_blank">bbPress</a>?</li>';
-					$msg .= '<li>Speed-up page loads with file caching of remote social JavaScript and images?</li>';
-					$msg .= '<li>Change the Facebook, Google+ and Twitter social button language dynamically?</li>';
-					$msg .= '<li>Shorten URLs for Twitter and rewrite URLs for Content Delivery Networks (CDNs)?</li>';
-					$msg .= '</ul>';
-
-					$msg .= '<p style="font-size:1.2em;">Help support this plugin by <a href="'.$this->p->cf['url']['purchase'].'" 
-					target="_blank">purchasing the Pro version today</a>.</p>';
-
-					$msg .= '<p>Upgrading to the Pro version is simple and easy! Enter the unique <em>Authentication ID</em> 
-					(that you\'ll receive by email) on the Advanced settings page, and update the plugin from within WordPress!</p>';
+					$msg .= '
+					<style type="text/css">
+						.sucom-update-nag p,
+						.sucom-update-nag ul {
+							font-size:1.1em;
+						}
+					</style>
+					<p>Would you like to...</p><ul>
+					<li>Add support for <em>Gallery</em>, <em>Photo</em>, <em>Large Image</em>, <em>Summary</em>, 
+						<em>Player</em> and <em>Product</em> <strong><a href="https://dev.twitter.com/docs/cards" 
+						target="_blank">Twitter Cards</a></strong>?</li>
+					<li>Customize the <strong>Open Graph</strong> / <strong>Rich Pin</strong> and <strong>Twitter Card</strong>
+						meta tags for each <em>individual</em> Post and Page?</li>
+					<li>Integrate with several popular <strong>3rd party plugins</strong>, like <strong>WordPress SEO</strong>, 
+						<strong>WooCommerce</strong>, and many more?</li>
+					<li><strong>Speed-up page loads</strong> by caching social JavaScript, change social button languages dynamically, 
+						shorten URLs for Twitter?</li>
+					</ul><p><a href="'.$this->p->cf['url']['purchase'].'" target="_blank">It\'s simple, easy and affordable - purchase
+						your '.$this->p->cf['full_pro'].' version today</a>.</p>
+					';
 					break;
 				case 'purchase_box' :
 					$msg = '<p>Developing and supporting the '.$this->p->cf['full'].' plugin takes most of my work days (and week-ends).
@@ -73,7 +71,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					else $msg .= 'the Pro version.</p>';
 					break;
 				case 'thankyou' :
-					$msg = '<p>Thank you for your purchase. I hope the '.$this->p->cf['full'].' plugin will exceed all of your expectations!</p>';
+					$msg = '<p>Thank you for your purchase. I hope '.$this->p->cf['full'].' will exceed all of your expectations for many years to come.</p>';
 					break;
 				case 'help_boxes' :
 					$msg = '<p>Individual option boxes (like this one) can be opened / closed by clicking on their title bar, 
@@ -81,17 +79,15 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					Values in multiple tabs can be edited before clicking the \'Save All Changes\' button.</p>';
 					break;
 				case 'help_free' :
-					$msg = '<p>Need help with the <em>GPL</em> version? 
-					See the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">FAQ</a>, 
+					$msg = '<p><strong>Need help with the <em>GPL</em> version?</strong>
+					Review the <a href="'.$this->p->cf['url']['faq'].'" target="_blank">FAQ</a>, 
 					the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Other Notes</a>, or visit the 
 					<a href="'.$this->p->cf['url']['support'].'" target="_blank">Support Forum</a> on WordPress.org.</p>';
 					break;
 				case 'help_pro' :
-					$msg = '<p>Need help with the Pro version? 
-					See the <a href="'.$this->p->cf['url']['pro_faq'].'" target="_blank">Frequently Asked Questions (FAQ)</a>, 
-					<a href="'.$this->p->cf['url']['pro_notes'].'" target="_blank">Other Notes</a>, 
-					visit the <a href="'.$this->p->cf['url']['pro_forum'].'" target="_blank">Community Forums</a>, 
-					or <a href="'.$this->p->cf['url']['pro_ticket'].'" target="_blank">Submit a new Support Ticket</a>.</p>';
+					$msg = '<p><strong>Need help with the Pro version?</strong>
+					Review the <a href="'.$this->p->cf['url']['pro_codex'].'" target="_blank">Plugin Codex</a>
+					and / or <a href="'.$this->p->cf['url']['pro_ticket'].'" target="_blank">Submit a new Support Ticket</a>.</p>';
 					break;
 			}
 			return $msg;

@@ -186,7 +186,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 			// run filter before saving to transient cache
 			$og = apply_filters( $this->p->cf['lca'].'_og', $og );
 
-			if ( $this->p->is_avail['cache']['transient'] ) {
+			if ( ! empty( $cache_id ) ) {
 				set_transient( $cache_id, $og, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': og array saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}

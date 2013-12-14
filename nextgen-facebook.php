@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.18dev4
+Version: 6.18rc1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -175,11 +175,11 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
 			if ( $this->check->is_aop() ) {
-				$this->is_avail['cache']['file'] = true;
 				if ( $this->debug->is_on( 'wp' ) == true ) 
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
-			} else { $this->cache->file_expire = 0; $this->is_avail['cache']['file'] = false; }
+			} else $this->cache->file_expire = 0;
+			$this->is_avail['cache']['file'] = $this->cache->file_expire > 0 ? true : false;
 
 			// set the object cache expiration value
 			if ( $this->debug->is_on( 'html' ) == true ) {

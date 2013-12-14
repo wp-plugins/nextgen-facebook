@@ -14,8 +14,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		private $p;
 
-		public $og;
-
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -46,11 +44,10 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					if ( function_exists( $function ) && $function() )
 						$this->p->debug->log( $function.'() = true' );
 			}
-
 			if ( $this->p->is_avail['metatags'] ) {
 				if ( $this->p->is_avail['opengraph'] )
-					$this->show_html( $this->p->og->get_array() );
-				else $this->show_html();
+					echo $this->get_header_html( $this->p->og->get_array() );
+				else echo $this->get_header_html();
 			}
 
 			if ( $this->p->debug->is_on() ) {
@@ -67,7 +64,6 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 							$opts[$key] = '********';
 					}
 				}
-
 				$this->p->debug->show_html( print_r( $this->p->is_avail, true ), 'available features' );
 				$this->p->debug->show_html( print_r( $this->p->check->get_active(), true ), 'active plugins' );
 				$this->p->debug->show_html( null, 'debug log' );
@@ -76,29 +72,29 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 		}
 
 		// called from add_header() and the work/header.php template
-		public function show_html( $meta_tags = array() ) {
+		// input array should be from transient cache
+		public function get_header_html( $meta_tags = array() ) {
 			
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return array();
 			}
-
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$author_url = '';
 		
-			echo "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";
+			$html = "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";
 			if ( $this->p->is_avail['aop'] )
-				echo "<!-- updates: ".$this->p->cf['url']['pro_update']." -->\n";
+				$html .= "<!-- updates: ".$this->p->cf['url']['pro_update']." -->\n";
 
 			// show the array structure before the html block
-			$this->p->debug->show_html( print_r( $meta_tags, true ), 'open graph array' );
-			$this->p->debug->show_html( print_r( $this->p->util->get_urls_found(), true ), 'media urls found' );
+			$html .= $this->p->debug->get_html( print_r( $meta_tags, true ), 'open graph array' );
+			$html .= $this->p->debug->get_html( print_r( $this->p->util->get_urls_found(), true ), 'media urls found' );
 
-			echo '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].'-';
-			if ( $this->p->check->is_aop() ) echo 'L';
-			elseif ( $this->p->is_avail['aop'] ) echo 'U';
-			else echo 'G';
-			echo '" />'."\n";
+			$html .= '<meta name="generator" content="'.$this->p->cf['full'].' '.$this->p->cf['version'].'-';
+			if ( $this->p->check->is_aop() ) $html .= 'L';
+			elseif ( $this->p->is_avail['aop'] ) $html .= 'U';
+			else $html .= 'G';
+			$html .= '" />'."\n";
 
 			/*
 			 * Meta HTML Tags for Google
@@ -133,7 +129,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$links = apply_filters( $this->p->cf['lca'].'_link', $links );
 			foreach ( $links as $key => $val )
 				if ( ! empty( $val ) )
-					echo '<link rel="', $key, '" href="', $val, '" />', "\n";
+					$html .= '<link rel="'.$key.'" href="'.$val.'" />'."\n";
 
 			// the meta "description" html tag
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
@@ -153,37 +149,24 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			$this->p->debug->log( count( $meta_tags ).' meta_tags to process' );
 			foreach ( $meta_tags as $first_name => $first_val ) {			// 1st-dimension array (associative)
 				if ( is_array( $first_val ) ) {
-					if ( empty( $first_val ) ) {
-						echo $this->get_meta_html( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
-					} else {
-						//$this->p->debug->log( 'foreach 1st-dimension element: '.$first_name.' (array)' );
+					if ( empty( $first_val ) )
+						$html .= $this->get_single_meta( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
+					else {
 						foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
 							if ( $this->p->util->is_assoc( $second_val ) ) {
-								//$this->p->debug->log( 'foreach 2nd-dimension element: '.$second_num.' (array)' );
 								ksort( $second_val );
-								foreach ( $second_val as $third_name => $third_val ) {	// 3rd-dimension array (associative)
-									//$this->p->debug->log( 'formatting 3rd-dimension element: '.$third_name );
-									echo $this->get_meta_html( $third_name, $third_val, $first_name.':'.( $second_num + 1 ) );
-								}
-								unset ( $third_name, $third_val );
-							} else {
-								//$this->p->debug->log( 'formatting 2nd-dimension element: '.$second_num );
-								echo $this->get_meta_html( $first_name, $second_val, $first_name.':'.( $second_num + 1 ) );
-							}
+								foreach ( $second_val as $third_name => $third_val )	// 3rd-dimension array (associative)
+									$html .= $this->get_single_meta( $third_name, $third_val, $first_name.':'.( $second_num + 1 ) );
+							} else $html .= $this->get_single_meta( $first_name, $second_val, $first_name.':'.( $second_num + 1 ) );
 						}
-						unset ( $second_num, $second_val );
 					}
-				} else {
-					//$this->p->debug->log( 'formatting 1st-dimension element: '.$first_name );
-					echo $this->get_meta_html( $first_name, $first_val );
-				}
+				} else $html .= $this->get_single_meta( $first_name, $first_val );
 			}
-			unset ( $first_name, $first_val );
-
-			echo "<!-- ", $this->p->cf['lca'], " meta tags end -->\n";
+			$html .= "<!-- ".$this->p->cf['lca']." meta tags end -->\n";
+			return $html;
 		}
 
-		private function get_meta_html( $name, $val = '', $cmt = '' ) {
+		private function get_single_meta( $name, $val = '', $cmt = '' ) {
 			$meta_html = '';
 
 			if ( empty( $this->p->options['inc_'.$name] ) ) {
