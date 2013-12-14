@@ -181,6 +181,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 = Version 6.18.0 =
 
+WordPress v3.8 introduces a new flat design, and although the interface styling of NGFB Open Graph+ held up well, a few minor tweaks were necessary. The settings page for NGFB Open Graph+ v6.18.0 is much cleaner, and fits right in with the new WordPress admin style. Aside from the interface updates, the big news for this version is a new 'Plugin Features' metabox on the settings pages. The new metabox will highlight the PHP code that is being loaded by the plugin, and which is not - giving you additional indicators to fine-tune the plugin's performance.
+
+Please note that this version now applies the 'Ignore Small Images' option to WordPress Media Library images as well. <strong>Make sure your original images in the WordPress Media Library are larger than the Image Dimensions you've chosen on the Open Graph+ General settings page</strong>, or these images may be ignored / rejected for being too small.
+
 * Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
 * Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin.
 * Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable checks for Wistia videos in the content.
@@ -263,7 +267,7 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 
 = 6.18.0 =
 
-Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tunes loading of Pro addons.
+Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tuned loading of Pro addons.
 
 = 6.17.0 =
 
