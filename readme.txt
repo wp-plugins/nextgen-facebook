@@ -179,7 +179,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.18rc1 =
+= Version 6.18.0 =
 
 * Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
 * Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin.
@@ -261,7 +261,7 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 
 == Upgrade Notice ==
 
-= 6.18rc1 =
+= 6.18.0 =
 
 Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tunes loading of Pro addons.
 
