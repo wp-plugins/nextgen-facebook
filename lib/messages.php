@@ -43,10 +43,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 				case 'pro_details' :
 					$msg .= '
 					<style type="text/css">
-						.sucom-update-nag p,
-						.sucom-update-nag ul {
-							font-size:1.066em;
-						}
+						.sucom-update-nag p, .sucom-update-nag ul { font-size:1.05em; }
 					</style>
 					<p>Would you like to...</p><ul>
 					<li>Add support for <em>Gallery</em>, <em>Photo</em>, <em>Large Image</em>, <em>Summary</em>, 
