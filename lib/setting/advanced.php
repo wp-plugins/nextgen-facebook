@@ -90,7 +90,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		protected function get_more_taglist() {
-			$og_cols = 5;
+			$og_cols = 4;
 			$cells = array();
 			$rows = array();
 			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
