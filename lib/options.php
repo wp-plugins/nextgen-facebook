@@ -388,16 +388,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
-					// if we have the gpl version, and no authentication id, then show/save an update message
-					if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
-
-						// messages object is created when in admin interface, so check in case the object is not available
-						if ( ! is_object( $this->p->msg ) ) {
-							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
-							$this->p->msg = new NgfbMessages( $this->p );
+					// possibly show an update message if plugin version differs
+					if ( current_user_can( 'manage_options' ) ) {
+						// if we have the gpl version and no authentication id, show an update message
+						if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
+							// messages object is only available in admin interface, so check, just in in case
+							if ( ! is_object( $this->p->msg ) ) {
+								require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
+								$this->p->msg = new NgfbMessages( $this->p );
+							}
+							$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
 						}
-						$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
 					}
+
+					// upgrade the options if options version mismatch
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 						$this->p->debug->log( $options_name.' version different than saved' );
 
@@ -408,8 +412,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						}
 						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
 					}
+
 					// update the options to save the plugin and options version
-					$this->save_options( $options_name, $opts );
+					if ( current_user_can( 'manage_options' ) )
+						$this->save_options( $options_name, $opts );
 				}
 
 				// add support for post types that may have been added since options last saved
