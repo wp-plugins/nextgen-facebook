@@ -281,15 +281,3 @@ Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Feature
 
 Added support for meta tags and social buttons on BuddyPress pages, added support for social buttons on bbPress single templates, fixed duplicate image detection for gravatar images, added check for SEO plugins to disable the desciption meta tag.
 
-= 6.16.2 =
-
-Improved the management of html encoded and non-encoded strings internally, improved the detection of 3rd party plugins for conflict and addon support checks, changed the Wistia API call for the new oembed SEO API, which doesn't require a password.
-
-= 6.16.1 =
-
-Added support for Wistia inline embed API / SEO and popover embed video formats (Pro version), fixed Custom Settings onFocus / onBlur events, fixed AIO SEO Pack and WP SEO class names (Pro version), improved / optimized option loading in admin interface.
-
-= 6.16.0.1 =
-
-Fixed Auto-Resize feature, added support for bbPress (Pro version), improved the flush_post_cache() and get_sharing_url() methods, added several new filters (Pro version), also major code changes to support get_queried_object() for broken themes.
-
