@@ -400,6 +400,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					}
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 						$this->p->debug->log( $options_name.' version different than saved' );
+
 						// only load upgrade class when needed to save a few Kb
 						if ( ! is_object( $this->upg ) ) {
 							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );

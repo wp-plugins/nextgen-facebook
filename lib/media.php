@@ -172,12 +172,20 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				// get the actual image sizes from the metadata array
 				$img_meta = wp_get_attachment_metadata( $pid );
 
-				// are our intermediate image sizes accurate in the metadata array?
-				$is_correct_width = $img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
-				$is_correct_height = $img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
+				// are our intermediate image sizes correct in the metadata array?
+				if ( empty( $img_meta['sizes'][$size_name] ) ) {
+					$this->p->debug->log( $size_name.' size not defined in the image meta' );
+					$is_correct_width = false;
+					$is_correct_height = false;
+				} else {
+					$is_correct_width = ! empty( $img_meta['sizes'][$size_name]['width'] ) &&
+						$img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
+					$is_correct_height = ! empty( $img_meta['sizes'][$size_name]['height'] ) &&
+						$img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
+				}
 
 				if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
-					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty / missing image sizes' );
+					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty original image sizes' );
 
 				// if the full / original image size is too small, get the full size image URL instead
 				} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {

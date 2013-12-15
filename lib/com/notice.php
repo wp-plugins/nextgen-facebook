@@ -75,11 +75,11 @@ if ( ! class_exists( 'SucomNotice' ) ) {
 			foreach ( array( 'nag', 'err', 'inf' ) as $type ) {
 				$user_id = get_current_user_id();	// since wp 3.0
 				$msg_opt = $this->p->cf['lca'].'_notices_'.$type;
-				$msg_arr = array_merge( 
+				$msg_arr = array_unique( array_merge( 
 					(array) get_option( $msg_opt ), 
 					(array) get_user_option( $msg_opt, $user_id ), 
 					$this->log[$type] 
-				);
+				) );
 				$this->trunc( $type );
 				if ( $type == 'err' ) {
 					if ( ! empty( $this->p->update_error ) )

@@ -179,6 +179,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
+= Version 6.18.0.1 =
+
+* Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function.
+
 = Version 6.18.0 =
 
 WordPress v3.8 introduces a new flat design, and although the interface styling of NGFB Open Graph+ held up well, a few minor tweaks were necessary. The settings page for NGFB Open Graph+ v6.18.0 is much cleaner, and fits right in with the new WordPress admin style. Aside from the interface updates, the big news for this version is a new 'Plugin Features' metabox on the settings pages. The new metabox will highlight the PHP code that is being loaded by the plugin, and which is not - giving you additional indicators to fine-tune the plugin's performance.
@@ -264,6 +268,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.18.0.1 =
+
+Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function.
 
 = 6.18.0 =
 
