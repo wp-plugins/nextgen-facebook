@@ -388,8 +388,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
-					// possibly show an update message if plugin version differs
-					if ( current_user_can( 'manage_options' ) ) {
+					// only show nag when updating the site options
+					if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
 						// if we have the gpl version and no authentication id, show an update message
 						if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
 							// messages object is only available in admin interface, so check, just in in case
@@ -404,7 +404,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					// upgrade the options if options version mismatch
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 						$this->p->debug->log( $options_name.' version different than saved' );
-
 						// only load upgrade class when needed to save a few Kb
 						if ( ! is_object( $this->upg ) ) {
 							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
@@ -414,8 +413,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					}
 
 					// update the options to save the plugin and options version
-					if ( current_user_can( 'manage_options' ) )
-						$this->save_options( $options_name, $opts );
+					$this->save_options( $options_name, $opts );
 				}
 
 				// add support for post types that may have been added since options last saved
@@ -441,6 +439,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					$opts = $this->get_site_defaults();
 				else $opts = $this->get_defaults();
 			}
+
 			if ( is_admin() ) {
 				if ( ! empty( $opts_err_msg ) ) {
 					if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
@@ -461,16 +460,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							is smaller than the minimum of '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].'. 
 							<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
 					}
-				}
-				if ( $this->p->check->is_aop() &&
-					! empty( $this->p->is_avail['ecom']['*'] ) &&
-					$opts['tc_prod_def_l2'] === 'Location' &&
-					$opts['tc_prod_def_d2'] === 'Unknown' ) {
-
-					$this->p->notice->inf( 'An eCommerce plugin has been detected. Please update Twitter\'s
-						<em>Product Card Default 2nd Attribute</em> option values on the '.
-						$this->p->util->get_admin_url( 'general', 'General settings page' ). ' 
-						(to something else than \'Location\' and \'Unknown\').' );
+					if ( $this->p->check->is_aop() &&
+						! empty( $this->p->is_avail['ecom']['*'] ) &&
+						$opts['tc_prod_def_l2'] === 'Location' &&
+						$opts['tc_prod_def_d2'] === 'Unknown' ) {
+	
+						$this->p->notice->inf( 'An eCommerce plugin has been detected. Please update Twitter\'s
+							<em>Product Card Default 2nd Attribute</em> option values on the '.
+							$this->p->util->get_admin_url( 'general', 'General settings page' ). ' 
+							(to something else than \'Location\' and \'Unknown\').' );
+					}
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
 					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
