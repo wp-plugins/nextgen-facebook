@@ -462,7 +462,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
-			// detect standard iframe/embed tags - use the content_videos filter for custom html5/javascript methods
+			// detect standard iframe/embed tags - use the ngfb_content_videos filter for custom html5/javascript methods
+			// <iframe src="//player.vimeo.com/video/80574920?title=0&amp;byline=0&amp;portrait=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/80574920">This is Localism!</a> from <a href="http://vimeo.com/user23071933">Localism!</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match_all ).' x video <iframe|embed/> html tag(s) found' );
 				foreach ( $match_all as $media ) {
@@ -521,7 +522,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			/*
 			 * YouTube video API
 			 */
-			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/i', $embed_url, $match ) ) {
+			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/', $embed_url, $match ) ) {
 				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 				$og_video['og:video'] = $prot.'www.youtube.com/v/'.$vid_name;
 				$og_video['og:image'] = $prot.'img.youtube.com/vi/'.$vid_name.'/0.jpg';	// 0, hqdefault, maxresdefault
@@ -566,8 +567,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			/*
 			 * Vimeo video API
 			 */
-			} elseif ( preg_match( '/^.*(vimeo\.com)\/.*\/([^\/\?\&\#]+).*$/i', $embed_url, $match ) ) {
-				$vid_name = preg_replace( '/^.*\//', '', $match[2] );
+			} elseif ( preg_match( '/^.*(vimeo\.com)\/(.*\/)?([^\/\?\&\#]+).*$/', $embed_url, $match ) ) {
+				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 				$og_video['og:video'] = $prot.'vimeo.com/moogaloop.swf?clip_id='.$vid_name;
 				if ( function_exists( 'simplexml_load_string' ) ) {
 					$api_url = $prot.'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;

@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '214';
+		public $options_version = '216';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -388,19 +388,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
 					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) ) {
 
-					// only show nag when updating the site options
-					if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
-						// if we have the gpl version and no authentication id, show an update message
-						if ( $this->p->is_avail['aop'] !== true && empty( $this->p->options['plugin_tid'] ) ) {
-							// messages object is only available in admin interface, so check, just in in case
-							if ( ! is_object( $this->p->msg ) ) {
-								require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
-								$this->p->msg = new NgfbMessages( $this->p );
-							}
-							$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
-						}
-					}
-
 					// upgrade the options if options version mismatch
 					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->options_version ) {
 						$this->p->debug->log( $options_name.' version different than saved' );
@@ -412,8 +399,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
 					}
 
-					// update the options to save the plugin and options version
-					$this->save_options( $options_name, $opts );
+					if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) &&
+						$this->p->is_avail['aop'] !== true && 
+						empty( $this->p->options['plugin_tid'] ) ) {
+
+						// show the nag and update the options only if we have someone with access
+						if ( current_user_can( 'manage_options' ) ) {
+							if ( ! is_object( $this->p->msg ) ) {
+								require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
+								$this->p->msg = new NgfbMessages( $this->p );
+							}
+							$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
+							$this->save_options( $options_name, $opts );
+						}
+					} else $this->save_options( $options_name, $opts );
 				}
 
 				// add support for post types that may have been added since options last saved
@@ -718,6 +717,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				else $saved = update_option( $options_name, $opts );
 
 				if ( $saved === true ) {
+					// if we're just saving a new plugin version string, don't bother showing the upgrade message
 					if ( $previous_opts_version !== $this->options_version ) {
 						$this->p->debug->log( 'upgraded '.$options_name.' settings have been saved' );
 						$this->p->notice->inf( 'Plugin settings ('.$options_name.') have been upgraded and saved.', true );
@@ -728,6 +728,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					return false;
 				}
 			} else $this->p->debug->log( 'new and old options array is identical' );
+
 			return true;
 		}
 	}

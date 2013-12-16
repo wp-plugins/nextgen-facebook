@@ -22,6 +22,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		private function set_objects() {
+			$plugin_dir = constant( $this->p->cf['uca'].'_'.'PLUGINDIR' );
 			foreach ( $this->p->cf['lib']['shortcode'] as $id => $name ) {
 				if ( ! empty( $this->p->options['plugin_shortcode_'.$id] ) && 
 					file_exists( $plugin_dir.'lib/shortcode/'.$id.'.php' ) ) {

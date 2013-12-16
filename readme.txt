@@ -179,9 +179,15 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
+= Version 6.18.0.2 =
+
+* Fixed loading of the shortcode library file.
+* Improved the detection of Vimeo URLs.
+* Added additional checks when saving options.
+
 = Version 6.18.0.1 =
 
-* Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function.
+* Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function to prevent a PHP error.
 
 = Version 6.18.0 =
 
@@ -268,6 +274,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.18.0.2 =
+
+Fixed loading of the shortcode library file, improved the detection of Vimeo URLs, added additional checks when saving options.
 
 = 6.18.0.1 =
 
