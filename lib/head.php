@@ -77,7 +77,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
-				return array();
+				return;
 			}
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$author_url = '';
