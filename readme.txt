@@ -182,6 +182,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 = Version 6.19dev1 =
 
 * Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
+* Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 
 = Version 6.18.0.2 =
 

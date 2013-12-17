@@ -330,9 +330,9 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				foreach ( $this->p->meta->header_tags as $m ) {
-					$ret[] = '<th class="short">'.$m[1].'</th>'.
+					$ret[] = '<th class="xshort">'.$m[1].'</th>'.
 						'<th class="short">'.$m[2].'</th>'.
-						'<td>'.$m[3].'</td>'.
+						'<td class="short">'.$m[3].'</td>'.
 						'<th class="short">'.$m[4].'</th>'.
 						'<td class="wide">'.$m[5].'</td>';
 				}

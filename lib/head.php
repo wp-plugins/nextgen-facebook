@@ -139,7 +139,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 						$meta_tags['description'] = $this->p->meta->get_options( $post_id, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',
-							false, true, false );	// use_post = false, use_cache = true, add_hashtags = false
+							$use_post, true, false );	// use_post = false, use_cache = true, add_hashtags = false
 				}
 			}
 			$meta_tags = apply_filters( $this->p->cf['lca'].'_meta', $meta_tags );

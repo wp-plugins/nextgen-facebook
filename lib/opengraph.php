@@ -73,10 +73,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 				$og['og:url'] = $sharing_url;
 
 			if ( ! array_key_exists( 'og:title', $og ) )
-				$og['og:title'] = $this->p->webpage->get_title( $this->p->options['og_title_len'], '...' );
+				$og['og:title'] = $this->p->webpage->get_title( $this->p->options['og_title_len'], '...', $use_post );
 
 			if ( ! array_key_exists( 'og:description', $og ) )
-				$og['og:description'] = $this->p->webpage->get_description( $this->p->options['og_desc_len'], '...' );
+				$og['og:description'] = $this->p->webpage->get_description( $this->p->options['og_desc_len'], '...', $use_post );
 
 			if ( ! array_key_exists( 'og:type', $og ) ) {
 
