@@ -24,23 +24,25 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 				' xmlns:fb="http://ogp.me/ns/fb#"';
 		}
 
-		public function get_array( $post_id = false ) {
+		public function get_array( $use_post = false, $use_cache = true ) {
+
 			$source_id = $this->p->util->get_source_id( 'opengraph' );
-			$sharing_url = $this->p->util->get_sharing_url( false, true, $source_id );
+			$sharing_url = $this->p->util->get_sharing_url( $use_post, true, $source_id );
 
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': og array transient salt '.$cache_salt );
-				$og = get_transient( $cache_id );
+				if ( $use_cache )
+					$og = get_transient( $cache_id );
 				if ( is_array( $og ) ) {
 					$this->p->debug->log( $cache_type.': og array retrieved from transient '.$cache_id );
 					return $og;
 				}
 			}
 
-			if ( ( $obj = $this->p->util->get_the_object( $post_id ) ) === false ) {
+			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return array();
 			}
@@ -77,9 +79,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 				$og['og:description'] = $this->p->webpage->get_description( $this->p->options['og_desc_len'], '...' );
 
 			if ( ! array_key_exists( 'og:type', $og ) ) {
+
 				// singular posts/pages are articles by default
 				// check post_type for exceptions (like product pages)
-				if ( is_singular() ) {
+				if ( is_singular() || ( is_admin() && $obj->filter === 'edit' ) ) {
 					if ( ! empty( $obj->post_type ) )
 						$post_type = $obj->post_type;
 					switch ( $post_type ) {
@@ -102,6 +105,7 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 							$og['og:type'] = 'article';
 							break;
 					}
+
 				// check for default author info on indexes and searches
 				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['og_def_author_on_index'] ) && ! empty( $this->p->options['og_def_author_id'] ) )
 					|| ( is_search() && ! empty( $this->p->options['og_def_author_on_search'] ) && ! empty( $this->p->options['og_def_author_id'] ) ) ) {

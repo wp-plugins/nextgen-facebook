@@ -13,6 +13,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 	class NgfbPostMeta {
 
 		protected $p;
+		protected $header_tags = array();
 
 		// executed by ngfbPostMetaPro() as well
 		public function __construct( &$plugin ) {
@@ -26,32 +27,56 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				if ( ! $this->p->check->is_aop() )
 					add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
 
+				if ( $this->p->is_avail['opengraph'] )
+					add_action( 'admin_head', array( &$this, 'set_header_tags' ) );
+
 				add_action( 'save_post', array( &$this, 'flush_cache' ), 20 );
 				add_action( 'edit_attachment', array( &$this, 'flush_cache' ), 20 );
+
+				// prevent image_downsize() from lying about image width and height
+				add_filter( 'editor_max_image_size', array( &$this, 'editor_max_image_size' ), 10, 3 );
 			}
+		}
+
+		public function editor_max_image_size( $max_sizes = array(), $size_name = '', $context = '' ) {
+			if ( $size_name == NGFB_OG_SIZE_NAME )
+				$max_sizes = array( 0, 0 );
+			return $max_sizes;
 		}
 
 		public function add_metaboxes() {
 			// is there at least one social button enabled?
 			// if not, then don't include the sharing metabox on the editing pages
 			$enabled = false;
-			if ( $this->p->is_avail['ssb'] )
+			if ( $this->p->is_avail['ssb'] ) {
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
 						$enabled = true;
 						break;
 					}
 				}
-
+			}
 			// include the custom settings metabox on the editing page for that post type
 			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type ) {
 				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
+
 					add_meta_box( NGFB_META_NAME, $this->p->cf['menu'].' Custom Settings', 
 						array( &$this->p->meta, 'show_metabox' ), $post_type->name, 'advanced', 'high' );
 
-					if ( $enabled == true )
+					if ( $enabled == true ) {
 						add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
 							array( &$this->p->meta, 'show_sharing' ), $post_type->name, 'side', 'high' );
+					}
+				}
+			}
+		}
+
+		public function set_header_tags() {
+			if ( $this->p->is_avail['opengraph'] ) {
+				global $post;
+				if ( isset( $post->ID ) && $post->post_status === 'publish' && $post->filter === 'edit' ) {
+					$html = $this->p->head->get_header_html( $this->p->og->get_array( $post->ID ) );
+					preg_match_all( '/<(\w+) (\w+)="([^"]*)" (\w+)="([^"]*)"[ \/]*>/', $html, $this->p->meta->header_tags, PREG_SET_ORDER );
 				}
 			}
 		}
@@ -81,11 +106,15 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				'header' => 'Webpage Header', 
 				'social' => 'Social Sharing', 
 				'tools' => 'Validation Tools',
+				'metatags' => 'Meta Tags Preview',
 			);
 
 			// only show if the social sharing button features are enabled
 			if ( ! $this->p->is_avail['ssb'] )
 				unset( $show_tabs['social'] );
+
+			if ( ! $this->p->is_avail['opengraph'] )
+				unset( $show_tabs['metatags'] );
 
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
@@ -104,6 +133,9 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 					break;
 				case 'tools' :	
 					$ret = $this->get_rows_tools( $post );
+					break; 
+				case 'metatags' :	
+					$ret = $this->get_rows_metatags( $post );
 					break; 
 			}
 			return $ret;
@@ -126,8 +158,6 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			settings. The default title value is refreshed when the (draft or published) '.$post_type_name.' is saved.' ) .
 			'<td class="blank">'.$this->p->webpage->get_title( $this->p->options['og_title_len'], '...', true ).'</td>';
 		
-			// don't read the description content from the cache for this first input field
-			// the content cache will be updated and used for the following get_description() calls
 			$ret[] = $this->p->util->th( 'Default Description', 'medium', null, 
 			'A custom description for the Open Graph, Rich Pin meta tags, and the fallback description 
 			for all other meta tags and social sharing buttons.
@@ -135,7 +165,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			and is refreshed when the (draft or published) '.$post_type_name.' is saved.
 			Update and save this description to change the default value of all other meta tag and 
 			social sharing button descriptions.' ) .
-			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['og_desc_len'], '...', true, false ).'</td>';
+			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['og_desc_len'], '...', true ).'</td>';
 	
 			$ret[] = $this->p->util->th( 'Google Description', 'medium', null, 
 			'A custom description for the Google Search description meta tag.
@@ -203,7 +233,8 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				if ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) )
 					$pid = get_post_thumbnail_id( $post_id );
 				else $pid = $this->p->media->get_first_attached_image_id( $post_id );
-			}
+			} elseif ( $pre === 'ngg' )
+				$pid = $pre.'-'.$pid;
 
 			if ( empty( $video_url ) ) {
 				$videos = array();
@@ -289,6 +320,19 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 			} else $ret[] = '<td><p class="centered">In order to access the Validation Tools, the '.$post_type_name.' must first be published with public visibility.</p></td>';
 
+			return $ret;
+		}
+
+		protected function get_rows_metatags( $post ) {
+			$ret = array();
+			foreach ( $this->p->meta->header_tags as $m ) {
+				$ret[] = '<th class="short">'.$m[1].'</th>'.
+					'<th class="short">'.$m[2].'</th>'.
+					'<td>'.$m[3].'</td>'.
+					'<th class="short">'.$m[4].'</th>'.
+					'<td class="wide">'.$m[5].'</td>';
+			}
+			sort( $ret );
 			return $ret;
 		}
 

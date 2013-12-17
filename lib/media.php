@@ -229,9 +229,17 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				$is_correct_height = $img_height >= $size_info['height'] ? true : false;
 				if ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
 					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
-						$this->p->debug->log( 'exiting early: returned image dimensions are smaller than '.
-							'('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
-						return $ret_empty;
+
+					if ( is_admin() ) {
+						$this->p->notice->err( 'Image #'.$pid.' rejected - '.$img_url.
+							' ('.$img_width.'x'.$img_height.') is too small for '.$size_name.
+							' ('.$size_info['width'].'x'.$size_info['height'].
+							( empty( $size_info['crop'] ) ? '' : ' cropped)' ) ).'.';
+					}
+					$this->p->debug->log( 'exiting early: returned image dimensions are smaller than '.
+						'('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
+
+					return $ret_empty;
 				}
 
 			}

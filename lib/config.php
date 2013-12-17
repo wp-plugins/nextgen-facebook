@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.18.0.2',		// plugin version
+			'version' => '6.19dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -271,6 +271,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/style.php' );		// extends lib/com/style.php
+			require_once( $plugin_dir.'lib/head.php' );
 
 			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
 				( ! defined( $cf['uca'].'_SOCIAL_SHARING_DISABLE' ) || 
@@ -292,12 +293,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 				require_once( $plugin_dir.'lib/com/form.php' );
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
-			} else {
-				require_once( $plugin_dir.'lib/head.php' );
-				require_once( $plugin_dir.'lib/functions.php' );
-			}
+			} else require_once( $plugin_dir.'lib/functions.php' );
 
-			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
+			if ( file_exists( $plugin_dir.'lib/opengraph.php' ) &&
 				( ! defined( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) || ! constant( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php

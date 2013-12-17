@@ -195,12 +195,14 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
-			// is_singular = false on admin edit page
+			global $post;
 			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
 				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
+			} elseif ( is_admin() && ( empty( $post->filter ) || $post->filter !== 'edit' ) ) {
+				$this->p->debug->log( 'exiting early: admin non-editing page' );
+				return;
 			}
-			global $post;
 			$widget = new NgfbWidgetSocialSharing();
 		 	$widget_settings = $widget->get_settings();
 

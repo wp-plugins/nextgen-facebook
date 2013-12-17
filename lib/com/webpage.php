@@ -311,7 +311,6 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		public function get_content( $use_post = true, $use_cache = true ) {
-			//$this->p->debug->args( array( 'use_post' => $use_post, 'use_cache' => $use_cache ) );
 
 			$content = false;
 			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {

@@ -74,10 +74,10 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 		// called from add_header() and the work/header.php template
 		// input array should be from transient cache
 		public function get_header_html( $meta_tags = array() ) {
-			
+		
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
-				return array();
+				return;
 			}
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 			$author_url = '';
@@ -110,7 +110,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				$links['author'] = $meta_tags['link:author'];
 				unset ( $meta_tags['link:author'] );
 			} else {
-				if ( is_singular() ) {
+				// check for single/attachment page, or admin editing page
+				if ( is_singular() || ( is_admin() && $obj->filter === 'edit' ) ) {
 					if ( ! empty( $obj->post_author ) )
 						$links['author'] = $this->p->user->get_author_url( $obj->post_author, 
 							$this->p->options['link_author_field'] );
@@ -134,7 +135,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			// the meta "description" html tag
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
-					if ( is_singular() && ! empty( $post_id ) )
+					if ( ! empty( $post_id ) && ( is_singular() || ( is_admin() && $obj->filter === 'edit' ) ) )
 						$meta_tags['description'] = $this->p->meta->get_options( $post_id, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',

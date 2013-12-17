@@ -179,6 +179,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
+= Version 6.19dev1 =
+
+* Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
+
 = Version 6.18.0.2 =
 
 * Fixed loading of the shortcode library file.

@@ -669,7 +669,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 						if ( wp_cache_delete( $cache_id, $group ) ) $deleted++;
 					}
 				}
-				if ( $deleted > 0 )
+				if ( $deleted > 0 && $this->p->debug->is_on() )
 					$this->p->notice->inf( $deleted.' items flushed from the WordPress object and transient caches for post ID #'.$post_id, true );
 				break;
 			}
