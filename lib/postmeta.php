@@ -212,7 +212,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			Please make sure any custom URL you enter here is functional and redirects correctly.' ).
 			'<td class="blank">'.( get_post_status( $post->ID ) == 'publish' ? 
 				$this->p->util->get_sharing_url( true ) :
-				'<p>The '.$post_type_name.' must be published to retrieve the sharing URL.</p>' ).'</td>';
+				'<p>The Sharing URL will be available when the '.$post_type_name.' is published.</p>' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
 			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$post_type_name.'.' ) .
@@ -318,21 +318,27 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 				<td class="validate">'.$this->form->get_button( 'Validate Twitter Card', 'button-secondary', null, 
 					'https://dev.twitter.com/docs/cards/validation/validator', true ).'</td>';
 
-			} else $ret[] = '<td><p class="centered">In order to access the Validation Tools, the '.$post_type_name.' must first be published with public visibility.</p></td>';
+			} else $ret[] = '<td><p class="centered">The Validation Tools will be available when the '.$post_type_name.' is published with public visibility.</p></td>';
 
 			return $ret;
 		}
 
 		protected function get_rows_metatags( $post ) {
 			$ret = array();
-			foreach ( $this->p->meta->header_tags as $m ) {
-				$ret[] = '<th class="short">'.$m[1].'</th>'.
-					'<th class="short">'.$m[2].'</th>'.
-					'<td>'.$m[3].'</td>'.
-					'<th class="short">'.$m[4].'</th>'.
-					'<td class="wide">'.$m[5].'</td>';
-			}
-			sort( $ret );
+			$post_type = get_post_type_object( $post->post_type );	// since 3.0
+			$post_type_name = ucfirst( $post_type->name );
+
+			if ( get_post_status( $post->ID ) == 'publish' ) {
+				foreach ( $this->p->meta->header_tags as $m ) {
+					$ret[] = '<th class="short">'.$m[1].'</th>'.
+						'<th class="short">'.$m[2].'</th>'.
+						'<td>'.$m[3].'</td>'.
+						'<th class="short">'.$m[4].'</th>'.
+						'<td class="wide">'.$m[5].'</td>';
+				}
+				sort( $ret );
+			} else $ret[] = '<td><p class="centered">The Meta Tags Preview will be available when the '.$post_type_name.' is published with public visibility.</p></td>';
+
 			return $ret;
 		}
 

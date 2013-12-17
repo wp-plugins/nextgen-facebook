@@ -81,14 +81,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			if ( ! empty( $post_id ) && $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) ) {
 				$pid = get_post_thumbnail_id( $post_id );
 
-				// featured images from ngg pre-v2 had 'ngg-' prefix
-				if ( $this->p->is_avail['ngg'] === true && is_string( $pid ) && substr( $pid, 0, 4 ) == 'ngg-' ) {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
-				} else {
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
-				}
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+					$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
+
 				if ( ! empty( $og_image['og:image'] ) )
 					$this->p->util->push_max( $og_ret, $og_image, $num );
 			}
@@ -154,90 +149,99 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_width = -1;
 			$img_height = -1;
 			$img_inter = true;
-			$img_cropped = empty( $size_info['crop'] ) ? 'false' : 'true';	// visual feedback, not a real true/false
+			$img_cropped = empty( $size_info['crop'] ) ? 1 : 0;
 			$ret_empty = array( null, null, null, null );
 
-			if ( ! wp_attachment_is_image( $pid ) ) {
-				$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); 
-				return $ret_empty; 
-			}
+			if ( $this->p->is_avail['ngg'] === true && is_string( $pid ) && substr( $pid, 0, 4 ) === 'ngg-' ) {
 
-			list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
-			$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+				list( $img_url, $img_width, $img_height, $img_crop ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
 
-			// make sure the returned image size matches the size we requested, if not then possibly resize the image
-			// we do this because image_downsize() does not always return accurate image sizes
-			if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
-
-				// get the actual image sizes from the metadata array
-				$img_meta = wp_get_attachment_metadata( $pid );
-
-				// are our intermediate image sizes correct in the metadata array?
-				if ( empty( $img_meta['sizes'][$size_name] ) ) {
-					$this->p->debug->log( $size_name.' size not defined in the image meta' );
-					$is_correct_width = false;
-					$is_correct_height = false;
-				} else {
-					$is_correct_width = ! empty( $img_meta['sizes'][$size_name]['width'] ) &&
-						$img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
-					$is_correct_height = ! empty( $img_meta['sizes'][$size_name]['height'] ) &&
-						$img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
+			} else {
+				if ( ! wp_attachment_is_image( $pid ) ) {
+					$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); 
+					return $ret_empty; 
 				}
-
-				if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
-					$this->p->debug->log( 'wp_get_attachment_metadata() returned empty original image sizes' );
-
-				// if the full / original image size is too small, get the full size image URL instead
-				} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
-
-					$this->p->debug->log( 'original meta sizes '.$img_meta['width'].'x'.$img_meta['height'].' smaller than '.
-						$size_name.' '.$size_info['width'].'x'.$size_info['height'].' - fetching "full" image size attributes' );
-
-					list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
-					$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-
-				// wordpress returns image sizes based on the information in the metadata array
-				// check to see if our intermediate image sizes are correct in the metadata array
-				} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
-					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
-
-					$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
-						$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
-						' ('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
-
-					$fullsizepath = get_attached_file( $pid );
-					$this->p->debug->log( 'calling image_make_intermediate_size()' );
-					$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
-					$this->p->debug->log( 'image_make_intermediate_size() reported '.( $resized === false ? 'failure' : 'success' ) );
-
-					// update the image metadata 
-					if ( $resized !== false ) {
-						$img_meta['sizes'][$size_name] = $resized;
-						wp_update_attachment_metadata( $pid, $img_meta );
-						// request the image size again to validate
-						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+	
+				list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
+				$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+	
+				// make sure the returned image size matches the size we requested, if not then possibly resize the image
+				// we do this because image_downsize() does not always return accurate image sizes
+				if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
+	
+					// get the actual image sizes from the metadata array
+					$img_meta = wp_get_attachment_metadata( $pid );
+	
+					// are our intermediate image sizes correct in the metadata array?
+					if ( empty( $img_meta['sizes'][$size_name] ) ) {
+						$this->p->debug->log( $size_name.' size not defined in the image meta' );
+						$is_correct_width = false;
+						$is_correct_height = false;
+					} else {
+						$is_correct_width = ! empty( $img_meta['sizes'][$size_name]['width'] ) &&
+							$img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
+						$is_correct_height = ! empty( $img_meta['sizes'][$size_name]['height'] ) &&
+							$img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
+					}
+	
+					if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
+						$this->p->debug->log( 'wp_get_attachment_metadata() returned empty original image sizes' );
+	
+					// if the full / original image size is too small, get the full size image URL instead
+					} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
+	
+						$this->p->debug->log( 'original meta sizes '.$img_meta['width'].'x'.$img_meta['height'].' smaller than '.
+							$size_name.' '.$size_info['width'].'x'.$size_info['height'].' - fetching "full" image size attributes' );
+	
+						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
 						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+	
+					// wordpress returns image sizes based on the information in the metadata array
+					// check to see if our intermediate image sizes are correct in the metadata array
+					} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
+						( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
+	
+						$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
+							$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
+							' ('.$size_info['width'].'x'.$size_info['height'].
+							( empty( $size_info['crop'] ) ? '' : ' cropped' ).')' );
+	
+						$fullsizepath = get_attached_file( $pid );
+						$this->p->debug->log( 'calling image_make_intermediate_size()' );
+						$resized = image_make_intermediate_size( $fullsizepath, $size_info['width'], $size_info['height'], $size_info['crop'] );
+						$this->p->debug->log( 'image_make_intermediate_size() reported '.( $resized === false ? 'failure' : 'success' ) );
+	
+						// update the image metadata 
+						if ( $resized !== false ) {
+							$img_meta['sizes'][$size_name] = $resized;
+							wp_update_attachment_metadata( $pid, $img_meta );
+							// request the image size again to validate
+							list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
+							$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
+						}
 					}
 				}
+				if ( empty( $img_url ) )
+					$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' );
 			}
-			if ( empty( $img_url ) ) { 
-				$this->p->debug->log( 'exiting early: returned image_downsize() url is empty' );
+			if ( empty( $img_url ) )
 				return $ret_empty;
-			}
+
 			if ( ! empty( $this->p->options['plugin_ignore_small_img'] ) ) {
 				$is_correct_width = $img_width >= $size_info['width'] ? true : false;
 				$is_correct_height = $img_height >= $size_info['height'] ? true : false;
 				if ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
 					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
 
-					if ( is_admin() ) {
-						$this->p->notice->err( 'Image #'.$pid.' rejected - '.$img_url.
+					if ( is_admin() )
+						$this->p->notice->err( 'Image ID '.$pid.' rejected - '.$img_url.
 							' ('.$img_width.'x'.$img_height.') is too small for '.$size_name.
 							' ('.$size_info['width'].'x'.$size_info['height'].
-							( empty( $size_info['crop'] ) ? '' : ' cropped)' ) ).'.';
-					}
-					$this->p->debug->log( 'exiting early: returned image dimensions are smaller than '.
-						'('.$size_info['width'].'x'.$size_info['height'].', cropped '.$img_cropped.')' );
+							( empty( $size_info['crop'] ) ? '' : ' cropped' ).').' );
+
+					$this->p->debug->log( 'exiting early: returned image dimensions are smaller than'.
+						' ('.$size_info['width'].'x'.$size_info['height'].
+						( empty( $size_info['crop'] ) ? '' : ' cropped' ).')' );
 
 					return $ret_empty;
 				}
@@ -250,8 +254,9 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'post_id' => $post_id, 'check_dupes' => $check_dupes ) );
-			$image = array();
 			$og_ret = array();
+			$og_image = array();
+
 			if ( empty( $post_id ) )	// post id must be > 0 to have post meta
 				return $og_ret;
 
@@ -260,24 +265,20 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_url = $this->p->meta->get_options( $post_id, 'og_img_url' );
 
 			if ( $pid > 0 ) {
-				if ( $this->p->is_avail['ngg'] === true && $pre == 'ngg' ) {
-					$this->p->debug->log( 'found custom meta image id = '.$pre.'-'.$pid );
-					$image = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
-				} else {
-					$this->p->debug->log( 'found custom meta image id = '.$pid );
-					$image = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
-				}
+				$pid = $pre === 'ngg' ? 'ngg-'.$pid : $pid;
+				$this->p->debug->log( 'found custom meta image id = '.$pid );
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+					$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
+
 			} elseif ( ! empty( $img_url ) ) {
 				$this->p->debug->log( 'found custom meta image url = "'.$img_url.'"' );
-				array_push( $image, $img_url, -1, -1, -1 );	// must have four elements for list() to follow
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
+					$og_image['og:image:cropped'] ) = array( $img_url, -1, -1, -1 );
 			}
-			if ( ! empty( $image ) ) {
-				list( $og_image['og:image'], $og_image['og:image:width'], 
-					$og_image['og:image:height'], $og_image['og:image:cropped'] ) = $image;
-				if ( ! empty( $og_image['og:image'] ) &&
-					$this->p->util->push_max( $og_ret, $og_image, $num ) )
-						return $og_ret;
-			}
+
+			if ( ! empty( $og_image['og:image'] ) &&
+				$this->p->util->push_max( $og_ret, $og_image, $num ) )
+					return $og_ret;
 			return $og_ret;
 		}
 
@@ -285,27 +286,28 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'check_dupes' => $check_dupes ) );
 			$og_ret = array();
 			$og_image = array();
+
 			$pid = empty( $this->p->options['og_def_img_id'] ) ? '' : $this->p->options['og_def_img_id'];
 			$pre = empty( $this->p->options['og_def_img_id_pre'] ) ? '' : $this->p->options['og_def_img_id_pre'];
 			$url = empty( $this->p->options['og_def_img_url'] ) ? '' : $this->p->options['og_def_img_url'];
+
 			if ( $pid === '' && $url === '' ) {
 				$this->p->debug->log( 'exiting early: no default image defined' );
 				return $og_ret;
 			}
+
 			if ( $pid > 0 ) {
-				if ( $this->p->is_avail['ngg'] === true && $pre == 'ngg' )
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'], 
-						$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( $pre.'-'.$pid, $size_name, $check_dupes );
-				else
-					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
+				$pid = $pre === 'ngg' ? 'ngg-'.$pid : $pid;
+				list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
+					$og_image['og:image:cropped'] ) = $this->get_attachment_image_src( $pid, $size_name, $check_dupes );
 			}
+
 			if ( empty( $og_image['og:image'] ) && ! empty( $url ) ) {
 				$og_image = array();	// clear all array values
 				$og_image['og:image'] = $url;
 				$this->p->debug->log( 'using default img url = '.$og_image['og:image'] );
 			}
-			// returned array must be two-dimensional
+
 			if ( ! empty( $og_image['og:image'] ) && 
 				$this->p->util->push_max( $og_ret, $og_image, $num ) )
 					return $og_ret;
@@ -316,19 +318,23 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p->debug->args( array( 'num' => $num, 'size_name' => $size_name, 'use_post' => $use_post, 'check_dupes' => $check_dupes, 'content' => strlen( $content ).' chars' ) );
 			$og_ret = array();
 			$size_info = $this->get_size_info( $size_name );
+
 			// allow custom content to be passed
 			if ( empty( $content ) )
 				$content = $this->p->webpage->get_content( $use_post );
+
 			if ( empty( $content ) ) { 
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
+
 			// check html tags for ngg images
 			if ( $this->p->is_avail['ngg'] === true ) {
 				$og_ret = $this->ngg->get_content_images( $num, $size_name, $use_post, $check_dupes, $content );
 				if ( $this->p->util->is_maxed( $og_ret, $num ) )
 					return $og_ret;
 			}
+
 			// img attributes in order of preference
 			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
 				preg_match_all( '/<(img)[^>]*? (data-share-src|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
@@ -354,44 +360,55 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								'og:image:width' => -1,
 								'og:image:height' => -1,
 							);
+
 							// check for ngg pre-v2 image pids in the url
 							if ( $this->p->is_avail['ngg'] === true && 
 								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
-		
 								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
 									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
+								break;
+							}
 	
 							// recognize gravatar images in the content
-							} elseif ( preg_match( '/^https?:\/\/([^\.]+\.)?gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
-
+							if ( preg_match( '/^https?:\/\/([^\.]+\.)?gravatar\.com\/avatar\/[a-zA-Z0-9]+/', $og_image['og:image'], $match) ) {
 								$og_image['og:image'] = $match[0].'?s='.$size_info['width'].'&d=404&r=G';
 								$og_image['og:image:width'] = $size_info['width'];
 								$og_image['og:image:height'] = $size_info['width'];
+								break;
+							}
 
 							// try and get the width and height from the image tag
-							} elseif ( ! empty( $og_image['og:image'] ) ) {
-
+							if ( ! empty( $og_image['og:image'] ) ) {
 								if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
 									$og_image['og:image:width'] = $match[1];
 								if ( preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
 									$og_image['og:image:height'] = $match[1];
 							}
 
+							$is_correct_width = $og_image['og:image:width'] >= $size_info['width'] ? true : false;
+							$is_correct_height = $og_image['og:image:height'] >= $size_info['height'] ? true : false;
+
 							// make sure the image width and height are large enough
 							if ( $attr_name == 'data-share-src' || 
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
-								( $attr_name == 'src' && $size_info['crop'] === 1 && 
-									$og_image['og:image:width'] >= $size_info['width'] && $og_image['og:image:height'] >= $size_info['height'] ) ||
-								( $attr_name == 'src' && $size_info['crop'] !== 1 && 
-									( $og_image['og:image:width'] >= $size_info['width'] || $og_image['og:image:height'] >= $size_info['height'] ) ) ) {
+								( $attr_name == 'src' && $size_info['crop'] === 1 && $is_correct_width && $is_correct_height ) ||
+								( $attr_name == 'src' && $size_info['crop'] !== 1 && ( $is_correct_width || $is_correct_height ) ) ) {
+
 								// data-share-src attribute used and/or image size is acceptable
+
 							} else {
+								if ( is_admin() )
+									$this->p->notice->err( 'Image '.$attr_name.' '.$og_image['og:image'].
+										' rejected - width and height attributes missing or too small.' );
+
 								$this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small ('.
 									$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
+
 								$og_image = array();
 							}
 							break;
 					}
+
 					if ( ! empty( $og_image['og:image'] ) )
 						if ( $check_dupes === false || $this->p->util->is_uniq_url( $og_image['og:image'] ) )
 							if ( $this->p->util->push_max( $og_ret, $og_image, $num ) )

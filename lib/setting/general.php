@@ -269,8 +269,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Default Language', null, null, '
 					The language / locale for your website content. This option also controls the language of the 
 					Facebook social sharing button.' ).
-					'<td>'.$this->form->get_select( 'fb_lang', 
-						$this->p->util->get_lang( 'facebook' ) ).'</td>';
+					'<td>'.$this->form->get_select( 'fb_lang', sucom_get_lang( 'facebook' ) ).'</td>';
 
 					break;
 

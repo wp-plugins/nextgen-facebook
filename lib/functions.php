@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) )
 	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
-
 	function ngfb_get_social_buttons( $ids = array(), $atts = array() ) {
 		global $ngfb;
 		if ( $ngfb->is_avail['ssb'] ) {
@@ -35,7 +34,6 @@ if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
 				$ngfb->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}
 		} else $html = '<!-- '.$ngfb->cf['lca'].' social sharing buttons disabled -->';
-
 		return $ngfb->debug->get_html().$html;
 	}
 }
