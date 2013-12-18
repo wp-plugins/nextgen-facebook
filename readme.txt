@@ -182,6 +182,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 = Version 6.19dev3 =
 
 * Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
+* Added warnings on the Post/Page editing page for images that are too small.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 
