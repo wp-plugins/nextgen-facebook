@@ -142,14 +142,14 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						// not all social websites have a contact method field
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->check->is_aop() ) {
-								$ret[] = $this->p->util->th( $name ).
+								$ret[] = $this->p->util->th( $name, 'medium' ).
 								'<td class="checkbox">'.$this->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->form->get_input( $cm_opt.'name' ).'</td>'.
+								'<td>'.$this->form->get_input( $cm_opt.'name', 'medium' ).'</td>'.
 								'<td>'.$this->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
-								$ret[] = $this->p->util->th( $name ).
+								$ret[] = $this->p->util->th( $name, 'medium' ).
 								'<td class="blank checkbox">'.$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'name' ).
+								'<td class="blank medium">'.$this->form->get_hidden( $cm_opt.'name' ).
 								$this->p->options[$cm_opt.'name'].'</td>'.
 								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
 								$this->p->options[$cm_opt.'label'].'</td>';
@@ -175,15 +175,15 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						$cm_opt = 'wp_cm_'.$id.'_';
 						if ( array_key_exists( $cm_opt.'enabled', $this->p->options ) ) {
 							if ( $this->p->check->is_aop() ) {
-								$ret[] = $this->p->util->th( $name ).
+								$ret[] = $this->p->util->th( $name, 'medium' ).
 								'<td class="checkbox">'.$this->form->get_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->form->get_fake_input( $cm_opt.'name' ).'</td>'.
+								'<td>'.$this->form->get_fake_input( $cm_opt.'name', 'medium' ).'</td>'.
 								'<td>'.$this->form->get_input( $cm_opt.'label' ).'</td>';
 							} else {
-								$ret[] = $this->p->util->th( $name ).
+								$ret[] = $this->p->util->th( $name, 'medium' ).
 								'<td class="blank checkbox">'.$this->form->get_hidden( $cm_opt.'enabled' ).
 									$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
-								'<td>'.$this->form->get_fake_input( $cm_opt.'name' ).'</td>'.
+								'<td>'.$this->form->get_fake_input( $cm_opt.'name', 'medium' ).'</td>'.
 								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
 									$this->p->options[$cm_opt.'label'].'</td>';
 							}

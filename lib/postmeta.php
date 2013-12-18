@@ -259,18 +259,28 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', null, 
 			'A custom caption text, used by the Pinterest social sharing button, 
 			for the custom Image ID, attached or featured image.' );
-			if ( ! empty( $pid ) )
-				$ret[] = $th.'<td class="blank">'.
-				$this->p->webpage->get_caption( $this->p->options['pin_caption'], $this->p->options['pin_cap_len'] ).'</td>';
-			else $ret[] = $th.'<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
+			if ( ! empty( $pid ) ) {
+				$img = $this->p->media->get_attachment_image_src( $pid, $this->p->options['pin_img_size'], false );
+				if ( empty( $img[0] ) )
+					$ret[] = $th.'<td class="blank"><em>Caption disabled - image ID '.$pid.' is too small for \''.
+						$this->p->options['pin_img_size'].'\' image dimensions.</em></td>';
+				else $ret[] = $th.'<td class="blank">'.
+					$this->p->webpage->get_caption( $this->p->options['pin_caption'], $this->p->options['pin_cap_len'] ).'</td>';
+			} else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Image ID, featured or attached image found.</em></td>';
 
 			$th = $this->p->util->th( 'Tumblr Image Caption', 'medium', null, 
 			'A custom caption, used by the Tumblr social sharing button, 
 			for the custom Image ID, attached or featured image.' );
-			if ( ! empty( $pid ) )
-				$ret[] = $th.'<td class="blank">'.
-				$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
-			else $ret[] = $th.'<td class="blank"><em>No custom Image ID, featured or attached image found.</em></td>';
+			if ( empty( $this->p->options['tumblr_photo'] ) ) {
+				$ret[] = $th.'<td class="blank"><em>\'Use Featured Image\' option is disabled.</em></td>';
+			} elseif ( ! empty( $pid ) ) {
+				$img = $this->p->media->get_attachment_image_src( $pid, $this->p->options['tumblr_img_size'], false );
+				if ( empty( $img[0] ) )
+					$ret[] = $th.'<td class="blank"><em>Caption disabled - image ID '.$pid.' is too small for \''.
+						$this->p->options['tumblr_img_size'].'\' image dimensions.</em></td>';
+				else $ret[] = $th.'<td class="blank">'.
+					$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
+			} else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Image ID, featured or attached image found.</em></td>';
 
 			$th = $this->p->util->th( 'Tumblr Video Caption', 'medium', null, 
 			'A custom caption, used by the Tumblr social sharing button, 
@@ -278,7 +288,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			if ( ! empty( $vid_url ) )
 				$ret[] = $th.'<td class="blank">'.
 				$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
-			else $ret[] = $th.'<td class="blank"><em>No custom Video URL or embedded video found.</em></td>';
+			else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Video URL or embedded video found.</em></td>';
 
 			$ret[] = $this->p->util->th( 'Tweet Text', 'medium', null, 
 			'A custom Tweet text for the Twitter social sharing button. 
@@ -331,9 +341,9 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				foreach ( $this->p->meta->header_tags as $m ) {
 					$ret[] = '<th class="xshort">'.$m[1].'</th>'.
-						'<th class="short">'.$m[2].'</th>'.
+						'<th class="xshort">'.$m[2].'</th>'.
 						'<td class="short">'.$m[3].'</td>'.
-						'<th class="short">'.$m[4].'</th>'.
+						'<th class="xshort">'.$m[4].'</th>'.
 						'<td class="wide">'.$m[5].'</td>';
 				}
 				sort( $ret );
