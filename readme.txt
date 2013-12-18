@@ -179,9 +179,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19dev1 =
+= Version 6.19dev3 =
 
 * Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
+* Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 
 = Version 6.18.0.2 =
