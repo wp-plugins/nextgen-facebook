@@ -32,16 +32,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 				add_action( 'save_post', array( &$this, 'flush_cache' ), 20 );
 				add_action( 'edit_attachment', array( &$this, 'flush_cache' ), 20 );
-
-				// prevent image_downsize() from lying about image width and height
-				add_filter( 'editor_max_image_size', array( &$this, 'editor_max_image_size' ), 10, 3 );
 			}
-		}
-
-		public function editor_max_image_size( $max_sizes = array(), $size_name = '', $context = '' ) {
-			if ( $size_name == NGFB_OG_SIZE_NAME )
-				$max_sizes = array( 0, 0 );
-			return $max_sizes;
 		}
 
 		public function add_metaboxes() {
@@ -72,7 +63,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		}
 
 		public function set_header_tags() {
-			if ( $this->p->is_avail['opengraph'] ) {
+			if ( $this->p->is_avail['opengraph'] && empty( $this->p->meta->header_tags ) ) {
 				global $post;
 				if ( isset( $post->ID ) && $post->post_status === 'publish' && $post->filter === 'edit' ) {
 					$html = $this->p->head->get_header_html( $this->p->og->get_array( $post->ID ), $post->ID );

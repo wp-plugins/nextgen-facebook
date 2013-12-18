@@ -177,7 +177,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19dev3 =
+= Version 6.19rc1 =
 
 * Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
 * Added warnings on the Post/Page editing page for images that are too small.
@@ -279,6 +279,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.19rc1 =
+
+Added a 'Meta Tags Preview' tab to the Custom Settings metabox and added warnings on the Post/Page editing page for images that are too small.
 
 = 6.18.0.2 =
 

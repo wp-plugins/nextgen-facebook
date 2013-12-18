@@ -20,13 +20,28 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
+			add_image_size( NGFB_OG_SIZE_NAME, 
+				$this->p->options['og_img_width'], 
+				$this->p->options['og_img_height'], 
+				( empty( $this->p->options['og_img_crop'] ) ? false : true ) );
+
 			if ( $this->p->is_avail['ngg'] === true ) {
 				require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/ngg.php' );
 				$this->ngg = new NgfbNgg( $plugin );
 			}
 
+			// prevent image_downsize() from lying about image width and height
+			if ( is_admin() )
+				add_filter( 'editor_max_image_size', array( &$this, 'editor_max_image_size' ), 10, 3 );
+
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
 			add_filter( 'get_image_tag', array( &$this, 'add_image_tag' ), 10, 6 );
+		}
+
+		public function editor_max_image_size( $max_sizes = array(), $size_name = '', $context = '' ) {
+			if ( $size_name == NGFB_OG_SIZE_NAME )
+				$max_sizes = array( 0, 0 );
+			return $max_sizes;
 		}
 
 		// $attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
