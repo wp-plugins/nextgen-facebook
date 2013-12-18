@@ -12,6 +12,8 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
+**NGFB Open Graph+ adds HTML meta tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more - An absolute essential plugin for every WordPress website!**
+
 = Meta Tags =
 
 NGFB Open Graph+ adds Facebook / [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
@@ -177,7 +179,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19dev3 =
+= Version 6.19rc1 =
 
 * Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
 * Added warnings on the Post/Page editing page for images that are too small.
@@ -279,6 +281,10 @@ Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for
 * Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
 
 == Upgrade Notice ==
+
+= 6.19rc1 =
+
+Added a 'Meta Tags Preview' tab to the Custom Settings metabox and added warnings on the Post/Page editing page for images that are too small.
 
 = 6.18.0.2 =
 
