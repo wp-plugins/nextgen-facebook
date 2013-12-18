@@ -41,9 +41,9 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
-				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em>, or an <em>attached</em> image 
-				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
-				custom Posts, or (lastly) the webpage link.' ).'<td>'.
+				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, or an <em>attached</em> 
+				image, that is available in the \'Image Size to Share\' you have selected (when the <em>Use Featured Image</em> 
+				option is checked), embedded video, the content of <em>quote</em> custom Posts, or (lastly) the webpage link.' ).'<td>'.
 				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.

@@ -21,7 +21,8 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>custom image ID</em>, 
-				a <em>featured</em>, or an <em>attached</em> image.' ).'<td>'.
+				a <em>featured</em> image, or an <em>attached</em> image, that is available in the \'Image Size to Share\'
+				you have selected.' ).'<td>'.
 				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
@@ -98,7 +99,8 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 					list( $atts['photo'], $atts['width'], $atts['height'],
 						$atts['cropped'] ) = $this->p->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
 			}
-			if ( empty( $atts['photo'] ) ) return;
+			if ( empty( $atts['photo'] ) ) 
+				return;
 
 			if ( empty( $atts['pin_count_layout'] ) ) 
 				$atts['pin_count_layout'] = $opts['pin_count_layout'];

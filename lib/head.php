@@ -73,9 +73,9 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 
 		// called from add_header() and the work/header.php template
 		// input array should be from transient cache
-		public function get_header_html( $meta_tags = array() ) {
+		public function get_header_html( $meta_tags = array(), $use_post = false ) {
 		
-			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return;
 			}
@@ -111,7 +111,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				unset ( $meta_tags['link:author'] );
 			} else {
 				// check for single/attachment page, or admin editing page
-				if ( is_singular() || ( is_admin() && $obj->filter === 'edit' ) ) {
+				if ( is_singular() || $use_post !== false ) {
 					if ( ! empty( $obj->post_author ) )
 						$links['author'] = $this->p->user->get_author_url( $obj->post_author, 
 							$this->p->options['link_author_field'] );
@@ -120,7 +120,8 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 							$this->p->options['link_author_field'] );
 
 				// check for default author info on indexes and searches
-				} elseif ( ( ! is_singular() && ! is_search() && ! empty( $this->p->options['link_def_author_on_index'] ) && ! empty( $this->p->options['link_def_author_id'] ) )
+				} elseif ( ( ! ( is_singular() || $use_post !== false ) && 
+					! is_search() && ! empty( $this->p->options['link_def_author_on_index'] ) && ! empty( $this->p->options['link_def_author_id'] ) )
 					|| ( is_search() && ! empty( $this->p->options['link_def_author_on_search'] ) && ! empty( $this->p->options['link_def_author_id'] ) ) ) {
 
 					$links['author'] = $this->p->user->get_author_url( $this->p->options['link_def_author_id'], 
@@ -135,7 +136,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			// the meta "description" html tag
 			if ( ! empty( $this->p->options['inc_description'] ) ) {
 				if ( ! array_key_exists( 'description', $meta_tags ) ) {
-					if ( ! empty( $post_id ) && ( is_singular() || ( is_admin() && $obj->filter === 'edit' ) ) )
+					if ( ! empty( $post_id ) && ( is_singular() || $use_post !== false ) )
 						$meta_tags['description'] = $this->p->meta->get_options( $post_id, 'meta_desc' );
 					if ( empty( $meta_tags['description'] ) )
 						$meta_tags['description'] = $this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...',

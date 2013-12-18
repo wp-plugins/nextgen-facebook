@@ -75,7 +75,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			if ( $this->p->is_avail['opengraph'] ) {
 				global $post;
 				if ( isset( $post->ID ) && $post->post_status === 'publish' && $post->filter === 'edit' ) {
-					$html = $this->p->head->get_header_html( $this->p->og->get_array( $post->ID ) );
+					$html = $this->p->head->get_header_html( $this->p->og->get_array( $post->ID ), $post->ID );
 					preg_match_all( '/<(\w+) (\w+)="([^"]*)" (\w+)="([^"]*)"[ \/]*>/', $html, $this->p->meta->header_tags, PREG_SET_ORDER );
 				}
 			}
