@@ -40,10 +40,10 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 			$buttons .= '</div>';
 
 			return array(
-				$this->p->util->th( 'Show Button in', 'short', null,
-				'The Tumblr button shares a <em>featured</em> or <em>attached</em> image (when the
-				<em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
-				custom Posts, or the webpage link.' ).'<td>'.
+				$this->p->util->th( 'Show Button in', 'short highlight', null,
+				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em>, or an <em>attached</em> image 
+				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> 
+				custom Posts, or (lastly) the webpage link.' ).'<td>'.
 				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
@@ -109,26 +109,14 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 						$pre = $this->p->meta->get_options( $post->ID, 'og_img_id_pre' );
 						if ( ! empty( $pid ) )
 							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
-						else {
-							if ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-								$atts['pid'] = get_post_thumbnail_id( $post->ID );
-							else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
-						}
+						elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
+							$atts['pid'] = get_post_thumbnail_id( $post->ID );
+						else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
 					}
 				}
-				if ( ! empty( $atts['pid'] ) ) {
-					// if the post thumbnail id has the form 'ngg-' then it's a NextGEN image
-					if ( $this->p->is_avail['ngg'] === true && 
-						is_string( $atts['pid'] ) && 
-						substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-
-						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->p->media->ngg->get_image_src( $atts['pid'], $atts['size'], false );
-					} else {
-						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $this->p->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
-					}
-				}
+				if ( ! empty( $atts['pid'] ) )
+					list( $atts['photo'], $atts['width'], $atts['height'],
+						$atts['cropped'] ) = $this->p->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
 			}
 
 			// check for custom or embedded videos

@@ -19,8 +19,9 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 
 		public function get_rows() {
 			return array(
-				$this->p->util->th( 'Show Button in', 'short', null,
-				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>featured</em> or <em>attached</em> image.' ).'<td>'.
+				$this->p->util->th( 'Show Button in', 'short highlight', null,
+				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>custom image ID</em>, 
+				a <em>featured</em>, or an <em>attached</em> image.' ).'<td>'.
 				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
@@ -81,7 +82,6 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 					$use_post, $atts['add_page'], $source_id );
 			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['pin_img_size'];
 			if ( empty( $atts['photo'] ) ) {
-				// get the pid
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
@@ -94,19 +94,9 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 						else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
 					}
 				}
-				if ( ! empty( $atts['pid'] ) ) {
-					// if the post thumbnail id has the form 'ngg-' then it's a NextGEN image
-					if ( $this->p->is_avail['ngg'] === true && 
-						is_string( $atts['pid'] ) && 
-						substr( $atts['pid'], 0, 4 ) == 'ngg-' ) {
-
-						list( $atts['photo'], $atts['width'], $atts['height'], 
-							$atts['cropped'] ) = $this->p->media->ngg->get_image_src( $atts['pid'], $atts['size'], false );
-					} else {
-						list( $atts['photo'], $atts['width'], $atts['height'],
-							$atts['cropped'] ) = $this->p->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
-					}
-				}
+				if ( ! empty( $atts['pid'] ) )
+					list( $atts['photo'], $atts['width'], $atts['height'],
+						$atts['cropped'] ) = $this->p->media->get_attachment_image_src( $atts['pid'], $atts['size'], false );
 			}
 			if ( empty( $atts['photo'] ) ) return;
 

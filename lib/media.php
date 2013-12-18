@@ -26,12 +26,20 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			}
 
 			add_filter( 'wp_get_attachment_image_attributes', array( &$this, 'add_attachment_image_attributes' ), 10, 2 );
+			add_filter( 'get_image_tag', array( &$this, 'add_image_tag' ), 10, 6 );
 		}
 
 		// $attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
 		public function add_attachment_image_attributes( $attr, $attach ) {
 			$attr['data-wp-pid'] = $attach->ID;
 			return $attr;
+		}
+
+		// $html = apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
+		public function add_image_tag( $html, $id, $alt, $title, $align, $size ) {
+			if ( strpos( $html, ' data-wp-pid=' ) === false )
+				$html = preg_replace( '/ *\/?>/', ' data-wp-pid="'.$id.'"$0', $html );
+			return $html;
 		}
 
 		public function get_size_info( $size_name = 'thumbnail' ) {

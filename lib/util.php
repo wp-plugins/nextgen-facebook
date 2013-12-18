@@ -515,13 +515,16 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			return $html;
 		}
 
-		public function do_tabs( $prefix = '', $tabs = array(), $tab_rows = array(), $scroll_to = '' ) {
+		public function do_tabs( $prefix = '', $tabs = array(), $tab_rows = array(), $args = array() ) {
 			$tab_keys = array_keys( $tabs );
 			$default_tab = reset( $tab_keys );
 			$prefix = empty( $prefix ) ? '' : '_'.$prefix;
 			$class_tabs = 'sucom-metabox-tabs'.( empty( $prefix ) ? '' : ' sucom-metabox-tabs'.$prefix );
 			$class_link = 'sucom-tablink'.( empty( $prefix ) ? '' : ' sucom-tablink'.$prefix );
 			$class_tab = 'sucom-tab';
+			extract( array_merge( array(
+				'scroll_to' => '',
+			), $args ) );
 			echo '<script type="text/javascript">jQuery(document).ready(function(){ 
 				sucomTabs(\'', $prefix, '\', \'', $default_tab, '\', \'', $scroll_to, '\'); });</script>
 			<div class="', $class_tabs, '">
@@ -536,8 +539,8 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 				echo '<div class="', $class_tab, ( empty( $prefix ) ? '' : ' '.$class_tab.$prefix ), ' ', $href_key, '">';
 				echo '<table class="sucom-setting">';
 				if ( ! empty( $tab_rows[$key] ) && is_array( $tab_rows[$key] ) )
-					foreach ( $tab_rows[$key] as $row ) 
-						echo '<tr>'.$row.'</tr>';
+					foreach ( $tab_rows[$key] as $num => $row ) 
+						echo '<tr class="alt'.( $num % 2 ).'">'.$row.'</tr>';
 				echo '</table>';
 				echo '</div>';
 			}
