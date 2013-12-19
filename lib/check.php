@@ -34,7 +34,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			return $this->active_plugins;
 		}
 
-		// used before any class objects are created, so keep in main class
 		public function get_avail() {
 			$ret = array();
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
@@ -43,17 +42,17 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ||
 				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
 
-			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || ! constant( 'NGFB_META_TAGS_DISABLE' ) ) &&
+			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || ! NGFB_META_TAGS_DISABLE ) &&
 				empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
-			$ret['opengraph'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/opengraph.php' ) &&
-				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! constant( 'NGFB_OPEN_GRAPH_DISABLE' ) ) &&
+			$ret['opengraph'] = file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
+				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
-			$ret['ssb'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/social.php' ) &&
-				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! constant( 'NGFB_SOCIAL_SHARING_DISABLE' ) ) &&
+			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/social.php' ) &&
+				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! NGFB_SOCIAL_SHARING_DISABLE ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
-			$ret['aop'] = file_exists( constant( 'NGFB_PLUGINDIR' ).'lib/pro/addon.php' ) &&
+			$ret['aop'] = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
@@ -66,7 +65,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
 				foreach ( $libs as $id => $name ) {
-					$checkbox = false;
+					$opt_enabled = false;
 					$func_name = false;
 					$class_name = false;
 					$pluginbase = false;
@@ -104,13 +103,13 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$pluginbase = 'buddypress/bp-loader.php';
 							break;
 						case 'wistia':
-							$checkbox = 'plugin_wistia_api';
+							$opt_enabled = 'plugin_wistia_api';
 							break;
 					}
 					if ( ( $func_name && function_exists( $func_name ) ) || 
 						( $class_name && class_exists( $class_name ) ) ||
 						( $pluginbase && in_array( $pluginbase, $this->active_plugins ) ) ||
-						( $checkbox && ! empty( $this->p->options[$checkbox] ) ) )
+						( $opt_enabled && ! empty( $this->p->options[$opt_enabled] ) ) )
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 					else $ret[$sub][$id] = false;
 				}
