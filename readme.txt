@@ -185,6 +185,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 * Added warnings on the Post/Page editing page for images that are too small.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
+* Fixed an undefined variable in the BuddyPress addon (Pro version).
 
 = Version 6.18.0.2 =
 
