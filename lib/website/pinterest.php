@@ -20,7 +20,7 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
-				'The Pinterest "Pin It" button will appear only on Posts and Pages with a <em>custom image ID</em>, 
+				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
 				a <em>featured</em> image, or an <em>attached</em> image, that is available in the \'Image Size to Share\'
 				you have selected.' ).'<td>'.
 				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
