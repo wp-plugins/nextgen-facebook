@@ -179,12 +179,13 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc1 =
+= Version 6.19rc2 =
 
-* Added a 'Meta Tags Preview' tab to the Custom Settings metabox.
+* **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
+* Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
 
 = Version 6.18.0.2 =
@@ -203,87 +204,17 @@ WordPress v3.8 introduces a new flat design, and although the interface styling 
 
 Please note that this version now applies the 'Ignore Small Images' option to WordPress Media Library images as well. <strong>Make sure your original images in the WordPress Media Library are larger than the Image Dimensions you've chosen on the Open Graph+ General settings page</strong>, or these images may be ignored / rejected for being too small.
 
-* Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
-* Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin.
+* **Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin**.
 * Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable checks for Wistia videos in the content.
 * Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
 * Added suppport for a `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
+* Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
 * Fine-tuned the loading of Pro addons and social sharing features.
 * Increased the default object expiry time from 900s to 1800s.
 
-= Version 6.17.0 =
-
-Version 6.17.0 adds support for BuddyPress (Pro version). Like all other 3rd party integration addons, the supporting code is only loaded if / when 3rd party plugins are detected, which keeps NGFB Open Graph+ much smaller than its feature set would suggest. ;-) Support for BuddyPress includes meta tags for member, group, and forum pages, along with optional social sharing buttons for activity entries. BuddyPress is not very well integrated with the WordPress core functions - please see the [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/) notes for details on optimizing its configuration for NGFB Open Graph+.
-
-* **Added support for [BuddyPress](http://wordpress.org/plugins/buddypress/) member, group and forum webpages, including social sharing buttons on individual activity entries** (Pro version).
-* Added support for social sharing buttons on bbPress single page templates (Pro version).
-* Added a check for known SEO plugins, and if found, the "description" meta tag option will be disabled.
-* Added a check for known eCommerce plugins, plus the default 'Product Card Default 2nd Attribute' option values, and if both are found, issue an informational message on the admin pages to change the default values.
-* Modified the 'File Cache Expiry' option available values from 0-24 hours, to a selection of 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 hours.
-* **Renamed the 'ngfb_attached_images' filter to 'ngfb_attached_image_ids'** (which is more accurate, and allows for additional filters with similar names).
-* **Fixed** duplicate image detection in the content for gravatar images.
-
-= Version 6.16.2 =
-
-Version 6.16.2 has a few internal code improvements - specifically, standardizing the handling of HTML encoded and non-encoded strings. The detection of 3rd party plugins, and support for Wistia videos, has also been improved.
-
-* Improved the management of html encoded and non-encoded strings internally. The `get_title()` and `get_description()` methods now return encoded strings. The `limit_text_length()` method decodes and re-encodes the text after shortening. The 'ngfb_title', 'ngfb_description', and 'ngfb_caption' filters will now receive encoded strings.
-* Improved the detection of 3rd party plugins for conflict and addon support checks by verifying loaded class/function names, plus the active plugins array from WordPress.
-* Changed the Wistia v1 API call for the new oembed SEO API call (which doesn't need a password).
-* Removed the 'Wistia API Password' option, which is no longer required for the API call.
-
-= Version 6.16.1 =
-
-NGFB Open Graph+ version 6.16.1 completes support for all Wistia video formats by adding recognition for the inline embed API / SEO and popover embed video formats. A new Sharing URL option has also been added to the Open Graph+ Custom Settings metabox on the Edit Post/Page admin pages. This option will reflect any changes made by WordPress SEO by Yoast, and allows you to customize the URL for tracking purposes – just make sure your modified custom URL functions correctly before publishing your Post / Page. ;-)
-
-This release also includes two minor fixes – the onFocus and onBlur events in the Open Graph+ Custom Settings metabox was not working properly, and during an earlier code optimization / re-organization, two Pro addon classes – WordPress SEO and All-In-One SEO Pack -  were left with incorrect class names.
-
-Please note: If you use the ‘ngfb_sharing_url’ filter, the argument list for that filter has changed.
-
-* **Added support for Wistia inline embed API / SEO and popover embed video formats**. (Pro version)
-* Added a Sharing URL option to the Open Graph+ Custom Settings metabox. (Pro version)
-* Added a fallback to using the custom Video URL as-is if the URL is not recognized / supported. (Pro Version)
-* Added a check for enabled 'Preserve Settings on Uninstall' option, and if enabled, disable the 'Reset Settings on Activate' option.
-* Removed the `NGFB_MIN_IMG_SIZE_DISABLE` constant (since an option exists for the same feature).
-* Renamed the &lt;img/&gt; 'share' attribute to 'data-share-src'.
-* Moved the options upgrade properies / methods to lib/upgrade.php (saving a few Kb of memory).
-* Improved / optimized the loading of plugin and form settings when in the admin interface.
-* Added error suppression when parsing HTML from Youtube.
-* **Fixed** the Custom Settings onFocus / onBlur events character encoding for input fields (so the events work correctly with hastags).
-* **Fixed** the All-In-One SEO Pack and WordPress SEO class names, which didn't match the plugin's configured class names (Pro version).
-* Changed the 'ngfb_sharing_url' filter arguments from `( $url, $source_id )` to `( $url, $use_post, $add_page, $source_id )`.
-
-= Version 6.16.0.1 =
-
-* **Fixed** a small typo in the WordPress SEO addon (Pro version).
-
-= Version 6.16.0 =
-
-**NGFB Open Graph+ (Pro version) now supports [bbPress](http://wordpress.org/plugins/bbpress/) forums**. Since [bbPress](http://wordpress.org/plugins/bbpress/) content - as retrieved from WordPress - contains the whole page, including breadcrumbs, replies, etc., a specific addon was necessary to provide accurate descriptions. Support includes the main Forum index page, individual Forum pages, topics, topic tags, replies, and profile pages. This version also includes many changes to the code in order to accomodate the WordPress `get_queried_object()` function. This was necessary to support broken themes that do not provide a `$post` object for their custom post types.
-
-* **Added support for [bbPress](http://wordpress.org/plugins/bbpress/) forums, topics, tags and profiles** (Pro version).
-* **Fixed** the Auto-Resize feature by adding the missing call to `wp_update_attachment_metadata()` in order to save the new size information.
-* Added a 'Site Description' option to customize the WordPress Tagline value (used as the description on the home index page).
-* Renamed the 'URL Shortening' tab, on the Advanced settings page, to 'API Keys'.
-* Added a 'Google URL Shortener API is On' option to validate that the service has been enabled in the Google Cloud Console.
-* Added detection of Gravatar image URLs in the content text.
-* Improved the `flush_post_cache()` method to include wp_cache objects (which may be persistant).
-* Improved the `get_sharing_url()` method to provide more accurate canonical URLs.
-* Improved the `reset_metabox_prefs()` method reset only individual metaboxes, not the whole settings page.
-* Added a new `ngfb_get_term_url` filter for better WordPress SEO support (Pro version).
-* Added new `ngfb_get_meta_options`, `ngfb_save_meta_options`, and `ngfb_get_meta_defaults` filters for the post meta options array (Pro version).
-* Added a call to `wp_cache_add_non_persistent_groups()` for the content object cache group (the content cache object does not need to be persistent).
-* Modified several methods to try and use `get_queried_object()` first, instead of the global $post object. This should circumvent broken themes that do not setup/create the global $post object properly.
-* Moved the 'Add Page Title in Tags' and 'Add Page Ancestor Tags' options to the Title and Description tab.
-* Replaced the `NGFB_WISTIA_API_PWD` constant with a 'Wistia API Password' option on the Advanced settings page.
-* Added a fallback HTTP request for Youtube videos without a width and height (which is missing from their API).
-* Renamed the `get_short_url()` method to `shorten_url()`.
-* Renamed the 'ngfb_short_url' filter to 'ngfb_shorten_url'.
-* Added lib/pro/shorten.php which provides the `short()` method and creates the NgfbGoogl and NgfbBitly class objects (Pro version).
-
 == Upgrade Notice ==
 
-= 6.19rc1 =
+= 6.19rc2 =
 
 Added a 'Meta Tags Preview' tab to the Custom Settings metabox and added warnings on the Post/Page editing page for images that are too small.
 
@@ -298,8 +229,4 @@ Added an extra check for missing image sizes returned by the WordPress `wp_get_a
 = 6.18.0 =
 
 Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tuned loading of Pro addons.
-
-= 6.17.0 =
-
-Added support for meta tags and social buttons on BuddyPress pages, added support for social buttons on bbPress single templates, fixed duplicate image detection for gravatar images, added check for SEO plugins to disable the desciption meta tag.
 
