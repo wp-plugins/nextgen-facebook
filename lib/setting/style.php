@@ -28,7 +28,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<table class="sucom-setting"><tr>';
 			echo $this->p->util->th( 'Use the Social Styles', 'highlight', null, '
 				Add the following styles to all webpages (default is checked).
-				All styles will be minimized into a single stylesheet with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 
+				<strong>All styles will be minimized into a single stylesheet</strong> with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 
 				The stylesheet is created or removed, depending on whether this option is checked or unchecked.' ); 
 			echo '<td>', $this->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
