@@ -225,10 +225,9 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 					}
 					// check for enabled buttons in widget(s)
-					foreach ( $widget_settings as $instance ) {
+					foreach ( $widget_settings as $instance )
 						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
 							$ids[] = $id;
-					}
 				}
 			}
 			unset ( $id, $pre );
