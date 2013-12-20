@@ -1,20 +1,26 @@
-/* save an empty style text box to reload the defaults */
+/* Save an empty style text box to reload the default example styles.
+ * These styles are provided as examples only - modifications may be 
+ * necessary to customize the layout for your website. Social sharing
+ * buttons can be aligned vertically, horizontally, floated, etc.
+ */
 
-/* make sure the Facebook flyout does not get clipped */
+/* Make sure the Facebook flyout does not get clipped. */
 #page { overflow:visible; }
 
-/* the .ngfb-buttons class is common to all other button classes */
-/* (excerpt, content, shortcode, widget). any change made to this */
-/* class will affect all other button layouts. */
+/* The .ngfb-buttons class is common to all other button classes
+ * (excerpt, content, shortcode, widget). Any change made to this
+ * class will affect all other button layouts.
+ */
 .ngfb-buttons { }
 .ngfb-buttons img { border:none; }
 .ngfb-buttons img:hover { border:none; }
 
-/* fix the Facebook "like" flyout on 2012 based themes */
+/* Fix the Facebook "like" flyout on 2012 based themes. */
 .ngfb-buttons iframe { max-width:none; }
 
-/* a common style for each individual buttons */
-/* only apply to immediate divs that follow the class */
+/* A common style for each individual buttons.
+ * Apply styling only to the immediate divs that follow the class.
+ */
 .ngfb-buttons > div { 
 	display:inline-block;
 	vertical-align:bottom;
@@ -26,7 +32,9 @@
 	margin:2px;
 }
 
-/* define specific widths for each button */
+/* Define specific widths for each button.
+ * The defaults widths assume small button sizes with counters.
+ */
 .ngfb-buttons div.facebook-button { width:149px; }
 .ngfb-buttons div.gplus-button { width:99px; }
 .ngfb-buttons div.gplusone-button { width:75px; }

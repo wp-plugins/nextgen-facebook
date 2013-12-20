@@ -1,7 +1,11 @@
-/* save an empty style text box to reload the defaults */
+/* Save an empty style text box to reload the default example styles.
+ * These styles are provided as examples only - modifications may be 
+ * necessary to customize the layout for your website. Social sharing
+ * buttons can be aligned vertically, horizontally, floated, etc.
+ */
 
 .ngfb-shortcode-buttons { 
-	/* display the buttons inline, aligned with the left margin */
+	/* Display the buttons inline, aligned with the left margin. */
 	display:inline-block;
 	text-align:left;
 }

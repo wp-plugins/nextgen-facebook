@@ -207,6 +207,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		 	$widget_settings = $widget->get_settings();
 
 			// determine which (if any) social buttons are enabled
+			// loop through the social button option prefixes (fb, gp, etc.)
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				// check for enabled buttons on settings page
 				if ( is_admin() && ! empty( $post ) ) {
@@ -216,13 +217,14 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					if ( is_singular() 
 						|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
 						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
-	
+
+						// exclude buttons enabled for admin editing pages
 						foreach ( $this->p->util->preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
-							if ( ! empty( $val ) )
+							if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
 								$ids[] = $id;
 
 					}
-					// check for enabled buttons in widget
+					// check for enabled buttons in widget(s)
 					foreach ( $widget_settings as $instance ) {
 						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
 							$ids[] = $id;
