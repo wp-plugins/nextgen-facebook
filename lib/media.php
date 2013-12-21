@@ -172,11 +172,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_width = -1;
 			$img_height = -1;
 			$img_inter = true;
-			$img_cropped = empty( $size_info['crop'] ) ? 1 : 0;
+			$img_cropped = empty( $size_info['crop'] ) ? 0 : 1;
 			$ret_empty = array( null, null, null, null );
 
 			if ( $this->p->is_avail['ngg'] === true && strpos( $pid, 'ngg-' ) === 0 )
-				list( $img_url, $img_width, $img_height, $img_crop ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
+				return $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
 
 			else {
 				if ( ! wp_attachment_is_image( $pid ) ) {
@@ -184,7 +184,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					return $ret_empty; 
 				}
 	
-				list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );	// since wp 2.5.0
+				list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, $size_name );
 				$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 	
 				// make sure the returned image size matches the size we requested, if not then possibly resize the image
@@ -197,31 +197,32 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					// are our intermediate image sizes correct in the metadata array?
 					if ( empty( $img_meta['sizes'][$size_name] ) ) {
 						$this->p->debug->log( $size_name.' size not defined in the image meta' );
-						$is_correct_width = false;
-						$is_correct_height = false;
+						$is_accurate_width = false;
+						$is_accurate_height = false;
 					} else {
-						$is_correct_width = ! empty( $img_meta['sizes'][$size_name]['width'] ) &&
+						$is_accurate_width = ! empty( $img_meta['sizes'][$size_name]['width'] ) &&
 							$img_meta['sizes'][$size_name]['width'] == $size_info['width'] ? true : false;
-						$is_correct_height = ! empty( $img_meta['sizes'][$size_name]['height'] ) &&
+						$is_accurate_height = ! empty( $img_meta['sizes'][$size_name]['height'] ) &&
 							$img_meta['sizes'][$size_name]['height'] == $size_info['height'] ? true : false;
 					}
 	
 					if ( empty( $img_meta['width'] ) || empty( $img_meta['height'] ) ) {
 						$this->p->debug->log( 'wp_get_attachment_metadata() returned empty original image sizes' );
 	
-					// if the full / original image size is too small, get the full size image URL instead
+					// if the original image size is too small, get the full size image URL instead
 					} elseif ( $img_meta['width'] < $size_info['width'] && $img_meta['height'] < $size_info['height'] ) {
 	
-						$this->p->debug->log( 'original meta sizes '.$img_meta['width'].'x'.$img_meta['height'].' smaller than '.
-							$size_name.' '.$size_info['width'].'x'.$size_info['height'].' - fetching "full" image size attributes' );
+						$this->p->debug->log( 'original meta sizes '.$img_meta['width'].'x'.$img_meta['height'].
+							' smaller than '.$size_name.' ('.$size_info['width'].'x'.$size_info['height'].
+							( empty( $size_info['crop'] ) ? '' : ' cropped' ).') - fetching "full" image instead' );
 	
 						list( $img_url, $img_width, $img_height, $img_inter ) = image_downsize( $pid, 'full' );
 						$this->p->debug->log( 'image_downsize() = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 	
 					// wordpress returns image sizes based on the information in the metadata array
 					// check to see if our intermediate image sizes are correct in the metadata array
-					} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
-						( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
+					} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_accurate_width && ! $is_accurate_height ) ) ||
+						( ! empty( $size_info['crop'] ) && ( ! $is_accurate_width || ! $is_accurate_height ) ) ) {
 	
 						$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
 							$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
@@ -250,14 +251,15 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return $ret_empty;
 
 			if ( ! empty( $this->p->options['plugin_ignore_small_img'] ) ) {
-				$is_correct_width = $img_width >= $size_info['width'] ? true : false;
-				$is_correct_height = $img_height >= $size_info['height'] ? true : false;
-				if ( ( empty( $size_info['crop'] ) && ( ! $is_correct_width && ! $is_correct_height ) ) ||
-					( ! empty( $size_info['crop'] ) && ( ! $is_correct_width || ! $is_correct_height ) ) ) {
+				$is_sufficient_width = $img_width >= $size_info['width'] ? true : false;
+				$is_sufficient_height = $img_height >= $size_info['height'] ? true : false;
+
+				if ( ( empty( $size_info['crop'] ) && ( ! $is_sufficient_width && ! $is_sufficient_height ) ) ||
+					( ! empty( $size_info['crop'] ) && ( ! $is_sufficient_width || ! $is_sufficient_height ) ) ) {
 
 					if ( is_admin() )
 						$this->p->notice->err( 'Image ID '.$pid.' rejected - '.$img_url.
-							' ('.$img_width.'x'.$img_height.') is too small for '.$size_name.
+							' ('.$img_width.'x'.$img_height.') too small for '.$size_name.
 							' ('.$size_info['width'].'x'.$size_info['height'].
 							( empty( $size_info['crop'] ) ? '' : ' cropped' ).').' );
 
@@ -267,11 +269,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 					return $ret_empty;
 				}
-
 			}
-			$img_url = $this->p->util->fix_relative_url( $img_url );
 			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
 				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_cropped );
+
+			return $ret_empty;
 		}
 
 		public function get_meta_image( $num = 0, $size_name = 'thumbnail', $post_id, $check_dupes = true ) {
@@ -412,25 +414,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 									$og_image['og:image:height'] = $match[1];
 							}
 
-							$is_correct_width = $og_image['og:image:width'] >= $size_info['width'] ? true : false;
-							$is_correct_height = $og_image['og:image:height'] >= $size_info['height'] ? true : false;
+							$is_sufficient_width = $og_image['og:image:width'] >= $size_info['width'] ? true : false;
+							$is_sufficient_height = $og_image['og:image:height'] >= $size_info['height'] ? true : false;
 
 							// make sure the image width and height are large enough
 							if ( $attr_name == 'data-share-src' || 
 								( $attr_name == 'src' && empty( $this->p->options['plugin_ignore_small_img'] ) ) ||
-								( $attr_name == 'src' && $size_info['crop'] === 1 && $is_correct_width && $is_correct_height ) ||
-								( $attr_name == 'src' && $size_info['crop'] !== 1 && ( $is_correct_width || $is_correct_height ) ) ) {
+								( $attr_name == 'src' && $size_info['crop'] === 1 && $is_sufficient_width && $is_sufficient_height ) ||
+								( $attr_name == 'src' && $size_info['crop'] !== 1 && ( $is_sufficient_width || $is_sufficient_height ) ) ) {
 
 								// data-share-src attribute used and/or image size is acceptable
 								// check for relative urls, just in case
 								$og_image['og:image'] = $this->p->util->fix_relative_url( $og_image['og:image'] );
 
 							} else {
-								if ( is_admin() )
-									$this->p->notice->err( 'Image '.$attr_name.' '.$og_image['og:image'].
-										' rejected - width / height attributes missing or too small for \''.$size_name.'\' size.' );
-								$this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small ('.
-									$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
+								$this->p->debug->log( 'image rejected: width / height attributes missing or too small for for '.$size_name.' size.' );
 								$og_image = array();
 							}
 							break;

@@ -53,13 +53,14 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 			$img_url = '';
 			$img_width = -1;
 			$img_height = -1;
-			$img_cropped = empty( $size_info['crop'] ) ? 1 : 0;
-			$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
+			$img_cropped = empty( $size_info['crop'] ) ? 0 : 1;
+			$ret_empty = array( null, null, null, null );
 
 			if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
 				global $nggdb;
 				$image = $nggdb->find_image( $pid );	// returns an nggImage object
 				if ( ! empty( $image ) ) {
+					$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
 					$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
 					// if the image file doesn't exist, use the dynamic image url
 					if ( empty( $img_url ) ) {
@@ -85,31 +86,83 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 					}
 				}
 			} else {
-				$mapper = C_Component_Registry::get_instance()->get_utility( 'I_Image_Mapper' );
 				$dynthumbs = C_Component_Registry::get_instance()->get_utility('I_Dynamic_Thumbnails_Manager');
-
+				$mapper = C_Component_Registry::get_instance()->get_utility( 'I_Image_Mapper' );
 				$image = new C_Image_Wrapper( $mapper->find( $pid ) );
-				$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], array( $crop_arg ) );
-				$params = $dynthumbs->get_params_from_uri( $img_url );
+				$storage = $image->get_storage();
+				$img_meta = $image->_orig_image->meta_data;
 
-// TODO ngg lies about image sizes (can be smaller)
-error_log( '---------------------------------------------------------------------------------------' );
-error_log( $pid );
-error_log( $img_url );
-error_log( print_r( $params, true ) );
-error_log( '---------------------------------------------------------------------------------------' );
+				// protect against missing array and/or array elements
+				$full_width = empty( $img_meta['full']['width'] ) ? 0 : $img_meta['full']['width'];
+				$full_height = empty( $img_meta['full']['height'] ) ? 0 : $img_meta['full']['height'];
 
+				// check to see that the full size image is large enough for our requirements
+				$is_sufficient_width = $full_width >= $size_info['width'] ? true : false;
+				$is_sufficient_height = $full_height >= $size_info['height'] ? true : false;
+
+				if ( empty( $full_width ) || empty( $full_height ) ) {
+					$this->p->debug->log( 'ngg image meta_data missing full width and/or height elements' );
+
+				// if the full size is too small, get the full size image URL instead
+				} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_sufficient_width && ! $is_sufficient_height ) ) ||
+					( ! empty( $size_info['crop'] ) && ( ! $is_sufficient_width || ! $is_sufficient_height ) ) ) {
+
+					$this->p->debug->log( 'full meta sizes '.$full_width.'x'.$full_height.' smaller than '.
+						$size_name.' ('.$size_info['width'].'x'.$size_info['height'].
+						( empty( $size_info['crop'] ) ? '' : ' cropped' ).') - fetching "full" image url instead' );
+
+					$img_url = $storage->get_image_url( $image, 'full' );
+					$img_width = $full_width;
+					$img_height = $full_height;
+
+				} else {
+					$params = array(
+						'width' => $size_info['width'], 
+						'height' => $size_info['height'], 
+						'crop' => $size_info['crop'],
+					);
+					$img_url = $storage->get_image_url( $image, $dynthumbs->get_size_name( $params ) );
+
+					// determine "accurate" sizes, as best we can
+					if ( empty( $size_info['crop'] ) ) {
+						$ratio = $full_width / $size_info['width'];
+						$img_width = $size_info['width'];
+						$img_height = (int) round( $full_height / $ratio );
+					} else {
+						$img_width = $size_info['width'];
+						$img_height = $size_info['height'];
+					}
+				}
+				if ( empty( $img_url ) )
+					$this->p->debug->log( 'exiting early: returned img_url is empty' );
 			}
+			if ( empty( $img_url ) )
+				return $ret_empty;
 
-			$this->p->debug->log( 'image for pid:'.$pid.' size:'.$size_name.' = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
-			$img_url = $this->p->util->fix_relative_url( $img_url );
+			if ( ! empty( $this->p->options['plugin_ignore_small_img'] ) ) {
+				$is_sufficient_width = $img_width >= $size_info['width'] ? true : false;
+				$is_sufficient_height = $img_height >= $size_info['height'] ? true : false;
 
-			if ( ! empty( $img_url ) ) {
-				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-					return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_cropped );
-			} else $this->p->debug->log( 'image rejected: image url is empty' );
+				if ( ( empty( $size_info['crop'] ) && ( ! $is_sufficient_width && ! $is_sufficient_height ) ) ||
+					( ! empty( $size_info['crop'] ) && ( ! $is_sufficient_width || ! $is_sufficient_height ) ) ) {
 
-			return array( null, null, null, null );
+					if ( is_admin() )
+						$this->p->notice->err( 'NGG image ID '.$pid.' rejected - '.$img_url.
+							' ('.$img_width.'x'.$img_height.') too small for '.$size_name.
+							' ('.$size_info['width'].'x'.$size_info['height'].
+							( empty( $size_info['crop'] ) ? '' : ' cropped' ).').' );
+
+					$this->p->debug->log( 'exiting early: returned image dimensions are smaller than'.
+						' ('.$size_info['width'].'x'.$size_info['height'].
+						( empty( $size_info['crop'] ) ? '' : ' cropped' ).')' );
+
+					return $ret_empty;
+				}
+			}
+			if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
+				return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_cropped );
+
+			return $ret_empty;
 		}
 
 		public function get_content_images( $num = 0, $size_name = 'thumbnail', $use_post = true, $check_dupes = true, $content = null ) {
