@@ -14,6 +14,8 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 
 		private $p;
 
+		public $img_src_preg = '([^\'"]+\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/\'"]+|[^\'"]+-nggid0[1-f]([0-9]+)-[^\'"]+)';
+
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
@@ -41,55 +43,70 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 
 		// called to get an image url from an ngg picture id and a media size name (the pid must be formatted as 'ngg-#')
 		public function get_image_src( $pid, $size_name = 'thumbnail', $check_dupes = true ) {
+			$this->p->debug->args( array( 'pid' => $pid, 'size_name' => $size_name, 'check_dupes' => $check_dupes ) );
 
-			if ( $this->p->is_avail['ngg'] !== true || ! is_string( $pid ) || substr( $pid, 0, 4 ) !== 'ngg-' )
+			if ( $this->p->is_avail['ngg'] !== true || strpos( $pid, 'ngg-' ) !== 0 )
 				return array( null, null, null, null );
 
 			$size_info = $this->p->media->get_size_info( $size_name );
 			$pid = substr( $pid, 4 );
 			$img_url = '';
+			$img_width = -1;
+			$img_height = -1;
 			$img_cropped = empty( $size_info['crop'] ) ? 1 : 0;
 			$crop_arg = $size_info['crop'] == 1 ? 'crop' : '';
 
-			global $nggdb;
-			$image = $nggdb->find_image( $pid );	// returns an nggImage object
-			if ( ! empty( $image ) ) {
-				$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
-				$this->p->debug->log( 'cached_singlepic_file() = '.$img_url );
-				// if the image file doesn't exist, use the dynamic image url
-				if ( empty( $img_url ) ) {
-					$img_url = trailingslashit( site_url() ).
-						'index.php?callback=image&amp;pid='.$pid .
-						'&amp;width='.$size_info['width'].
-						'&amp;height='.$size_info['height'].
-						'&amp;mode='.$crop_arg;
-				} elseif ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
-					// get the real image width and height for ngg pre-v2.0
-					$cachename = $image->pid.'_'.$crop_arg.'_'. $size_info['width'].'x'.$size_info['height'].'_'.$image->filename;
-					$cachefolder = WINABSPATH.$this->p->ngg_options['gallerypath'].'cache/';
-					$cached_file = $cachefolder.$cachename;
-
-					if ( file_exists( $cached_file ) ) {
-						$file_info = getimagesize( $cached_file );
-						if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
-							$size_info['width'] = $file_info[0];
-							$size_info['height'] = $file_info[1];
-						}
+			if ( version_compare( $this->p->ngg_version, '2.0.0', '<' ) ) {
+				global $nggdb;
+				$image = $nggdb->find_image( $pid );	// returns an nggImage object
+				if ( ! empty( $image ) ) {
+					$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], $crop_arg ); 
+					// if the image file doesn't exist, use the dynamic image url
+					if ( empty( $img_url ) ) {
+						$img_url = trailingslashit( site_url() ).
+							'index.php?callback=image&amp;pid='.$pid.
+							'&amp;width='.$size_info['width'].
+							'&amp;height='.$size_info['height'].
+							'&amp;mode='.$crop_arg;
+						$img_width = $size_info['width'];
+						$img_height = $size_info['height'];
+					} else {
+						// get the real image width and height (for ngg pre-v2.0)
+						$cachename = $image->pid.'_'.$crop_arg.'_'. $size_info['width'].'x'.$size_info['height'].'_'.$image->filename;
+						$cachefolder = WINABSPATH.$this->p->ngg_options['gallerypath'].'cache/';
+						$cached_file = $cachefolder.$cachename;
+						if ( file_exists( $cached_file ) ) {
+							$file_info = getimagesize( $cached_file );
+							if ( ! empty( $file_info[0] ) && ! empty( $file_info[1] ) ) {
+								$img_width = $file_info[0];
+								$img_height = $file_info[1];
+							}
+						} else $this->p->debug->log( $cached_file.' not found' );
 					}
-				} else {
-					$this->p->debug->log( 'accurate image dimensions are not available for ngg v2' );
-					$size_info['width'] = -1;
-					$size_info['height'] = -1;
 				}
-			}
-			$this->p->debug->log( 'image for pid:'.$pid.' size:'.$size_name.' = '.$img_url.
-				' ('.$size_info['width'].'x'.$size_info['height'].')' );
+			} else {
+				$mapper = C_Component_Registry::get_instance()->get_utility( 'I_Image_Mapper' );
+				$dynthumbs = C_Component_Registry::get_instance()->get_utility('I_Dynamic_Thumbnails_Manager');
 
+				$image = new C_Image_Wrapper( $mapper->find( $pid ) );
+				$img_url = $image->cached_singlepic_file( $size_info['width'], $size_info['height'], array( $crop_arg ) );
+				$params = $dynthumbs->get_params_from_uri( $img_url );
+
+// TODO ngg lies about image sizes (can be smaller)
+error_log( '---------------------------------------------------------------------------------------' );
+error_log( $pid );
+error_log( $img_url );
+error_log( print_r( $params, true ) );
+error_log( '---------------------------------------------------------------------------------------' );
+
+			}
+
+			$this->p->debug->log( 'image for pid:'.$pid.' size:'.$size_name.' = '.$img_url.' ('.$img_width.'x'.$img_height.')' );
 			$img_url = $this->p->util->fix_relative_url( $img_url );
 
 			if ( ! empty( $img_url ) ) {
 				if ( $check_dupes == false || $this->p->util->is_uniq_url( $img_url ) )
-					return array( $this->p->util->rewrite_url( $img_url ), $size_info['width'], $size_info['height'], $img_cropped );
+					return array( $this->p->util->rewrite_url( $img_url ), $img_width, $img_height, $img_cropped );
 			} else $this->p->debug->log( 'image rejected: image url is empty' );
 
 			return array( null, null, null, null );
@@ -105,16 +122,26 @@ if ( ! class_exists( 'NgfbNgg' ) ) {
 				$this->p->debug->log( 'exiting early: empty post content' ); 
 				return $og_ret; 
 			}
-			if ( preg_match_all( '/<(div|a|img)[^>]*? (data-ngg-pid|data-image-id)=[\'"]([0-9]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
+			if ( preg_match_all( '/<((div|a|img)[^>]*? (data-ngg-pid|data-image-id)=[\'"]([0-9]+)[\'"]|(img)[^>]*? (src)=[\'"]'.$this->img_src_preg.'[\'"])[^>]*>/s', 
+				$content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ).' x matching <div|a|img/> html tag(s) found' );
 				foreach ( $match as $img_num => $img_arr ) {
 					$tag_value = $img_arr[0];
-					$tag_name = $img_arr[1];
-					$attr_name = $img_arr[2];
-					$attr_value = $img_arr[3];
+					if ( empty( $img_arr[5] ) ) {
+						$tag_name = $img_arr[2];	// div|a|img
+						$attr_name = $img_arr[3];	// data-ngg-pid|data-image-id
+						$attr_value = $img_arr[4];	// pid
+						$pid = 'ngg-'.$img_arr[4];	// pid
+					} else {
+						$tag_name = $img_arr[5];	// img
+						$attr_name = $img_arr[6];	// src
+						$attr_value = $img_arr[7];	// url
+						$pid = empty( $img_arr[10] ) ? 	// pid
+							'ngg-'.$img_arr[8] : 'ngg-'.$img_arr[10];
+					}
 					$this->p->debug->log( 'match '.$img_num.': '.$tag_name.' '.$attr_name.'="'.$attr_value.'"' );
 					list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-						$og_image['og:image:cropped'] ) = $this->get_image_src( 'ngg-'.$attr_value, $size_name, $check_dupes );
+						$og_image['og:image:cropped'] ) = $this->get_image_src( $pid, $size_name, $check_dupes );
 					if ( ! empty( $og_image['og:image'] ) && 
 						$this->p->util->push_max( $og_ret, $og_image, $num ) ) 
 							return $og_ret;

@@ -310,9 +310,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
 
 				$this->p->util->th( 'Check for Wistia Videos', null, null, 
-				'Check the content and Custom Settings for Wistia video URLs, 
-				and retrieve the preferred oEmbed sharing URL, video dimensions, 
-				along with the video preview image.' ).
+				'Check the Post / Page content and the Custom Settings for Wistia video URLs, 
+				retrieving the preferred oEmbed sharing URL, video dimensions, and video preview image.' ).
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_wistia_api' ).'</td>',
 
 				$this->p->util->th( 'Show Custom Settings on', null, null, 

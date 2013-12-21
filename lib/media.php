@@ -175,11 +175,10 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			$img_cropped = empty( $size_info['crop'] ) ? 1 : 0;
 			$ret_empty = array( null, null, null, null );
 
-			if ( $this->p->is_avail['ngg'] === true && is_string( $pid ) && substr( $pid, 0, 4 ) === 'ngg-' ) {
-
+			if ( $this->p->is_avail['ngg'] === true && strpos( $pid, 'ngg-' ) === 0 )
 				list( $img_url, $img_width, $img_height, $img_crop ) = $this->ngg->get_image_src( $pid, $size_name, $check_dupes );
 
-			} else {
+			else {
 				if ( ! wp_attachment_is_image( $pid ) ) {
 					$this->p->debug->log( 'exiting early: attachment '.$pid.' is not an image' ); 
 					return $ret_empty; 
@@ -359,18 +358,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			}
 
 			// img attributes in order of preference
-			if ( preg_match_all( '/<(img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ||
-				preg_match_all( '/<(img)[^>]*? (data-share-src|src)=[\'"]([^\'"]+)[\'"][^>]*>/is', $content, $match, PREG_SET_ORDER ) ) {
-
+			if ( preg_match_all( '/<((img)[^>]*? (data-wp-pid)=[\'"]([^\'"]+)[\'"]|(img)[^>]*? (data-share-src|src)=[\'"]([^\'"]+)[\'"])[^>]*>/s', 
+				$content, $match, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match ).' x matching <img/> html tag(s) found' );
-
 				foreach ( $match as $img_num => $img_arr ) {
 					$tag_value = $img_arr[0];
-					$tag_name = $img_arr[1];
-					$attr_name = $img_arr[2];
-					$attr_value = $img_arr[3];
+					if ( empty( $img_arr[5] ) ) {
+						$tag_name = $img_arr[2];	// img
+						$attr_name = $img_arr[3];	// data-wp-pid
+						$attr_value = $img_arr[4];	// pid
+					} else {
+						$tag_name = $img_arr[5];	// img
+						$attr_name = $img_arr[6];	// data-share-src|src
+						$attr_value = $img_arr[7];	// url
+					}
 					$this->p->debug->log( 'match '.$img_num.': '.$tag_name.' '.$attr_name.'="'.$attr_value.'"' );
-
 					$og_image = array();
 					switch ( $attr_name ) {
 						case 'data-wp-pid' :
@@ -379,16 +381,18 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 							break;
 						default :
 							$og_image = array(
-								'og:image' => $this->p->util->fix_relative_url( $attr_value ),
+								'og:image' => $attr_value,
 								'og:image:width' => -1,
 								'og:image:height' => -1,
 							);
 
-							// check for ngg pre-v2 image pids in the url
-							if ( $this->p->is_avail['ngg'] === true && 
-								preg_match( '/\/cache\/([0-9]+)_(crop)?_[0-9]+x[0-9]+_[^\/]+$/', $og_image['og:image'], $match) ) {
-								list( $og_image['og:image'], $og_image['og:image:width'], $og_image['og:image:height'],
-									$og_image['og:image:cropped'] ) = $this->ngg->get_image_src( 'ngg-'.$match[1], $size_name, $check_dupes );
+							// silently ignore ngg images (which have already been processed)
+							if ( $this->p->is_avail['ngg'] === true && ( 
+								preg_match( '/^'.$this->ngg->img_src_preg.'$/', $og_image['og:image'] ) || 
+								strpos( $tag_value, ' class=\'ngg-' ) !== false ) ) {
+
+								$this->p->debug->log( 'ignoring ngg image: '.$og_image['og:image'] );
+								unset( $og_image['og:image'] );
 								break;
 							}
 	
@@ -400,7 +404,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								break;
 							}
 
-							// try and get the width and height from the image tag
+							// try and get the width and height from the image attributes
 							if ( ! empty( $og_image['og:image'] ) ) {
 								if ( preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $tag_value, $match) ) 
 									$og_image['og:image:width'] = $match[1];
@@ -418,15 +422,15 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								( $attr_name == 'src' && $size_info['crop'] !== 1 && ( $is_correct_width || $is_correct_height ) ) ) {
 
 								// data-share-src attribute used and/or image size is acceptable
+								// check for relative urls, just in case
+								$og_image['og:image'] = $this->p->util->fix_relative_url( $og_image['og:image'] );
 
 							} else {
 								if ( is_admin() )
 									$this->p->notice->err( 'Image '.$attr_name.' '.$og_image['og:image'].
-										' rejected - width and height attributes missing or too small.' );
-
+										' rejected - width / height attributes missing or too small for \''.$size_name.'\' size.' );
 								$this->p->debug->log( $attr_name.' image rejected: width and height attributes missing or too small ('.
 									$og_image['og:image:width'].'x'.$og_image['og:image:height'].')' );
-
 								$og_image = array();
 							}
 							break;
