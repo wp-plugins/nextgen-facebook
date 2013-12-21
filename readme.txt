@@ -179,10 +179,11 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc2 =
+= Version 6.19rc3 =
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
+* Improved pattern matching for Media Library and NextGEN Gallery images in the content.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 * Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
@@ -205,7 +206,7 @@ WordPress v3.8 introduces a new flat design, and although the interface styling 
 Please note that this version now applies the 'Ignore Small Images' option to WordPress Media Library images as well. <strong>Make sure your original images in the WordPress Media Library are larger than the Image Dimensions you've chosen on the Open Graph+ General settings page</strong>, or these images may be ignored / rejected for being too small.
 
 * **Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin**.
-* Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable checks for Wistia videos in the content.
+* Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable support for Wistia videos.
 * Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
 * Added suppport for a `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
 * Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
@@ -214,9 +215,9 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 == Upgrade Notice ==
 
-= 6.19rc2 =
+= 6.19rc3 =
 
-Added a 'Meta Tags Preview' tab to the Custom Settings metabox and added warnings on the Post/Page editing page for images that are too small.
+Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings on the Post/Page editing page for images that are too small, improved pattern matching for Media Library and NextGEN Gallery images in the content.
 
 = 6.18.0.2 =
 
