@@ -85,8 +85,13 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function is_uniq_url( $url = '' ) {
 			if ( empty( $url ) ) 
 				return false;
+
+			if ( strpos( $url, '//' ) === 0 )
+				$url = empty( $_SERVER['HTTPS'] ) ? 'http:'.$url : 'https:'.$url;
+
 			if ( ! preg_match( '/[a-z]+:\/\//i', $url ) )
 				$this->p->debug->log( 'incomplete url given: '.$url );
+
 			if ( empty( $this->urls_found[$url] ) ) {
 				$this->urls_found[$url] = 1;
 				return true;
@@ -248,12 +253,13 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function fix_relative_url( $url = '' ) {
 			if ( ! empty( $url ) && strpos( $url, '://' ) === false ) {
 				$this->p->debug->log( 'relative url found = '.$url );
-				// if it starts with a slash, just add the home_url() prefix
-				if ( preg_match( '/^\//', $url ) ) 
+				$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+				if ( strpos( $url, '//' ) === 0 )
+					$url = $prot.$url;
+				elseif ( strpos( $url, '/' ) === 0 ) 
 					$url = home_url( $url );
 				else {
-					$base = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-					$base .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+					$base = $prot.$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 					if ( strpos( $base, '?' ) !== false ) {
 						$base_parts = explode( '?', $base );
 						$base = reset( $base_parts );

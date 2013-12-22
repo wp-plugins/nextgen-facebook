@@ -209,11 +209,11 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 		
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en_US' : $this->p->options['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, sucom_get_lang( 'facebook' ) );
 			$app_id = empty( $this->p->options['fb_app_id'] ) ? '' : $this->p->options['fb_app_id'];
-			$js_url = $this->p->util->get_cache_url( $prot.'connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id );
+			$js_url = $this->p->util->get_cache_url( $prot.'//connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id );
 
 			$html = '<script type="text/javascript" id="fb-script-'.$pos.'">'.
 			$this->p->cf['lca'].'_insert_js( "fb-script-'.$pos.'", "'.$js_url.'" );</script>';

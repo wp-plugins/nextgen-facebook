@@ -179,15 +179,16 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc4 =
+= Version 6.19rc5 =
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
+* Added support for embedded YouTube playlists.
 * Improved pattern matching for Media Library and NextGEN Gallery images in the content.
 * Improved NextGEN Gallery v2 code to retrieve image dimensions and check against required width / height values.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
-* Added a 'share' dashicon to the Open Graph+ menu item.
+* Added an icon for the Open Graph+ menu item.
 * Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
 
@@ -217,9 +218,9 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 == Upgrade Notice ==
 
-= 6.19rc4 =
+= 6.19rc5 =
 
-Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings on the Post/Page editing page for images that are too small, improved pattern matching for Media Library and NextGEN Gallery images in the content.
+Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for images that are too small, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images in the content.
 
 = 6.18.0.2 =
 

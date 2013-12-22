@@ -110,8 +110,8 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 		
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$js_url = $this->p->util->get_cache_url( $prot.'apis.google.com/js/plusone.js' );
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$js_url = $this->p->util->get_cache_url( $prot.'//apis.google.com/js/plusone.js' );
 
 			return '<script type="text/javascript" id="gplus-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "gplus-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}

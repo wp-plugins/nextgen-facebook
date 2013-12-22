@@ -73,7 +73,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'pinterest', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
@@ -117,21 +117,21 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 			$query .= '&amp;description='.urlencode( $atts['caption'] );
 
 			if ( empty( $this->p->options['pin_img_url'] ) )
-				$img = $prot.'assets.pinterest.com/images/PinExt.png';
-			elseif ( preg_match( '/^https?:\/\/(.*)/', $this->p->options['pin_img_url'], $match ) )
+				$img = $prot.'//assets.pinterest.com/images/PinExt.png';
+			elseif ( preg_match( '/^https?:(\/\/.*)/', $this->p->options['pin_img_url'], $match ) )
 				$img = $prot.$match[1];
 			else $img = $this->p->options['pin_img_url'];
 			$img = $this->p->util->get_cache_url( $img );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
+			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
 
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$js_url = $this->p->util->get_cache_url( $prot.'assets.pinterest.com/js/pinit.js' );
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$js_url = $this->p->util->get_cache_url( $prot.'//assets.pinterest.com/js/pinit.js' );
 
 			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}

@@ -93,7 +93,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'twitter', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
@@ -143,7 +143,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $opts['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div '.$this->p->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
+			$html = '<!-- Twitter Button --><div '.$this->p->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'//twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 
@@ -152,8 +152,8 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 		
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$js_url = $this->p->util->get_cache_url( $prot.'platform.twitter.com/widgets.js' );
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$js_url = $this->p->util->get_cache_url( $prot.'//platform.twitter.com/widgets.js' );
 
 			return '<script type="text/javascript" id="twitter-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "twitter-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}

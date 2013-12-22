@@ -18,13 +18,13 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 		}
 
 		public function get_rows() {
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$badge = '
 				<style type="text/css">
 					.badge { 
 						display:block;
 						background: url("'.$this->p->util->get_cache_url( 
-							$prot.'b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ).'") no-repeat transparent; 
+							$prot.'//b9.sustatic.com/7ca234_0mUVfxHFR0NAk1g' ).'") no-repeat transparent; 
 						width:110px;
 						margin:5px 0 5px 0;
 					}
@@ -104,8 +104,8 @@ if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) )
 
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$prot = empty( $_SERVER['HTTPS'] ) ? 'http://' : 'https://';
-			$js_url = $this->p->util->get_cache_url( $prot.'platform.stumbleupon.com/1/widgets.js' );
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$js_url = $this->p->util->get_cache_url( $prot.'//platform.stumbleupon.com/1/widgets.js' );
 
 			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$js_url.'" );</script>';
 		}

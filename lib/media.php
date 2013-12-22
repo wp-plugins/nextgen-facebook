@@ -513,16 +513,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				return $og_ret; 
 			}
 			// detect standard iframe/embed tags - use the ngfb_content_videos filter for custom html5/javascript methods
-			// <iframe src="//player.vimeo.com/video/80574920?title=0&amp;byline=0&amp;portrait=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/80574920">This is Localism!</a> from <a href="http://vimeo.com/user23071933">Localism!</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 			if ( preg_match_all( '/<(iframe|embed)[^>]*? src=[\'"]([^\'"]+\/(embed|video)\/[^\'"]+)[\'"][^>]*>/i', $content, $match_all, PREG_SET_ORDER ) ) {
 				$this->p->debug->log( count( $match_all ).' x video <iframe|embed/> html tag(s) found' );
 				foreach ( $match_all as $media ) {
 					$this->p->debug->log( '<'.$media[1].'/> html tag found = '.$media[2] );
 					$embed_url = $media[2];
-					if ( strpos( $embed_url, '?' ) !== false ) {	// remove the query string
-						$embed_url_parts = explode( '?', $embed_url );
-						$embed_url = reset( $embed_url_parts );
-					}
 					if ( ( $check_dupes == false && ! empty( $embed_url ) ) || $this->p->util->is_uniq_url( $embed_url ) ) {
 						$embed_width = preg_match( '/ width=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : -1;
 						$embed_height = preg_match( '/ height=[\'"]?([0-9]+)[\'"]?/i', $media[0], $match) ? $match[1] : -1;
@@ -542,7 +537,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					if ( is_array( $match_all ) ) {
 						$this->p->debug->log( count( $match_all ).' x videos returned by '.$filter_name.' filter' );
 						foreach ( $match_all as $media ) {
-							// media = array( url, width, height )
 							if ( ( $check_dupes == false && ! empty( $media[0] ) ) || $this->p->util->is_uniq_url( $media[0] ) ) {
 								$og_video = $this->get_video_info( $media[0], $media[1], $media[2] );	// url, width, height
 								if ( ! empty( $og_video ) && 
@@ -568,48 +562,72 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				'og:image:width' => -1,
 				'og:image:height' => -1,
 			);
-			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http://' : 'https://';
+			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http:' : 'https:';
 			/*
 			 * YouTube video API
 			 */
-			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+).*$/', $embed_url, $match ) ) {
-				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
-				$og_video['og:video'] = $prot.'www.youtube.com/v/'.$vid_name;
-				$og_video['og:image'] = $prot.'img.youtube.com/vi/'.$vid_name.'/0.jpg';	// 0, hqdefault, maxresdefault
-				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot.'gdata.youtube.com/feeds/api/videos?q='.$vid_name.'&max-results=1&format=5';
+			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+)(\?(list)=([^\?\&\#]+)|.*)$/', $embed_url, $match ) ) {
+
+				$vid_name = ! empty( $match[3] ) ? preg_replace( '/^.*\//', '', $match[3] ) : false;
+				$list_name = ! empty( $match[6] ) && $match[5] === 'list' ? $match[6] : false;
+
+				// default og:video and og:image values
+				if ( $vid_name !== false )
+					$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$vid_name.'/0.jpg';
+
+				if ( $list_name !== false ) {
+					$api_url = $prot.'//gdata.youtube.com/feeds/api/playlists/'.$list_name;
+					$og_video['og:video'] = $prot.'//www.youtube.com/p/'.$list_name;
+				} elseif ( $vid_name !== false ) {
+					$api_url = $prot.'//gdata.youtube.com/feeds/api/videos?q='.$vid_name.'&max-results=1&format=5';
+					$og_video['og:video'] = $prot.'//www.youtube.com/v/'.$vid_name;
+				}
+
+				if ( empty( $api_url ) ) {
+					$this->p->debug->log( 'youtube api url is empty - no video or playlist names found' );
+
+				} elseif ( function_exists( 'simplexml_load_string' ) ) {
+
 					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
-					if ( ! empty( $xml->entry[0] ) ) {
+
+					if ( ! empty( $xml ) ) {
 						$this->p->debug->log( 'setting og:video and og:image from youtube api xml' );
-						$media = $xml->entry[0]->children( 'media', true );
+						if ( $list_name !== false )
+							$media = $xml->children( 'media', true );
+						elseif ( ! empty( $xml->entry[0] ) )
+							$media = $xml->entry[0]->children( 'media', true );
+
 						$content = $media->group->content[0]->attributes();
 						if ( $content['type'] == 'application/x-shockwave-flash' )
 							$og_video['og:video'] = (string) $content['url'];
-						// find the largest thumbnail available (by width)
+	
+						// find the largest thumbnail available
 						foreach ( $media->group->thumbnail as $thumb ) {
 							$thumb_attr = $thumb->attributes();
 							if ( ! empty( $thumb_attr['width'] ) ) {
 								$thumb_url = (string) $thumb_attr['url'];
 								$thumb_width = (string) $thumb_attr['width'];
 								$thumb_height = (string) $thumb_attr['height'];
-								if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] )
+								if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] ) {
 									list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
 										array( $thumb_url, $thumb_width, $thumb_height );
+									//$this->p->debug->log( 'using preview thumbnail '.$thumb_url );
+								}
 							}
 						}
 					}
 				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
 
-				// the google youtube api does not provide video width/height (seriously), 
-				// so if missing from args, get them from the youtube opengraph meta tags
-				if ( ! empty( $og_video['og:video'] ) && 
+				// the google youtube api does not provide the video width / height (seriously), 
+				// so get them from the youtube opengraph meta tags if / when missing
+				if ( $vid_name !== false && ! empty( $og_video['og:video'] ) && 
 					( $og_video['og:video:width'] <= 0 || $og_video['og:video:height'] <= 0 ) ) {
 
-					$og_fetch = $prot.'www.youtube.com/watch?v='.$vid_name;
-					$this->p->debug->log( 'fetching missing video width/height from '.$og_fetch );
+					$og_fetch = $prot.'//www.youtube.com/watch?v='.$vid_name;
+					$this->p->debug->log( 'fetching missing video width / height from '.$og_fetch );
 					if ( ( $og_html = $this->p->cache->get( $og_fetch, 'raw', 'transient' ) ) !== false ) {
-						$og_meta = $this->p->og->parse( $og_html );	// in SucomOpengraph parent
+						$og_meta = $this->p->og->parse( $og_html );
 						$og_video['og:video:width'] = $og_meta['og:video:width'];
 						$og_video['og:video:height'] = $og_meta['og:video:height'];
 					}
@@ -618,12 +636,16 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			 * Vimeo video API
 			 */
 			} elseif ( preg_match( '/^.*(vimeo\.com)\/(.*\/)?([^\/\?\&\#]+).*$/', $embed_url, $match ) ) {
+
 				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
-				$og_video['og:video'] = $prot.'vimeo.com/moogaloop.swf?clip_id='.$vid_name;
+				$og_video['og:video'] = $prot.'//vimeo.com/moogaloop.swf?clip_id='.$vid_name;
+
 				if ( function_exists( 'simplexml_load_string' ) ) {
-					$api_url = $prot.'vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;
+
+					$api_url = $prot.'//vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;
 					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
+
 					if ( ! empty( $xml->thumbnail_url ) ) {
 						$this->p->debug->log( 'setting og:video and og:image from vimeo api xml' );
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
