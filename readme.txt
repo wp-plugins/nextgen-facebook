@@ -187,6 +187,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 * Improved NextGEN Gallery v2 code to retrieve image dimensions and check against required width / height values.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
+* Added a 'share' dashicon to the Open Graph+ menu item.
 * Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
 
