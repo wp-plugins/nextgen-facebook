@@ -105,7 +105,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				'manage_options', 
 				$this->p->cf['lca'].'-'.$parent_id, 
 				array( &$this, 'show_page' ), 
-				null, 
+				'dashicons-share', 
 				NGFB_MENU_PRIORITY
 			);
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
@@ -322,8 +322,12 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$this->p->debug->show_html( null, 'Debug Log' );
 			?>
 			<div class="wrap" id="<?php echo $this->pagehook; ?>">
-				<?php screen_icon('options-general'); $this->show_follow_icons(); ?>
-				<h2><?php echo $this->p->cf['full'].' : '.$this->menu_name; ?></h2>
+				<?php $this->show_follow_icons(); ?>
+				<h2>
+					<!-- <span class="dashicons dashicons-share" 
+						style="font-size:1.4em;vertical-align:abs-middle;margin-right:0.6em;"></span> -->
+					<?php echo $this->p->cf['full'].' : '.$this->menu_name; ?>
+				</h2>
 				<div id="poststuff" class="metabox-holder <?php echo 'has-right-sidebar'; ?>">
 					<div id="side-info-column" class="inner-sidebar">
 						<?php do_meta_boxes( $this->pagehook, 'side', null ); ?>
