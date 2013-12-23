@@ -42,21 +42,16 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					break;
 				case 'pro_details' :
 					$msg .= '
-					<style type="text/css">
-						.sucom-update-nag p, .sucom-update-nag ul { font-size:1.05em; }
-					</style>
-					<p>Would you like to...</p><ul>
-					<li>Add support for <em>Gallery</em>, <em>Photo</em>, <em>Large Image</em>, <em>Summary</em>, 
-						<em>Player</em> and <em>Product</em> <strong><a href="https://dev.twitter.com/docs/cards" 
-						target="_blank">Twitter Cards</a></strong>?</li>
-					<li>Customize the <strong>Open Graph</strong> / <strong>Rich Pin</strong> and <strong>Twitter Card</strong>
-						meta tags for each <em>individual</em> Post and Page?</li>
-					<li>Integrate with several popular <strong>3rd party plugins</strong>, like <strong>WordPress SEO</strong>, 
-						<strong>WooCommerce</strong>, and many more?</li>
-					<li><strong>Speed-up page loads</strong> by caching social JavaScript, change social button languages dynamically, 
-						shorten URLs for Twitter?</li>
-					</ul><p><a href="'.$this->p->cf['url']['purchase'].'" target="_blank">Upgrading is simple, easy and affordable - purchase
-						your '.$this->p->cf['full_pro'].' version today</a>.</p>
+					<style type="text/css">.sucom-update-nag p { font-size:1.05em; }</style>
+					<p>Have you considered encouraging the continued development and support of '.$this->p->cf['full'].
+					' by purchasing the Pro version?</p>
+					<p>'.$this->p->cf['full_pro'].' supports several types of Twitter Cards, including the <em>Gallery</em>, 
+					<em>Player</em> and <em>Product</em> Twitter Cards, allows you to customize individual Post / Page meta tags, 
+					and integrates with popular 3rd party plugins to improve Open Graph, Rich Pin, and Twitter Card meta tags.</p>
+					<p><strong>Improve your social presence on Facebook, Twitter and Pinterest by providing your users with 
+					better looking, more accurate and tailored posts</strong>.</p>
+					<p>Upgrading to the Pro version is simple and takes just one or two minutes - <br/>
+					<a href="'.$this->p->cf['url']['purchase'].'" target="_blank">purchase an '.$this->p->cf['full_pro'].' license right now</a>.</p>
 					';
 					break;
 				case 'purchase_box' :
