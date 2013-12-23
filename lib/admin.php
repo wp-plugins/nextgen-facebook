@@ -98,6 +98,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		protected function add_menu_page( $parent_id ) {
+			global $wp_version;
 			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 			$this->pagehook = add_menu_page( 
 				$this->p->cf['full'].' : '.$this->menu_name, 
@@ -105,7 +106,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				'manage_options', 
 				$this->p->cf['lca'].'-'.$parent_id, 
 				array( &$this, 'show_page' ), 
-				'dashicons-share', 
+				( version_compare( $wp_version, 3.8, '<' ) ? null : 'dashicons-share' ),
 				NGFB_MENU_PRIORITY
 			);
 			add_action( 'load-'.$this->pagehook, array( &$this, 'load_page' ) );
