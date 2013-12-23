@@ -260,9 +260,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Facebook Application ID', null, null, '
 					If you have a <a href="https://developers.facebook.com/apps" target="_blank">Facebook Application</a> 
-					ID for your website, enter it here. Facebook Application IDs are used by Facebook to allow 
-					access to <a href="https://developers.facebook.com/docs/insights/" target="_blank">Facebook Insight</a> 
-					data for <em>accounts associated with the Application ID</em>.' ).
+					ID for your website, enter it here. The Facebook Application ID will appear in your webpage meta tags,
+					and is used by Facebook to allow access to <a href="https://developers.facebook.com/docs/insights/" 
+					target="_blank">Facebook Insight</a> data for <em>accounts associated with that Application ID</em>.' ).
 					'<td>'.$this->form->get_input( 'fb_app_id' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Default Language', null, null, '
