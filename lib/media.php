@@ -568,19 +568,21 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			 */
 			if ( preg_match( '/^.*(youtube\.com|youtube-nocookie\.com|youtu\.be)\/(watch\?v=)?([^\?\&\#]+)(\?(list)=([^\?\&\#]+)|.*)$/', $embed_url, $match ) ) {
 
-				$vid_name = ! empty( $match[3] ) ? preg_replace( '/^.*\//', '', $match[3] ) : false;
-				$list_name = ! empty( $match[6] ) && $match[5] === 'list' ? $match[6] : false;
+				$vid_name = false;
+				$list_name = false;
 
-				// default og:video and og:image values
-				if ( $vid_name !== false )
-					$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$vid_name.'/0.jpg';
-
-				if ( $list_name !== false ) {
+				if ( ! empty( $match[6] ) && $match[5] === 'list' ) {
+					$list_name = $match[6];
 					$api_url = $prot.'//gdata.youtube.com/feeds/api/playlists/'.$list_name;
 					$og_video['og:video'] = $prot.'//www.youtube.com/p/'.$list_name;
-				} elseif ( $vid_name !== false ) {
+					if ( $match[3] !== 'videoseries' )
+						$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$match[3].'/0.jpg';
+
+				} elseif ( ! empty( $match[3] ) ) {
+					$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 					$api_url = $prot.'//gdata.youtube.com/feeds/api/videos?q='.$vid_name.'&max-results=1&format=5';
 					$og_video['og:video'] = $prot.'//www.youtube.com/v/'.$vid_name;
+					$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$vid_name.'/0.jpg';
 				}
 
 				if ( empty( $api_url ) ) {
@@ -612,10 +614,12 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 								if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] ) {
 									list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
 										array( $thumb_url, $thumb_width, $thumb_height );
-									//$this->p->debug->log( 'using preview thumbnail '.$thumb_url );
 								}
 							}
 						}
+						// determine video name from preview image url for open graph parsing
+						if ( $vid_name === false && ! empty( $og_video['og:image'] ) )
+							$vid_name = preg_match( '/^.*\/([^\/]+)\/[^\/]+\.[a-z]+$/', $og_video['og:image'], $match ) ? $match[1] : false;
 					}
 				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
 

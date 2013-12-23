@@ -179,7 +179,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc5 =
+= Version 6.19rc6 =
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
@@ -218,7 +218,7 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 == Upgrade Notice ==
 
-= 6.19rc5 =
+= 6.19rc6 =
 
 Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for images that are too small, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images in the content.
 
