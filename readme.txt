@@ -181,6 +181,10 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 = Version 6.19.0 =
 
+**There are several important changes in v6.19.0 - including one that pushes some limits in the admin interface**. You'll find a new 'Meta Tags Preview' tab in the Custom Settings metabox, available on Post and Page editing pages. Since the core functionality of NGFB Open Graph+ is to create complete and accurate meta tags, I felt it was important to provide an easier / faster way to visualize them. By generating the meta tags on the admin / back-end, it's also possible to warn of images that are too small (smaller than the plugin's configured settings). Two other notable changes is the added support for embedded YouTube Playlists, and a fix for the Twitter Player Card URLs.
+
+Although the 'Meta Tags Preview' feature has been tested on several versions of WordPress, with several themes and a wide range of plugins, *it could expose some bugs in other plugins and/or themes*. **Please have a rollback plan tested before updating the plugin**.
+
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
 * Added support for embedded **YouTube playlists**.
