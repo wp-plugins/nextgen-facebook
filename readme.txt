@@ -181,9 +181,13 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 = Version 6.19.0 =
 
-**There are several important changes in v6.19.0 - including one that pushes some limits in the admin interface**. You'll find a new 'Meta Tags Preview' tab in the Custom Settings metabox, available on Post and Page editing pages. Since the core functionality of NGFB Open Graph+ is to create complete and accurate meta tags, I felt it was important to provide an easier / faster way to visualize them. By generating the meta tags on the admin / back-end, it's also possible to warn of images that are too small (smaller than the plugin's configured settings). Two other notable changes is the added support for embedded YouTube Playlists, and a fix for the Twitter Player Card URLs.
+**There are several important changes in v6.19.0, including one that pushes some limits in the admin interface**.
 
-Although the 'Meta Tags Preview' feature has been tested on several versions of WordPress, with several themes and a wide range of plugins, *it could expose some bugs in other plugins and/or themes*. **Please have a rollback plan tested before updating the plugin**.
+You'll find a new 'Meta Tags Preview' tab in the Custom Settings metabox, available on the Post and Page editing pages. Since the core functionality of NGFB Open Graph+ is to create complete and accurate meta tags, I felt it was important to provide an easier / faster way to visualize them. By generating the meta tags on the admin / back-end, it's also now possible to warn of images that are too small (smaller than the plugin's configured settings). Two other notable changes are the added support for embedded YouTube Playlists, and a fix for Twitter Player Card URLs.
+
+Although the new 'Meta Tags Preview' feature has been tested on several versions of WordPress, with several themes and a wide range of plugins, *it could expose some bugs in other plugins and / or themes*. **Please have a rollback plan in-place and tested before updating**. Worse case scenario, you can always login by FTP and remove the `nextgen-facebook/` plugin folder.
+
+If you have an issue, refer to the 'Debug the Back-End' section in the [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/) notes. The resulting debug.log may help you identify and fix a problem quickly. If you need additional support, GPL users can start a new thread in the [WordPress.org Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) and Pro users can [Open a New Support Ticket](http://support.surniaulula.com/support/tickets/new). Please include any relevant errors from the debug.log.
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
@@ -226,17 +230,9 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 = 6.19.0 =
 
-Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for small images, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images, fixed Twitter Player Card video URLs.
+IMPORTANT: PLEASE READ THE CHANGELOG.
 
 = 6.18.0.2 =
 
 Fixed loading of the shortcode library file, improved the detection of Vimeo URLs, added additional checks when saving options.
-
-= 6.18.0.1 =
-
-Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function.
-
-= 6.18.0 =
-
-Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tuned loading of Pro addons.
 
