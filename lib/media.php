@@ -553,6 +553,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		private function get_video_info( $embed_url, $embed_width = 0, $embed_height = 0 ) {
 			if ( empty( $embed_url ) ) 
 				return array();
+			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http:' : 'https:';
 			$og_video = array(
 				'og:video' => '',
 				'og:video:type' => 'application/x-shockwave-flash',
@@ -562,7 +563,6 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				'og:image:width' => -1,
 				'og:image:height' => -1,
 			);
-			$prot = empty( $this->p->options['og_vid_https'] ) ? 'http:' : 'https:';
 			/*
 			 * YouTube video API
 			 */
@@ -574,14 +574,16 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 				if ( ! empty( $match[6] ) && $match[5] === 'list' ) {
 					$list_name = $match[6];
 					$api_url = $prot.'//gdata.youtube.com/feeds/api/playlists/'.$list_name;
-					$og_video['og:video'] = $prot.'//www.youtube.com/p/'.$list_name;
-					if ( $match[3] !== 'videoseries' )
+					if ( $match[3] !== 'videoseries' ) {
+						$og_video['og:video'] = $prot.'//www.youtube.com/v/'.$vid_name.'?list='.$list_name;
+						$og_video['og:video:embed_url'] = 'https://www.youtube.com/embed/'.$vid_name.'?list='.$list_name;
 						$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$match[3].'/0.jpg';
-
+					}
 				} elseif ( ! empty( $match[3] ) ) {
 					$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 					$api_url = $prot.'//gdata.youtube.com/feeds/api/videos?q='.$vid_name.'&max-results=1&format=5';
 					$og_video['og:video'] = $prot.'//www.youtube.com/v/'.$vid_name;
+					$og_video['og:video:embed_url'] = 'https://www.youtube.com/embed/'.$vid_name;
 					$og_video['og:image'] = $prot.'//img.youtube.com/vi/'.$vid_name.'/0.jpg';
 				}
 
@@ -590,37 +592,41 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 				} elseif ( function_exists( 'simplexml_load_string' ) ) {
 
-					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 
 					if ( ! empty( $xml ) ) {
 						$this->p->debug->log( 'setting og:video and og:image from youtube api xml' );
-						if ( $list_name !== false )
-							$media = $xml->children( 'media', true );
-						elseif ( ! empty( $xml->entry[0] ) )
+						if ( ! empty( $xml->entry[0] ) ) {
 							$media = $xml->entry[0]->children( 'media', true );
+							$content = $media->group->content[0]->attributes();
 
-						$content = $media->group->content[0]->attributes();
-						if ( $content['type'] == 'application/x-shockwave-flash' )
-							$og_video['og:video'] = (string) $content['url'];
+							if ( $content['type'] == 'application/x-shockwave-flash' )
+								$og_video['og:video'] = (string) $content['url'];
+
+							$og_video['og:video'] .= $list_name !== false ? 
+								( strpos( $og_video['og:video'], '?' ) !== false ? 
+									'&' : '?' ).'list='.$list_name : '';
 	
-						// find the largest thumbnail available
-						foreach ( $media->group->thumbnail as $thumb ) {
-							$thumb_attr = $thumb->attributes();
-							if ( ! empty( $thumb_attr['width'] ) ) {
-								$thumb_url = (string) $thumb_attr['url'];
-								$thumb_width = (string) $thumb_attr['width'];
-								$thumb_height = (string) $thumb_attr['height'];
-								if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] ) {
-									list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
-										array( $thumb_url, $thumb_width, $thumb_height );
+							// find the largest thumbnail available
+							foreach ( $media->group->thumbnail as $thumb ) {
+								$thumb_attr = $thumb->attributes();
+								if ( ! empty( $thumb_attr['width'] ) ) {
+									$thumb_url = (string) $thumb_attr['url'];
+									$thumb_width = (string) $thumb_attr['width'];
+									$thumb_height = (string) $thumb_attr['height'];
+									if ( empty( $og_video['og:image:width'] ) || $thumb_width > $og_video['og:image:width'] ) {
+										list( $og_video['og:image'], $og_video['og:image:width'], $og_video['og:image:height'] ) = 
+											array( $thumb_url, $thumb_width, $thumb_height );
+									}
 								}
 							}
-						}
-						// determine video name from preview image url for open graph parsing
-						if ( $vid_name === false && ! empty( $og_video['og:image'] ) )
-							$vid_name = preg_match( '/^.*\/([^\/]+)\/[^\/]+\.[a-z]+$/', $og_video['og:image'], $match ) ? $match[1] : false;
-					}
+							// determine video name from preview image url for open graph parsing
+							if ( $vid_name === false && ! empty( $og_video['og:image'] ) )
+								$vid_name = preg_match( '/^.*\/([^\/]+)\/[^\/]+\.[a-z]+$/', $og_video['og:image'], $match ) ? 
+									$match[1] : false;
+
+						} else $this->p->debug->log( 'entry missing from returned xml' );
+					} else $this->p->debug->log( 'returned xml is empty' );
 				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
 
 				// the google youtube api does not provide the video width / height (seriously), 
@@ -643,11 +649,11 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 				$vid_name = preg_replace( '/^.*\//', '', $match[3] );
 				$og_video['og:video'] = $prot.'//vimeo.com/moogaloop.swf?clip_id='.$vid_name;
+				$og_video['og:video:embed_url'] = 'https://player.vimeo.com/video/'.$vid_name;
+				$api_url = $prot.'//vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;
 
 				if ( function_exists( 'simplexml_load_string' ) ) {
 
-					$api_url = $prot.'//vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'.$vid_name;
-					$this->p->debug->log( 'fetching video details from '.$api_url );
 					$xml = @simplexml_load_string( $this->p->cache->get( $api_url, 'raw', 'transient' ) );
 
 					if ( ! empty( $xml->thumbnail_url ) ) {
@@ -655,7 +661,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 						$og_video['og:image'] = (string) $xml->thumbnail_url;
 						$og_video['og:image:width'] = $og_video['og:video:width'] = (string) $xml->thumbnail_width;
 						$og_video['og:image:height'] = $og_video['og:video:height'] = (string) $xml->thumbnail_height;
-					}
+
+					} else $this->p->debug->log( 'thumbnail_url missing from returned xml' );
 				} else $this->p->debug->log( 'simplexml_load_string function is missing' );
 			}
 			/*

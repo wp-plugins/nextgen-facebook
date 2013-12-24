@@ -46,8 +46,10 @@ if ( ! class_exists( 'SucomCache' ) ) {
 				constant( $this->p->cf['uca'].'_CURL_DISABLE' ) ) {
 				$this->p->debug->log( 'curl is disabled: '.$url );
 				return $return == 'url' ? $url : false;
-			} elseif ( $expire_secs === false && ! $this->p->is_avail['cache']['file'] )
-				return $return == 'url' ? $url : false;
+			} elseif ( $expire_secs === false && 
+				$cache_name === 'file' &&
+				! $this->p->is_avail['cache']['file'] )
+					return $return == 'url' ? $url : false;
 
 			$get_url = preg_replace( '/#.*$/', '', $url );	// remove the fragment
 			$url_path = parse_url( $get_url, PHP_URL_PATH );
