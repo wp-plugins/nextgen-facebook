@@ -226,17 +226,9 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 = 6.19.0 =
 
-Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for small images, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images, fixed Twitter Player Card video URLs.
+IMPORTANT: PLEASE READ THE CHANGELOG.
 
 = 6.18.0.2 =
 
 Fixed loading of the shortcode library file, improved the detection of Vimeo URLs, added additional checks when saving options.
-
-= 6.18.0.1 =
-
-Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function.
-
-= 6.18.0 =
-
-Minor style change for WordPress 3.8 "flat" design cues, added a 'Plugin Features' metabox, added a 'Check for Wistia Videos' option (enabled by default), fine-tuned loading of Pro addons.
 
