@@ -179,18 +179,19 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc6 =
+= Version 6.19rc7 =
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
-* Added support for embedded YouTube playlists.
-* Improved pattern matching for Media Library and NextGEN Gallery images in the content.
-* Improved NextGEN Gallery v2 code to retrieve image dimensions and check against required width / height values.
+* Added support for embedded **YouTube playlists**.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
-* Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 * Added a dashicon for the Open Graph+ menu item (if using WordPress v3.8 and up).
+* Improved pattern matching for Media Library and NextGEN Gallery images in the content.
+* Improved NextGEN Gallery v2 code to retrieve image dimensions, and check against required width / height values.
+* Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
 * Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
+* **Fixed the Twitter 'Player Card' video URL to use an embed URL instead of a flash URL** (Pro version).
 
 = Version 6.18.0.2 =
 
@@ -218,9 +219,9 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 == Upgrade Notice ==
 
-= 6.19rc6 =
+= 6.19rc7 =
 
-Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for images that are too small, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images in the content.
+Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for small images, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images, fixed Twitter Player Card video URLs.
 
 = 6.18.0.2 =
 
