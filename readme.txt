@@ -3,7 +3,7 @@ Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, facebook, google, google plus, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8
 Stable Tag: 6.18.0.2
@@ -179,7 +179,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 == Changelog ==
 
-= Version 6.19rc7 =
+= Version 6.19.0 =
 
 * **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
 * Added warnings on the Post/Page editing page for images that are too small.
@@ -220,7 +220,7 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 == Upgrade Notice ==
 
-= 6.19rc7 =
+= 6.19.0 =
 
 Added a 'Meta Tags Preview' tab to the Custom Settings metabox, added warnings for small images, added support for youtube playlists, improved pattern matching for Media Library and NextGEN Gallery images, fixed Twitter Player Card video URLs.
 

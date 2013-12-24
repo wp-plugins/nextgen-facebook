@@ -5,9 +5,9 @@ Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.19rc7
+Version: 6.19.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -64,8 +64,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		// get the options, upgrade the options (if necessary), and validate their values
 		public function set_objects( $activate = false ) {
 
-			$plugin_dir = constant( $this->cf['uca'].'_'.'PLUGINDIR' );
-
 			/*
 			 * plugin options
 			 */
@@ -88,7 +86,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
 			if ( $html_debug || $wp_debug ) {
-				require_once( $plugin_dir.'lib/com/debug.php' );
+				require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
 				$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
 			} else $this->debug = new NgfbNoDebug();
 
@@ -188,7 +186,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_tid'] ) ) {
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
-				require_once( $plugin_dir.'lib/com/update.php' );
+				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
 				$this->update = new SucomUpdate( $this );
 				if ( is_admin() ) {
 					// if update_hours * 2 has passed without an update check, then force one now

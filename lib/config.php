@@ -1,7 +1,7 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://www.gnu.org/licenses/gpl.txt
 Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.19rc7',			// plugin version
+			'version' => '6.19.0',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym

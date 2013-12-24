@@ -1,7 +1,7 @@
 <?php
 /*
 License: GPLv3
-License URI: http://surniaulula.com/wp-content/plugins/nextgen-facebook/license/gpl.txt
+License URI: http://www.gnu.org/licenses/gpl.txt
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
@@ -309,7 +309,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			}
 			add_meta_box( $this->pagehook.'_info', __( 'Version Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_status', __( 'Plugin Features', NGFB_TEXTDOM ), array( &$this, 'show_metabox_status' ), $this->pagehook, 'side' );
-			//add_meta_box( $this->pagehook.'_news', __( 'News Feed', NGFB_TEXTDOM ), array( &$this, 'show_metabox_news' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
 
 			if ( $this->p->check->is_aop() )
@@ -402,43 +401,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			echo '</form>', "\n";
 		}
 
-		protected function show_feed( $url, $max_num = 5, $class = 'rss_feed' ) {
-			include_once( ABSPATH.WPINC.'/feed.php' );
-			$have_items = 0;
-			$rss_items = array();
-			add_filter( 'wp_feed_cache_transient_lifetime', array( &$this, 'feed_cache_expire' ) );
-			$rss_feed = fetch_feed( $url );		// since wp 2.8
-			remove_filter( 'wp_feed_cache_transient_lifetime' , array( &$this, 'feed_cache_expire' ) );
-			echo '<div class="', $class, '"><ul>';
-			if ( is_wp_error( $rss_feed ) ) {
-				$error_string = $rss_feed->get_error_message();
-				echo '<li>', __( 'WordPress reported an error:', NGFB_TEXTDOM ), ' ', $error_string, '</li>';
-			} else {
-				$have_items = $rss_feed->get_item_quantity( $max_num ); 
-				$rss_items = $rss_feed->get_items( 0, $have_items );
-			}
-			if ( $have_items == 0 ) {
-				echo '<li>', __( 'No items found.', NGFB_TEXTDOM ), '</li>';
-			} else {
-				foreach ( $rss_items as $item ) {
-					$desc = $item->get_description();
-					$desc = preg_replace( '/^\.rss-manager [^<]*/m', '', $desc );		// remove the inline styling
-					$desc = preg_replace( '/ cellspacing=["\'][0-9]*["\']/im', '', $desc );	// remove table cellspacing
-					echo '<li><div class="title"><a href="', esc_url( $item->get_permalink() ), '" title="', 
-						printf( 'Posted %s', $item->get_date('j F Y | g:i a') ), '">',
-						esc_html( $item->get_title() ), '</a></div><div class="description">', 
-						$desc, '</div></li>';
-				}
-			}
-			echo '</ul></div>';
-		}
-
 		public function feed_cache_expire( $seconds ) {
 			return $this->p->cf['update_hours'] * 3600;
-		}
-
-		public function show_metabox_news() {
-			$this->show_feed( $this->p->cf['url']['feed'], 3, $this->p->cf['lca'].'_feed' );
 		}
 
 		public function show_metabox_info() {
