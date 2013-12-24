@@ -186,6 +186,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 * Added support for embedded **YouTube playlists**.
 * Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
 * Added a dashicon for the Open Graph+ menu item (if using WordPress v3.8 and up).
+* Updated settings CSS for WordPress pre-v3.8 compatibility.
 * Improved pattern matching for Media Library and NextGEN Gallery images in the content.
 * Improved NextGEN Gallery v2 code to retrieve image dimensions, and check against required width / height values.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
