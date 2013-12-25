@@ -112,47 +112,54 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 
 = Frequently Asked Questions =
 
-* [Can I Share a Single Image on a Webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/)
-* [Can I use other social sharing buttons?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-other-social-sharing-buttons/)
-* [Can I use the Pro version on multiple websites?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-the-pro-version-on-multiple-websites/)
-* [Does LinkedIn read the Open Graph meta tags?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/does-linkedin-read-the-open-graph-meta-tags/)
-* [Doesn’t an SEO plugin cover that?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/)
-* [How can I exclude certain parts of the content text?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-exclude-certain-parts-of-the-content-text/)
-* [How can I see what Facebook sees?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-see-what-facebook-sees/)
-* [How can I share a single NextGEN Gallery image?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/)
-* [How do I attach an image without showing it on the webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/)
-* [How do I install the Pro version?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/)
-* [How does NGFB Open Graph+ find images?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/)
-* [W3C says “there is no attribute ‘property’”](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/)
-* [What about Google Search and Google Plus?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/)
-* [What features of NextGEN Gallery v1.x and v2.x are supported?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-v1-x-and-v2-x-are-supported/)
-* [What is the difference between the GPL and Pro versions?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/)
-* [Where do I start?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/)
-* [Why aren’t Pins from my website posting Rich?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/)
-* [Why do my Facebook shares have small images?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/)
-* [Why does Facebook play videos instead of linking them?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-play-videos-instead-of-linking-them/)
-* [Why does the Facebook “Like” button flyout get clipped?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-facebook-like-button-flyout-get-clipped/)
-* [Why does the plugin ignore the &lt;img/&gt; HTML tags?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-plugin-ignore-the-img-html-tags/)
-* [Why doesn’t Facebook show the correct image?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-facebook-show-the-correct-image/)
-* [Why doesn’t the Twitter count increase?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-the-twitter-count-increase/)
-* [Why don’t my Twitter Cards show on Twitter?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/)
-* [Why is the Open Graph title the same for every webpage?](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/)
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-other-social-sharing-buttons/">Can I use other social sharing buttons?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-the-pro-version-on-multiple-websites/">Can I use the Pro version on multiple websites?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/does-linkedin-read-the-open-graph-meta-tags/">Does LinkedIn read the Open Graph meta tags?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/">Doesn’t an SEO plugin cover that?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-exclude-certain-parts-of-the-content-text/">How can I exclude certain parts of the content text?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-see-what-facebook-sees/">How can I see what Facebook sees?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/">How can I share a single NextGEN Gallery image?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/">How do I attach an image without showing it on the webpage?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/">How do I install the Pro version?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/">How does NGFB Open Graph+ find images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-v1-x-and-v2-x-are-supported/">What features of NextGEN Gallery v1.x and v2.x are supported?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/">What is the difference between the GPL and Pro versions?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/">Where do I start?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/">Why aren’t Pins from my website posting Rich?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/">Why do my Facebook shares have small images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-play-videos-instead-of-linking-them/">Why does Facebook play videos instead of linking them?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-google-structured-data-testing-tool-show-errors/">Why does Google Structured Data Testing Tool show errors?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-facebook-like-button-flyout-get-clipped/">Why does the Facebook “Like” button flyout get clipped?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-plugin-ignore-the-img-html-tags/">Why does the plugin ignore the &lt;img/&gt; HTML tags?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-facebook-show-the-correct-image/">Why doesn’t Facebook show the correct image?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-the-pinterest-button-show/">Why doesn’t the Pinterest button show?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-the-twitter-count-increase/">Why doesn’t the Twitter count increase?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/">Why don’t my Twitter Cards show on Twitter?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/">Why is the Open Graph title the same for every webpage?</a></li>
+</ul>
 
 == Other / Additional Notes ==
 
-* [Constants](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/)
-* [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/)
-* [Disable Open Graph](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/disable-open-graph/)
-* [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
-  * [BuddyPress Integration](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/)
-* [Multisite / Network Support](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/)
-* [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/)
-* [Resources and Contacts](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/)
-* [Shortcodes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/)
-* [Social Buttons Function](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons-function/)
-* [Styling Social Buttons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/)
-* [URL Rewriting](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/)
-* [Working with Image Attachments](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/)
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a> <div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a> <div>A few debugging and problem solving techniques for the NGFB Open Graph+ plugin for WordPress.</div></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a> <ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> <div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
+</ul> </li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> <li><a
+href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons-function/">Social Buttons Function</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/">URL Rewriting</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a>
+<div>A selection of plugins available to manage WordPress image attachments.</div></li>
+</ul>
 
 == Screenshots ==
 
