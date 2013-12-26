@@ -89,7 +89,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Great Support =
 
-**NGFB Open Graph+ is actively being developed and supported**. You can review the [FAQ](http://faq.ngfb.surniaulula.com//) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
+**NGFB Open Graph+ is actively being developed and supported**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
 = Pro Version =
 
