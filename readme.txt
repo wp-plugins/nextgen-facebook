@@ -205,7 +205,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 * Improved pattern matching for Media Library and NextGEN Gallery images in the content.
 * Improved NextGEN Gallery v2 code to retrieve image dimensions, and check against required width / height values.
 * Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
-* Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons are.
+* Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons were.
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
 * **Fixed the Twitter 'Player Card' video URL to use an embed URL instead of a flash URL** (Pro version).
 
@@ -237,7 +237,7 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 = 6.19.0 =
 
-IMPORTANT: PLEASE READ THE CHANGELOG.
+PLEASE READ THE CHANGELOG FOR IMPORTANT UPDATE NOTES. Added a 'Meta Tags Preview' tab to the Custom Settings, warnings for small images, support for youtube playlists, and fixed Twitter Player Card video URLs.
 
 = 6.18.0.2 =
 
