@@ -237,7 +237,7 @@ Please note that this version now applies the 'Ignore Small Images' option to Wo
 
 = 6.19.0 =
 
-PLEASE READ THE CHANGELOG FOR IMPORTANT UPDATE NOTES. Added a 'Meta Tags Preview' tab to the Custom Settings, warnings for small images, support for youtube playlists, and fixed Twitter Player Card video URLs.
+Added a 'Meta Tags Preview' tab to the Custom Settings, warnings for small images, support for youtube playlists, and fixed Twitter Player Card video URLs.
 
 = 6.18.0.2 =
 
