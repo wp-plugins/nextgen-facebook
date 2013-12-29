@@ -406,6 +406,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		public function get_admin_url( $submenu = '', $link_text = '' ) {
 			$query = '';
 			$hash = '';
+			$url = '';
 			if ( strpos( $submenu, '#' ) !== false )
 				list( $submenu, $hash ) = explode( '#', $submenu );
 			if ( strpos( $submenu, '?' ) !== false )
