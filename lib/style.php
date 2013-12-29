@@ -52,7 +52,7 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 						$css_data .= $opts['buttons_css_'.$id];
 	
 					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-					$css_data = ngfbMinifyCssCompressor::process( $css_data );
+					$css_data = SuextMinifyCssCompressor::process( $css_data );
 					fwrite( $fh, $css_data );
 					fclose( $fh );
 					$this->p->debug->log( 'updated css file '.$this->social_css_min_file );

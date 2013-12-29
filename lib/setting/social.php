@@ -116,7 +116,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
 
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'Include on Post Types', null, null, '
 				Enabled social sharing buttons are added to the Post, Page, Media and Product custom post types by default.

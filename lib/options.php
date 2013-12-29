@@ -409,7 +409,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 								require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
 								$this->p->msg = new NgfbMessages( $this->p );
 							}
-							$this->p->notice->nag( $this->p->msg->get( 'pro_details' ), true );
+							$this->p->notice->nag( $this->p->msg->get( 'pro-advert-nag' ), true );
 							$this->save_options( $options_name, $opts );
 						}
 					} else $this->save_options( $options_name, $opts );
@@ -471,7 +471,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					}
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
-					$this->p->notice->nag( $this->p->msg->get( 'pro_activate' ) );
+					$this->p->notice->nag( $this->p->msg->get( 'pro-activate-nag' ) );
 			}
 			return $opts;
 		}

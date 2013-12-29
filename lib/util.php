@@ -381,7 +381,7 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 			}
 
 			if ( ! empty( $readme ) ) {
-				$parser = new NgfbParseReadme( $this->p->debug );
+				$parser = new SuextParseReadme( $this->p->debug );
 				$plugin_info = $parser->parse_readme_contents( $readme );
 
 				// remove possibly inaccurate information from local file
@@ -511,14 +511,15 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 
 		// table header with optional tooltip text
 		public function th( $title = '', $class = '', $id = '', $tooltip_text = '' ) {
-			$tooltip_class = 'sucom_tooltip';
-			$html = '<th'.( empty( $class ) ? '' : ' class="'.$class.'"' ).
-				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title;
-			if ( ! empty( $tooltip_text ) )
-				$html .= '<img src="'.NGFB_URLPATH.'images/question-mark.png" width="14" height="14"
-					class="'.$tooltip_class.'" alt="'.esc_attr( $tooltip_text ).'" />';
-			$html .= '</p></th>'."\n";
-			return $html;
+			if ( is_object( $this->p->msg ) ) {
+				if ( empty( $id ) ) $lookup_tooltip = 'tooltip-'.$title;
+				else $lookup_tooltip = 'tooltip-'.$id;
+				$tooltip_text = $this->p->msg->get( $lookup_tooltip, $tooltip_text );	// text is esc_attr()
+			}
+			return '<th'.
+				( empty( $class ) ? '' : ' class="'.$class.'"' ).
+				( empty( $id ) ? '' : ' id="'.$id.'"' ).'><p>'.$title.
+				( empty( $tooltip_text ) ? '' : $tooltip_text ).'</p></th>';
 		}
 
 		public function do_tabs( $prefix = '', $tabs = array(), $tab_rows = array(), $args = array() ) {

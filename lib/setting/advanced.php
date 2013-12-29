@@ -36,8 +36,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'apikeys' => 'API Keys',
 			);
 
-			// for now, the apikeys tab contains only url shortening api keys
-			// only show if the social sharing button features are enabled
+			// for now, the apikeys tab contains only url shortening services,
+			// so only show if the social sharing button features are enabled
 			if ( ! $this->p->is_avail['ssb'] )
 				unset( $show_tabs['apikeys'] );
 
@@ -48,14 +48,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_contact() {
-			echo '<table class="sucom-setting" style="padding-bottom:0"><tr><td>
-			<p>The following options allow you to customize the contact field names and labels shown on the <a href="'.get_admin_url( null, 'profile.php' ).'">user profile page</a>.
-			'.$this->p->cf['full'].' uses the Facebook, Google+ and Twitter contact field values for Open Graph and Twitter Card meta tags (along with the Twitter social sharing button).
-			<strong>You should not modify the <em>Contact Field Name</em> unless you have a very good reason to do so.</strong>
-			The <em>Profile Contact Label</em> on the other hand, is for display purposes only, and its text can be changed as you wish.
-			Although the following contact methods may be shown on user profile pages, your theme is responsible for displaying their values in the appropriate template locations
-			(see <a href="http://codex.wordpress.org/Function_Reference/get_the_author_meta" target="_blank">get_the_author_meta()</a> for examples).</p>
-			</td></tr></table>';
+			echo '<table class="sucom-setting" style="padding-bottom:0"><tr><td>'.
+			$this->p->msg->get( 'contact-info' ).'</td></tr></table>';
 			$show_tabs = array( 
 				'custom' => 'Custom Contacts',
 				'builtin' => 'Built-In Contacts',
@@ -67,12 +61,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_taglist() {
-			echo '<table class="sucom-setting" style="padding-bottom:0;"><tr><td>';
-			echo '<p>'.$this->p->cf['full'].' will add the following Facebook and Open Graph meta tags to your webpages. 
-			If your theme or another plugin already generates one or more of these meta tags, you may uncheck them here to 
-			prevent duplicates from being added (for example, the "description" meta tag is unchecked by default if any 
-			known SEO plugin was detected).</p>
-			</td></tr></table>';
+			echo '<table class="sucom-setting" style="padding-bottom:0;"><tr><td>'.
+			$this->p->msg->get( 'taglist-info' ).'</td></tr></table>';
 
 			echo '<table class="sucom-setting" style="padding-bottom:0;">';
 			foreach ( $this->get_more_taglist() as $num => $row ) 
@@ -81,8 +71,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</table>';
 
 			echo '<table class="sucom-setting"><tr>';
-			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, null, 
-			'Include meta property tags of type og:* without any content (default is unchecked).' );
+			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, 'og_empty_tags' );
 			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->form->get_checkbox( 'og_empty_tags' ) :
 			' class="blank checkbox">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';
@@ -108,7 +97,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
 			}
 			unset( $num, $cell );
-			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>' ), $rows );
+			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>' ), $rows );
 		}
 
 		protected function get_rows( $id ) {
@@ -117,16 +106,11 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'custom' :
 					if ( ! $this->p->check->is_aop() )
-						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
+						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
 					$ret[] = '<td></td>'.
 					$this->p->util->th( 'Show', 'left checkbox' ).
-					$this->p->util->th( 'Contact Field Name', 'left medium', null,
-					'<strong>You should not modify the contact field names unless you have a specific reason to do so.</strong>
-					As an example, to match the contact field name of a theme or other plugin, you might change \'gplus\' to \'googleplus\'.
-					If you change the Facebook or Google+ field names, please make sure to update the Open Graph 
-					<em>Author Profile URL</em> and Google <em>Author Link URL</em> options in the '.
-					$this->p->util->get_admin_url( 'general', 'General Settings' ).' as well.' ).
+					$this->p->util->th( 'Contact Field Name', 'left medium', 'plugin-cm-field-name' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
 					$sorted_opt_pre = $this->p->cf['opt']['pre'];
@@ -161,12 +145,11 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'builtin' :
 					if ( ! $this->p->check->is_aop() )
-						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
+						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
 					$ret[] = '<td></td>'.
 					$this->p->util->th( 'Show', 'left checkbox' ).
-					$this->p->util->th( 'Contact Field Name', 'left medium', null, 
-					'The built-in WordPress contact field names cannot be changed.' ).
+					$this->p->util->th( 'Contact Field Name', 'left medium', 'wp-cm-field-name' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
 					$sorted_wp_contact = $this->p->cf['wp']['cm'];
@@ -307,7 +290,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
 
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'Check for Wistia Videos', null, null, 
 				'Check the Post / Page content and the Custom Settings for Wistia video URLs, 
@@ -325,7 +308,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_more_cache() {
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
 				$this->p->cf['full'].' can save social sharing JavaScript and images to a cache folder, 
@@ -348,7 +331,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_more_apikeys() {
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'Bit.ly Username', null, null, 
 				'The Bit.ly username for the following API key. If you don\'t already have one, see 
@@ -384,7 +367,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_more_rewrite() {
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'URL Length to Shorten', null, null, 
 				'URLs shorter than this length will not be shortened (default is '.$this->p->opt->defaults['plugin_min_shorten'].').' ).

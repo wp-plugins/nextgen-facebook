@@ -440,67 +440,15 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			 */
 			$cca = $this->p->cf['cca'];
 			$features = array(
-				'Debug Messages' => array( 
-					'class' => 'SucomDebug',
-					'tooltip' => 'Debug code is loaded when the \'Add Hidden Debug Info\' option is checked or one of the available 
-						<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">debugging 
-						constants</a> is defined.',
-				),
-				'NextGEN Gallery' => array( 
-					'class' => $cca.'Ngg',
-					'tooltip' => 'The NextGEN Gallery integration addon is loaded only when the NextGEN Gallery plugin is detected.',
-				),
-				'Non-Persistant Cache' => array( 
-					'status' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec',
-					'tooltip' => $this->p->cf['full'].' saves filtered / rendered content to a non-persistant cache
-						(aka <a href="http://codex.wordpress.org/Class_Reference/WP_Object_Cache" target="_blank">WP Object Cache</a>) 
-						for re-use within the same page load. You can adjust the \'Object Cache
-						Expiry\' value on the '.$this->p->util->get_admin_url( 'advanced', 
-						'Advanced settings' ).' page, and disable the non-persistant cache feature using
-						one of the available <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" 
-						target="_blank">constant</a>.',
-				),
-				'Open Graph / Rich Pin' => array( 
-					'status' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec',
-					'tooltip' => 'Open Graph and Rich Pin meta tags are added to the head section of all webpages. 
-						You must have a compatible eCommerce plugin installed to include <em>Product</em> Rich Pins, 
-						including their prices, images, and other attributes.',
-				),
-				'Pro Update Check' => array( 
-					'class' => 'SucomUpdate',
-					'tooltip' => 'When a \'Pro Version Authentication ID\' is entered on the '.$this->p->util->get_admin_url( 'advanced', 
-						'Advanced settings' ).' page, an update check is scheduled every 12 hours to see if a new Pro version is available.',
-				),
-				'Social Sharing Buttons' => array( 
-					'class' => $cca.'Social',
-					'tooltip' => 'Social sharing features include the Open Graph+ '.$this->p->util->get_admin_url( 'social', 'Social Sharing' ).
-						' and '.$this->p->util->get_admin_url( 'style', 'Social Style' ).' settings pages (aka social sharing buttons), 
-						the Custom Settings - Social Sharing tab on Post and Page editing pages, along with the social sharing shortcode 
-						and widget. All social sharing features can be disabled using an available
-						<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.',
-				),
-				'Social Sharing Shortcode' => array( 
-					'class' => $cca.'ShortcodeNgfb',
-					'tooltip' => 'Support for shortcode(s) can be enabled / disabled on the '.
-						$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page. Shortcodes are disabled by default
-						to optimize WordPress performance and content processing.',
-				),
-				'Social Sharing Widget' => array( 
-					'class' => $cca.'WidgetSocialSharing',
-					'tooltip' => 'The social sharing widget feature adds an \'NGFB Social Sharing\' widget in the WordPress Appearance - Widgets page.
-						The widget can be used in any number of widget areas, to share the current webpage. The widget, along with all social
-						sharing featured, can be disabled using an available 
-						<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.',
-				),
-				'Transient Cache' => array( 
-					'status' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec',
-					'tooltip' => $this->p->cf['full'].' saves Open Graph, Rich Pin, Twitter Card meta tags, and social buttons to a persistant
-						(aka <a href="http://codex.wordpress.org/Transients_API" target="_blank">Transient</a>) cache for '.
-						$this->p->options['plugin_object_cache_exp'].' seconds (default is '.$this->p->opt->defaults['plugin_object_cache_exp'].
-						' seconds). You can adjust the Transient Cache expiration value from the '.
-						$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page, or disable it completely using an available
-						<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.',
-				),
+				'Debug Messages' => array( 'class' => 'SucomDebug' ),
+				'NextGEN Gallery' => array( 'class' => $cca.'Ngg' ),
+				'Non-Persistant Cache' => array( 'status' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec' ),
+				'Open Graph / Rich Pin' => array( 'status' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec' ),
+				'Pro Update Check' => array( 'class' => 'SucomUpdate' ),
+				'Social Sharing Buttons' => array( 'class' => $cca.'Social' ),
+				'Social Sharing Shortcode' => array( 'class' => $cca.'ShortcodeNgfb' ),
+				'Social Sharing Widget' => array( 'class' => $cca.'WidgetSocialSharing' ),
+				'Transient Cache' => array( 'status' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec' ),
 			);
 			echo '<tr><td><h4 style="margin-top:0;">Standard</h4></td></tr>';
 			$this->show_plugin_status( $features );
@@ -509,50 +457,15 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			 * Pro version features
 			 */
 			$features = array(
-				'Social File Cache' => array( 
-					'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off',
-					'tooltip' => $this->p->cf['full_pro'].' can save social sharing images and JavaScript to a cache folder, 
-						and provide URLs to these cached files instead of the originals. The current \'File Cache Expiry\'
-						value, as defined on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page, is '.
-						$this->p->options['plugin_file_cache_hrs'].' Hours (the default value of 0 Hours disables the 
-						file caching feature).',
-				),
-				'Custom Post Meta' => array( 
-					'status' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec',
-					'tooltip' => 'The Custom Post Meta feature adds an Open Graph+ Custom Settings metabox to the Post and Page editing pages.
-						Custom values van be entered for Open Graph, Rich Pin, and Twitter Card meta tags, along with custom social sharing
-						text and meta tag validation tools.',
-				),
-				'WP Locale Language' => array( 
-					'status' => class_exists( $cca.'Language' ) ? 'on' : 'rec',
-					'tooltip' => $this->p->cf['full_pro'].' uses the WordPress locale value to define a language for the Open Graph and Rich Pin meta tags,
-						along with the Google, Facebook, and Twitter social sharing buttons. If your website and/or webpages are available in multiple
-						languages, this can be an important feature.',
-				),
-				'Twitter Cards' => array( 
-					'status' => class_exists( $cca.'Opengraph' ) && 
-						class_exists( $cca.'TwitterCard' ) ? 'on' : 'rec',
-					'tooltip' => 'Twitter Cards extend the standard Open Graph and Rich Pin meta tags with content-specific information for image galleries, 
-						photographs, eCommerce products, etc. Twitter Cards are displayed differently on Twitter, either online or from mobile Twitter 
-						clients, allowing you to better feature your content. The Twitter Cards addon can be enabled from the '.
-						$this->p->util->get_admin_url( 'general', 'General settings' ).' page.',
-				),
-				'URL Rewriter' => array( 
-					'status' => class_exists( $cca.'RewritePro' ) ? 'on' : 
-						( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ),
-					'tooltip' => $this->p->cf['full_pro'].' can rewrite image URLs in meta tags, cached images and JavaScript, 
-					and for social sharing buttons like Pinterest and Tumblr, which use URL-encoded image URLs. 
-					Rewriting image URLs can be an important part of optimizing page load speeds. See the \'Static Content URL(s)\'
-					option on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page to enable URL rewriting.',
-				),
-				'URL Shortener' => array( 
-					'status' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
-						( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ),
-					'tooltip' => '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
-						the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, 
-						can be shortened by one of the available URL shortening services. Enable URL shortening for Twitter
-						from the '.$this->p->util->get_admin_url( 'social', 'Social Sharing' ).' settings page.',
-				),
+				'Social File Cache' => array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' ),
+				'Custom Post Meta' => array( 'status' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec' ),
+				'WP Locale Language' => array( 'status' => class_exists( $cca.'Language' ) ? 'on' : 'rec' ),
+				'Twitter Cards' => array( 'status' => class_exists( $cca.'Opengraph' ) && 
+					class_exists( $cca.'TwitterCard' ) ? 'on' : 'rec' ),
+				'URL Rewriter' => array( 'status' => class_exists( $cca.'RewritePro' ) ? 'on' : 
+					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ) ),
+				'URL Shortener' => array( 'status' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
+					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ) ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				foreach ( $libs as $id => $name ) {
@@ -560,27 +473,17 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						'status' => class_exists( $cca.ucfirst( $sub ).ucfirst( $id ) ) ? 'on' : 
 							( $this->p->is_avail[$sub][$id] ? 'rec' : 'off' ) );
 
-					switch ( $id ) {
-						case 'wistia':
-							$features[$name]['tooltip'] = 'If the \'Check for Wistia Videos\' option on the '.
-								$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page is checked, '.
-								$this->p->cf['full_pro'].' will load an integration addon for Wistia to detect
-								embedded Wistia videos, and retrieve information (video dimentions, preview image, etc) 
-								using Wistia\'s oEmbed API.';
-							break;
-						default:
-							$features[$name]['tooltip'] = 'If the '.$name.' plugin is detected, '.
-								$this->p->cf['full_pro'].' will load a specific integration addon
-								for '.$name.' to improve the accuracy of Open Graph, Rich Pin, 
-								and Twitter Card meta tag values.';
-							break;
-					}
+					$features[$name]['tooltip'] = 'If the '.$name.' plugin is detected, '.
+						$this->p->cf['full_pro'].' will load a specific integration addon
+						for '.$name.' to improve the accuracy of Open Graph, Rich Pin, 
+						and Twitter Card meta tag values.';
+
 					switch ( $id ) {
 						case 'bbpress':
 						case 'buddypress':
 							$features[$name]['tooltip'] .= ' '.$name.' support also provides social sharing buttons 
-								that can be enabled from the Open Graph+ '.$this->p->util->get_admin_url( 'social',
-								'Social Sharing settings' ).' page.';
+							that can be enabled from the Open Graph+ '.$this->p->util->get_admin_url( 'social',
+							'Social Sharing settings' ).' page.';
 							break;
 					}
 				}
@@ -628,18 +531,18 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					$status = class_exists( $arr['class'] ) ? 'on' : 'off';
 				elseif ( array_key_exists( 'status', $arr ) )
 					$status = $arr['status'];
-				
-				if ( ! empty( $status ) )
-					echo '<tr><td class="side'.( empty( $class ) ? '' : ' '.$class ).'">'.
-						( empty( $arr['tooltip'] ) ? '' : '<img src="'.NGFB_URLPATH.'images/question-mark.png" width="14" height="14"
-							class="sucom_tooltip_side" alt="'.esc_attr( $arr['tooltip'] ).'" >' ).
+				if ( ! empty( $status ) ) {
+					$tooltip_text = empty( $arr['tooltip'] ) ? '' : $arr['tooltip'];
+					$tooltip_text = $this->p->msg->get( 'tooltip-side-'.$name, $tooltip_text, 'sucom_tooltip_side' );
+					echo '<tr><td class="side'.( empty( $class ) ? '' : ' '.$class ).'">'.$tooltip_text.
 						( $status == 'rec' ? '<strong>'.$name.'</strong>' : $name ).'</td>'.$status_images[$status].'</tr>';
+				}
 			}
 		}
 
 		public function show_metabox_purchase() {
 			echo '<table class="sucom-setting"><tr><td>';
-			echo $this->p->msg->get( 'purchase_box' );
+			echo $this->p->msg->get( 'side-purchase' );
 			echo '<p>Thank you,</p>';
 			echo '<p class="sig">js.</p>';
 			echo '<p class="centered">';
@@ -653,17 +556,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_thankyou() {
 			echo '<table class="sucom-setting"><tr><td>';
-			echo $this->p->msg->get( 'thankyou' );
+			echo $this->p->msg->get( 'side-thankyou' );
 			echo '<p class="sig">js.</p>';
 			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {
 			echo '<table class="sucom-setting"><tr><td>';
-			echo $this->p->msg->get( 'help_boxes' );
-			if ( $this->p->is_avail['aop'] == true )
-				echo $this->p->msg->get( 'help_pro' );
-			else echo $this->p->msg->get( 'help_free' );
+			echo $this->p->msg->get( 'side-help' );
 			echo '</td></tr></table>';
 		}
 

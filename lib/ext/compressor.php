@@ -7,7 +7,7 @@
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbMinifyCssCompressor' ) ) {
+if ( ! class_exists( 'SuextMinifyCssCompressor' ) ) {
 
 	/**
 	 * Compress CSS
@@ -23,7 +23,7 @@ if ( ! class_exists( 'NgfbMinifyCssCompressor' ) ) {
 	 * @author Stephen Clay <steve@mrclay.org>
 	 * @author http://code.google.com/u/1stvamp/ (Issue 64 patch)
 	 */
-	class NgfbMinifyCssCompressor {
+	class SuextMinifyCssCompressor {
 	
 		/**
 		 * Minify a CSS string
@@ -36,7 +36,7 @@ if ( ! class_exists( 'NgfbMinifyCssCompressor' ) ) {
 		 */
 		public static function process($css, $options = array())
 		{
-			$obj = new NgfbMinifyCssCompressor($options);
+			$obj = new SuextMinifyCssCompressor($options);
 			return $obj->_process($css);
 		}
 		

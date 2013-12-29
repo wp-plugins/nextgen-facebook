@@ -1,31 +1,42 @@
 <?php
 
-@define( 'NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX', ' />');
-@define( 'NGFB_MARKDOWN_TAB_WIDTH', 4 );
-@define( 'NGFB_MARKDOWN_FN_LINK_TITLE', '' );
-@define( 'NGFB_MARKDOWN_FN_BACKLINK_TITLE', '' );
-@define( 'NGFB_MARKDOWN_FN_LINK_CLASS', '' );
-@define( 'NGFB_MARKDOWN_FN_BACKLINK_CLASS', '' );
+if ( ! defined( 'SUEXT_MARKDOWN_EMPTY_ELEMENT_SUFFIX' ) )
+	define( 'SUEXT_MARKDOWN_EMPTY_ELEMENT_SUFFIX', ' />');
+
+if ( ! defined( 'SUEXT_MARKDOWN_TAB_WIDTH' ) )
+	define( 'SUEXT_MARKDOWN_TAB_WIDTH', 4 );
+
+if ( ! defined( 'SUEXT_MARKDOWN_FN_LINK_TITLE' ) )
+	define( 'SUEXT_MARKDOWN_FN_LINK_TITLE', '' );
+
+if ( ! defined( 'SUEXT_MARKDOWN_FN_BACKLINK_TITLE' ) )
+	define( 'SUEXT_MARKDOWN_FN_BACKLINK_TITLE', '' );
+
+if ( ! defined( 'SUEXT_MARKDOWN_FN_LINK_CLASS' ) )
+	define( 'SUEXT_MARKDOWN_FN_LINK_CLASS', '' );
+
+if ( ! defined( 'SUEXT_MARKDOWN_FN_BACKLINK_CLASS' ) )
+	define( 'SUEXT_MARKDOWN_FN_BACKLINK_CLASS', '' );
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! function_exists( 'ngfb_markdown' ) ) {
-	function ngfb_markdown( $text, &$debug = '' ) {
+if ( ! function_exists( 'suext_markdown' ) ) {
+	function suext_markdown( $text, &$debug = '' ) {
 		static $parser;
 		if ( ! isset( $parser ) )
-			$parser = new ngfb_markdown_extra_parser( $debug );
+			$parser = new SuextMarkdownParserExtra( $debug );
 		return $parser->transform( $text );
 	}
 }
 
-if ( ! class_exists( 'ngfb_markdown_parser' ) ) {
+if ( ! class_exists( 'SuextMarkdownParser' ) ) {
 
 #
 # Markdown Parser Class
 #
 
-class ngfb_markdown_parser {
+class SuextMarkdownParser {
 
 	# Regex to match balanced [brackets].
 	# Needed to insert a maximum bracked depth while converting to PHP.
@@ -40,8 +51,8 @@ class ngfb_markdown_parser {
 	var $escape_chars_re;
 
 	# Change to ">" for HTML output.
-	var $empty_element_suffix = NGFB_MARKDOWN_EMPTY_ELEMENT_SUFFIX;
-	var $tab_width = NGFB_MARKDOWN_TAB_WIDTH;
+	var $empty_element_suffix = SUEXT_MARKDOWN_EMPTY_ELEMENT_SUFFIX;
+	var $tab_width = SUEXT_MARKDOWN_TAB_WIDTH;
 	
 	# Change to `true` to disallow markup or entities.
 	var $no_markup = false;
@@ -1451,24 +1462,24 @@ class ngfb_markdown_parser {
 
 }
 
-if ( ! class_exists( 'ngfb_markdown_extra_parser' ) ) {
+if ( ! class_exists( 'SuextMarkdownParserExtra' ) ) {
 
 #
 # Markdown Extra Parser Class
 #
 
-class ngfb_markdown_extra_parser extends ngfb_markdown_parser {
+class SuextMarkdownParserExtra extends SuextMarkdownParser {
 
 	# Prefix for footnote ids.
 	var $fn_id_prefix = "";
 	
 	# Optional title attribute for footnote links and backlinks.
-	var $fn_link_title = NGFB_MARKDOWN_FN_LINK_TITLE;
-	var $fn_backlink_title = NGFB_MARKDOWN_FN_BACKLINK_TITLE;
+	var $fn_link_title = SUEXT_MARKDOWN_FN_LINK_TITLE;
+	var $fn_backlink_title = SUEXT_MARKDOWN_FN_BACKLINK_TITLE;
 	
 	# Optional class attribute for footnote links and backlinks.
-	var $fn_link_class = NGFB_MARKDOWN_FN_LINK_CLASS;
-	var $fn_backlink_class = NGFB_MARKDOWN_FN_BACKLINK_CLASS;
+	var $fn_link_class = SUEXT_MARKDOWN_FN_LINK_CLASS;
+	var $fn_backlink_class = SUEXT_MARKDOWN_FN_BACKLINK_CLASS;
 	
 	# Predefined abbreviations.
 	var $predef_abbr = array();

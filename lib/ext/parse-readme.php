@@ -3,12 +3,12 @@
 if ( ! defined( 'ABSPATH' ) )
         die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! defined( 'NGFB_README_MARKDOWN' ) )
-	define( 'NGFB_README_MARKDOWN', dirname(__FILE__).'/markdown.php' );
+if ( ! defined( 'SUEXT_README_MARKDOWN' ) )
+	define( 'SUEXT_README_MARKDOWN', dirname(__FILE__).'/markdown.php' );
 
-if ( ! class_exists( 'NgfbParseReadme' ) ) {
+if ( ! class_exists( 'SuextParseReadme' ) ) {
 
-class NgfbParseReadme {
+class SuextParseReadme {
 
 	private $debug;
 
@@ -206,9 +206,9 @@ class NgfbParseReadme {
 		$text = trim($text);
 	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown );
 		if ( $markdown ) {
-			if ( ! function_exists( 'ngfb_markdown' ) )
-				require_once( NGFB_README_MARKDOWN );
-			$text = ngfb_markdown( $text, $this->debug );
+			if ( ! function_exists( 'suext_markdown' ) )
+				require_once( SUEXT_README_MARKDOWN );
+			$text = suext_markdown( $text, $this->debug );
 		}
 		$allowed = array(
 			'a' => array(

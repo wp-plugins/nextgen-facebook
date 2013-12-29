@@ -138,7 +138,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 
-			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
+			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Topic', 'medium', null, 
 			'A custom topic for this '.$post_type_name.', different from the default Website Topic chosen in the General Settings.' ) .
@@ -246,7 +246,7 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			$twitter_cap_len = $this->p->util->tweet_max_len( get_permalink( $post->ID ) );
 			list( $pid, $video_url ) = $this->get_social_vars( $post->ID );
 
-			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro_feature' ).'</td>';
+			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
 			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', null, 
 			'A custom caption text, used by the Pinterest social sharing button, 

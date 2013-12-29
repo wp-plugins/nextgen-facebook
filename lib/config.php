@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.19.0',			// plugin version
+			'version' => '6.20dev1',		// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -136,6 +136,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				'max_desc_hashtags' => 10,
 				'max_media_items' => 20,
 				'file_cache_hours' => array( 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 ),
+				'tooltip_class' => 'sucom_tooltip',
 			),
 			'head' => array(
 				'min_img_width' => 200,
@@ -345,7 +346,8 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 				// settings classes extend lib/admin.php, and settings objects are created by lib/admin.php
 				foreach ( $cf['lib']['setting'] as $id => $name )
-					require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
+					if ( file_exists( $plugin_dir.'lib/setting/'.$id.'.php' ) )
+						require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
 
 				// load the network settings if we're a multisite
 				if ( is_multisite() )
