@@ -186,7 +186,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.20.0 =
+= Version 6.20rc1 =
 
 * Fixed a WooCommerce bug - that redefined the $post variable when applying 'the_content' filter - by saving and restoring the $post variable.
 * Added the WooCommerce query and shortcode classes when in admin interface to expand its shortcode for the Meta Tags Preview tab (Pro version).
