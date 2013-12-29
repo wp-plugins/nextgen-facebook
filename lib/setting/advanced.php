@@ -105,12 +105,13 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			switch ( $id ) {
 
 				case 'custom' :
+
 					if ( ! $this->p->check->is_aop() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
 					$ret[] = '<td></td>'.
 					$this->p->util->th( 'Show', 'left checkbox' ).
-					$this->p->util->th( 'Contact Field Name', 'left medium', 'plugin-cm-field-name' ).
+					$this->p->util->th( 'Contact Field Name', 'left medium', 'custom-cm-field-name' ).
 					$this->p->util->th( 'Profile Contact Label', 'left wide' );
 
 					$sorted_opt_pre = $this->p->cf['opt']['pre'];
@@ -144,6 +145,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'builtin' :
+
 					if ( ! $this->p->check->is_aop() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
@@ -176,115 +178,73 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'activation':
 
-					$ret = array_merge( $ret, $this->get_pre_activation() );
+					if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' )
+						$input = $this->form->get_fake_input( 'plugin_tid', 'mono' );
+					else $input = $this->form->get_input( 'plugin_tid', 'mono' );
 
-					$ret[] = $this->p->util->th( 'Preserve Settings on Uninstall', 'highlight', null, 
-					'Check this option if you would like to preserve all '.$this->p->cf['full'].
-					' settings when you <em>uninstall</em> the plugin (default is unchecked).' ).
+					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', 'plugin_tid' ).'<td>'.$input.'</td>';
+
+					if ( $this->p->is_avail['aop'] )
+						$ret[] = '<th></th><td>'.$this->p->msg->get( 'auth-id-info' ).'</td>';
+
+					$ret[] = $this->p->util->th( 'Preserve Settings on Uninstall', 'highlight', 'plugin_preserve' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_preserve' ).'</td>';
 
-					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, null, 
-					'Check this option if you would like to reset the '.$this->p->cf['full'].
-					' settings to their default values when you <em>deactivate</em>, and then 
-					<em>re-activate</em> the plugin (default is unchecked). This option will
-					be disabled if the \'Preserve Settings on Uninstall\' option is checked.' ).
+					$ret[] = $this->p->util->th( 'Reset Settings on Activate', null, 'plugin_reset' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_reset' ).'</td>';
 
-					$ret[] = $this->p->util->th( 'Add Hidden Debug Info', null, null, 
-					'Include hidden debug information with the Open Graph meta tags (default is unchecked).' ).
+					$ret[] = $this->p->util->th( 'Add Hidden Debug Info', null, 'plugin_debug' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_debug' ).'</td>';
 
 					break;
 
 				case 'content':
-					$ret[] = $this->p->util->th( 'Apply Content Filters', null, null, 
-					'Apply the standard WordPress \'the_content\' filter to render the content text (default is checked).
-					This renders all shortcodes, and allows '.$this->p->cf['full'].' to detect images and 
-					embedded videos that may be provided by these.' ).
+
+					$ret[] = $this->p->util->th( 'Apply Content Filters', null, 'plugin_filter_content' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_filter_content' ).'</td>';
 
-					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, null, 
-					'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
-					Check this option if you use shortcodes in your excerpt, for example.' ).
+					$ret[] = $this->p->util->th( 'Apply Excerpt Filters', null, 'plugin_filter_excerpt' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 
 					if ( $this->p->is_avail['ssb'] )
-						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', null, 
-						'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).' ).
+						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', 'plugin_shortcode_ngfb' ).
 						'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
-					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, null, 
-					$this->p->cf['full'].' will attempt to include images from the img html tags it finds in the content.
-					The img html tags must have a width and height attribute, and their size must be equal or larger than the 
-					<em>Image Dimensions</em> you\'ve entered on the General Settings page. 
-					Uncheck this option to include smaller images from the content, Media Library, etc.
-					<strong>Unchecking this option is not advised</strong> - 
-					images that are much too small for some social websites may be included in your meta tags.' ).
+					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, 'plugin_ignore_small_img' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
-					/*
-					$ret[] =  $this->p->util->th( 'Get Images of Unknown Size', null, null, 
-					$this->p->cf['full'].' will attempt to include images from img html tags it finds in the content.
-					If the image dimensions cannot be determined <strong>and the <em>Ignore Small Images</em> option is checked</strong>, 
-					the plugin can retrieve those images to a cache folder, allowing it to inspect and determine the image dimensions. 
-					<strong>Enabling this feature will create a copy of all images in the content without width and height attributes. 
-					Use cautiously.</strong>' ).
-					'<td>'.$this->form->get_checkbox( 'plugin_get_img_size' ).'</td>';
-					*/
-
 					$ret = array_merge( $ret, $this->get_more_content() );
+
 					break;
 
 				case 'cache':
-					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, null, 
-					$this->p->cf['full'].' saves filtered / rendered content to a non-persistant cache 
-					(aka <a href="http://codex.wordpress.org/Class_Reference/WP_Object_Cache" target="_blank">WP Object Cache</a>), 
-					and Open Graph, Rich Pin, Twitter Card meta tags, and social buttons to a persistant (aka 
-					<a href="http://codex.wordpress.org/Transients_API" target="_blank">Transient</a>) cache. 
-					The default is '.$this->p->opt->defaults['plugin_object_cache_exp'].' seconds, and the minimum value is 
-					1 second (such a low value is not recommended).' ).
-					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' Seconds</td>';
+
+					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, 'plugin_object_cache_exp' ).
+					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' seconds</td>';
 
 					$ret = array_merge( $ret, $this->get_more_cache() );
+
 					break;
 
 				case 'apikeys':
+
 					$ret = array_merge( $ret, $this->get_more_apikeys() );
+
 					break;
 
 				case 'rewrite':
+
 					$ret = array_merge( $ret, $this->get_more_rewrite() );
+
 					break;
 			}
-			return $ret;
-		}
-
-		protected function get_pre_activation() {
-			$ret = array();
-			$pro_msg = '';
-			$input = '';
-			if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' ) {
-				$pro_msg = 'The Authentication ID value has been locked in the Network Admin settings.';
-				$input = $this->form->get_input( 'plugin_tid', 'mono' );
-			} elseif ( $this->p->is_avail['aop'] ) {
-				$pro_msg = 'After purchasing a Pro version license, an email will be sent to you with a unique Authentication ID 
-				and installation instructions. Enter the Authentication ID here to activate the Pro version features.';
-				$input = $this->form->get_input( 'plugin_tid', 'mono' );
-			} else {
-				$pro_msg = 'After purchasing the Pro version, an email will be sent to you with a unique Authentication ID 
-				and installation instructions. Enter this Authentication ID here, and after saving the changes, an update 
-				for '.$this->p->cf['full'].' will appear on the <a href="'.get_admin_url( null, 'update-core.php' ).'">WordPress 
-				Updates</a> page. Update the \''.$this->p->cf['full'].'\' plugin to download and activate the Pro version.';
-				$input = $this->form->get_input( 'plugin_tid', 'mono' );
-			}
-
-			$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', null, $pro_msg ).'<td>'.$input.'</td>';
-
 			return $ret;
 		}
 
 		protected function get_more_content() {
+
 			$add_to_checkboxes = '';
+
 			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type )
 				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
@@ -292,16 +252,10 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'Check for Wistia Videos', null, null, 
-				'Check the Post / Page content and the Custom Settings for Wistia video URLs, 
-				retrieving the preferred oEmbed sharing URL, video dimensions, and video preview image.' ).
+				$this->p->util->th( 'Check for Wistia Videos', null, 'plugin_wistia_api' ).
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_wistia_api' ).'</td>',
 
-				$this->p->util->th( 'Show Custom Settings on', null, null, 
-				'The Custom Settings metabox, which allows you to enter custom Open Graph values (among other options), 
-				is available on the Posts, Pages, Media, and Product admin pages by default. 
-				If your theme (or another plugin) supports additional custom post types, and you would like to 
-				include the Custom Settings metabox on their admin pages, check the appropriate option(s) here.' ).
+				$this->p->util->th( 'Show Custom Settings on', null, 'plugin_add_to' ).
 				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}
@@ -310,21 +264,11 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'File Cache Expiry', 'highlight', null, 
-				$this->p->cf['full'].' can save social sharing JavaScript and images to a cache folder, 
-				providing URLs to these cached files instead of the originals. 
-				A value of 0 Hours (the default) disables the file caching feature. 
-				If your hosting infrastructure performs reasonably well, this option can improve page load times significantly.
-				All social sharing images and javascripts will be cached, except for the Facebook JavaScript SDK, 
-				which does not work correctly when cached.' ).
+				$this->p->util->th( 'File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_file_cache_hrs' ). 
-				$this->p->options['plugin_file_cache_hrs'].' Hours</td>',
+				$this->p->options['plugin_file_cache_hrs'].' hours</td>',
 
-				$this->p->util->th( 'Verify SSL Certificates', null, null, 
-				'Enable verification of peer SSL certificates when fetching content to be cached using HTTPS. 
-				The PHP \'curl\' function will use the '.NGFB_CURL_CAINFO.' certificate file by default. 
-				You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
-				alternate certificate file (see the constants.txt file in the plugin folder for additional information).' ).
+				$this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>',
 			);
 		}
@@ -333,35 +277,21 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'Bit.ly Username', null, null, 
-				'The Bit.ly username for the following API key. If you don\'t already have one, see 
-				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
+				$this->p->util->th( 'Bit.ly Username', null, 'plugin_bitly_login' ).
 				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_login' ).
 				$this->p->options['plugin_bitly_login'].'</td>',
 
-				$this->p->util->th( 'Bit.ly API Key', null, null, 
-				'The Bit.ly API key for this website. If you don\'t already have one, see 
-				<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.' ).
+				$this->p->util->th( 'Bit.ly API Key', null, 'plugin_bitly_api_key' ).
 				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_api_key' ).
 				$this->p->options['plugin_bitly_api_key'].'</td>',
 
-				$this->p->util->th( 'Google Project Application BrowserKey', null, null, 
-				'The Google BrowserKey for this website / project. If you don\'t already have one, visit
-				<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
-				create a new project for your website, and under the API &amp; auth - Registered apps, 
-				register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
-				and enter it\'s BrowserKey here.' ).
+				$this->p->util->th( 'Google Project Application BrowserKey', null, 'plugin_google_api_key' ).
 				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_google_api_key' ).
 				$this->p->options['plugin_google_api_key'].'</td>',
 
-				$this->p->util->th( 'Google URL Shortener API is ON', null, null,
-				'In order to use Google\'s URL Shortener for URLs in Tweets, you must turn on the 
-				URL Shortener API from <a href="https://cloud.google.com/console#/project" 
-				target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
-				menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
-				the \'Yes\' option here. You can then select the Google URL Shortener in the '.
-				$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.' ).'<td class="blank">'.
-				$this->form->get_fake_radio( 'plugin_google_shorten', array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
+				$this->p->util->th( 'Google URL Shortener API is ON', null, 'plugin_google_shorten' ).
+				'<td class="blank">'.$this->form->get_fake_radio( 'plugin_google_shorten', 
+					array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
 			);
 		}
 
@@ -369,40 +299,26 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'URL Length to Shorten', null, null, 
-				'URLs shorter than this length will not be shortened (default is '.$this->p->opt->defaults['plugin_min_shorten'].').' ).
+				$this->p->util->th( 'URL Length to Shorten', null, 'plugin_min_shorten' ). 
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_min_shorten' ).
 					$this->p->options['plugin_min_shorten'].' characters</td>',
 
-				$this->p->util->th( 'Static Content URL(s)', 'highlight', null, 
-				'Rewrite image URLs in the Open Graph, Rich Pin, and Twitter Card meta tags, encoded image URLs shared by social buttons 
-				(like Pinterest and Tumblr), and cached social media files. Leave this option blank to disable the URL rewriting feature 
-				(default is disabled). Wildcarding and multiple CDN hostnames are supported -- see the 
-				<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/" target="_blank">URL Rewriting</a> 
-				notes for more information and examples.' ) .
+				$this->p->util->th( 'Static Content URL(s)', 'highlight', 'plugin_cdn_urls' ). 
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_urls' ). 
 					$this->p->options['plugin_cdn_urls'].'</td>',
 
-				$this->p->util->th( 'Include Folders', null, null, '
-				A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
-				(the default value is "<em>wp-content, wp-includes</em>").').
+				$this->p->util->th( 'Include Folders', null, null, 'plugin_cdn_folders' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_folders' ). 
 					$this->p->options['plugin_cdn_folders'].'</td>',
 
-				$this->p->util->th( 'Exclude Patterns', null, null,
-				'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
-				If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option), 
-				the URLs to this cached content will be rewritten as well (that\'s a good thing).
-				To exclude the '.$this->p->cf['full'].' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.' ).
+				$this->p->util->th( 'Exclude Patterns', null, 'plugin_cdn_excl' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_excl' ).
 					$this->p->options['plugin_cdn_excl'].'</td>',
 
-				$this->p->util->th( 'Not when Using HTTPS', null, null, 
-				'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).' ).
+				$this->p->util->th( 'Not when Using HTTPS', null, 'plugin_cdn_not_https' ).
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_not_https' ).'</td>',
 
-				$this->p->util->th( 'www is Optional', null, null, 
-				'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).' ).
+				$this->p->util->th( 'www is Optional', null, 'plugin_cdn_www_opt' ). 
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_www_opt' ).'</td>',
 			);
 		}

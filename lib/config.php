@@ -298,9 +298,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			if ( ! defined( $cp.'FOOTER_PRIORITY' ) )
 				define( $cp.'FOOTER_PRIORITY', 100 );
 			
-			if ( ! defined( $cp.'OG_SIZE_NAME' ) )
-				define( $cp.'OG_SIZE_NAME', $cf['lca'].'-open-graph' );
-
 			if ( ! defined( $cp.'DEBUG_FILE_EXP' ) )
 				define( $cp.'DEBUG_FILE_EXP', 300 );
 

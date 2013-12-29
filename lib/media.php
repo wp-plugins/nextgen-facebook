@@ -19,11 +19,7 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-
-			add_image_size( NGFB_OG_SIZE_NAME, 
-				$this->p->options['og_img_width'], 
-				$this->p->options['og_img_height'], 
-				( empty( $this->p->options['og_img_crop'] ) ? false : true ) );
+			$this->add_image_sizes();
 
 			if ( $this->p->is_avail['ngg'] === true ) {
 				require_once ( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/ngg.php' );
@@ -38,8 +34,20 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 			add_filter( 'get_image_tag', array( &$this, 'add_image_tag' ), 10, 6 );
 		}
 
+		private function add_image_sizes() {
+			foreach ( array( 'thumbnail', 'medium', 'large' ) as $size_name ) {
+				$size_info = $this->get_size_info( $size_name );
+				add_image_size( $this->p->cf['lca'].'-'.$size_name, 
+					$size_info['width'], $size_info['height'], $size_info['crop'] );
+			}
+			add_image_size( $this->p->cf['lca'].'-opengraph', 
+				$this->p->options['og_img_width'], $this->p->options['og_img_height'], 
+				( empty( $this->p->options['og_img_crop'] ) ? false : true ) );
+		}
+
 		public function editor_max_image_size( $max_sizes = array(), $size_name = '', $context = '' ) {
-			if ( $size_name == NGFB_OG_SIZE_NAME )
+			// allow our sizes to exceed the editor width
+			if ( strpos( $size_name, $this->p->cf['lca'].'-' ) !== false )
 				$max_sizes = array( 0, 0 );
 			return $max_sizes;
 		}
@@ -189,7 +197,8 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 	
 				// make sure the returned image size matches the size we requested, if not then possibly resize the image
 				// we do this because image_downsize() does not always return accurate image sizes
-				if ( ! empty( $this->p->options['og_img_resize'] ) && $size_name == NGFB_OG_SIZE_NAME ) {
+				if ( ! empty( $this->p->options['og_img_resize'] ) && 
+					strpos( $size_name, $this->p->cf['lca'].'-' ) !== false ) {
 	
 					// get the actual image sizes from the metadata array
 					$img_meta = wp_get_attachment_metadata( $pid );
@@ -224,10 +233,14 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 					} elseif ( ( empty( $size_info['crop'] ) && ( ! $is_accurate_width && ! $is_accurate_height ) ) ||
 						( ! empty( $size_info['crop'] ) && ( ! $is_accurate_width || ! $is_accurate_height ) ) ) {
 	
-						$this->p->debug->log( 'image metadata ('.$img_meta['sizes'][$size_name]['width'].'x'.
-							$img_meta['sizes'][$size_name]['height'].') does not match '.$size_name.
-							' ('.$size_info['width'].'x'.$size_info['height'].
-							( empty( $size_info['crop'] ) ? '' : ' cropped' ).')' );
+						$this->p->debug->log( 'image metadata ('.
+							( empty( $img_meta['sizes'][$size_name]['width'] ) ? 0 : $img_meta['sizes'][$size_name]['width'] ).'x'.
+							( empty( $img_meta['sizes'][$size_name]['height'] ) ? 0 : $img_meta['sizes'][$size_name]['height'] ).
+							') does not match '.$size_name.' ('.
+							$size_info['width'].'x'.
+							$size_info['height'].
+							( empty( $size_info['crop'] ) ? '' : ' cropped' )
+							.')' );
 	
 						$fullsizepath = get_attached_file( $pid );
 						$this->p->debug->log( 'calling image_make_intermediate_size()' );

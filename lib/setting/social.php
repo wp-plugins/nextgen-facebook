@@ -79,33 +79,24 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_social() {
 			echo '<table class="sucom-setting"><tr><td colspan="3">';
-			echo '<p>The following social buttons can be added to the content, excerpt, and / or enabled within the ',
-				ngfbWidgetSocialSharing::$fullname, ' widget as well (<a href="', 
-				get_admin_url( null, 'widgets.php' ), '">see the widgets admin webpage</a>).</p>';
+			echo $this->p->msg->get( 'social-buttons-info' );
 			echo '</td></tr><tr>';
-			echo $this->p->util->th( 'Location in Content Text', null, null, '
-				Individual social sharing button(s) must also be enabled below.' ); 
+			echo $this->p->util->th( 'Location in Content Text', null, 'buttons_location_the_content' );
 			echo '<td>', $this->form->get_select( 'buttons_location_the_content', 
 				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
 			echo '</tr><tr>';
-			echo $this->p->util->th( 'Location in Excerpt Text', null, null, '
-				Individual social sharing button(s) must also be enabled below.' ); 
+			echo $this->p->util->th( 'Location in Excerpt Text', null, 'buttons_location_the_excerpt' );
 			echo '<td>', $this->form->get_select( 'buttons_location_the_excerpt', 
 				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
 			echo '</tr><tr>';
-			echo $this->p->util->th( 'Include on Index Webpages', null, null, '
-				Add the following social sharing buttons to each entry of an index webpage (non-static homepage, category, archive, etc.). 
-				By Default, social sharing buttons are <em>not</em> included on index webpages (default is unchecked).
-				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
+			echo $this->p->util->th( 'Include on Index Webpages', null, 'buttons_on_index' );
 			echo '<td>', $this->form->get_checkbox( 'buttons_on_index' ), '</td>';
 			echo '</tr><tr>';
-			echo $this->p->util->th( 'Include on Static Homepage', null, null, '
-				If a static Post or Page has been chosen for the homepage, add the following
-				social sharing buttons to the static homepage as well (default is unchecked).
-				You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.' ); 
+			echo $this->p->util->th( 'Include on Static Homepage', null, 'buttons_on_front' );
 			echo '<td>', $this->form->get_checkbox( 'buttons_on_front' ), '</td>';
 			echo '</tr>';
-			foreach ( $this->get_more_social() as $row ) echo '<tr>'.$row.'</tr>';
+			foreach ( $this->get_more_social() as $row ) 
+				echo '<tr>'.$row.'</tr>';
 			echo '</table>';
 		}
 
@@ -118,13 +109,11 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'Include on Post Types', null, null, '
-				Enabled social sharing buttons are added to the Post, Page, Media and Product custom post types by default.
-				If your theme (or another plugin) supports additional custom post types, and you would like to include
-				social sharing buttons on these webpages, check the appropriate option(s) here.' ) .
+				$this->p->util->th( 'Include on Post Types', null, 'buttons_add_to' ).
 				'<td class="blank">'.$add_to_checkboxes.'</td>',
 			);
 		}
 	}
 }
+
 ?>

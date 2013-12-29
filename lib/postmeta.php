@@ -64,9 +64,13 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 		public function set_header_tags() {
 			if ( $this->p->is_avail['opengraph'] && empty( $this->p->meta->header_tags ) ) {
-				global $post;
-				if ( isset( $post->ID ) && $post->post_status === 'publish' && $post->filter === 'edit' ) {
-					$html = $this->p->head->get_header_html( $this->p->og->get_array( $post->ID ), $post->ID );
+				if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return;
+				}
+				if ( isset( $obj->ID ) && $obj->post_status === 'publish' && $obj->filter === 'edit' ) {
+					$html = $this->p->head->get_header_html( $this->p->og->get_array( $obj->ID ), $obj->ID );
+					$this->p->debug->show_html( null, 'debug log' );
 					$html = preg_replace( '/<!--.*-->/Us', '', $html );
 					preg_match_all( '/<(\w+) (\w+)="([^"]*)" (\w+)="([^"]*)"[ \/]*>/', $html, $this->p->meta->header_tags, PREG_SET_ORDER );
 				}

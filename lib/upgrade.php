@@ -109,6 +109,26 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 					unset( $opts['og_img_height'] );
 					unset( $opts['og_img_crop'] );
 				}
+				if ( $opts['options_version'] < 218 ) {
+					foreach ( array(
+						'tc_gal_size',
+						'tc_photo_size',
+						'tc_large_size',
+						'tc_sum_size',
+						'tc_prod_size',
+						'pin_img_size',
+						'tumblr_img_size',
+					) as $key ) {
+						// look for default values and update
+						switch ( $opts[$key] ) {
+							case 'thumbnail':
+							case 'medium':
+							case 'large':
+								$opts[$key] = $this->p->cf['lca'].'-'.$opts[$key];
+								break;
+						}
+					}
+				}
 	
 				if ( ! empty( $opts['twitter_shorten'] ) )
 					$opts['twitter_shortener'] = 'googl';

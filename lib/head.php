@@ -80,6 +80,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				return;
 			}
 			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
+			$this->p->debug->log( 'using post_id '.$post_id );
 			$author_url = '';
 		
 			$html = "\n<!-- ".$this->p->cf['lca']." meta tags begin -->\n";

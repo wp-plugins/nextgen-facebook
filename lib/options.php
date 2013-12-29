@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '216';
+		public $options_version = '218';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -124,11 +124,11 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'tc_site' => '',
 			'tc_desc_len' => 200,
 			'tc_gal_min' => 4,
-			'tc_gal_size' => 'medium',
-			'tc_photo_size' => 'large',
-			'tc_large_size' => 'medium',
-			'tc_sum_size' => 'thumbnail',
-			'tc_prod_size' => 'medium',
+			'tc_gal_size' => 'ngfb-medium',
+			'tc_photo_size' => 'ngfb-large',
+			'tc_large_size' => 'ngfb-medium',
+			'tc_sum_size' => 'ngfb-thumbnail',
+			'tc_prod_size' => 'ngfb-medium',
 			'tc_prod_def_l2' => 'Location',
 			'tc_prod_def_d2' => 'Unknown',
 			'twitter_on_the_excerpt' => 0,
@@ -170,7 +170,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'pin_order' => 7,
 			'pin_js_loc' => 'header',
 			'pin_count_layout' => 'horizontal',
-			'pin_img_size' => 'large',
+			'pin_img_size' => 'ngfb-large',
 			'pin_caption' => 'both',
 			'pin_cap_len' => 500,
 			'pin_img_url' => 'http://assets.pinterest.com/images/PinExt.png',
@@ -182,7 +182,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'tumblr_button_style' => 'share_1',
 			'tumblr_desc_len' => 300,
 			'tumblr_photo' => 1,
-			'tumblr_img_size' => 'large',
+			'tumblr_img_size' => 'ngfb-large',
 			'tumblr_caption' => 'both',
 			'tumblr_cap_len' => 500,
 			'inc_description' => 0,

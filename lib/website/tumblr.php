@@ -87,7 +87,6 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
-			$this->p->debug->mark();
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 

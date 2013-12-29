@@ -169,10 +169,10 @@ if ( ! class_exists( 'NgfbOpengraph' ) && class_exists( 'SucomOpengraph' ) ) {
 			if ( ! array_key_exists( 'og:image', $og ) ) {
 				if ( $og_max['og_img_max'] > 0 ) {
 					$og['og:image'] = $this->get_all_images( $og_max['og_img_max'], 
-						constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ), $post_id );
+						$this->p->cf['lca'].'-opengraph', $post_id );
 					if ( empty( $og['og:image'] ) && $has_video_image === false )
 							$og['og:image'] = $this->p->media->get_default_image( $og_max['og_img_max'], 
-								constant( $this->p->cf['uca'].'_OG_SIZE_NAME' ) );
+								$this->p->cf['lca'].'-opengraph' );
 				} else $this->p->debug->log( 'images disabled: maximum images = 0' );
 			}
 

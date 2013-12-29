@@ -311,8 +311,9 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 		}
 
 		public function get_content( $use_post = true, $use_cache = true ) {
-
+			$this->p->debug->args( array( 'use_post' => $use_post, 'use_cache' => $use_cache ) );
 			$content = false;
+
 			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $content;
@@ -373,8 +374,11 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 						is_object( $this->shortcode[$id] ) )
 							$this->shortcode[$id]->remove();
 
-				$this->p->debug->log( 'calling apply_filters()' );
+				$this->p->debug->log( 'saving $post and calling apply_filters()' );
+				global $post;
+				$saved_post = $post;	// woocommerce can change the $post, so save and restore
 				$content = apply_filters( 'the_content', $content );
+				$post = $saved_post;
 
 				// cleanup for NGG pre-v2 album shortcode
 				unset ( $GLOBALS['subalbum'] );

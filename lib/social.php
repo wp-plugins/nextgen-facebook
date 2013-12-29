@@ -125,13 +125,12 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $text;
 			}
-			$post_id = empty( $obj->ID ) ? 0 : $obj->ID;
 
 			$html = false;
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				// if the post id is 0, then add the sharing url to ensure a unique salt string
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$post_id.'_type:'.$type.
-					( empty( $post_id ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$obj->ID.'_type:'.$type.
+					( empty( $obj->ID ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );
@@ -195,11 +194,14 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
-			global $post;
+			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return;
+			}
 			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
 				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
-			} elseif ( is_admin() && ( empty( $post->filter ) || $post->filter !== 'edit' ) ) {
+			} elseif ( is_admin() && ( empty( $obj->filter ) || $obj->filter !== 'edit' ) ) {
 				$this->p->debug->log( 'exiting early: admin non-editing page' );
 				return;
 			}
@@ -210,7 +212,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			// loop through the social button option prefixes (fb, gp, etc.)
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				// check for enabled buttons on settings page
-				if ( is_admin() && ! empty( $post ) ) {
+				if ( is_admin() && ! empty( $obj ) ) {
 					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
 						$ids[] = $id;
 				} else {
@@ -278,7 +280,6 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		public function get_css( $css_name, $atts = array(), $css_class_extra = '', $css_id_extra = '' ) {
 			global $post;
-
 			$css_class = $css_name.'-'.( empty( $atts['css_class'] ) ? 
 				'button' : $atts['css_class'] );
 			$css_id = $css_name.'-'.( empty( $atts['css_id'] ) ? 
