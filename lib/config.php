@@ -284,7 +284,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				define( $cp.'META_NAME', '_'.$cf['lca'].'_meta' );
 
 			if ( ! defined( $cp.'MENU_PRIORITY' ) )
-				define( $cp.'MENU_PRIORITY', '99.10' );
+				define( $cp.'MENU_PRIORITY', '99.11' );
 
 			if ( ! defined( $cp.'INIT_PRIORITY' ) )
 				define( $cp.'INIT_PRIORITY', 12 );
