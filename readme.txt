@@ -12,11 +12,11 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-**NGFB Open Graph+ adds HTML meta tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more - An absolute essential plugin for every WordPress website!**
+**NGFB Open Graph+ adds HTML meta tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- An absolute essential plugin for every WordPress website!**
 
 = Meta Tags =
 
-NGFB Open Graph+ adds Facebook / [Open Graph](http://ogp.me/), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -38,7 +38,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 **Images and Videos**
 
-NGFB Open Graph+ detects and uses all images, associated or included in your Post / Page content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library (including WordPress galleries). NextGEN Gallery and Media Library images are resized appropriately for the Open Graph meta tags, the various Twitter Card formats, and sharing on Pinterest.
+NGFB Open Graph+ detects and uses all images, associated or included in your Post / Page content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library (including WordPress galleries). NextGEN Gallery and Media Library images are resized appropriately for the Open Graph (Facebook) meta tags, the various Twitter Card formats, and sharing on Pinterest.
 
 **Enhanced SEO**
 
@@ -65,7 +65,7 @@ NGFB Open Graph+ comes with several social sharing buttons, that you can optiona
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Facebook / Open Graph and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 = Custom Contacts =
 
@@ -185,6 +185,14 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.20rc1 =
+
+* Fixed a WooCommerce bug - that redefined the $post variable when applying 'the_content' filter - by saving and restoring the $post variable.
+* Added the WooCommerce query and shortcode classes when in admin interface to expand its shortcode for the Meta Tags Preview tab (Pro version).
+* Added ngfb-thumbnail/medium/large image sizes, with identical values to those of WordPress, to circumvent the `editor_max_image_size()` limits.
+* Moved much of the tooltip help text into lib/messages.php to facilitate future translations.
+* Removed the NGFB_OG_SIZE_NAME constant.
 
 = Version 6.19.0 =
 
