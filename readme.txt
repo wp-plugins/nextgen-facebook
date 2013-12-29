@@ -188,7 +188,9 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 = Version 6.20rc1 =
 
-* Fixed a WooCommerce bug - that redefined the $post variable when applying 'the_content' filter - by saving and restoring the $post variable.
+Version 6.20.0 centralizes much of the tooltip help text to make future translations easier. A bug in WooCommerce shortcodes has been found, and a work-around implented. Additonal issues with the WordPress image size limits for the admin editor width have been found - this version introduces additional image sizes (ngfb-thumbnail/medium/large) that are not subject to those artificial limits.
+
+* Fixed a WooCommerce bug, that redefined the $post variable when applying 'the_content' filter, by saving and restoring the $post variable.
 * Added the WooCommerce query and shortcode classes when in admin interface to expand its shortcode for the Meta Tags Preview tab (Pro version).
 * Added ngfb-thumbnail/medium/large image sizes, with identical values to those of WordPress, to circumvent the `editor_max_image_size()` limits.
 * Moved much of the tooltip help text into lib/messages.php to facilitate future translations.
