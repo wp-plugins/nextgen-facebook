@@ -224,7 +224,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		public function load_page() {
 			wp_enqueue_script( 'postbox' );
 			$upload_dir = wp_upload_dir();	// returns assoc array with path info
-			$old_css_file = trailingslashit( $upload_dir['basedir'] ).'ngfb-social-buttons.css';
 			$user_opts = $this->p->user->get_options();
 
 			if ( ! empty( $this->p->update_error ) && empty( $this->p->options['plugin_tid'] ) ) {
@@ -249,18 +248,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					$this->p->notice->err( __( 'Nonce token validation failed for plugin action (action ignored).', NGFB_TEXTDOM ) );
 				else {
 					switch ( $_GET['action'] ) {
-						case 'remove_old_css' : 
-							if ( file_exists( $old_css_file ) )
-								if ( @unlink( $old_css_file ) )
-									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-										'<b>'.$this->p->cf['uca'].' Info</b> : The old <u>'.$old_css_file.'</u> 
-											stylesheet has been removed.', 'updated' );
-								else
-									add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', '<b>'.$this->p->cf['uca'].' Error</b> : '.
-										sprintf( __( 'Error removing the old <u>%s</u> stylesheet.', NGFB_TEXTDOM ), $old_css_file ).
-										__( 'Does the web server have sufficient privileges?', NGFB_TEXTDOM ), 'error' );
-	
-							break;
 						case 'check_for_updates' : 
 							if ( ! empty( $this->p->options['plugin_tid'] ) ) {
 								$this->p->admin->set_readme( 0 );
@@ -285,17 +272,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				}
 			}
 
-			if ( file_exists( $old_css_file ) ) {
-				$this->p->notice->inf( 
-					sprintf( __( 'The <u>%s</u> stylesheet is no longer used.', 
-						NGFB_TEXTDOM ), $old_css_file ).' '.
-					sprintf( __( 'Styling for social buttons is now managed on the <a href="%s">Social Style settings page</a>.', 
-						NGFB_TEXTDOM ), $this->p->util->get_admin_url( 'style' ) ).' '.
-					sprintf( __( 'When you are ready, you can <a href="%s">click here to remove the old stylesheet</a>.', 
-						NGFB_TEXTDOM ), wp_nonce_url( $this->p->util->get_admin_url( '?action=remove_old_css' ),
-							$this->get_nonce(), NGFB_NONCE ) ) 
-				);
-			}
 			// the plugin information metabox on all settings pages needs this
 			$this->p->admin->set_readme( $this->p->cf['update_hours'] * 3600 );
 
