@@ -71,9 +71,9 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();	// uses options
-			if ( $this->is_avail['aop'] == true ) 
+			if ( $this->is_avail['aop'] ) 
 				$this->cf['full'] = $this->cf['full_pro'];
-			if ( $this->is_avail['ngg'] == true ) {
+			if ( $this->is_avail['ngg'] ) {
 				$this->ngg_options = get_option( 'ngg_options' );
 				if ( defined( 'NEXTGEN_GALLERY_PLUGIN_VERSION' ) && NEXTGEN_GALLERY_PLUGIN_VERSION )
 					$this->ngg_version = NEXTGEN_GALLERY_PLUGIN_VERSION;
@@ -139,7 +139,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 				$this->og = new NgfbOpengraph( $this );
 			else $this->og = new SucomOpengraph( $this );		// og html parsing method
 
-			if ( $this->is_avail['ssb'] == true )
+			if ( $this->is_avail['ssb'] )
 				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 
 			if ( is_admin() ) {
@@ -148,7 +148,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			}
 
 			// create pro class object last - it extends several previous classes
-			if ( $this->is_avail['aop'] == true )
+			if ( $this->is_avail['aop'] )
 				$this->pro = new NgfbAddonPro( $this );
 
 			/*
@@ -200,7 +200,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		}
 
 		public function filter_installed_version( $version ) {
-			if ( $this->is_avail['aop'] == true )
+			if ( $this->is_avail['aop'] )
 				return $version;
 			else return '0.'.$version;
 		}
