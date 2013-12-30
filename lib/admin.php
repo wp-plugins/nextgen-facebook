@@ -441,7 +441,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				'URL Rewriter' => array( 'status' => class_exists( $cca.'RewritePro' ) ? 'on' : 
 					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ) ),
 				'URL Shortener' => array( 'status' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
-					( empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ) ),
+					( empty( $this->p->is_avail['ssb'] ) ||
+						empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ) ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				foreach ( $libs as $id => $name ) {
