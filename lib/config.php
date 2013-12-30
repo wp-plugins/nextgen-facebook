@@ -258,8 +258,6 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 			define( $cp.'NONCE', md5( constant( $cp.'PLUGINDIR' ).'-'.$cf['version'] ) );
 
-			define( 'AUTOMATTIC_README_MARKDOWN', constant( $cp.'PLUGINDIR' ).'lib/ext/markdown.php' );
-
 			/*
 			 * Allow some constants to be pre-defined in wp-config.php
 			 */
@@ -287,7 +285,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				define( $cp.'MENU_PRIORITY', '99.11' );
 
 			if ( ! defined( $cp.'INIT_PRIORITY' ) )
-				define( $cp.'INIT_PRIORITY', 12 );
+				define( $cp.'INIT_PRIORITY', 13 );
 
 			if ( ! defined( $cp.'HEAD_PRIORITY' ) )
 				define( $cp.'HEAD_PRIORITY', 10 );
@@ -356,7 +354,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			} else require_once( $plugin_dir.'lib/functions.php' );
 
 			if ( file_exists( $plugin_dir.'lib/opengraph.php' ) &&
-				( ! defined( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) || ! constant( $cf['uca'].'_OPEN_GRAPH_DISABLE' ) ) &&
+				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 

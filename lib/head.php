@@ -48,7 +48,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				if ( $this->p->is_avail['opengraph'] )
 					echo $this->get_header_html( $this->p->og->get_array() );
 				else echo $this->get_header_html();
-			}
+			} else echo "\n<!-- ".$this->p->cf['lca']." meta tags are disabled -->\n";
 
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
