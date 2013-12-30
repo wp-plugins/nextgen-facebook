@@ -36,10 +36,11 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 				'apikeys' => 'API Keys',
 			);
 
-			// for now, the apikeys tab contains only url shortening services,
-			// so only show if the social sharing button features are enabled
-			if ( ! $this->p->is_avail['ssb'] )
+			// show only if the social sharing button features are enabled
+			if ( empty( $this->p->is_avail['ssb'] ) ) {
+				unset( $show_tabs['rewrite'] );
 				unset( $show_tabs['apikeys'] );
+			}
 
 			$tab_rows = array();
 			foreach ( $show_tabs as $key => $title )
@@ -76,28 +77,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			' class="blank checkbox">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';
 
-		}
-
-		protected function get_more_taglist() {
-			$og_cols = 4;
-			$cells = array();
-			$rows = array();
-			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
-				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
-					$cells[] = '<td class="taglist blank checkbox">'.
-					$this->form->get_fake_checkbox( $opt ).'</td>'.
-					'<th class="taglist">'.$match[1].'</th>'."\n";
-				}
-			}
-			unset( $opt, $val );
-			$per_col = ceil( count( $cells ) / $og_cols );
-			foreach ( $cells as $num => $cell ) {
-				if ( empty( $rows[ $num % $per_col ] ) )
-					$rows[ $num % $per_col ] = '';	// initialize the array
-				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
-			}
-			unset( $num, $cell );
-			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>' ), $rows );
 		}
 
 		protected function get_rows( $id ) {
@@ -260,8 +239,32 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			);
 		}
 
+		protected function get_more_taglist() {
+			$og_cols = 4;
+			$cells = array();
+			$rows = array();
+			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
+				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
+					$cells[] = '<td class="taglist blank checkbox">'.
+					$this->form->get_fake_checkbox( $opt ).'</td>'.
+					'<th class="taglist">'.$match[1].'</th>'."\n";
+				}
+			}
+			unset( $opt, $val );
+			$per_col = ceil( count( $cells ) / $og_cols );
+			foreach ( $cells as $num => $cell ) {
+				if ( empty( $rows[ $num % $per_col ] ) )
+					$rows[ $num % $per_col ] = '';	// initialize the array
+				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
+			}
+			unset( $num, $cell );
+			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>' ), $rows );
+		}
+
 		protected function get_more_cache() {
-			return array(
+			if ( empty( $this->p->is_avail['ssb'] ) )
+				return array();
+			else return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
