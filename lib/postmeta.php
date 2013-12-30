@@ -78,7 +78,8 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		}
 
 		public function show_sharing( $post ) {
-			if ( ! $this->p->is_avail['ssb'] ) return;
+			if ( ! $this->p->is_avail['ssb'] ) 
+				return;
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 			echo '<table class="sucom-setting side"><tr><td>';
@@ -106,10 +107,10 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 			);
 
 			// only show if the social sharing button features are enabled
-			if ( ! $this->p->is_avail['ssb'] )
+			if ( empty( $this->p->is_avail['ssb'] ) )
 				unset( $show_tabs['social'] );
 
-			if ( ! $this->p->is_avail['opengraph'] )
+			if ( empty( $this->p->is_avail['opengraph'] ) )
 				unset( $show_tabs['metatags'] );
 
 			$tab_rows = array();
@@ -140,78 +141,47 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 		protected function get_rows_header( $post ) {
 			$ret = array();
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
-			$post_type_name = ucfirst( $post_type->name );
+			$post_info = array( 'ptn' => ucfirst( $post_type->name ) );
 
 			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Topic', 'medium', null, 
-			'A custom topic for this '.$post_type_name.', different from the default Website Topic chosen in the General Settings.' ) .
+			$ret[] = $this->p->util->th( 'Topic', 'medium', 'postmeta-og_art_section', $post_info ).
 			'<td class="blank">'.$this->p->options['og_art_section'].'</td>';
 
-			$ret[] = $this->p->util->th( 'Default Title', 'medium', null, 
-			'A custom title for the Open Graph, Rich Pin, Twitter Card meta tags (all Twitter Card formats), 
-			and possibly the Pinterest, Tumblr, and Twitter sharing caption / text, depending on some option 
-			settings. The default title value is refreshed when the (draft or published) '.$post_type_name.' is saved.' ) .
+			$ret[] = $this->p->util->th( 'Default Title', 'medium', 'postmeta-og_title', $post_info ). 
 			'<td class="blank">'.$this->p->webpage->get_title( $this->p->options['og_title_len'], '...', true ).'</td>';
 		
-			$ret[] = $this->p->util->th( 'Default Description', 'medium', null, 
-			'A custom description for the Open Graph, Rich Pin meta tags, and the fallback description 
-			for all other meta tags and social sharing buttons.
-			The default description value is based on the content, or excerpt if one is available, 
-			and is refreshed when the (draft or published) '.$post_type_name.' is saved.
-			Update and save this description to change the default value of all other meta tag and 
-			social sharing button descriptions.' ) .
+			$ret[] = $this->p->util->th( 'Default Description', 'medium', 'postmeta-og_desc', $post_info ).
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['og_desc_len'], '...', true ).'</td>';
 	
-			$ret[] = $this->p->util->th( 'Google Description', 'medium', null, 
-			'A custom description for the Google Search description meta tag.
-			The default description value is refreshed when the '.$post_type_name.' is saved.' ) .
+			$ret[] = $this->p->util->th( 'Google Description', 'medium', 'postmeta-meta_desc', $post_info ).
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['meta_desc_len'], '...', true, true, false ).	// no hashtags
 			'</td>';
 
-			$ret[] = $this->p->util->th( 'Twitter Card Description', 'medium', null, 
-			'A custom description for the Twitter Card description meta tag (all Twitter Card formats).
-			The default description value is refreshed when the '.$post_type_name.' is saved.' ) .
+			$ret[] = $this->p->util->th( 'Twitter Card Description', 'medium', 'postmeta-tc_desc', $post_info ).
 			'<td class="blank">'.$this->p->webpage->get_description( $this->p->options['tc_desc_len'], '...', true ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Image ID', 'medium', null, 
-			'A custom Image ID to include (first) in the Open Graph, Rich Pin, 
-			and \'Large Image Summary\' Twitter Card meta tags, 
-			along with the Pinterest and Tumblr social sharing buttons.' ) .
+			$ret[] = $this->p->util->th( 'Image ID', 'medium', 'postmeta-og_img_id', $post_info ).
 			'<td class="blank">&nbsp;</td>';
 
-			$ret[] = $this->p->util->th( 'Image URL', 'medium', null, 
-			'A custom image URL, instead of an Image ID, to include (first) in the Open Graph, Rich Pin, 
-			and \'Large Image Summary\' Twitter Card meta tags. Please make sure your custom image
-			is large enough, or it may be ignored by the social website(s). <strong>Facebook recommends 
-			an image size of 1200x630, 600x315 as a minimum, and will ignore any images less than 200x200</strong>.' ) .
+			$ret[] = $this->p->util->th( 'Image URL', 'medium', 'postmeta-og_img_url', $post_info ).
 			'<td class="blank">&nbsp;</td>';
 
-			$ret[] = $this->p->util->th( 'Video URL', 'medium', null, 
-			'A custom video URL to include (first) in the Open Graph, Rich Pin, 
-			and \'Player\' Twitter Card meta tags, along with the Tumblr social sharing button.
-			If the URL is from Youtube, Vimeo, or Wistia, an API connection will be made to 
-			retrieve the preferred video URL, dimensions, and preview image.' ).
+			$ret[] = $this->p->util->th( 'Video URL', 'medium', 'postmeta-og_vid_url', $post_info ).
 			'<td class="blank">&nbsp;</td>';
 
-			$ret[] = $this->p->util->th( 'Maximum Images', 'medium', null, 
-			'The maximum number of images to include in the Open Graph meta tags for this '.$post_type_name.'.' ) .
+			$ret[] = $this->p->util->th( 'Maximum Images', 'medium', 'postmeta-og_img_max', $post_info ).
 			'<td class="blank">'.$this->p->options['og_img_max'].'</td>';
 
-			$ret[] = $this->p->util->th( 'Maximum Videos', 'medium', null, 
-			'The maximum number of embedded videos to include in the Open Graph meta tags for this '.$post_type_name.'.' ) .
+			$ret[] = $this->p->util->th( 'Maximum Videos', 'medium', 'postmeta-og_vid_max', $post_info ).
 			'<td class="blank">'.$this->p->options['og_vid_max'].'</td>';
 
-			$ret[] = $this->p->util->th( 'Sharing URL', 'medium', null, 
-			'A custom sharing URL used in the Open Graph, Rich Pin meta tags and social sharing buttons.
-			The default sharing URL may be influenced by settings from supported SEO plugins.
-			Please make sure any custom URL you enter here is functional and redirects correctly.' ).
+			$ret[] = $this->p->util->th( 'Sharing URL', 'medium', 'postmeta-sharing_url', $post_info ).
 			'<td class="blank">'.( get_post_status( $post->ID ) == 'publish' ? 
 				$this->p->util->get_sharing_url( true ) :
 				'<p>The Sharing URL will be available when the '.$post_type_name.' is published.</p>' ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', null, 
-			'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$post_type_name.'.' ) .
+			$ret[] = $this->p->util->th( 'Disable Social Buttons', 'medium', 'postmeta-buttons_disabled', $post_info ).
 			'<td class="blank">&nbsp;</td>';
 
 			return $ret;
@@ -245,50 +215,40 @@ if ( ! class_exists( 'NgfbPostMeta' ) ) {
 
 		protected function get_rows_social( $post ) {
 			$ret = array();
-			$post_type = get_post_type_object( $post->post_type );	// since 3.0
-			$post_type_name = ucfirst( $post_type->name );
 			$twitter_cap_len = $this->p->util->tweet_max_len( get_permalink( $post->ID ) );
 			list( $pid, $video_url ) = $this->get_social_vars( $post->ID );
 
 			$ret[] = '<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>';
 
-			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', null, 
-			'A custom caption text, used by the Pinterest social sharing button, 
-			for the custom Image ID, attached or featured image.' );
+			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', 'postmeta-pin_desc' );
 			if ( ! empty( $pid ) ) {
 				$img = $this->p->media->get_attachment_image_src( $pid, $this->p->options['pin_img_size'], false );
 				if ( empty( $img[0] ) )
 					$ret[] = $th.'<td class="blank"><em>Caption disabled - image ID '.$pid.' is too small for \''.
-						$this->p->options['pin_img_size'].'\' image dimensions.</em></td>';
+					$this->p->options['pin_img_size'].'\' image dimensions.</em></td>';
 				else $ret[] = $th.'<td class="blank">'.
 					$this->p->webpage->get_caption( $this->p->options['pin_caption'], $this->p->options['pin_cap_len'] ).'</td>';
 			} else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Image ID, featured or attached image found.</em></td>';
 
-			$th = $this->p->util->th( 'Tumblr Image Caption', 'medium', null, 
-			'A custom caption, used by the Tumblr social sharing button, 
-			for the custom Image ID, attached or featured image.' );
+			$th = $this->p->util->th( 'Tumblr Image Caption', 'medium', 'postmeta-tumblr_img_desc' );
 			if ( empty( $this->p->options['tumblr_photo'] ) ) {
 				$ret[] = $th.'<td class="blank"><em>\'Use Featured Image\' option is disabled.</em></td>';
 			} elseif ( ! empty( $pid ) ) {
 				$img = $this->p->media->get_attachment_image_src( $pid, $this->p->options['tumblr_img_size'], false );
 				if ( empty( $img[0] ) )
 					$ret[] = $th.'<td class="blank"><em>Caption disabled - image ID '.$pid.' is too small for \''.
-						$this->p->options['tumblr_img_size'].'\' image dimensions.</em></td>';
+					$this->p->options['tumblr_img_size'].'\' image dimensions.</em></td>';
 				else $ret[] = $th.'<td class="blank">'.
 					$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
 			} else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Image ID, featured or attached image found.</em></td>';
 
-			$th = $this->p->util->th( 'Tumblr Video Caption', 'medium', null, 
-			'A custom caption, used by the Tumblr social sharing button, 
-			for the custom Video URL or embedded video.' );
+			$th = $this->p->util->th( 'Tumblr Video Caption', 'medium', 'postmeta-tumblr_vid_desc' );
 			if ( ! empty( $vid_url ) )
 				$ret[] = $th.'<td class="blank">'.
 				$this->p->webpage->get_caption( $this->p->options['tumblr_caption'], $this->p->options['tumblr_cap_len'] ).'</td>';
 			else $ret[] = $th.'<td class="blank"><em>Caption disabled - no custom Video URL or embedded video found.</em></td>';
 
-			$ret[] = $this->p->util->th( 'Tweet Text', 'medium', null, 
-			'A custom Tweet text for the Twitter social sharing button. 
-			This text is in addition to any Twitter Card description.' ) .
+			$ret[] = $this->p->util->th( 'Tweet Text', 'medium', 'postmeta-twitter_desc' ). 
 			'<td class="blank">'.$this->p->webpage->get_caption( $this->p->options['twitter_caption'], $twitter_cap_len,
 				true, true, true ).'</td>';	// use_post = true, use_cache = true, add_hashtags = true
 

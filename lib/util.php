@@ -514,11 +514,12 @@ if ( ! class_exists( 'NgfbUtil' ) ) {
 		}
 
 		// table header with optional tooltip text
-		public function th( $title = '', $class = '', $id = '', $tooltip_text = '' ) {
+		public function th( $title = '', $class = '', $id = '', $atts = null ) {
 			if ( is_object( $this->p->msg ) ) {
-				if ( empty( $id ) ) $lookup_tooltip = 'tooltip-'.$title;
-				else $lookup_tooltip = 'tooltip-'.$id;
-				$tooltip_text = $this->p->msg->get( $lookup_tooltip, $tooltip_text );	// text is esc_attr()
+				if ( empty( $id ) ) 
+					$tooltip_idx = 'tooltip-'.$title;
+				else $tooltip_idx = 'tooltip-'.$id;
+				$tooltip_text = $this->p->msg->get( $tooltip_idx, $atts );	// text is esc_attr()
 			}
 			return '<th'.
 				( empty( $class ) ? '' : ' class="'.$class.'"' ).

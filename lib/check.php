@@ -36,22 +36,32 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 
 		public function get_avail() {
 			$ret = array();
+
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
+
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
+
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
+
 			$ret['ngg'] = class_exists( 'nggdb' ) || class_exists( 'C_NextGEN_Bootstrap' ) ||
 				in_array( 'nextgen-gallery/nggallery.php', $this->active_plugins ) ? true : false; 
 
+			$ret['wpsso'] = class_exists( 'WpssoPlugin' ) ||
+				in_array( 'wpsso/wpsso.php', $this->active_plugins ) ? true : false;
+
 			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || ! NGFB_META_TAGS_DISABLE ) &&
 				empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
+
 			$ret['opengraph'] = file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
 				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
+
 			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/social.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! NGFB_SOCIAL_SHARING_DISABLE ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
+
 			$ret['aop'] = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 
