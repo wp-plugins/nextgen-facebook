@@ -186,13 +186,13 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.20rc1 =
+= Version 6.20rc2 =
 
-Version 6.20.0 centralizes much of the tooltip help text to make future translations easier. A bug in WooCommerce shortcodes has been found, and a work-around implented. Additonal issues with the WordPress image size limits for the admin editor width have been found - this version introduces additional image sizes (ngfb-thumbnail/medium/large) that are not subject to those artificial limits.
+Version 6.20.0 centralizes much of the tooltip help text to make future translations easier. A bug in WooCommerce shortcodes has been found, and a work-around implented. An issue with the WordPress editor image size limits has been addressed as well - this version includes additional custom image sizes (ngfb-thumbnail/medium/large) that are not subject to the editor width limits.
 
 * Fixed a WooCommerce bug, that redefined the $post variable when applying 'the_content' filter, by saving and restoring the $post variable.
 * Added the WooCommerce query and shortcode classes when in admin interface to expand its shortcode for the Meta Tags Preview tab (Pro version).
-* Added ngfb-thumbnail/medium/large image sizes, with identical values to those of WordPress, to circumvent the `editor_max_image_size()` limits.
+* Added ngfb-thumbnail/medium/large custom image sizes, with identical values to those of WordPress, to bypass the `editor_max_image_size()` limits.
 * Moved much of the tooltip help text into lib/messages.php to facilitate future translations.
 * Removed the NGFB_OG_SIZE_NAME constant.
 
@@ -219,37 +219,13 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 * Fixed an undefined variable in the BuddyPress addon (Pro version).
 * **Fixed the Twitter 'Player Card' video URL to use an embed URL instead of a flash URL** (Pro version).
 
-= Version 6.18.0.2 =
-
-* Fixed loading of the shortcode library file.
-* Improved the detection of Vimeo URLs.
-* Added additional checks when saving options.
-
-= Version 6.18.0.1 =
-
-* Added an extra check for missing image sizes returned by the WordPress `wp_get_attachment_metadata()` function to prevent a PHP error.
-
-= Version 6.18.0 =
-
-WordPress v3.8 introduces a new flat design, and although the interface styling of NGFB Open Graph+ held up well, a few minor tweaks were necessary. The settings page for NGFB Open Graph+ v6.18.0 is much cleaner, and fits right in with the new WordPress admin style. Aside from the interface updates, the big news for this version is a new 'Plugin Features' metabox on the settings pages. The new metabox will highlight the PHP code that is being loaded by the plugin, and which is not - giving you additional indicators to fine-tune the plugin's performance.
-
-Please note that this version now applies the 'Ignore Small Images' option to WordPress Media Library images as well. <strong>Make sure your original images in the WordPress Media Library are larger than the Image Dimensions you've chosen on the Open Graph+ General settings page</strong>, or these images may be ignored / rejected for being too small.
-
-* **Added a 'Plugin Features' metabox on the settings pages to display the features and classes currently loaded by the plugin**.
-* Added a 'Check for Wistia Videos' option on the Advanced settings page to enable/disable support for Wistia videos.
-* Applied the 'Ignore Small Images' option restrictions on WordPress Media Library images as well.
-* Added suppport for a `NGFB_SOCIAL_SHARING_DISABLE` constant, which if defined as true, prevents the loading of social sharing features.
-* Minor style changes to conform with the latest WordPress 3.8 "flat" design update.
-* Fine-tuned the loading of Pro addons and social sharing features.
-* Increased the default object expiry time from 900s to 1800s.
-
 == Upgrade Notice ==
+
+= 6.20rc2 =
+
+Centralized the tooltip help text for future translations, added a work-around for a WooCommerce shortcode bug, added additional custom image sizes to bypass an issue with the WordPress editor image size limits.
 
 = 6.19.0 =
 
 Added a 'Meta Tags Preview' tab to the Custom Settings, warnings for small images, support for youtube playlists, and fixed Twitter Player Card video URLs.
-
-= 6.18.0.2 =
-
-Fixed loading of the shortcode library file, improved the detection of Vimeo URLs, added additional checks when saving options.
 
