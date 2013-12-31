@@ -60,7 +60,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
 				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'tumblr_img_size' ).'</td>',
+				$this->form->get_select_img_size( 'tumblr_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
 
 				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
