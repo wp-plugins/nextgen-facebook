@@ -44,7 +44,7 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 				$this->form->get_input( 'pin_img_url' ),
 
 				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'pin_img_size' ).'</td>',
+				$this->form->get_select_img_size( 'pin_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
 
 				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_caption', $this->captions ).'</td>',
