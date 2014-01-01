@@ -506,8 +506,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 						case 'tooltip-plugin_verify_certs':
 							$text = 'Enable verification of peer SSL certificates when fetching content to be cached using HTTPS. 
 							The PHP \'curl\' function will use the '.NGFB_CURL_CAINFO.' certificate file by default. 
-							You may want define the NGFB_CURL_CAINFO constant in your wp-config.php file to use an 
-							alternate certificate file (see the constants.txt file in the plugin folder for additional information).';
+							You can define a NGFB_CURL_CAINFO constant in your wp-config.php file to use an alternate certificate file.';
 							break;
 						/*
 						 * 'URL Rewrite' settings
