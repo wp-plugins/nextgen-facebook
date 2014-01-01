@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8
-Stable Tag: 6.19.0
+Stable Tag: 6.20.0
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
 
@@ -186,7 +186,11 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.20rc2 =
+= Version 6.20.1 =
+
+* Fixed a possible error condition in lib/media.php by added an extra check to make sure the image size name provided to the WordPress `image_constrain_size_for_editor()` filter is a string.
+
+= Version 6.20.0 =
 
 Version 6.20.0 centralizes much of the tooltip help text to make future translations easier. A bug in WooCommerce shortcodes has been found, and a work-around implented. An issue with the WordPress editor image size limits has been addressed as well - this version includes additional custom image sizes (ngfb-thumbnail/medium/large) that are not subject to the editor width limits.
 
@@ -221,7 +225,11 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 == Upgrade Notice ==
 
-= 6.20rc2 =
+= 6.20.1 =
+
+* Fixed a possible error condition in lib/media.php by added an extra check to make sure the image size name provided to the WordPress image_constrain_size_for_editor() filter is a string.
+
+= 6.20.0 =
 
 Centralized the tooltip help text for future translations, added a work-around for a WooCommerce shortcode bug, added additional custom image sizes to bypass an issue with the WordPress editor image size limits.
 
