@@ -267,7 +267,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 			else return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
-				$this->p->util->th( 'File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
+				$this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
 				'<td class="blank">'.$this->form->get_hidden( 'plugin_file_cache_hrs' ). 
 				$this->p->options['plugin_file_cache_hrs'].' hours</td>',
 

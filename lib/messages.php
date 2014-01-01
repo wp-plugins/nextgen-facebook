@@ -528,7 +528,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							break;
 						case 'tooltip-plugin_cdn_excl':
 							$text = 'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
-							If you are caching social website images and JavaScript (see <em>File Cache Expiry</em> option), 
+							If you are caching social website images and JavaScript (see the <em>Social File Cache Expiry</em> option), 
 							the URLs to this cached content will be rewritten as well (that\'s a good thing).
 							To exclude the '.$this->p->cf['full'].' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.';
 							break;
