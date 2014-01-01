@@ -188,7 +188,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 = Version 6.20.1 =
 
-* Fixed a possible error condition in lib/media.php by adding an extra check to make sure the image size name provided to the WordPress `image_constrain_size_for_editor()` filter is a string.
+* Fixed a possible error condition in lib/media.php by adding an extra check, to make sure the size provided to the `image_constrain_size_for_editor()` filter is a string and not an array().
 
 = Version 6.20.0 =
 
@@ -227,7 +227,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 = 6.20.1 =
 
-* Fixed a possible error condition in lib/media.php by adding an extra check to make sure the image size name provided to the WordPress image_constrain_size_for_editor() filter is a string.
+* Fixed a possible error condition in lib/media.php by adding an extra check, to make sure the size provided to the image_constrain_size_for_editor() filter is a string and not an array().
 
 = 6.20.0 =
 
