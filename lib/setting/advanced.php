@@ -201,7 +201,8 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, 'plugin_object_cache_exp' ).
 					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' seconds</td>';
 
-					$ret = array_merge( $ret, $this->get_more_cache() );
+					if ( $this->p->is_avail['ssb'] )
+						$ret = array_merge( $ret, $this->get_more_cache() );
 
 					break;
 
@@ -221,9 +222,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		protected function get_more_content() {
-
 			$add_to_checkboxes = '';
-
 			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type )
 				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
@@ -250,21 +249,17 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<th class="taglist">'.$match[1].'</th>'."\n";
 				}
 			}
-			unset( $opt, $val );
 			$per_col = ceil( count( $cells ) / $og_cols );
 			foreach ( $cells as $num => $cell ) {
 				if ( empty( $rows[ $num % $per_col ] ) )
 					$rows[ $num % $per_col ] = '';	// initialize the array
 				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
 			}
-			unset( $num, $cell );
 			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>' ), $rows );
 		}
 
 		protected function get_more_cache() {
-			if ( empty( $this->p->is_avail['ssb'] ) )
-				return array();
-			else return array(
+			return array(
 				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).

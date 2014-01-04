@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.20.1',			// plugin version
+			'version' => '6.21rc1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -75,7 +75,13 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 						'buddypress' => 'BuddyPress',
 					),
 					'media' => array(
+						'ngg' => 'NextGEN Gallery',
+						'photon' => 'Jetpack Photon',
 						'wistia' => 'Wistia Video API',
+					),
+					'util' => array(
+						'rewrite' => 'URL Rewriter',
+						'shorten' => 'URL Shortener',
 					),
 				),
 			),
@@ -222,7 +228,9 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 						self::$cf['lib']['setting']['social'],
 						self::$cf['lib']['setting']['style'],
 						self::$cf['lib']['shortcode']['ngfb'],
-						self::$cf['lib']['widget']['social']
+						self::$cf['lib']['widget']['social'],
+						self::$cf['lib']['util']['rewrite'],
+						self::$cf['lib']['util']['shorten']
 					);
 					self::$cf['lib']['website'] = array();
 				}

@@ -252,7 +252,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_add_to_attachment' => 1,
 			'plugin_verify_certs' => 0,
 			'plugin_file_cache_hrs' => 0,
-			'plugin_object_cache_exp' => 1800,
+			'plugin_object_cache_exp' => 3600,
 			'plugin_min_shorten' => 21,
 			'plugin_google_api_key' => '',
 			'plugin_google_shorten' => 0,

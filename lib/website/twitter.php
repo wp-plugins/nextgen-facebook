@@ -100,8 +100,8 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
-			$short_url = $this->p->util->shorten_url( $long_url, $opts['twitter_shortener'] );
-			if ( empty( $short_url ) ) $short_url = $long_url;	// fallback to long url in case of error
+			$short_url = apply_filters( $this->p->cf['lca'].'_shorten_url', 
+				$long_url, $opts['twitter_shortener'] );
 
 			if ( array_key_exists( 'tweet', $atts ) )
 				$atts['caption'] = $atts['tweet'];
