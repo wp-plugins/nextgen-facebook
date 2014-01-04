@@ -38,7 +38,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 **Images and Videos**
 
-NGFB Open Graph+ detects and uses all images, associated or included in your Post / Page content, embedded videos from YouTube, Vimeo, and Wistia (including preview images). NGFB Open Graph+ was specifically written to support albums, galleries and images from [NextGEN Gallery v1.x and v2.x](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.), but also works just as well with the built-in WordPress Media Library (including WordPress galleries). NextGEN Gallery and Media Library images are resized appropriately for the Open Graph (Facebook) meta tags, the various Twitter Card formats, and sharing on Pinterest.
+NGFB Open Graph+ detects and uses all images - associated or included in your Post or Page content - including WordPress Media Library image galleries and embedded videos from YouTube, Vimeo, and Wistia (including their preview images). WordPress Media Library and NextGEN Gallery images are sized according to their intended audience (Facebook, Twitter, Pinterest, etc). NGFB Open Graph+ (Pro version) also supports albums, galleries and images from [NextGEN Gallery v1 and v2](http://wordpress.org/plugins/nextgen-gallery/) (shortcodes, image tags, album/gallery preview images, etc.).
 
 **Enhanced SEO**
 
@@ -46,7 +46,7 @@ NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://w
 
 **eCommerce Products**
 
-NGFB Open Graph+ (Pro version) also supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including variations and additional / custom images.
+NGFB Open Graph+ (Pro version) also supports [WooCommerce v1.x and v2.x](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including poduct variations (size, color, etc.) and additional / custom images.
 
 **Forums and Social**
 
@@ -133,7 +133,7 @@ The Pro version license(s) can be assigned to the whole multisite network and/or
 </li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-v1-x-and-v2-x-are-supported/">What features of NextGEN Gallery v1.x and v2.x are supported?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-are-supported/">What features of NextGEN Gallery are supported?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/">What is the difference between the GPL and Pro versions?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/">Where do I start?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/">Why aren’t Pins from my website posting Rich?</a></li>
@@ -190,6 +190,16 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
+= Version 6.21rc1 =
+
+* **Moved the NextGEN Gallery support to a Pro version addon**.
+* Added an 'ngfb_image_downsize' hook (for the Jetpack Photon Pro addon).
+* Added support for JetPack Photon to retrieve correct image sizes (Pro version).
+* Added hooks to disable JetPack Open Graph and Twitter Card meta tags.
+* Added a hook for the 'ngfb_sharing_url' filter to support WordPress SEO's "Force Transport" option (Pro version).
+* Moved the URL rewriting and shortening methods into hooks for the 'ngfb_rewrite_url' and 'ngfb_shorten_url' filters (Pro version).
+* Changed the default object expiration time from 1800 to 3600 seconds (1 hour).
+
 = Version 6.20.1 =
 
 * Fixed a possible error condition in lib/media.php by adding an extra check, to make sure the size provided to the `image_constrain_size_for_editor()` filter is a string and not an array().
@@ -228,6 +238,10 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 * **Fixed the Twitter 'Player Card' video URL to use an embed URL instead of a flash URL** (Pro version).
 
 == Upgrade Notice ==
+
+= 6.21rc1 =
+
+Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 
 = 6.20.1 =
 
