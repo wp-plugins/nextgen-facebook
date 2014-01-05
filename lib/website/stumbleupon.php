@@ -63,7 +63,7 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_order', 
-					range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',

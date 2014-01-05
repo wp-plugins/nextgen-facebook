@@ -26,7 +26,7 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ).'</td>',
+				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',

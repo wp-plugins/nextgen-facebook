@@ -93,7 +93,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Great Support =
 
-**NGFB Open Graph+ is actively being developed and supported**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
+**NGFB Open Graph+ support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
 == Installation ==
 
@@ -134,7 +134,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/">Why do my Facebook shares have small images?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-play-videos-instead-of-linking-them/">Why does Facebook play videos instead of linking them?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-google-structured-data-testing-tool-show-errors/">Why does Google Structured Data Testing Tool show errors?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-plugin-ignore-the-img-html-tags/">Why does the plugin ignore the &lt;img/&gt; HTML tags?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-plugin-ignore-some-img-html-tags/">Why does the plugin ignore some &lt;img/&gt; HTML tags?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-doesnt-facebook-show-the-correct-image/">Why doesn’t Facebook show the correct image?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/">Why don’t my Twitter Cards show on Twitter?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/">Why is the Open Graph title the same for every webpage?</a></li>
@@ -184,7 +184,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.21rc1 =
+= Version 6.21rc2 =
 
 * **Moved the NextGEN Gallery support to a Pro version addon**.
 * Added an 'ngfb_image_downsize' hook (for the Jetpack Photon Pro addon).
@@ -193,6 +193,8 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Added a hook for the 'ngfb_sharing_url' filter to support WordPress SEO's "Force Transport" option (Pro version).
 * Moved the URL rewriting and shortening methods into hooks for the 'ngfb_rewrite_url' and 'ngfb_shorten_url' filters (Pro version).
 * Changed the default object expiration time from 1800 to 3600 seconds (1 hour).
+* Removed the "Reset Settings on Activate" Advanced option.
+* Renamed the NGFB_RESET constant to NGFB_RESET_ON_ACTIVATE.
 
 = Version 6.20.1 =
 
@@ -233,7 +235,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 == Upgrade Notice ==
 
-= 6.21rc1 =
+= 6.21rc2 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 

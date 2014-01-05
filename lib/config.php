@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 	class NgfbPluginConfig {
 
 		private static $cf = array(
-			'version' => '6.21rc1',			// plugin version
+			'version' => '6.21rc2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -29,14 +29,16 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			),
 			'lib' => array(				// libraries
 				'setting' => array (
+					'contact' => 'Contact Methods',
+				),
+				'submenu' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
-					'contact' => 'Contact Methods',
 					'social' => 'Social Sharing',
 					'style' => 'Social Style',
 					'about' => 'About',
 				),
-				'site_setting' => array(
+				'site_submenu' => array(
 					'network' => 'Network',
 				),
 				'website' => array(
@@ -225,8 +227,8 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				if ( defined( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) &&
 					constant( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) ) {
 					unset (
-						self::$cf['lib']['setting']['social'],
-						self::$cf['lib']['setting']['style'],
+						self::$cf['lib']['submenu']['social'],
+						self::$cf['lib']['submenu']['style'],
 						self::$cf['lib']['shortcode']['ngfb'],
 						self::$cf['lib']['widget']['social'],
 						self::$cf['lib']['util']['rewrite'],
@@ -347,15 +349,17 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				require_once( $plugin_dir.'lib/messages.php' );
 				require_once( $plugin_dir.'lib/admin.php' );
 
-				// settings classes extend lib/admin.php, and settings objects are created by lib/admin.php
-				foreach ( $cf['lib']['setting'] as $id => $name )
-					if ( file_exists( $plugin_dir.'lib/setting/'.$id.'.php' ) )
-						require_once( $plugin_dir.'lib/setting/'.$id.'.php' );
+				// setting and submenu classes extend lib/admin.php, and objects are created by lib/admin.php
+				// some setting classes extend submenu classes, so load the submenu array first
+				foreach ( array( 'submenu', 'setting' ) as $sub )
+					foreach ( $cf['lib'][$sub] as $id => $name )
+						if ( file_exists( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' ) )
+							require_once( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' );
 
 				// load the network settings if we're a multisite
 				if ( is_multisite() )
-					foreach ( $cf['lib']['site_setting'] as $id => $name )
-						require_once( $plugin_dir.'lib/site_setting/'.$id.'.php' );
+					foreach ( $cf['lib']['site_submenu'] as $id => $name )
+						require_once( $plugin_dir.'lib/site_submenu/'.$id.'.php' );
 
 				require_once( $plugin_dir.'lib/com/form.php' );
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
@@ -366,7 +370,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
-			// website classes extend both lib/social.php and lib/setting/social.php
+			// website classes extend both lib/social.php and lib/submenu/social.php
 			foreach ( $cf['lib']['website'] as $id => $name )
 				if ( file_exists( $plugin_dir.'lib/website/'.$id.'.php' ) )
 					require_once( $plugin_dir.'lib/website/'.$id.'.php' );
@@ -383,4 +387,5 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 		}
 	}
 }
+
 ?>

@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		protected $p;
 
 		// increment when changing default options
-		public $options_version = '218';
+		public $options_version = '219';
 
 		public $admin_sharing = array(
 			'fb_button' => 'share',
@@ -52,6 +52,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'link_publisher_url' => '',
 			'fb_admins' => '',
 			'fb_app_id' => '',
+			'fb_lang' => 'en_US',
 			'og_site_name' => '',
 			'og_site_description' => '',
 			'og_publisher_url' => '',
@@ -100,7 +101,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'fb_on_admin_sharing' => 1,
 			'fb_order' => 1,
 			'fb_js_loc' => 'header',
-			'fb_lang' => 'en_US',
 			'fb_button' => 'like',
 			'fb_markup' => 'xfbml',
 			'fb_send' => 1,
@@ -239,7 +239,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			'plugin_version' => '',
 			'plugin_tid' => '',
 			'plugin_preserve' => 0,
-			'plugin_reset' => 0,
 			'plugin_debug' => 0,
 			'plugin_filter_content' => 1,
 			'plugin_filter_excerpt' => 0,
@@ -669,13 +668,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			/*
 			 * Adjust dependent options
 			 */
-
-			// preserve and reset options are not compatible, disable reset if preserve option is checked
-			if ( ! empty( $opts['plugin_preserve'] ) ) {
-				$opts['plugin_reset'] = 0;
-				$opts['plugin_reset:is'] = 'disabled';
-			}
-
 			if ( empty( $opts['plugin_google_api_key'] ) ) {
 				$opts['plugin_google_shorten'] = 0;
 				$opts['plugin_google_shorten:is'] = 'disabled';

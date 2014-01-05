@@ -23,7 +23,7 @@ if ( ! class_exists( 'NgfbAdminSocialLinkedin' ) && class_exists( 'NgfbAdminSoci
 				( $this->show_on_checkboxes( 'linkedin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_order', range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'linkedin_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',

@@ -23,7 +23,7 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				( $this->show_on_checkboxes( 'gp', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_order', range( 1, count( $this->p->admin->setting['social']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'gp_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',

@@ -41,7 +41,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'ngfb_opts_ver' => 'options_version',
 			'ngfb_pro_tid' => 'plugin_tid',
 			'ngfb_preserve' => 'plugin_preserve',
-			'ngfb_reset' => 'plugin_reset',
 			'ngfb_debug' => 'plugin_debug',
 			'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
 			'ngfb_skip_small_img' => 'plugin_ignore_small_img',
