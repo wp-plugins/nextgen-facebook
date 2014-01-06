@@ -20,7 +20,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				'classname' => $widget_class,
 				'description' => 'The '.$ngfb->cf['full'].' social sharing buttons widget.'
 			);
-			$this->WP_Widget( $widget_class, self::$fullname, $widget_ops );
+			$this->WP_Widget( $widget_class, $widget_name, $widget_ops );
 		}
 	
 		public function widget( $args, $instance ) {

@@ -307,6 +307,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			$plugin_dir = NGFB_PLUGINDIR;
 
 			require_once( $plugin_dir.'lib/com/functions.php' );
+			require_once( $plugin_dir.'lib/com/util.php' );
 			require_once( $plugin_dir.'lib/com/cache.php' );
 			require_once( $plugin_dir.'lib/com/notice.php' );
 			require_once( $plugin_dir.'lib/com/script.php' );

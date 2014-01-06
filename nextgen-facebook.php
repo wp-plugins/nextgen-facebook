@@ -64,7 +64,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function init_widgets() {
 			foreach ( $this->cf['lib']['widget'] as $id => $name ) {
-				do_action( $this->p->cf['lca'].'_load_lib', 'widget', $id );
+				do_action( $this->cf['lca'].'_load_lib', 'widget', $id );
 				$classname = __CLASS__.'Widget'.$name;
 				if ( class_exists( $classname ) )
 					register_widget( $classname );
