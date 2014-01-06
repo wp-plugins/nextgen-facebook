@@ -224,8 +224,7 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 		public static function get_config( $idx = '' ) { 
 			if ( self::$cf_filtered === false ) {
 				// remove the social sharing libs if disabled
-				if ( defined( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) &&
-					constant( self::$cf['uca'].'_SOCIAL_SHARING_DISABLE' ) ) {
+				if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
 					unset (
 						self::$cf['lib']['submenu']['social'],
 						self::$cf['lib']['submenu']['style'],
@@ -249,79 +248,77 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 		public static function set_constants( $plugin_filepath ) { 
 
 			$cf = self::get_config();
-			$cp = $cf['uca'].'_';	// constant prefix
 
 			// .../wordpress/wp-content/plugins/nextgen-facebook/nextgen-facebook.php
-			define( $cp.'FILEPATH', $plugin_filepath );						
+			define( 'NGFB_FILEPATH', $plugin_filepath );						
 
 			// .../wordpress/wp-content/plugins/nextgen-facebook/
-			define( $cp.'PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
+			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
 
 			// nextgen-facebook/nextgen-facebook.php
-			define( $cp.'PLUGINBASE', plugin_basename( $plugin_filepath ) );
+			define( 'NGFB_PLUGINBASE', plugin_basename( $plugin_filepath ) );
 
 			// nextgen-facebook
-			define( $cp.'TEXTDOM', $cf['slug'] );
+			define( 'NGFB_TEXTDOM', $cf['slug'] );
 
 			// http://.../wp-content/plugins/nextgen-facebook/
-			define( $cp.'URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
+			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
 
-			define( $cp.'NONCE', md5( constant( $cp.'PLUGINDIR' ).'-'.$cf['version'] ) );
+			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$cf['version'] ) );
 
 			/*
 			 * Allow some constants to be pre-defined in wp-config.php
 			 */
 
-			if ( defined( $cp.'DEBUG' ) && 
-				! defined( $cp.'HTML_DEBUG' ) )
-					define( $cp.'HTML_DEBUG', constant( $cp.'DEBUG' ) );
+			if ( defined( 'NGFB_DEBUG' ) && 
+				! defined( 'NGFB_HTML_DEBUG' ) )
+					define( 'NGFB_HTML_DEBUG', NGFB_DEBUG );
 
-			if ( ! defined( $cp.'CACHEDIR' ) )
-				define( $cp.'CACHEDIR', constant( $cp.'PLUGINDIR' ).'cache/' );
+			if ( ! defined( 'NGFB_CACHEDIR' ) )
+				define( 'NGFB_CACHEDIR', NGFB_PLUGINDIR.'cache/' );
 
-			if ( ! defined( $cp.'CACHEURL' ) )
-				define( $cp.'CACHEURL', constant( $cp.'URLPATH' ).'cache/' );
+			if ( ! defined( 'NGFB_CACHEURL' ) )
+				define( 'NGFB_CACHEURL', NGFB_URLPATH.'cache/' );
 
-			if ( ! defined( $cp.'OPTIONS_NAME' ) )
-				define( $cp.'OPTIONS_NAME', $cf['lca'].'_options' );
+			if ( ! defined( 'NGFB_OPTIONS_NAME' ) )
+				define( 'NGFB_OPTIONS_NAME', $cf['lca'].'_options' );
 
-			if ( ! defined( $cp.'SITE_OPTIONS_NAME' ) )
-				define( $cp.'SITE_OPTIONS_NAME', $cf['lca'].'_site_options' );
+			if ( ! defined( 'NGFB_SITE_OPTIONS_NAME' ) )
+				define( 'NGFB_SITE_OPTIONS_NAME', $cf['lca'].'_site_options' );
 
-			if ( ! defined( $cp.'META_NAME' ) )
-				define( $cp.'META_NAME', '_'.$cf['lca'].'_meta' );
+			if ( ! defined( 'NGFB_META_NAME' ) )
+				define( 'NGFB_META_NAME', '_'.$cf['lca'].'_meta' );
 
-			if ( ! defined( $cp.'MENU_PRIORITY' ) )
-				define( $cp.'MENU_PRIORITY', '99.11' );
+			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
+				define( 'NGFB_MENU_PRIORITY', '99.11' );
 
-			if ( ! defined( $cp.'INIT_PRIORITY' ) )
-				define( $cp.'INIT_PRIORITY', 13 );
+			if ( ! defined( 'NGFB_INIT_PRIORITY' ) )
+				define( 'NGFB_INIT_PRIORITY', 13 );
 
-			if ( ! defined( $cp.'HEAD_PRIORITY' ) )
-				define( $cp.'HEAD_PRIORITY', 10 );
+			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
+				define( 'NGFB_HEAD_PRIORITY', 10 );
 
-			if ( ! defined( $cp.'SOCIAL_PRIORITY' ) )
-				define( $cp.'SOCIAL_PRIORITY', 100 );
+			if ( ! defined( 'NGFB_SOCIAL_PRIORITY' ) )
+				define( 'NGFB_SOCIAL_PRIORITY', 100 );
 			
-			if ( ! defined( $cp.'FOOTER_PRIORITY' ) )
-				define( $cp.'FOOTER_PRIORITY', 100 );
+			if ( ! defined( 'NGFB_FOOTER_PRIORITY' ) )
+				define( 'NGFB_FOOTER_PRIORITY', 100 );
 			
-			if ( ! defined( $cp.'DEBUG_FILE_EXP' ) )
-				define( $cp.'DEBUG_FILE_EXP', 300 );
+			if ( ! defined( 'NGFB_DEBUG_FILE_EXP' ) )
+				define( 'NGFB_DEBUG_FILE_EXP', 300 );
 
-			if ( ! defined( $cp.'CURL_USERAGENT' ) )
-				define( $cp.'CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
+			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
+				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
 
-			if ( ! defined( $cp.'CURL_CAINFO' ) )
-				define( $cp.'CURL_CAINFO', constant( $cp.'PLUGINDIR' ).'share/curl/cacert.pem' );
+			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
+				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR.'share/curl/cacert.pem' );
 
 		}
 
 		public static function require_libs( $plugin_filepath ) {
 			
 			$cf = self::get_config();
-
-			$plugin_dir = constant( $cf['uca'].'_'.'PLUGINDIR' );
+			$plugin_dir = NGFB_PLUGINDIR;
 
 			require_once( $plugin_dir.'lib/com/functions.php' );
 			require_once( $plugin_dir.'lib/com/cache.php' );
@@ -371,15 +368,11 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
 			// website classes extend both lib/social.php and lib/submenu/social.php
-			foreach ( $cf['lib']['website'] as $id => $name )
-				if ( file_exists( $plugin_dir.'lib/website/'.$id.'.php' ) )
-					require_once( $plugin_dir.'lib/website/'.$id.'.php' );
-
 			// widgets are added to wordpress when library file is loaded
-			// no need to create the class object later on
-			foreach ( $cf['lib']['widget'] as $id => $name )
-				if ( file_exists( $plugin_dir.'lib/widget/'.$id.'.php' ) )
-					require_once( $plugin_dir.'lib/widget/'.$id.'.php' );
+			foreach ( array( 'website', 'widget' ) as $sub )
+				foreach ( $cf['lib'][$sub] as $id => $name )
+					if ( file_exists( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' ) )
+						require_once( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' );
 
 			// additional classes are loaded and extended by the pro addon construct
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
