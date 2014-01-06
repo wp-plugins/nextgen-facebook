@@ -16,11 +16,9 @@ if ( ! class_exists( 'NgfbPluginRegister' ) ) {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$uca = $this->p->cf['uca'];
-
-			register_activation_hook( constant( $uca.'_FILEPATH' ), array( &$this, 'network_activate' ) );
-			register_deactivation_hook( constant( $uca.'_FILEPATH' ), array( &$this, 'network_deactivate' ) );
-			register_uninstall_hook( constant( $uca.'_FILEPATH' ), array( __CLASS__, 'network_uninstall' ) );
+			register_activation_hook( NGFB_FILEPATH, array( &$this, 'network_activate' ) );
+			register_deactivation_hook( NGFB_FILEPATH, array( &$this, 'network_deactivate' ) );
+			register_uninstall_hook( NGFB_FILEPATH, array( __CLASS__, 'network_uninstall' ) );
 		}
 
 		public function network_activate( $sitewide ) {

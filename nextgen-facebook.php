@@ -33,7 +33,6 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 		public function __construct() {
 
 			require_once ( dirname( __FILE__ ).'/lib/config.php' );
-			$this->cf = NgfbPluginConfig::get_config();
 			NgfbPluginConfig::set_constants( __FILE__ );
 			NgfbPluginConfig::require_libs( __FILE__ );	// keep in construct for widgets
 
@@ -50,7 +49,10 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
 
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
+
+			$this->cf = NgfbPluginConfig::get_config();
 			$this->set_objects();
+
 			if ( $this->debug->is_on() === true ) {
 				foreach ( array( 'wp_head', 'wp_footer' ) as $action ) {
 					foreach ( array( 1, 9999 ) as $prio )
