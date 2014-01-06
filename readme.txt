@@ -184,7 +184,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.21rc3 =
+= Version 6.21rc4 =
 
 * **Moved the NextGEN Gallery support to a Pro version addon**.
 * Added an 'ngfb_image_downsize' hook (for the Jetpack Photon Pro addon).
@@ -195,8 +195,9 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Changed the default object expiration time from 1800 to 3600 seconds (1 hour).
 * Removed the "Reset Settings on Activate" Advanced option.
 * Renamed the NGFB_RESET constant to NGFB_RESET_ON_ACTIVATE.
-* Added a 'ngfb_load_lib' action to allow 3rd party plugins to provide library files.
-* Renamed the 'NgfbPlugin' class to 'Ngfb'.
+* Added an 'ngfb_load_lib' action to allow 3rd party plugins to provide library files.
+* Moved several methods from lib/util.php to lib/com/util.php.
+* Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
 
 = Version 6.20.1 =
 
@@ -237,7 +238,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 == Upgrade Notice ==
 
-= 6.21rc3 =
+= 6.21rc4 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 

@@ -224,7 +224,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
 
 						// exclude buttons enabled for admin editing pages
-						foreach ( $this->p->util->preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
+						foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
 							if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
 								$ids[] = $id;
 

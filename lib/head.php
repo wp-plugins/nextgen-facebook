@@ -53,7 +53,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			if ( $this->p->debug->is_on() ) {
 				$defined_constants = get_defined_constants( true );
 				$defined_constants['user']['NGFB_NONCE'] = '********';
-				$this->p->debug->show_html( $this->p->util->preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'ngfb constants' );
+				$this->p->debug->show_html( SucomUtil::preg_grep_keys( '/^NGFB_/', $defined_constants['user'] ), 'ngfb constants' );
 
 				$opts = $this->p->options;
 				foreach ( $opts as $key => $val ) {
@@ -156,7 +156,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 						$html .= $this->get_single_meta( $first_name );	// possibly show an empty tag (depends on og_empty_tags value)
 					else {
 						foreach ( $first_val as $second_num => $second_val ) {			// 2nd-dimension array
-							if ( $this->p->util->is_assoc( $second_val ) ) {
+							if ( SucomUtil::is_assoc( $second_val ) ) {
 								ksort( $second_val );
 								foreach ( $second_val as $third_name => $third_val )	// 3rd-dimension array (associative)
 									$html .= $this->get_single_meta( $third_name, $third_val, $first_name.':'.( $second_num + 1 ) );

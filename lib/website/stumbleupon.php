@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 		public function get_rows() {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
-			$badge = '
+			$badge_html = '
 				<style type="text/css">
 					.badge { 
 						display:block;
@@ -41,21 +41,22 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 				</style>
 			';
 
-			$badge .= '<div class="badge-col-left">';
+			$badge_html .= '<div class="badge-col-left">';
+			$badge_number = empty( $this->p->options['stumble_badge'] ) ? 1 : $this->p->options['stumble_badge'];
 			foreach ( array( 1, 2, 3, 6 ) as $i ) {
-				$badge .= '<div class="badge" id="badge-'.$i.'">';
-				$badge .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
-					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
-				$badge .= '</div>';
+				$badge_html .= '<div class="badge" id="badge-'.$i.'">';
+				$badge_html .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
+					value="'.$i.'" '.checked( $i, $badge_number, false ).'/>';
+				$badge_html .= '</div>';
 			}
-			$badge .= '</div><div class="badge-col-right">';
+			$badge_html .= '</div><div class="badge-col-right">';
 			foreach ( array( 4, 5 ) as $i ) {
-				$badge .= '<div class="badge" id="badge-'.$i.'">';
-				$badge .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
-					value="'.$i.'" '.checked( $i, $this->p->options['stumble_badge'], false ).'/>';
-				$badge .= '</div>';
+				$badge_html .= '<div class="badge" id="badge-'.$i.'">';
+				$badge_html .= '<input type="radio" name="'.$this->form->options_name.'[stumble_badge]" 
+					value="'.$i.'" '.checked( $i, $badge_number, false ).'/>';
+				$badge_html .= '</div>';
 			}
-			$badge .= '</div>';
+			$badge_html .= '</div>';
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
@@ -68,7 +69,7 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
 
-				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge.'</td>',
+				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge_html.'</td>',
 			);
 		}
 	}

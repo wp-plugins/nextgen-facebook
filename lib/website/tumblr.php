@@ -18,26 +18,28 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 		}
 
 		public function get_rows() {
-			$buttons = '<div class="btn_wizard_row clearfix" id="button_styles">';
+			$buttons_html = '<div class="btn_wizard_row clearfix" id="button_styles">';
+			$buttons_style = empty( $this->p->options['tumblr_button_style'] ) ? 
+				'share_1' : $this->p->options['tumblr_button_style'];
 			foreach ( range( 1, 4 ) as $i ) {
-				$buttons .= '<div class="btn_wizard_column share_'.$i.'">';
+				$buttons_html .= '<div class="btn_wizard_column share_'.$i.'">';
 				foreach ( array( '', 'T' ) as $t ) {
-					$buttons .= '
+					$buttons_html .= '
 						<div class="btn_wizard_example clearfix">
 						<label for="share_'.$i.$t.'">
 						<input type="radio" id="share_'.$i.$t.'" 
 							name="'.$this->form->options_name.'[tumblr_button_style]" 
 							value="share_'.$i.$t.'" '.
-							checked( 'share_'.$i.$t, $this->p->options['tumblr_button_style'], false ).'/>
+							checked( 'share_'.$i.$t, $buttons_style, false ).'/>
 						<img src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share_'.$i.$t.'.png' ).'" 
 							height="20" class="share_button_image"/>
 						</label>
 						</div>
 					';
 				}
-				$buttons .= '</div>';
+				$buttons_html .= '</div>';
 			}
-			$buttons .= '</div>';
+			$buttons_html .= '</div>';
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
@@ -54,7 +56,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
 
-				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons.'</td>',
+				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons_html.'</td>',
 
 				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
 				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',

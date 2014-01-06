@@ -90,15 +90,15 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 				case 'widget' :
 					$ret[] = '<td class="textinfo">
-					<p>Social sharing buttons within the '.ngfbWidgetSocialSharing::$fullname.
-					' widget are assigned the \'ngfb-widget-buttons\' class, which itself contains the 
+					<p>Social sharing buttons within the '.$this->p->cf['menu'].' Social Sharing
+					widget are assigned the \'ngfb-widget-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the social buttons 
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-widget-buttons 
     .ngfb-buttons
         .facebook-button { }</pre>
-					<p>The '.ngfbWidgetSocialSharing::$fullname.' widget also has an id of 
+					<p>The '.$this->p->cf['menu'].' Social Sharing widget also has an id of 
 					\'ngfb-widget-buttons-<em>#</em>\', and the buttons have an id of 
 					\'<em>name</em>-ngfb-widget-buttons-<em>#</em>\'.</p>
 					<p>Example:</p><pre>

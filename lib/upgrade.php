@@ -98,7 +98,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 		// def_opts accepts output from functions, so don't force reference
 		public function options( $options_name, &$opts = array(), $def_opts = array() ) {
 
-			$opts = $this->p->util->rename_keys( $opts, $this->renamed_keys );
+			$opts = SucomUtil::rename_keys( $opts, $this->renamed_keys );
 
 			// custom value changes for regular options
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
