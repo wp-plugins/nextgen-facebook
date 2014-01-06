@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.21rc2
+Version: 6.21rc3
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -15,9 +15,9 @@ Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbPlugin' ) ) {
+if ( ! class_exists( 'Ngfb' ) ) {
 
-	class NgfbPlugin {
+	class Ngfb {
 
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
@@ -32,25 +32,25 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 
 		public function __construct() {
 
-			require_once ( dirname( __FILE__ ).'/lib/config.php' );
-			NgfbPluginConfig::set_constants( __FILE__ );
-			NgfbPluginConfig::require_libs( __FILE__ );	// keep in construct for widgets
+			require_once( dirname( __FILE__ ).'/lib/config.php' );
+			$this->cf = NgfbConfig::get_config();
+			NgfbConfig::set_constants( __FILE__ );
+			NgfbConfig::require_libs( __FILE__ );
 
-			require_once ( dirname( __FILE__ ).'/lib/register.php' );
+			require_once( dirname( __FILE__ ).'/lib/register.php' );
 			$classname = __CLASS__.'Register';
 			$this->reg = new $classname( $this );
 
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );
+			add_action( 'widgets_init', array( &$this, 'init_widgets' ), 10 );
 		}
 
-		// called by WP init action
 		public function init_plugin() {
 			if ( is_feed() ) return;	// nothing to do in the feeds
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
 
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-
-			$this->cf = NgfbPluginConfig::get_config();
+			$this->cf = apply_filters( 'ngfb_get_config', NgfbConfig::get_config() );
 			$this->set_objects();
 
 			if ( $this->debug->is_on() === true ) {
@@ -59,6 +59,15 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 						add_action( $action, create_function( '', 
 							"echo '<!-- ".$this->cf['lca']." add_action( \'$action\' ) priority $prio test = PASSED -->\n';" ), $prio );
 				}
+			}
+		}
+
+		public function init_widgets() {
+			foreach ( $this->cf['lib']['widget'] as $id => $name ) {
+				do_action( $this->p->cf['lca'].'_load_lib', 'widget', $id );
+				$classname = __CLASS__.'Widget'.$name;
+				if ( class_exists( $classname ) )
+					register_widget( $classname );
 			}
 		}
 
@@ -232,7 +241,7 @@ if ( ! class_exists( 'NgfbPlugin' ) ) {
 	}
 
         global $ngfb;
-	$ngfb = new NgfbPlugin();
+	$ngfb = new Ngfb();
 }
 
 if ( ! class_exists( 'NgfbNoDebug' ) ) {

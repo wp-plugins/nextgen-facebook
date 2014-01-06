@@ -12,15 +12,15 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 
 	class NgfbWidgetSocialSharing extends WP_Widget {
 
-		public static $fullname = 'NGFB Social Sharing';
-
 		public function __construct() {
 			global $ngfb;
+			$widget_name = $ngfb->cf['menu'].' Social Sharing';
+			$widget_class = $ngfb->cf['lca'].'-widget-buttons';
 			$widget_ops = array( 
-				'classname' => 'ngfb-widget-buttons',
+				'classname' => $widget_class,
 				'description' => 'The '.$ngfb->cf['full'].' social sharing buttons widget.'
 			);
-			$this->WP_Widget( 'ngfb-widget-buttons', self::$fullname, $widget_ops );
+			$this->WP_Widget( $widget_class, self::$fullname, $widget_ops );
 		}
 	
 		public function widget( $args, $instance ) {
@@ -115,6 +115,6 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			unset( $id, $name );
 		}
 	}
-	add_action( 'widgets_init', create_function( '', 'return register_widget( "NgfbWidgetSocialSharing" );' ) );
 }
+
 ?>

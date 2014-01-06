@@ -8,12 +8,12 @@ Copyright 2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbPluginConfig' ) ) {
+if ( ! class_exists( 'NgfbConfig' ) ) {
 
-	class NgfbPluginConfig {
+	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.21rc2',			// plugin version
+			'version' => '6.21rc3',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -222,21 +222,17 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 		private static $cf_filtered = false;
 
 		public static function get_config( $idx = '' ) { 
-			if ( self::$cf_filtered === false ) {
-				// remove the social sharing libs if disabled
-				if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
-					unset (
-						self::$cf['lib']['submenu']['social'],
-						self::$cf['lib']['submenu']['style'],
-						self::$cf['lib']['shortcode']['ngfb'],
-						self::$cf['lib']['widget']['social'],
-						self::$cf['lib']['util']['rewrite'],
-						self::$cf['lib']['util']['shorten']
-					);
-					self::$cf['lib']['website'] = array();
-				}
-				self::$cf = apply_filters( self::$cf['lca'].'_get_config', self::$cf );
-				self::$cf_filtered = true;
+			// remove the social sharing libs if disabled
+			if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
+				unset (
+					self::$cf['lib']['submenu']['social'],
+					self::$cf['lib']['submenu']['style'],
+					self::$cf['lib']['shortcode']['ngfb'],
+					self::$cf['lib']['widget']['social'],
+					self::$cf['lib']['util']['rewrite'],
+					self::$cf['lib']['util']['shorten']
+				);
+				self::$cf['lib']['website'] = array();
 			}
 			if ( ! empty( $idx ) ) {
 				if ( array_key_exists( $idx, self::$cf ) )
@@ -249,21 +245,11 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 
 			$cf = self::get_config();
 
-			// .../wordpress/wp-content/plugins/nextgen-facebook/nextgen-facebook.php
 			define( 'NGFB_FILEPATH', $plugin_filepath );						
-
-			// .../wordpress/wp-content/plugins/nextgen-facebook/
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
-
-			// nextgen-facebook/nextgen-facebook.php
 			define( 'NGFB_PLUGINBASE', plugin_basename( $plugin_filepath ) );
-
-			// nextgen-facebook
 			define( 'NGFB_TEXTDOM', $cf['slug'] );
-
-			// http://.../wp-content/plugins/nextgen-facebook/
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
-
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$cf['version'] ) );
 
 			/*
@@ -338,8 +324,8 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 			require_once( $plugin_dir.'lib/head.php' );
 
 			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
-				( ! defined( $cf['uca'].'_SOCIAL_SHARING_DISABLE' ) || 
-					! constant( $cf['uca'].'_SOCIAL_SHARING_DISABLE' ) ) )
+				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
+					! NGFB_SOCIAL_SHARING_DISABLE ) )
 						require_once( $plugin_dir.'lib/social.php' );
 
 			if ( is_admin() ) {
@@ -367,17 +353,18 @@ if ( ! class_exists( 'NgfbPluginConfig' ) ) {
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
-			// website classes extend both lib/social.php and lib/submenu/social.php
-			// widgets are added to wordpress when library file is loaded
-			foreach ( array( 'website', 'widget' ) as $sub )
-				foreach ( $cf['lib'][$sub] as $id => $name )
-					if ( file_exists( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' ) )
-						require_once( $plugin_dir.'lib/'.$sub.'/'.$id.'.php' );
-
 			// additional classes are loaded and extended by the pro addon construct
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
 				require_once( $plugin_dir.'lib/pro/addon.php' );
+
+			add_action( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 2 );
 		}
+
+		public static function load_lib( $sub, $id ) {
+			if ( file_exists( NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php' ) )
+				require_once( NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php' );
+		}
+
 	}
 }
 

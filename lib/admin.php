@@ -55,16 +55,16 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 		// load all submenu classes into the $this->submenu array
 		private function set_objects() {
-			$libs = array_merge( 
-				$this->p->cf['lib']['setting'],
-				$this->p->cf['lib']['submenu']
-			);
+			$libs = array( 'setting', 'submenu' );
 			if ( is_multisite() )
-				$libs = array_merge( $libs, $this->p->cf['lib']['site_submenu'] );
-			foreach ( $libs as $id => $name ) {
-				$classname = __CLASS__.ucfirst( $id );
-				if ( class_exists( $classname ) )
-					$this->submenu[$id] = new $classname( $this->p, $id, $name );
+				$libs[] = ['site_submenu'];
+			foreach ( $libs as $sub ) {
+				foreach ( $this->p->cf['lib'][$sub] as $id => $name ) {
+					do_action( $this->p->cf['lca'].'_load_lib', $sub, $id );
+					$classname = __CLASS__.ucfirst( $id );
+					if ( class_exists( $classname ) )
+						$this->submenu[$id] = new $classname( $this->p, $id, $name );
+				}
 			}
 		}
 

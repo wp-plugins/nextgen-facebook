@@ -30,6 +30,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		private function set_objects() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
+				do_action( $this->p->cf['lca'].'_load_lib', 'website', $id );
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
@@ -205,8 +206,10 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( 'exiting early: admin non-editing page' );
 				return;
 			}
-			$widget = new NgfbWidgetSocialSharing();
-		 	$widget_settings = $widget->get_settings();
+			if ( class_exists( 'NgfbWidgetSocialSharing' ) ) {
+				$widget = new NgfbWidgetSocialSharing();
+		 		$widget_settings = $widget->get_settings();
+			} else $widget_settings = array();
 
 			// determine which (if any) social buttons are enabled
 			// loop through the social button option prefixes (fb, gp, etc.)

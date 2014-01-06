@@ -315,7 +315,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 			if ( $this->p->is_avail['ssb'] ) {
 				foreach ( $this->p->cf['css'] as $id => $name ) {
-					$css_file = constant( $this->p->cf['uca'].'_PLUGINDIR').'css/'.$id.'-buttons.css';
+					$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 					// css files are only loaded once into defaults to minimize disk i/o
 					if ( empty( $this->defaults['buttons_css_'.$id] ) ) {
 						if ( ! $fh = @fopen( $css_file, 'rb' ) )
@@ -392,20 +392,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$this->p->debug->log( $options_name.' version different than saved' );
 						// only load upgrade class when needed to save a few Kb
 						if ( ! is_object( $this->upg ) ) {
-							require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/upgrade.php' );
+							require_once( NGFB_PLUGINDIR.'lib/upgrade.php' );
 							$this->upg = new NgfbOptionsUpgrade( $this->p );
 						}
 						$opts = $this->upg->options( $options_name, $opts, $this->get_defaults() );
 					}
 
-					if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) &&
+					if ( $options_name == NGFB_OPTIONS_NAME &&
 						$this->p->is_avail['aop'] !== true && 
 						empty( $this->p->options['plugin_tid'] ) ) {
 
 						// show the nag and update the options only if we have someone with access
 						if ( current_user_can( 'manage_options' ) ) {
 							if ( ! is_object( $this->p->msg ) ) {
-								require_once( constant( $this->p->cf['uca'].'_PLUGINDIR' ).'lib/messages.php' );
+								require_once( NGFB_PLUGINDIR.'lib/messages.php' );
 								$this->p->msg = new NgfbMessages( $this->p );
 							}
 							$this->p->notice->nag( $this->p->msg->get( 'pro-advert-nag' ), true );
@@ -415,7 +415,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				}
 
 				// add support for post types that may have been added since options last saved
-				if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) )
+				if ( $options_name == NGFB_OPTIONS_NAME )
 					$opts = $this->add_post_type_options( $opts );
 
 				if ( ! empty( $this->p->is_avail['seo']['*'] ) &&
@@ -433,14 +433,14 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				else $opts_err_msg = 'returned an unknown condition when reading '.$options_name.' from';
 
 				$this->p->debug->log( 'WordPress '.$opts_err_msg.' the options database table.' );
-				if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
+				if ( $options_name == NGFB_SITE_OPTIONS_NAME )
 					$opts = $this->get_site_defaults();
 				else $opts = $this->get_defaults();
 			}
 
 			if ( is_admin() ) {
 				if ( ! empty( $opts_err_msg ) ) {
-					if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
+					if ( $options_name == NGFB_SITE_OPTIONS_NAME )
 						$url = $this->p->util->get_admin_url( 'network' );
 					else $url = $this->p->util->get_admin_url( 'general' );
 
@@ -448,7 +448,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						Plugin settings have been returned to their default values. 
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
-				if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
+				if ( $options_name == NGFB_OPTIONS_NAME ) {
 					if ( $this->p->options['og_img_width'] < $this->p->cf['head']['min_img_width'] || 
 						$this->p->options['og_img_height'] < $this->p->cf['head']['min_img_height'] ) {
 
@@ -699,12 +699,12 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error
-			if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
+			if ( $options_name == NGFB_SITE_OPTIONS_NAME )
 				$opts_current = get_site_option( $options_name, $opts );
 			else $opts_current = get_option( $options_name, $opts );
 
 			if ( $opts_current !== $opts ) {
-				if ( $options_name == constant( $this->p->cf['uca'].'_SITE_OPTIONS_NAME' ) )
+				if ( $options_name == NGFB_SITE_OPTIONS_NAME )
 					$saved = update_site_option( $options_name, $opts );
 				else $saved = update_option( $options_name, $opts );
 
@@ -725,4 +725,5 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 	}
 }
+
 ?>
