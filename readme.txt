@@ -184,11 +184,11 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.21rc4 =
+= Version 6.21rc5 =
 
 * **Moved the NextGEN Gallery support to a Pro version addon**.
+* Added support for **JetPack Photon** to retrieve correct image sizes (Pro version).
 * Added an 'ngfb_image_downsize' hook (for the Jetpack Photon Pro addon).
-* Added support for JetPack Photon to retrieve correct image sizes (Pro version).
 * Added hooks to disable JetPack Open Graph and Twitter Card meta tags.
 * Added a hook for the 'ngfb_sharing_url' filter to support WordPress SEO's "Force Transport" option (Pro version).
 * Moved the URL rewriting and shortening methods into hooks for the 'ngfb_rewrite_url' and 'ngfb_shorten_url' filters (Pro version).
@@ -197,6 +197,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Renamed the NGFB_RESET constant to NGFB_RESET_ON_ACTIVATE.
 * Added an 'ngfb_load_lib' action to allow 3rd party plugins to provide library files.
 * Moved several methods from lib/util.php to lib/com/util.php.
+* Moved `show_sharing()` from lib/postmeta.php to lib/social.php.
 * Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
 
 = Version 6.20.1 =
@@ -238,7 +239,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 == Upgrade Notice ==
 
-= 6.21rc4 =
+= 6.21rc5 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 
