@@ -300,7 +300,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			do_action( $this->p->cf['lca'].'_options_mark' );
 		}
 
 		public function get_site_defaults( $idx = '' ) {

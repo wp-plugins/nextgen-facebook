@@ -26,6 +26,32 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			$this->add_filter( 'get_the_excerpt' );
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
+
+			if ( is_admin() )
+				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
+		}
+
+		public function add_metaboxes() {
+			// is there at least one social button enabled for the admin_sharing metabox?
+			$add_admin_sharing = false;
+			if ( $this->p->is_avail['ssb'] ) {
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
+						$add_admin_sharing = true;
+						break;
+					}
+				}
+			}
+			// include the custom settings metabox on the editing page for that post type
+			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type ) {
+				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
+					if ( $add_admin_sharing === true ) {
+						add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
+							array( &$this, 'show_admin_sharing' ), $post_type->name, 'side', 'high' );
+					}
+					break;
+				}
+			}
 		}
 
 		private function set_objects() {
@@ -312,6 +338,23 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				}
 			}
 			return false;
+		}
+
+		public function show_admin_sharing( $post ) {
+			if ( empty( $this->p->is_avail['ssb'] ) )
+				return;
+			$post_type = get_post_type_object( $post->post_type );	// since 3.0
+			$post_type_name = ucfirst( $post_type->name );
+			echo '<table class="sucom-setting side"><tr><td>';
+			if ( get_post_status( $post->ID ) == 'publish' ) {
+				$content = '';
+				if ( ! empty( $this->p->opt->admin_sharing ) )
+					$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );
+				$this->add_header();
+				echo $this->filter( $content, 'admin_sharing', $opts );
+				$this->add_footer();
+			} else echo '<p class="centered">The '.$post_type_name.' must be published<br/>before it can be shared.</p>';
+			echo '</td></tr></table>';
 		}
 	}
 }
