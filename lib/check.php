@@ -15,6 +15,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		private $p;
 		private $active_plugins;
 		private $network_plugins;
+		private static $aop;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -30,9 +31,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// Disable JetPack Open Graph Meta Tags
-			if ( class_exists( 'JetPack' ) ||
-				in_array( 'jetpack/jetpack.php', $this->active_plugins ) ) {
-				add_filter( 'jetpack_enable_opengraph', '__return_false', 99 );	// deprecated, but correct filter name is broken
+			if ( class_exists( 'JetPack' ) || in_array( 'jetpack/jetpack.php', $this->active_plugins ) ) {
+				add_filter( 'jetpack_enable_opengraph', '__return_false', 99 );	// deprecated, but correct filter is checked too early
+				add_filter( 'jetpack_enable_open_graph', '__return_false', 99 );
 				add_filter( 'jetpack_disable_twitter_cards', '__return_true', 99 );
 			}
 		}
@@ -63,7 +64,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
 
-			$ret['aop'] = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
+			$ret['aop'] = self::$aop = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
@@ -161,7 +162,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// Yoast WordPress SEO
-			if ( $this->p->is_avail['seo']['wpseo'] == true ) {
+			if ( $this->p->is_avail['seo']['wpseo'] === true ) {
 				$opts = get_option( 'wpseo_social' );
 				if ( ! empty( $opts['opengraph'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo opengraph meta data option is enabled' );
@@ -185,7 +186,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// SEO Ultimate
-			if ( $this->p->is_avail['seo']['seou'] == true ) {
+			if ( $this->p->is_avail['seo']['seou'] === true ) {
 				$opts = get_option( 'seo_ultimate' );
 				if ( ! empty( $opts['modules'] ) && is_array( $opts['modules'] ) ) {
 					if ( array_key_exists( 'opengraph', $opts['modules'] ) && $opts['modules']['opengraph'] !== -10 ) {
@@ -198,7 +199,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// All in One SEO Pack
-			if ( $this->p->is_avail['seo']['aioseop'] == true ) {
+			if ( $this->p->is_avail['seo']['aioseop'] === true ) {
 				$opts = get_option( 'aioseop_options' );
 				if ( array_key_exists( 'aiosp_google_disable_profile', $opts ) && empty( $opts['aiosp_google_disable_profile'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'aioseop google plus profile is enabled' );
@@ -206,6 +207,18 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the <a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=all-in-one-seo-pack/aioseop_class.php' ) ) );
 				}
+			}
+
+			// JetPack Photon
+			if ( $this->p->is_avail['media']['photon'] === true && ! $this->is_aop() ) {
+				$this->p->debug->log( $conflict_log_prefix.'jetpack photon is enabled' );
+				$this->p->notice->err( $conflict_err_prefix.
+					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
+						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a>
+							(which includes support for JetPack Photon).', NGFB_TEXTDOM ), 
+						get_admin_url( null, 'admin.php?page=jetpack' ),
+						$this->p->cf['url']['purchase'],
+						$this->p->cf['full_pro'] ) );
 			}
 
 			/*
@@ -250,7 +263,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				$this->p->notice->err( $conflict_err_prefix. 
 					__( 'The AddThis Social Bookmarking Widget has incorrectly coded content and excerpt filters.', NGFB_TEXTDOM ).' '.
 					sprintf( __( 'Please uncheck the \'<em>Apply Content and Excerpt Filters</em>\' options on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  
-						$this->p->util->get_admin_url( 'advanced' ), $this->p->cf['full'] ) ).' '.
+						$this->p->util->get_admin_url( 'advanced' ), $this->p->cf['menu'] ) ).' '.
 					__( 'Disabling content filters will prevent shortcodes from being expanded, which may lead to incorrect / incomplete description meta tags.', NGFB_TEXTDOM );
 			}
 
@@ -267,7 +280,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		}
 
 		public function is_aop() {
-			if ( $this->p->is_avail['aop'] == true && 
+			if ( self::$aop === true && 
 				! empty( $this->p->options['plugin_tid'] ) && 
 					empty( $this->p->update_error ) )
 						return true; return false;

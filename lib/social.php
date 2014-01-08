@@ -304,7 +304,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					js.language = "JavaScript";
 					js.src = url;
 					script_pos.parentNode.insertBefore( js, script_pos );
-				};</script>';
+				};</script>'."\n";
 		}
 
 		public function get_css( $css_name, $atts = array(), $css_class_extra = '', $css_id_extra = '' ) {

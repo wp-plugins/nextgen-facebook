@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.21rc5
+Version: 6.21.0
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -189,6 +189,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 			// setup the update checks if we have an Authentication ID
 			if ( ! empty( $this->options['plugin_tid'] ) ) {
+				add_filter( $this->cf['lca'].'_ua_plugin', array( &$this, 'filter_ua_plugin' ), 10, 1 );
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
 				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
 				$this->update = new SucomUpdate( $this );
@@ -204,9 +205,16 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		}
 
 		public function filter_installed_version( $version ) {
-			if ( $this->is_avail['aop'] )
-				return $version;
-			else return '0.'.$version;
+			if ( ! $this->is_avail['aop'] )
+				$version = '0.'.$version;
+			return $version;
+		}
+
+		public function filter_ua_plugin( $plugin ) {
+			if ( $this->check->is_aop() ) $plugin .= 'L';
+			elseif ( $this->is_avail['aop'] ) $plugin .= 'U';
+			else $plugin .= 'G';
+			return $plugin;
 		}
 
 		public function set_options() {

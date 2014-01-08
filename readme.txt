@@ -184,7 +184,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.21rc5 =
+= Version 6.21.0 =
 
 * **Moved the NextGEN Gallery support to a Pro version addon**.
 * Added support for **JetPack Photon** to retrieve correct image sizes (Pro version).
@@ -239,7 +239,7 @@ If you have an issue, refer to the 'Debug the Back-End' section in the [Debuggin
 
 == Upgrade Notice ==
 
-= 6.21rc5 =
+= 6.21.0 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 
