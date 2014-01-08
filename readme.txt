@@ -192,6 +192,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Added hooks to disable JetPack Open Graph and Twitter Card meta tags.
 * Added a hook for the 'ngfb_sharing_url' filter to support WordPress SEO's "Force Transport" option (Pro version).
 * Moved the URL rewriting and shortening methods into hooks for the 'ngfb_rewrite_url' and 'ngfb_shorten_url' filters (Pro version).
+* Moved the "Disable Social Buttons" option in the Open Graph+ Custom Settings from the 'Webpage Head' tab to the 'Social Sharing' tab.
 * Changed the default object expiration time from 1800 to 3600 seconds (1 hour).
 * Removed the "Reset Settings on Activate" Advanced option.
 * Renamed the NGFB_RESET constant to NGFB_RESET_ON_ACTIVATE.
