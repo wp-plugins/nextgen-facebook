@@ -113,10 +113,14 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 == Installation ==
 
-= Install and Uninstall =
+= How-To =
 
-* [Installation Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/)
-* [Uninstall Methods](http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/)
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/">Install the Plugin</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/">Uninstall the Plugin</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO to NGFB Open Graph+</a></li>
+</ul>
 
 == Frequently Asked Questions ==
 
