@@ -349,8 +349,13 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		}
 
 		public static function load_lib( $sub, $id ) {
-			if ( file_exists( NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php' ) )
-				require_once( NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php' );
+			if ( empty( $sub ) && ! empty( $id ) )
+				$filepath = NGFB_PLUGINDIR.'lib/'.$id.'.php';
+			elseif ( ! empty( self::$cf['lib'][$sub][$id] ) )
+				$filepath = NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php';
+			else return false;
+			if ( file_exists( $filepath ) )
+				require_once( $filepath );
 		}
 
 	}
