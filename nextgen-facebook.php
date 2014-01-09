@@ -252,7 +252,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 }
 
 if ( ! class_exists( 'NgfbNoDebug' ) ) {
-
 	class NgfbNoDebug {
 		public function mark() { return; }
 		public function args() { return; }
