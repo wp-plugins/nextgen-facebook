@@ -12,19 +12,25 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-**NGFB Open Graph+ adds HTML meta tags (Open Graph, Pinterest Rich Pins, Twitter Cards) to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more -- An absolute essential plugin for every WordPress website!**
+**NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more.**
 
-= Meta Tags =
+= Summary of Features =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+* Open Graph (Facebook, G+, LinkedIn, etc.), Rich Pins (Pinterest), Twitter Cards (Twitter) meta tags.
+* Configurable image sizes and descriptions depending on contexts (various meta tags and social buttons).
+* Integrates to 3rd party plugins and services for image, video, product, and content information (NextGEN Gallery, JetPack Photon, WordPress SEO by Yoast, All in One SEO Pack, WooCommerce, MarketPressm WP e-Commerce, bbPress, BuddyPress, Wistia, and more).
+* Offers optional social sharing buttons on admin editing pages and fron-end webpages.
+* Custom contacts for your user profile pages.
+
+= Complete Meta Tags =
+
+NGFB Open Graph+ adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See a few examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
 Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
 
-NGFB Open Graph+ is a complete social sharing solution that uses the existing content of your webpages to build HTML meta tags - There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
-
-**Twitter Cards**
+NGFB Open Graph+ is a complete social sharing solution that uses the existing content of your webpages to build HTML meta tags -- There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
 
