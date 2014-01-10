@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.21.0
+Version: 6.21.1
 
 Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -219,8 +219,31 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function set_options() {
 			$this->options = get_option( NGFB_OPTIONS_NAME );
+
+			// look for alternate options name
+			if ( ! is_array( $this->options ) ) {
+				if ( defined( 'NGFB_OPTIONS_NAME_ALT' ) && NGFB_OPTIONS_NAME_ALT ) {
+					$this->options = get_option( NGFB_OPTIONS_NAME_ALT );
+					if ( is_array( $this->options ) ) {
+						update_option( NGFB_OPTIONS_NAME, $this->options );
+						delete_option( NGFB_OPTIONS_NAME_ALT );
+					} else $this->options = array();
+				} else $this->options = array();
+			}
+
 			if ( is_multisite() ) {
 				$this->site_options = get_site_option( NGFB_SITE_OPTIONS_NAME );
+
+				// look for alternate site options name
+				if ( ! is_array( $this->site_options ) ) {
+					if ( defined( 'NGFB_SITE_OPTIONS_NAME_ALT' ) && NGFB_SITE_OPTIONS_NAME_ALT ) {
+						$this->site_options = get_site_option( NGFB_SITE_OPTIONS_NAME_ALT );
+						if ( is_array( $this->site_options ) ) {
+							update_site_option( NGFB_SITE_OPTIONS_NAME, $this->site_options );
+							delete_site_option( NGFB_SITE_OPTIONS_NAME_ALT );
+						} else $this->site_options = array();
+					} else $this->site_options = array();
+				}
 
 				// if multisite options are found, check for overwrite of site specific options
 				if ( is_array( $this->options ) && is_array( $this->site_options ) ) {

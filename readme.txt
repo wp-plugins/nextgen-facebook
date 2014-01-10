@@ -204,6 +204,10 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
+= Version 6.21.1 =
+
+* Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
+
 = Version 6.21.0 =
 
 Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/plugins/nextgen-gallery/) has been moved to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) in v6.21.0. This restores balance between the two distributions - [the NGFB Open Graph+ GPL version from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/) offers complete support for Open Graph+ meta tags, the WordPress Media Library (including its `gallery` shortcode), and social sharing buttons, while the Pro version includes support for 3rd party plugins and services (like NextGEN Gallery, WordPress SEO, BuddyPress, bbPress, WooCommerce, Wistia videos, etc.). I remain committed to providing a complete and reliable set of features in the GPL version - all for free. There's no need to contribute in any way, though a little [help with forum questions](http://wordpress.org/support/plugin/nextgen-facebook), for example, is always welcome. ;-)
