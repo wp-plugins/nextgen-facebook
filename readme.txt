@@ -140,6 +140,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-use-other-social-sharing-buttons/">Can I use other social sharing buttons?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/how-do-i-turn-on-social-sharing-buttons-for-a-page/">How do I turn on Social Sharing Buttons for a page?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-does-the-facebook-like-button-flyout-get-clipped/">Why does the Facebook “Like” button flyout get clipped?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-pinterest-button-show/">Why doesn’t the Pinterest button show?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-twitter-count-increase/">Why doesn’t the Twitter count increase?</a></li>
@@ -207,6 +208,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 = Version 6.21.1 =
 
 * Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
+* Added "Fitness" to the website topic list.
 
 = Version 6.21.0 =
 
