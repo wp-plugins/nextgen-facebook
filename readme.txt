@@ -16,7 +16,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 = Summary of Features =
 
-* Open Graph (Facebook, G+, LinkedIn, etc.), Rich Pin (Pinterest), and Twitter Card (Twitter) meta tags.
+* Open Graph (Facebook, Google+, LinkedIn, etc.), Rich Pin (Pinterest), and Twitter Card (Twitter) meta tags.
 * Configurable image sizes and descriptions depending on context (various meta tags and social buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for user profile pages.
@@ -203,6 +203,10 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 6.21.1 =
+
+* Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
 
 = Version 6.21.0 =
 
