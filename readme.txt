@@ -208,7 +208,9 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 = Version 6.22.0 =
 
 * Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
-* Expanded the "Website Topic" list, merging the Wikipedia and StumbleUpon 
+* Added an NGFB_TOPICS_LIST constant, with a default value of NGFB_PLUGINDIR.'share/topics.txt'.
+* Created a new `share/topics.txt` text file by merging the Wikipedia and StumbleUpon website lists.
+* Expanded the "Website Topic" selection using the new `share/topics.txt` list.
 
 = Version 6.21.0 =
 
