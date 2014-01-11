@@ -230,58 +230,9 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 * Moved `show_sharing()` from lib/postmeta.php to lib/social.php.
 * Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
 
-= Version 6.20.1 =
-
-* Fixed a possible error condition in lib/media.php by adding an extra check, to make sure the size provided to the `image_constrain_size_for_editor()` filter is a string and not an array().
-
-= Version 6.20.0 =
-
-Version 6.20.0 centralizes much of the tooltip help text to make future translations easier. A bug in WooCommerce shortcodes has been found, and a work-around implented. An issue with the WordPress editor image size limits has been addressed as well - this version includes additional custom image sizes (ngfb-thumbnail/medium/large) that are not subject to the editor width limits.
-
-* Fixed a WooCommerce bug, that redefined the $post variable when applying 'the_content' filter, by saving and restoring the $post variable.
-* Added the WooCommerce query and shortcode classes when in admin interface to expand its shortcode for the Meta Tags Preview tab (Pro version).
-* Added ngfb-thumbnail/medium/large custom image sizes, with identical values to those of WordPress, to bypass the `editor_max_image_size()` limits.
-* Moved much of the tooltip help text into lib/messages.php to facilitate future translations.
-* Removed the NGFB_OG_SIZE_NAME constant.
-
-= Version 6.19.0 =
-
-**There are several important changes in v6.19.0, including one that pushes some limits in the admin interface**.
-
-You'll find a new 'Meta Tags Preview' tab in the Custom Settings metabox, available on the Post and Page editing pages. Since the core functionality of NGFB Open Graph+ is to create complete and accurate meta tags, I felt it was important to provide an easier / faster way to visualize them. By generating the meta tags on the admin / back-end, it's also now possible to warn of images that are too small (smaller than the plugin's configured settings). Two other notable changes are the added support for embedded YouTube Playlists, and a fix for Twitter Player Card URLs.
-
-Although the new 'Meta Tags Preview' feature has been tested on several versions of WordPress, with several themes and a wide range of plugins, *it could expose some bugs in other plugins and / or themes*. **Please have a rollback plan in-place and tested before updating**. Worse case scenario, you can always login by FTP and remove the `nextgen-facebook/` plugin folder.
-
-If you have an issue, refer to the 'Debug the Back-End' section in the [Debugging and Problem Solving](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/) notes. The resulting debug.log may help you identify and fix a problem quickly. If you need additional support, GPL users can start a new thread in the [WordPress.org Support Forum](http://wordpress.org/support/plugin/nextgen-facebook) and Pro users can [Open a New Support Ticket](http://support.surniaulula.com/support/tickets/new). Please include any relevant errors from the debug.log.
-
-* **Added a 'Meta Tags Preview' tab to the Custom Settings metabox**.
-* Added warnings on the Post/Page editing page for images that are too small.
-* Added support for embedded **YouTube playlists**.
-* Added a hook into the WordPress 'get_image_tag' filter to include the 'data-wp-pid' attribute.
-* Added a dashicon for the Open Graph+ menu item (if using WordPress v3.8 and up).
-* Updated settings CSS for WordPress pre-v3.8 compatibility.
-* Improved pattern matching for Media Library and NextGEN Gallery images in the content.
-* Improved NextGEN Gallery v2 code to retrieve image dimensions, and check against required width / height values.
-* Moved / renamed the `get_lang()` method to an `sucom_get_lang()` function in lib/com/functions.php.
-* Fixed the unnecessary inclusion of social javascripts if no front-end buttons are enabled, but the back-end / admin sharing buttons were.
-* Fixed an undefined variable in the BuddyPress addon (Pro version).
-* **Fixed the Twitter 'Player Card' video URL to use an embed URL instead of a flash URL** (Pro version).
-
 == Upgrade Notice ==
 
 = 6.21.0 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
-
-= 6.20.1 =
-
-* Fixed a possible error condition in lib/media.php by adding an extra check, to make sure the size provided to the image_constrain_size_for_editor() filter is a string and not an array().
-
-= 6.20.0 =
-
-Centralized the tooltip help text for future translations, added a work-around for a WooCommerce shortcode bug, added additional custom image sizes to bypass an issue with the WordPress editor image size limits.
-
-= 6.19.0 =
-
-Added a 'Meta Tags Preview' tab to the Custom Settings, warnings for small images, support for youtube playlists, and fixed Twitter Player Card video URLs.
 
