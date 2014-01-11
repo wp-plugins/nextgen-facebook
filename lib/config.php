@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.21.1',			// plugin version
+			'version' => '6.22.0',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -158,66 +158,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'admin_sharing' => 'Edit Post/Page',
 				),
 			),
-			// original list from http://en.wikipedia.org/wiki/Category:Websites_by_topic
-			'topics' => array(
-				'Animation',
-				'Architecture',
-				'Art',
-				'Automotive',
-				'Aviation',
-				'Chat',
-				'Children\'s',
-				'Comics',
-				'Commerce',
-				'Community',
-				'Dance',
-				'Dating',
-				'Digital Media',
-				'Documentary',
-				'Download',
-				'Economics',
-				'Educational',
-				'Employment',
-				'Entertainment',
-				'Environmental',
-				'Erotica and Pornography',
-				'Fashion',
-				'File Sharing',
-				'Food and Drink',
-				'Fundraising',
-				'Genealogy',
-				'Health',
-				'History',
-				'Humor',
-				'Law Enforcement',
-				'Legal',
-				'Literature',
-				'Medical',
-				'Military',
-				'Nature',
-				'News',
-				'Nostalgia',
-				'Parenting',
-				'Pets',
-				'Photography',
-				'Political',
-				'Religious',
-				'Review',
-				'Reward',
-				'Route Planning',
-				'Satirical',
-				'Science Fiction',
-				'Science',
-				'Shock',
-				'Social Networking',
-				'Spiritual',
-				'Sport',
-				'Technology',
-				'Travel',
-				'Vegetarian',
-				'Webmail',
-				'Women\'s',
-			),
 		);
 		private static $cf_filtered = false;
 
@@ -299,6 +239,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
 				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR.'share/curl/cacert.pem' );
 
+			if ( ! defined( 'NGFB_TOPICS_LIST' ) )
+				define( 'NGFB_TOPICS_LIST', NGFB_PLUGINDIR.'share/topics.txt' );
 		}
 
 		public static function require_libs( $plugin_filepath ) {
@@ -306,7 +248,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			$cf = self::get_config();
 			$plugin_dir = NGFB_PLUGINDIR;
 
-			require_once( $plugin_dir.'lib/com/functions.php' );
 			require_once( $plugin_dir.'lib/com/util.php' );
 			require_once( $plugin_dir.'lib/com/cache.php' );
 			require_once( $plugin_dir.'lib/com/notice.php' );

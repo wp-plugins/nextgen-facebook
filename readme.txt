@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8
-Stable Tag: 6.21.0
+Stable Tag: 6.22.0
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
 
@@ -205,10 +205,10 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.21.1 =
+= Version 6.22.0 =
 
 * Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
-* Added "Fitness" to the website topic list.
+* Expanded the "Website Topic" list, merging the Wikipedia and StumbleUpon 
 
 = Version 6.21.0 =
 

@@ -166,7 +166,7 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->form->get_input( 'fb_app_id' ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Default Language', null, 'fb_lang' ).
-					'<td>'.$this->form->get_select( 'fb_lang', sucom_get_lang( 'facebook' ) ).'</td>';
+					'<td>'.$this->form->get_select( 'fb_lang', SucomUtil::get_lang( 'facebook' ) ).'</td>';
 
 					break;
 

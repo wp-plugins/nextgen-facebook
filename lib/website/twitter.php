@@ -31,7 +31,7 @@ if ( ! class_exists( 'NgfbAdminSocialTwitter' ) && class_exists( 'NgfbAdminSocia
 			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
-			$this->form->get_select( 'twitter_lang', sucom_get_lang( 'twitter' ) ).'</td>';
+			$this->form->get_select( 'twitter_lang', SucomUtil::get_lang( 'twitter' ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_count', array( 'none' => '', 
@@ -118,7 +118,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 
 			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
-			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], sucom_get_lang( 'twitter' ) );
+			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
 				if ( ! empty( $opts['twitter_via'] ) && 
