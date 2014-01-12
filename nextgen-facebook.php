@@ -116,7 +116,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					( defined( 'NGFB_RESET_ON_ACTIVATE' ) && NGFB_RESET_ON_ACTIVATE ) ) {
 
 					$this->options = $this->opt->get_defaults();
-					$this->options['options_version'] = $this->opt->options_version;
+					$this->options['options_version'] = $this->cf['opt']['version'];
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );

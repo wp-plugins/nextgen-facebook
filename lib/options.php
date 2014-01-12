@@ -104,13 +104,12 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			if ( ! empty( $opts ) && is_array( $opts ) ) {
 
 				// check version in saved options, upgrade if they don't match
-				$options_version = apply_filters( $this->p->cf['lca'].'_options_version', $this->p->cf['opt']['version'] );
 				if ( ( empty( $opts['plugin_version'] ) || $opts['plugin_version'] !== $this->p->cf['version'] ) ||
-					( empty( $opts['options_version'] ) || $opts['options_version'] !== $options_version ) ) {
+					( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->p->cf['opt']['version'] ) ) {
 
 					// upgrade the options if options version mismatch
-					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $options_version ) {
-						$this->p->debug->log( $options_name.' v'.$options_version.
+					if ( empty( $opts['options_version'] ) || $opts['options_version'] !== $this->p->cf['opt']['version'] ) {
+						$this->p->debug->log( $options_name.' v'.$this->p->cf['opt']['version'].
 							' different than saved v'.$opts['options_version'] );
 						// only load upgrade class when needed to save a few Kb
 						if ( ! is_object( $this->upg ) ) {
@@ -246,7 +245,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			}
 			// mark the new options as current
 			$previous_opts_version = $opts['options_version'];
-			$opts['options_version'] = apply_filters( $this->p->cf['lca'].'_options_version', $this->p->cf['opt']['version'] );
+			$opts['options_version'] = $this->p->cf['opt']['version'];
 			$opts['plugin_version'] = $this->p->cf['version'];
 
 			// update_option() returns false if options are the same or there was an error, 
