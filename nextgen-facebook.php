@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
 Version: 6.22.0
 
-Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
+Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -151,7 +151,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 			} else $this->style = new SucomStyle( $this );
 
-			// create pro class object last - it extends several previous classes
 			if ( $this->is_avail['aop'] )
 				$this->pro = new NgfbAddonPro( $this );
 
