@@ -212,6 +212,9 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Created a new `share/topics.txt` text file by merging the Wikipedia and StumbleUpon website lists.
 * Expanded the "Website Topic" selection using the new `share/topics.txt` list.
 * Moved the `sucom_get_lang()` function to `SucomUtil::get_lang()`.
+* Moved the default options variable definition from lib/options.php to lib/config.php.
+* Added an `sanitize_option_value()` method in the NgfbUtil class.
+* Added an 'ngfb_option_type' filter to optimize sanitation of option values.
 
 = Version 6.21.0 =
 

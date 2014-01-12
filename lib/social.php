@@ -348,8 +348,8 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			echo '<table class="sucom-setting side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
-				if ( ! empty( $this->p->opt->admin_sharing ) )
-					$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );
+				if ( ! empty( $this->p->cf['opt']['admin_sharing'] ) )
+					$opts = array_merge( $this->p->options, $this->p->cf['opt']['admin_sharing'] );
 				$this->add_header();
 				echo $this->filter( $content, 'admin_sharing', $opts );
 				$this->add_footer();

@@ -350,14 +350,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		protected function show_form() {
 			if ( ! empty( $this->p->cf['lib']['submenu'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="options.php">';
-				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->form->get_hidden( 'options_version', $this->p->cf['opt']['version'] );
 				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 				settings_fields( $this->p->cf['lca'].'_setting' ); 
 
 			} elseif ( ! empty( $this->p->cf['lib']['site_submenu'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
-				echo $this->form->get_hidden( 'options_version', $this->p->opt->options_version );
+				echo $this->form->get_hidden( 'options_version', $this->p->cf['opt']['version'] );
 				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 			}
 			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
