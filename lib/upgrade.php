@@ -103,12 +103,12 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			// custom value changes for regular options
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
 				// these option names may have been used in the past, so remove them, just in case
-				if ( $opts['options_version'] < 30 ) {
+				if ( (int) $opts['options_version'] < 30 ) {
 					unset( $opts['og_img_width'] );
 					unset( $opts['og_img_height'] );
 					unset( $opts['og_img_crop'] );
 				}
-				if ( $opts['options_version'] < 218 ) {
+				if ( (int) $opts['options_version'] < 218 ) {
 					foreach ( array(
 						'tc_gal_size',
 						'tc_photo_size',
