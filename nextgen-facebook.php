@@ -22,7 +22,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
 			$style, $script, $cache, $admin, $head, $og, $webpage,
-			$social, $seo, $pro, $update, $reg, $msg;
+			$social, $seo, $pro, $update, $reg, $msgs;
 
 		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
@@ -71,22 +71,20 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			}
 		}
 
-		// get the options, upgrade the options (if necessary), and validate their values
 		public function set_objects( $activate = false ) {
-
 			/*
-			 * plugin options
+			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
-			$this->set_options();				// local method for early load
-			$this->update_error = get_option( $this->cf['lca'].'_update_error' );
+			$this->set_options();
+			if ( ! empty( $this->options['plugin_tid'] ) )
+				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
+
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();	// uses options
 			if ( $this->is_avail['aop'] ) 
 				$this->cf['full'] = $this->cf['full_pro'];
-	
-			/*
-			 * essential class objects
-			 */
+
+			// load and config debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
@@ -99,13 +97,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->util = new NgfbUtil( $this );
 			$this->opt = new NgfbOptions( $this );
 
-			// uses ngfbOptions class, so must be after object creation, not in set_options() above
+			/*
+			 * check and create defaults
+			 */
 			if ( is_multisite() && ( ! is_array( $this->site_options ) || empty( $this->site_options ) ) )
 				$this->site_options = $this->opt->get_site_defaults();
 
-			/*
-			 * plugin is being activated - create default options, if necessary, and exit
-			 */
 			if ( $activate == true || ( 
 				! empty( $_GET['action'] ) && $_GET['action'] == 'activate-plugin' &&
 				! empty( $_GET['plugin'] ) && $_GET['plugin'] == NGFB_PLUGINBASE ) ) {
@@ -129,47 +126,47 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			/*
 			 * remaining object classes
 			 */
-			$this->cache = new SucomCache( $this );
-			$this->script = new SucomScript( $this );
-			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
-			$this->user = new NgfbUser( $this );
-			$this->meta = new NgfbPostMeta( $this );
-			$this->media = new NgfbMedia( $this );			// images, videos, etc., plug ngg
-			$this->head = new NgfbHead( $this );			// adds opengraph and twitter card meta tags
+			$this->cache = new SucomCache( $this );		// object and file caching
+			$this->script = new SucomScript( $this );	// admin jquery tooltips
+			$this->webpage = new SucomWebpage( $this );	// title, desc, etc., plus shortcodes
+			$this->user = new NgfbUser( $this );		// contact methods and metabox prefs
+			$this->meta = new NgfbPostMeta( $this );	// custom post meta
+			$this->media = new NgfbMedia( $this );		// images, videos, etc.
+			$this->head = new NgfbHead( $this );		// open graph and twitter card meta tags
 
 			if ( is_admin() ) {
-				$this->msg = new NgfbMessages( $this );
-				$this->admin = new NgfbAdmin( $this );		// create before NgfbStyle
+				$this->msgs = new NgfbMessages( $this );	// admin tooltip messages
+				$this->admin = new NgfbAdmin( $this );		// admin menus and page loader
 			}
 
 			if ( $this->is_avail['opengraph'] )
-				$this->og = new NgfbOpengraph( $this );
-			else $this->og = new SucomOpengraph( $this );		// og html parsing method
+				$this->og = new NgfbOpengraph( $this );		// prepare open graph array
+			else $this->og = new SucomOpengraph( $this );		// read open graph html tags
 
 			if ( $this->is_avail['ssb'] ) {
 				$this->style = new NgfbStyle( $this );		// extends SucomStyle
 				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 			} else $this->style = new SucomStyle( $this );
 
-			if ( $this->is_avail['aop'] )
-				$this->pro = new NgfbAddonPro( $this );
+			if ( ! empty( $this->options['plugin_tid'] ) ) {
+				if ( $this->is_avail['aop'] )
+					$this->pro = new NgfbAddonPro( $this );
+			}
 
 			/*
-			 * check options array read from database - upgrade options if necessary
+			 * check and upgrade options if necessary
 			 */
 			$this->options = $this->opt->check_options( NGFB_OPTIONS_NAME, $this->options );
 			if ( is_multisite() )
 				$this->site_options = $this->opt->check_options( NGFB_SITE_OPTIONS_NAME, $this->site_options );
 
 			/*
-			 * setup class properties, etc. based on option values
+			 * configure class properties based on plugin settings
 			 */
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
-			if ( $this->check->is_aop() ) {
-				if ( $this->debug->is_on( 'wp' ) === true ) 
-					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
-				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
-			} else $this->cache->file_expire = 0;
+			if ( $this->debug->is_on( 'wp' ) === true ) 
+				$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;
+			else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
 			$this->is_avail['cache']['file'] = $this->cache->file_expire > 0 ? true : false;
 
 			// set the object cache expiration value
@@ -190,11 +187,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( ! empty( $this->options['plugin_tid'] ) ) {
 				add_filter( $this->cf['lca'].'_ua_plugin', array( &$this, 'filter_ua_plugin' ), 10, 1 );
 				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
-				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
 				$this->update = new SucomUpdate( $this );
 				if ( is_admin() ) {
-					// if update_hours * 2 has passed without an update check, then force one now
-					$last_update = get_option( $this->cf['lca'].'_update_time' );
+					// if update_hours * 2 has passed without an update, then force one now
+					$last_update = get_option( $this->cf['lca'].'_utime' );
 					if ( empty( $last_update ) || 
 						( ! empty( $this->cf['update_hours'] ) && $last_update + ( $this->cf['update_hours'] * 7200 ) < time() ) )
 							$this->update->check_for_updates();

@@ -30,7 +30,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					$this->active_plugins = array_merge( $this->active_plugins, $this->network_plugins );
 			}
 
-			// Disable JetPack Open Graph Meta Tags
+			// disable jetPack open graph meta tags
 			if ( class_exists( 'JetPack' ) || in_array( 'jetpack/jetpack.php', $this->active_plugins ) ) {
 				add_filter( 'jetpack_enable_opengraph', '__return_false', 99 );	// deprecated, but correct filter is checked too early
 				add_filter( 'jetpack_enable_open_graph', '__return_false', 99 );
@@ -280,10 +280,11 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		}
 
 		public function is_aop() {
-			if ( self::$aop === true && 
-				! empty( $this->p->options['plugin_tid'] ) && 
-					empty( $this->p->update_error ) )
-						return true; return false;
+			if ( ! empty( $this->p->options['plugin_tid'] ) && 
+				self::$aop === true && 
+				class_exists( 'SucomUpdate' ) &&
+				SucomUpdate::get_umsg( $this->p->cf['lca'] ) === false )
+					return true; return false;
 		}
 	}
 }

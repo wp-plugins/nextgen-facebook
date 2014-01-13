@@ -88,19 +88,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'pre' => array(
-					'facebook' => 'fb', 
-					'gplus' => 'gp',
-					'twitter' => 'twitter',
-					'linkedin' => 'linkedin',
-					'managewp' => 'managewp',
-					'pinterest' => 'pin',
-					'stumbleupon' => 'stumble',
-					'tumblr' => 'tumblr',
-					'youtube' => 'yt',
-					'skype' => 'skype',
-				),
-				'version' => '219',		// increment when changing default options
+				'version' => '220',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -302,7 +290,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_filter_excerpt' => 0,
 					'plugin_shortcode_ngfb' => 0,
 					'plugin_ignore_small_img' => 1,
-					'plugin_get_img_size' => 0,
 					'plugin_wistia_api' => 1,
 					'plugin_add_to_post' => 1,
 					'plugin_add_to_page' => 1,
@@ -375,6 +362,18 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'pin_count_layout' => 'horizontal',
 					'tumblr_button_style' => 'share_1',
 					'stumble_badge' => 1,
+				),
+				'pre' => array(
+					'facebook' => 'fb', 
+					'gplus' => 'gp',
+					'twitter' => 'twitter',
+					'linkedin' => 'linkedin',
+					'managewp' => 'managewp',
+					'pinterest' => 'pin',
+					'stumbleupon' => 'stumble',
+					'tumblr' => 'tumblr',
+					'youtube' => 'yt',
+					'skype' => 'skype',
 				),
 			),
 			'wp' => array(				// wordpress

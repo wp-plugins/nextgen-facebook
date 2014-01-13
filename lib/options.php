@@ -129,7 +129,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 								require_once( NGFB_PLUGINDIR.'lib/messages.php' );
 								$this->p->msg = new NgfbMessages( $this->p );
 							}
-							$this->p->notice->nag( $this->p->msg->get( 'pro-advert-nag' ), true );
+							$this->p->notice->nag( $this->p->msgs->get( 'pro-advert-nag' ), true );
 							$this->save_options( $options_name, $opts );
 						}
 					} else $this->save_options( $options_name, $opts );
@@ -191,7 +191,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					}
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
-					$this->p->notice->nag( $this->p->msg->get( 'pro-activate-nag' ) );
+					$this->p->notice->nag( $this->p->msgs->get( 'pro-activate-nag' ) );
 			}
 			return $opts;
 		}
@@ -224,15 +224,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				$opts['plugin_google_shorten:is'] = 'disabled';
 			}
 
-			if ( empty( $opts['plugin_file_cache_hrs'] ) || empty( $opts['plugin_ignore_small_img'] ) ) {
-				$opts['plugin_get_img_size'] = 0;
-				$opts['plugin_get_img_size:is'] = 'disabled';
-			}
+			if ( ! $this->p->check->is_aop() )
+				$opts['plugin_file_cache_hrs'] = 0;
 
 			// og_desc_len must be at least 156 chars (defined in config)
-			if ( array_key_exists( 'og_desc_len', $opts ) && $opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
-				$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
+			if ( array_key_exists( 'og_desc_len', $opts ) && 
+				$opts['og_desc_len'] < $this->p->cf['head']['min_desc_len'] ) 
+					$opts['og_desc_len'] = $this->p->cf['head']['min_desc_len'];
 
+			if ( array_key_exists( 'plugin_tid', $opts ) ) {
+				if ( empty( $opts['plugin_tid'] ) )
+					delete_option( $this->p->cf['lca'].'_umsg' );
+				elseif ( $opts['plugin_tid'] !== $this->p->options['plugin_tid'] )
+					delete_option( $this->p->cf['lca'].'_utime' );
+			}
 			return $opts;
 		}
 

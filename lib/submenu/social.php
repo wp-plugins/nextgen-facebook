@@ -80,7 +80,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_social() {
 			echo '<table class="sucom-setting"><tr><td colspan="3">';
-			echo $this->p->msg->get( 'social-buttons-info' );
+			echo $this->p->msgs->get( 'social-buttons-info' );
 			echo '</td></tr><tr>';
 			echo $this->p->util->th( 'Location in Content Text', null, 'buttons_location_the_content' );
 			echo '<td>', $this->form->get_select( 'buttons_location_the_content', 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
 
 			return array(
-				'<td colspan="2" align="center">'.$this->p->msg->get( 'pro-feature-msg' ).'</td>',
+				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
 
 				$this->p->util->th( 'Include on Post Types', null, 'buttons_add_to' ).
 				'<td class="blank">'.$add_to_checkboxes.'</td>',
