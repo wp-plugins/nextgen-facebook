@@ -207,6 +207,8 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 = Version 6.22.0 =
 
+The Website Topic list in the Open Graph+ General settings has been expanded, and the new topics list is now located in a `share/topics.txt` text file for easier maintenance.
+
 * Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
 * Added an NGFB_TOPICS_LIST constant, with a default value of NGFB_PLUGINDIR.'share/topics.txt'.
 * Created a new `share/topics.txt` text file by merging the Wikipedia and StumbleUpon website lists.
@@ -215,6 +217,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Moved the default options variable definition from lib/options.php to lib/config.php.
 * Added an `sanitize_option_value()` method in the NgfbUtil class.
 * Added an 'ngfb_option_type' filter to optimize sanitation of option values.
+* Small improvements to the update check code.
 
 = Version 6.21.0 =
 
