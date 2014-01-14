@@ -16,7 +16,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 = Summary of Features =
 
-* Open Graph (Facebook, Google+, LinkedIn, etc.), Rich Pin (Pinterest), and Twitter Card (Twitter) meta tags.
+* Facebook / Google+ / LinkedIn / etc. Open Graph, Pinterest Rich Pin, and Twitter Card meta tags.
 * Configurable image sizes and descriptions depending on context (various meta tags and social buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for user profile pages.
