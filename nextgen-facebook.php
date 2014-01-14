@@ -33,11 +33,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public function __construct() {
 
 			require_once( dirname( __FILE__ ).'/lib/config.php' );
+			require_once( dirname( __FILE__ ).'/lib/register.php' );
+
 			$this->cf = NgfbConfig::get_config();
 			NgfbConfig::set_constants( __FILE__ );
 			NgfbConfig::require_libs( __FILE__ );
 
-			require_once( dirname( __FILE__ ).'/lib/register.php' );
 			$classname = __CLASS__.'Register';
 			$this->reg = new $classname( $this );
 
@@ -71,11 +72,14 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			}
 		}
 
+		// called by activate_plugin() as well
 		public function set_objects( $activate = false ) {
 			/*
 			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
 			$this->set_options();
+
+			require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
 			if ( ! empty( $this->options['plugin_tid'] ) )
 				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
 
@@ -88,10 +92,9 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
-			if ( $html_debug || $wp_debug ) {
-				require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
+			if ( $html_debug || $wp_debug )
 				$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
-			} else $this->debug = new NgfbNoDebug();
+			else $this->debug = new NgfbNoDebug();
 
 			$this->notice = new SucomNotice( $this );
 			$this->util = new NgfbUtil( $this );
@@ -126,13 +129,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			/*
 			 * remaining object classes
 			 */
-			$this->cache = new SucomCache( $this );		// object and file caching
-			$this->script = new SucomScript( $this );	// admin jquery tooltips
-			$this->webpage = new SucomWebpage( $this );	// title, desc, etc., plus shortcodes
-			$this->user = new NgfbUser( $this );		// contact methods and metabox prefs
-			$this->meta = new NgfbPostMeta( $this );	// custom post meta
-			$this->media = new NgfbMedia( $this );		// images, videos, etc.
-			$this->head = new NgfbHead( $this );		// open graph and twitter card meta tags
+			$this->script = new SucomScript( $this );		// admin jquery tooltips
+			$this->cache = new SucomCache( $this );			// object and file caching
+			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
+			$this->user = new NgfbUser( $this );			// contact methods and metabox prefs
+			$this->meta = new NgfbPostMeta( $this );		// custom post meta
+			$this->media = new NgfbMedia( $this );			// images, videos, etc.
+			$this->head = new NgfbHead( $this );			// open graph and twitter card meta tags
 
 			if ( is_admin() ) {
 				$this->msgs = new NgfbMessages( $this );	// admin tooltip messages
@@ -146,7 +149,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( $this->is_avail['ssb'] ) {
 				$this->style = new NgfbStyle( $this );		// extends SucomStyle
 				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
-			} else $this->style = new SucomStyle( $this );
+			} else $this->style = new SucomStyle( $this );		// admin styles
 
 			if ( ! empty( $this->options['plugin_tid'] ) ) {
 				if ( $this->is_avail['aop'] )

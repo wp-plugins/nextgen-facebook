@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '220',		// increment when changing default options
+				'version' => '221',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',

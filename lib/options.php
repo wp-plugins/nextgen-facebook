@@ -271,8 +271,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						$this->p->notice->inf( 'Plugin settings ('.$options_name.') have been upgraded and saved.', true );
 					}
 				} else {
-					$this->p->debug->log( 'failed to save the upgraded '.$options_name.' settings.' );
-					$this->p->notice->err( 'Plugin settings have been upgraded, but WordPress returned an error when saving them.', true );
+					$this->p->debug->log( 'failed to save the upgraded '.$options_name.' settings' );
+					$this->p->notice->err( 'Plugin settings ('.$options_name.') have been upgraded, but WordPress returned an error when saving them.', true );
 					return false;
 				}
 			} else $this->p->debug->log( 'new and old options array is identical' );
