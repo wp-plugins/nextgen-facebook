@@ -16,7 +16,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 = Summary of Features =
 
-* Open Graph (Facebook, Google+, LinkedIn, etc.), Rich Pin (Pinterest), and Twitter Card (Twitter) meta tags.
+* Facebook / Google+ / LinkedIn / etc. Open Graph, Pinterest Rich Pin, and Twitter Card meta tags.
 * Configurable image sizes and descriptions depending on context (various meta tags and social buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for user profile pages.
@@ -207,11 +207,17 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 = Version 6.22.0 =
 
+The Website Topic list in the Open Graph+ General settings has been expanded, and the new topics list is now located in a `share/topics.txt` text file for easier maintenance.
+
 * Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
 * Added an NGFB_TOPICS_LIST constant, with a default value of NGFB_PLUGINDIR.'share/topics.txt'.
 * Created a new `share/topics.txt` text file by merging the Wikipedia and StumbleUpon website lists.
 * Expanded the "Website Topic" selection using the new `share/topics.txt` list.
 * Moved the `sucom_get_lang()` function to `SucomUtil::get_lang()`.
+* Moved the default options variable definition from lib/options.php to lib/config.php.
+* Added an `sanitize_option_value()` method in the NgfbUtil class.
+* Added an 'ngfb_option_type' filter to optimize sanitation of option values.
+* Small improvements to the update check code.
 
 = Version 6.21.0 =
 
@@ -234,6 +240,10 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 * Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
 
 == Upgrade Notice ==
+
+= 6.22.0 =
+
+Expanded the Website Topic list in the SSO General settings, new constants, small code improvements.
 
 = 6.21.0 =
 

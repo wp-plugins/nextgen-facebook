@@ -2,7 +2,7 @@
 /*
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
-Copyright 2012-2013 - Jean-Sebastien Morisset - http://surniaulula.com/
+Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
 
 if ( ! defined( 'ABSPATH' ) ) 
@@ -348,8 +348,8 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			echo '<table class="sucom-setting side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
-				if ( ! empty( $this->p->opt->admin_sharing ) )
-					$opts = array_merge( $this->p->options, $this->p->opt->admin_sharing );
+				if ( ! empty( $this->p->cf['opt']['admin_sharing'] ) )
+					$opts = array_merge( $this->p->options, $this->p->cf['opt']['admin_sharing'] );
 				$this->add_header();
 				echo $this->filter( $content, 'admin_sharing', $opts );
 				$this->add_footer();
