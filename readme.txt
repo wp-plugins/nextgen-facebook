@@ -241,6 +241,10 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 == Upgrade Notice ==
 
+= 6.22.0 =
+
+Expanded the Website Topic list in the SSO General settings, new constants, small code improvements.
+
 = 6.21.0 =
 
 Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
