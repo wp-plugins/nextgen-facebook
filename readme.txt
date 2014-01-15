@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8
-Stable Tag: 6.21.0
+Stable Tag: 6.22.0
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
 
@@ -19,7 +19,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 * Facebook / Google+ / LinkedIn / etc. Open Graph, Pinterest Rich Pin, and Twitter Card meta tags.
 * Configurable image sizes and descriptions depending on context (various meta tags and social buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
-* Configurable contact fields for user profile pages.
+* Configurable contact fields for author meta tags and user profile pages.
 * **Integrates with 3rd party plugins and services** for additional image, video, product, and content information:
   * NextGEN Gallery
   * JetPack Photon
