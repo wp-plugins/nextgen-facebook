@@ -20,7 +20,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 * Configurable image sizes and descriptions depending on context (various meta tags and social buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for author meta tags and user profile pages.
-* **Integrates with 3rd party plugins and services** for additional image, video, product, and content information:
+* **Integrates with 3rd party plugins and services for additional image, video, product, and content information**:
   * NextGEN Gallery
   * JetPack Photon
   * WordPress SEO by Yoast
