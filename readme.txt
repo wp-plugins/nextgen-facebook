@@ -207,7 +207,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 = Version 6.22.1 =
 
-* Minor update to fix a variable name.
+* A minor update to fix a variable name used when upgrading the plugin options.
 
 = Version 6.22.0 =
 
@@ -247,7 +247,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 = 6.22.1 =
 
-* Minor update to fix a variable name.
+A minor update to fix a variable name used when upgrading the plugin options.
 
 = 6.22.0 =
 
