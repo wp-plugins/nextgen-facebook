@@ -205,6 +205,10 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
+= Version 6.22.1 =
+
+* Minor update to fix a variable name.
+
 = Version 6.22.0 =
 
 The Website Topic list in the Open Graph+ General settings has been expanded, and the new topics list is now located in a `share/topics.txt` text file for easier maintenance.
@@ -240,6 +244,10 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 * Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
 
 == Upgrade Notice ==
+
+= 6.22.1 =
+
+* Minor update to fix a variable name.
 
 = 6.22.0 =
 
