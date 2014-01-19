@@ -21,8 +21,8 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
-				a <em>featured</em> image, or an <em>attached</em> image, with an image dimension that is equal to 
-				or larger than the \'Image Size to Share\' you have selected.' ).'<td>'.
+				a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
+				\'Image Dimensions\' you have chosen.' ).'<td>'.
 				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
@@ -43,8 +43,10 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 				$this->p->util->th( 'Pin Button Image', 'short' ).'<td>'.
 				$this->form->get_input( 'pin_img_url' ),
 
-				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'pin_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
+				$this->p->util->th( 'Image Dimensions', 'short' ).
+				'<td>Width '.$this->form->get_input( 'pin_img_width', 'short' ).' x '.
+				'Height '.$this->form->get_input( 'pin_img_height', 'short' ).' &nbsp; '.
+				'Crop '.$this->form->get_checkbox( 'pin_img_crop' ).'</td>',
 
 				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_caption', $this->captions ).'</td>',
@@ -66,6 +68,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->p->util->add_option_image_sizes( array( 'pin_img' => 'pinterest' ) );
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
@@ -80,7 +83,10 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
-			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['pin_img_size'];
+
+			if ( empty( $atts['size'] ) ) 
+				$atts['size'] = $this->p->cf['lca'].'-pinterest';
+
 			if ( empty( $atts['photo'] ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
@@ -136,4 +142,5 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

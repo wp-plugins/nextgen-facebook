@@ -158,4 +158,5 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

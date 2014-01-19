@@ -44,7 +44,7 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, or an <em>attached</em> 
-				image, with an image dimension that is equal to or larger than the \'Image Size to Share\' you have selected 
+				image that is equal to or larger than the \'Image Dimensions\' you have chosen 
 				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> custom Posts, 
 				or (lastly) the webpage link.' ).'<td>'.
 				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
@@ -61,8 +61,10 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
 				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
-				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'tumblr_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
+				$this->p->util->th( 'Image Dimensions', 'short' ).
+				'<td>Width '.$this->form->get_input( 'tumblr_img_width', 'short' ).' x '.
+				'Height '.$this->form->get_input( 'tumblr_img_height', 'short' ).' &nbsp; '.
+				'Crop '.$this->form->get_checkbox( 'tumblr_img_crop' ).'</td>',
 
 				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
@@ -86,6 +88,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->p->util->add_option_image_sizes( array( 'tumblr_img' => 'tumblr' ) );
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
@@ -100,7 +103,9 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $opts['tumblr_button_style'];
-			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['tumblr_img_size'];
+
+			if ( empty( $atts['size'] ) ) 
+				$atts['size'] = $this->p->cf['lca'].'-tumblr';
 
 			// only use featured image if 'tumblr_photo' option allows it
 			if ( empty( $atts['photo'] ) && $opts['tumblr_photo'] ) {
@@ -193,4 +198,5 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

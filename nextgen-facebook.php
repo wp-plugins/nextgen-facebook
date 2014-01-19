@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.22.1
+Version: 6.23dev1
 
 Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -22,7 +22,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
 			$style, $script, $cache, $admin, $head, $og, $webpage,
-			$social, $seo, $pro, $update, $reg, $msgs;
+			$social, $seo, $gpl, $pro, $update, $reg, $msgs;
 
 		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
@@ -151,10 +151,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
 			} else $this->style = new SucomStyle( $this );		// admin styles
 
-			if ( ! empty( $this->options['plugin_tid'] ) ) {
-				if ( $this->is_avail['aop'] )
-					$this->pro = new NgfbAddonPro( $this );
-			}
+			if ( ! $this->check->is_aop() ) {
+				require_once( $plugin_dir.'lib/gpl/addon.php' );
+				$this->gpl = new NgfbAddonGpl( $this );
+			} else $this->pro = new NgfbAddonPro( $this );
 
 			/*
 			 * check and upgrade options if necessary

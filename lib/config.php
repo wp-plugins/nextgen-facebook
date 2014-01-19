@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.22.1',			// plugin version
+			'version' => '6.23dev1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '222',		// increment when changing default options
+				'version' => '226',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -106,7 +106,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_img_width' => 1200,
 					'og_img_height' => 630,
 					'og_img_crop' => 1,
-					'og_img_resize' => 1,
 					'og_img_max' => 1,
 					'og_vid_max' => 1,
 					'og_vid_https' => 1,
@@ -169,12 +168,27 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tc_enable' => 0,
 					'tc_site' => '',
 					'tc_desc_len' => 200,
+					// summary card
+					'tc_sum_width' => 200,
+					'tc_sum_height' => 200,
+					'tc_sum_crop' => 1,
+					// large image summary card
+					'tc_lrgimg_width' => 300,
+					'tc_lrgimg_height' => 300,
+					'tc_lrgimg_crop' => 0,
+					// photo card
+					'tc_photo_width' => 800,
+					'tc_photo_height' => 800,
+					'tc_photo_crop' => 0,
+					// gallery card
 					'tc_gal_min' => 4,
-					'tc_gal_size' => 'ngfb-medium',
-					'tc_photo_size' => 'ngfb-large',
-					'tc_large_size' => 'ngfb-medium',
-					'tc_sum_size' => 'ngfb-thumbnail',
-					'tc_prod_size' => 'ngfb-medium',
+					'tc_gal_width' => 300,
+					'tc_gal_height' => 300,
+					'tc_gal_crop' => 0,
+					// product card
+					'tc_prod_width' => 300,
+					'tc_prod_height' => 300,
+					'tc_prod_crop' => 1,	// prefers square product images
 					'tc_prod_def_l2' => 'Location',
 					'tc_prod_def_d2' => 'Unknown',
 					'twitter_on_the_excerpt' => 0,
@@ -216,7 +230,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'pin_order' => 7,
 					'pin_js_loc' => 'header',
 					'pin_count_layout' => 'horizontal',
-					'pin_img_size' => 'ngfb-large',
+					'pin_img_width' => 800,
+					'pin_img_height' => 800,
+					'pin_img_crop' => 0,
 					'pin_caption' => 'both',
 					'pin_cap_len' => 500,
 					'pin_img_url' => 'http://assets.pinterest.com/images/PinExt.png',
@@ -228,7 +244,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tumblr_button_style' => 'share_1',
 					'tumblr_desc_len' => 300,
 					'tumblr_photo' => 1,
-					'tumblr_img_size' => 'ngfb-large',
+					'tumblr_img_width' => 800,
+					'tumblr_img_height' => 800,
+					'tumblr_img_crop' => 0,
 					'tumblr_caption' => 'both',
 					'tumblr_cap_len' => 500,
 					'inc_description' => 0,
@@ -289,6 +307,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_filter_content' => 1,
 					'plugin_filter_excerpt' => 0,
 					'plugin_shortcode_ngfb' => 0,
+					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
 					'plugin_wistia_api' => 1,
 					'plugin_add_to_post' => 1,
@@ -422,8 +441,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'tooltip_class' => 'sucom_tooltip',
 			),
 			'head' => array(
-				'min_img_width' => 200,
-				'min_img_height' => 200,
+				'min_img_dim' => 200,
 				'min_desc_len' => 156,
 			),
 			'social' => array(

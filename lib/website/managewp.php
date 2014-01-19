@@ -80,4 +80,5 @@ if ( ! class_exists( 'NgfbSocialManagewp' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

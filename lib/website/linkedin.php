@@ -87,4 +87,5 @@ if ( ! class_exists( 'NgfbSocialLinkedin' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

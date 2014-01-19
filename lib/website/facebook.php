@@ -220,4 +220,5 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

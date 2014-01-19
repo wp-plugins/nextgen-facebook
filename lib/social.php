@@ -34,12 +34,10 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		public function add_metaboxes() {
 			// is there at least one social button enabled for the admin_sharing metabox?
 			$add_admin_sharing = false;
-			if ( $this->p->is_avail['ssb'] ) {
-				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
-						$add_admin_sharing = true;
-						break;
-					}
+			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
+					$add_admin_sharing = true;
+					break;
 				}
 			}
 			// include the custom settings metabox on the editing page for that post type
@@ -65,12 +63,12 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		public function add_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'filter_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'filter_'.$type.'() added' );
+			$this->p->debug->log( 'filter for '.$type.' added' );
 		}
 
 		public function remove_filter( $type = 'the_content' ) {
 			$rc = remove_filter( $type, array( &$this, 'filter_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'filter_'.$type.'() removed = '.( $rc  ? 'true' : 'false' ) );
+			$this->p->debug->log( 'filter for '.$type.' removed ('.( $rc  ? 'true' : 'false' ).')' );
 			return $rc;
 		}
 
@@ -341,8 +339,6 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		}
 
 		public function show_admin_sharing( $post ) {
-			if ( empty( $this->p->is_avail['ssb'] ) )
-				return;
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
 			echo '<table class="sucom-setting side"><tr><td>';
@@ -358,4 +354,5 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

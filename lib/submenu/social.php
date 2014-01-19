@@ -101,19 +101,7 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</table>';
 		}
 
-		protected function get_more_social() {
-			$add_to_checkboxes = '';
-			foreach ( $this->p->util->get_post_types( 'buttons' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
-					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
-
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'Include on Post Types', null, 'buttons_add_to' ).
-				'<td class="blank">'.$add_to_checkboxes.'</td>',
-			);
-		}
+		protected function get_more_social() { return array(); }
 	}
 }
 

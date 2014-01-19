@@ -23,7 +23,9 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				( $this->show_on_checkboxes( 'gp', $this->p->cf['social']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'gp_order', range( 1, 
+					count( $this->p->admin->submenu['social']->website ) ), 
+						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
@@ -32,47 +34,39 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				$this->form->get_select( 'gp_lang', SucomUtil::get_lang( 'gplus' ) ) . '</td>',
 
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_action', 
-					array( 
-						'plusone' => 'G +1', 
-						'share' => 'G+ Share',
-					) 
-				) . '</td>',
+				$this->form->get_select( 'gp_action', array( 
+					'plusone' => 'G +1', 
+					'share' => 'G+ Share',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Button Size', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_size', 
-					array( 
-						'small' => 'Small [ 15px ]',
-						'medium' => 'Medium [ 20px ]',
-						'standard' => 'Standard [ 24px ]',
-						'tall' => 'Tall [ 60px ]',
-					) 
-				) . '</td>',
+				$this->form->get_select( 'gp_size', array( 
+					'small' => 'Small [ 15px ]',
+					'medium' => 'Medium [ 20px ]',
+					'standard' => 'Standard [ 24px ]',
+					'tall' => 'Tall [ 60px ]',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Annotation', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_annotation', 
-					array( 
-						'none' => '',
-						'inline' => 'Inline',
-						'bubble' => 'Bubble',
-						'vertical-bubble' => 'Vertical Bubble',
-					)
-				) . '</td>',
+				$this->form->get_select( 'gp_annotation', array( 
+					'none' => '',
+					'inline' => 'Inline',
+					'bubble' => 'Bubble',
+					'vertical-bubble' => 'Vertical Bubble',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Expand to', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_expandto', 
-					array( 
-						'none' => '',
-						'top' => 'Top',
-						'bottom' => 'Bottom',
-						'left' => 'Left',
-						'right' => 'Right',
-						'top,left' => 'Top Left',
-						'top,right' => 'Top Right',
-						'bottom,left' => 'Bottom Left',
-						'bottom,right' => 'Bottom Right',
-					)
-				) . '</td>',
+				$this->form->get_select( 'gp_expandto', array( 
+					'none' => '',
+					'top' => 'Top',
+					'bottom' => 'Bottom',
+					'left' => 'Left',
+					'right' => 'Right',
+					'top,left' => 'Top Left',
+					'top,right' => 'Top Right',
+					'bottom,left' => 'Bottom Left',
+					'bottom,right' => 'Bottom Right',
+				) ) . '</td>',
 			);
 		}
 	}
@@ -116,4 +110,5 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

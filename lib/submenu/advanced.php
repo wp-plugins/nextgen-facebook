@@ -28,53 +28,43 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_plugin() {
-			$show_tabs = array( 
+			$tabs = apply_filters( $this->p->cf['lca'].'_plugin_tabs', array( 
 				'activation' => 'Activate and Update',
 				'content' => 'Content and Filters',
 				'cache' => 'File and Object Cache',
-				'rewrite' => 'URL Rewrite',
-				'apikeys' => 'API Keys',
-			);
+				'apikeys' => 'API Keys' ) );
 
-			// show only if the social sharing button features are enabled
-			if ( empty( $this->p->is_avail['ssb'] ) ) {
-				unset( $show_tabs['rewrite'] );
-				unset( $show_tabs['apikeys'] );
-			}
-
-			$tab_rows = array();
-			foreach ( $show_tabs as $key => $title )
-				$tab_rows[$key] = $this->get_rows( $key );
-			$this->p->util->do_tabs( 'plugin', $show_tabs, $tab_rows );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = $this->get_rows( $key );
+			$this->p->util->do_tabs( 'plugin', $tabs, $rows );
 		}
 
 		public function show_metabox_contact() {
 			echo '<table class="sucom-setting" style="padding-bottom:0"><tr><td>'.
 			$this->p->msgs->get( 'contact-info' ).'</td></tr></table>';
-			$show_tabs = array( 
+			$tabs = array( 
 				'custom' => 'Custom Contacts',
 				'builtin' => 'Built-In Contacts',
 			);
-			$tab_rows = array();
-			foreach ( $show_tabs as $key => $title )
-				$tab_rows[$key] = $this->get_rows( $key );
-			$this->p->util->do_tabs( 'cm', $show_tabs, $tab_rows );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = $this->get_rows( $key );
+			$this->p->util->do_tabs( 'cm', $tabs, $rows );
 		}
 
 		public function show_metabox_taglist() {
 			echo '<table class="sucom-setting" style="padding-bottom:0;"><tr><td>'.
 			$this->p->msgs->get( 'taglist-info' ).'</td></tr></table>';
-
 			echo '<table class="sucom-setting" style="padding-bottom:0;">';
 			foreach ( $this->get_more_taglist() as $num => $row ) 
 				echo '<tr>', $row, '</tr>';
 			unset( $num, $row );
 			echo '</table>';
-
 			echo '<table class="sucom-setting"><tr>';
 			echo $this->p->util->th( 'Include Empty og:* Meta Tags', null, 'og_empty_tags' );
 			echo '<td'.( $this->p->check->is_aop() ? '>'.$this->form->get_checkbox( 'og_empty_tags' ) :
-			' class="blank checkbox">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
+				' class="blank checkbox">'.$this->form->get_fake_checkbox( 'og_empty_tags' ) ).'</td>';
 			echo '<td width="100%"></td></tr></table>';
 
 		}
@@ -82,9 +72,7 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 		protected function get_rows( $id ) {
 			$ret = array();
 			switch ( $id ) {
-
 				case 'custom' :
-
 					if ( ! $this->p->check->is_aop() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
@@ -124,7 +112,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'builtin' :
-
 					if ( ! $this->p->check->is_aop() )
 						$ret[] = '<td colspan="4" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
@@ -156,9 +143,9 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'activation':
-
-					if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && $this->p->site_options['plugin_tid:use'] == 'force' )
-						$input = $this->form->get_fake_input( 'plugin_tid', 'mono' );
+					if ( is_multisite() && ! empty( $this->p->site_options['plugin_tid:use'] ) && 
+						$this->p->site_options['plugin_tid:use'] == 'force' )
+							$input = $this->form->get_fake_input( 'plugin_tid', 'mono' );
 					else $input = $this->form->get_input( 'plugin_tid', 'mono' );
 
 					$ret[] = $this->p->util->th( 'Pro Version Authentication ID', 'highlight', 'plugin_tid' ).'<td>'.$input.'</td>';
@@ -175,7 +162,6 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'content':
-
 					$ret[] = $this->p->util->th( 'Apply Content Filters', null, 'plugin_filter_content' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_filter_content' ).'</td>';
 
@@ -186,137 +172,39 @@ if ( ! class_exists( 'NgfbAdminAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', 'plugin_shortcode_ngfb' ).
 						'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
 
+					$ret[] =  $this->p->util->th( 'Auto-Resize Images', null, 'plugin_auto_img_resize' ).
+					'<td>'.$this->form->get_checkbox( 'plugin_auto_img_resize' ).'</td>';
+
 					$ret[] =  $this->p->util->th( 'Ignore Small Images', null, 'plugin_ignore_small_img' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_ignore_small_img' ).'</td>';
 
 					$ret = array_merge( $ret, $this->get_more_content() );
-
 					break;
 
 				case 'cache':
-
 					$ret[] = $this->p->util->th( 'Object Cache Expiry', null, 'plugin_object_cache_exp' ).
 					'<td nowrap>'.$this->form->get_input( 'plugin_object_cache_exp', 'short' ).' seconds</td>';
 
 					if ( $this->p->is_avail['ssb'] )
 						$ret = array_merge( $ret, $this->get_more_cache() );
-
 					break;
 
 				case 'apikeys':
-
 					$ret = array_merge( $ret, $this->get_more_apikeys() );
-
 					break;
 
 				case 'rewrite':
-
 					$ret = array_merge( $ret, $this->get_more_rewrite() );
-
 					break;
 			}
 			return $ret;
 		}
 
-		protected function get_more_content() {
-			$add_to_checkboxes = '';
-			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type )
-				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'plugin_add_to_'.$post_type->name ).' '.
-					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
-
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'Check for Wistia Videos', null, 'plugin_wistia_api' ).
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_wistia_api' ).'</td>',
-
-				$this->p->util->th( 'Show Custom Settings on', null, 'plugin_add_to' ).
-				'<td class="blank">'.$add_to_checkboxes.'</td>',
-			);
-		}
-
-		protected function get_more_taglist() {
-			$og_cols = 4;
-			$cells = array();
-			$rows = array();
-			foreach ( $this->p->opt->get_defaults() as $opt => $val ) {
-				if ( preg_match( '/^inc_(.*)$/', $opt, $match ) ) {
-					$cells[] = '<td class="taglist blank checkbox">'.
-					$this->form->get_fake_checkbox( $opt ).'</td>'.
-					'<th class="taglist">'.$match[1].'</th>'."\n";
-				}
-			}
-			$per_col = ceil( count( $cells ) / $og_cols );
-			foreach ( $cells as $num => $cell ) {
-				if ( empty( $rows[ $num % $per_col ] ) )
-					$rows[ $num % $per_col ] = '';	// initialize the array
-				$rows[ $num % $per_col ] .= $cell;	// create the html for each row
-			}
-			return array_merge( array( '<td colspan="'.($og_cols * 2).'" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>' ), $rows );
-		}
-
-		protected function get_more_cache() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
-				'<td class="blank">'.$this->form->get_hidden( 'plugin_file_cache_hrs' ). 
-				$this->p->options['plugin_file_cache_hrs'].' hours</td>',
-
-				$this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>',
-			);
-		}
-
-		protected function get_more_apikeys() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'Bit.ly Username', null, 'plugin_bitly_login' ).
-				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_login' ).
-				$this->p->options['plugin_bitly_login'].'</td>',
-
-				$this->p->util->th( 'Bit.ly API Key', null, 'plugin_bitly_api_key' ).
-				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_bitly_api_key' ).
-				$this->p->options['plugin_bitly_api_key'].'</td>',
-
-				$this->p->util->th( 'Google Project Application BrowserKey', null, 'plugin_google_api_key' ).
-				'<td class="blank mono">'.$this->form->get_hidden( 'plugin_google_api_key' ).
-				$this->p->options['plugin_google_api_key'].'</td>',
-
-				$this->p->util->th( 'Google URL Shortener API is ON', null, 'plugin_google_shorten' ).
-				'<td class="blank">'.$this->form->get_fake_radio( 'plugin_google_shorten', 
-					array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>',
-			);
-		}
-
-		protected function get_more_rewrite() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'URL Length to Shorten', null, 'plugin_min_shorten' ). 
-				'<td class="blank">'.$this->form->get_hidden( 'plugin_min_shorten' ).
-					$this->p->options['plugin_min_shorten'].' characters</td>',
-
-				$this->p->util->th( 'Static Content URL(s)', 'highlight', 'plugin_cdn_urls' ). 
-				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_urls' ). 
-					$this->p->options['plugin_cdn_urls'].'</td>',
-
-				$this->p->util->th( 'Include Folders', null, null, 'plugin_cdn_folders' ).
-				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_folders' ). 
-					$this->p->options['plugin_cdn_folders'].'</td>',
-
-				$this->p->util->th( 'Exclude Patterns', null, 'plugin_cdn_excl' ).
-				'<td class="blank">'.$this->form->get_hidden( 'plugin_cdn_excl' ).
-					$this->p->options['plugin_cdn_excl'].'</td>',
-
-				$this->p->util->th( 'Not when Using HTTPS', null, 'plugin_cdn_not_https' ).
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_not_https' ).'</td>',
-
-				$this->p->util->th( 'www is Optional', null, 'plugin_cdn_www_opt' ). 
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'plugin_cdn_www_opt' ).'</td>',
-			);
-		}
+		protected function get_more_content() { return array(); }
+		protected function get_more_taglist() { return array(); }
+		protected function get_more_cache() { return array(); }
+		protected function get_more_apikeys() { return array(); }
+		protected function get_more_rewrite() { return array(); }
 	}
 }
 
