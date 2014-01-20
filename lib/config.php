@@ -34,7 +34,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'submenu' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
-					'social' => 'Social Sharing',
+					'sharing' => 'Social Sharing',
 					'style' => 'Social Style',
 					'about' => 'About',
 				),
@@ -54,16 +54,16 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'skype' => 'Skype',
 				),
 				'shortcode' => array(
-					'ngfb' => 'Ngfb',
+					'sharing' => 'Sharing',
 				),
 				'widget' => array(
-					'social' => 'SocialSharing',
+					'sharing' => 'Sharing',
 				),
 				'gpl' => array(
 					'admin' => array(
 						'general' => 'General',
 						'advanced' => 'Advanced',
-						'social' => 'Social Sharing',
+						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
 					),
@@ -72,7 +72,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'admin' => array(
 						'general' => 'General',
 						'advanced' => 'Advanced',
-						'social' => 'Social Sharing',
+						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
 					),
@@ -108,7 +108,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '226',		// increment when changing default options
+				'version' => '228',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -156,7 +156,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'buttons_location_the_excerpt' => 'bottom',
 					'buttons_location_the_content' => 'bottom',
 					'buttons_link_css' => 1,
-					'buttons_css_social' => '',
+					'buttons_css_sharing' => '',
 					'buttons_css_excerpt' => '',
 					'buttons_css_content' => '',
 					'buttons_css_shortcode' => '',
@@ -326,7 +326,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_debug' => 0,
 					'plugin_filter_content' => 1,
 					'plugin_filter_excerpt' => 0,
-					'plugin_shortcode_ngfb' => 0,
+					'plugin_shortcode' => 0,
 					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
 					'plugin_wistia_api' => 1,
@@ -424,7 +424,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'style' => array(			// filter with 'ngfb_style_tabs'
-				'social' => 'Buttons Style',
+				'sharing' => 'Buttons Style',
 				'excerpt' => 'Excerpt Style',
 				'content' => 'Content Style',
 				'shortcode' => 'Shortcode Style',
@@ -464,7 +464,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'min_img_dim' => 200,
 				'min_desc_len' => 156,
 			),
-			'social' => array(
+			'sharing' => array(
 				'show_on' => array( 
 					'the_content' => 'Content', 
 					'the_excerpt' => 'Excerpt', 
@@ -475,13 +475,13 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		private static $cf_filtered = false;
 
 		public static function get_config( $idx = '' ) { 
-			// remove the social sharing libs if disabled
+			// remove the sharing libs if disabled
 			if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
 				unset (
-					self::$cf['lib']['submenu']['social'],
+					self::$cf['lib']['submenu']['sharing'],
 					self::$cf['lib']['submenu']['style'],
-					self::$cf['lib']['shortcode']['ngfb'],
-					self::$cf['lib']['widget']['social'],
+					self::$cf['lib']['shortcode']['sharing'],
+					self::$cf['lib']['widget']['sharing'],
 					self::$cf['lib']['util']['rewrite'],
 					self::$cf['lib']['util']['shorten']
 				);
@@ -585,10 +585,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else require_once( $plugin_dir.'lib/functions.php' );
 
-			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
+			if ( file_exists( $plugin_dir.'lib/sharing.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
 					! NGFB_SOCIAL_SHARING_DISABLE ) )
-						require_once( $plugin_dir.'lib/social.php' );
+						require_once( $plugin_dir.'lib/sharing.php' );
 
 			if ( file_exists( $plugin_dir.'lib/opengraph.php' ) &&
 				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&

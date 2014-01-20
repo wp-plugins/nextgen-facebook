@@ -59,10 +59,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
 
-			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/social.php' ) &&
+			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! NGFB_SOCIAL_SHARING_DISABLE ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
-				class_exists( $this->p->cf['cca'].'Social' ) ? true : false;
+				class_exists( $this->p->cf['cca'].'Sharing' ) ? true : false;
 
 			$ret['aop'] = self::$aop = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
@@ -136,7 +136,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							break;
 						case 'admin-apikeys':
 						case 'admin-rewrite':
-						case 'admin-social':
+						case 'admin-sharing':
 							if ( $ret['ssb'] === true )
 								$ret[$sub]['*'] = $ret[$sub][$id] = true;
 							break;

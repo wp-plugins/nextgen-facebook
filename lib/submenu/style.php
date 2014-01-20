@@ -40,21 +40,21 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 		public function get_rows( $metabox, $key ) {
 			$ret = array();
 			switch ( $metabox.'-'.$key ) {
-				case 'style-social':
+				case 'style-sharing':
 					$ret[] = '<td class="textinfo">
 					<p>'.$this->p->cf['full'].' uses the \'ngfb-buttons\' class to wrap all its 
-					social buttons, and each button has it\'s own individual class name as well. 
+					sharing buttons, and each button has it\'s own individual class name as well. 
 					Refer to the <a href="http://wordpress.org/extend/plugins/nextgen-facebook/other_notes/" 
 					target="_blank">Other Notes</a> webpage for additional stylesheet information, 
-					including how to hide the social buttons for specific Posts, Pages, categories, tags, etc.</p></td>'.
-					'<td>'.$this->form->get_textarea( 'buttons_css_social', 'large css' ).'</td>';
+					including how to hide the sharing buttons for specific Posts, Pages, categories, tags, etc.</p></td>'.
+					'<td>'.$this->form->get_textarea( 'buttons_css_sharing', 'large css' ).'</td>';
 					break;
 				case 'style-excerpt':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the excerpt text from the '.
-					$this->p->util->get_admin_url( 'social', 'Social Sharing settings page' ).
+					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
 					', are assigned the \'ngfb-excerpt-buttons\' class, which itself contains the 
-					\'ngfb-buttons\' class -- a common class for all the social buttons 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-excerpt-buttons 
@@ -65,9 +65,9 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 				case 'style-content':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the content text from the '.
-					$this->p->util->get_admin_url( 'social', 'Social Sharing settings page' ).
+					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
 					', are assigned the \'ngfb-content-buttons\' class, which itself contains the 
-					\'ngfb-buttons\' class -- a common class for all the social buttons 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-content-buttons 
@@ -79,7 +79,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons added from a shortcode are assigned the 
 					\'ngfb-shortcode-buttons\' class, which itself contains the 
-					\'ngfb-buttons\' class -- a common class for all the social buttons 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-shortcode-buttons 
@@ -91,7 +91,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons within the '.$this->p->cf['menu'].' Social Sharing
 					widget are assigned the \'ngfb-widget-buttons\' class, which itself contains the 
-					\'ngfb-buttons\' class -- a common class for all the social buttons 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-widget-buttons 

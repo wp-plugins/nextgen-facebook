@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocialTumblr' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbSubmenuSocialTumblr extends NgfbSubmenuSocial {
+	class NgfbSubmenuSharingTumblr extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -47,11 +47,11 @@ if ( ! class_exists( 'NgfbSubmenuSocialTumblr' ) && class_exists( 'NgfbSubmenuSo
 				image that is equal to or larger than the \'Image Dimensions\' you have chosen 
 				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> custom Posts, 
 				or (lastly) the webpage link.' ).'<td>'.
-				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_order', 
-					range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
@@ -79,9 +79,9 @@ if ( ! class_exists( 'NgfbSubmenuSocialTumblr' ) && class_exists( 'NgfbSubmenuSo
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialTumblr {
+	class NgfbSharingTumblr {
 
 		protected $p;
 
@@ -184,7 +184,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			}
 			if ( empty( $query ) ) return;
 
-			$html = '<!-- Tumblr Button --><div '.$this->p->social->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
+			$html = '<!-- Tumblr Button --><div '.$this->p->sharing->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

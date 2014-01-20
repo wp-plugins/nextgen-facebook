@@ -169,8 +169,8 @@ if ( ! class_exists( 'NgfbSubmenuAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->form->get_checkbox( 'plugin_filter_excerpt' ).'</td>';
 
 					if ( $this->p->is_avail['ssb'] )
-						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', 'plugin_shortcode_ngfb' ).
-						'<td>'.$this->form->get_checkbox( 'plugin_shortcode_ngfb' ).'</td>';
+						$ret[] = $this->p->util->th( 'Enable Shortcode(s)', 'highlight', 'plugin_shortcode' ).
+						'<td>'.$this->form->get_checkbox( 'plugin_shortcode' ).'</td>';
 
 					$ret[] =  $this->p->util->th( 'Auto-Resize Images', null, 'plugin_auto_img_resize' ).
 					'<td>'.$this->form->get_checkbox( 'plugin_auto_img_resize' ).'</td>';

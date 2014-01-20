@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocialPinterest' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbSubmenuSocialPinterest extends NgfbSubmenuSocial {
+	class NgfbSubmenuSharingPinterest extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -23,10 +23,10 @@ if ( ! class_exists( 'NgfbSubmenuSocialPinterest' ) && class_exists( 'NgfbSubmen
 				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
 				a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
 				\'Image Dimensions\' you have chosen.' ).'<td>'.
-				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'pin', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
+				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
@@ -59,9 +59,9 @@ if ( ! class_exists( 'NgfbSubmenuSocialPinterest' ) && class_exists( 'NgfbSubmen
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialPinterest {
+	class NgfbSharingPinterest {
 
 		protected $p;
 
@@ -128,7 +128,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 			else $img = $this->p->options['pin_img_url'];
 			$img = $this->p->util->get_cache_url( $img );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
+			$html = '<!-- Pinterest Button --><div '.$this->p->sharing->get_css( 'pinterest', $atts ).'><a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

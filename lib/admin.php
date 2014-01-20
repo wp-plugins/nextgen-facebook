@@ -183,7 +183,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$opts = array_merge( $this->p->options, $opts );
 			$opts = $this->p->opt->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
 			if ( $this->p->is_avail['ssb'] ) 
-				$this->p->style->update_social( $opts );
+				$this->p->style->update_sharing( $opts );
 			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts );
 			$this->p->notice->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.', NGFB_TEXTDOM ), 
@@ -347,8 +347,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 			do_meta_boxes( $this->pagehook, 'normal', null ); 
 
-			// if we're displaying the "social" page, then do the social website metaboxes
-			if ( $this->menu_id == 'social' ) {
+			// if we're displaying the sharing page, then do the sharing website metaboxes
+			if ( $this->menu_id == 'sharing' ) {
 				foreach ( range( 1, ceil( count( $this->p->admin->submenu[$this->menu_id]->website ) / 2 ) ) as $row ) {
 					echo '<div class="website-row">', "\n";
 					foreach ( range( 1, 2 ) as $col ) {
@@ -412,9 +412,9 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				'Non-Persistant Cache' => array( 'status' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec' ),
 				'Open Graph / Rich Pin' => array( 'status' => class_exists( $this->p->cf['lca'].'Opengraph' ) ? 'on' : 'rec' ),
 				'Pro Update Check' => array( 'class' => 'SucomUpdate' ),
-				'Social Sharing Buttons' => array( 'class' => $this->p->cf['lca'].'Social' ),
+				'Social Sharing Buttons' => array( 'class' => $this->p->cf['lca'].'Sharing' ),
 				'Social Sharing Shortcode' => array( 'class' => $this->p->cf['lca'].'ShortcodeNgfb' ),
-				'Social Sharing Widget' => array( 'class' => $this->p->cf['lca'].'WidgetSocialSharing' ),
+				'Social Sharing Widget' => array( 'class' => $this->p->cf['lca'].'WidgetSharing' ),
 				'Transient Cache' => array( 'status' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec' ),
 			);
 			echo '<tr><td><h4 style="margin-top:0;">Standard</h4></td></tr>';
@@ -444,7 +444,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						case 'bbpress':
 						case 'buddypress':
 							$features[$name]['tooltip'] .= ' '.$name.' support also provides social sharing buttons 
-							that can be enabled from the Open Graph+ '.$this->p->util->get_admin_url( 'social',
+							that can be enabled from the Open Graph+ '.$this->p->util->get_admin_url( 'sharing',
 							'Social Sharing settings' ).' page.';
 							break;
 					}

@@ -122,11 +122,11 @@ if ( ! class_exists( 'NgfbAdminAdvancedGpl' ) && class_exists( 'NgfbAdminAdvance
 	}
 }
 
-if ( ! class_exists( 'NgfbAdminSocialGpl' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbAdminSharingGpl' ) && class_exists( 'NgfbAdminSharing' ) ) {
 
-	class NgfbAdminSocialGpl extends NgfbAdminSocial {
+	class NgfbAdminSharingGpl extends NgfbAdminSharing {
 
-		protected function get_more_social() {
+		protected function get_more_sharing() {
 			$add_to_checkboxes = '';
 			foreach ( $this->p->util->get_post_types( 'buttons' ) as $post_type )
 				$add_to_checkboxes .= '<p>'.$this->form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.

@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocial' ) && class_exists( 'NgfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class NgfbSubmenuSocial extends NgfbAdmin {
+	class NgfbSubmenuSharing extends NgfbAdmin {
 
 		public $website = array();
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'NgfbSubmenuSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 		protected function show_on_checkboxes( $prefix, $show_on = array() ) {
 			$html = '<table>';
 			$cols = 0;
-			foreach ( apply_filters( $this->p->cf['lca'].'_social_buttons_on', $show_on, $prefix ) as $suffix => $desc ) {
+			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_buttons_on', $show_on, $prefix ) as $suffix => $desc ) {
 				$cols++;
 				$html .= $cols === 1 ? '<tr><td>' : '<td>';
 				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';
@@ -47,7 +47,7 @@ if ( ! class_exists( 'NgfbSubmenuSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook.'_social', 'Social Buttons', array( &$this, 'show_metabox_social' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_sharing', 'Sharing Buttons', array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
 			$col = 0;
 			$row = 0;
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
@@ -79,8 +79,8 @@ if ( ! class_exists( 'NgfbSubmenuSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</table>', "\n";
 		}
 
-		public function show_metabox_social() {
-			$metabox = 'social';
+		public function show_metabox_sharing() {
+			$metabox = 'sharing';
 			echo '<table class="sucom-setting"><tr><td colspan="3">';
 			echo $this->p->msgs->get( $metabox.'-buttons-info' );
 			echo '</td></tr><tr>';

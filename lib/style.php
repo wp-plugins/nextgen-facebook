@@ -14,37 +14,37 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 
 		private $p;
 
-		public $social_css_min_file;
-		public $social_css_min_url;
+		public $sharing_css_min_file;
+		public $sharing_css_min_url;
 
 		public function __construct( &$plugin ) {
 			parent::__construct( $plugin );
 			$this->p =& $plugin;
 			$this->p->debug->mark();
 
-			$this->social_css_min_file = constant( $this->p->cf['uca'].'_CACHEDIR' ).$this->p->cf['lca'].'-social-styles.min.css';
-			$this->social_css_min_url = constant( $this->p->cf['uca'].'_CACHEURL' ).$this->p->cf['lca'].'-social-styles.min.css';
+			$this->sharing_css_min_file = constant( $this->p->cf['uca'].'_CACHEDIR' ).$this->p->cf['lca'].'-sharing-styles.min.css';
+			$this->sharing_css_min_url = constant( $this->p->cf['uca'].'_CACHEURL' ).$this->p->cf['lca'].'-sharing-styles.min.css';
 
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
 		}
 
 		public function wp_enqueue_styles( $hook ) {
-			// only include social styles if option is checked and social features are not disabled
+			// only include sharing styles if option is checked and sharing features are not disabled
 			if ( $this->p->is_avail['ssb'] && ! empty( $this->p->options['buttons_link_css'] ) ) {
-				wp_register_style( $this->p->cf['lca'].'_social_buttons', $this->social_css_min_url, false, $this->p->cf['version'] );
-				if ( ! file_exists( $this->social_css_min_file ) ) {
-					$this->p->debug->log( 'updating '.$this->social_css_min_file );
-					$this->update_social( $this->p->options );
+				wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
+				if ( ! file_exists( $this->sharing_css_min_file ) ) {
+					$this->p->debug->log( 'updating '.$this->sharing_css_min_file );
+					$this->update_sharing( $this->p->options );
 				}
-				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_social_buttons' );
-				wp_enqueue_style( $this->p->cf['lca'].'_social_buttons' );
+				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
+				wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 			}
 		}
 
-		public function update_social( &$opts ) {
+		public function update_sharing( &$opts ) {
 			if ( $this->p->is_avail['ssb'] && ! empty( $this->p->options['buttons_link_css'] ) ) {
-				if ( ! $fh = @fopen( $this->social_css_min_file, 'wb' ) )
-					$this->p->debug->log( 'Error opening '.$this->social_css_min_file.' for writing.' );
+				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
+					$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
 				else {
 					$css_data = '';
 					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
@@ -55,14 +55,14 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 					$css_data = SuextMinifyCssCompressor::process( $css_data );
 					fwrite( $fh, $css_data );
 					fclose( $fh );
-					$this->p->debug->log( 'updated css file '.$this->social_css_min_file );
+					$this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
 				}
-			} else $this->unlink_social();
+			} else $this->unlink_sharing();
 		}
 
-		public function unlink_social() {
-			if ( file_exists( $this->social_css_min_file ) ) {
-				if ( ! @unlink( $this->social_css_min_file ) )
+		public function unlink_sharing() {
+			if ( file_exists( $this->sharing_css_min_file ) ) {
+				if ( ! @unlink( $this->sharing_css_min_file ) )
 					add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
 						'<b>'.$this->p->cf['uca'].' Error</b> : Error removing minimized stylesheet. 
 							Does the web server have sufficient privileges?', 'error' );

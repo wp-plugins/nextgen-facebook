@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocialGplus' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbSubmenuSocialGplus extends NgfbSubmenuSocial {
+	class NgfbSubmenuSharingGplus extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -20,11 +20,11 @@ if ( ! class_exists( 'NgfbSubmenuSocialGplus' ) && class_exists( 'NgfbSubmenuSoc
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'gp', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'gp', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
 				$this->form->get_select( 'gp_order', range( 1, 
-					count( $this->p->admin->submenu['social']->website ) ), 
+					count( $this->p->admin->submenu['sharing']->website ) ), 
 						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
@@ -72,9 +72,9 @@ if ( ! class_exists( 'NgfbSubmenuSocialGplus' ) && class_exists( 'NgfbSubmenuSoc
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingGplus' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialGplus {
+	class NgfbSharingGplus {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -93,7 +93,7 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 					$use_post, $atts['add_page'], $source_id );
 			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 
-			$html = '<!-- GooglePlus Button --><div '.$this->p->social->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
+			$html = '<!-- GooglePlus Button --><div '.$this->p->sharing->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
 			$html .= ' data-size="'.$opts['gp_size'].'" data-annotation="'.$opts['gp_annotation'].'" data-href="'.$atts['url'].'"';
 			$html .= empty( $opts['gp_expandto'] ) || $opts['gp_expandto'] == 'none' ? '' : ' data-expandTo="'.$opts['gp_expandto'].'"';
 			$html .= '></span></div>';

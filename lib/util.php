@@ -68,7 +68,7 @@ if ( ! class_exists( 'NgfbUtil' ) && class_exists( 'SucomUtil' ) ) {
 					'NgfbOpengraph::get_array' => array(
 						'og array' => 'lang:'.$lang.'_sharing_url:'.$sharing_url,
 					),
-					'NgfbSocial::filter' => array(
+					'NgfbSharing::filter' => array(
 						'the_excerpt' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_excerpt',
 						'the_content' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_content',
 						'admin_sharing' => 'lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing',

@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) )
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocialFacebook' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbSubmenuSocialFacebook extends NgfbSubmenuSocial {
+	class NgfbSubmenuSharingFacebook extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -36,10 +36,10 @@ if ( ! class_exists( 'NgfbSubmenuSocialFacebook' ) && class_exists( 'NgfbSubmenu
 				case 'all' :
 
 					$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-					( $this->show_on_checkboxes( 'fb', $this->p->cf['social']['show_on'] ) ).'</td>';
+					( $this->show_on_checkboxes( 'fb', $this->p->cf['sharing']['show_on'] ) ).'</td>';
 
 					$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-					$this->form->get_select( 'fb_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>';
+					$this->form->get_select( 'fb_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_js_loc', $this->js_locations ).'</td>';
@@ -142,9 +142,9 @@ if ( ! class_exists( 'NgfbSubmenuSocialFacebook' ) && class_exists( 'NgfbSubmenu
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialFacebook {
+	class NgfbSharingFacebook {
 
 		protected $p;
 
@@ -180,7 +180,7 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 						case 'xfbml' :
 							// XFBML
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
-							$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.
+							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.
 							$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.
 							$show_faces.'" font="'.$opts['fb_font'].'" action="'.
 							$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
@@ -188,7 +188,7 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 						case 'html5' :
 							// HTML5
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
-							$this->p->social->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.
+							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.
 							$atts['url'].'" data-send="'.$send.'" data-layout="'.
 							$opts['fb_layout'].'" data-show-faces="'.$show_faces.'" data-font="'.
 							$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.
@@ -198,7 +198,7 @@ if ( ! class_exists( 'NgfbSocialFacebook' ) && class_exists( 'NgfbSocial' ) ) {
 					break;
 				case 'share' :
 					$html .= '<!-- Facebook Share Button --><div '.
-					$this->p->social->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.
+					$this->p->sharing->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.
 					$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>';
 					break;
 			}

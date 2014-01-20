@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocial {
+	class NgfbSharing {
 
 		protected $p;
 		protected $website = array();
@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 		}
 
 		public function add_metaboxes() {
-			// is there at least one social button enabled for the admin_sharing metabox?
+			// is there at least one sharing button enabled for the admin_sharing metabox?
 			$add_admin_sharing = false;
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
@@ -112,7 +112,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 
-			// should we skip the social buttons for this content type or webpage?
+			// should we skip the sharing buttons for this content type or webpage?
 			if ( is_admin() ) {
 				if ( $type != 'admin_sharing' ) {
 					$this->p->debug->log( $type.' filter skipped: '.$type.' ignored with is_admin()'  );
@@ -132,7 +132,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				}
 			}
 
-			// is there at least one social button enabled?
+			// is there at least one sharing button enabled?
 			$enabled = false;
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				if ( ! empty( $opts[$pre.'_on_'.$type] ) ) {
@@ -165,7 +165,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 			if ( $html !== false ) {
 				$this->p->debug->log( $cache_type.': '.$type.' html retrieved from transient '.$cache_id );
 			} else {
-				// sort enabled social buttons by their preferred order
+				// sort enabled sharing buttons by their preferred order
 				$sorted_ids = array();
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
 					if ( ! empty( $opts[$pre.'_on_'.$type] ) )
@@ -230,13 +230,13 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( 'exiting early: admin non-editing page' );
 				return;
 			}
-			if ( class_exists( 'NgfbWidgetSocialSharing' ) ) {
-				$widget = new NgfbWidgetSocialSharing();
+			if ( class_exists( 'NgfbWidgetSharing' ) ) {
+				$widget = new NgfbWidgetSharing();
 		 		$widget_settings = $widget->get_settings();
 			} else $widget_settings = array();
 
-			// determine which (if any) social buttons are enabled
-			// loop through the social button option prefixes (fb, gp, etc.)
+			// determine which (if any) sharing buttons are enabled
+			// loop through the sharing button option prefixes (fb, gp, etc.)
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				// check for enabled buttons on settings page
 				if ( is_admin() && ! empty( $obj ) ) {
@@ -331,7 +331,7 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 					$this->p->debug->log( 'found custom meta buttons disabled = true' );
 					return true;
 				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
-					$this->p->debug->log( 'social buttons disabled for post '.$post->ID.' of type '.$post_type );
+					$this->p->debug->log( 'sharing buttons disabled for post '.$post->ID.' of type '.$post_type );
 					return true;
 				}
 			}

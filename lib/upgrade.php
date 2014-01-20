@@ -42,7 +42,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'ngfb_pro_tid' => 'plugin_tid',
 			'ngfb_preserve' => 'plugin_preserve',
 			'ngfb_debug' => 'plugin_debug',
-			'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
+			'ngfb_enable_shortcode' => 'plugin_shortcode',
 			'ngfb_skip_small_img' => 'plugin_ignore_small_img',
 			'ngfb_filter_content' => 'plugin_filter_content',
 			'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
@@ -87,6 +87,8 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 			'plugin_googl_api_key' => 'plugin_google_api_key',
 			'og_img_resize' => 'plugin_auto_img_resize',
+			'buttons_css_social' => 'buttons_css_sharing',
+			'plugin_shortcode_ngfb' => 'plugin_shortcode',
 		);
 
 		protected $p;

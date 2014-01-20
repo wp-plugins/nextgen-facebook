@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSubmenuSocialTwitter' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbSubmenuSocialTwitter extends NgfbSubmenuSocial {
+	class NgfbSubmenuSharingTwitter extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -21,11 +21,11 @@ if ( ! class_exists( 'NgfbSubmenuSocialTwitter' ) && class_exists( 'NgfbSubmenuS
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-			( $this->show_on_checkboxes( 'twitter', $this->p->cf['social']['show_on'] ) ).'</td>';
+			( $this->show_on_checkboxes( 'twitter', $this->p->cf['sharing']['show_on'] ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_order', 
-				range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>';
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
@@ -77,9 +77,9 @@ if ( ! class_exists( 'NgfbSubmenuSocialTwitter' ) && class_exists( 'NgfbSubmenuS
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialTwitter {
+	class NgfbSharingTwitter {
 
 		protected $p;
 
@@ -142,7 +142,7 @@ if ( ! class_exists( 'NgfbSocialTwitter' ) && class_exists( 'NgfbSocial' ) ) {
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
 				$atts['dnt'] = $opts['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div '.$this->p->social->get_css( 'twitter', $atts ).'><a href="'.$prot.'//twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
+			$html = '<!-- Twitter Button --><div '.$this->p->sharing->get_css( 'twitter', $atts ).'><a href="'.$prot.'//twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 

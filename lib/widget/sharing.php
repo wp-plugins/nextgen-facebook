@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) ) {
+if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 
-	class NgfbWidgetSocialSharing extends WP_Widget {
+	class NgfbWidgetSharing extends WP_Widget {
 
 		protected $p;
 
@@ -33,8 +33,8 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
 			if ( ! is_object( $this->p ) ) return;
 
-			if ( is_object( $this->p->social ) && $this->p->social->is_disabled() ) {
-				$this->p->debug->log( 'widget buttons skipped: buttons disabled' );
+			if ( is_object( $this->p->sharing ) && $this->p->sharing->is_disabled() ) {
+				$this->p->debug->log( 'widget buttons skipped: sharing buttons disabled' );
 				return;
 			}
 			extract( $args );
@@ -54,7 +54,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 				}
 			}
 
-			// sort enabled social buttons by their preferred order
+			// sort enabled sharing buttons by their preferred order
 			$sorted_ids = array();
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
 				if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
@@ -69,7 +69,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 			$widget_html .= $before_widget;
 			if ( $title ) 
 				$widget_html .= $before_title.$title.$after_title;
-			$widget_html .= $this->p->social->get_html( $sorted_ids, $atts );
+			$widget_html .= $this->p->sharing->get_html( $sorted_ids, $atts );
 			$widget_html .= $after_widget;
 			$widget_html .= '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->';
 
@@ -98,7 +98,7 @@ if ( ! class_exists( 'NgfbWidgetSocialSharing' ) && class_exists( 'WP_Widget' ) 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$classname = $this->p->cf['cca'].'Social'.ucfirst( $id );
+				$classname = $this->p->cf['lca'].'Sharing'.$id;
 				if ( class_exists( $classname ) ) {
 					$name = $name == 'GooglePlus' ? 'Google+' : $name;
 					echo '<p><label for="', $this->get_field_id( $id ), '">', 
