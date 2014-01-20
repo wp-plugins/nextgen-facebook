@@ -31,10 +31,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			}
 		}
 
+		// called by each website's settings class to display a list of checkboxes
+		// Show Button in: Content, Excerpt, Edit Post/Page, etc.
 		protected function show_on_checkboxes( $prefix, $show_on = array() ) {
 			$html = '<table>';
 			$cols = 0;
-			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_buttons_on', $show_on, $prefix ) as $suffix => $desc ) {
+			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_show_on', $show_on, $prefix ) as $suffix => $desc ) {
 				$cols++;
 				$html .= $cols === 1 ? '<tr><td>' : '<td>';
 				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';

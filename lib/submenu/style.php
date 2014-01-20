@@ -30,11 +30,13 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<td>', $this->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
 
-			$tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
+			$metabox = 'style';
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', $this->p->cf['style'] );
 			$rows = array();
 			foreach ( $tabs as $key => $title )
-				$rows[$key] = $this->get_rows( 'style', $key );
-			$this->p->util->do_tabs( 'style', $tabs, $rows );
+				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
+					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
+			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
 		public function get_rows( $metabox, $key ) {
@@ -49,6 +51,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					including how to hide the sharing buttons for specific Posts, Pages, categories, tags, etc.</p></td>'.
 					'<td>'.$this->form->get_textarea( 'buttons_css_sharing', 'large css' ).'</td>';
 					break;
+
 				case 'style-excerpt':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the excerpt text from the '.
@@ -62,6 +65,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_excerpt', 'large css' ).'</td>';
 					break;
+
 				case 'style-content':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the content text from the '.
@@ -75,6 +79,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_content', 'large css' ).'</td>';
 					break;
+
 				case 'style-shortcode':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons added from a shortcode are assigned the 
@@ -87,6 +92,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_shortcode', 'large css' ).'</td>';
 					break;
+
 				case 'style-widget':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons within the '.$this->p->cf['menu'].' Social Sharing
@@ -105,9 +111,6 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
     .ngfb-buttons
         #facebook-ngfb-widget-buttons-2 { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_widget', 'large css' ).'</td>';
-					break;
-				default:
-					$ret = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form );
 					break;
 			}
 			return $ret;
