@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSocialGplus' ) && class_exists( 'NgfbSubmenuSocial' ) ) {
 
-	class NgfbAdminSocialGplus extends NgfbAdminSocial {
+	class NgfbSubmenuSocialGplus extends NgfbSubmenuSocial {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;

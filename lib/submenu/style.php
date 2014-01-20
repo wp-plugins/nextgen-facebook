@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class NgfbAdminStyle extends NgfbAdmin {
+	class NgfbSubmenuStyle extends NgfbAdmin {
 
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
@@ -30,18 +30,17 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<td>', $this->form->get_checkbox( 'buttons_link_css' ), '</td>';
 			echo '</tr></table>';
 
-			$tab_rows = array();
-			$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['css'] );
-			foreach ( $style_tabs as $id => $name )
-				$tab_rows[$id] = apply_filters( $this->p->cf['lca'].'_style_rows', $this->get_rows( $id ), $id, $this->form );
-
-			$this->p->util->do_tabs( 'css', $style_tabs, $tab_rows );
+			$tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = $this->get_rows( 'style', $key );
+			$this->p->util->do_tabs( 'style', $tabs, $rows );
 		}
 
-		public function get_rows( $id ) {
+		public function get_rows( $metabox, $key ) {
 			$ret = array();
-			switch ( $id ) {
-				case 'social' :
+			switch ( $metabox.'-'.$key ) {
+				case 'style-social':
 					$ret[] = '<td class="textinfo">
 					<p>'.$this->p->cf['full'].' uses the \'ngfb-buttons\' class to wrap all its 
 					social buttons, and each button has it\'s own individual class name as well. 
@@ -50,7 +49,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					including how to hide the social buttons for specific Posts, Pages, categories, tags, etc.</p></td>'.
 					'<td>'.$this->form->get_textarea( 'buttons_css_social', 'large css' ).'</td>';
 					break;
-				case 'excerpt' :
+				case 'style-excerpt':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the excerpt text from the '.
 					$this->p->util->get_admin_url( 'social', 'Social Sharing settings page' ).
@@ -63,7 +62,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_excerpt', 'large css' ).'</td>';
 					break;
-				case 'content' :
+				case 'style-content':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons, enabled / added to the content text from the '.
 					$this->p->util->get_admin_url( 'social', 'Social Sharing settings page' ).
@@ -76,7 +75,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_content', 'large css' ).'</td>';
 					break;
-				case 'shortcode' :
+				case 'style-shortcode':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons added from a shortcode are assigned the 
 					\'ngfb-shortcode-buttons\' class, which itself contains the 
@@ -88,7 +87,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_shortcode', 'large css' ).'</td>';
 					break;
-				case 'widget' :
+				case 'style-widget':
 					$ret[] = '<td class="textinfo">
 					<p>Social sharing buttons within the '.$this->p->cf['menu'].' Social Sharing
 					widget are assigned the \'ngfb-widget-buttons\' class, which itself contains the 
@@ -106,6 +105,9 @@ if ( ! class_exists( 'NgfbAdminStyle' ) && class_exists( 'NgfbAdmin' ) ) {
     .ngfb-buttons
         #facebook-ngfb-widget-buttons-2 { }</pre></td><td>'.
 					$this->form->get_textarea( 'buttons_css_widget', 'large css' ).'</td>';
+					break;
+				default:
+					$ret = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form );
 					break;
 			}
 			return $ret;

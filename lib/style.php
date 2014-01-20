@@ -47,7 +47,7 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 					$this->p->debug->log( 'Error opening '.$this->social_css_min_file.' for writing.' );
 				else {
 					$css_data = '';
-					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['css'] );
+					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
 					foreach ( $style_tabs as $id => $name )
 						$css_data .= $opts['buttons_css_'.$id];
 	
@@ -70,4 +70,5 @@ if ( ! class_exists( 'NgfbStyle' ) && class_exists( 'SucomStyle' ) ) {
 		}
 	}
 }
+
 ?>

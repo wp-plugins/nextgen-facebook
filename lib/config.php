@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.23dev1',			// plugin version
+			'version' => '6.23dev2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -38,7 +38,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'style' => 'Social Style',
 					'about' => 'About',
 				),
-				'site_submenu' => array(
+				'sitesubmenu' => array(
 					'network' => 'Network',
 				),
 				'website' => array(
@@ -59,11 +59,22 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'widget' => array(
 					'social' => 'SocialSharing',
 				),
+				'gpl' => array(
+					'admin' => array(
+						'general' => 'General',
+						'advanced' => 'Advanced',
+						'social' => 'Social Sharing',
+						'apikeys' => 'API Keys',
+						'rewrite' => 'URL Rewrite',
+					),
+				),
 				'pro' => array(
-					'seo' => array(
-						'aioseop' => 'All in One SEO Pack',
-						'seou' => 'SEO Ultimate',
-						'wpseo' => 'WordPress SEO',
+					'admin' => array(
+						'general' => 'General',
+						'advanced' => 'Advanced',
+						'social' => 'Social Sharing',
+						'apikeys' => 'API Keys',
+						'rewrite' => 'URL Rewrite',
 					),
 					'ecom' => array(
 						'woocommerce' => 'WooCommerce',
@@ -73,15 +84,24 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'forum' => array(
 						'bbpress' => 'bbPress',
 					),
-					'social' => array(
-						'buddypress' => 'BuddyPress',
+					'head' => array(
+						'twittercard' => 'Twitter Cards',
 					),
 					'media' => array(
 						'ngg' => 'NextGEN Gallery',
 						'photon' => 'Jetpack Photon',
 						'wistia' => 'Wistia Video API',
 					),
+					'seo' => array(
+						'aioseop' => 'All in One SEO Pack',
+						'seou' => 'SEO Ultimate',
+						'wpseo' => 'WordPress SEO',
+					),
+					'social' => array(
+						'buddypress' => 'BuddyPress',
+					),
 					'util' => array(
+						'language' => 'WP Locale Language',
 						'rewrite' => 'URL Rewriter',
 						'shorten' => 'URL Shortener',
 					),
@@ -403,7 +423,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'yim' => 'Yahoo IM',
 				),
 			),
-			'css' => array(				// filter with 'ngfb_style_tabs'
+			'style' => array(			// filter with 'ngfb_style_tabs'
 				'social' => 'Buttons Style',
 				'excerpt' => 'Excerpt Style',
 				'content' => 'Content Style',

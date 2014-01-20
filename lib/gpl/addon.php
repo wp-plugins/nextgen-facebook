@@ -32,9 +32,24 @@ if ( ! class_exists( 'NgfbAddonGpl' ) ) {
 				}
 			}
 
+			// extends NgfbPostMeta
 			if ( file_exists( NGFB_PLUGINDIR.'lib/gpl/postmeta.php' ) ) {
 				require_once ( NGFB_PLUGINDIR.'lib/gpl/postmeta.php' );
 				$this->p->meta = new NgfbPostMetaGpl( $this->p );
+			}
+
+			foreach ( $this->p->cf['lib']['gpl'] as $sub => $libs ) {
+				if ( $sub === 'admin' && ! is_admin() )	// only load admin menus and tabs in admin
+					continue;
+				foreach ( $libs as $id => $name ) {
+					if ( $this->p->is_avail[$sub][$id] && 
+						file_exists( NGFB_PLUGINDIR.'lib/gpl/'.$sub.'/'.$id.'.php' ) ) {
+						require_once ( NGFB_PLUGINDIR.'lib/gpl/'.$sub.'/'.$id.'.php' );
+						$classname = $this->p->cf['cca'].ucfirst( $sub ).ucfirst( $id );
+						if ( class_exists( $classname ) )
+							$this->p->addons[$id] = new $classname( $this->p );
+					}
+				}
 			}
 		}
 	}

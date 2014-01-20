@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class NgfbAdminSocial extends NgfbAdmin {
+	class NgfbSubmenuSocial extends NgfbAdmin {
 
 		public $website = array();
 
@@ -74,13 +74,15 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_website() {
 			echo '<table class="sucom-setting">', "\n";
-			foreach ( $this->get_rows() as $row ) echo '<tr>', $row, '</tr>';
+			foreach ( $this->get_rows() as $row ) 
+				echo '<tr>', $row, '</tr>';
 			echo '</table>', "\n";
 		}
 
 		public function show_metabox_social() {
+			$metabox = 'social';
 			echo '<table class="sucom-setting"><tr><td colspan="3">';
-			echo $this->p->msgs->get( 'social-buttons-info' );
+			echo $this->p->msgs->get( $metabox.'-buttons-info' );
 			echo '</td></tr><tr>';
 			echo $this->p->util->th( 'Location in Content Text', null, 'buttons_location_the_content' );
 			echo '<td>', $this->form->get_select( 'buttons_location_the_content', 
@@ -96,12 +98,10 @@ if ( ! class_exists( 'NgfbAdminSocial' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo $this->p->util->th( 'Include on Static Homepage', null, 'buttons_on_front' );
 			echo '<td>', $this->form->get_checkbox( 'buttons_on_front' ), '</td>';
 			echo '</tr>';
-			foreach ( $this->get_more_social() as $row ) 
-				echo '<tr>'.$row.'</tr>';
+			foreach ( apply_filters( $this->p->cf['lca'].'_'.$metabox.'_buttons_rows', array(), $this->form ) as $num => $row ) 
+				echo '<tr>', $row, '</tr>';
 			echo '</table>';
 		}
-
-		protected function get_more_social() { return array(); }
 	}
 }
 

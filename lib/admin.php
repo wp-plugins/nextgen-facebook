@@ -57,11 +57,11 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		private function set_objects() {
 			$libs = array( 'setting', 'submenu' );
 			if ( is_multisite() )
-				$libs[] = 'site_submenu';
+				$libs[] = 'sitesubmenu';
 			foreach ( $libs as $sub ) {
 				foreach ( $this->p->cf['lib'][$sub] as $id => $name ) {
 					do_action( $this->p->cf['lca'].'_load_lib', $sub, $id );
-					$classname = __CLASS__.ucfirst( $id );
+					$classname = $this->p->cf['lca'].$sub.$id;
 					if ( class_exists( $classname ) )
 						$this->submenu[$id] = new $classname( $this->p, $id, $name );
 				}
@@ -96,7 +96,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function add_network_admin_menus() {
-			$this->add_admin_menus( $this->p->cf['lib']['site_submenu'] );
+			$this->add_admin_menus( $this->p->cf['lib']['sitesubmenu'] );
 		}
 
 		public function add_admin_menus( $libs = array() ) {
@@ -193,7 +193,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 
 		public function save_site_options() {
 			$page = empty( $_POST['page'] ) ? 
-				key( $this->p->cf['lib']['site_submenu'] ) : $_POST['page'];
+				key( $this->p->cf['lib']['sitesubmenu'] ) : $_POST['page'];
 
 			if ( empty( $_POST[ NGFB_NONCE ] ) ) {
 				$this->p->debug->log( 'Nonce token validation post field missing.' );
@@ -335,7 +335,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 				echo $this->form->get_hidden( 'plugin_version', $this->p->cf['version'] );
 				settings_fields( $this->p->cf['lca'].'_setting' ); 
 
-			} elseif ( ! empty( $this->p->cf['lib']['site_submenu'][$this->menu_id] ) ) {
+			} elseif ( ! empty( $this->p->cf['lib']['sitesubmenu'][$this->menu_id] ) ) {
 				echo '<form name="ngfb" id="setting" method="post" action="edit.php?action='.NGFB_SITE_OPTIONS_NAME.'">';
 				echo '<input type="hidden" name="page" value="'.$this->menu_id.'">';
 				echo $this->form->get_hidden( 'options_version', $this->p->cf['opt']['version'] );
@@ -407,15 +407,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			/*
 			 * GNU version features
 			 */
-			$cca = $this->p->cf['cca'];
 			$features = array(
 				'Debug Messages' => array( 'class' => 'SucomDebug' ),
 				'Non-Persistant Cache' => array( 'status' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec' ),
-				'Open Graph / Rich Pin' => array( 'status' => class_exists( $cca.'Opengraph' ) ? 'on' : 'rec' ),
+				'Open Graph / Rich Pin' => array( 'status' => class_exists( $this->p->cf['lca'].'Opengraph' ) ? 'on' : 'rec' ),
 				'Pro Update Check' => array( 'class' => 'SucomUpdate' ),
-				'Social Sharing Buttons' => array( 'class' => $cca.'Social' ),
-				'Social Sharing Shortcode' => array( 'class' => $cca.'ShortcodeNgfb' ),
-				'Social Sharing Widget' => array( 'class' => $cca.'WidgetSocialSharing' ),
+				'Social Sharing Buttons' => array( 'class' => $this->p->cf['lca'].'Social' ),
+				'Social Sharing Shortcode' => array( 'class' => $this->p->cf['lca'].'ShortcodeNgfb' ),
+				'Social Sharing Widget' => array( 'class' => $this->p->cf['lca'].'WidgetSocialSharing' ),
 				'Transient Cache' => array( 'status' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec' ),
 			);
 			echo '<tr><td><h4 style="margin-top:0;">Standard</h4></td></tr>';
@@ -426,20 +425,14 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			 */
 			$features = array(
 				'Social File Cache' => array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' ),
-				'Custom Post Meta' => array( 'status' => class_exists( $cca.'PostMetaPro' ) ? 'on' : 'rec' ),
-				'WP Locale Language' => array( 'status' => class_exists( $cca.'Language' ) ? 'on' : 'rec' ),
-				'Twitter Cards' => array( 'status' => class_exists( $cca.'Opengraph' ) && 
-					class_exists( $cca.'TwitterCard' ) ? 'on' : 'rec' ),
-				'URL Rewriter' => array( 'status' => class_exists( $cca.'RewritePro' ) ? 'on' : 
-					( empty( $this->p->options['plugin_cdn_urls'] ) ? 'off' : 'rec' ) ),
-				'URL Shortener' => array( 'status' => class_exists( $cca.'ShortenPro' ) ? 'on' : 
-					( empty( $this->p->is_avail['ssb'] ) ||
-						empty( $this->p->options['twitter_shortener'] ) ? 'off' : 'rec' ) ),
+				'Custom Post Meta' => array( 'status' => class_exists( $this->p->cf['lca'].'PostMetaPro' ) ? 'on' : 'rec' ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
+				if ( $sub === 'admin' )	// skip status for admin menus and tabs
+					continue;
 				foreach ( $libs as $id => $name ) {
 					$features[$name] = array( 
-						'status' => class_exists( $cca.ucfirst( $sub ).ucfirst( $id ) ) ? 'on' : 
+						'status' => class_exists( $this->p->cf['lca'].$sub.$id ) ? 'on' : 
 							( $this->p->is_avail[$sub][$id] ? 'rec' : 'off' ) );
 
 					$features[$name]['tooltip'] = 'If the '.$name.' plugin is detected, '.
@@ -467,7 +460,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 						$this->get_nonce(), NGFB_NONCE ) ).' ';
 
 			// don't offer the 'Clear All Cache' and 'Reset Metaboxes' buttons on network admin pages
-			if ( empty( $this->p->cf['lib']['site_submenu'][$this->menu_id] ) ) {
+			if ( empty( $this->p->cf['lib']['sitesubmenu'][$this->menu_id] ) ) {
 				$action_buttons .= $this->form->get_button( __( 'Clear All Cache', NGFB_TEXTDOM ), 
 					'button-secondary', null, wp_nonce_url( $this->p->util->get_admin_url( '?action=clear_all_cache' ),
 						$this->get_nonce(), NGFB_NONCE ) ).' ';
