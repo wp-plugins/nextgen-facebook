@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.23dev3',			// plugin version
+			'version' => '7.0rc1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -111,7 +111,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '229',		// increment when changing default options
+				'version' => '230',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
