@@ -211,6 +211,8 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Added Image Dimension options for the Pinterest and Tumblr social sharing buttons as well.
 * Added several filter hooks for the admin metabox tabs and option fields / rows.
 * Converted several methods to filter hooks in lib/gpl/admin/ and lib/pro/admin/.
+* Renamed lib/social.php to lib/sharing.php, and renamed Social class name strings to Sharing.
+* Merged the lib/style.php code into lib/sharing.php.
 * Fixed the Twitter Card description value in the admin interface (Pro version).
 * Fixed WooCommerce product detection for meta tags in the admin interface (Pro version).
 * Fixed the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
