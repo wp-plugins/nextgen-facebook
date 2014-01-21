@@ -14,7 +14,6 @@ if ( ! class_exists( 'NgfbAdminRewrite' ) ) {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
 			$this->p->util->add_plugin_filters( $this, array( 
 				'plugin_tabs' => 1,
 				'plugin_rewrite_rows' => 2,

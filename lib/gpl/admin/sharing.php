@@ -14,7 +14,6 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
 			$this->p->util->add_plugin_filters( $this, array( 
 				'plugin_cache_rows' => 2,
 				'sharing_buttons_rows' => 2,
