@@ -205,18 +205,18 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.23dev3 =
+= Version 7.0rc1 =
 
 * **Added Image Dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
 * Added Image Dimension options for the Pinterest and Tumblr social sharing buttons as well.
 * Added several filter hooks for the admin metabox tabs and option fields / rows.
-* Converted several methods to filter hooks in lib/gpl/admin/ and lib/pro/admin/.
-* Renamed lib/social.php to lib/sharing.php, and renamed Social class name strings to Sharing.
-* Merged the lib/style.php code into lib/sharing.php.
-* Fixed the Twitter Card description value in the admin interface (Pro version).
-* Fixed WooCommerce product detection for meta tags in the admin interface (Pro version).
-* Fixed the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
+* Converted several methods to filter hooks in the lib/gpl/admin/ and lib/pro/admin/ folders.
+* Renamed lib/social.php to lib/sharing.php, and renamed the "Social" class names to "Sharing".
+* Merged the social sharing styles in lib/style.php into lib/sharing.php.
 * Renamed the 'ngfb_shortcode' filter to 'ngfb_shortcode_ngfb'.
+* **Fixed** the Twitter Card description value in the admin interface (Pro version).
+* **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
+* **Fixed** the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
 
 = Version 6.22.1 =
 
