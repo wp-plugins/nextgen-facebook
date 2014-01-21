@@ -64,11 +64,14 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		}
 
 		public function init_widgets() {
-			foreach ( $this->cf['lib']['widget'] as $id => $name ) {
-				do_action( $this->cf['lca'].'_load_lib', 'widget', $id );
-				$classname = __CLASS__.'Widget'.$name;
-				if ( class_exists( $classname ) )
-					register_widget( $classname );
+			$opts = get_option( NGFB_OPTIONS_NAME );
+			if ( ! empty( $opts['plugin_widgets'] ) ) {
+				foreach ( $this->cf['lib']['widget'] as $id => $name ) {
+					do_action( $this->cf['lca'].'_load_lib', 'widget', $id );
+					$classname = __CLASS__.'Widget'.$name;
+					if ( class_exists( $classname ) )
+						register_widget( $classname );
+				}
 			}
 		}
 
@@ -129,8 +132,9 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			/*
 			 * remaining object classes
 			 */
-			$this->script = new SucomScript( $this );		// admin jquery tooltips
 			$this->cache = new SucomCache( $this );			// object and file caching
+			$this->style = new SucomStyle( $this );			// admin styles
+			$this->script = new SucomScript( $this );		// admin jquery tooltips
 			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
 			$this->user = new NgfbUser( $this );			// contact methods and metabox prefs
 			$this->meta = new NgfbPostmeta( $this );		// custom post meta
@@ -146,10 +150,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->og = new NgfbOpengraph( $this );		// prepare open graph array
 			else $this->og = new SucomOpengraph( $this );		// read open graph html tags
 
-			if ( $this->is_avail['ssb'] ) {
-				$this->style = new NgfbStyle( $this );		// extends SucomStyle
+			if ( $this->is_avail['ssb'] )
 				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons
-			} else $this->style = new SucomStyle( $this );		// admin styles
 
 			if ( ! $this->check->is_aop() ) {
 				require_once( NGFB_PLUGINDIR.'lib/gpl/addon.php' );
@@ -217,7 +219,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function set_options() {
 			$this->options = get_option( NGFB_OPTIONS_NAME );
-
 			// look for alternate options name
 			if ( ! is_array( $this->options ) ) {
 				if ( defined( 'NGFB_OPTIONS_NAME_ALT' ) && NGFB_OPTIONS_NAME_ALT ) {

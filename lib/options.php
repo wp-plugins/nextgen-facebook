@@ -125,11 +125,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						empty( $this->p->options['plugin_tid'] ) ) {
 
 						// show the nag and update the options only if we have someone with access
-						if ( current_user_can( 'manage_options' ) ) {
-							if ( ! is_object( $this->p->msgs ) ) {
-								require_once( NGFB_PLUGINDIR.'lib/messages.php' );
-								$this->p->msgs = new NgfbMessages( $this->p );
-							}
+						// otherwise, wait until next time
+						if ( is_admin() && current_user_can( 'manage_options' ) ) {
 							$this->p->notice->nag( $this->p->msgs->get( 'pro-advert-nag' ), true );
 							$this->save_options( $options_name, $opts );
 						}
@@ -234,7 +231,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
-		// saved both options and site options
+		// save both options and site options
 		public function save_options( $options_name, &$opts ) {
 			// make sure we have something to work with
 			if ( empty( $opts ) || ! is_array( $opts ) ) {
@@ -245,6 +242,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->p->cf['opt']['version'];
 			$opts['plugin_version'] = $this->p->cf['version'];
+			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts, $options_name );
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error

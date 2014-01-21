@@ -182,9 +182,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			$opts = SucomUtil::restore_checkboxes( $opts );
 			$opts = array_merge( $this->p->options, $opts );
 			$opts = $this->p->opt->sanitize( $opts, $def_opts );	// cleanup excess options and sanitize
-			if ( $this->p->is_avail['ssb'] ) 
-				$this->p->style->update_sharing( $opts );
-			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts );
+			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts, NGFB_OPTIONS_NAME );
 			$this->p->notice->inf( __( 'Plugin settings have been updated.', NGFB_TEXTDOM ).' '.
 				sprintf( __( 'Wait %d seconds for cache objects to expire (default) or use the \'Clear All Cache\' button.', NGFB_TEXTDOM ), 
 					$this->p->options['plugin_object_cache_exp'] ), true );
@@ -405,16 +403,16 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 		public function show_metabox_status() {
 			echo '<table class="sucom-setting">';
 			/*
-			 * GNU version features
+			 * GPL version features
 			 */
 			$features = array(
 				'Debug Messages' => array( 'class' => 'SucomDebug' ),
 				'Non-Persistant Cache' => array( 'status' => $this->p->is_avail['cache']['object'] ? 'on' : 'rec' ),
 				'Open Graph / Rich Pin' => array( 'status' => class_exists( $this->p->cf['lca'].'Opengraph' ) ? 'on' : 'rec' ),
 				'Pro Update Check' => array( 'class' => 'SucomUpdate' ),
-				'Social Sharing Buttons' => array( 'class' => $this->p->cf['lca'].'Sharing' ),
-				'Social Sharing Shortcode' => array( 'class' => $this->p->cf['lca'].'ShortcodeNgfb' ),
-				'Social Sharing Widget' => array( 'class' => $this->p->cf['lca'].'WidgetSharing' ),
+				'Sharing Buttons' => array( 'class' => $this->p->cf['lca'].'Sharing' ),
+				'Sharing Shortcode' => array( 'class' => $this->p->cf['lca'].'ShortcodeSharing' ),
+				'Sharing Widget' => array( 'class' => $this->p->cf['lca'].'WidgetSharing' ),
 				'Transient Cache' => array( 'status' => $this->p->is_avail['cache']['transient'] ? 'on' : 'rec' ),
 			);
 			echo '<tr><td><h4 style="margin-top:0;">Standard</h4></td></tr>';
@@ -425,7 +423,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			 */
 			$features = array(
 				'Social File Cache' => array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' ),
-				'Custom Post Meta' => array( 'status' => class_exists( $this->p->cf['lca'].'PostMetaPro' ) ? 'on' : 'rec' ),
 			);
 			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
 				if ( $sub === 'admin' )	// skip status for admin menus and tabs

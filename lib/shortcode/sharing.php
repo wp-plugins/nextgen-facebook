@@ -13,27 +13,31 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 	class NgfbShortcodeSharing {
 
 		private $p;
-		private $scid = 'ngfb';
+		private $shortcode_tag = 'ngfb';
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			if ( ! is_admin() && $this->p->is_avail['ssb'] ) {
-				$this->wpautop();
-				$this->add();
+			if ( $this->p->is_avail['ssb'] ) {
+				if ( ! is_admin() ) {
+					$this->wpautop();
+					$this->add();
+				}
 			}
 		}
 
 		public function wpautop() {
 			// make sure wpautop() does not have a higher priority than 10, otherwise it will 
 			// format the shortcode output (shortcode filters are run at priority 11).
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
+			if ( ! empty( $this->p->options['plugin_shortcodes'] ) ) {
 				$default_priority = 10;
-				foreach ( array( 'get_the_excerpt', 'the_excerpt', 'the_content' ) as $tag ) {
-					$filter_priority = has_filter( $tag, 'wpautop' );
-					if ( $filter_priority > $default_priority ) {
-						remove_filter( $tag, 'wpautop' );
-						add_filter( $tag, 'wpautop' , $default_priority );
+				foreach ( array( 'get_the_excerpt', 'the_excerpt', 'the_content' ) as $filter_name ) {
+					$filter_priority = has_filter( $filter_name, 'wpautop' );
+					if ( $filter_priority !== false && 
+						$filter_priority > $default_priority ) {
+
+						remove_filter( $filter_name, 'wpautop' );
+						add_filter( $filter_name, 'wpautop' , $default_priority );
 						$this->p->debug->log( 'wpautop() priority changed from '.$filter_priority.' to '.$default_priority );
 					}
 				}
@@ -41,21 +45,21 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 		}
 
 		public function add() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
-        			add_shortcode( $this->scid, array( &$this, 'shortcode' ) );
-				$this->p->debug->log( '['.$this->scid.'] shortcode added' );
+			if ( ! empty( $this->p->options['plugin_shortcodes'] ) ) {
+        			add_shortcode( $this->shortcode_id, array( &$this, 'shortcode' ) );
+				$this->p->debug->log( '['.$this->shortcode_tag.'] sharing shortcode added' );
 			}
 		}
 
 		public function remove() {
-			if ( ! empty( $this->p->options['plugin_shortcode_'.$this->scid] ) ) {
-				remove_shortcode( $this->scid );
-				$this->p->debug->log( '['.$this->scid.'] shortcode removed' );
+			if ( ! empty( $this->p->options['plugin_shortcodes'] ) ) {
+				remove_shortcode( $this->shortcode_id );
+				$this->p->debug->log( '['.$this->shortcode_tag.'] sharing shortcode removed' );
 			}
 		}
 
 		public function shortcode( $atts, $content = null ) { 
-			$atts = apply_filters( $this->scid.'_shortcode', $atts, $content );
+			$atts = apply_filters( $this->p->cf['lca'].'_shortcode_'.$this->shortcode_tag, $atts, $content );
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $content;
@@ -102,4 +106,5 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 		}
 	}
 }
+
 ?>

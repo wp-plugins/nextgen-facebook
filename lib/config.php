@@ -61,22 +61,22 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 				'gpl' => array(
 					'admin' => array(
-						'general' => 'General',
-						'advanced' => 'Advanced',
+						'general' => 'General Settings',
+						'advanced' => 'Advanced Settings',
 						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
-						'postmeta' => 'Post Meta',
+						'postmeta' => 'Custom Post Meta',
 					),
 				),
 				'pro' => array(
 					'admin' => array(
-						'general' => 'General',
-						'advanced' => 'Advanced',
+						'general' => 'General Settings',
+						'advanced' => 'Advanced Settings',
 						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
-						'postmeta' => 'Post Meta',
+						'postmeta' => 'Custom Post Meta',
 					),
 					'ecom' => array(
 						'woocommerce' => 'WooCommerce',
@@ -106,12 +106,12 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'language' => 'WP Locale Language',
 						'rewrite' => 'URL Rewriter',
 						'shorten' => 'URL Shortener',
-						'postmeta' => 'Post Meta',
+						'postmeta' => 'Custom Post Meta',
 					),
 				),
 			),
 			'opt' => array(				// options
-				'version' => '228',		// increment when changing default options
+				'version' => '229',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -329,7 +329,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_debug' => 0,
 					'plugin_filter_content' => 1,
 					'plugin_filter_excerpt' => 0,
-					'plugin_shortcode' => 0,
+					'plugin_shortcodes' => 0,
+					'plugin_widgets' => 1,
 					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
 					'plugin_wistia_api' => 1,
@@ -578,7 +579,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/media.php' );
-			require_once( $plugin_dir.'lib/style.php' );		// extends lib/com/style.php
 			require_once( $plugin_dir.'lib/head.php' );
 
 			if ( is_admin() ) {

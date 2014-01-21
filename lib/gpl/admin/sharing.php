@@ -18,15 +18,8 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 			$this->p->util->add_plugin_filters( $this, array( 
 				'plugin_cache_rows' => 2,
 				'sharing_buttons_rows' => 2,
-				'meta_tabs' => 1,
 				'meta_sharing_rows' => 3,
 			) );
-		}
-
-		public function filter_meta_tabs( $tabs ) {
-			if ( $this->p->is_avail['ssb'] )
-				$tabs['sharing'] = 'Social Sharing';
-			return $tabs;
 		}
 
 		public function filter_plugin_cache_rows( $rows, $form ) {

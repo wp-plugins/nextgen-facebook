@@ -15,11 +15,17 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		protected $p;
 		protected $website = array();
 
+		public $sharing_css_min_file;
+		public $sharing_css_min_url;
+
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->sharing_css_min_file = NGFB_CACHEDIR.$this->p->cf['lca'].'-sharing-styles.min.css';
+			$this->sharing_css_min_url = NGFB_CACHEURL.$this->p->cf['lca'].'-sharing-styles.min.css';
 			$this->set_objects();
 
+			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
@@ -27,8 +33,59 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
 
-			if ( is_admin() )
+			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
+				$this->p->util->add_plugin_filters( $this, array( 'meta_tabs' => 1 ) );
+			}
+			$this->p->util->add_plugin_filters( $this, array( 'save_options' => 2 ) );
+		}
+
+		public function wp_enqueue_styles( $hook ) {
+			// only include sharing styles if option is checked and sharing features are not disabled
+			if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
+				wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
+				if ( ! file_exists( $this->sharing_css_min_file ) ) {
+					$this->p->debug->log( 'updating '.$this->sharing_css_min_file );
+					$this->update_sharing( $this->p->options );
+				}
+				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
+				wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
+			}
+		}
+
+		public function filter_save_options( $opts, $options_name ) {
+			if ( $options_name === NGFB_OPTIONS_NAME ) {
+				if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
+					if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
+						$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
+					else {
+						$css_data = '';
+						$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
+						foreach ( $style_tabs as $id => $name )
+							$css_data .= $opts['buttons_css_'.$id];
+						require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
+						$css_data = SuextMinifyCssCompressor::process( $css_data );
+						fwrite( $fh, $css_data );
+						fclose( $fh );
+						$this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
+					}
+				} else $this->unlink_sharing_css();
+			}
+			return $opts;
+		}
+
+		public function unlink_sharing_css() {
+			if ( file_exists( $this->sharing_css_min_file ) ) {
+				if ( ! @unlink( $this->sharing_css_min_file ) )
+					add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
+						'<b>'.$this->p->cf['uca'].' Error</b> : Error removing minimized stylesheet. 
+							Does the web server have sufficient privileges?', 'error' );
+			}
+		}
+
+		public function filter_meta_tabs( $tabs ) {
+			$tabs['sharing'] = 'Social Sharing';
+			return $tabs;
 		}
 
 		public function add_metaboxes() {

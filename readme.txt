@@ -212,6 +212,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 * Fixed Twitter Card description in the admin interface (Pro version).
 * Fixed WooCommerce product detection for meta tags in the admin interface (Pro version).
 * Fixed the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
+* Renamed the 'ngfb_shortcode' filter to 'ngfb_shortcode_ngfb'.
 
 = Version 6.22.1 =
 
