@@ -142,7 +142,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							break;
 						case 'admin-general':
 						case 'admin-advanced':
+						case 'admin-postmeta':
 						case 'util-language':
+						case 'util-postmeta':
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 							break;
 						case 'util-rewrite':

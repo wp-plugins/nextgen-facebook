@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.23dev2',			// plugin version
+			'version' => '6.23dev3',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -66,6 +66,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
+						'postmeta' => 'Post Meta',
 					),
 				),
 				'pro' => array(
@@ -75,6 +76,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
+						'postmeta' => 'Post Meta',
 					),
 					'ecom' => array(
 						'woocommerce' => 'WooCommerce',
@@ -104,6 +106,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'language' => 'WP Locale Language',
 						'rewrite' => 'URL Rewriter',
 						'shorten' => 'URL Shortener',
+						'postmeta' => 'Post Meta',
 					),
 				),
 			),

@@ -21,23 +21,6 @@ if ( ! class_exists( 'NgfbAddonGpl' ) ) {
 		}
 
 		private function load_addons() {
-
-			if ( is_admin() &&
-				file_exists( NGFB_PLUGINDIR.'lib/gpl/admin.php' ) ) {
-				require_once ( NGFB_PLUGINDIR.'lib/gpl/admin.php' );
-				foreach ( $this->p->cf['lib']['submenu'] as $id => $name ) {
-					$classname = $this->p->cf['cca'].'Admin'.ucfirst( $id ).'Gpl';
-					if ( class_exists( $classname ) )
-						$this->p->admin->submenu[$id] = new $classname( $this->p, $id, $name );
-				}
-			}
-
-			// extends NgfbPostMeta
-			if ( file_exists( NGFB_PLUGINDIR.'lib/gpl/postmeta.php' ) ) {
-				require_once ( NGFB_PLUGINDIR.'lib/gpl/postmeta.php' );
-				$this->p->meta = new NgfbPostMetaGpl( $this->p );
-			}
-
 			foreach ( $this->p->cf['lib']['gpl'] as $sub => $libs ) {
 				if ( $sub === 'admin' && ! is_admin() )	// only load admin menus and tabs in admin
 					continue;
