@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbAdminSocialStumbleupon extends NgfbAdminSocial {
+	class NgfbSubmenuSharingStumbleupon extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -60,11 +60,11 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-				( $this->show_on_checkboxes( 'stumble', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'stumble', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_order', 
-					range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
@@ -75,9 +75,9 @@ if ( ! class_exists( 'NgfbAdminSocialStumbleupon' ) && class_exists( 'NgfbAdminS
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialStumbleupon {
+	class NgfbSharingStumbleupon {
 
 		protected $p;
 
@@ -97,7 +97,7 @@ if ( ! class_exists( 'NgfbSocialStumbleupon' ) && class_exists( 'NgfbSocial' ) )
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 			if ( empty( $atts['stumble_badge'] ) ) $atts['stumble_badge'] = $opts['stumble_badge'];
-			$html = '<!-- StumbleUpon Button --><div '.$this->p->social->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
+			$html = '<!-- StumbleUpon Button --><div '.$this->p->sharing->get_css( 'stumbleupon', $atts, 'stumble-button' ).'><su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

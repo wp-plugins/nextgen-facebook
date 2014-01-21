@@ -42,7 +42,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'ngfb_pro_tid' => 'plugin_tid',
 			'ngfb_preserve' => 'plugin_preserve',
 			'ngfb_debug' => 'plugin_debug',
-			'ngfb_enable_shortcode' => 'plugin_shortcode_ngfb',
+			'ngfb_enable_shortcode' => 'plugin_shortcodes',
 			'ngfb_skip_small_img' => 'plugin_ignore_small_img',
 			'ngfb_filter_content' => 'plugin_filter_content',
 			'ngfb_filter_excerpt' => 'plugin_filter_excerpt',
@@ -86,6 +86,9 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'ngfb_cm_skype_label' => 'plugin_cm_skype_label', 
 			'ngfb_cm_skype_enabled' => 'plugin_cm_skype_enabled',
 			'plugin_googl_api_key' => 'plugin_google_api_key',
+			'og_img_resize' => 'plugin_auto_img_resize',
+			'buttons_css_social' => 'buttons_css_sharing',
+			'plugin_shortcode_ngfb' => 'plugin_shortcodes',
 		);
 
 		protected $p;
@@ -102,32 +105,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 			// custom value changes for regular options
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
-				// these option names may have been used in the past, so remove them, just in case
-				if ( (int) $opts['options_version'] < 30 ) {
-					unset( $opts['og_img_width'] );
-					unset( $opts['og_img_height'] );
-					unset( $opts['og_img_crop'] );
-				}
-				if ( (int) $opts['options_version'] < 218 ) {
-					foreach ( array(
-						'tc_gal_size',
-						'tc_photo_size',
-						'tc_large_size',
-						'tc_sum_size',
-						'tc_prod_size',
-						'pin_img_size',
-						'tumblr_img_size',
-					) as $key ) {
-						// look for default values and update
-						switch ( $opts[$key] ) {
-							case 'thumbnail':
-							case 'medium':
-							case 'large':
-								$opts[$key] = $this->p->cf['lca'].'-'.$opts[$key];
-								break;
-						}
-					}
-				}
 	
 				if ( ! empty( $opts['twitter_shorten'] ) )
 					$opts['twitter_shortener'] = 'googl';
@@ -151,4 +128,5 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 		}
 	}
 }
+
 ?>

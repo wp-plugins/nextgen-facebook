@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbAdminSocialGplus extends NgfbAdminSocial {
+	class NgfbSubmenuSharingGplus extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -20,10 +20,12 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 		public function get_rows() {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'gp', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'gp', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'gp_order', range( 1, 
+					count( $this->p->admin->submenu['sharing']->website ) ), 
+						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
@@ -32,55 +34,47 @@ if ( ! class_exists( 'NgfbAdminSocialGplus' ) && class_exists( 'NgfbAdminSocial'
 				$this->form->get_select( 'gp_lang', SucomUtil::get_lang( 'gplus' ) ) . '</td>',
 
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_action', 
-					array( 
-						'plusone' => 'G +1', 
-						'share' => 'G+ Share',
-					) 
-				) . '</td>',
+				$this->form->get_select( 'gp_action', array( 
+					'plusone' => 'G +1', 
+					'share' => 'G+ Share',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Button Size', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_size', 
-					array( 
-						'small' => 'Small [ 15px ]',
-						'medium' => 'Medium [ 20px ]',
-						'standard' => 'Standard [ 24px ]',
-						'tall' => 'Tall [ 60px ]',
-					) 
-				) . '</td>',
+				$this->form->get_select( 'gp_size', array( 
+					'small' => 'Small [ 15px ]',
+					'medium' => 'Medium [ 20px ]',
+					'standard' => 'Standard [ 24px ]',
+					'tall' => 'Tall [ 60px ]',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Annotation', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_annotation', 
-					array( 
-						'none' => '',
-						'inline' => 'Inline',
-						'bubble' => 'Bubble',
-						'vertical-bubble' => 'Vertical Bubble',
-					)
-				) . '</td>',
+				$this->form->get_select( 'gp_annotation', array( 
+					'none' => '',
+					'inline' => 'Inline',
+					'bubble' => 'Bubble',
+					'vertical-bubble' => 'Vertical Bubble',
+				) ) . '</td>',
 
 				$this->p->util->th( 'Expand to', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_expandto', 
-					array( 
-						'none' => '',
-						'top' => 'Top',
-						'bottom' => 'Bottom',
-						'left' => 'Left',
-						'right' => 'Right',
-						'top,left' => 'Top Left',
-						'top,right' => 'Top Right',
-						'bottom,left' => 'Bottom Left',
-						'bottom,right' => 'Bottom Right',
-					)
-				) . '</td>',
+				$this->form->get_select( 'gp_expandto', array( 
+					'none' => '',
+					'top' => 'Top',
+					'bottom' => 'Bottom',
+					'left' => 'Left',
+					'right' => 'Right',
+					'top,left' => 'Top Left',
+					'top,right' => 'Top Right',
+					'bottom,left' => 'Bottom Left',
+					'bottom,right' => 'Bottom Right',
+				) ) . '</td>',
 			);
 		}
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingGplus' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialGplus {
+	class NgfbSharingGplus {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -99,7 +93,7 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 					$use_post, $atts['add_page'], $source_id );
 			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 
-			$html = '<!-- GooglePlus Button --><div '.$this->p->social->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
+			$html = '<!-- GooglePlus Button --><div '.$this->p->sharing->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
 			$html .= ' data-size="'.$opts['gp_size'].'" data-annotation="'.$opts['gp_annotation'].'" data-href="'.$atts['url'].'"';
 			$html .= empty( $opts['gp_expandto'] ) || $opts['gp_expandto'] == 'none' ? '' : ' data-expandTo="'.$opts['gp_expandto'].'"';
 			$html .= '></span></div>';
@@ -116,4 +110,5 @@ if ( ! class_exists( 'NgfbSocialGplus' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

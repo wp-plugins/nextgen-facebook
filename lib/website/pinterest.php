@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbAdminSocialPinterest extends NgfbAdminSocial {
+	class NgfbSubmenuSharingPinterest extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -21,12 +21,12 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
-				a <em>featured</em> image, or an <em>attached</em> image, with an image dimension that is equal to 
-				or larger than the \'Image Size to Share\' you have selected.' ).'<td>'.
-				( $this->show_on_checkboxes( 'pin', $this->p->cf['social']['show_on'] ) ).'</td>',
+				a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
+				\'Image Dimensions\' you have chosen.' ).'<td>'.
+				( $this->show_on_checkboxes( 'pin', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
+				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
@@ -43,8 +43,10 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 				$this->p->util->th( 'Pin Button Image', 'short' ).'<td>'.
 				$this->form->get_input( 'pin_img_url' ),
 
-				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'pin_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
+				$this->p->util->th( 'Image Dimensions', 'short' ).
+				'<td>Width '.$this->form->get_input( 'pin_img_width', 'short' ).' x '.
+				'Height '.$this->form->get_input( 'pin_img_height', 'short' ).' &nbsp; '.
+				'Crop '.$this->form->get_checkbox( 'pin_img_crop' ).'</td>',
 
 				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
 				$this->form->get_select( 'pin_caption', $this->captions ).'</td>',
@@ -57,15 +59,16 @@ if ( ! class_exists( 'NgfbAdminSocialPinterest' ) && class_exists( 'NgfbAdminSoc
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialPinterest {
+	class NgfbSharingPinterest {
 
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->p->util->add_option_image_sizes( array( 'pin_img' => 'pinterest' ) );
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
@@ -80,7 +83,10 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
-			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['pin_img_size'];
+
+			if ( empty( $atts['size'] ) ) 
+				$atts['size'] = $this->p->cf['lca'].'-pinterest';
+
 			if ( empty( $atts['photo'] ) ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
@@ -122,7 +128,7 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 			else $img = $this->p->options['pin_img_url'];
 			$img = $this->p->util->get_cache_url( $img );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->social->get_css( 'pinterest', $atts ).'><a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
+			$html = '<!-- Pinterest Button --><div '.$this->p->sharing->get_css( 'pinterest', $atts ).'><a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest"><img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -136,4 +142,5 @@ if ( ! class_exists( 'NgfbSocialPinterest' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>

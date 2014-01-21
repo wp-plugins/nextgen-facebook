@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '6.22.1',			// plugin version
+			'version' => '6.23rc1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -34,11 +34,11 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'submenu' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
-					'social' => 'Social Sharing',
+					'sharing' => 'Social Sharing',
 					'style' => 'Social Style',
 					'about' => 'About',
 				),
-				'site_submenu' => array(
+				'sitesubmenu' => array(
 					'network' => 'Network',
 				),
 				'website' => array(
@@ -54,16 +54,29 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'skype' => 'Skype',
 				),
 				'shortcode' => array(
-					'ngfb' => 'Ngfb',
+					'sharing' => 'Sharing',
 				),
 				'widget' => array(
-					'social' => 'SocialSharing',
+					'sharing' => 'Sharing',
+				),
+				'gpl' => array(
+					'admin' => array(
+						'general' => 'General Settings',
+						'advanced' => 'Advanced Settings',
+						'sharing' => 'Social Sharing',
+						'apikeys' => 'API Keys',
+						'rewrite' => 'URL Rewrite',
+						'postmeta' => 'Custom Post Meta',
+					),
 				),
 				'pro' => array(
-					'seo' => array(
-						'aioseop' => 'All in One SEO Pack',
-						'seou' => 'SEO Ultimate',
-						'wpseo' => 'WordPress SEO',
+					'admin' => array(
+						'general' => 'General Settings',
+						'advanced' => 'Advanced Settings',
+						'sharing' => 'Social Sharing',
+						'apikeys' => 'API Keys',
+						'rewrite' => 'URL Rewrite',
+						'postmeta' => 'Custom Post Meta',
 					),
 					'ecom' => array(
 						'woocommerce' => 'WooCommerce',
@@ -73,22 +86,32 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'forum' => array(
 						'bbpress' => 'bbPress',
 					),
-					'social' => array(
-						'buddypress' => 'BuddyPress',
+					'head' => array(
+						'twittercard' => 'Twitter Cards',
 					),
 					'media' => array(
 						'ngg' => 'NextGEN Gallery',
 						'photon' => 'Jetpack Photon',
 						'wistia' => 'Wistia Video API',
 					),
+					'seo' => array(
+						'aioseop' => 'All in One SEO Pack',
+						'seou' => 'SEO Ultimate',
+						'wpseo' => 'WordPress SEO',
+					),
+					'social' => array(
+						'buddypress' => 'BuddyPress',
+					),
 					'util' => array(
+						'language' => 'WP Locale Language',
 						'rewrite' => 'URL Rewriter',
 						'shorten' => 'URL Shortener',
+						'postmeta' => 'Custom Post Meta',
 					),
 				),
 			),
 			'opt' => array(				// options
-				'version' => '222',		// increment when changing default options
+				'version' => '230',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -106,7 +129,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_img_width' => 1200,
 					'og_img_height' => 630,
 					'og_img_crop' => 1,
-					'og_img_resize' => 1,
 					'og_img_max' => 1,
 					'og_vid_max' => 1,
 					'og_vid_https' => 1,
@@ -137,7 +159,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'buttons_location_the_excerpt' => 'bottom',
 					'buttons_location_the_content' => 'bottom',
 					'buttons_link_css' => 1,
-					'buttons_css_social' => '',
+					'buttons_css_sharing' => '',
 					'buttons_css_excerpt' => '',
 					'buttons_css_content' => '',
 					'buttons_css_shortcode' => '',
@@ -169,12 +191,27 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tc_enable' => 0,
 					'tc_site' => '',
 					'tc_desc_len' => 200,
+					// summary card
+					'tc_sum_width' => 200,
+					'tc_sum_height' => 200,
+					'tc_sum_crop' => 1,
+					// large image summary card
+					'tc_lrgimg_width' => 300,
+					'tc_lrgimg_height' => 300,
+					'tc_lrgimg_crop' => 0,
+					// photo card
+					'tc_photo_width' => 800,
+					'tc_photo_height' => 800,
+					'tc_photo_crop' => 0,
+					// gallery card
 					'tc_gal_min' => 4,
-					'tc_gal_size' => 'ngfb-medium',
-					'tc_photo_size' => 'ngfb-large',
-					'tc_large_size' => 'ngfb-medium',
-					'tc_sum_size' => 'ngfb-thumbnail',
-					'tc_prod_size' => 'ngfb-medium',
+					'tc_gal_width' => 300,
+					'tc_gal_height' => 300,
+					'tc_gal_crop' => 0,
+					// product card
+					'tc_prod_width' => 300,
+					'tc_prod_height' => 300,
+					'tc_prod_crop' => 1,	// prefers square product images
 					'tc_prod_def_l2' => 'Location',
 					'tc_prod_def_d2' => 'Unknown',
 					'twitter_on_the_excerpt' => 0,
@@ -216,7 +253,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'pin_order' => 7,
 					'pin_js_loc' => 'header',
 					'pin_count_layout' => 'horizontal',
-					'pin_img_size' => 'ngfb-large',
+					'pin_img_width' => 800,
+					'pin_img_height' => 800,
+					'pin_img_crop' => 0,
 					'pin_caption' => 'both',
 					'pin_cap_len' => 500,
 					'pin_img_url' => 'http://assets.pinterest.com/images/PinExt.png',
@@ -228,7 +267,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tumblr_button_style' => 'share_1',
 					'tumblr_desc_len' => 300,
 					'tumblr_photo' => 1,
-					'tumblr_img_size' => 'ngfb-large',
+					'tumblr_img_width' => 800,
+					'tumblr_img_height' => 800,
+					'tumblr_img_crop' => 0,
 					'tumblr_caption' => 'both',
 					'tumblr_cap_len' => 500,
 					'inc_description' => 0,
@@ -288,7 +329,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_debug' => 0,
 					'plugin_filter_content' => 1,
 					'plugin_filter_excerpt' => 0,
-					'plugin_shortcode_ngfb' => 0,
+					'plugin_shortcodes' => 0,
+					'plugin_widgets' => 1,
+					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
 					'plugin_wistia_api' => 1,
 					'plugin_add_to_post' => 1,
@@ -384,8 +427,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'yim' => 'Yahoo IM',
 				),
 			),
-			'css' => array(				// filter with 'ngfb_style_tabs'
-				'social' => 'Buttons Style',
+			'style' => array(			// filter with 'ngfb_style_tabs'
+				'sharing' => 'Buttons Style',
 				'excerpt' => 'Excerpt Style',
 				'content' => 'Content Style',
 				'shortcode' => 'Shortcode Style',
@@ -422,11 +465,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'tooltip_class' => 'sucom_tooltip',
 			),
 			'head' => array(
-				'min_img_width' => 200,
-				'min_img_height' => 200,
+				'min_img_dim' => 200,
 				'min_desc_len' => 156,
 			),
-			'social' => array(
+			'sharing' => array(
 				'show_on' => array( 
 					'the_content' => 'Content', 
 					'the_excerpt' => 'Excerpt', 
@@ -437,13 +479,13 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		private static $cf_filtered = false;
 
 		public static function get_config( $idx = '' ) { 
-			// remove the social sharing libs if disabled
+			// remove the sharing libs if disabled
 			if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
 				unset (
-					self::$cf['lib']['submenu']['social'],
+					self::$cf['lib']['submenu']['sharing'],
 					self::$cf['lib']['submenu']['style'],
-					self::$cf['lib']['shortcode']['ngfb'],
-					self::$cf['lib']['widget']['social'],
+					self::$cf['lib']['shortcode']['sharing'],
+					self::$cf['lib']['widget']['sharing'],
 					self::$cf['lib']['util']['rewrite'],
 					self::$cf['lib']['util']['shorten']
 				);
@@ -537,7 +579,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
 			require_once( $plugin_dir.'lib/media.php' );
-			require_once( $plugin_dir.'lib/style.php' );		// extends lib/com/style.php
 			require_once( $plugin_dir.'lib/head.php' );
 
 			if ( is_admin() ) {
@@ -547,10 +588,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else require_once( $plugin_dir.'lib/functions.php' );
 
-			if ( file_exists( $plugin_dir.'lib/social.php' ) &&
+			if ( file_exists( $plugin_dir.'lib/sharing.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
 					! NGFB_SOCIAL_SHARING_DISABLE ) )
-						require_once( $plugin_dir.'lib/social.php' );
+						require_once( $plugin_dir.'lib/sharing.php' );
 
 			if ( file_exists( $plugin_dir.'lib/opengraph.php' ) &&
 				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&

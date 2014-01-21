@@ -18,7 +18,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			add_filter( $this->p->cf['lca'].'_option_type', array( &$this, 'filter_option_type' ), 10, 3 );
+			add_filter( $this->p->cf['lca'].'_option_type', array( &$this, 'filter_option_type' ), 10, 2 );
 			do_action( $this->p->cf['lca'].'_init_options' );
 		}
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function get_defaults( $idx = '' ) {
 
 			if ( $this->p->is_avail['ssb'] ) {
-				foreach ( $this->p->cf['css'] as $id => $name ) {
+				foreach ( $this->p->cf['style'] as $id => $name ) {
 					$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 					// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
 					if ( empty( $this->p->cf['opt']['defaults']['buttons_css_'.$id] ) ) {
@@ -125,11 +125,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						empty( $this->p->options['plugin_tid'] ) ) {
 
 						// show the nag and update the options only if we have someone with access
-						if ( current_user_can( 'manage_options' ) ) {
-							if ( ! is_object( $this->p->msgs ) ) {
-								require_once( NGFB_PLUGINDIR.'lib/messages.php' );
-								$this->p->msgs = new NgfbMessages( $this->p );
-							}
+						// otherwise, wait until next time
+						if ( is_admin() && current_user_can( 'manage_options' ) ) {
 							$this->p->notice->nag( $this->p->msgs->get( 'pro-advert-nag' ), true );
 							$this->save_options( $options_name, $opts );
 						}
@@ -171,24 +168,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						<a href="'.$url.'">Please review and save the new settings</a>.' );
 				}
 				if ( $options_name == NGFB_OPTIONS_NAME ) {
-					if ( $this->p->options['og_img_width'] < $this->p->cf['head']['min_img_width'] || 
-						$this->p->options['og_img_height'] < $this->p->cf['head']['min_img_height'] ) {
-
-						$url = $this->p->util->get_admin_url( 'general' );
-						$size_desc = $this->p->options['og_img_width'].'x'.$this->p->options['og_img_height'];
-						$this->p->notice->inf( 'The image size of '.$size_desc.' for images in the Open Graph meta tags
-							is smaller than the minimum of '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].'. 
-							<a href="'.$url.'">Please enter a larger image dimensions on the General Settings page</a>.' );
-					}
 					if ( $this->p->check->is_aop() &&
 						! empty( $this->p->is_avail['ecom']['*'] ) &&
-						$opts['tc_prod_def_l2'] === 'Location' &&
-						$opts['tc_prod_def_d2'] === 'Unknown' ) {
+						$opts['tc_prod_def_l2'] === $this->p->cf['opt']['defaults']['tc_prod_def_l2'] &&
+						$opts['tc_prod_def_d2'] === $this->p->cf['opt']['defaults']['tc_prod_def_d2'] ) {
 	
 						$this->p->notice->inf( 'An eCommerce plugin has been detected. Please update Twitter\'s
 							<em>Product Card Default 2nd Attribute</em> option values on the '.
 							$this->p->util->get_admin_url( 'general', 'General settings page' ). ' 
-							(to something else than \'Location\' and \'Unknown\').' );
+							(to something else than \''.$this->p->cf['opt']['defaults']['tc_prod_def_l2'].
+							'\' and \''.$this->p->cf['opt']['defaults']['tc_prod_def_d2'].'\').' );
 					}
 				}
 				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
@@ -242,7 +231,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return $opts;
 		}
 
-		// saved both options and site options
+		// save both options and site options
 		public function save_options( $options_name, &$opts ) {
 			// make sure we have something to work with
 			if ( empty( $opts ) || ! is_array( $opts ) ) {
@@ -253,6 +242,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->p->cf['opt']['version'];
 			$opts['plugin_version'] = $this->p->cf['version'];
+			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts, $options_name );
 
 			// update_option() returns false if options are the same or there was an error, 
 			// so check to make sure they need to be updated to avoid throwing a false error
@@ -281,7 +271,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			return true;
 		}
 
-		public function filter_option_type( $ret, $key, $valid ) {
+		public function filter_option_type( $ret, $key ) {
 			switch ( $key ) {
 				// css
 				case ( strpos( $key, 'buttons_css_' ) === 0 ? true : false ):
@@ -316,8 +306,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					break;
 
 				// integer options that must be 1 or more (not zero)
-				case 'og_img_width': 
-				case 'og_img_height': 
 				case 'fb_order': 
 				case 'gp_order': 
 				case 'twitter_order': 
@@ -331,6 +319,13 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'plugin_min_shorten':
 				case ( preg_match( '/_len$/', $key ) ? true : false ):
 					return 'posnum';
+					break;
+
+				// image dimensions, subject to minimum value (typically, at least 200px)
+				case 'og_img_width': 
+				case 'og_img_height': 
+				case ( preg_match( '/^tc_[a-z]+_(width|height)$/', $key ) ? true : false ):
+					return 'imgdim';
 					break;
 
 				// must be texturized 
@@ -380,10 +375,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'linkedin_counter':
 				case 'managewp_type':
 				case 'pin_count_layout':
-				case 'pin_img_size':
 				case 'pin_caption':
 				case 'tumblr_button_style':
-				case 'tumblr_img_size':
 				case 'tumblr_caption':
 				case 'plugin_tid:use':
 				case ( strpos( $key, 'buttons_location_' ) === 0 ? true : false ):

@@ -6,8 +6,8 @@ Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
-Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and social website shares
-Version: 6.22.1
+Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
+Version: 6.23rc1
 
 Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -22,7 +22,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		// class object variables
 		public $debug, $util, $notice, $opt, $user, $media, $meta,
 			$style, $script, $cache, $admin, $head, $og, $webpage,
-			$social, $seo, $pro, $update, $reg, $msgs;
+			$sharing, $seo, $gpl, $pro, $update, $reg, $msgs;
 
 		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
@@ -64,11 +64,14 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		}
 
 		public function init_widgets() {
-			foreach ( $this->cf['lib']['widget'] as $id => $name ) {
-				do_action( $this->cf['lca'].'_load_lib', 'widget', $id );
-				$classname = __CLASS__.'Widget'.$name;
-				if ( class_exists( $classname ) )
-					register_widget( $classname );
+			$opts = get_option( NGFB_OPTIONS_NAME );
+			if ( ! empty( $opts['plugin_widgets'] ) ) {
+				foreach ( $this->cf['lib']['widget'] as $id => $name ) {
+					do_action( $this->cf['lca'].'_load_lib', 'widget', $id );
+					$classname = __CLASS__.'Widget'.$name;
+					if ( class_exists( $classname ) )
+						register_widget( $classname );
+				}
 			}
 		}
 
@@ -129,11 +132,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			/*
 			 * remaining object classes
 			 */
-			$this->script = new SucomScript( $this );		// admin jquery tooltips
 			$this->cache = new SucomCache( $this );			// object and file caching
+			$this->style = new SucomStyle( $this );			// admin styles
+			$this->script = new SucomScript( $this );		// admin jquery tooltips
 			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
 			$this->user = new NgfbUser( $this );			// contact methods and metabox prefs
-			$this->meta = new NgfbPostMeta( $this );		// custom post meta
+			$this->meta = new NgfbPostmeta( $this );		// custom post meta
 			$this->media = new NgfbMedia( $this );			// images, videos, etc.
 			$this->head = new NgfbHead( $this );			// open graph and twitter card meta tags
 
@@ -146,15 +150,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->og = new NgfbOpengraph( $this );		// prepare open graph array
 			else $this->og = new SucomOpengraph( $this );		// read open graph html tags
 
-			if ( $this->is_avail['ssb'] ) {
-				$this->style = new NgfbStyle( $this );		// extends SucomStyle
-				$this->social = new NgfbSocial( $this );	// wp_head and wp_footer js and buttons
-			} else $this->style = new SucomStyle( $this );		// admin styles
+			if ( $this->is_avail['ssb'] )
+				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons
 
-			if ( ! empty( $this->options['plugin_tid'] ) ) {
-				if ( $this->is_avail['aop'] )
-					$this->pro = new NgfbAddonPro( $this );
-			}
+			if ( ! $this->check->is_aop() ) {
+				require_once( NGFB_PLUGINDIR.'lib/gpl/addon.php' );
+				$this->gpl = new NgfbAddonGpl( $this );
+			} else $this->pro = new NgfbAddonPro( $this );
 
 			/*
 			 * check and upgrade options if necessary
@@ -217,7 +219,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function set_options() {
 			$this->options = get_option( NGFB_OPTIONS_NAME );
-
 			// look for alternate options name
 			if ( ! is_array( $this->options ) ) {
 				if ( defined( 'NGFB_OPTIONS_NAME_ALT' ) && NGFB_OPTIONS_NAME_ALT ) {

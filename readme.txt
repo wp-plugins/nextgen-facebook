@@ -205,7 +205,7 @@ href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons
 
 == Changelog ==
 
-= Version 6.23dev3 =
+= Version 6.23rc1 =
 
 * **Added Image Dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
 * Added Image Dimension options for the Pinterest and Tumblr social sharing buttons as well.

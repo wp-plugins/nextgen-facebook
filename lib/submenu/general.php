@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
+if ( ! class_exists( 'NgfbSubmenuGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
-	class NgfbAdminGeneral extends NgfbAdmin {
+	class NgfbSubmenuGeneral extends NgfbAdmin {
 
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
@@ -26,52 +26,51 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function show_metabox_opengraph() {
-			$show_tabs = array( 
+			$metabox = 'og';
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', array( 
 				'media' => 'Image and Video',
 				'general' => 'Title and Description',
-				'author' => 'Authorship',
-			);
-			$tab_rows = array();
-			foreach ( $show_tabs as $key => $title )
-				$tab_rows[$key] = $this->get_rows( $key );
-			$this->p->util->do_tabs( 'og', $show_tabs, $tab_rows );
+				'author' => 'Authorship' ) );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
+					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
+			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
 		public function show_metabox_publishers() {
-			$show_tabs = array( 
+			$metabox = 'pub';
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', array( 
 				'google' => 'Google',
 				'facebook' => 'Facebook',
-				'twitter' => 'Twitter',
-			);
-			$tab_rows = array();
-			foreach ( $show_tabs as $key => $title )
-				$tab_rows[$key] = $this->get_rows( $key );
-			$this->p->util->do_tabs( 'pub', $show_tabs, $tab_rows );
+				'twitter' => 'Twitter' ) );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
+					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
+			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
-		protected function get_rows( $id ) {
+		protected function get_rows( $metabox, $key ) {
 			$ret = array();
 			$user_ids = array();
 			foreach ( get_users() as $user ) 
 				$user_ids[$user->ID] = $user->display_name;
 			$user_ids[0] = 'none';
-			switch ( $id ) {
-
-				case 'media' :
+			switch ( $metabox.'-'.$key ) {
+				case 'og-media' :
+					$img_id_pre = array( 'wp' => 'Media Library' );
+					if ( $this->p->is_avail['media']['ngg'] == true ) 
+						$img_id_pre['ngg'] = 'NextGEN Gallery';
 
 					$ret[] = $this->p->util->th( 'Image Dimensions', 'highlight', 'og_img_dimensions' ).
 					'<td>Width '.$this->form->get_input( 'og_img_width', 'short' ).' x '.
 					'Height '.$this->form->get_input( 'og_img_height', 'short' ).' &nbsp; '.
-					'Cropped '.$this->form->get_checkbox( 'og_img_crop' ).' &nbsp; '.
-					 'Auto-Resize Images'.$this->p->msgs->get( 'tooltip-og_img_resize' ).
-					 $this->form->get_checkbox( 'og_img_resize' ).'</td>';
+					'Crop '.$this->form->get_checkbox( 'og_img_crop' ).'</td>';
 	
-					$id_pre = array( 'wp' => 'Media Library' );
-					if ( $this->p->is_avail['media']['ngg'] == true ) 
-						$id_pre['ngg'] = 'NextGEN Gallery';
 					$ret[] = $this->p->util->th( 'Default Image ID', 'highlight', 'og_def_img_id' ).
 					'<td>'.$this->form->get_input( 'og_def_img_id', 'short' ).' in the '.
-					$this->form->get_select( 'og_def_img_id_pre', $id_pre ).'</td>';
+					$this->form->get_select( 'og_def_img_id_pre', $img_id_pre ).'</td>';
 	
 					$ret[] = $this->p->util->th( 'Default Image URL', null, 'og_def_img_url' ).
 					'<td>'.$this->form->get_input( 'og_def_img_url', 'wide' ).'</td>';
@@ -97,11 +96,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 	
 					$ret[] = $this->p->util->th( 'Use HTTPS for Video APIs', null, 'og_vid_https' ).
 					'<td>'.$this->form->get_checkbox( 'og_vid_https' ).'</td>';
-	
 					break;
 
-				case 'general' :
-
+				case 'og-general' :
 					$ret[] = $this->p->util->th( 'Website Topic', 'highlight', 'og_art_section' ).
 					'<td>'.$this->form->get_select( 'og_art_section', $this->p->util->get_topics() ).'</td>';
 
@@ -132,11 +129,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 	
 					$ret[] = $this->p->util->th( 'Content Begins at First Paragraph', null, 'og_desc_strip' ).
 					'<td>'.$this->form->get_checkbox( 'og_desc_strip' ).'</td>';
-
 					break;
 
-				case 'author' :
-
+				case 'og-author' :
 					$ret[] = $this->p->util->th( 'Author Profile URL', null, 'og_author_field' ).
 					'<td>'.$this->form->get_select( 'og_author_field', $this->author_fields() ).'</td>';
 
@@ -154,11 +149,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Article Publisher Page URL', 'highlight', 'og_publisher_url' ).
 					'<td>'.$this->form->get_input( 'og_publisher_url', 'wide' ).'</td>';
-
 					break;
 
-				case 'facebook' :
-
+				case 'pub-facebook' :
 					$ret[] = $this->p->util->th( 'Facebook Admin(s)', 'highlight', 'fb_admins' ).
 					'<td>'.$this->form->get_input( 'fb_admins' ).'</td>';
 
@@ -167,11 +160,9 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 					$ret[] = $this->p->util->th( 'Default Language', null, 'fb_lang' ).
 					'<td>'.$this->form->get_select( 'fb_lang', SucomUtil::get_lang( 'facebook' ) ).'</td>';
-
 					break;
 
-				case 'google' :
-			
+				case 'pub-google' :
 					$ret[] = $this->p->util->th( 'Description Length', null, 'google_desc_len' ).
 					'<td>'.$this->form->get_input( 'meta_desc_len', 'short' ).' characters or less</td>';
 
@@ -189,65 +180,10 @@ if ( ! class_exists( 'NgfbAdminGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 			
 					$ret[] = $this->p->util->th( 'Publisher Link URL', 'highlight', 'google_publisher_url' ).
 					'<td>'.$this->form->get_input( 'link_publisher_url', 'wide' ).'</td>';
-
-					break;
-
-				case 'twitter' :
-
-					$ret = $this->get_rows_twitter();
-
 					break;
 
 			}
 			return $ret;
-		}
-
-		protected function get_rows_twitter() {
-			return array(
-				'<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>',
-
-				$this->p->util->th( 'Enable Twitter Cards', 'highlight', 'tc_enable' ).
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'tc_enable' ).'</td>',
-
-				$this->p->util->th( 'Maximum Description Length', null, 'tc_desc_len' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_desc_len' ).
-					$this->p->options['tc_desc_len'].' characters or less</td>',
-
-				$this->p->util->th( 'Website @username to Follow', 'highlight', 'tc_site' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_site' ).
-					$this->p->options['tc_site'].'</td>',
-
-				$this->p->util->th( '<em>Summary</em> Card Image Size', null, 'tc_sum_size' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_sum_size' ).
-					$this->p->options['tc_sum_size'].'</td>',
-
-				$this->p->util->th( '<em>Large Image Summary</em> Card Image Size', null, 'tc_large_size' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_large_size' ).
-					$this->p->options['tc_large_size'].'</td>',
-
-				$this->p->util->th( '<em>Photo</em> Card Image Size', 'highlight', 'tc_photo_size' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_photo_size' ).
-					$this->p->options['tc_photo_size'].'</td>',
-
-				$this->p->util->th( '<em>Gallery</em> Card Image Size', null, 'tc_gal_size' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_gal_size' ).
-					$this->p->options['tc_gal_size'].'</td>',
-
-				$this->p->util->th( '<em>Gallery</em> Card Minimum Images', null, 'tc_gal_min' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_gal_min' ).
-					$this->p->options['tc_gal_min'].'</td>',
-
-				$this->p->util->th( '<em>Product</em> Card Image Size', null, 'tc_prod_size' ).
-				'<td class="blank">'.$this->form->get_hidden( 'tc_prod_size' ).
-					$this->p->options['tc_prod_size'].'</td>',
-
-				$this->p->util->th( '<em>Product</em> Card Default 2nd Attribute', null, 'tc_prod_def' ).
-				'<td class="blank">'.
-				$this->form->get_hidden( 'tc_prod_def_l2' ).'Label: '.$this->p->options['tc_prod_def_l2'].' &nbsp; '.
-				$this->form->get_hidden( 'tc_prod_def_d2' ).'Value: '.$this->p->options['tc_prod_def_d2'].
-				'</td>',
-
-			);
 		}
 
 		private function author_fields() {

@@ -53,26 +53,26 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							$text = 'When a \'Pro Version Authentication ID\' is entered on the '.$this->p->util->get_admin_url( 'advanced', 
 							'Advanced settings' ).' page, a check is scheduled every 12 hours to see if a Pro version update is available.';
 							break;
-						case 'tooltip-side-social-sharing-buttons':
-							$text = 'Social sharing features include the Open Graph+ '.$this->p->util->get_admin_url( 'social', 'Social Sharing' ).
+						case 'tooltip-side-sharing-buttons':
+							$text = 'Social sharing features include the Open Graph+ '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).
 							' and '.$this->p->util->get_admin_url( 'style', 'Social Style' ).' settings pages (aka social sharing buttons), 
 							the Custom Settings - Social Sharing tab on admin editing pages, along with the social sharing shortcode 
-							and widget. All social sharing features can be disabled using an available
-							<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
+							and widget. All social sharing features can be disabled using one of the available PHP
+							<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constants</a>.';
 							break;
-						case 'tooltip-side-social-sharing-shortcode':
+						case 'tooltip-side-sharing-shortcode':
 							$text = 'Support for shortcode(s) can be enabled / disabled on the '.
 							$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page. Shortcodes are disabled by default
 							to optimize WordPress performance and content processing.';
 							break;
-						case 'tooltip-side-social-sharing-widget':
+						case 'tooltip-side-sharing-widget':
 							$text = 'The social sharing widget feature adds an \'NGFB Social Sharing\' widget in the WordPress Appearance - Widgets page.
 							The widget can be used in any number of widget areas, to share the current webpage. The widget, along with all social
 							sharing featured, can be disabled using an available 
 							<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
 							break;
 						case 'tooltip-side-transient-cache':
-							$text = $this->p->cf['full'].' saves Open Graph, Rich Pin, Twitter Card meta tags, and social buttons to a persistant
+							$text = $this->p->cf['full'].' saves Open Graph, Rich Pin, Twitter Card meta tags, and sharing buttons to a persistant
 							(aka <a href="http://codex.wordpress.org/Transients_API" target="_blank">Transient</a>) cache for '.
 							$this->p->options['plugin_object_cache_exp'].' seconds (default is '.$this->p->opt->get_defaults( 'plugin_object_cache_exp' ).
 							' seconds). You can adjust the Transient Cache expiration value from the '.
@@ -104,7 +104,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							break;
 						case 'tooltip-side-url-rewriter':
 							$text = $this->p->cf['full_pro'].' can rewrite image URLs in meta tags, cached images and JavaScript, 
-							and for social sharing buttons like Pinterest and Tumblr, which use URL-encoded image URLs. 
+							and for social sharing buttons like Pinterest and Tumblr (which use encoded image URLs). 
 							Rewriting image URLs can be an important part of optimizing page load speeds. See the \'Static Content URL(s)\'
 							option on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings' ).' page to enable URL rewriting.';
 							break;
@@ -112,7 +112,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
 							the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, 
 							can be shortened by one of the available URL shortening services. Enable URL shortening for Twitter
-							from the '.$this->p->util->get_admin_url( 'social', 'Social Sharing' ).' settings page.';
+							from the '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).' settings page.';
 							break;
 						case 'tooltip-side-wistia-video-api':
 							$text = 'If the \'Check for Wistia Videos\' option on the '.
@@ -232,16 +232,12 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 						 */
 						case 'tooltip-og_img_dimensions':
 							$text = 'The dimension of images used in the Open Graph / Rich Pin meta tags. The width and height must be 
-							greater than '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].', 
+							greater than '.$this->p->cf['head']['min_img_dim'].'x'.$this->p->cf['head']['min_img_dim'].', 
 							and preferably smaller than 1500x1500
 							(the defaults is '.$this->p->opt->get_defaults( 'og_img_width' ).'x'.$this->p->opt->get_defaults( 'og_img_height' ).', '.
 							( $this->p->opt->get_defaults( 'og_img_crop' ) == 0 ? 'not ' : '' ).'cropped). 
 							<strong>Facebook recommends an image size of 1200x630, 600x315 as a minimum, and will ignore any images less than 200x200</strong>.
-							If the original image is smaller than the dimensions entered here, then the full-size image will be used instead.';
-							break;
-						case 'tooltip-og_img_resize':
-							$text = 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
-							WordPress Media Library (default is checked).';
+							Your original images, in the WordPress Media Library and/or NextGEN Gallery, should be larger than these dimensions.';
 							break;
 						case 'tooltip-og_def_img_id':
 							$text = 'The ID number and location of your default image (example: 123). The <em>Default Image ID</em> 
@@ -253,7 +249,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 						case 'tooltip-og_def_img_url':
 							$text = 'You can also specify a <em>Default Image URL</em> (including the http:// prefix) instead of choosing a 
 							<em>Default Image ID</em>. This allows you to use an image outside of a managed collection (WordPress Media Library or NextGEN Gallery). 
-							The image should be at least '.$this->p->cf['head']['min_img_width'].'x'.$this->p->cf['head']['min_img_height'].' or more in width and height. 
+							The image should be at least '.$this->p->cf['head']['min_img_dim'].'x'.$this->p->cf['head']['min_img_dim'].' or more in width and height. 
 							If both the <em>Default Image ID</em> and <em>Default Image URL</em> are defined, the <em>Default Image ID</em>
 							will take precedence.';
 							break;
@@ -426,8 +422,15 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							$text = 'Apply the standard WordPress \'get_the_excerpt\' filter to render the excerpt text (default is unchecked).
 							Check this option if you use shortcodes in your excerpt, for example.';
 							break;
-						case 'tooltip-plugin_shortcode_ngfb':
-							$text = 'Enable the '.$this->p->cf['full'].' content shortcode(s) (default is unchecked).';
+						case 'tooltip-plugin_shortcodes':
+							$text = 'Enable the '.$this->p->cf['full'].' shortcode features (default is unchecked).';
+							break;
+						case 'tooltip-plugin_widgets':
+							$text = 'Enable the '.$this->p->cf['full'].' widget features (default is checked).';
+							break;
+						case 'tooltip-plugin_auto_img_resize':
+							$text = 'Automatically generate missing or incorrect image sizes for previously uploaded images in the 
+							WordPress Media Library (default is checked).';
 							break;
 						case 'tooltip-plugin_ignore_small_img':
 							$text = $this->p->cf['full'].' will attempt to include images from the img html tags it finds in the content.
@@ -453,7 +456,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 						case 'tooltip-plugin_object_cache_exp':
 							$text = $this->p->cf['full'].' saves filtered / rendered content to a non-persistant cache 
 							(aka <a href="http://codex.wordpress.org/Class_Reference/WP_Object_Cache" target="_blank">WP Object Cache</a>), 
-							and Open Graph, Rich Pin, Twitter Card meta tags, and social buttons to a persistant (aka 
+							and Open Graph, Rich Pin, Twitter Card meta tags, and sharing buttons to a persistant (aka 
 							<a href="http://codex.wordpress.org/Transients_API" target="_blank">Transient</a>) cache. 
 							The default is '.$this->p->opt->get_defaults( 'plugin_object_cache_exp' ).' seconds, and the minimum value is 
 							1 second (such a low value is not recommended).';
@@ -524,7 +527,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
 							menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
 							the \'Yes\' option here. You can then select the Google URL Shortener in the '.
-							$this->p->util->get_admin_url( 'social', 'Twitter settings' ).'.';
+							$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
 							break;
 						/*
 						 * Other settings
@@ -635,44 +638,64 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							As an example, the Twitter username for <a href="http://surniaulula.com/" target="_blank">Surnia Ulula</a> 
 							is <a href="https://twitter.com/surniaululacom" target="_blank">@surniaululacom</a>.';
 							break;
-						case 'tooltip-tc_sum_size':
-							$text = 'The size of content images provided for the
+						case 'tooltip-tc_sum_dimensions':
+							$card = 'sum';
+							$text = 'The dimension of content images provided for the
 							<a href="https://dev.twitter.com/docs/cards/types/summary-card" target="_blank">Summary Card</a>
-							(should be at least 120x120, larger than 60x60, and less than 1MB).';
+							(should be at least 120x120, larger than 60x60, and less than 1MB).
+							The default image dimensions are '.$this->p->opt->get_defaults( 'tc_'.$card.'_width' ).'x'.
+							$this->p->opt->get_defaults( 'tc_'.$card.'_height' ).', '.
+							( $this->p->opt->get_defaults( 'tc_'.$card.'_crop' ) ? '' : 'un' ).'cropped.';
 							break;
-						case 'tooltip-tc_large_size':
-							$text = 'The size of Post Meta, Featured or Attached images provided for the
-							<a href="https://dev.twitter.com/docs/cards/types/large-image-summary-card" target="_blank">Large Image Summary Card</a>
-							(must be larger than 280x150 and less than 1MB).';
+						case 'tooltip-tc_lrgimg_dimensions':
+							$card = 'lrgimg';
+							$text = 'The dimension of Post Meta, Featured or Attached images provided for the
+							<a href="https://dev.twitter.com/docs/cards/large-image-summary-card" target="_blank">Large Image Summary Card</a>
+							(must be larger than 280x150 and less than 1MB).
+							The default image dimensions are '.$this->p->opt->get_defaults( 'tc_'.$card.'_width' ).'x'.
+							$this->p->opt->get_defaults( 'tc_'.$card.'_height' ).', '.
+							( $this->p->opt->get_defaults( 'tc_'.$card.'_crop' ) ? '' : 'un' ).'cropped.';
 							break;
-						case 'tooltip-tc_photo_size':
-							$text = 'The size of ImageBrowser or Attachment Page images provided for the 
+						case 'tooltip-tc_photo_dimensions':
+							$card = 'photo';
+							$text = 'The dimension of ImageBrowser or Attachment Page images provided for the 
 							<a href="https://dev.twitter.com/docs/cards/types/photo-card" target="_blank">Photo Card</a> 
-							(should be at least 560x750 and less than 1MB).';
+							(should be at least 560x750 and less than 1MB).
+							The default image dimensions are '.$this->p->opt->get_defaults( 'tc_'.$card.'_width' ).'x'.
+							$this->p->opt->get_defaults( 'tc_'.$card.'_height' ).', '.
+							( $this->p->opt->get_defaults( 'tc_'.$card.'_crop' ) ? '' : 'un' ).'cropped.';
 							break;
-						case 'tooltip-tc_gal_size':
-							$text = 'The size of gallery images provided for the
-							<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.';
-							break;
-						case 'tooltip-tc_gal_min':
+						case 'tooltip-tc_gal_minimum':
 							$text = 'The minimum number of images found in a gallery to qualify for the
 							<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.';
 							break;
-						case 'tooltip-tc_prod_size':
-							$text = 'The size of a featured product image for the
+						case 'tooltip-tc_gal_dimensions':
+							$card = 'gal';
+							$text = 'The dimension of gallery images provided for the
+							<a href="https://dev.twitter.com/docs/cards/types/gallery-card" target="_blank">Gallery Card</a>.
+							The default image dimensions are '.$this->p->opt->get_defaults( 'tc_'.$card.'_width' ).'x'.
+							$this->p->opt->get_defaults( 'tc_'.$card.'_height' ).', '.
+							( $this->p->opt->get_defaults( 'tc_'.$card.'_crop' ) ? '' : 'un' ).'cropped.';
+							break;
+						case 'tooltip-tc_prod_dimensions':
+							$card = 'prod';
+							$text = 'The dimension of a <em>featured product image</em> for the
 							<a href="https://dev.twitter.com/docs/cards/types/product-card" target="_blank">Product Card</a>.
 							The product card requires an image of size 160 x 160 or greater. A square (aka cropped) image is better, 
 							but Twitter can crop/resize oddly shaped images to fit, as long as both dimensions are greater 
-							than or equal to 160 pixels.';
+							than or equal to 160 pixels.
+							The default image dimensions are '.$this->p->opt->get_defaults( 'tc_'.$card.'_width' ).'x'.
+							$this->p->opt->get_defaults( 'tc_'.$card.'_height' ).', '.
+							( $this->p->opt->get_defaults( 'tc_'.$card.'_crop' ) ? '' : 'un' ).'cropped.';
 							break;
-						case 'tooltip-tc_prod_def':
-							$text = 'The <em>Product</em> Twitter Card needs a minimum of two product attributes.
+						case 'tooltip-tc_prod_defaults':
+							$text = 'The <em>Product</em> Twitter Card needs a <strong>minimum of two product attributes</strong>.
 							The first attribute will be the product price, and if your product has additional attribute fields associated with it 
 							(weight, size, color, etc), these will be included in the <em>Product</em> Card as well (maximum of 4 attributes). 
-							<strong>If your product does not have additional attributes beyond just a price</strong>, then this default second 
+							<strong>If your product does not have additional attributes beyond its price</strong>, then this default second 
 							attribute label and value will be used. 
 							You may modify both the Label <em>and</em> Value for whatever is most appropriate for your website and/or products.
-							Some examples: Location - City State, Shipped from - Country, Made in - Country, etc.';
+							Some examples: Promotion / Free Shipping, Ships from / Hong Kong, Made in / China, etc.';
 							break;
 						/*
 						 * Other settings
@@ -712,7 +735,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 							break;
 						case 'tooltip-buttons_link_css':
 							$text = 'Add the following styles to all webpages (default is checked).
-							<strong>All styles will be minimized into a single stylesheet</strong> with the URL of <u>'.$this->p->style->social_css_min_url.'</u>. 
+							<strong>All styles will be minimized into a single stylesheet</strong> with the URL of <u>'.$this->p->style->sharing_css_min_url.'</u>. 
 							The stylesheet is created or removed, depending on whether this option is checked or unchecked.';
 							break;
 						/*
@@ -818,10 +841,9 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					in the appropriate template locations (see <a href="http://codex.wordpress.org/Function_Reference/get_the_author_meta" 
 					target="_blank">get_the_author_meta()</a> for examples).</p>';
 					break;
-				case 'social-buttons-info':
-					$text = '<p>The following social buttons can be added to the content, excerpt, and/or enabled within the '.
-					$this->p->cf['menu'].' Social Sharing widget as well (see the <a href="'.
-					get_admin_url( null, 'widgets.php' ).'">widgets admin page</a>).</p>';
+				case 'sharing-buttons-info':
+					$text = '<p>The following social sharing buttons can be added to the content, excerpt, and/or enabled within the '.
+					$this->p->cf['menu'].' Social Sharing widget as well (see the <a href="'.get_admin_url( null, 'widgets.php' ).'">widgets admin page</a>).</p>';
 					break;
 				/*
 				 * Other messages

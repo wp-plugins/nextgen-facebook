@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial' ) ) {
+if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuSharing' ) ) {
 
-	class NgfbAdminSocialTumblr extends NgfbAdminSocial {
+	class NgfbSubmenuSharingTumblr extends NgfbSubmenuSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -44,14 +44,14 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, or an <em>attached</em> 
-				image, with an image dimension that is equal to or larger than the \'Image Size to Share\' you have selected 
+				image that is equal to or larger than the \'Image Dimensions\' you have chosen 
 				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> custom Posts, 
 				or (lastly) the webpage link.' ).'<td>'.
-				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['social']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['sharing']['show_on'] ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_order', 
-					range( 1, count( $this->p->admin->submenu['social']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
@@ -61,8 +61,10 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
 				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
-				$this->p->util->th( 'Image Size to Share', 'short' ).'<td>'.
-				$this->form->get_select_img_size( 'tumblr_img_size', '/^'.$this->p->cf['lca'].'-/' ).'</td>',
+				$this->p->util->th( 'Image Dimensions', 'short' ).
+				'<td>Width '.$this->form->get_input( 'tumblr_img_width', 'short' ).' x '.
+				'Height '.$this->form->get_input( 'tumblr_img_height', 'short' ).' &nbsp; '.
+				'Crop '.$this->form->get_checkbox( 'tumblr_img_crop' ).'</td>',
 
 				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
@@ -77,15 +79,16 @@ if ( ! class_exists( 'NgfbAdminSocialTumblr' ) && class_exists( 'NgfbAdminSocial
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
+if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialTumblr {
+	class NgfbSharingTumblr {
 
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+			$this->p->util->add_option_image_sizes( array( 'tumblr_img' => 'tumblr' ) );
 		}
 
 		public function get_html( $atts = array(), $opts = array() ) {
@@ -100,7 +103,9 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 			if ( empty( $atts['tumblr_button_style'] ) ) $atts['tumblr_button_style'] = $opts['tumblr_button_style'];
-			if ( empty( $atts['size'] ) ) $atts['size'] = $opts['tumblr_img_size'];
+
+			if ( empty( $atts['size'] ) ) 
+				$atts['size'] = $this->p->cf['lca'].'-tumblr';
 
 			// only use featured image if 'tumblr_photo' option allows it
 			if ( empty( $atts['photo'] ) && $opts['tumblr_photo'] ) {
@@ -179,7 +184,7 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 			}
 			if ( empty( $query ) ) return;
 
-			$html = '<!-- Tumblr Button --><div '.$this->p->social->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
+			$html = '<!-- Tumblr Button --><div '.$this->p->sharing->get_css( 'tumblr', $atts ).'><a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr"><img border="0" alt="Share on Tumblr" src="'.$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}
@@ -193,4 +198,5 @@ if ( ! class_exists( 'NgfbSocialTumblr' ) && class_exists( 'NgfbSocial' ) ) {
 		}
 	}
 }
+
 ?>
