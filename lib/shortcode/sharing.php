@@ -18,8 +18,8 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			if ( $this->p->is_avail['ssb'] ) {
-				if ( ! is_admin() ) {
+			if ( ! is_admin() ) {
+				if ( $this->p->is_avail['ssb'] ) {
 					$this->wpautop();
 					$this->add();
 				}
