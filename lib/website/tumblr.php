@@ -186,7 +186,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 
 			$html = '<!-- Tumblr Button --><div '.$this->p->sharing->get_css( 'tumblr', $atts ).'>';
 			$html .= '<a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr">';
-			$html = '<img border="0" alt="Share on Tumblr" src="'.
+			$html .= '<img border="0" alt="Share on Tumblr" src="'.
 				$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
