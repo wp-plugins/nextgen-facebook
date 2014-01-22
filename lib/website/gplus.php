@@ -81,21 +81,22 @@ if ( ! class_exists( 'NgfbSharingGplus' ) && class_exists( 'NgfbSharing' ) ) {
 			$this->p->debug->mark();
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
+			$atts = array_merge( $this->p->util->preg_grep_keys( '/^gp_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'gplus', $atts );
-			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'],
 					$use_post, $atts['add_page'], $source_id );
-			$gp_class = $opts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
+			$gp_class = $atts['gp_action'] == 'share' ? 'class="g-plus" data-action="share"' : 'class="g-plusone"';
 
-			$html = '<!-- GooglePlus Button --><div '.$this->p->sharing->get_css( ( $opts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
-			$html .= ' data-size="'.$opts['gp_size'].'" data-annotation="'.$opts['gp_annotation'].'" data-href="'.$atts['url'].'"';
-			$html .= empty( $opts['gp_expandto'] ) || $opts['gp_expandto'] == 'none' ? '' : ' data-expandTo="'.$opts['gp_expandto'].'"';
+			$html = '<!-- GooglePlus Button --><div '.$this->p->sharing->get_css( ( $atts['gp_action'] == 'share' ? 'gplus' : 'gplusone' ), $atts ).'><span '.$gp_class;
+			$html .= ' data-size="'.$atts['gp_size'].'" data-annotation="'.$atts['gp_annotation'].'" data-href="'.$atts['url'].'"';
+			$html .= empty( $atts['gp_expandto'] ) || $atts['gp_expandto'] == 'none' ? '' : ' data-expandTo="'.$atts['gp_expandto'].'"';
 			$html .= '></span></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;

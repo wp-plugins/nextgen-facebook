@@ -93,15 +93,16 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 				$opts =& $this->p->options;
 			global $post; 
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$atts = array_merge( $this->p->util->preg_grep_keys( '/^twitter_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'twitter', $atts );
-			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$long_url = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 			$short_url = apply_filters( $this->p->cf['lca'].'_shorten_url', 
-				$long_url, $opts['twitter_shortener'] );
+				$long_url, $atts['twitter_shortener'] );
 
 			if ( array_key_exists( 'tweet', $atts ) )
 				$atts['caption'] = $atts['tweet'];
@@ -112,23 +113,23 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 
 				if ( empty( $atts['caption'] ) ) {
 					$cap_len = $this->p->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice
-					$atts['caption'] = $this->p->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
+					$atts['caption'] = $this->p->webpage->get_caption( $atts['twitter_caption'], $cap_len, $use_post );
 				}
 			}
 
 			if ( ! array_key_exists( 'lang', $atts ) )
-				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
+				$atts['lang'] = empty( $atts['twitter_lang'] ) ? 'en' : $atts['twitter_lang'];
 			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
-				if ( ! empty( $opts['twitter_via'] ) && 
+				if ( ! empty( $atts['twitter_via'] ) && 
 					$this->p->check->is_aop() )
-						$atts['via'] = preg_replace( '/^@/', '', $opts['tc_site'] );
+						$atts['via'] = preg_replace( '/^@/', '', $atts['tc_site'] );
 				else $atts['via'] = '';
 			}
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
-				if ( ! empty( $opts['twitter_rel_author'] ) && 
+				if ( ! empty( $atts['twitter_rel_author'] ) && 
 					$this->p->check->is_aop() && ! empty( $post ) && $use_post == true )
 						$atts['related'] = preg_replace( '/^@/', '', 
 							get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
@@ -140,12 +141,14 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 				$atts['hashtags'] = '';
 
 			if ( ! array_key_exists( 'dnt', $atts ) ) 
-				$atts['dnt'] = $opts['twitter_dnt'] ? 'true' : 'false';
+				$atts['dnt'] = $atts['twitter_dnt'] ? 'true' : 'false';
 
-			$html = '<!-- Twitter Button --><div '.$this->p->sharing->get_css( 'twitter', $atts ).'><a href="'.$prot.'//twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
-
+			$html = '<!-- Twitter Button --><div '.$this->p->sharing->get_css( 'twitter', $atts ).'>';
+			$html .= '<a href="'.$prot.'//twitter.com/share" class="twitter-share-button" data-lang="'. $atts['lang'].'" ';
+			$html .= 'data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" ';
+			$html .= 'data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" ';
+			$html .= 'data-count="'.$atts['twitter_count'].'" data-size="'.$atts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-
 			return $html;
 		}
 		

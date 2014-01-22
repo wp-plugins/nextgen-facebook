@@ -422,7 +422,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
-			if ( empty( $opts ) ) $opts = $this->p->options;
+			if ( empty( $opts ) )
+				$opts = $this->p->options;
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize
@@ -522,7 +523,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				};</script>'."\n";
 		}
 
-		public function get_css( $css_name, $atts = array(), $css_class_extra = '', $css_id_extra = '' ) {
+		public function get_css( $css_name, &$atts = array(), $css_class_extra = '', $css_id_extra = '' ) {
 			global $post;
 			$css_class = $css_name.'-'.( empty( $atts['css_class'] ) ? 
 				'button' : $atts['css_class'] );
