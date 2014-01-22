@@ -727,7 +727,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					Although the following contact methods may be shown on user profile pages, your theme is responsible for displaying these
 					contact fields in the appropriate template locations (see <a href="http://codex.wordpress.org/Function_Reference/get_the_author_meta" 
 					target="_blank">get_the_author_meta()</a> for examples).</p>
-					<p><center><strong>DO NOT ENTER YOUR CONTACT INFORMATION HERE -- THESE ARE CONTACT FIELD LABELS ONLY</strong>
+					<p><center><strong><font color="red">DO NOT ENTER YOUR CONTACT INFORMATION HERE</font> -- THESE ARE CONTACT FIELD LABELS ONLY</strong>
 					(enter your contact information on the <a href="'.get_admin_url( null, 'profile.php' ).'">user profile page</a>).</p>';
 					break;
 				case 'sharing-buttons-info':
