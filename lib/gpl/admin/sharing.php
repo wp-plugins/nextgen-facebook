@@ -15,9 +15,10 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->util->add_plugin_filters( $this, array( 
-				'plugin_cache_rows' => 2,
-				'sharing_buttons_rows' => 2,
-				'meta_sharing_rows' => 3,
+				'plugin_cache_rows' => 2,	// advanced 'File and Object Cache' options
+				'sharing_buttons_rows' => 2,	// social sharing 'Include on Post Type' options
+				'meta_tabs' => 1,		// post meta 'Social Sharing' tab
+				'meta_sharing_rows' => 3,	// post meta 'Social Sharing' options
 			) );
 		}
 
@@ -46,6 +47,11 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 			'<td class="blank">'.$checkboxes.'</td>';
 
 			return $rows;
+		}
+
+		public function filter_meta_tabs( $tabs ) {
+			$tabs['sharing'] = 'Social Sharing';
+			return $tabs;
 		}
 
 		public function filter_meta_sharing_rows( $rows, $form, $post_info ) {

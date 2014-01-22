@@ -33,10 +33,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
 
-			if ( is_admin() ) {
+			if ( is_admin() )
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
-				$this->p->util->add_plugin_filters( $this, array( 'meta_tabs' => 1 ) );
-			}
 			$this->p->util->add_plugin_filters( $this, array( 'save_options' => 2 ) );
 		}
 
@@ -81,11 +79,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 						'<b>'.$this->p->cf['uca'].' Error</b> : Error removing minimized stylesheet. 
 							Does the web server have sufficient privileges?', 'error' );
 			}
-		}
-
-		public function filter_meta_tabs( $tabs ) {
-			$tabs['sharing'] = 'Social Sharing';
-			return $tabs;
 		}
 
 		public function add_metaboxes() {
