@@ -108,7 +108,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 
 			if ( ! array_key_exists( 'caption', $atts ) ) {
 				if ( ! empty( $post->ID ) && $use_post == true ) 
-					$atts['caption'] = $this->p->meta->get_options( $post->ID, 'twitter_desc' );
+					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'twitter_desc' );
 
 				if ( empty( $atts['caption'] ) ) {
 					$cap_len = $this->p->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice

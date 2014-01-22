@@ -30,7 +30,7 @@ if ( ! class_exists( 'NgfbAddonGpl' ) ) {
 						require_once ( NGFB_PLUGINDIR.'lib/gpl/'.$sub.'/'.$id.'.php' );
 						$classname = $this->p->cf['cca'].ucfirst( $sub ).ucfirst( $id );
 						if ( class_exists( $classname ) )
-							$this->p->addons[$id] = new $classname( $this->p );
+							$this->p->addons[$sub][$id] = new $classname( $this->p );
 					}
 				}
 			}

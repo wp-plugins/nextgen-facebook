@@ -46,14 +46,14 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 
 		public function add() {
 			if ( ! empty( $this->p->options['plugin_shortcodes'] ) ) {
-        			add_shortcode( $this->shortcode_id, array( &$this, 'shortcode' ) );
+        			add_shortcode( $this->shortcode_tag, array( &$this, 'shortcode' ) );
 				$this->p->debug->log( '['.$this->shortcode_tag.'] sharing shortcode added' );
 			}
 		}
 
 		public function remove() {
 			if ( ! empty( $this->p->options['plugin_shortcodes'] ) ) {
-				remove_shortcode( $this->shortcode_id );
+				remove_shortcode( $this->shortcode_tag );
 				$this->p->debug->log( '['.$this->shortcode_tag.'] sharing shortcode removed' );
 			}
 		}

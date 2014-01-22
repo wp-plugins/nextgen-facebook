@@ -91,8 +91,8 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
-						$pid = $this->p->meta->get_options( $post->ID, 'og_img_id' );
-						$pre = $this->p->meta->get_options( $post->ID, 'og_img_id_pre' );
+						$pid = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id' );
+						$pre = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id_pre' );
 						if ( ! empty( $pid ) ) 
 							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
 						elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
@@ -111,7 +111,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 				$atts['pin_count_layout'] = $opts['pin_count_layout'];
 
 			if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
-				$atts['caption'] = $this->p->meta->get_options( $post->ID, 'pin_desc' );
+				$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'pin_desc' );
 
 			if ( empty( $atts['caption'] ) ) 
 				$atts['caption'] = $this->p->webpage->get_caption( $opts['pin_caption'], 

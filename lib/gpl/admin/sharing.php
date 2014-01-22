@@ -50,14 +50,19 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 		}
 
 		public function filter_meta_tabs( $tabs ) {
-			$tabs['sharing'] = 'Social Sharing';
-			return $tabs;
+			$new_tabs = array();
+			foreach ( $tabs as $key => $val ) {
+				$new_tabs[$key] = $val;
+				if ( $key === 'header' )	// insert the social sharing tab after the header tab
+					$new_tabs['sharing'] = 'Social Sharing';
+			}
+			return $new_tabs;
 		}
 
 		public function filter_meta_sharing_rows( $rows, $form, $post_info ) {
 
 			$twitter_cap_len = $this->p->util->tweet_max_len( get_permalink( $post_info['id'] ) );
-			list( $pid, $video_url ) = $this->p->meta->get_media( $post_info['id'] );
+			list( $pid, $video_url ) = $this->p->addons['util']['postmeta']->get_media( $post_info['id'] );
 
 			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 

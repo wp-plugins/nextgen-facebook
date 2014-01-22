@@ -20,35 +20,6 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			$this->menu_id = $id;
 			$this->menu_name = $name;
 			$this->set_objects();
-
-			// add all the social sharing feature status in one place
-			$this->p->util->add_plugin_filters( $this, array( 
-				'status_gpl_features' => 1,
-				'status_pro_features' => 1,
-			) );
-		}
-
-		public function filter_status_gpl_features( $features ) {
-			if ( ! empty( $this->p->cf['lib']['submenu']['sharing'] ) )
-				$features['Sharing Buttons'] = array( 'class' => $this->p->cf['lca'].'Sharing' );
-
-			if ( ! empty( $this->p->cf['lib']['shortcode']['sharing'] ) )
-				$features['Sharing Shortcode'] = array( 'class' => $this->p->cf['lca'].'ShortcodeSharing' );
-
-			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
-				$features['Sharing Stylesheet'] = array( 'status' => $this->p->options['buttons_link_css'] ? 'on' : 'off' );
-
-			if ( ! empty( $this->p->cf['lib']['widget']['sharing'] ) )
-				$features['Sharing Widget'] = array( 'class' => $this->p->cf['lca'].'WidgetSharing' );
-
-			return $features;
-		}
-
-		public function filter_status_pro_features( $features ) {
-			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
-				$features['Social File Cache'] = array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' );
-
-			return $features;
 		}
 
 		private function set_objects() {

@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.0rc1',			// plugin version
+			'version' => '7.0rc2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -66,6 +66,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Social Sharing',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
+						'postmeta' => 'Custom Post Meta',
+					),
+					'util' => array(
 						'postmeta' => 'Custom Post Meta',
 					),
 				),

@@ -20,7 +20,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
 			$this->sharing_css_min_file = NGFB_CACHEDIR.$this->p->cf['lca'].'-sharing-styles.min.css';
 			$this->sharing_css_min_url = NGFB_CACHEURL.$this->p->cf['lca'].'-sharing-styles.min.css';
 			$this->set_objects();
@@ -33,9 +32,180 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			$this->add_filter( 'the_excerpt' );
 			$this->add_filter( 'the_content' );
 
-			if ( is_admin() )
+			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
-			$this->p->util->add_plugin_filters( $this, array( 'save_options' => 2 ) );
+				$this->p->util->add_plugin_filters( $this, array( 
+					'save_options' => 2,		// update the sharing css file
+					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
+					'status_pro_features' => 1,	// include social file cache status
+					'tooltip_side' => 2,		// tooltip messages for side boxes
+					'tooltip_plugin' => 2,		// tooltip messages for advanced settings
+					'tooltip_postmeta' => 3,	// tooltip messages for post meta custom settings
+				) );
+			} else $this->p->debug->mark();
+		}
+
+		public function filter_save_options( $opts, $options_name ) {
+			if ( $options_name === NGFB_OPTIONS_NAME )
+				$this->update_sharing_css( $opts );
+			return $opts;
+		}
+
+		public function filter_status_gpl_features( $features ) {
+			if ( ! empty( $this->p->cf['lib']['submenu']['sharing'] ) )
+				$features['Sharing Buttons'] = array( 'class' => $this->p->cf['lca'].'Sharing' );
+
+			if ( ! empty( $this->p->cf['lib']['shortcode']['sharing'] ) )
+				$features['Sharing Shortcode'] = array( 'class' => $this->p->cf['lca'].'ShortcodeSharing' );
+
+			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
+				$features['Sharing Stylesheet'] = array( 'status' => $this->p->options['buttons_link_css'] ? 'on' : 'off' );
+
+			if ( ! empty( $this->p->cf['lib']['widget']['sharing'] ) )
+				$features['Sharing Widget'] = array( 'class' => $this->p->cf['lca'].'WidgetSharing' );
+
+			return $features;
+		}
+
+		public function filter_status_pro_features( $features ) {
+			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
+				$features['Social File Cache'] = array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' );
+
+			return $features;
+		}
+
+		public function filter_tooltip_side( $text, $idx ) {
+			switch ( $idx ) {
+				case 'tooltip-side-sharing-buttons':
+					$text = 'Social sharing features include the Open Graph+ '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).
+					' and '.$this->p->util->get_admin_url( 'style', 'Social Style' ).' settings pages (aka social sharing buttons), 
+					the Custom Settings / Social Sharing tab on Post or Page editing pages, along with the social sharing shortcode 
+					and widget. All social sharing features can be disabled using one of the available PHP
+					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constants</a>.';
+					break;
+				case 'tooltip-side-sharing-shortcode':
+					$text = 'Support for shortcode(s) can be enabled / disabled on the '.
+					$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).'. Shortcodes are disabled by default
+					to optimize WordPress performance and content processing.';
+					break;
+				case 'tooltip-side-sharing-stylesheet':
+					$text = 'A stylesheet can be included on all webpages for the social sharing buttons. Enable or disable the
+					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Social Style settings page' ).'.';
+					break;
+				case 'tooltip-side-sharing-widget':
+					$text = 'The social sharing widget feature adds an \'NGFB Social Sharing\' widget in the WordPress Appearance - Widgets page.
+					The widget can be used in any number of widget areas, to share the current webpage. The widget, along with all social
+					sharing featured, can be disabled using an available 
+					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
+					break;
+				case 'tooltip-side-social-file-cache':
+					$text = $this->p->cf['full_pro'].' can save social sharing images and JavaScript to a cache folder, 
+					and provide URLs to these cached files instead of the originals. The current \'File Cache Expiry\'
+					value, as defined on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).', is '.
+					$this->p->options['plugin_file_cache_hrs'].' Hours (the default value of 0 Hours disables the 
+					file caching feature).';
+					break;
+				case 'tooltip-side-url-rewriter':
+					$text = $this->p->cf['full_pro'].' can rewrite image URLs in meta tags, cached images and JavaScript, 
+					and for social sharing buttons like Pinterest and Tumblr (which use encoded image URLs). 
+					Rewriting image URLs can be an important part of optimizing page load speeds. See the \'Static Content URL(s)\'
+					option on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).' to enable URL rewriting.';
+					break;
+				case 'tooltip-side-url-shortener':
+					$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
+					the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, 
+					can be shortened by one of the available URL shortening services. Enable URL shortening for Twitter
+					from the '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).' settings page.';
+					break;
+			}
+			return $text;
+		}
+
+		public function filter_tooltip_plugin( $text, $idx ) {
+			switch ( $idx ) {
+				/*
+				 * 'API Keys' (URL Shortening) settings
+				 */
+				case 'tooltip-plugin_bitly_login':
+					$text = 'The Bit.ly username for the following API key. If you don\'t already have one, see 
+					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.';
+					break;
+				case 'tooltip-plugin_bitly_api_key':
+					$text = 'The Bit.ly API key for this website. If you don\'t already have one, see 
+					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.';
+					break;
+				case 'tooltip-plugin_google_api_key':
+					$text = 'The Google BrowserKey for this website / project. If you don\'t already have one, visit
+					<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
+					create a new project for your website, and under the API &amp; auth - Registered apps, 
+					register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
+					and enter it\'s BrowserKey here.';
+					break;
+				case 'tooltip-plugin_google_shorten':
+					$text = 'In order to use Google\'s URL Shortener for URLs in Tweets, you must turn on the 
+					URL Shortener API from <a href="https://cloud.google.com/console#/project" 
+					target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
+					menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
+					the \'Yes\' option here. You can then select the Google URL Shortener in the '.
+					$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
+					break;
+				/*
+				 * 'URL Rewrite' settings
+				 */
+				case 'tooltip-plugin_min_shorten':
+					$text = 'URLs shorter than this length will not be shortened (default is '.$this->p->opt->get_defaults( 'plugin_min_shorten' ).').';
+					break;
+				case 'tooltip-plugin_cdn_urls':
+					$text = 'Rewrite image URLs in the Open Graph, Rich Pin, and Twitter Card meta tags, encoded image URLs shared by social buttons 
+					(like Pinterest and Tumblr), and cached social media files. Leave this option blank to disable the URL rewriting feature 
+					(default is disabled). Wildcarding and multiple CDN hostnames are supported -- see the 
+					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/" target="_blank">URL Rewriting</a> 
+					notes for more information and examples.';
+					break;
+				case 'tooltip-plugin_cdn_folders':
+					$text = 'A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
+					(the default value is "<em>wp-content, wp-includes</em>").';
+					break;
+				case 'tooltip-plugin_cdn_excl':
+					$text = 'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
+					If you are caching social website images and JavaScript (see the <em>Social File Cache Expiry</em> option), 
+					the URLs to this cached content will be rewritten as well (that\'s a good thing).
+					To exclude the '.$this->p->cf['full'].' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.';
+					break;
+				case 'tooltip-plugin_cdn_not_https':
+					$text = 'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).';
+					break;
+				case 'tooltip-plugin_cdn_www_opt':
+					$text = 'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).';
+					break;
+			}
+			return $text;
+		}
+
+		public function filter_tooltip_postmeta( $text, $idx, $atts ) {
+			$ptn = empty( $atts['ptn'] ) ? 'Post' : $atts['ptn'];
+			switch ( $idx ) {
+				 case 'tooltip-postmeta-pin_desc':
+					$text = 'A custom caption text, used by the Pinterest social sharing button, 
+					for the custom Image ID, attached or featured image.';
+				 	break;
+				 case 'tooltip-postmeta-tumblr_img_desc':
+				 	$text = 'A custom caption, used by the Tumblr social sharing button, 
+					for the custom Image ID, attached or featured image.';
+				 	break;
+				 case 'tooltip-postmeta-tumblr_vid_desc':
+					$text = 'A custom caption, used by the Tumblr social sharing button, 
+					for the custom Video URL or embedded video.';
+				 	break;
+				 case 'tooltip-postmeta-twitter_desc':
+				 	$text = 'A custom Tweet text for the Twitter social sharing button. 
+					This text is in addition to any Twitter Card description.';
+				 	break;
+				 case 'tooltip-postmeta-buttons_disabled':
+					$text = 'Disable all social sharing buttons (content, excerpt, widget, shortcode) for this '.$ptn.'.';
+				 	break;
+			}
+			return $text;
 		}
 
 		public function wp_enqueue_styles( $hook ) {
@@ -44,32 +214,29 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
 				if ( ! file_exists( $this->sharing_css_min_file ) ) {
 					$this->p->debug->log( 'updating '.$this->sharing_css_min_file );
-					$this->update_sharing( $this->p->options );
+					$this->update_sharing_css( $this->p->options );
 				}
 				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
 				wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 			}
 		}
 
-		public function filter_save_options( $opts, $options_name ) {
-			if ( $options_name === NGFB_OPTIONS_NAME ) {
-				if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
-					if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
-						$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
-					else {
-						$css_data = '';
-						$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
-						foreach ( $style_tabs as $id => $name )
-							$css_data .= $opts['buttons_css_'.$id];
-						require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-						$css_data = SuextMinifyCssCompressor::process( $css_data );
-						fwrite( $fh, $css_data );
-						fclose( $fh );
-						$this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
-					}
-				} else $this->unlink_sharing_css();
-			}
-			return $opts;
+		public function update_sharing_css( $opts ) {
+			if ( ! empty( $opts['buttons_link_css'] ) ) {
+				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
+					$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
+				else {
+					$css_data = '';
+					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
+					foreach ( $style_tabs as $id => $name )
+						$css_data .= $opts['buttons_css_'.$id];
+					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
+					$css_data = SuextMinifyCssCompressor::process( $css_data );
+					fwrite( $fh, $css_data );
+					fclose( $fh );
+					$this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
+				}
+			} else $this->unlink_sharing_css();
 		}
 
 		public function unlink_sharing_css() {
@@ -377,7 +544,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			global $post;
 			if ( ! empty( $post ) ) {
 				$post_type = $post->post_type;
-				if ( $this->p->meta->get_options( $post->ID, 'buttons_disabled' ) ) {
+				if ( $this->p->addons['util']['postmeta']->get_options( $post->ID, 'buttons_disabled' ) ) {
 					$this->p->debug->log( 'found custom meta buttons disabled = true' );
 					return true;
 				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
