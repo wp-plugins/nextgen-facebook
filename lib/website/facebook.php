@@ -153,53 +153,53 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 			$this->p->debug->mark();
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			$html = '';
+			$atts = array_merge( $this->p->util->preg_grep_keys( '/^fb_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
-			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
+			$lang = empty( $atts['fb_lang'] ) ? 'en_US' : $atts['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'facebook' ) );
-			$send = $opts['fb_send'] ? 'true' : 'false';
-			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
-
+			$send = $atts['fb_send'] ? 'true' : 'false';
+			$show_faces = $atts['fb_show_faces'] ? 'true' : 'false';
 			$source_id = 'facebook';
-			switch ( $opts['fb_button'] ) {
+			switch ( $atts['fb_button'] ) {
 				case 'like' : $source_id = $this->p->util->get_source_id( 'facebook', $atts ); break;
 				case 'share' : $source_id = $this->p->util->get_source_id( 'fb-share', $atts ); break;
 			}
-			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;
+			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 
-			switch ( $opts['fb_button'] ) {
+			$html = '';
+			switch ( $atts['fb_button'] ) {
 				case 'like' :
-					switch ( $opts['fb_markup'] ) {
+					switch ( $atts['fb_markup'] ) {
 						case 'xfbml' :
 							// XFBML
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
 							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.
-							$atts['url'].'" send="'.$send.'" layout="'.$opts['fb_layout'].'" show_faces="'.
-							$show_faces.'" font="'.$opts['fb_font'].'" action="'.
-							$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
+							$atts['url'].'" send="'.$send.'" layout="'.$atts['fb_layout'].'" show_faces="'.
+							$show_faces.'" font="'.$atts['fb_font'].'" action="'.
+							$atts['fb_action'].'" colorscheme="'.$atts['fb_colorscheme'].'"></fb:like></div>';
 							break;
 						case 'html5' :
 							// HTML5
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
 							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.
 							$atts['url'].'" data-send="'.$send.'" data-layout="'.
-							$opts['fb_layout'].'" data-show-faces="'.$show_faces.'" data-font="'.
-							$opts['fb_font'].'" data-action="'.$opts['fb_action'].'" data-colorscheme="'.
-							$opts['fb_colorscheme'].'"></div>';
+							$atts['fb_layout'].'" data-show-faces="'.$show_faces.'" data-font="'.
+							$atts['fb_font'].'" data-action="'.$atts['fb_action'].'" data-colorscheme="'.
+							$atts['fb_colorscheme'].'"></div>';
 							break;
 					}
 					break;
 				case 'share' :
 					$html .= '<!-- Facebook Share Button --><div '.
 					$this->p->sharing->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.
-					$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>';
+					$atts['url'].'" font="'.$atts['fb_font'].'" type="'.$atts['fb_type'].'"></fb:share-button></div>';
 					break;
 			}
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
