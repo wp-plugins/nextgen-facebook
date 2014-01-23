@@ -55,10 +55,9 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) && class_exists( 'NgfbSharing' ) ) 
 			$this->p->debug->mark();
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			$atts = array_merge( $this->p->util->preg_grep_keys( '/^linkedin_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'linkedin', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url() argument
@@ -68,8 +67,8 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) && class_exists( 'NgfbSharing' ) ) 
 					$use_post, $atts['add_page'], $source_id );
 
 			$html = '<!-- LinkedIn Button --><div '.$this->p->sharing->get_css( 'linkedin', $atts ).'><script type="IN/Share" data-url="'.$atts['url'].'"';
-			$html .= empty( $atts['linkedin_counter'] ) ? '' : ' data-counter="'.$atts['linkedin_counter'].'"';
-			$html .= empty( $atts['linkedin_showzero'] ) ? '' : ' data-showzero="true"';
+			$html .= empty( $opts['linkedin_counter'] ) ? '' : ' data-counter="'.$opts['linkedin_counter'].'"';
+			$html .= empty( $opts['linkedin_showzero'] ) ? '' : ' data-showzero="true"';
 			$html .= '></script></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;

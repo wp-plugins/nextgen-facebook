@@ -71,12 +71,11 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 			$this->p->util->add_option_image_sizes( array( 'pin_img' => 'pinterest' ) );
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
-			$atts = array_merge( $this->p->util->preg_grep_keys( '/^pin_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'pinterest', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -114,14 +113,14 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 				$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'pin_desc' );
 
 			if ( empty( $atts['caption'] ) ) 
-				$atts['caption'] = $this->p->webpage->get_caption( $atts['pin_caption'], 
-					$atts['pin_cap_len'], $use_post );
+				$atts['caption'] = $this->p->webpage->get_caption( $opts['pin_caption'], 
+					$opts['pin_cap_len'], $use_post );
 
 			$query = 'url='.urlencode( $atts['url'] );
 			$query .= '&amp;media='.urlencode( $atts['photo'] );
 			$query .= '&amp;description='.urlencode( $atts['caption'] );
 
-			if ( empty( $atts['pin_img_url'] ) )
+			if ( empty( $opts['pin_img_url'] ) )
 				$img = $prot.'//assets.pinterest.com/images/PinExt.png';
 			elseif ( preg_match( '/^https?:(\/\/.*)/', $opts['pin_img_url'], $match ) )
 				$img = $prot.$match[1];
@@ -130,7 +129,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 
 			$html = '<!-- Pinterest Button --><div '.$this->p->sharing->get_css( 'pinterest', $atts ).'>';
 			$html .= '<a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" ';
-			$html .= 'count-layout="'.$atts['pin_count_layout'].'" title="Share on Pinterest">';
+			$html .= 'count-layout="'.$opts['pin_count_layout'].'" title="Share on Pinterest">';
 			$html .= '<img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;

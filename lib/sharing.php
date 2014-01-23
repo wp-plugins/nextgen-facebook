@@ -422,8 +422,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
-			if ( empty( $opts ) )
-				$opts = $this->p->options;
 			$html = '';
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize
