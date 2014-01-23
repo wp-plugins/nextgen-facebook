@@ -233,7 +233,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 
 = Version 6.22.1 =
 
-* A minor update to fix a variable name used when upgrading the plugin options.
+* **Fixed** a variable name used when upgrading the plugin options.
 
 = Version 6.22.0 =
 
