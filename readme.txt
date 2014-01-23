@@ -225,6 +225,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * **Fixed** the Twitter Card 'twitter:description' value in the Meta Tags Preview tab (Pro version).
 * **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
 * **Fixed** the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
+* **Fixed** fallback to the Site Description value on singular pages.
 
 = Version 6.22.1 =
 

@@ -325,7 +325,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
-			$this->p->debug->args( array( 'text' => 'N/A', 'type' => $type, 'opts' => 'N/A' ) );
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 
@@ -445,12 +444,14 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return $html;
 		}
 
-		// add javascript for enabled buttons in content and widget(s)
-		public function get_js( $pos = 'footer', $ids = array() ) {
+		// add javascript for enabled buttons in content, widget, shortcode, etc.
+		public function get_js( $pos = 'header', $ids = array() ) {
+
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return;
 			}
+
 			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
 				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
@@ -458,47 +459,52 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				$this->p->debug->log( 'exiting early: admin non-editing page' );
 				return;
 			}
-			if ( class_exists( 'NgfbWidgetSharing' ) ) {
-				$widget = new NgfbWidgetSharing();
-		 		$widget_settings = $widget->get_settings();
-			} else $widget_settings = array();
 
 			// determine which (if any) sharing buttons are enabled
 			// loop through the sharing button option prefixes (fb, gp, etc.)
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				// check for enabled buttons on settings page
-				if ( is_admin() && ! empty( $obj ) ) {
-					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
-						$ids[] = $id;
-				} else {
-					if ( is_singular() 
-						|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
-						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
+			if ( empty( $ids ) ) {
+				if ( class_exists( 'NgfbWidgetSharing' ) ) {
+					$widget = new NgfbWidgetSharing();
+		 			$widget_settings = $widget->get_settings();
+				} else $widget_settings = array();
 
-						// exclude buttons enabled for admin editing pages
-						foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
-							if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
-								$ids[] = $id;
-
-					}
-					// check for enabled buttons in widget(s)
-					foreach ( $widget_settings as $instance )
-						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					// check for enabled buttons on settings page
+					if ( is_admin() && ! empty( $obj ) ) {
+						if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
 							$ids[] = $id;
+					} else {
+						if ( is_singular() 
+							|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
+							|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
+	
+							// exclude buttons enabled for admin editing pages
+							foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
+								if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
+									$ids[] = $id;
+	
+						}
+						// check for enabled buttons in widget(s)
+						foreach ( $widget_settings as $instance )
+							if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
+								$ids[] = $id;
+					}
+				}
+				if ( empty( $ids ) ) {
+					$this->p->debug->log( 'exiting early: no buttons enabled' );
+					return;
 				}
 			}
-			unset ( $id, $pre );
-			if ( empty( $ids ) ) {
-				$this->p->debug->log( 'exiting early: no buttons enabled' );
-				return;
-			}
+
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$js = '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript begin -->';
 
-			if ( preg_match( '/^pre/i', $pos ) ) $pos_section = 'header';
-			elseif ( preg_match( '/^post/i', $pos ) ) $pos_section = 'footer';
-			else $pos_section = $pos;
+			if ( strpos( $pos, '-header' ) ) 
+				$js_loc = 'header';
+			elseif ( strpos( $pos, '-footer' ) ) 
+				$js_loc = 'footer';
+			else $js_loc = $pos;
 
 			if ( ! empty( $ids ) ) {
 				foreach ( $ids as $id ) {
@@ -506,7 +512,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					$opt_name = $this->p->cf['opt']['pre'][$id].'_js_loc';
 					if ( method_exists( $this->website[$id], 'get_js' ) && 
 						! empty( $this->p->options[$opt_name] ) && 
-						$this->p->options[$opt_name] == $pos_section )
+						$this->p->options[$opt_name] == $js_loc )
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}

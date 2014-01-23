@@ -90,9 +90,11 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 				$ids = array_map( 'trim', explode( ',', $atts['buttons'] ) );
 				unset ( $atts['buttons'] );
 				$html .= '<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' begin -->'.
-					$this->p->sharing->get_js( 'pre-shortcode', $ids ).
-					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.$this->p->sharing->get_html( $ids, $atts ).'</div>'.
-					$this->p->sharing->get_js( 'post-shortcode', $ids ).
+					$this->p->sharing->get_js( 'shortcode-header', $ids ).
+					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.
+					$this->p->sharing->get_html( $ids, $atts ).
+					'</div>'.
+					$this->p->sharing->get_js( 'shortcode-footer', $ids ).
 					'<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' end -->';
 
 				if ( $this->p->is_avail['cache']['transient'] ) {
