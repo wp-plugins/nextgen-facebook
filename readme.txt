@@ -172,8 +172,8 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> <li><a
-href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/social-buttons-function/">Social Buttons Function</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/">URL Rewriting</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a>
