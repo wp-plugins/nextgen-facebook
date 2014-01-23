@@ -31,9 +31,9 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 				}
 			}
 			$html = '<!-- '.$ngfb->cf['lca'].' sharing buttons begin -->' .
-				$ngfb->sharing->get_js( 'pre-sharing-buttons', $ids ) .
+				$ngfb->sharing->get_js( 'sharing-buttons-header', $ids ) .
 				$ngfb->sharing->get_html( $ids, $atts, $opts ) .
-				$ngfb->sharing->get_js( 'post-sharing-buttons', $ids ) .
+				$ngfb->sharing->get_js( 'sharing-buttons-footer', $ids ) .
 				'<!-- '.$ngfb->cf['lca'].' sharing buttons end -->';
 	
 			if ( ! empty( $cache_id ) ) {
