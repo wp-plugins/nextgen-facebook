@@ -19,7 +19,8 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 		global $ngfb;
 		if ( $ngfb->is_avail['ssb'] ) {
 			if ( $ngfb->is_avail['cache']['transient'] ) {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
+				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().
+					'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$ngfb->debug->log( $cache_type.': sharing buttons transient salt '.$cache_salt );
@@ -35,7 +36,7 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 				$ngfb->sharing->get_js( 'post-sharing-buttons', $ids ) .
 				'<!-- '.$ngfb->cf['lca'].' sharing buttons end -->';
 	
-			if ( $ngfb->is_avail['cache']['transient'] ) {
+			if ( ! empty( $cache_id ) ) {
 				set_transient( $cache_id, $html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}

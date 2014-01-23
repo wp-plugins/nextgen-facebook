@@ -156,7 +156,7 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
+			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'facebook' ) );
 			$send = $opts['fb_send'] ? 'true' : 'false';

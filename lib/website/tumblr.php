@@ -95,7 +95,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
-			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
+			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'tumblr', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$atts['url'] = empty( $atts['url'] ) ? 

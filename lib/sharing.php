@@ -331,7 +331,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 			// should we skip the sharing buttons for this content type or webpage?
 			if ( is_admin() ) {
-				if ( $type != 'admin_sharing' ) {
+				if ( $type !== 'admin_sharing' ) {
 					$this->p->debug->log( $type.' filter skipped: '.$type.' ignored with is_admin()'  );
 					return $text;
 				}
@@ -397,7 +397,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 						'<div class="'.$this->p->cf['lca'].'-'.$css_type.'">'.$html.'</div>'.
 						'<!-- '.$this->p->cf['lca'].' '.$css_type.' end -->';
 
-					if ( $this->p->is_avail['cache']['transient'] ) {
+					if ( ! empty( $cache_id ) ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
 						$this->p->debug->log( $cache_type.': '.$type.' html saved to transient '.
 							$cache_id.' ('.$this->p->cache->object_expire.' seconds)' );
@@ -421,12 +421,24 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return $text;
 		}
 
+		// get_html() is called by the widget, shortcode, function, and perhaps some filter hooks
 		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
+			if ( empty( $opts ) ) 
+				$opts =& $this->p->options;
+
 			$html = '';
+			$custom_opts = false;
+			$filter_id = empty( $atts['filter_id'] ) ? '' : 
+				preg_replace( '/[^a-z0-9\-_]/', '', $atts['filter_id'] );	// sanitize the filter name
+			if ( ! empty( $filter_id ) )
+				$custom_opts = apply_filters( $this->p->cf['lca'].'_sharing_html_'.$filter_id.'_options', $opts );
+
 			foreach ( $ids as $id ) {
-				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize
+				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize the website object name
 				if ( method_exists( $this->website[$id], 'get_html' ) )
-					$html .= $this->website[$id]->get_html( $atts, $opts );
+					$html .= $custom_opts === false ? 
+						$this->website[$id]->get_html( $atts, $opts ) :
+						$this->website[$id]->get_html( $atts, $custom_opts );
 			}
 			if ( ! empty( $html ) ) 
 				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'.$html.'</div>';

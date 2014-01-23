@@ -73,6 +73,9 @@ if ( ! class_exists( 'NgfbUtil' ) && class_exists( 'SucomUtil' ) ) {
 						'the_content' => 'lang:'.$lang.'_post:'.$post_id.'_type:the_content',
 						'admin_sharing' => 'lang:'.$lang.'_post:'.$post_id.'_type:admin_sharing',
 					),
+					'NgfbUtilShorten::short' => array(
+						'long url' => 'url:'.$sharing_url,
+					),
 				);
 				$objects = array(
 					'SucomWebpage::get_content' => array(

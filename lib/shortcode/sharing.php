@@ -91,8 +91,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 				unset ( $atts['buttons'] );
 				$html .= '<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' begin -->'.
 					$this->p->sharing->get_js( 'pre-shortcode', $ids ).
-					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.
-						$this->p->sharing->get_html( $ids, $atts ).'</div>'.
+					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.$this->p->sharing->get_html( $ids, $atts ).'</div>'.
 					$this->p->sharing->get_js( 'post-shortcode', $ids ).
 					'<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' end -->';
 

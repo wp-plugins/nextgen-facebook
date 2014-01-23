@@ -93,7 +93,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 				$opts =& $this->p->options;
 			global $post; 
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
-			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
+			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'twitter', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$long_url = empty( $atts['url'] ) ? 

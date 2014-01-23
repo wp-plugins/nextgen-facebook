@@ -174,13 +174,26 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			$conflict_err_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
 
 			// PHP
-			if ( $this->p->is_avail['mbdecnum'] !== true ) {
+			if ( empty( $this->p->is_avail['mbdecnum'] ) ) {
 				$this->p->debug->log( 'mb_decode_numericentity() function missing (required to decode UTF8 entities)' );
-				$this->p->notice->err( 
-					sprintf( __( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ),
-						__( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ).' '.
+				$this->p->notice->err( sprintf( 
+					__( 'The <code><a href="%s" target="_blank">mb_decode_numericentity()</a></code> function (available since PHP v4.0.6) is missing.', NGFB_TEXTDOM ),
+					__( 'http://php.net/manual/en/function.mb-decode-numericentity.php', NGFB_TEXTDOM ) ).' '.
 					__( 'This function is required to decode UTF8 entities.', NGFB_TEXTDOM ).' '.
 					__( 'Please update your PHP installation (install \'php-mbstring\' on most Linux distros).', NGFB_TEXTDOM ) );
+			}
+			if ( empty( $this->p->is_avail['curl'] ) ) {
+				if ( ! empty( $this->p->options['twitter_shortener'] ) ) {
+					$this->p->debug->log( 'url shortening is enabled but curl function is missing' );
+					$this->p->notice->err( sprintf( __( 'URL shortening has been enabled, but PHP\'s <a href="%s" target="_blank">Client URL Library</a> '.
+						'(cURL) is missing.', NGFB_TEXTDOM ), 'http://ca3.php.net/curl' ).' '.
+						 __( 'Please contact your hosting provider to install the missing library.', NGFB_TEXTDOM ) );
+				} elseif ( ! empty( $this->p->options['plugin_file_cache_hrs'] ) ) {
+					$this->p->debug->log( 'file caching is enabled but curl function is missing' );
+					$this->p->notice->err( sprintf( __( 'File caching has been enabled, but PHP\'s <a href="%s" target="_blank">Client URL Library</a> '.
+						'(cURL) is missing.', NGFB_TEXTDOM ), 'http://ca3.php.net/curl' ).' '.
+						 __( 'Please contact your hosting provider to install the missing library.', NGFB_TEXTDOM ) );
+				}
 			}
 
 			// Yoast WordPress SEO

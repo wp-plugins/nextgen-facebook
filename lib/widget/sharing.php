@@ -62,16 +62,17 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 			unset ( $id, $pre );
 			ksort( $sorted_ids );
 
-			$atts = array( 'is_widget' => 1, 'css_id' => $args['widget_id'] );
+			$atts = array( 
+				'use_post' => false,		// don't use the post ID on indexes
+				'filter_id' => 'widget',	// used by get_html() to filter atts and opts
+				'css_id' => $args['widget_id'],
+			);
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-			$widget_html = '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' begin -->';
-			$widget_html .= $before_widget;
-			if ( $title ) 
-				$widget_html .= $before_title.$title.$after_title;
-			$widget_html .= $this->p->sharing->get_html( $sorted_ids, $atts );
-			$widget_html .= $after_widget;
-			$widget_html .= '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->';
+			$widget_html = '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' begin -->'.
+				$before_widget.( empty( $title ) ? '' : $before_title.$title.$after_title ).
+				$this->p->sharing->get_html( $sorted_ids, $atts ).$after_widget.
+				'<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->';
 
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $widget_html, $this->p->cache->object_expire );
