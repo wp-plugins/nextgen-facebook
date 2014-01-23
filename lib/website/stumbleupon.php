@@ -86,10 +86,9 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' )
 			$this->p->debug->mark();
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			$atts = array_merge( $this->p->util->preg_grep_keys( '/^stumble_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'stumbleupon', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -99,7 +98,7 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' )
 					$use_post, $atts['add_page'], $source_id );
 
 			$html = '<!-- StumbleUpon Button --><div '.$this->p->sharing->get_css( 'stumbleupon', $atts, 'stumble-button' ).'>';
-			$html .= '<su:badge layout="'.$atts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
+			$html .= '<su:badge layout="'.$opts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

@@ -91,11 +91,10 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 			$this->p->util->add_option_image_sizes( array( 'tumblr_img' => 'tumblr' ) );
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
-			$atts = array_merge( $this->p->util->preg_grep_keys( '/^tumblr_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'tumblr', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -108,7 +107,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 				$atts['size'] = $this->p->cf['lca'].'-tumblr';
 
 			// only use featured image if 'tumblr_photo' option allows it
-			if ( empty( $atts['photo'] ) && $atts['tumblr_photo'] ) {
+			if ( empty( $atts['photo'] ) && $opts['tumblr_photo'] ) {
 				if ( empty( $atts['pid'] ) ) {
 					// allow on index pages only if in content (not a widget)
 					if ( ! empty( $post ) && $use_post == true ) {
@@ -156,13 +155,13 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 
 						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
 				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $this->p->webpage->get_caption( $atts['tumblr_caption'], 
-						$atts['tumblr_cap_len'], $use_post );
+					$atts['caption'] = $this->p->webpage->get_caption( $opts['tumblr_caption'], 
+						$opts['tumblr_cap_len'], $use_post );
 			} else {
 				if ( empty( $atts['title'] ) ) 
 					$atts['title'] = $this->p->webpage->get_title( null, null, $use_post);
 				if ( empty( $atts['description'] ) ) 
-					$atts['description'] = $this->p->webpage->get_description( $atts['tumblr_desc_len'], '...', $use_post );
+					$atts['description'] = $this->p->webpage->get_description( $opts['tumblr_desc_len'], '...', $use_post );
 			}
 
 			// define the button, based on what we have
@@ -187,7 +186,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 			$html = '<!-- Tumblr Button --><div '.$this->p->sharing->get_css( 'tumblr', $atts ).'>';
 			$html .= '<a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr">';
 			$html .= '<img border="0" alt="Share on Tumblr" src="'.
-				$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$atts['tumblr_button_style'].'.png' ).'" /></a></div>';
+				$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$opts['tumblr_button_style'].'.png' ).'" /></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

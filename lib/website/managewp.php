@@ -51,10 +51,9 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) && class_exists( 'NgfbSharing' ) ) 
 			$this->p->debug->mark();
 		}
 
-		public function get_html( $atts = array(), $opts = array() ) {
+		public function get_html( &$atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			$atts = array_merge( $this->p->util->preg_grep_keys( '/^managewp_/', $opts ), $atts );	// complete the atts array
 			$use_post = empty( $atts['is_widget'] ) || is_singular() || is_admin() ? true : false;
 			$source_id = $this->p->util->get_source_id( 'managewp', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -69,7 +68,7 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) && class_exists( 'NgfbSharing' ) ) 
 
 			$html = '<!-- ManageWP Button --><div '.$this->p->sharing->get_css( 'managewp', $atts ).'>';
 			$html .= '<script src="'.$js_url.'" data-url="'.$atts['url'].'" data-title="'.$atts['title'].'"';
-			$html .= empty( $atts['managewp_type'] ) ? '' : ' data-type="'.$atts['managewp_type'].'"';
+			$html .= empty( $opts['managewp_type'] ) ? '' : ' data-type="'.$opts['managewp_type'].'"';
 			$html .= '></script></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
