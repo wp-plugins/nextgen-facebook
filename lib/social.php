@@ -221,10 +221,12 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 
 		// add javascript for enabled buttons in content and widget(s)
 		public function get_js( $pos = 'footer', $ids = array() ) {
+
 			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return;
 			}
+
 			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
 				$this->p->debug->log( 'exiting early: buttons disabled' );
 				return;
@@ -232,40 +234,44 @@ if ( ! class_exists( 'NgfbSocial' ) ) {
 				$this->p->debug->log( 'exiting early: admin non-editing page' );
 				return;
 			}
-			if ( class_exists( 'NgfbWidgetSocialSharing' ) ) {
-				$widget = new NgfbWidgetSocialSharing();
-		 		$widget_settings = $widget->get_settings();
-			} else $widget_settings = array();
 
 			// determine which (if any) social buttons are enabled
 			// loop through the social button option prefixes (fb, gp, etc.)
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				// check for enabled buttons on settings page
-				if ( is_admin() && ! empty( $obj ) ) {
-					if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
-						$ids[] = $id;
-				} else {
-					if ( is_singular() 
-						|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
-						|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
+			if ( empty( $ids ) ) {
+				if ( class_exists( 'NgfbWidgetSocialSharing' ) ) {
+					$widget = new NgfbWidgetSocialSharing();
+			 		$widget_settings = $widget->get_settings();
+				} else $widget_settings = array();
 
-						// exclude buttons enabled for admin editing pages
-						foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
-							if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
-								$ids[] = $id;
-
-					}
-					// check for enabled buttons in widget(s)
-					foreach ( $widget_settings as $instance )
-						if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
+				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
+					// check for enabled buttons on settings page
+					if ( is_admin() && ! empty( $obj ) ) {
+						if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
 							$ids[] = $id;
+					} else {
+						if ( is_singular() 
+							|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
+							|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
+	
+							// exclude buttons enabled for admin editing pages
+							foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
+								if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
+									$ids[] = $id;
+	
+						}
+						// check for enabled buttons in widget(s)
+						foreach ( $widget_settings as $instance )
+							if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
+								$ids[] = $id;
+					}
+				}
+
+				if ( empty( $ids ) ) {
+					$this->p->debug->log( 'exiting early: no buttons enabled' );
+					return;
 				}
 			}
-			unset ( $id, $pre );
-			if ( empty( $ids ) ) {
-				$this->p->debug->log( 'exiting early: no buttons enabled' );
-				return;
-			}
+
 			natsort( $ids );
 			$ids = array_unique( $ids );
 			$js = '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript begin -->';
