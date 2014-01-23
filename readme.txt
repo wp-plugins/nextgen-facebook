@@ -225,11 +225,15 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * **Fixed** the Twitter Card 'twitter:description' value in the Meta Tags Preview tab (Pro version).
 * **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
 * **Fixed** the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
+
+= Version 6.22.2 =
+
 * **Fixed** fallback to the Site Description value on singular pages.
+* **Fixed** addition of button javascript - on a static home page - when using the ngfb_get_social_buttons() function.
 
 = Version 6.22.1 =
 
-* A minor update to fix a variable name used when upgrading the plugin options.
+* **Fixed** a variable name used when upgrading the plugin options.
 
 = Version 6.22.0 =
 
@@ -270,6 +274,10 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 = 7.0rc3 =
 
 Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A few minor bug fixes for the 'Meta Tag Preview' values.
+
+= 6.22.2 =
+
+Maintenance release to fix two minor issues.
 
 = 6.22.1 =
 
