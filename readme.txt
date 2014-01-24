@@ -205,14 +205,15 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 == Changelog ==
 
-= Version 7.0rc3 =
+= Version 7.0rc4 =
 
 This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been found to be too limiting at times, so individual image dimensions have been introduced for each image context. You'll find new image dimension settings for all Twitter Cards formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to use existing image sizes to reduce the number of resized image files created. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, you may wish to use those dimensions instead.
 
 The code base for NGFB Open Graph+ has also been used to fork the [WordPress Social Sharing Optimization](http://wordpress.org/plugins/wpsso/) (WPSSO) plugin -- it has many features in common with NGFB Open Graph+, but strives to be a little lighter and smaller by removing the social buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting). You can achieve the same results with NGFB Open Graph+ by setting the `NGFB_SOCIAL_SHARING_DISABLE` constant to `true` in your `wp-config.php` file.
 
-* **Added Image Dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
-* Added Image Dimension options for the Pinterest and Tumblr social sharing buttons as well.
+* **Added image dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
+* Added image dimension options for the Pinterest and Tumblr social sharing buttons as well.
+* Added a new 'Language uses WP Locale' option to enable/disable the dynamic language selection feature (Pro version).
 * Added several filter hooks for the admin metabox tabs and option fields / rows.
 * Added extra checks and error reporting for missing PHP cURL library.
 * Converted several methods to filter hooks in the lib/gpl/admin/ and lib/pro/admin/ folders.
@@ -221,6 +222,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * Renamed lib/social.php to lib/sharing.php, and renamed the "Social" class names to "Sharing".
 * Merged the social sharing styles in lib/style.php into the lib/sharing.php file / class.
 * Moved the social sharing tooltips from lib/messages.php to filter hooks in lib/sharing.php.
+* **Fixed** a possible two-letter WordPress locale language issue for Open Graph meta tags (Pro version).
 * **Fixed** the missing Open Graph 'article:section' value in the Meta Tags Preview tab.
 * **Fixed** the Twitter Card 'twitter:description' value in the Meta Tags Preview tab (Pro version).
 * **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
@@ -271,7 +273,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 == Upgrade Notice ==
 
-= 7.0rc3 =
+= 7.0rc4 =
 
 Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A few minor bug fixes for the 'Meta Tag Preview' values.
 

@@ -143,9 +143,11 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'admin-general':
 						case 'admin-advanced':
 						case 'admin-postmeta':
-						case 'util-language':
 						case 'util-postmeta':
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
+							break;
+						case 'util-language':
+							$chk['optval'] = 'plugin_filter_lang';
 							break;
 						case 'util-rewrite':
 							$chk['optval'] = 'plugin_cdn_urls';
