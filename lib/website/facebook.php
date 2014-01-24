@@ -157,8 +157,6 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
-			$lang = empty( $opts['fb_lang'] ) ? 'en_US' : $opts['fb_lang'];
-			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'facebook' ) );
 			$send = $opts['fb_send'] ? 'true' : 'false';
 			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
 			$source_id = 'facebook';
