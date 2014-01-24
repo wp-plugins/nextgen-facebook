@@ -103,6 +103,10 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 			$short_url = apply_filters( $this->p->cf['lca'].'_shorten_url', 
 				$long_url, $opts['twitter_shortener'] );
 
+			if ( ! array_key_exists( 'lang', $atts ) )
+				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
+			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_lang( 'twitter' ) );
+
 			if ( array_key_exists( 'tweet', $atts ) )
 				$atts['caption'] = $atts['tweet'];
 
@@ -115,10 +119,6 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 					$atts['caption'] = $this->p->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
 				}
 			}
-
-			if ( ! array_key_exists( 'lang', $atts ) )
-				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
-			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_lang( 'twitter' ) );
 
 			if ( ! array_key_exists( 'via', $atts ) ) {
 				if ( ! empty( $opts['twitter_via'] ) && 
