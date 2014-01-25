@@ -249,23 +249,31 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function add_metaboxes() {
-			// is there at least one sharing button enabled for the admin_sharing metabox?
-			$add_admin_sharing = false;
+			if ( ! is_admin() )
+				return;
+
+			// is there at least one button enabled for the admin_sharing metabox?
+			$have_buttons = false;
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
-					$add_admin_sharing = true;
+					$have_buttons = true;
 					break;
 				}
 			}
-			// include the custom settings metabox on the editing page for that post type
-			foreach ( $this->p->util->get_post_types( 'plugin' ) as $post_type ) {
-				if ( ! empty( $this->p->options[ 'plugin_add_to_'.$post_type->name ] ) ) {
-					if ( $add_admin_sharing === true ) {
-						add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
-							array( &$this, 'show_admin_sharing' ), $post_type->name, 'side', 'high' );
-					}
-					break;
-				}
+			if ( ! $have_buttons )
+				return;
+
+			// get the current object / post type
+			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+				$this->p->debug->log( 'exiting early: invalid object type' );
+				return;
+			}
+			$post_type = get_post_type_object( $obj->post_type );
+
+			if ( ! empty( $this->p->options[ 'buttons_add_to_'.$post_type->name ] ) ) {
+				// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
+				add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
+					array( &$this, 'show_admin_sharing' ), $post_type->name, 'side', 'high' );
 			}
 		}
 
