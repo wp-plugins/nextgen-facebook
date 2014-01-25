@@ -66,10 +66,9 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
 			$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, '
 			If you select a URL shortening service here, <strong>you must also enter its API credentials</strong>
-			on the '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_shorten', 'Advanced settings page' ).',
-			under the API Keys tab.' ).
+			on the '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Advanced settings page' ).'.' ).
 			( $this->p->check->is_aop() == true ?  '<td>'.$this->form->get_select( 'twitter_shortener', $shorteners, 'medium' ).
-			'&nbsp;&nbsp;[ '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'API Keys' ).' ]' :
+			' and these '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'API Keys' ) :
 			'<td class="blank">'.$this->form->get_hidden( 'twitter_shortener' ).$this->p->options['twitter_shortener'] ).'</td>';
 
 			return $ret;
