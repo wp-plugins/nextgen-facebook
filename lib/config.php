@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.0rc4',			// plugin version
+			'version' => '7.0rc5',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -95,6 +95,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'media' => array(
 						'ngg' => 'NextGEN Gallery',
 						'photon' => 'Jetpack Photon',
+						'slideshare' => 'Slideshare API',
 						'wistia' => 'Wistia Video API',
 					),
 					'seo' => array(
@@ -114,7 +115,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '230',		// increment when changing default options
+				'version' => '233',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -337,7 +338,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_widgets' => 1,
 					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
+					'plugin_slideshare_api' => 1,
+					'plugin_vimeo_api' => 1,
 					'plugin_wistia_api' => 1,
+					'plugin_youtube_api' => 1,
 					'plugin_add_to_post' => 1,
 					'plugin_add_to_page' => 1,
 					'plugin_add_to_attachment' => 1,
