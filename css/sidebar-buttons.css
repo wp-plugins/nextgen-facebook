@@ -1,0 +1,66 @@
+/* Save an empty style text box to reload the default example styles.
+ * These styles are provided as examples only - modifications may be 
+ * necessary to customize the layout for your website. Social sharing
+ * buttons can be aligned vertically, horizontally, floated, etc.
+ */
+
+#ngfb-sidebar { 
+	display:block;
+	cursor:pointer;
+	text-align:center;
+	position:fixed;
+	right:50%;			/* position of sidebar right side */
+	top:50%;			/* position of sidebar top side */
+	margin:-200px 500px 0 0;	/* adjust position of top/right sides */
+	padding:0;
+	z-index:999;			/* keep above anything else */
+
+	/* create a shadowed box with a light grey background */
+	border-radius:5px;
+	background:none repeat scroll 0% 0% rgb(250, 250, 250);
+	box-shadow:0px 0px 5px rgb(120, 120, 120);
+	border:1px solid rgb(255, 255, 255);
+}
+
+/* show a large sharing icon at the top */
+#ngfb-sidebar-header:before { 
+	display:block;
+	font-family:"dashicons";
+	font-size:35px;
+	content:"\f237";
+	color:#06f;
+	width:55px;
+	height:35px;
+	padding:0;
+	margin:5px;
+	text-shadow:1px 1px 3px #666
+	-webkit-font-smoothing:antialiased;
+}
+
+/* hide the buttons by default and show on hover or click */
+#ngfb-sidebar-content { display:none; }
+
+/* follow the sharing icon with the word "Share" */
+#ngfb-sidebar-header:after { 
+	display:block;
+	font-family:"Verdana";
+	font-size:12px;
+	content:"Share";
+	color:#666;
+	margin:5px;
+}
+
+/* pre-define the width and height of each button for faster load */
+/* note: the large buttons with vertical counters are 55x65px */
+#ngfb-sidebar .ngfb-buttons > div { 
+	display:block;
+	text-align:center;
+	padding:0;
+	width:55px;	/* button with large vertical counter */
+	height:65px;	/* button with large vertical counter */
+	margin:5px;
+}
+
+/* fix the google+ button, which breaks when the display is set to none */
+#ngfb-sidebar .ngfb-buttons div > div { width:55px !important; }
+#ngfb-sidebar .ngfb-buttons div > div > iframe { width:auto !important; }
