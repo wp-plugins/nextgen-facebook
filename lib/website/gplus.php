@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSh
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
 				( $this->show_on_checkboxes( 'gp', $this->p->cf['sharing']['show_on'] ) ).'</td>',

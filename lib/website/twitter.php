@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.

@@ -18,36 +18,35 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 		}
 
 		public function show_metabox_website() {
-			$show_tabs = array( 
+			$metabox = 'fb';
+			$tabs = array( 
 				'all' => 'All Buttons',
 				'like' => 'Like and Send',
 				'share' => 'Share (Deprecated)',
 			);
-			$tab_rows = array();
-			foreach ( $show_tabs as $key => $title )
-				$tab_rows[$key] = $this->get_rows( $key );
-			$this->p->util->do_tabs( 'fb', $show_tabs, $tab_rows );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = $this->get_rows( $metabox, $key );
+			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
-		public function get_rows( $id ) {
-			$ret = array();
-			switch ( $id ) {
-
-				case 'all' :
-
-					$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+		protected function get_rows( $metabox, $key ) {
+			$rows = array();
+			switch ( $metabox.'-'.$key ) {
+				case 'fb-all':
+					$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
 					( $this->show_on_checkboxes( 'fb', $this->p->cf['sharing']['show_on'] ) ).'</td>';
 
-					$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
 	
-					$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_js_loc', $this->js_locations ).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_lang', SucomUtil::get_lang( 'facebook' ) ).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Button Type', 'short highlight', null,
+					$rows[] = $this->p->util->th( 'Button Type', 'short highlight', null,
 					'The Share button has been deprecated and replaced by the Facebook Like and Send buttons. 
 					It is still available and functional, but no longer supported. The Share button offers the 
 					additional option of posting to a Facebook Page.' ).
@@ -57,12 +56,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 							'share' => 'Share (deprecated)',
 						) 
 					).'</td>';
-
 					break;
 
-				case 'like' :
-
-					$ret[] = $this->p->util->th( 'Markup Language', 'short' ).
+				case 'fb-like':
+					$rows[] = $this->p->util->th( 'Markup Language', 'short' ).
 					'<td>'.$this->form->get_select( 'fb_markup', 
 						array( 
 							'html5' => 'HTML5', 
@@ -70,11 +67,11 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 						) 
 					).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Include Send', 'short', null, 
+					$rows[] = $this->p->util->th( 'Include Send', 'short', null, 
 					'The Send button is only available in combination with the XFBML <em>Markup Language</em>.' ).
 					'<td>'.$this->form->get_checkbox( 'fb_send' ).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Layout', 'short', null, 
+					$rows[] = $this->p->util->th( 'Layout', 'short', null, 
 					'The Standard layout displays social text to the right of the button, and friends\' 
 					profile photos below (if <em>Show Faces</em> is also checked). The Button Count layout 
 					displays the total number of likes to the right of the button, and the Box Count layout 
@@ -87,11 +84,11 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 						) 
 					).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Show Faces', 'short', null, 
+					$rows[] = $this->p->util->th( 'Show Faces', 'short', null, 
 					'Show profile photos below the Standard button (Standard button <em>Layout</em> only).' ).
 					'<td>'.$this->form->get_checkbox( 'fb_show_faces' ).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Font', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'Font', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_font', 
 						array( 
 							'arial' => 'Arial',
@@ -103,7 +100,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 						) 
 					).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Color Scheme', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'Color Scheme', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_colorscheme', 
 						array( 
 							'light' => 'Light',
@@ -111,19 +108,17 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 						)
 					).'</td>';
 	
-					$ret[] = $this->p->util->th( 'Action Name', 'short' ).'<td>'.
+					$rows[] = $this->p->util->th( 'Action Name', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_action', 
 						array( 
 							'like' => 'Like',
 							'recommend' => 'Recommend',
 						)
 					).'</td>';
-	
 					break;
 	
-				case 'share' :
-
-					$ret[] = $this->p->util->th( 'Layout', 'short' ).'<td>'.
+				case 'fb-share':
+					$rows[] = $this->p->util->th( 'Layout', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_type', 
 						array(
 							'button' => 'Button',
@@ -133,11 +128,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 							'link' => 'Text Link',
 						) 
 					).'</td>';
-
 					break;
 
 			}
-			return $ret;
+			return $rows;
 		}
 	}
 }
@@ -161,8 +155,8 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 			$show_faces = $opts['fb_show_faces'] ? 'true' : 'false';
 			$source_id = 'facebook';
 			switch ( $opts['fb_button'] ) {
-				case 'like' : $source_id = $this->p->util->get_source_id( 'facebook', $atts ); break;
-				case 'share' : $source_id = $this->p->util->get_source_id( 'fb-share', $atts ); break;
+				case 'like': $source_id = $this->p->util->get_source_id( 'facebook', $atts ); break;
+				case 'share': $source_id = $this->p->util->get_source_id( 'fb-share', $atts ); break;
 			}
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
 			$atts['url'] = empty( $atts['url'] ) ? 
@@ -172,9 +166,9 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 
 			$html = '';
 			switch ( $opts['fb_button'] ) {
-				case 'like' :
+				case 'like':
 					switch ( $opts['fb_markup'] ) {
-						case 'xfbml' :
+						case 'xfbml':
 							// XFBML
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
 							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).'><fb:like href="'.
@@ -182,7 +176,7 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 							$show_faces.'" font="'.$opts['fb_font'].'" action="'.
 							$opts['fb_action'].'" colorscheme="'.$opts['fb_colorscheme'].'"></fb:like></div>';
 							break;
-						case 'html5' :
+						case 'html5':
 							// HTML5
 							$html .= '<!-- Facebook Like / Send Button(s) --><div '.
 							$this->p->sharing->get_css( 'facebook', $atts, 'fb-like' ).' data-href="'.
@@ -193,7 +187,7 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 							break;
 					}
 					break;
-				case 'share' :
+				case 'share':
 					$html .= '<!-- Facebook Share Button --><div '.
 					$this->p->sharing->get_css( 'fb-share', $atts, 'fb-share' ).'><fb:share-button href="'.
 					$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>';

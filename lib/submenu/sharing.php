@@ -16,10 +16,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function __construct( &$plugin, $id, $name ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
 			$this->menu_id = $id;
 			$this->menu_name = $name;
 			$this->set_objects();
+			$this->p->util->add_plugin_filters( $this, array( 
+				'messages' => 2,		// default messages filter
+			) );
 		}
 
 		private function set_objects() {
@@ -29,6 +31,41 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
+		}
+
+		public function filter_messages( $text, $idx ) {
+			switch ( $idx ) {
+				/*
+				 * 'Social Sharing' settings
+				 */
+				case ( strpos( $idx, 'tooltip-buttons_' ) !== false ? true : false ):
+					switch ( $idx ) {
+						case 'tooltip-buttons_location_the_content':
+							$text = 'Individual social sharing button(s) must also be enabled below.';
+							break;
+						case 'tooltip-buttons_location_the_excerpt':
+							$text = 'Individual social sharing button(s) must also be enabled below.';
+							break;
+						case 'tooltip-buttons_on_index':
+							$text = 'Add the following social sharing buttons to each entry of an index webpage (<strong>non-static</strong> 
+							homepage, category, archive, etc.). By Default, social sharing buttons are <em>not</em> included on index webpages 
+							(default is unchecked). You must also enable the buttons you want to display by choosing to show the buttons on 
+							the content or excerpt.';
+							break;
+						case 'tooltip-buttons_on_front':
+							$text = 'If a static Post or Page has been chosen for the homepage, add the following
+							social sharing buttons to the static homepage as well (default is unchecked).
+							You must also enable the buttons you want to display by choosing to show the buttons on the content or excerpt.';
+							break;
+						case 'tooltip-buttons_add_to':
+							$text = 'Enabled social sharing buttons are added to the Post, Page, Media and Product custom post types by default.
+							If your theme (or another plugin) supports additional custom post types, and you would like to include
+							social sharing buttons on these webpages, check the appropriate option(s) here.';
+							break;
+					}
+					break;
+			}
+			return $text;
 		}
 
 		// called by each website's settings class to display a list of checkboxes
@@ -74,13 +111,6 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			return $classes;
 		}
 
-		public function show_metabox_website() {
-			echo '<table class="sucom-setting">', "\n";
-			foreach ( $this->get_rows() as $row ) 
-				echo '<tr>', $row, '</tr>';
-			echo '</table>', "\n";
-		}
-
 		public function show_metabox_sharing() {
 			$metabox = 'sharing';
 			echo '<table class="sucom-setting"><tr><td colspan="3">';
@@ -103,6 +133,17 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			foreach ( apply_filters( $this->p->cf['lca'].'_'.$metabox.'_buttons_rows', array(), $this->form ) as $num => $row ) 
 				echo '<tr>', $row, '</tr>';
 			echo '</table>';
+		}
+
+		public function show_metabox_website() {
+			echo '<table class="sucom-setting">', "\n";
+			foreach ( $this->get_rows( null, null ) as $row ) 
+				echo '<tr>', $row, '</tr>';
+			echo '</table>', "\n";
+		}
+
+		protected function get_rows( $metabox, $key ) {
+			return array();
 		}
 	}
 }

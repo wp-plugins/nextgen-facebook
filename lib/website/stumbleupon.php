@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$badge_html = '
 				<style type="text/css">

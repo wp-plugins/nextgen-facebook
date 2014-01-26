@@ -167,6 +167,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'admin-apikeys':
 						case 'admin-rewrite':
 						case 'admin-sharing':
+						case 'admin-style':
 							if ( $ret['ssb'] === true )
 								$ret[$sub]['*'] = $ret[$sub][$id] = true;
 							break;

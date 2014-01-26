@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
 				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 

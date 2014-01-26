@@ -69,6 +69,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 			$atts['url'] = empty( $atts['url'] ) ? $this->p->util->get_sharing_url( true ) : $atts['url'];
 			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post_id ) ? 'shortcode' : $atts['css_id'];
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
+			$atts['filter_id'] = empty( $atts['filter_id'] ) ? 'shortcode' : $atts['filter_id'];
 
 			if ( ! empty( $atts['buttons'] ) && $this->p->sharing->is_disabled() == false ) {
 				$atts['css_id'] .= '-buttons';
