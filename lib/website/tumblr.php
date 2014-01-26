@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			$buttons_html = '<div class="btn_wizard_row clearfix" id="button_styles">';
 			$buttons_style = empty( $this->p->options['tumblr_button_style'] ) ? 
 				'share_1' : $this->p->options['tumblr_button_style'];

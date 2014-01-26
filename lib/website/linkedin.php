@@ -17,7 +17,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 			$this->p->debug->mark();
 		}
 
-		public function get_rows() {
+		protected function get_rows( $metabox, $key ) {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
 				( $this->show_on_checkboxes( 'linkedin', $this->p->cf['sharing']['show_on'] ) ).'</td>',
