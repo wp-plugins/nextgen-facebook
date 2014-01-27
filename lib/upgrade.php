@@ -89,6 +89,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'og_img_resize' => 'plugin_auto_img_resize',
 			'buttons_css_social' => 'buttons_css_sharing',
 			'plugin_shortcode_ngfb' => 'plugin_shortcodes',
+			'buttons_link_css' => 'buttons_use_social_css',
 		);
 
 		protected $p;

@@ -59,7 +59,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				$features['Sharing Shortcode'] = array( 'class' => $this->p->cf['lca'].'ShortcodeSharing' );
 
 			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
-				$features['Sharing Stylesheet'] = array( 'status' => $this->p->options['buttons_link_css'] ? 'on' : 'off' );
+				$features['Sharing Stylesheet'] = array( 'status' => $this->p->options['buttons_use_social_css'] ? 'on' : 'off' );
 
 			if ( ! empty( $this->p->cf['lib']['widget']['sharing'] ) )
 				$features['Sharing Widget'] = array( 'class' => $this->p->cf['lca'].'WidgetSharing' );
@@ -209,20 +209,29 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function wp_enqueue_styles( $hook ) {
-			// only include sharing styles if option is checked and sharing features are not disabled
-			if ( ! empty( $this->p->options['buttons_link_css'] ) ) {
-				wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
+			// only include sharing styles if option is checked
+			if ( ! empty( $this->p->options['buttons_use_social_css'] ) ) {
 				if ( ! file_exists( $this->sharing_css_min_file ) ) {
 					$this->p->debug->log( 'updating '.$this->sharing_css_min_file );
 					$this->update_sharing_css( $this->p->options );
 				}
-				$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
-				wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
+				if ( ! empty( $this->p->options['buttons_enqueue_social_css'] ) ) {
+					$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
+					wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
+					wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
+				} else {
+					echo '<style type="text/css">';
+					if ( $fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
+						echo fread( $fh, filesize( $this->sharing_css_min_file ) );
+						fclose( $fh );
+					}
+					echo '</style>',"\n";
+				}
 			}
 		}
 
 		public function update_sharing_css( $opts ) {
-			if ( ! empty( $opts['buttons_link_css'] ) ) {
+			if ( ! empty( $opts['buttons_use_social_css'] ) ) {
 				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
 					$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
 				else {
