@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.0rc7',			// plugin version
+			'version' => '7.0rc8',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -117,7 +117,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '235',		// increment when changing default options
+				'version' => '236',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -164,7 +164,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'buttons_add_to_attachment' => 1,
 					'buttons_location_the_excerpt' => 'bottom',
 					'buttons_location_the_content' => 'bottom',
-					'buttons_link_css' => 1,
+					'buttons_use_social_css' => 1,
+					'buttons_enqueue_social_css' => 0,
 					'buttons_css_sharing' => '',
 					'buttons_css_excerpt' => '',
 					'buttons_css_content' => '',

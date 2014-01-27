@@ -26,10 +26,19 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 				/*
 				 * 'Social Style' settings
 				 */
-				case 'tooltip-buttons_link_css':
-					$text = 'Add the following CSS to all webpages (default is checked).
-					The CSS in each Style tab will be <strong>minimized</strong> and saved to a single 
-					stylesheet with the URL of <u>'.$this->p->sharing->sharing_css_min_url.'</u>.';
+				case 'tooltip-buttons_use_social_css':
+					$text = 'Add the CSS from all Style tabs to webpages (default is checked).
+					The CSS will be <strong>minimized</strong>, and saved to a single 
+					stylesheet with the URL of <a href="'.$this->p->sharing->sharing_css_min_url.'">'.
+					$this->p->sharing->sharing_css_min_url.'</a>. The minimized stylesheet can be 
+					enqueued by WordPress, or included directly in the webpage header.';
+					break;
+
+				case 'tooltip-buttons_enqueue_social_css':
+					$text = 'Have WordPress enqueue the social stylesheet instead of including the 
+					CSS directly in the webpage header (default is unchecked). Enqueueing the stylesheet
+					may be desirable if you use a plugin to concatenate all enqueued styles
+					into a single stylesheet URL.';
 					break;
 
 				case 'style-sharing-info':
@@ -104,8 +113,14 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_style() {
 			echo '<table class="sucom-setting"><tr>';
-			echo $this->p->util->th( 'Use the Social Stylesheet', 'highlight', 'buttons_link_css' );
-			echo '<td>', $this->form->get_checkbox( 'buttons_link_css' ), '</td>';
+			echo $this->p->util->th( 'Use the Social Stylesheet', 'highlight', 'buttons_use_social_css' );
+			echo '<td>'.$this->form->get_checkbox( 'buttons_use_social_css' );
+			if ( ( $fsize = filesize( $this->p->sharing->sharing_css_min_file ) ) !== false )
+				echo ' css is '.$fsize.' bytes minimized';
+			echo '</td>';
+			echo '</tr><tr>';
+			echo $this->p->util->th( 'Enqueue the Stylesheet', null, 'buttons_enqueue_social_css' );
+			echo '<td>'.$this->form->get_checkbox( 'buttons_enqueue_social_css' ).'</td>';
 			echo '</tr></table>';
 
 			$metabox = 'style';
