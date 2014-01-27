@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, facebook, google, google plus, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon
+Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, facebook, google, google plus, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, language, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
@@ -30,7 +30,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
   * WP e-Commerce
   * bbPress
   * BuddyPress
-  * Youtube / Vimeo / Wistia APIs
+  * Slideshare, Vimeo, Wistia, Youtube APIs
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -56,7 +56,7 @@ Aside from the additional support for Twitter Cards, the main difference between
 
 **Images and Videos**
 
-NGFB Open Graph+ detects and uses all images - associated or included in your Post or Page content - including WordPress Media Library image galleries and embedded videos from YouTube, Vimeo, and Wistia (including their preview images). WordPress Media Library images (and NextGEN Gallery in the Pro version) are resized and provided according to their intended audience (Facebook, Twitter, Pinterest, etc). 
+NGFB Open Graph+ detects and uses all images - associated or included in your Post or Page content - including WordPress Media Library image galleries and embedded videos from Slideshare, Vimeo, Wistia, and Youtube (including their preview images). WordPress Media Library images (and NextGEN Gallery in the Pro version) are resized and provided according to their intended audience (Facebook, Twitter, Pinterest, etc). 
 
 NGFB Open Graph+ (Pro version) also includes support for [JetPack Photon](http://jetpack.me/support/photon/) and [NextGEN Gallery v1 and v2](http://wordpress.org/plugins/nextgen-gallery/) albums, galleries and images (shortcodes, image tags, album / gallery preview images, etc.).
 
@@ -205,7 +205,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 == Changelog ==
 
-= Version 7.0rc7 =
+= Version 7.0rc8 =
 
 This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been found to be too limiting at times, so individual image dimensions have been introduced for each image context. You'll find new image dimension settings for all Twitter Cards formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to use existing image sizes to reduce the number of resized image files created. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, you may wish to use those dimensions instead.
 
@@ -217,6 +217,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * Added a new 'Language uses WP Locale' option to enable/disable the dynamic language selection feature (Pro version).
 * Added a new 'Check for Embedded Media' option with checkboxes for Slideshare, Vimeo, Wistia, and Youtube (Pro version).
 * Added a new 'Custom Settings' tab on the Advanced settings page (Pro version).
+* Added a new 'Enqueue the Stylesheet' option on the Social Style settings page.
 * Added several filter hooks for the admin metabox tabs and option fields / rows.
 * Added extra checks and error reporting for missing PHP cURL library.
 * Added checks for WordPress SEO opengraph, twitter, publisher and author actions, removing them if necessary.
@@ -280,7 +281,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 == Upgrade Notice ==
 
-= 7.0rc7 =
+= 7.0rc8 =
 
 Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A few minor bug fixes for the 'Meta Tag Preview' values.
 
