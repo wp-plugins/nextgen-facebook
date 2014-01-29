@@ -218,6 +218,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * Added image dimension options for the Pinterest and Tumblr social sharing buttons.
 * Added a 'Include Buttons', 'Buttons Position', and a 'Preset Options' tab on the Social Sharing settings page.
 * Added a 'Sidebar Style' tab on the Social Style settings page.
+* Added a 'Enqueue the Stylesheet' option on the Social Style settings page.
 * Added a 'Language uses WP Locale' option to enable/disable the dynamic language selection feature (Pro version).
 * Added a 'Check for Embedded Media' option with checkboxes for Slideshare, Vimeo, Wistia, and Youtube (Pro version).
 * Added a 'Custom Settings' tab on the Advanced settings page (Pro version).
