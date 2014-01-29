@@ -34,6 +34,10 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					enqueued by WordPress, or included directly in the webpage header.';
 					break;
 
+				case 'tooltip-buttons_js_sidebar':
+					$text = 'Javascript that is added to the social sharing sidebar.';
+					break;
+
 				case 'tooltip-buttons_enqueue_social_css':
 					$text = 'Have WordPress enqueue the social stylesheet instead of including the 
 					CSS directly in the webpage header (default is unchecked). Enqueueing the stylesheet
@@ -73,6 +77,19 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre>';
 					break;
 
+				case 'style-sidebar-info':
+					$text = '<p>Social sharing buttons added to the sidebar are assigned the 
+					\'#ngfb-sidebar\' CSS id, which itself contains \'#ngfb-sidebar-header\',
+					\'#ngfb-sidebar-buttons\', and the \'ngfb-buttons\' class -- 
+					a common class for all the sharing buttons (see the Buttons Style tab).</p> 
+					<p>Example:</p><pre>
+#ngfb-sidebar
+    #ngfb-sidebar-header
+    #ngfb-sidebar-buttons
+        .ngfb-buttons
+	    .facebook-button { }</pre>';
+					break;
+
 				case 'style-shortcode-info':
 					$text = '<p>Social sharing buttons added from a shortcode are assigned the 
 					\'ngfb-shortcode-buttons\' class, which itself contains the 
@@ -102,6 +119,17 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
     .ngfb-buttons
         #facebook-ngfb-widget-buttons-2 { }</pre>';
 					break;
+
+				case 'style-admin_edit-info':
+					$text = '<p>Social sharing buttons within the Admin Post / Page Edit metabox
+					are assigned the \'ngfb-admin_edit-buttons\' class, which itself contains the 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
+					(see the Buttons Style tab).</p> 
+					<p>Example:</p><pre>
+.ngfb-admin_edit-buttons 
+    .ngfb-buttons
+        .facebook-button { }</pre>';
+					break;
 			}
 			return $text;
 		}
@@ -115,8 +143,9 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<table class="sucom-setting"><tr>';
 			echo $this->p->util->th( 'Use the Social Stylesheet', 'highlight', 'buttons_use_social_css' );
 			echo '<td>'.$this->form->get_checkbox( 'buttons_use_social_css' );
-			if ( ( $fsize = filesize( $this->p->sharing->sharing_css_min_file ) ) !== false )
-				echo ' css is '.$fsize.' bytes minimized';
+			if ( file_exists( $this->p->sharing->sharing_css_min_file ) &&
+				( $fsize = filesize( $this->p->sharing->sharing_css_min_file ) ) !== false )
+					echo ' css is '.$fsize.' bytes minimized';
 			echo '</td>';
 			echo '</tr><tr>';
 			echo $this->p->util->th( 'Enqueue the Stylesheet', null, 'buttons_enqueue_social_css' );
@@ -124,7 +153,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '</tr></table>';
 
 			$metabox = 'style';
-			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', $this->p->cf['style'] );
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', $this->p->cf['sharing']['style'] );
 			$rows = array();
 			foreach ( $tabs as $key => $title )
 				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 

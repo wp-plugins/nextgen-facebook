@@ -18,43 +18,53 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array(
-				$this->p->util->th( 'Show Button in', 'short highlight', null,
-				'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
-				a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
-				\'Image Dimensions\' you have chosen.' ).'<td>'.
-				( $this->show_on_checkboxes( 'pin', $this->p->cf['sharing']['show_on'] ) ).'</td>',
+			$rows = array();
 
-				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short highlight', null,
+			'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
+			a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
+			\'Image Dimensions\' you have chosen.' ).'<td>'.
+			( $this->show_on_checkboxes( 'pin', $this->p->cf['sharing']['show_on'] ) ).'</td>';
 
-				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>',
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
 
-				$this->p->util->th( 'Pin Count Layout', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_count_layout', 
-					array( 
-						'none' => '',
-						'horizontal' => 'Horizontal',
-						'vertical' => 'Vertical',
-					)
-				).'</td>',
+			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>';
 
-				$this->p->util->th( 'Pin Button Image', 'short' ).'<td>'.
-				$this->form->get_input( 'pin_img_url' ),
+			$rows[] = $this->p->util->th( 'Button Height', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_button_height', array( 'small' => 'Small', 'large' => 'Large' ) );
 
-				$this->p->util->th( 'Image Dimensions', 'short' ).
-				'<td>Width '.$this->form->get_input( 'pin_img_width', 'short' ).' x '.
-				'Height '.$this->form->get_input( 'pin_img_height', 'short' ).' &nbsp; '.
-				'Crop '.$this->form->get_checkbox( 'pin_img_crop' ).'</td>',
+			$rows[] = $this->p->util->th( 'Button Shape', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_button_shape', array( 'rect' => 'Rectangular', 'round' => 'Circular' ) );
 
-				$this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
-				$this->form->get_select( 'pin_caption', $this->captions ).'</td>',
+			$rows[] = $this->p->util->th( 'Button Color', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_button_color', array( 'gray' => 'Gray', 'red' => 'Red', 'white' => 'White' ) );
 
-				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-				$this->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>',
+			$rows[] = $this->p->util->th( 'Button Language', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_button_lang', array( 'en' => 'English', 'ja' => 'Japenese' ) );
 
-			);
+			$rows[] = $this->p->util->th( 'Show Pin Count', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_count_layout', 
+				array( 
+					'none' => 'Not Shown',
+					'beside' => 'Beside the Button',
+					'above' => 'Above the Button',
+				)
+			).'</td>';
+
+			$rows[] = $this->p->util->th( 'Image Dimensions', 'short' ).
+			'<td>Width '.$this->form->get_input( 'pin_img_width', 'short' ).' x '.
+			'Height '.$this->form->get_input( 'pin_img_height', 'short' ).' &nbsp; '.
+			'Crop '.$this->form->get_checkbox( 'pin_img_crop' ).'</td>';
+
+			$rows[] = $this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
+			$this->form->get_select( 'pin_caption', $this->captions ).'</td>';
+
+			$rows[] = $this->p->util->th( 'Caption Length', 'short' ).'<td>'.
+			$this->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>';
+
+			return $rows;
 		}
 	}
 }
@@ -120,17 +130,37 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 			$query .= '&amp;media='.urlencode( $atts['photo'] );
 			$query .= '&amp;description='.urlencode( $atts['caption'] );
 
-			if ( empty( $opts['pin_img_url'] ) )
-				$img = $prot.'//assets.pinterest.com/images/PinExt.png';
-			elseif ( preg_match( '/^https?:(\/\/.*)/', $opts['pin_img_url'], $match ) )
-				$img = $prot.$match[1];
-			else $img = $opts['pin_img_url'];
-			$img = $this->p->util->get_cache_url( $img );
+			switch ( $opts['pin_button_shape'] ) {
+				case 'rect':
+					$pin_img_width = $opts['pin_button_height'] == 'small' ? 40 : 56;
+					$pin_img_height = $opts['pin_button_height'] == 'small' ? 20 : 28;
+					$pin_img_url = $prot.'//assets.pinterest.com/images/pidgets/pinit_fg_'.
+						$opts['pin_button_lang'].'_'.$opts['pin_button_shape'].'_'.
+						$opts['pin_button_color'].'_'.$pin_img_height.'.png';
+					break;
+				case 'round':
+					$pin_img_width = $pin_img_height = $opts['pin_button_height'] == 'small' ? 16 : 32;
+					$pin_img_url = $prot.'//assets.pinterest.com/images/pidgets/pinit_fg_'.
+						'en_'.$opts['pin_button_shape'].'_'.
+						'red_'.$pin_img_height.'.png';
+					break;
+				default:
+					$this->p->debug->log( 'exiting early: unknown pinterest button shape' );
+					return $html;
+					break;
+			}
+			$pin_img_url = $this->p->util->get_cache_url( $pin_img_url );
 
-			$html = '<!-- Pinterest Button --><div '.$this->p->sharing->get_css( 'pinterest', $atts ).'>';
-			$html .= '<a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" class="pin-it-button" ';
-			$html .= 'count-layout="'.$opts['pin_count_layout'].'" title="Share on Pinterest">';
-			$html .= '<img border="0" alt="Pin It" src="'.$img.'" /></a></div>';
+			$html = '<!-- Pinterest Button --><div '.$this->p->sharing->get_css( 'pinterest', $atts ).'>'.
+			'<a href="'.$prot.'//pinterest.com/pin/create/button/?'.$query.'" '.
+			'data-pin-do="buttonPin" '.
+			'data-pin-lang="'.$opts['pin_button_lang'].'" '.
+			'data-pin-shape="'.$opts['pin_button_shape'].'" '.
+			'data-pin-color="'.$opts['pin_button_color'].'" '.
+			'data-pin-height="'.$pin_img_height.'" '.
+			'data-pin-config="'.$opts['pin_count_layout'].'" '.
+			'<img border="0" alt="Pin It" src="'.$pin_img_url.'" width="'.$pin_img_width.'" height="'.$pin_img_height.'" /></a></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
 			return $html;
 		}

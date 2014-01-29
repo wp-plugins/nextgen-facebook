@@ -9,13 +9,13 @@ if ( ! defined( 'ABSPATH' ) )
 	die( 'These aren\'t the droids you\'re looking for...' );
 
 if ( ! function_exists( 'ngfb_get_social_buttons' ) ) {
-	function ngfb_get_social_buttons( &$ids = array(), &$atts = array(), &$opts = array() ) {
-		return ngfb_get_sharing_buttons( $ids, $atts, $opts );
+	function ngfb_get_social_buttons( &$ids = array(), &$atts = array() ) {
+		return ngfb_get_sharing_buttons( $ids, $atts );
 	}
 }
 
 if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
-	function ngfb_get_sharing_buttons( &$ids = array(), &$atts = array(), &$opts = array() ) {
+	function ngfb_get_sharing_buttons( &$ids = array(), &$atts = array() ) {
 		global $ngfb;
 		if ( $ngfb->is_avail['ssb'] ) {
 			if ( $ngfb->is_avail['cache']['transient'] ) {
@@ -32,7 +32,7 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 			}
 			$html = '<!-- '.$ngfb->cf['lca'].' sharing buttons begin -->' .
 				$ngfb->sharing->get_js( 'sharing-buttons-header', $ids ) .
-				$ngfb->sharing->get_html( $ids, $atts, $opts ) .
+				$ngfb->sharing->get_html( $ids, $atts ) .
 				$ngfb->sharing->get_js( 'sharing-buttons-footer', $ids ) .
 				'<!-- '.$ngfb->cf['lca'].' sharing buttons end -->';
 	

@@ -40,10 +40,10 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 				 */
 				case ( strpos( $idx, 'tooltip-buttons_' ) !== false ? true : false ):
 					switch ( $idx ) {
-						case 'tooltip-buttons_location_the_content':
+						case 'tooltip-buttons_pos_the_content':
 							$text = 'Individual social sharing button(s) must also be enabled below.';
 							break;
-						case 'tooltip-buttons_location_the_excerpt':
+						case 'tooltip-buttons_pos_the_excerpt':
 							$text = 'Individual social sharing button(s) must also be enabled below.';
 							break;
 						case 'tooltip-buttons_on_index':
@@ -75,7 +75,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			$html = '<table>';
 			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_show_on', $show_on, $prefix ) as $suffix => $desc ) {
 				$cols++;
-				$html .= $cols == 1 ? '<tr><td>' : '<td>';
+				$html .= $cols == 1 ? '<tr><td class="show_on">' : '<td class="show_on">';
 				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';
 				$html .= $cols == 3 ? '</td></tr>' : '</td>';
 			}
@@ -113,26 +113,17 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		public function show_metabox_sharing() {
 			$metabox = 'sharing';
-			echo '<table class="sucom-setting"><tr><td colspan="3">';
-			echo $this->p->msgs->get( $metabox.'-buttons-info' );
-			echo '</td></tr><tr>';
-			echo $this->p->util->th( 'Location in Content Text', null, 'buttons_location_the_content' );
-			echo '<td>', $this->form->get_select( 'buttons_location_the_content', 
-				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
-			echo '</tr><tr>';
-			echo $this->p->util->th( 'Location in Excerpt Text', null, 'buttons_location_the_excerpt' );
-			echo '<td>', $this->form->get_select( 'buttons_location_the_excerpt', 
-				array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ), '</td>';
-			echo '</tr><tr>';
-			echo $this->p->util->th( 'Include on Index Webpages', null, 'buttons_on_index' );
-			echo '<td>', $this->form->get_checkbox( 'buttons_on_index' ), '</td>';
-			echo '</tr><tr>';
-			echo $this->p->util->th( 'Include on Static Homepage', null, 'buttons_on_front' );
-			echo '<td>', $this->form->get_checkbox( 'buttons_on_front' ), '</td>';
-			echo '</tr>';
-			foreach ( apply_filters( $this->p->cf['lca'].'_'.$metabox.'_buttons_rows', array(), $this->form ) as $num => $row ) 
-				echo '<tr>', $row, '</tr>';
-			echo '</table>';
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', array( 
+				'include' => 'Include Buttons',
+				'position' => 'Buttons Position',
+				'preset' => 'Preset Options' ) );
+			$rows = array();
+			foreach ( $tabs as $key => $title )
+				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
+					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
+			echo '<table class="sucom-setting" style="padding-bottom:0"><tr><td>'.
+			$this->p->msgs->get( $metabox.'-buttons-info' ).'</td></tr></table>';
+			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
 		public function show_metabox_website() {
@@ -143,7 +134,27 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array();
+			$rows = array();
+			switch ( $metabox.'-'.$key ) {
+				case 'sharing-position' :
+					$rows[] = $this->p->util->th( 'Position in Content Text', null, 'buttons_pos_the_content' ).
+					'<td>'.$this->form->get_select( 'buttons_pos_the_content',
+						array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ).'</td>';
+
+					$rows[] = $this->p->util->th( 'Position in Excerpt Text', null, 'buttons_pos_the_excerpt' ).
+					'<td>'.$this->form->get_select( 'buttons_pos_the_excerpt', 
+						array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ).'</td>';
+					break;
+
+				case 'sharing-include' :
+					$rows[] = $this->p->util->th( 'Include on Index Webpages', null, 'buttons_on_index' ).
+					'<td>'.$this->form->get_checkbox( 'buttons_on_index' ).'</td>';
+
+					$rows[] = $this->p->util->th( 'Include on Static Homepage', null, 'buttons_on_front' ).
+					'<td>'.$this->form->get_checkbox( 'buttons_on_front' ).'</td>';
+					break;
+			}
+			return $rows;
 		}
 	}
 }

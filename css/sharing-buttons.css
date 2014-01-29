@@ -4,7 +4,7 @@
  * buttons can be aligned vertically, horizontally, floated, etc.
  */
 
-/* Make sure the Facebook flyout does not get clipped. */
+/* make sure the Facebook flyout does not get clipped */
 #page { overflow:visible; }
 
 /* The .ngfb-buttons class is common to all other button classes
@@ -15,7 +15,7 @@
 .ngfb-buttons img { border:none; }
 .ngfb-buttons img:hover { border:none; }
 
-/* Fix the Facebook "like" flyout on 2012 based themes. */
+/* fix the Facebook "like" flyout on 2012 based themes */
 .ngfb-buttons iframe { max-width:none; }
 
 /* A common style for each individual buttons.
@@ -33,7 +33,7 @@
 }
 
 /* Define specific widths for each button.
- * The defaults widths assume small button sizes with counters.
+ * These defaults assume small button sizes with counters.
  */
 .ngfb-buttons div.facebook-button { width:149px; }
 .ngfb-buttons div.gplus-button { width:99px; }

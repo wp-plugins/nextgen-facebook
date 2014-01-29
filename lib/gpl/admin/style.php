@@ -18,15 +18,17 @@ if ( ! class_exists( 'NgfbAdminStyle' ) ) {
 				'style_sharing_rows' => 2,
 				'style_excerpt_rows' => 2,
 				'style_content_rows' => 2,
+				'style_sidebar_rows' => 2,
 				'style_shortcode_rows' => 2,
 				'style_widget_rows' => 2,
+				'style_admin_edit_rows' => 2,
 			) );
 		}
 
 		private function filter_style_common_rows( &$rows, &$form, $idx ) {
 			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = '<td class="textinfo">'.$this->p->msgs->get( 'style-'.$idx.'-info' ).'</td>'.
-			'<td class="blank large css">'.$form->get_hidden( 'buttons_css_'.$idx ).
+			'<td class="blank large code">'.$form->get_hidden( 'buttons_css_'.$idx ).
 				$this->p->options['buttons_css_'.$idx].'</td>';
 			return $rows;
 		}
@@ -43,12 +45,24 @@ if ( ! class_exists( 'NgfbAdminStyle' ) ) {
 			return $this->filter_style_common_rows( $rows, $form, 'content' );
 		}
 
+		public function filter_style_sidebar_rows( $rows, $form ) {
+			$rows = array_merge( $rows, $this->filter_style_common_rows( $rows, $form, 'sidebar' ) );
+			$rows[] = $this->p->util->th( 'Sidebar Javascript', null, 'buttons_js_sidebar' ).
+			'<td class="blank medium code">'.$form->get_hidden( 'buttons_js_sidebar' ).
+				$this->p->options['buttons_js_sidebar'].'</td>';
+			return $rows;
+		}
+
 		public function filter_style_shortcode_rows( $rows, $form ) {
 			return $this->filter_style_common_rows( $rows, $form, 'shortcode' );
 		}
 
 		public function filter_style_widget_rows( $rows, $form ) {
 			return $this->filter_style_common_rows( $rows, $form, 'widget' );
+		}
+
+		public function filter_style_admin_edit_rows( $rows, $form ) {
+			return $this->filter_style_common_rows( $rows, $form, 'admin_edit' );
 		}
 	}
 }

@@ -28,12 +28,12 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
 			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
 
-			$this->add_filter( 'get_the_excerpt' );
-			$this->add_filter( 'the_excerpt' );
-			$this->add_filter( 'the_content' );
+			$this->add_buttons_filter( 'get_the_excerpt' );
+			$this->add_buttons_filter( 'the_excerpt' );
+			$this->add_buttons_filter( 'the_content' );
 
 			if ( is_admin() ) {
-				add_action( 'add_meta_boxes', array( &$this, 'add_metaboxes' ) );
+				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
 				$this->p->util->add_plugin_filters( $this, array( 
 					'save_options' => 2,		// update the sharing css file
 					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
@@ -46,8 +46,10 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function filter_save_options( $opts, $options_name ) {
-			if ( $options_name === NGFB_OPTIONS_NAME )
+			if ( $options_name === NGFB_OPTIONS_NAME ) {
+				// update the combined and minimized social stylesheet
 				$this->update_sharing_css( $opts );
+			}
 			return $opts;
 		}
 
@@ -208,7 +210,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return $text;
 		}
 
-		public function wp_enqueue_styles( $hook ) {
+		public function wp_enqueue_styles() {
 			// only include sharing styles if option is checked
 			if ( ! empty( $this->p->options['buttons_use_social_css'] ) ) {
 				if ( ! file_exists( $this->sharing_css_min_file ) ) {
@@ -230,13 +232,14 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			}
 		}
 
-		public function update_sharing_css( $opts ) {
+		public function update_sharing_css( &$opts ) {
 			if ( ! empty( $opts['buttons_use_social_css'] ) ) {
 				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
 					$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
 				else {
 					$css_data = '';
-					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', $this->p->cf['style'] );
+					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
+						$this->p->cf['sharing']['style'] );
 					foreach ( $style_tabs as $id => $name )
 						$css_data .= $opts['buttons_css_'.$id];
 					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
@@ -257,19 +260,23 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			}
 		}
 
-		public function add_metaboxes() {
+		public function add_sidebar() {
+			if ( ! $this->have_buttons( 'sidebar' ) )
+				return;
+
+			$text = '';
+			echo '<div id="ngfb-sidebar">';
+			echo '<div id="ngfb-sidebar-header"></div>';
+			echo $this->get_buttons( $text, 'sidebar', false );
+			echo '</div>';
+			echo '<script type="text/javascript">'.$this->p->options['buttons_js_sidebar'].'</script>';
+		}
+
+		public function add_post_metaboxes() {
 			if ( ! is_admin() )
 				return;
 
-			// is there at least one button enabled for the admin_sharing metabox?
-			$have_buttons = false;
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) ) {
-					$have_buttons = true;
-					break;
-				}
-			}
-			if ( ! $have_buttons )
+			if ( ! $this->have_buttons( 'admin_edit' ) )
 				return;
 
 			// get the current object / post type
@@ -295,14 +302,14 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			}
 		}
 
-		public function add_filter( $type = 'the_content' ) {
-			add_filter( $type, array( &$this, 'filter_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'filter for '.$type.' added' );
+		public function add_buttons_filter( $type = 'the_content' ) {
+			add_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
+			$this->p->debug->log( 'buttons filter for '.$type.' added' );
 		}
 
-		public function remove_filter( $type = 'the_content' ) {
-			$rc = remove_filter( $type, array( &$this, 'filter_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'filter for '.$type.' removed ('.( $rc  ? 'true' : 'false' ).')' );
+		public function remove_buttons_filter( $type = 'the_content' ) {
+			$rc = remove_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
+			$this->p->debug->log( 'buttons filter for '.$type.' removed ('.( $rc  ? 'true' : 'false' ).')' );
 			return $rc;
 		}
 
@@ -314,48 +321,38 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function add_footer() {
 			echo $this->get_js( 'footer' );
+			echo $this->add_sidebar();
 			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
-		public function filter_the_excerpt( $text ) {
+		public function get_buttons_the_excerpt( $text ) {
 			$id = $this->p->cf['lca'].' excerpt-buttons';
 			$text = preg_replace_callback( '/(<!-- '.$id.' begin -->.*<!-- '.$id.' end -->)(<\/p>)?/Usi', 
 				array( __CLASS__, 'remove_paragraph_tags' ), $text );
 			return $text;
 		}
 
-		// callback for filter_the_excerpt()
-		public function remove_paragraph_tags( $match = array() ) {
-			if ( empty( $match ) || ! is_array( $match ) ) return;
-			$text = empty( $match[1] ) ? '' : $match[1];
-			$suff = empty( $match[2] ) ? '' : $match[2];
-			$ret = preg_replace( '/(<\/*[pP]>|\n)/', '', $text );
-			return $suff.$ret; 
+		public function get_buttons_get_the_excerpt( $text ) {
+			return $this->get_buttons( $text, 'the_excerpt' );
 		}
 
-		public function filter_get_the_excerpt( $text ) {
-			return $this->filter( $text, 'the_excerpt', $this->p->options );
+		public function get_buttons_the_content( $text ) {
+			return $this->get_buttons( $text, 'the_content' );
 		}
 
-		public function filter_the_content( $text ) {
-			return $this->filter( $text, 'the_content', $this->p->options );
-		}
-
-		public function filter( &$text, $type = 'the_content', &$opts = array() ) {
-			if ( empty( $opts ) ) 
-				$opts =& $this->p->options;
+		public function get_buttons( &$text, $type = 'the_content', $use_post = true ) {
 
 			// should we skip the sharing buttons for this content type or webpage?
 			if ( is_admin() ) {
-				if ( $type !== 'admin_sharing' ) {
+				if ( strpos( $type, 'admin_' ) !== 0 ) {
 					$this->p->debug->log( $type.' filter skipped: '.$type.' ignored with is_admin()'  );
 					return $text;
 				}
 			} else {
-				if ( ! is_singular() && empty( $opts['buttons_on_index'] ) ) {
+				if ( ! is_singular() && empty( $this->p->options['buttons_on_index'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: index page without buttons_on_index enabled' );
 					return $text;
-				} elseif ( is_front_page() && empty( $opts['buttons_on_front'] ) ) {
+				} elseif ( is_front_page() && empty( $this->p->options['buttons_on_front'] ) ) {
 					$this->p->debug->log( $type.' filter skipped: front page without buttons_on_front enabled' );
 					return $text;
 				}
@@ -365,21 +362,13 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				}
 			}
 
-			// is there at least one sharing button enabled?
-			$enabled = false;
-			foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
-				if ( ! empty( $opts[$pre.'_on_'.$type] ) ) {
-					$enabled = true;
-					break;
-				}
-			}
-			if ( $enabled == false ) {
+			if ( ! $this->have_buttons( $type ) ) {
 				$this->p->debug->log( $type.' filter exiting early: no buttons enabled' );
 				return $text;
 			}
 
 			// get the post id for the transient cache salt
-			if ( ( $obj = $this->p->util->get_the_object( true ) ) === false ) {
+			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $text;
 			}
@@ -401,17 +390,20 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				// sort enabled sharing buttons by their preferred order
 				$sorted_ids = array();
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
-					if ( ! empty( $opts[$pre.'_on_'.$type] ) )
-						$sorted_ids[$opts[$pre.'_order'].'-'.$id] = $id;
-				unset ( $id, $pre );
+					if ( ! empty( $this->p->options[$pre.'_on_'.$type] ) )
+						$sorted_ids[$this->p->options[$pre.'_order'].'-'.$id] = $id;
 				ksort( $sorted_ids );
 
+				$atts['use_post'] = $use_post;
 				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
-				$html = $this->get_html( $sorted_ids, $atts, $opts );
-				if ( ! empty( $html ) ) {
-					$html = '<!-- '.$this->p->cf['lca'].' '.$css_type.' begin -->'.
-						'<div class="'.$this->p->cf['lca'].'-'.$css_type.'">'.$html.'</div>'.
-						'<!-- '.$this->p->cf['lca'].' '.$css_type.' end -->';
+				if ( ! empty( $this->p->options['buttons_preset_'.$type] ) )
+					$atts['preset_id'] = $this->p->options['buttons_preset_'.$type];
+
+				$buttons_html = $this->get_html( $sorted_ids, $atts, $this->p->options );
+				if ( ! empty( $buttons_html ) ) {
+					$html = '<!-- '.$this->p->cf['lca'].' '.$css_type.' begin --><div '.
+						( $use_post ? 'class' : 'id' ).'="'.$this->p->cf['lca'].'-'.$css_type.'">'.
+						$buttons_html.'</div><!-- '.$this->p->cf['lca'].' '.$css_type.' end -->';
 
 					if ( ! empty( $cache_id ) ) {
 						set_transient( $cache_id, $html, $this->p->cache->object_expire );
@@ -421,9 +413,11 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				}
 			}
 
-			$buttons_location = empty( $opts['buttons_location_'.$type] ) ? 'bottom' : $opts['buttons_location_'.$type];
+			// just in case
+			$buttons_pos = empty( $this->p->options['buttons_pos_'.$type] ) ? 
+				'bottom' : $this->p->options['buttons_pos_'.$type];
 
-			switch ( $buttons_location ) {
+			switch ( $buttons_pos ) {
 				case 'top' : 
 					$text = $this->p->debug->get_html().$html.$text; 
 					break;
@@ -438,23 +432,32 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		// get_html() is called by the widget, shortcode, function, and perhaps some filter hooks
-		public function get_html( &$ids = array(), &$atts = array(), &$opts = array() ) {
-			if ( empty( $opts ) ) 
-				$opts =& $this->p->options;
+		public function get_html( &$ids = array(), &$atts = array() ) {
+
+			$preset_id = empty( $atts['preset_id'] ) ? '' : preg_replace( '/[^a-z0-9\-_]/', '', $atts['preset_id'] );
+			$filter_id = empty( $atts['filter_id'] ) ? '' : preg_replace( '/[^a-z0-9\-_]/', '', $atts['filter_id'] );
+
+			// possibly dereference the opts variable to prevent passing on changes
+			if ( empty( $preset_id ) && empty( $filter_id ) )
+				$custom_opts =& $this->p->options;
+			else $custom_opts = $this->p->options;
+
+			if ( ! empty( $preset_id ) && ! empty( $this->p->cf['opt']['preset'] ) ) {
+				if ( array_key_exists( $preset_id, $this->p->cf['opt']['preset'] ) &&
+					is_array( $this->p->cf['opt']['preset'][$preset_id] ) )
+						$custom_opts = array_merge( $custom_opts, $this->p->cf['opt']['preset'][$preset_id] );
+				else $this->p->debug->log( $preset_id.' preset missing or not array'  );
+			} 
+
+			$filter_name = $this->p->cf['lca'].'_sharing_html_'.$filter_id.'_options';
+			if ( ! empty( $filter_id ) && has_filter( $filter_name ) )
+				$custom_opts = apply_filters( $filter_name, $custom_opts );
 
 			$html = '';
-			$custom_opts = false;
-			$filter_id = empty( $atts['filter_id'] ) ? '' : 
-				preg_replace( '/[^a-z0-9\-_]/', '', $atts['filter_id'] );	// sanitize the filter name
-			if ( ! empty( $filter_id ) )
-				$custom_opts = apply_filters( $this->p->cf['lca'].'_sharing_html_'.$filter_id.'_options', $opts );
-
 			foreach ( $ids as $id ) {
 				$id = preg_replace( '/[^a-z]/', '', $id );	// sanitize the website object name
 				if ( method_exists( $this->website[$id], 'get_html' ) )
-					$html .= $custom_opts === false ? 
-						$this->website[$id]->get_html( $atts, $opts ) :
-						$this->website[$id]->get_html( $atts, $custom_opts );
+					$html .= $this->website[$id]->get_html( $atts, $custom_opts );
 			}
 			if ( ! empty( $html ) ) 
 				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'.$html.'</div>';
@@ -488,8 +491,9 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre ) {
 					// check for enabled buttons on settings page
 					if ( is_admin() && ! empty( $obj ) ) {
-						if ( ! empty( $this->p->options[$pre.'_on_admin_sharing'] ) )
-							$ids[] = $id;
+						foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_admin_/', $this->p->options ) as $key => $val )
+							if ( ! empty( $val ) )
+								$ids[] = $id;
 					} else {
 						if ( is_singular() 
 							|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
@@ -497,7 +501,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 	
 							// exclude buttons enabled for admin editing pages
 							foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
-								if ( $key !== $pre.'_on_admin_sharing' && ! empty( $val ) )
+								if ( strpos( $key, $pre.'_on_admin_' ) === false && ! empty( $val ) )
 									$ids[] = $id;
 	
 						}
@@ -533,7 +537,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 							$js .= $this->website[$id]->get_js( $pos );
 				}
 			}
-			$js .= '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript end -->';
+			$js .= '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript end -->'."\n";
 			return $js;
 		}
 
@@ -590,18 +594,35 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function show_admin_sharing( $post ) {
+			require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
+			$css_data = SuextMinifyCssCompressor::process( $this->p->options['buttons_css_admin_edit'] );
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
+			echo '<style type="text/css">'.$css_data.'</style>', "\n";
 			echo '<table class="sucom-setting side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
 				$content = '';
-				if ( ! empty( $this->p->cf['opt']['admin_sharing'] ) )
-					$opts = array_merge( $this->p->options, $this->p->cf['opt']['admin_sharing'] );
 				$this->add_header();
-				echo $this->filter( $content, 'admin_sharing', $opts );
+				echo $this->get_buttons( $content, 'admin_edit' );
 				$this->add_footer();
 			} else echo '<p class="centered">The '.$post_type_name.' must be published<br/>before it can be shared.</p>';
 			echo '</td></tr></table>';
+		}
+
+		// callback for add_buttons_the_excerpt()
+		public function remove_paragraph_tags( $match = array() ) {
+			if ( empty( $match ) || ! is_array( $match ) ) return;
+			$text = empty( $match[1] ) ? '' : $match[1];
+			$suff = empty( $match[2] ) ? '' : $match[2];
+			$ret = preg_replace( '/(<\/*[pP]>|\n)/', '', $text );
+			return $suff.$ret; 
+		}
+
+		public function have_buttons( $type ) {
+			foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
+				if ( ! empty( $this->p->options[$pre.'_on_'.$type] ) )
+					return true;
+			return false;
 		}
 	}
 }

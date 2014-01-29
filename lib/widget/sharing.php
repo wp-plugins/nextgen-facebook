@@ -29,9 +29,14 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 		}
 	
 		public function widget( $args, $instance ) {
-			if ( is_feed() ) return;	// nothing to do in the feeds
-			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) return;
-			if ( ! is_object( $this->p ) ) return;
+			if ( is_feed() )
+				return;	// nothing to do in the feeds
+
+			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) )
+				return;
+
+			if ( ! is_object( $this->p ) )
+				return;
 
 			if ( is_object( $this->p->sharing ) && $this->p->sharing->is_disabled() ) {
 				$this->p->debug->log( 'widget buttons skipped: sharing buttons disabled' );
@@ -44,12 +49,12 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': widget_html transient salt '.$cache_salt );
-				$widget_html = get_transient( $cache_id );
-				if ( $widget_html !== false ) {
-					$this->p->debug->log( $cache_type.': widget_html retrieved from transient '.$cache_id );
+				$this->p->debug->log( $cache_type.': html transient salt '.$cache_salt );
+				$html = get_transient( $cache_id );
+				if ( $html !== false ) {
+					$this->p->debug->log( $cache_type.': html retrieved from transient '.$cache_id );
 					$this->p->debug->show_html();
-					echo $widget_html;
+					echo $html;
 					return;
 				}
 			}
@@ -59,27 +64,26 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 			foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
 				if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
 					$sorted_ids[$this->p->options[$pre.'_order'].'-'.$id] = $id;
-			unset ( $id, $pre );
 			ksort( $sorted_ids );
 
 			$atts = array( 
-				'use_post' => false,		// don't use the post ID on indexes
-				'filter_id' => 'widget',	// used by get_html() to filter atts and opts
 				'css_id' => $args['widget_id'],
+				'filter_id' => 'widget',	// used by get_html() to filter atts and opts
+				'use_post' => false,		// don't use the post ID on indexes
 			);
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-			$widget_html = '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' begin -->'.
+			$html = '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' begin -->'.
 				$before_widget.( empty( $title ) ? '' : $before_title.$title.$after_title ).
 				$this->p->sharing->get_html( $sorted_ids, $atts ).$after_widget.
 				'<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->';
 
 			if ( $this->p->is_avail['cache']['transient'] ) {
-				set_transient( $cache_id, $widget_html, $this->p->cache->object_expire );
-				$this->p->debug->log( $cache_type.': widget_html saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
+				set_transient( $cache_id, $html, $this->p->cache->object_expire );
+				$this->p->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
 			$this->p->debug->show_html();
-			echo $widget_html;
+			echo $html;
 		}
 	
 		public function update( $new_instance, $old_instance ) {
