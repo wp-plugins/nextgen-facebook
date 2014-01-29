@@ -34,7 +34,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function get_defaults( $idx = '' ) {
 
 			if ( $this->p->is_avail['ssb'] ) {
-				foreach ( $this->p->cf['style'] as $id => $name ) {
+				foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
 					$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 					// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
 					if ( empty( $this->p->cf['opt']['defaults']['buttons_css_'.$id] ) ) {
@@ -208,14 +208,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 			/*
 			 * Adjust dependent options
+			 * All options (site and meta as well) are sanitized here, so use array_key_exists() on all tests
 			 */
-			if ( empty( $opts['plugin_google_api_key'] ) ) {
+			if ( ! $this->p->check->is_aop() )
+				$opts['plugin_file_cache_hrs'] = 0;
+
+			if ( array_key_exists( 'plugin_google_api_key', $opts ) &&
+				empty( $opts['plugin_google_api_key'] ) ) {
 				$opts['plugin_google_shorten'] = 0;
 				$opts['plugin_google_shorten:is'] = 'disabled';
 			}
-
-			if ( ! $this->p->check->is_aop() )
-				$opts['plugin_file_cache_hrs'] = 0;
 
 			// og_desc_len must be at least 156 chars (defined in config)
 			if ( array_key_exists( 'og_desc_len', $opts ) && 
@@ -242,6 +244,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			$previous_opts_version = $opts['options_version'];
 			$opts['options_version'] = $this->p->cf['opt']['version'];
 			$opts['plugin_version'] = $this->p->cf['version'];
+
 			$opts = apply_filters( $this->p->cf['lca'].'_save_options', $opts, $options_name );
 
 			// update_option() returns false if options are the same or there was an error, 
@@ -274,8 +277,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		public function filter_option_type( $ret, $key ) {
 			switch ( $key ) {
 				// css
+				case ( strpos( $key, 'buttons_js_' ) === 0 ? true : false ):
 				case ( strpos( $key, 'buttons_css_' ) === 0 ? true : false ):
-					return 'css';
+					return 'code';
 					break;
 
 				// twitter-style usernames (prepend with an at)
@@ -322,8 +326,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					break;
 
 				// image dimensions, subject to minimum value (typically, at least 200px)
-				case 'og_img_width': 
-				case 'og_img_height': 
+				case ( preg_match( '/_img_(width|height)$/', $key ) ? true : false ):
 				case ( preg_match( '/^tc_[a-z]+_(width|height)$/', $key ) ? true : false ):
 					return 'imgdim';
 					break;
@@ -374,12 +377,16 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'twitter_size': 
 				case 'linkedin_counter':
 				case 'managewp_type':
+				case 'pin_button_lang':
+				case 'pin_button_shape':
+				case 'pin_button_color':
+				case 'pin_button_height':
 				case 'pin_count_layout':
 				case 'pin_caption':
 				case 'tumblr_button_style':
 				case 'tumblr_caption':
 				case 'plugin_tid:use':
-				case ( strpos( $key, 'buttons_location_' ) === 0 ? true : false ):
+				case ( strpos( $key, 'buttons_pos_' ) === 0 ? true : false ):
 				case ( preg_match( '/^[a-z]+_js_loc$/', $key ) ? true : false ):
 				case ( preg_match( '/^(plugin|wp)_cm_[a-z]+_(name|label)$/', $key ) ? true : false ):
 					return 'notblank';

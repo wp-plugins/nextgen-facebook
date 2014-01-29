@@ -5,19 +5,19 @@
  */
 
 .ngfb-content-buttons { 
-	/* Center the buttons with a 15px margin top/bottom. */
+	/* center the buttons with a 15px margin top/bottom */
 	display:block;
 	margin:15px auto 15px auto;
 	text-align:center;
 
-	/* Un-comment to created a shadowed box for the buttons. */
+	/* uncomment to create a shadowed box for the buttons */
 	/*
-	padding:2px;
-	text-align:center;
-	background-color:#eee;
-	-moz-box-shadow:0 0 5px #aaa;
-	-webkit-box-shadow:0 0 5px #aaa;
-	box-shadow:0 0 5px #aaa;
-	border-radius:3px;
+		padding:2px;
+		text-align:center;
+		background-color:#eee;
+		-moz-box-shadow:0 0 5px #aaa;
+		-webkit-box-shadow:0 0 5px #aaa;
+		box-shadow:0 0 5px #aaa;
+		border-radius:3px;
 	*/
 }

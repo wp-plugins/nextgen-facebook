@@ -4,15 +4,18 @@
  * buttons can be aligned vertically, horizontally, floated, etc.
  */
 
-/* align the buttons vertically in a single 160px wide column */
-.ngfb-widget-buttons { 
-	text-align:left;
+/* align the buttons vertically in two 120px wide columns */
+.ngfb-admin_edit-buttons { 
+	text-align:left; 
 }
-.ngfb-widget-buttons .ngfb-buttons { 
+.ngfb-admin_edit-buttons .ngfb-buttons { 
 	margin:0;
 }
-.ngfb-widget-buttons .ngfb-buttons > div { 
-	display:block;
-	padding:3px;
-	width:160px; 
+.ngfb-admin_edit-buttons .ngfb-buttons > div { 
+	display:inline-block;
+	vertical-align:top;
+	padding:0;
+	margin:5px;
+	height:20px;
+	width:120px; 
 }

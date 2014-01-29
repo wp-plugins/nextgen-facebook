@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'pin_enable' => 'pin_on_the_content',
 			'stumble_enable' => 'stumble_on_the_content',
 			'tumblr_enable' => 'tumblr_on_the_content',
-			'buttons_location' => 'buttons_location_the_content',
+			'buttons_location' => 'buttons_pos_the_content',
 			'plugin_pro_tid' => 'plugin_tid',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
@@ -90,6 +90,16 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'buttons_css_social' => 'buttons_css_sharing',
 			'plugin_shortcode_ngfb' => 'plugin_shortcodes',
 			'buttons_link_css' => 'buttons_use_social_css',
+			'fb_on_admin_sharing' => 'fb_on_admin_edit',
+			'gp_on_admin_sharing' => 'gp_on_admin_edit',
+			'twitter_on_admin_sharing' => 'twitter_on_admin_edit',
+			'linkedin_on_admin_sharing' => 'linkedin_on_admin_edit',
+			'managewp_on_admin_sharing' => 'managewp_on_admin_edit',
+			'stumble_on_admin_sharing' => 'stumble_on_admin_edit',
+			'pin_on_admin_sharing' => 'pin_on_admin_edit',
+			'tumblr_on_admin_sharing' => 'tumblr_on_admin_edit',
+			'buttons_location_the_excerpt' => 'buttons_pos_the_excerpt',
+			'buttons_location_the_content' => 'buttons_pos_the_content',
 		);
 
 		protected $p;

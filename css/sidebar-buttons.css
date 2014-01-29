@@ -9,11 +9,33 @@
 	cursor:pointer;
 	text-align:center;
 	position:fixed;
-	right:50%;			/* position of sidebar right side */
-	top:50%;			/* position of sidebar top side */
-	margin:-200px 500px 0 0;	/* adjust position of top/right sides */
 	padding:0;
-	z-index:999;			/* keep above anything else */
+
+	/* position 20% down from top and 495px left of center */
+	top:20%;
+	right:50%;
+	margin:0 495px 0 0;
+
+}
+
+/* show a large sharing icon at the top */
+#ngfb-sidebar-header { 
+	display:block;
+	width:62px;
+	height:62px;
+	padding:0;
+	margin:5px;
+
+	/* modify the share icon for the sidebar here */
+	background-image:url("/wp-content/plugins/nextgen-facebook/images/share-icon-1.png");
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+/* hide the buttons by default and show/hide on hover/click */
+#ngfb-sidebar-buttons { 
+	display:none;
+	margin:10px 0 0 0;
 
 	/* create a shadowed box with a light grey background */
 	border-radius:5px;
@@ -22,45 +44,24 @@
 	border:1px solid rgb(255, 255, 255);
 }
 
-/* show a large sharing icon at the top */
-#ngfb-sidebar-header:before { 
-	display:block;
-	font-family:"dashicons";
-	font-size:35px;
-	content:"\f237";
-	color:#06f;
-	width:55px;
-	height:35px;
-	padding:0;
-	margin:5px;
-	text-shadow:1px 1px 3px #666
-	-webkit-font-smoothing:antialiased;
-}
-
-/* hide the buttons by default and show on hover or click */
-#ngfb-sidebar-content { display:none; }
-
-/* follow the sharing icon with the word "Share" */
-#ngfb-sidebar-header:after { 
-	display:block;
-	font-family:"Verdana";
-	font-size:12px;
-	content:"Share";
-	color:#666;
-	margin:5px;
-}
-
 /* pre-define the width and height of each button for faster load */
 /* note: the large buttons with vertical counters are 55x65px */
 #ngfb-sidebar .ngfb-buttons > div { 
 	display:block;
 	text-align:center;
 	padding:0;
-	width:55px;	/* button with large vertical counter */
+	width:60px;	/* button with large vertical counter */
 	height:65px;	/* button with large vertical counter */
-	margin:5px;
+	line-height:65px;
+	margin:10px 5px;
 }
 
 /* fix the google+ button, which breaks when the display is set to none */
-#ngfb-sidebar .ngfb-buttons div > div { width:55px !important; }
-#ngfb-sidebar .ngfb-buttons div > div > iframe { width:auto !important; }
+#ngfb-sidebar .ngfb-buttons div.gplus-button > div { text-align:center; width:60px !important; }
+#ngfb-sidebar .ngfb-buttons div.gplus-button > div > iframe { width:auto !important; }
+
+/* fix for the pinterest button */
+#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
+
+/* fix for the tumblr button, which does not have a vertical counter */
+#ngfb-sidebar .ngfb-buttons div.tumblr-button { height:20px; line-height:20px; }
