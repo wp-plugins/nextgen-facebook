@@ -41,7 +41,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 						if ( ! $fh = @fopen( $css_file, 'rb' ) )
 							$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
 						else {
-							$this->p->cf['opt']['defaults']['buttons_css_'.$id] = fread( $fh, filesize( $css_file ) );
+							$css_data = fread( $fh, filesize( $css_file ) );
+							$css_data = preg_replace( '/{{NGFB_URLPATH}}/', NGFB_URLPATH, $css_data );
+							$this->p->cf['opt']['defaults']['buttons_css_'.$id] = $css_data;
 							$this->p->debug->log( 'read css from file '.$css_file );
 							fclose( $fh );
 						}
