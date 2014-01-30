@@ -207,32 +207,35 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Version 7.0rc9 =
 
-This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been found to be too limiting at times, so individual image dimensions have been introduced for each image context. You'll find new image dimension settings for all Twitter Cards formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to use existing image sizes to reduce the number of resized image files created. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, you may wish to use those dimensions instead.
+This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been too limiting, so new individual image dimensions have been added for each image context. You'll find new image dimension settings for all Twitter Card formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to match your existing image sizes to reduce the number of resized image files. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, for example, you may wish to use those dimensions instead.
+
+Version 7.0 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) You can include buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page. You'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
+
+This version also includes a new 'Preset Options' tab on the Social Sharing settings page. These presets are meant to override the default button settings for specific locations -- like the admin editing page and the floating sidebar. The default sidebar CSS has been designed to use the larger sharing buttons with vertical counters, so the presets allow the buttons to be configured correctly for the sidebar. If you'd like to use smaller buttons in the sidebar, you should choose '[none]' as the Sidebar Preset, and adjust the Sidebar Style accordingly. By default, the sidebr is located 495px left of center, and 20% down from the top. You'll probably have to adjust this for your own theme layout.
 
 The code base for NGFB Open Graph+ has also been used to fork the [WordPress Social Sharing Optimization](http://wordpress.org/plugins/wpsso/) (WPSSO) plugin -- it has many features in common with NGFB Open Graph+, but strives to be a little lighter and smaller by removing the social buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting). You can achieve the same results with NGFB Open Graph+ by setting the `NGFB_SOCIAL_SHARING_DISABLE` constant to `true` in your `wp-config.php` file.
 
 * **Added image dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
 * **Added a new Sidebar location for social sharing buttons** - see the Social Sharing and Social Styles settings pages for options.
-* **Replaced the Pinterest Buttom Image URL option for the 'Button Height', 'Button Shape', 'Button Color', 'Button Language' options**.
+* **Replaced the Pinterest Buttom Image URL option for new Button Height, Button Shape, Button Color, and Button Language options**.
 * **Added support for embedded Slideshare presentations** (Pro version).
 * Added image dimension options for the Pinterest and Tumblr social sharing buttons.
-* Added a 'Include Buttons', 'Buttons Position', and a 'Preset Options' tab on the Social Sharing settings page.
-* Added a 'Sidebar Style' tab on the Social Style settings page.
-* Added a 'Enqueue the Stylesheet' option on the Social Style settings page.
-* Added a 'Language uses WP Locale' option to enable/disable the dynamic language selection feature (Pro version).
-* Added a 'Check for Embedded Media' option with checkboxes for Slideshare, Vimeo, Wistia, and Youtube (Pro version).
-* Added a 'Custom Settings' tab on the Advanced settings page (Pro version).
-* Added a 'Enqueue the Stylesheet' option on the Social Style settings page.
-* Added css/admin_edit-buttons.css and css/sidebar-buttons.css.
+* Added an 'Include Buttons', 'Buttons Position', and a 'Preset Options' tab on the Social Sharing settings page.
+* Added a new 'Sidebar Style' tab on the Social Style settings page.
+* Added a new 'Enqueue the Stylesheet' option on the Social Style settings page.
+* Added a new 'Language uses WP Locale' option to enable/disable the dynamic language selection feature (Pro version).
+* Added a new 'Check for Embedded Media' option with checkboxes for Slideshare, Vimeo, Wistia, and Youtube (Pro version).
+* Added a new 'Custom Settings' tab on the Advanced settings page (Pro version).
+* Added `css/admin_edit-buttons.css` and `css/sidebar-buttons.css` stylesheet defaults.
 * Added several filter hooks for the admin metabox tabs and option fields / rows.
 * Added extra checks and error reporting for missing PHP cURL library.
 * Added checks for WordPress SEO opengraph, twitter, publisher and author actions, removing them if necessary.
-* Converted several methods to filter hooks in the lib/gpl/admin/ and lib/pro/admin/ folders.
+* Converted several methods to filter hooks in the `lib/gpl/admin/` and `lib/pro/admin/` folders.
 * Renamed the 'ngfb_shortcode' filter to 'ngfb_shortcode_ngfb'.
 * Renamed the `ngfb_get_social_buttons()` function to `ngfb_get_sharing_buttons()`.
-* Renamed lib/social.php to lib/sharing.php, and renamed the "Social" class names to "Sharing".
-* Merged the social sharing styles in lib/style.php into the lib/sharing.php file / class.
-* Moved the social sharing tooltips from lib/messages.php to filter hooks in lib/sharing.php.
+* Renamed `lib/social.php` to `lib/sharing.php`, and renamed the "Social" class names to "Sharing".
+* Merged the social sharing styles in `lib/style.php` into the `lib/sharing.php` file / class.
+* Moved the social sharing tooltips from `lib/messages.php` to filter hooks in `lib/sharing.php`.
 * Moved the social style CSS editing features to the Pro version.
 * **Fixed** a possible two-letter WordPress locale language issue for Open Graph meta tags (Pro version).
 * **Fixed** the missing Open Graph 'article:section' value in the Meta Tags Preview tab.
@@ -288,7 +291,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 = 7.0rc9 =
 
-Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A few minor bug fixes for the 'Meta Tag Preview' values.
+Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A new floating sidebar location for social sharing buttons.
 
 = 6.22.2 =
 
