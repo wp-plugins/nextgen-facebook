@@ -10,6 +10,7 @@
 	text-align:center;
 	position:fixed;
 	padding:0;
+	z-index:99;
 
 	/* position 20% down from top and 495px left of center */
 	top:20%;
