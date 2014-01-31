@@ -205,7 +205,7 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 == Changelog ==
 
-= Version 7.0rc9 =
+= Version 7.0rc10 =
 
 This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been too limiting, so new individual image dimensions have been added for each image context. You'll find new image dimension settings for all Twitter Card formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to match your existing image sizes to reduce the number of resized image files. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, for example, you may wish to use those dimensions instead.
 
@@ -243,6 +243,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
 * **Fixed** the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
 * **Fixed** missing Open Graph+ Sharing metabox on admin custom post types.
+* **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
 = Version 6.22.2 =
 
@@ -289,7 +290,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 == Upgrade Notice ==
 
-= 7.0rc9 =
+= 7.0rc10 =
 
 Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A new floating sidebar location for social sharing buttons.
 
