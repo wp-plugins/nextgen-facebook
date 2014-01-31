@@ -611,7 +611,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return false;
 		}
 
-		// callback for add_buttons_the_excerpt()
 		public function remove_paragraph_tags( $match = array() ) {
 			if ( empty( $match ) || ! is_array( $match ) ) return;
 			$text = empty( $match[1] ) ? '' : $match[1];
