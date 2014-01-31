@@ -243,6 +243,7 @@ The code base for NGFB Open Graph+ has also been used to fork the [WordPress Soc
 * **Fixed** WooCommerce product detection for meta tags in the admin interface (Pro version).
 * **Fixed** the detection of an empty array when an image is rejected by the WooCommerce addon (Pro version).
 * **Fixed** missing Open Graph+ Sharing metabox on admin custom post types.
+* **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
 = Version 6.22.2 =
 
