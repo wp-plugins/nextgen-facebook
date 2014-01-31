@@ -111,6 +111,8 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 **NGFB Open Graph+ support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
+Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom).
+
 == Installation ==
 
 = How-To =
