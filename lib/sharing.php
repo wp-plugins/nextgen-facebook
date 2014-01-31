@@ -316,13 +316,13 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		public function show_sidebar() {
 			if ( ! $this->have_buttons( 'sidebar' ) )
 				return;
-
 			$text = '';
+			$js = trim( preg_replace( '/\/\*.*\*\//', '', $this->p->options['buttons_js_sidebar'] ) );
 			echo '<div id="ngfb-sidebar">';
 			echo '<div id="ngfb-sidebar-header"></div>';
 			echo $this->get_buttons( $text, 'sidebar', false );
-			echo '</div>';
-			echo '<script type="text/javascript">'.$this->p->options['buttons_js_sidebar'].'</script>';
+			echo '</div>', "\n";
+			echo '<script type="text/javascript">'.$js.'</script>', "\n";
 		}
 
 		public function show_admin_sharing( $post ) {
@@ -351,14 +351,14 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function get_buttons_get_the_excerpt( $text ) {
-			return $this->get_buttons( $text, 'the_excerpt' );
+			return $this->get_buttons( $text, 'excerpt' );
 		}
 
 		public function get_buttons_the_content( $text ) {
-			return $this->get_buttons( $text, 'the_content' );
+			return $this->get_buttons( $text, 'content' );
 		}
 
-		public function get_buttons( &$text, $type = 'the_content', $use_post = true ) {
+		public function get_buttons( &$text, $type = 'content', $use_post = true ) {
 
 			// should we skip the sharing buttons for this content type or webpage?
 			if ( is_admin() ) {
@@ -413,7 +413,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				ksort( $sorted_ids );
 
 				$atts['use_post'] = $use_post;
-				$css_type = $atts['css_id'] = preg_replace( '/^(the_)/', '', $type ).'-buttons';
+				$css_type = $atts['css_id'] = $type.'-buttons';
 				if ( ! empty( $this->p->options['buttons_preset_'.$type] ) )
 					$atts['preset_id'] = $this->p->options['buttons_preset_'.$type];
 

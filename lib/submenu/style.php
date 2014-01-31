@@ -53,18 +53,6 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					buttons for specific Posts, Pages, categories, tags, etc.</p>';
 					break;
 
-				case 'style-excerpt-info':
-					$text = '<p>Social sharing buttons, enabled / added to the excerpt text from the '.
-					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
-					', are assigned the \'ngfb-excerpt-buttons\' class, which itself contains the 
-					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
-					(see the Buttons Style tab).</p> 
-					<p>Example:</p><pre>
-.ngfb-excerpt-buttons 
-    .ngfb-buttons
-        .facebook-button { }</pre>';
-					break;
-
 				case 'style-content-info':
 					$text = '<p>Social sharing buttons, enabled / added to the content text from the '.
 					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
@@ -73,6 +61,18 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					(see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 .ngfb-content-buttons 
+    .ngfb-buttons
+        .facebook-button { }</pre>';
+					break;
+
+				case 'style-excerpt-info':
+					$text = '<p>Social sharing buttons, enabled / added to the excerpt text from the '.
+					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
+					', are assigned the \'ngfb-excerpt-buttons\' class, which itself contains the 
+					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
+					(see the Buttons Style tab).</p> 
+					<p>Example:</p><pre>
+.ngfb-excerpt-buttons 
     .ngfb-buttons
         .facebook-button { }</pre>';
 					break;

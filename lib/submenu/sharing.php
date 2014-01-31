@@ -40,10 +40,10 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 				 */
 				case ( strpos( $idx, 'tooltip-buttons_' ) !== false ? true : false ):
 					switch ( $idx ) {
-						case 'tooltip-buttons_pos_the_content':
+						case 'tooltip-buttons_pos_content':
 							$text = 'Individual social sharing button(s) must also be enabled below.';
 							break;
-						case 'tooltip-buttons_pos_the_excerpt':
+						case 'tooltip-buttons_pos_excerpt':
 							$text = 'Individual social sharing button(s) must also be enabled below.';
 							break;
 						case 'tooltip-buttons_on_index':
@@ -75,7 +75,10 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			$html = '<table>';
 			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_show_on', $show_on, $prefix ) as $suffix => $desc ) {
 				$cols++;
-				$html .= $cols == 1 ? '<tr><td class="show_on">' : '<td class="show_on">';
+				$class = array_key_exists( $prefix.'_on_'.$suffix.':is', $this->p->options ) &&
+					$this->p->options[$prefix.'_on_'.$suffix.':is'] === 'disabled' &&
+					! $this->p->check->is_aop() ? 'show_on blank' : 'show_on';
+				$html .= $cols == 1 ? '<tr><td class="'.$class.'">' : '<td class="'.$class.'">';
 				$html .= $this->form->get_checkbox( $prefix.'_on_'.$suffix ).$desc.'&nbsp; ';
 				$html .= $cols == 3 ? '</td></tr>' : '</td>';
 			}
@@ -137,12 +140,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			$rows = array();
 			switch ( $metabox.'-'.$key ) {
 				case 'sharing-position' :
-					$rows[] = $this->p->util->th( 'Position in Content Text', null, 'buttons_pos_the_content' ).
-					'<td>'.$this->form->get_select( 'buttons_pos_the_content',
+					$rows[] = $this->p->util->th( 'Position in Content Text', null, 'buttons_pos_content' ).
+					'<td>'.$this->form->get_select( 'buttons_pos_content',
 						array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ).'</td>';
 
-					$rows[] = $this->p->util->th( 'Position in Excerpt Text', null, 'buttons_pos_the_excerpt' ).
-					'<td>'.$this->form->get_select( 'buttons_pos_the_excerpt', 
+					$rows[] = $this->p->util->th( 'Position in Excerpt Text', null, 'buttons_pos_excerpt' ).
+					'<td>'.$this->form->get_select( 'buttons_pos_excerpt', 
 						array( 'top' => 'Top', 'bottom' => 'Bottom', 'both' => 'Both Top and Bottom' ) ).'</td>';
 					break;
 
