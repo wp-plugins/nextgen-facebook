@@ -25,8 +25,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			$this->set_objects();
 
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
-			add_action( 'wp_head', array( &$this, 'add_header' ), NGFB_HEAD_PRIORITY );
-			add_action( 'wp_footer', array( &$this, 'add_footer' ), NGFB_FOOTER_PRIORITY );
+			add_action( 'wp_head', array( &$this, 'show_header' ), NGFB_HEAD_PRIORITY );
+			add_action( 'wp_footer', array( &$this, 'show_footer' ), NGFB_FOOTER_PRIORITY );
 
 			$this->add_buttons_filter( 'get_the_excerpt' );
 			$this->add_buttons_filter( 'the_excerpt' );
@@ -43,6 +43,15 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					'tooltip_postmeta' => 3,	// tooltip messages for post meta custom settings
 				) );
 			} else $this->p->debug->mark();
+		}
+
+		private function set_objects() {
+			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
+				do_action( $this->p->cf['lca'].'_load_lib', 'website', $id );
+				$classname = __CLASS__.$id;
+				if ( class_exists( $classname ) )
+					$this->website[$id] = new $classname( $this->p );
+			}
 		}
 
 		public function filter_save_options( $opts, $options_name ) {
@@ -260,18 +269,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			}
 		}
 
-		public function add_sidebar() {
-			if ( ! $this->have_buttons( 'sidebar' ) )
-				return;
-
-			$text = '';
-			echo '<div id="ngfb-sidebar">';
-			echo '<div id="ngfb-sidebar-header"></div>';
-			echo $this->get_buttons( $text, 'sidebar', false );
-			echo '</div>';
-			echo '<script type="text/javascript">'.$this->p->options['buttons_js_sidebar'].'</script>';
-		}
-
 		public function add_post_metaboxes() {
 			if ( ! is_admin() )
 				return;
@@ -293,15 +290,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			}
 		}
 
-		private function set_objects() {
-			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				do_action( $this->p->cf['lca'].'_load_lib', 'website', $id );
-				$classname = __CLASS__.$id;
-				if ( class_exists( $classname ) )
-					$this->website[$id] = new $classname( $this->p );
-			}
-		}
-
 		public function add_buttons_filter( $type = 'the_content' ) {
 			add_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
 			$this->p->debug->log( 'buttons filter for '.$type.' added' );
@@ -313,16 +301,46 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return $rc;
 		}
 
-		public function add_header() {
-			echo $this->header_js();
+		public function show_header() {
+			echo $this->get_js_loader();
 			echo $this->get_js( 'header' );
 			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
-		public function add_footer() {
+		public function show_footer() {
 			echo $this->get_js( 'footer' );
-			echo $this->add_sidebar();
+			echo $this->show_sidebar();
 			$this->p->debug->show_html( null, 'Debug Log' );
+		}
+
+		public function show_sidebar() {
+			if ( ! $this->have_buttons( 'sidebar' ) )
+				return;
+
+			$text = '';
+			echo '<div id="ngfb-sidebar">';
+			echo '<div id="ngfb-sidebar-header"></div>';
+			echo $this->get_buttons( $text, 'sidebar', false );
+			echo '</div>';
+			echo '<script type="text/javascript">'.$this->p->options['buttons_js_sidebar'].'</script>';
+		}
+
+		public function show_admin_sharing( $post ) {
+			require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
+			$css_data = SuextMinifyCssCompressor::process( $this->p->options['buttons_css_admin_edit'] );
+			$post_type = get_post_type_object( $post->post_type );	// since 3.0
+			$post_type_name = ucfirst( $post_type->name );
+			echo '<style type="text/css">'.$css_data.'</style>', "\n";
+			echo '<table class="sucom-setting side"><tr><td>';
+			if ( get_post_status( $post->ID ) == 'publish' ) {
+				$content = '';
+				echo $this->get_js_loader();
+				echo $this->get_js( 'header' );
+				echo $this->get_buttons( $content, 'admin_edit' );
+				echo $this->get_js( 'footer' );
+				$this->p->debug->show_html( null, 'Debug Log' );
+			} else echo '<p class="centered">The '.$post_type_name.' must be published<br/>before it can be shared.</p>';
+			echo '</td></tr></table>';
 		}
 
 		public function get_buttons_the_excerpt( $text ) {
@@ -541,7 +559,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			return $js;
 		}
 
-		public function header_js( $pos = 'id' ) {
+		public function get_js_loader( $pos = 'id' ) {
 			$lang = empty( $this->p->options['gp_lang'] ) ? 'en-US' : $this->p->options['gp_lang'];
 			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
@@ -591,22 +609,6 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				}
 			}
 			return false;
-		}
-
-		public function show_admin_sharing( $post ) {
-			require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-			$css_data = SuextMinifyCssCompressor::process( $this->p->options['buttons_css_admin_edit'] );
-			$post_type = get_post_type_object( $post->post_type );	// since 3.0
-			$post_type_name = ucfirst( $post_type->name );
-			echo '<style type="text/css">'.$css_data.'</style>', "\n";
-			echo '<table class="sucom-setting side"><tr><td>';
-			if ( get_post_status( $post->ID ) == 'publish' ) {
-				$content = '';
-				$this->add_header();
-				echo $this->get_buttons( $content, 'admin_edit' );
-				$this->add_footer();
-			} else echo '<p class="centered">The '.$post_type_name.' must be published<br/>before it can be shared.</p>';
-			echo '</td></tr></table>';
 		}
 
 		// callback for add_buttons_the_excerpt()
