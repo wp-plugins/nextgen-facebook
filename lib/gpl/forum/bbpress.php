@@ -94,7 +94,7 @@ if ( ! class_exists( 'NgfbForumBbpressSharing' ) && class_exists( 'NgfbSharing' 
 .ngfb-bbp_single-buttons 
     .ngfb-buttons
         .facebook-button { }</pre></td>'.
-			'<td class="blank large code">'.$form->get_hidden( 'buttons_css_bbp_single' ).
+			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_bbp_single' ).
 				$this->p->options['buttons_css_bbp_single'].'</td>';
 			return $rows;
 		}

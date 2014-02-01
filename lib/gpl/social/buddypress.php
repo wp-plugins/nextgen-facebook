@@ -111,7 +111,7 @@ if ( ! class_exists( 'NgfbSocialBuddypressSharing' ) && class_exists( 'NgfbShari
 .ngfb-bp_activity-buttons 
     .ngfb-buttons
         .facebook-button { }</pre></td>'.
-			'<td class="blank large code">'.$form->get_hidden( 'buttons_css_bp_activity' ).
+			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_bp_activity' ).
 				$this->p->options['buttons_css_bp_activity'].'</td>';
 			return $rows;
 		}

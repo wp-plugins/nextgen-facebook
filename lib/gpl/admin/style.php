@@ -39,7 +39,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) ) {
 			}
 			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = '<td class="textinfo">'.$text.'</td>'.
-			'<td class="blank large code">'.$form->get_hidden( 'buttons_css_'.$idx ).
+			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_'.$idx ).
 				$this->p->options['buttons_css_'.$idx].'</td>';
 			return $rows;
 		}
@@ -59,7 +59,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) ) {
 		public function filter_style_sidebar_rows( $rows, $form ) {
 			$rows = array_merge( $rows, $this->filter_style_common_rows( $rows, $form, 'sidebar' ) );
 			$rows[] = $this->p->util->th( 'Sidebar Javascript', null, 'buttons_js_sidebar' ).
-			'<td class="blank medium code">'.$form->get_hidden( 'buttons_js_sidebar' ).
+			'<td class="blank average code">'.$form->get_hidden( 'buttons_js_sidebar' ).
 				$this->p->options['buttons_js_sidebar'].'</td>';
 			return $rows;
 		}
