@@ -86,13 +86,13 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
 
+			$ret['aop'] = self::$aop = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
+				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
+
 			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
 				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! NGFB_SOCIAL_SHARING_DISABLE ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				class_exists( $this->p->cf['cca'].'Sharing' ) ? true : false;
-
-			$ret['aop'] = self::$aop = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
-				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
 				$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
@@ -100,7 +100,13 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					constant( $constant_name ) ? false : true;
 			}
 
-			foreach ( $this->p->cf['lib']['pro'] as $sub => $libs ) {
+			$more_avail_checks = array(
+				'seo' => array(
+					'seou' => 'SEO Ultimate',
+				),
+			);
+
+			foreach ( SucomUtil::array_merge_recursive_distinct( $this->p->cf['lib']['pro'], $more_avail_checks ) as $sub => $libs ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
 				foreach ( $libs as $id => $name ) {
@@ -139,6 +145,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'seo-aioseop':
 							$chk['class'] = 'All_in_One_SEO_Pack';
 							$chk['plugin'] = 'all-in-one-seo-pack/all-in-one-seo-pack.php';
+							break;
+						case 'seo-seou':
+							$chk['class'] = 'SEO_Ultimate'; 
+							$chk['plugin'] = 'seo-ultimate/seo-ultimate.php';
 							break;
 						case 'seo-wpseo':
 							$chk['function'] = 'wpseo_init'; 
@@ -189,12 +199,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						( ! empty( $chk['optval'] ) && ! empty( $this->p->options[$chk['optval']] ) ) )
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 				}
-			}
-
-			if ( $ret['seo']['*'] === false ) {
-				if ( class_exists( 'SEO_Ultimate' ) || 
-					in_array( 'seo-ultimate/seo-ultimate.php', $this->active_plugins ) )
-						$ret['seo']['*'] = true;
 			}
 
 			return $ret;
