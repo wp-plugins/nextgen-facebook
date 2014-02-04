@@ -208,11 +208,11 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 == Changelog ==
 
-= Version 7.0 =
+= Version 7.0.1 =
 
 This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been too limiting, so new individual image dimensions have been added for each image context. You'll find new image dimension settings for all Twitter Card formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to match your existing image sizes to reduce the number of resized image files. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, for example, you may wish to use those dimensions instead.
 
-Version 7.0 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) You can include buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page. You'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
+Version 7.0.1 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) You can include buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page. You'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
 
 This version also includes a new 'Preset Options' tab on the Social Sharing settings page. These presets are meant to override the default button settings for specific locations -- like the admin editing page and the floating sidebar. The default sidebar CSS has been designed to use the larger sharing buttons with vertical counters, so the presets allow the buttons to be configured correctly for the sidebar. If you'd like to use smaller buttons in the sidebar, you should choose '[none]' as the Sidebar Preset, and adjust the Sidebar Style accordingly. By default, the sidebr is located 495px left of center, and 20% down from the top. You'll probably have to adjust this for your own theme layout.
 
@@ -293,7 +293,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 == Upgrade Notice ==
 
-= 7.0 =
+= 7.0.1 =
 
 Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A new floating sidebar location for social sharing buttons.
 

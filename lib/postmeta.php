@@ -71,8 +71,7 @@ if ( ! class_exists( 'NgfbPostmeta' ) ) {
 			$def_opts = $this->get_defaults();
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_info = array( 'ptn' => ucfirst( $post_type->name ), 'id' => $post->ID );
-			$this->form = $this->p->check->is_aop() ?
-				new SucomForm( $this->p, NGFB_META_NAME, $opts, $def_opts ) : null;
+			$this->form = new SucomForm( $this->p, NGFB_META_NAME, $opts, $def_opts );
 			wp_nonce_field( $this->get_nonce(), NGFB_NONCE );
 
 			$metabox = 'meta';

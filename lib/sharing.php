@@ -308,8 +308,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function show_footer() {
-			echo $this->get_js( 'footer' );
 			echo $this->show_sidebar();
+			echo $this->get_js( 'footer' );
 			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
