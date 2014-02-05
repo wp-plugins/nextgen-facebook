@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 6.22.2
+Stable Tag: 7.0.1
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
 
@@ -140,15 +140,14 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/">How do I install the Pro version?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/">How does NGFB Open Graph+ find images?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/">Social Sharing Buttons</a>
-<ul>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-use-other-social-sharing-buttons/">Can I use other social sharing buttons?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/how-do-i-turn-on-social-sharing-buttons-for-a-page/">How do I turn on Social Sharing Buttons for a page?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-does-the-facebook-like-button-flyout-get-clipped/">Why does the Facebook “Like” button flyout get clipped?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-pinterest-button-show/">Why doesn’t the Pinterest button show?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-twitter-count-increase/">Why doesn’t the Twitter count increase?</a></li>
-</ul>
-</li>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-use-other-social-sharing-buttons/">Can I use other social sharing buttons?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/how-do-i-turn-on-social-sharing-buttons-for-a-page/">How do I turn on Social Sharing Buttons for a page?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-does-the-facebook-like-button-flyout-get-clipped/">Why does the Facebook “Like” button flyout get clipped?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-pinterest-button-show/">Why doesn’t the Pinterest button show?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-twitter-count-increase/">Why doesn’t the Twitter count increase?</a></li>
+	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-are-supported/">What features of NextGEN Gallery are supported?</a></li>
@@ -172,7 +171,8 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a>
 		<div>A few debugging and problem solving techniques for the NGFB Open Graph+ plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">Filters</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a><ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
+	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> <div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
@@ -215,7 +215,7 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 This version continues several underlying code improvements by moving the GPL-only code into a `lib/gpl/` folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like *thumbnail*, *medium* and *large* -- has been too limiting, so new individual image dimensions have been added for each image context. You'll find new image dimension settings for all Twitter Card formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to match your existing image sizes to reduce the number of resized image files. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, for example, you may wish to use those dimensions instead.
 
-Version 7.0.1 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) You can include buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page. You'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
+Version 7.0.1 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I've had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) You can include buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page. You'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
 
 This version also includes a new 'Preset Options' tab on the Social Sharing settings page. These presets are meant to override the default button settings for specific locations -- like the admin editing page and the floating sidebar. The default sidebar CSS has been designed to use the larger sharing buttons with vertical counters, so the presets allow the buttons to be configured correctly for the sidebar. If you'd like to use smaller buttons in the sidebar, you should choose '[none]' as the Sidebar Preset, and adjust the Sidebar Style accordingly. By default, the sidebr is located 495px left of center, and 20% down from the top. You'll probably have to adjust this for your own theme layout.
 
@@ -298,7 +298,7 @@ Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/p
 
 = 7.0.1 =
 
-Underlying code improvements for modularity and future scalability. Addition of individual image dimension options for all Twitter Card formats. A new floating sidebar location for social sharing buttons.
+Underlying code improvements, individual image dimension options for all Twitter Card formats, a new floating sidebar location for social sharing buttons.
 
 = 6.22.2 =
 
