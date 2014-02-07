@@ -152,7 +152,9 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( $this->is_avail['ssb'] )
 				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons
 
-			if ( ! $this->check->is_aop() ) {
+			if ( ! $this->check->is_aop() ||
+				get_option( $this->cf['lca'].'_umsg' ) ||
+				SucomUpdate::get_umsg( $this->cf['lca'] ) ) {
 				require_once( NGFB_PLUGINDIR.'lib/gpl/addon.php' );
 				$this->gpl = new NgfbAddonGpl( $this );
 			} else $this->pro = new NgfbAddonPro( $this );
