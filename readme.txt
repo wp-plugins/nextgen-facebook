@@ -211,6 +211,10 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 == Changelog ==
 
+= Version 7.1dev1 =
+
+* Moved the Vimeo Video API support to the Pro version codebase.
+
 = Version 7.0.1 =
 
 Version 7.0.1 has been in development longer than most other versions (minor versions are often released every week or two) -- during this time, I've had the chance to develop and test a new floating sidebar feature for the social sharing buttons. It took some time to integrate and get right, but I think the results were well worth it. You can now include social sharing buttons in your content text, excerpts, as a widget, shortcode, using a function in your templates, on admin editing pages, and now as floating sidebar as well! :) Add buttons in the floating sidebar by checking the "Sidebar" options on the Social Sharing settings page, and you'll find the CSS and JavaScript for the sidebar on the Social Style settings page.
