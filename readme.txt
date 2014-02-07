@@ -214,6 +214,7 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 = Version 7.1dev1 =
 
 * Moved the Vimeo Video API support to the Pro version codebase.
+* **Fixed** false positive on the Custom Post Meta addon status (GPL version).
 
 = Version 7.0.1 =
 
