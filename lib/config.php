@@ -123,7 +123,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '247',		// increment when changing default options
+				'version' => '248',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 157,
 					'link_author_field' => '',
@@ -375,6 +375,7 @@ jQuery("#ngfb-sidebar").click( function(){ jQuery("#ngfb-sidebar-buttons").toggl
 					'plugin_add_to_post' => 1,
 					'plugin_add_to_page' => 1,
 					'plugin_add_to_attachment' => 1,
+					'plugin_cf_vid_url' => '_format_video_embed',
 					'plugin_verify_certs' => 0,
 					'plugin_file_cache_hrs' => 0,
 					'plugin_object_cache_exp' => 3600,

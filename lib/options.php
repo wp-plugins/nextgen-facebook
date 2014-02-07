@@ -361,6 +361,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'plugin_bitly_api_key':
 				case 'plugin_cdn_folders':
 				case 'plugin_cdn_excl':
+				case 'plugin_cf_vid_url':
 					return 'okblank';
 					break;
 
