@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.0.1',			// plugin version
+			'version' => '7.1dev1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -104,6 +104,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'ngg' => 'NextGEN Gallery',
 						'photon' => 'Jetpack Photon',
 						'slideshare' => 'Slideshare API',
+						'vimeo' => 'Vimeo Video API',
 						'wistia' => 'Wistia Video API',
 					),
 					'seo' => array(
@@ -368,7 +369,7 @@ jQuery("#ngfb-sidebar").click( function(){ jQuery("#ngfb-sidebar-buttons").toggl
 					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
 					'plugin_slideshare_api' => 0,
-					'plugin_vimeo_api' => 1,
+					'plugin_vimeo_api' => 0,
 					'plugin_wistia_api' => 0,
 					'plugin_youtube_api' => 1,
 					'plugin_add_to_post' => 1,
