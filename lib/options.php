@@ -295,7 +295,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					break;
 
 				// must be a url
-				case ( preg_match( '/^[a-z_]+_urls?$/', $key ) ? true : false ):
+				case 'link_publisher_url':
+				case 'og_publisher_url':
+				case 'og_def_img_url':
+				case 'plugin_cdn_urls':
 					return 'url';
 					break;
 
