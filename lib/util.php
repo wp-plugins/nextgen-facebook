@@ -71,9 +71,9 @@ if ( ! class_exists( 'NgfbUtil' ) && class_exists( 'SucomUtil' ) ) {
 				);
 				if ( ! empty( $this->p->cf['sharing']['show_on'] ) &&
 					is_array( $this->p->cf['sharing']['show_on'] ) ) {
-					$transients['NgfbSharing::add_buttons'] = array();
+					$transients['NgfbSharing::get_buttons'] = array();
 					foreach( $this->p->cf['sharing']['show_on'] as $type_id => $type_name )
-						$transients['NgfbSharing::add_buttons'][$type_id] = 'lang:'.$lang.'_post:'.$post_id.'_type:'.$type_name;
+						$transients['NgfbSharing::get_buttons'][$type_id] = 'lang:'.$lang.'_post:'.$post_id.'_type:'.$type_id;
 				}
 
 				$objects = array(
