@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.1dev2',			// plugin version
+			'version' => '7.1rc1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -183,7 +183,13 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'buttons_js_sidebar' => '/* Save an empty style text box to reload the default javascript */
 
 jQuery("#ngfb-sidebar").mouseenter( function(){ 
-	jQuery("#ngfb-sidebar-buttons").css({width:"auto",height:"auto",overflow:"visible"}); } );
+	jQuery("#ngfb-sidebar-buttons").css({
+		display:"block",
+		width:"auto",
+		height:"auto",
+		overflow:"visible",
+		"border-style":"solid",
+	}); } );
 jQuery("#ngfb-sidebar").click( function(){ 
 	jQuery("#ngfb-sidebar-buttons").toggle(); } );',
 					'buttons_preset_content' => '',
