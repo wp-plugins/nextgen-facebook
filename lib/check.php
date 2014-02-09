@@ -174,6 +174,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'media-wistia':
 							$chk['optval'] = 'plugin_wistia_api';
 							break;
+						case 'media-youtube':
+							$chk['optval'] = 'plugin_youtube_api';
+							break;
 						case 'admin-apikeys':
 						case 'admin-rewrite':
 						case 'admin-sharing':

@@ -106,6 +106,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'slideshare' => 'Slideshare API',
 						'vimeo' => 'Vimeo Video API',
 						'wistia' => 'Wistia Video API',
+						'youtube' => 'YouTube Video / Playlist API',
 					),
 					'seo' => array(
 						'aioseop' => 'All in One SEO Pack',
