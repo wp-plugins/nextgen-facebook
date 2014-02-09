@@ -219,6 +219,7 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 * Moved the Vimeo and Yahoo API support to the Pro version codebase.
 * **Fixed** false positive on the Custom Post Meta addon status (GPL version).
 * **Fixed** flushing of transient cache for sharing buttons on Post update.
+* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty Sidebar Style and Sidebar Javascript values to reload the new defaults.
 
 = Version 7.0.1 =
 

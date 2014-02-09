@@ -35,7 +35,10 @@
 
 /* hide the buttons by default and show/hide on hover/click */
 #ngfb-sidebar-buttons { 
-	display:none;
+	display:block;
+	width:0;		/* hide by default */
+	height:0;		/* hide by default */
+	overflow:hidden;	/* hide by default */
 	margin:10px 0 0 0;
 
 	/* create a shadowed box with a light grey background */
@@ -56,10 +59,6 @@
 	line-height:65px;
 	margin:10px 5px;
 }
-
-/* fix the google+ button, which breaks when the display is set to none */
-#ngfb-sidebar .ngfb-buttons div.gplus-button > div { text-align:center; width:60px !important; }
-#ngfb-sidebar .ngfb-buttons div.gplus-button > div > iframe { width:auto !important; }
 
 /* fix for the pinterest button */
 #ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }

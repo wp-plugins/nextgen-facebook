@@ -182,8 +182,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'buttons_css_widget' => '',
 					'buttons_js_sidebar' => '/* Save an empty style text box to reload the default javascript */
 
-jQuery("#ngfb-sidebar").mouseenter( function(){ jQuery("#ngfb-sidebar-buttons").show(); } );
-jQuery("#ngfb-sidebar").click( function(){ jQuery("#ngfb-sidebar-buttons").toggle(); } );',
+jQuery("#ngfb-sidebar").mouseenter( function(){ 
+	jQuery("#ngfb-sidebar-buttons").css({width:"auto",height:"auto",overflow:"visible"}); } );
+jQuery("#ngfb-sidebar").click( function(){ 
+	jQuery("#ngfb-sidebar-buttons").toggle(); } );',
 					'buttons_preset_content' => '',
 					'buttons_preset_excerpt' => '',
 					'buttons_preset_sidebar' => 'large_share_vertical',
