@@ -36,6 +36,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
 				$this->p->util->add_plugin_filters( $this, array( 
 					'save_options' => 2,		// update the sharing css file
+					'post_cache_transients' => 4,	// flush transients on post save
 					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
 					'status_pro_features' => 1,	// include social file cache status
 					'tooltip_side' => 2,		// tooltip messages for side boxes
@@ -60,6 +61,16 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				$this->update_sharing_css( $opts );
 			}
 			return $opts;
+		}
+
+		public function filter_post_cache_transients( $transients, $post_id, $lang = 'en_US', $sharing_url ) {
+			if ( ! empty( $this->p->cf['sharing']['show_on'] ) &&
+				is_array( $this->p->cf['sharing']['show_on'] ) ) {
+				$transients['NgfbSharing::get_buttons'] = array();
+				foreach( $this->p->cf['sharing']['show_on'] as $type_id => $type_name )
+					$transients['NgfbSharing::get_buttons'][$type_id] = 'lang:'.$lang.'_post:'.$post_id.'_type:'.$type_id;
+			}
+			return $transients;
 		}
 
 		public function filter_status_gpl_features( $features ) {
