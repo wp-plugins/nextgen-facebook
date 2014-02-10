@@ -167,6 +167,10 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 == Other / Additional Notes ==
 
 <ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> <div>An example showing the difference in meta tags between the NGFB Open Graph+ GPL version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
 		<div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a>
@@ -212,13 +216,14 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 == Changelog ==
 
-= Version 7.1dev2 =
+= Version 7.1rc1 =
 
 * Added an 'Alternate Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
 * Added 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters.
 * Moved the Vimeo and Yahoo API support to the Pro version codebase.
 * **Fixed** false positive on the Custom Post Meta addon status (GPL version).
 * **Fixed** flushing of transient cache for sharing buttons on Post update.
+* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty Sidebar Style and Sidebar Javascript values to reload the new defaults.
 
 = Version 7.0.1 =
 
