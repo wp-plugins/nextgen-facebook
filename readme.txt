@@ -216,14 +216,18 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 == Changelog ==
 
-= Version 7.1rc1 =
+= Version 7.1 =
 
-* Added an 'Alternate Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
-* Added 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters.
-* Moved the Vimeo and Yahoo API support to the Pro version codebase.
+NGFB Open Graph+ can recognize and parse standard object / iframe embed code, but some themes and plugins offer a custom field for video URLs, which is then used to create custom / non-standard embed code. Version 7.1 includes a new 'Video URL Custom Field' option on the Advanced settings page, under the Custom Settings tab, where you can enter the name of such a custom field. If found, the video URL will be used to retrieve information on that video, just like if it was found embedded in the content. Typically, the custom field name will start with an underscore, and the default 'Video URL Custom Field' name is "_format_video_embed" (which may or may not be supported by your theme, or may be known under a different name).
+
+A small compatibility issue with Facebook's sharing button and version 7.0.1's new sharing sidebar CSS has been found. The Facebook sharing button is not compatible with 'display:none' (which is toggled on mouse-over with jQuery). An alternate method, using a combination of width:0, height:0, and visibility:none is now used in the sidebar CSS. After upgrading to version 7.1, you should clear the 'Sidebar Style' and 'Sidebar Javascript' text input areas, then save the empty values to reload new defaults.
+
+* Added an 'Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
+* Added new 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters, called when a Post or Page is updated.
+* Moved the Vimeo and Yahoo APIs to Pro version addons.
 * **Fixed** false positive on the Custom Post Meta addon status (GPL version).
-* **Fixed** flushing of transient cache for sharing buttons on Post update.
-* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty Sidebar Style and Sidebar Javascript values to reload the new defaults.
+* **Fixed** flushing of transient cache for sharing buttons on Post / Page updates.
+* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty 'Sidebar Style' and 'Sidebar Javascript' values to reload the new defaults.
 
 = Version 7.0.1 =
 
@@ -268,6 +272,10 @@ The code base for NGFB Open Graph+ has also been used to fork the <a href="http:
 * **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
 == Upgrade Notice ==
+
+= 7.1 =
+
+Added a new 'Video URL Custom Field' option, fixed the sidebar CSS and JS for Facebook's share button, fixed transient cache expiration on Post / Page updates.
 
 = 7.0.1 =
 
