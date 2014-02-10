@@ -234,6 +234,7 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 * **Fixed** false positive on the Custom Post Meta addon status (GPL version).
 * **Fixed** flushing of transient cache for sharing buttons on Post / Page updates.
 * **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty 'Sidebar Style' and 'Sidebar Javascript' values to reload the new defaults.
+* **Fixed** missing closure of anchor tag for Pinterest button.
 
 = Version 7.0.1 =
 
