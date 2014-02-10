@@ -167,6 +167,10 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 == Other / Additional Notes ==
 
 <ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> <div>An example showing the difference in meta tags between the NGFB Open Graph+ GPL version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
 		<div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a>
