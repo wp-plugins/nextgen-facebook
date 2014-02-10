@@ -158,7 +158,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 			'data-pin-shape="'.$opts['pin_button_shape'].'" '.
 			'data-pin-color="'.$opts['pin_button_color'].'" '.
 			'data-pin-height="'.$pin_img_height.'" '.
-			'data-pin-config="'.$opts['pin_count_layout'].'" '.
+			'data-pin-config="'.$opts['pin_count_layout'].'">'.
 			'<img border="0" alt="Pin It" src="'.$pin_img_url.'" width="'.$pin_img_width.'" height="'.$pin_img_height.'" /></a></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
