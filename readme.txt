@@ -13,7 +13,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 == Description ==
 
 <blockquote>
-<strong>NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more.</strong>
+<p><strong>NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more.</strong></p>
 </blockquote>
 
 = Summary of Features =
@@ -91,7 +91,7 @@ NGFB Open Graph+ comes with several sharing buttons, that you can optionally inc
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 <blockquote>
-Don't need the sharing buttons? Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> plugin -- a fork of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting).
+<p>Don't need the sharing buttons? Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> plugin -- a fork of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting).</p>
 </blockquote>
 
 = Custom Contacts =
