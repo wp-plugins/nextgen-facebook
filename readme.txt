@@ -73,7 +73,7 @@ NGFB Open Graph+ (Pro version) also supports [WooCommerce v1 and v2](http://word
 
 NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the page content, including appropriate titles, descriptions, images, etc. Social sharing buttons can also be added to [bbPress](http://wordpress.org/plugins/bbpress/) single template pages and [BuddyPress](http://wordpress.org/plugins/buddypress/) activities.
 
-= Sharing Buttons =
+= Social Sharing Buttons =
 
 NGFB Open Graph+ comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
