@@ -267,68 +267,9 @@ The code base for NGFB Open Graph+ has also been used to fork the <a href="http:
 * **Fixed** missing Open Graph+ Sharing metabox on admin custom post types.
 * **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
-= Version 6.22.2 =
-
-* **Fixed** fallback to the Site Description value on singular pages.
-* **Fixed** addition of button javascript - on a static home page - when using the ngfb_get_social_buttons() function.
-
-= Version 6.22.1 =
-
-* **Fixed** a variable name used when upgrading the plugin options.
-
-= Version 6.22.0 =
-
-The Website Topic list in the Open Graph+ General settings has been expanded, and the new topics list is now located in a `share/topics.txt` text file for easier maintenance.
-
-* Added the NGFB_META_NAME_ALT, NGFB_OPTIONS_NAME_ALT, NGFB_SITE_OPTIONS_NAME_ALT constants to allow for settings migration.
-* Added an NGFB_TOPICS_LIST constant, with a default value of NGFB_PLUGINDIR.'share/topics.txt'.
-* Created a new `share/topics.txt` text file by merging the Wikipedia and StumbleUpon website lists.
-* Expanded the "Website Topic" selection using the new `share/topics.txt` list.
-* Moved the `sucom_get_lang()` function to `SucomUtil::get_lang()`.
-* Moved the default options variable definition from lib/options.php to lib/config.php.
-* Added an `sanitize_option_value()` method in the NgfbUtil class.
-* Added an 'ngfb_option_type' filter to optimize sanitation of option values.
-* Small improvements to the update check code.
-
-= Version 6.21.0 =
-
-Please note that support for [the NextGEN Gallery plugin](http://wordpress.org/plugins/nextgen-gallery/) has been moved to [the Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) in v6.21.0. This restores balance between the two distributions - [the NGFB Open Graph+ GPL version from WordPress.org](http://wordpress.org/plugins/nextgen-facebook/) offers complete support for Open Graph+ meta tags, the WordPress Media Library (including its `gallery` shortcode), and social sharing buttons, while the Pro version includes support for 3rd party plugins and services (like NextGEN Gallery, WordPress SEO, BuddyPress, bbPress, WooCommerce, Wistia videos, etc.). I remain committed to providing a complete and reliable set of features in the GPL version - all for free. There's no need to contribute in any way, though a little [help with forum questions](http://wordpress.org/support/plugin/nextgen-facebook), for example, is always welcome. ;-)
-
-* **Moved the NextGEN Gallery support to a Pro version addon**.
-* Added support for **JetPack Photon** to retrieve correct image sizes (Pro version).
-* Added an 'ngfb_image_downsize' hook (for the Jetpack Photon Pro addon).
-* Added hooks to disable JetPack Open Graph and Twitter Card meta tags.
-* Added a hook for the 'ngfb_sharing_url' filter to support WordPress SEO's "Force Transport" option (Pro version).
-* Moved the URL rewriting and shortening methods into hooks for the 'ngfb_rewrite_url' and 'ngfb_shorten_url' filters (Pro version).
-* Moved the "Disable Social Buttons" option in the Open Graph+ Custom Settings from the 'Webpage Head' tab to the 'Social Sharing' tab.
-* Added links to http URLs in the Open Graph+ Custom Settings 'Meta Tags Preview' tab.
-* Changed the default object expiration time from 1800 to 3600 seconds (1 hour).
-* Removed the "Reset Settings on Activate" Advanced option.
-* Renamed the NGFB_RESET constant to NGFB_RESET_ON_ACTIVATE.
-* Added an 'ngfb_load_lib' action to allow 3rd party plugins to provide library files.
-* Moved several methods from lib/util.php to lib/com/util.php.
-* Moved `show_sharing()` from lib/postmeta.php to lib/social.php.
-* Renamed the 'NgfbPlugin' main plugin class to 'Ngfb'.
-
 == Upgrade Notice ==
 
 = 7.0.1 =
 
 Underlying code improvements, individual image dimension options for all Twitter Card formats, a new floating sidebar location for social sharing buttons.
-
-= 6.22.2 =
-
-Maintenance release to fix two minor issues.
-
-= 6.22.1 =
-
-A minor update to fix a variable name used when upgrading the plugin options.
-
-= 6.22.0 =
-
-Expanded the Website Topic list in the SSO General settings, new constants, small code improvements.
-
-= 6.21.0 =
-
-Moved NextGEN Gallery support to Pro version, added support for JetPack Photon, added support for WordPress SEO "Force Transport" option.
 
