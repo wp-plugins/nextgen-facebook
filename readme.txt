@@ -18,7 +18,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 * Clean, elegant and feature-rich admin settings.
 * Adds Facebook / Google+ / LinkedIn / etc. Open Graph, Pinterest Rich Pin, and Twitter Card meta tags.
-* Configurable image sizes and content descriptions for different contexts (meta tags and social buttons).
+* Configurable image sizes and content descriptions for different contexts (meta tags and sharing buttons).
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for author meta tags and user profile pages.
 * **Integrates with 3rd party plugins and services for additional image, video, product, and content information**:
@@ -73,9 +73,9 @@ NGFB Open Graph+ (Pro version) also supports [WooCommerce v1 and v2](http://word
 
 NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the page content, including appropriate titles, descriptions, images, etc. Social sharing buttons can also be added to [bbPress](http://wordpress.org/plugins/bbpress/) single template pages and [BuddyPress](http://wordpress.org/plugins/buddypress/) activities.
 
-= Social Buttons =
+= Sharing Buttons =
 
-NGFB Open Graph+ comes with several social sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a widget, shortcode, or even a function call from your theme template(s). Each of the following social buttons can be enabled, configured, and styled individually:
+NGFB Open Graph+ comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
 * Facebook Like, Send, Share
 * Google+
@@ -86,7 +86,9 @@ NGFB Open Graph+ comes with several social sharing buttons, that you can optiona
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter social buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the social button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+
+Don't need the sharing buttons? Have a look at the [WordPress Social Sharing Optimization](http://wordpress.org/plugins/wpsso/) plugin -- a fork of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting).
 
 = Custom Contacts =
 
@@ -216,14 +218,18 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 == Changelog ==
 
-= Version 7.1rc1 =
+= Version 7.1 =
 
-* Added an 'Alternate Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
-* Added 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters.
-* Moved the Vimeo and Yahoo API support to the Pro version codebase.
+NGFB Open Graph+ can recognize and parse standard object / iframe embed code, but some themes and plugins offer a custom field for video URLs, which is then used to create custom / non-standard embed code. Version 7.1 includes a new 'Video URL Custom Field' option on the Advanced settings page, under the Custom Settings tab, where you can enter the name of such a custom field. If found, the video URL will be used to retrieve information on that video, just like if it was found embedded in the content. Typically, the custom field name will start with an underscore, and the default 'Video URL Custom Field' name is "_format_video_embed" (which may or may not be supported by your theme, or may be known under a different name).
+
+A small compatibility issue with Facebook's sharing button and version 7.0.1's new sharing sidebar CSS has been found. The Facebook sharing button is not compatible with 'display:none' (which is toggled on mouse-over with jQuery). An alternate method, using a combination of width:0, height:0, and visibility:none is now used in the sidebar CSS. After upgrading to version 7.1, you should clear the 'Sidebar Style' and 'Sidebar Javascript' text input areas, then save the empty values to reload new defaults.
+
+* Added an 'Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
+* Added new 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters, called when a Post or Page is updated.
+* Moved the Vimeo and Yahoo APIs to Pro version addons.
 * **Fixed** false positive on the Custom Post Meta addon status (GPL version).
-* **Fixed** flushing of transient cache for sharing buttons on Post update.
-* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty Sidebar Style and Sidebar Javascript values to reload the new defaults.
+* **Fixed** flushing of transient cache for sharing buttons on Post / Page updates.
+* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty 'Sidebar Style' and 'Sidebar Javascript' values to reload the new defaults.
 
 = Version 7.0.1 =
 
@@ -235,7 +241,7 @@ This version also includes a new 'Preset Options' tab on the Social Sharing sett
 
 Version 7.0.1 continues several underlying code improvements by moving the GPL-only code into a <code>lib/gpl/</code> folder structure (like the Pro version) and adding several filter hooks to improve the overall modularity of the plugin. Relying on existing WordPress image size names -- like <em>thumbnail</em>, <em>medium</em> and <em>large</em> -- has been too limiting, so new individual image dimensions have been added for each image context. You'll find new image dimension settings for all Twitter Card formats, along with the Pinterest and Tumblr sharing buttons. Please make sure you review these new image dimensions and adjust them for your needs. The defaults should be fine, but you may prefer to match your existing image sizes to reduce the number of resized image files. For example, some of the larger image dimensions default to 800x800 uncropped. If you already have an image size of 1024x1024 uncropped, for example, you may wish to use those dimensions instead.
 
-The code base for NGFB Open Graph+ has also been used to fork the <a href="http://wordpress.org/plugins/wpsso/" rel="nofollow">WordPress Social Sharing Optimization</a> (WPSSO) plugin -- it has many features in common with NGFB Open Graph+, but strives to be a little lighter and smaller by removing the social buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting). You can achieve the same results with NGFB Open Graph+ by setting the <code>NGFB_SOCIAL_SHARING_DISABLE</code> constant to <code>true</code> in your <code>wp-config.php</code> file.
+The code base for NGFB Open Graph+ has also been used to fork the <a href="http://wordpress.org/plugins/wpsso/" rel="nofollow">WordPress Social Sharing Optimization</a> (WPSSO) plugin -- it has many features in common with NGFB Open Graph+, but strives to be a little lighter and smaller by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting). You can achieve the same results with NGFB Open Graph+ by setting the <code>NGFB_SOCIAL_SHARING_DISABLE</code> constant to <code>true</code> in your <code>wp-config.php</code> file.
 
 * **Added image dimension options (instead of image size drop-down) for Twitter Card images** (Pro version).
 * **Added a new Sidebar location for social sharing buttons** - see the Social Sharing and Social Styles settings pages for options.
@@ -268,6 +274,10 @@ The code base for NGFB Open Graph+ has also been used to fork the <a href="http:
 * **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
 == Upgrade Notice ==
+
+= 7.1 =
+
+Added a new 'Video URL Custom Field' option, fixed the sidebar CSS and JS for Facebook's share button, fixed transient cache expiration on Post / Page updates.
 
 = 7.0.1 =
 
