@@ -71,7 +71,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
 			$atts['filter_id'] = empty( $atts['filter_id'] ) ? 'shortcode' : $atts['filter_id'];
 
-			if ( ! empty( $atts['buttons'] ) && $this->p->sharing->is_disabled() == false ) {
+			if ( ! empty( $atts['buttons'] ) ) {
 				$atts['css_id'] .= '-buttons';
 
 				if ( $this->p->is_avail['cache']['transient'] ) {

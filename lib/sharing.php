@@ -325,15 +325,21 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function show_sidebar() {
-			if ( ! $this->have_buttons( 'sidebar' ) )
+			if ( ! $this->have_buttons( 'sidebar' ) ) {
+				$this->p->debug->log( 'exiting early: no buttons enabled for sidebar' );
 				return;
-			$text = '';
+			}
 			$js = trim( preg_replace( '/\/\*.*\*\//', '', $this->p->options['buttons_js_sidebar'] ) );
-			echo '<div id="ngfb-sidebar">';
-			echo '<div id="ngfb-sidebar-header"></div>';
-			echo $this->get_buttons( $text, 'sidebar', false );
-			echo '</div>', "\n";
-			echo '<script type="text/javascript">'.$js.'</script>', "\n";
+			$text = '';	// varabled passed by reference
+			$text = $this->get_buttons( $text, 'sidebar', false );	// use_post = false
+			if ( ! empty( $text ) ) {
+				echo '<div id="ngfb-sidebar">';
+				echo '<div id="ngfb-sidebar-header"></div>';
+				echo $text;
+				echo '</div>', "\n";
+				echo '<script type="text/javascript">'.$js.'</script>', "\n";
+			}
+			$this->p->debug->show_html( null, 'Debug Log' );
 		}
 
 		public function show_admin_sharing( $post ) {
@@ -501,17 +507,17 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				return;
 			}
 
-			if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
-				$this->p->debug->log( 'exiting early: buttons disabled' );
-				return;
-			} elseif ( is_admin() && ( empty( $obj->filter ) || $obj->filter !== 'edit' ) ) {
-				$this->p->debug->log( 'exiting early: admin non-editing page' );
-				return;
-			}
-
 			// determine which (if any) sharing buttons are enabled
 			// loop through the sharing button option prefixes (fb, gp, etc.)
 			if ( empty( $ids ) ) {
+				if ( ! is_admin() && is_singular() && $this->is_disabled() ) {
+					$this->p->debug->log( 'exiting early: buttons disabled' );
+					return;
+				} elseif ( is_admin() && ( empty( $obj->filter ) || $obj->filter !== 'edit' ) ) {
+					$this->p->debug->log( 'exiting early: admin non-editing page' );
+					return;
+				}
+
 				if ( class_exists( 'NgfbWidgetSharing' ) ) {
 					$widget = new NgfbWidgetSharing();
 		 			$widget_settings = $widget->get_settings();
@@ -609,17 +615,18 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function is_disabled() {
 			global $post;
+			$ret = false;
 			if ( ! empty( $post ) ) {
 				$post_type = $post->post_type;
 				if ( $this->p->addons['util']['postmeta']->get_options( $post->ID, 'buttons_disabled' ) ) {
 					$this->p->debug->log( 'found custom meta buttons disabled = true' );
-					return true;
+					$ret = true;
 				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
 					$this->p->debug->log( 'sharing buttons disabled for post '.$post->ID.' of type '.$post_type );
-					return true;
+					$ret = true;
 				}
 			}
-			return false;
+			return apply_filters( $this->p->cf['lca'].'_is_disabled', $ret );
 		}
 
 		public function remove_paragraph_tags( $match = array() ) {
