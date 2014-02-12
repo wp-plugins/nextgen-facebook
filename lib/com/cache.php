@@ -215,13 +215,13 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					if ( ! file_exists( $cache_file ) )
 						$this->p->debug->log( $cache_file.' does not exist yet.' );
 					elseif ( ! is_readable( $cache_file ) )
-						$this->p->notice->err( '<u>'.$cache_file.'</u> is not readable.' );
+						$this->p->notice->err( $cache_file.' is not readable.' );
 					elseif ( $this->p->is_avail['aop'] !== true && ! is_admin() )
 						$this->p->debug->log( 'file cache disabled: must be pro or admin.' );
 					elseif ( filemtime( $cache_file ) < time() - $file_expire )
 						$this->p->debug->log( $cache_file.' is expired (file expiration = '.$file_expire.').' );
 					elseif ( ! $fh = @fopen( $cache_file, 'rb' ) )
-						$this->p->notice->err( 'Error reading <u>'.$cache_file.'</u>.' );
+						$this->p->notice->err( 'Failed to open '.$cache_file.' for reading.' );
 					else {
 						$cache_data = fread( $fh, filesize( $cache_file ) );
 						fclose( $fh );
@@ -272,10 +272,10 @@ if ( ! class_exists( 'SucomCache' ) ) {
 					if ( ! is_dir( $this->base_dir ) ) 
 						mkdir( $this->base_dir );
 					if ( ! is_writable( $this->base_dir ) )
-						$this->p->notice->err( '<u>'.$this->base_dir.'</u> is not writable.' );
+						$this->p->notice->err( $this->base_dir.' is not writable.' );
 					elseif ( $this->p->is_avail['aop'] == true || is_admin() ) {
 						if ( ! $fh = @fopen( $cache_file, 'wb' ) )
-							$this->p->notice->err( 'Failed to open <u>'.$cache_file.'</u> for writing.' );
+							$this->p->notice->err( 'Failed to open '.$cache_file.' for writing.' );
 						else {
 							if ( fwrite( $fh, $cache_data ) ) {
 								$this->p->debug->log( $cache_type.': cache_data saved to "'.$cache_file.'"' );

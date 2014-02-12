@@ -249,14 +249,19 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					}
 					echo '</style>',"\n";
 				}
-			}
+			} else $this->p->debug->log( 'social css option is disabled' );
 		}
 
 		public function update_sharing_css( &$opts ) {
 			if ( ! empty( $opts['buttons_use_social_css'] ) ) {
-				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) )
-					$this->p->debug->log( 'Error opening '.$this->sharing_css_min_file.' for writing.' );
-				else {
+				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) ) {
+					if ( is_admin() ) {
+						if ( ! is_writable( NGFB_CACHEDIR ) )
+							$this->p->notice->err( NGFB_CACHEDIR.' is not writable.', true );
+						$this->p->notice->err( 'Failed to open '.$this->sharing_css_min_file.' for writing.', true );
+					}
+					$this->p->debug->log( 'failed to open '.$this->sharing_css_min_file.' for writing.' );
+				} else {
 					$css_data = '';
 					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
 						$this->p->cf['sharing']['style'] );
@@ -273,10 +278,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function unlink_sharing_css() {
 			if ( file_exists( $this->sharing_css_min_file ) ) {
-				if ( ! @unlink( $this->sharing_css_min_file ) )
-					add_settings_error( NGFB_OPTIONS_NAME, 'cssnotrm', 
-						'<b>'.$this->p->cf['uca'].' Error</b> : Error removing minimized stylesheet. 
-							Does the web server have sufficient privileges?', 'error' );
+				if ( ! @unlink( $this->sharing_css_min_file ) && is_admin() )
+					$this->p->notice->err( 'Error removing minimized stylesheet. Does the web server have sufficient privileges?', true );
 			}
 		}
 
