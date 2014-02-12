@@ -258,7 +258,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					if ( is_admin() ) {
 						if ( ! is_writable( NGFB_CACHEDIR ) )
 							$this->p->notice->err( NGFB_CACHEDIR.' is not writable.', true );
-						$this->p->notice->err( 'Failed to open '.$this->sharing_css_min_file.' for writing.', true );
+						$this->p->notice->err( 'Failed to open file '.$this->sharing_css_min_file.' for writing.', true );
 					}
 					$this->p->debug->log( 'failed to open '.$this->sharing_css_min_file.' for writing.' );
 				} else {
@@ -279,7 +279,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		public function unlink_sharing_css() {
 			if ( file_exists( $this->sharing_css_min_file ) ) {
 				if ( ! @unlink( $this->sharing_css_min_file ) && is_admin() )
-					$this->p->notice->err( 'Error removing minimized stylesheet. Does the web server have sufficient privileges?', true );
+					$this->p->notice->err( 'Error removing minimized stylesheet file. Does the web server have sufficient privileges?', true );
 			}
 		}
 
