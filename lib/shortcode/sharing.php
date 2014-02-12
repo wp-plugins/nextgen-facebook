@@ -93,8 +93,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 				$html .= '<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' begin -->'.
 					$this->p->sharing->get_js( 'shortcode-header', $ids ).
 					'<div class="'.$this->p->cf['lca'].'-'.$atts['css_id'].'">'.
-					$this->p->sharing->get_html( $ids, $atts ).
-					'</div>'.
+					$this->p->sharing->get_html( $ids, $atts ).'</div>'.
 					$this->p->sharing->get_js( 'shortcode-footer', $ids ).
 					'<!-- '.$this->p->cf['lca'].' '.$atts['css_id'].' end -->';
 
@@ -104,7 +103,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 						$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 				}
 			}
-			return $this->p->debug->get_html().$html;
+			return $html.$this->p->debug->get_html();
 		}
 	}
 }

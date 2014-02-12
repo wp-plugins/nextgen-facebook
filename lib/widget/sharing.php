@@ -53,8 +53,8 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 				$html = get_transient( $cache_id );
 				if ( $html !== false ) {
 					$this->p->debug->log( $cache_type.': html retrieved from transient '.$cache_id );
-					$this->p->debug->show_html();
 					echo $html;
+					$this->p->debug->show_html();
 					return;
 				}
 			}
@@ -76,14 +76,14 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 			$html = '<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' begin -->'.
 				$before_widget.( empty( $title ) ? '' : $before_title.$title.$after_title ).
 				$this->p->sharing->get_html( $sorted_ids, $atts ).$after_widget.
-				'<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->';
+				'<!-- '.$this->p->cf['lca'].' '.$args['widget_id'].' end -->'."\n";
 
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $html, $this->p->cache->object_expire );
 				$this->p->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$this->p->cache->object_expire.' seconds)');
 			}
-			$this->p->debug->show_html();
 			echo $html;
+			$this->p->debug->show_html();
 		}
 	
 		public function update( $new_instance, $old_instance ) {

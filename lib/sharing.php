@@ -457,16 +457,16 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 			switch ( $buttons_pos ) {
 				case 'top' : 
-					$text = $this->p->debug->get_html().$html.$text; 
+					$text = $html.$text; 
 					break;
 				case 'bottom': 
-					$text = $this->p->debug->get_html().$text.$html; 
+					$text = $text.$html; 
 					break;
 				case 'both' : 
-					$text = $this->p->debug->get_html().$html.$text.$html; 
+					$text = $html.$text.$html; 
 					break;
 			}
-			return $text;
+			return $text.$this->p->debug->get_html();
 		}
 
 		// get_html() is called by the widget, shortcode, function, and perhaps some filter hooks
