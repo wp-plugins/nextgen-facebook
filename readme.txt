@@ -224,7 +224,7 @@ Surnia Ulula on [Google+](https://plus.google.com/u/1/103457833348046432604?rel=
 
 = Version 7.1.1 =
 
-* **Fixed** logic for the sharing buttons shortcode to ignore the include/exclude buttons options.
+* **Fixed** logic for the sharing shortcode to ignore include/exclude buttons options.
 * Added error messages for permission issues when updating the minimized stylesheet.
 * Improved error message reporting for permission issues accessing the cache folder.
 
