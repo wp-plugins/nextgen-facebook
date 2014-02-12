@@ -266,7 +266,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
 						$this->p->cf['sharing']['style'] );
 					foreach ( $style_tabs as $id => $name )
-						$css_data .= $opts['buttons_css_'.$id];
+						if ( array_key_exists( 'buttons_css_'.$id, $opts ) )
+							$css_data .= $opts['buttons_css_'.$id];
 					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
 					$css_data = SuextMinifyCssCompressor::process( $css_data );
 					fwrite( $fh, $css_data );
