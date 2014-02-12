@@ -222,7 +222,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					'gp_size' => 'medium',
 					'gp_annotation' => 'bubble',
 					'gp_expandto' => '',
-					'tc_enable' => 0,
+					'tc_enable' => 1,
 					'tc_site' => '',
 					'tc_desc_len' => 200,
 					// summary card
