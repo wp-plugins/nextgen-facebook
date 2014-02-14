@@ -23,7 +23,7 @@
 	height:72px;
 
 	/* modify the share icon for the sidebar here */
-	background-image:url("{{NGFB_URLPATH}}images/share-icon-1.png");
+	background-image:url("{{URLPATH}}images/share-icon-1.png");
 	background-repeat:no-repeat;
 	background-position:center;
 }
