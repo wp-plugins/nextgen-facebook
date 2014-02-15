@@ -57,6 +57,9 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function filter_get_defaults( $opts_def ) {
+			
+			$this->p->cf['opt']['defaults'] = $this->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
+
 			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
 				// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o

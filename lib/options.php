@@ -33,7 +33,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 		public function get_defaults( $idx = '' ) {
 
-			$this->p->cf['opt']['defaults'] = $this->add_to_post_types( $this->p->cf['opt']['defaults'] );
+			$this->p->cf['opt']['defaults'] = $this->add_to_options( $this->p->cf['opt']['defaults'] );
 
 			$this->p->cf['opt']['defaults']['link_author_field'] = empty( $this->p->options['plugin_cm_gp_name'] ) ? 
 				$this->p->cf['opt']['defaults']['plugin_cm_gp_name'] : $this->p->options['plugin_cm_gp_name'];
@@ -65,7 +65,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			else return $this->p->cf['opt']['defaults'];
 		}
 
-		public function add_to_post_types( &$opts = array(), $add_to_prefixes = array( 'buttons', 'plugin' ) ) {
+		public function add_to_options( &$opts = array(), $add_to_prefixes = array( 'plugin' ) ) {
 			foreach ( $add_to_prefixes as $prefix ) {
 				foreach ( $this->p->util->get_post_types( $prefix ) as $post_type ) {
 					$option_name = $prefix.'_add_to_'.$post_type->name;
@@ -119,7 +119,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 				// add support for post types that may have been added since options last saved
 				if ( $options_name == NGFB_OPTIONS_NAME )
-					$opts = $this->add_to_post_types( $opts );
+					$opts = $this->add_to_options( $opts );
 
 				if ( ! empty( $this->p->is_avail['seo']['*'] ) &&
 					array_key_exists( 'inc_description', $opts ) ) {

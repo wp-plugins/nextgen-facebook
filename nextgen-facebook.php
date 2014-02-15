@@ -159,6 +159,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->gpl = new NgfbAddonGpl( $this );
 			} else $this->pro = new NgfbAddonPro( $this );
 
+			do_action( $this->cf['lca'].'_init_addon' );
+
 			/*
 			 * check and upgrade options if necessary
 			 */
