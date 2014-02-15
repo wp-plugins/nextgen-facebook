@@ -33,25 +33,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 		public function get_defaults( $idx = '' ) {
 
-			if ( $this->p->is_avail['ssb'] ) {
-				foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
-					$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
-					// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
-					if ( empty( $this->p->cf['opt']['defaults']['buttons_css_'.$id] ) ) {
-						if ( ! $fh = @fopen( $css_file, 'rb' ) )
-							$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
-						else {
-							$css_data = fread( $fh, filesize( $css_file ) );
-							fclose( $fh );
-							foreach ( array( 'URLPATH' => NGFB_URLPATH ) as $macro => $value )
-								$css_data = preg_replace( '/{{'.$macro.'}}/', $value, $css_data );
-							$this->p->cf['opt']['defaults']['buttons_css_'.$id] = $css_data;
-							$this->p->debug->log( 'read css from file '.$css_file );
-						}
-					}
-				}
-			}
-
 			$this->p->cf['opt']['defaults'] = $this->add_to_post_types( $this->p->cf['opt']['defaults'] );
 
 			$this->p->cf['opt']['defaults']['link_author_field'] = empty( $this->p->options['plugin_cm_gp_name'] ) ? 
