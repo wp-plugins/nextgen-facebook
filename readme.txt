@@ -222,6 +222,24 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
+= Version 7.1.2dev1 =
+
+* **Fixed** the detection of featured images for the Pinterest button in the sidebar.
+
+Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidbar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
+
+`
+-#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
+`
+
+to:
+
+`
++#ngfb-sidebar .ngfb-buttons div.pinterest-button { height:28px; margin-top:42px; }
+`
+
+Also note: The default sidebar JavaScript was also updated in v7.1. If you have not cleared and reloaded the default JavaScript from v7.1, you may want to do this as well.
+
 = Version 7.1.1 =
 
 * **Fixed** logic for the sharing shortcode to ignore include/exclude buttons options.
