@@ -226,7 +226,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 * **Fixed** the detection of featured images for the Pinterest button in the sidebar.
 
-Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidbar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
+Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidebar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
 
 `
 -#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
@@ -303,6 +303,10 @@ The code base for NGFB Open Graph+ has also been used to fork the <a href="http:
 * **Fixed** call to NGG method for image tags when addon is not available (GPL version).
 
 == Upgrade Notice ==
+
+= 7.1.2dev1 =
+
+Fixed the detection of featured images for the Pinterest button in the sidebar.
 
 = 7.1.1 =
 
