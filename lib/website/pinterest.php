@@ -78,7 +78,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->p->util->add_option_image_sizes( array( 'pin_img' => 'pinterest' ) );
+			$this->p->util->add_img_sizes_from_opts( array( 'pin_img' => 'pinterest' ) );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {
@@ -94,21 +94,28 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 
+			$post_id = 0;
+			if ( is_singular() || $use_post !== false ) {
+				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return false;
+				}
+				if ( ! empty( $obj->ID ) )
+					$post_id = $obj->ID;
+			}
+
 			if ( empty( $atts['size'] ) ) 
 				$atts['size'] = $this->p->cf['lca'].'-pinterest';
 
 			if ( empty( $atts['photo'] ) ) {
-				if ( empty( $atts['pid'] ) ) {
-					// allow on index pages only if in content (not a widget)
-					if ( ! empty( $post ) && $use_post == true ) {
-						$pid = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id' );
-						$pre = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id_pre' );
-						if ( ! empty( $pid ) ) 
-							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
-						elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-						else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
-					}
+				if ( empty( $atts['pid'] ) && $post_id > 0 ) {
+					$pid = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id' );
+					$pre = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id_pre' );
+					if ( ! empty( $pid ) ) 
+						$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
+					elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) )
+						$atts['pid'] = get_post_thumbnail_id( $post_id );
+					else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post_id );
 				}
 				if ( ! empty( $atts['pid'] ) )
 					list( $atts['photo'], $atts['width'], $atts['height'],
@@ -116,11 +123,13 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 			}
 
 			// the pinterest button always shares an image - return now if there's no image
-			if ( empty( $atts['photo'] ) )
-				return;
+			if ( empty( $atts['photo'] ) ) {
+				$this->p->debug->log( 'exiting early: no photo defined for post_id '.$post_id );
+				return false;
+			}
 
-			if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
-				$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'pin_desc' );
+			if ( empty( $atts['caption'] ) && $post_id > 0 ) 
+				$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post_id, 'pin_desc' );
 
 			if ( empty( $atts['caption'] ) ) 
 				$atts['caption'] = $this->p->webpage->get_caption( $opts['pin_caption'], 

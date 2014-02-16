@@ -58,7 +58,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function filter_get_defaults( $opts_def ) {
 			
-			$this->p->cf['opt']['defaults'] = $this->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
+			$this->p->cf['opt']['defaults'] = $this->p->opt->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
 
 			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
@@ -267,8 +267,9 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 				} else {
 					echo '<style type="text/css">';
-					if ( $fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
-						echo fread( $fh, filesize( $this->sharing_css_min_file ) );
+					if ( ( $fsize = filesize( $this->sharing_css_min_file ) ) > 0 &&
+						$fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
+						echo fread( $fh, $fsize );
 						fclose( $fh );
 					}
 					echo '</style>',"\n";
