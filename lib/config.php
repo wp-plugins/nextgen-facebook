@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.1.2dev1',			// plugin version
+			'version' => '7.1.2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -671,14 +671,16 @@ jQuery("#ngfb-sidebar").click( function(){
 				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
 			} else require_once( $plugin_dir.'lib/functions.php' );
 
-			if ( file_exists( $plugin_dir.'lib/sharing.php' ) &&
-				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
-					! NGFB_SOCIAL_SHARING_DISABLE ) )
-						require_once( $plugin_dir.'lib/sharing.php' );
+			if ( ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
+				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
+				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
+				file_exists( $plugin_dir.'lib/sharing.php' ) )
+					require_once( $plugin_dir.'lib/sharing.php' );
 
-			if ( file_exists( $plugin_dir.'lib/opengraph.php' ) &&
-				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&
-				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) )
+			if ( ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
+				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
+				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
+				file_exists( $plugin_dir.'lib/opengraph.php' ) )
 					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
 			// additional classes are loaded and extended by the pro addon construct

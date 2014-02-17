@@ -79,20 +79,23 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 
-			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || ! NGFB_META_TAGS_DISABLE ) &&
+			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || 
+				( defined( 'NGFB_META_TAGS_DISABLE' ) && ! NGFB_META_TAGS_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
 
-			$ret['opengraph'] = file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
-				( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || ! NGFB_OPEN_GRAPH_DISABLE ) &&
+			$ret['opengraph'] = ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
+				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
+				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
 				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
 
 			$ret['aop'] = self::$a = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
 
-			$ret['ssb'] = file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
-				( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || ! NGFB_SOCIAL_SHARING_DISABLE ) &&
+			$ret['ssb'] = ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
+				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
+				file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
 				class_exists( $this->p->cf['cca'].'Sharing' ) ? true : false;
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
