@@ -224,7 +224,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.1.2dev1 =
 
-* **Fixed** the detection of featured images for the Pinterest button in the sidebar.
+* **Fixed** the detection of featured images for the Pinterest button in the sidebar and widget.
 
 Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidebar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
 
