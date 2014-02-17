@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.1.1
+Stable Tag: 7.1.2
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
 
@@ -227,16 +227,16 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 * **Fixed** checks for the NGFB_META_TAGS_DISABLE, NGFB_OPEN_GRAPH_DISABLE, and NGFB_SOCIAL_SHARING_DISABLE constants.
 * **Fixed** the detection of featured images for the Pinterest button in the sidebar and widget.
 
-Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidebar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
+Note: **The default sidebar CSS has been updated**. If you have not made any modifications to the default sidebar CSS, you can clear its content and save an empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
 
 `
--#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
+#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
 `
 
 to:
 
 `
-+#ngfb-sidebar .ngfb-buttons div.pinterest-button { height:28px; margin-top:42px; }
+#ngfb-sidebar .ngfb-buttons div.pinterest-button { height:28px; margin-top:42px; }
 `
 
 Also note: The default sidebar JavaScript was also updated in v7.1. If you have not cleared and reloaded the default JavaScript from v7.1, you may want to do this as well.
