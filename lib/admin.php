@@ -272,9 +272,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_info', __( 'Version Information', NGFB_TEXTDOM ), array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_status', __( 'Plugin Features', NGFB_TEXTDOM ), array( &$this, 'show_metabox_status' ), $this->pagehook, 'side' );
 			add_meta_box( $this->pagehook.'_help', __( 'Help and Support', NGFB_TEXTDOM ), array( &$this, 'show_metabox_help' ), $this->pagehook, 'side' );
-
-			if ( $this->p->check->is_aop() )
-				add_meta_box( $this->pagehook.'_thankyou', __( 'Thank You', NGFB_TEXTDOM ), array( &$this, 'show_metabox_thankyou' ), $this->pagehook, 'side' );
 		}
 
 		public function show_page() {
@@ -504,13 +501,6 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					__( 'Purchase the Pro Version', NGFB_TEXTDOM ) ), 
 				'button-primary', null, $this->p->cf['url']['purchase'], true );
 			echo '</p></td></tr></table>';
-		}
-
-		public function show_metabox_thankyou() {
-			echo '<table class="sucom-setting"><tr><td>';
-			echo $this->p->msgs->get( 'side-thankyou' );
-			echo '<p class="sig">js.</p>';
-			echo '</td></tr></table>';
 		}
 
 		public function show_metabox_help() {

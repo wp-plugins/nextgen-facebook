@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
-			$this->p->util->add_option_image_sizes( array( 'tumblr_img' => 'tumblr' ) );
+			$this->p->util->add_img_sizes_from_opts( array( 'tumblr_img' => 'tumblr' ) );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

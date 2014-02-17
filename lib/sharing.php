@@ -35,6 +35,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
 				$this->p->util->add_plugin_filters( $this, array( 
+					'get_defaults' => 1,		// add css file content to defaults
 					'save_options' => 2,		// update the sharing css file
 					'post_cache_transients' => 4,	// flush transients on post save
 					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
@@ -53,6 +54,29 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			
+			$this->p->cf['opt']['defaults'] = $this->p->opt->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
+
+			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
+				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
+				// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
+				if ( empty( $opts_def['buttons_css_'.$id] ) ) {
+					if ( ! $fh = @fopen( $css_file, 'rb' ) )
+						$this->p->notice->err( 'Failed to open '.$css_file.' for reading.' );
+					else {
+						$css_data = fread( $fh, filesize( $css_file ) );
+						fclose( $fh );
+						$this->p->debug->log( 'read css from file '.$css_file );
+						foreach ( array( 'URLPATH' => NGFB_URLPATH ) as $macro => $value )
+							$css_data = preg_replace( '/{{'.$macro.'}}/', $value, $css_data );
+						$opts_def['buttons_css_'.$id] = $css_data;
+					}
+				}
+			}
+			return $opts_def;
 		}
 
 		public function filter_save_options( $opts, $options_name ) {
@@ -243,8 +267,9 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 					wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 				} else {
 					echo '<style type="text/css">';
-					if ( $fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
-						echo fread( $fh, filesize( $this->sharing_css_min_file ) );
+					if ( ( $fsize = filesize( $this->sharing_css_min_file ) ) > 0 &&
+						$fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
+						echo fread( $fh, $fsize );
 						fclose( $fh );
 					}
 					echo '</style>',"\n";

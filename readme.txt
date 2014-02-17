@@ -222,9 +222,10 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.1.2dev1 =
+= Version 7.1.2 =
 
-* **Fixed** the detection of featured images for the Pinterest button in the sidebar.
+* **Fixed** checks for the NGFB_META_TAGS_DISABLE, NGFB_OPEN_GRAPH_DISABLE, and NGFB_SOCIAL_SHARING_DISABLE constants.
+* **Fixed** the detection of featured images for the Pinterest button in the sidebar and widget.
 
 Note: The default sidebar CSS has been updated. If you have not made any modifications to the default sidebar CSS, you may clear its content and save the empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
 
@@ -304,9 +305,9 @@ The code base for NGFB Open Graph+ has also been used to fork the <a href="http:
 
 == Upgrade Notice ==
 
-= 7.1.2dev1 =
+= 7.1.2 =
 
-Fixed the detection of featured images for the Pinterest button in the sidebar.
+Fixed the detection of featured images for the Pinterest button in the sidebar and widget, fixed checks for a few constants that disable features.
 
 = 7.1.1 =
 
