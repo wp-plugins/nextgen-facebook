@@ -12,10 +12,6 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-<blockquote>
-<p><strong>NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more.</strong></p>
-</blockquote>
-
 = Summary of Features =
 
 * Clean, elegant and feature-rich admin settings.
