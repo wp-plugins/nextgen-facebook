@@ -218,6 +218,10 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
+= Version 7.1.3 =
+
+* Added support for YouTube's old embed code.
+
 = Version 7.1.2 =
 
 * **Fixed** checks for the NGFB_META_TAGS_DISABLE, NGFB_OPEN_GRAPH_DISABLE, and NGFB_SOCIAL_SHARING_DISABLE constants.
@@ -258,6 +262,10 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 * **Fixed** missing closure of anchor tag for Pinterest button.
 
 == Upgrade Notice ==
+
+= 7.1.3 =
+
+Added support for YouTube's old embed code.
 
 = 7.1.2 =
 
