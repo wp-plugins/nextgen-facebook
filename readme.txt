@@ -12,6 +12,10 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
+NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more. Includes social sharing buttons for admin editing pages, above / below content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a floating sidebar, widget, shortcode, or even a function call from your theme template(s). 
+
+[youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
+
 = Summary of Features =
 
 * Clean, elegant and feature-rich admin settings.
@@ -31,15 +35,11 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
   * BuddyPress
   * Slideshare, Vimeo, Wistia, Youtube APIs
 
-[youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
-
-Watch more videos about NGFB Open Graph+ on [Surnia Ulula's YouTube Channel](https://www.youtube.com/user/SurniaUlulaCom).
-
 = Complete Meta Tags =
 
 NGFB Open Graph+ adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and (optionally) [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most Social Websites to describe and display your content correctly (title, description, keyword tags, images, videos, product, author profile / authorship, publisher, etc.). [See a few examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
-NGFB Open Graph+ is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags -- There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
+NGFB Open Graph+ is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
 
