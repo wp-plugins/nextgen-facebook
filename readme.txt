@@ -224,7 +224,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.1.3 =
 
-* Added support for YouTube's old embed code.
+* Added support for YouTube's old video embed code.
 
 = Version 7.1.2 =
 
