@@ -12,7 +12,7 @@ Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Prod
 
 == Description ==
 
-NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more. Includes social sharing buttons for admin editing pages, above / below content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a floating sidebar, widget, shortcode, or even a function call from your theme template(s). 
+NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and many more (also-known-as [Social Media Optimization](http://en.wikipedia.org/wiki/Social_media_optimization)). NGFB Open Graph+ also includes social sharing buttons for admin editing pages, above / below content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a floating sidebar, widget, shortcode, or even a function call from your theme template(s). 
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
