@@ -220,7 +220,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.1.4dev1 =
 
-* Small improvement to the `ngfb_load_lib()` action to improve compatibility with addon plugins.
+* Small improvement to the `ngfb_load_lib()` action to improve compatibility with future addon plugins.
 
 = Version 7.1.3 =
 
@@ -228,7 +228,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.1.2 =
 
-* **Fixed** checks for the NGFB_META_TAGS_DISABLE, NGFB_OPEN_GRAPH_DISABLE, and NGFB_SOCIAL_SHARING_DISABLE constants.
+* **Fixed** checks for the `NGFB_META_TAGS_DISABLE`, `NGFB_OPEN_GRAPH_DISABLE`, and `NGFB_SOCIAL_SHARING_DISABLE` constants.
 * **Fixed** the detection of featured images for the Pinterest button in the sidebar and widget.
 
 Note: **The default sidebar CSS has been updated**. If you have not made any modifications to the default sidebar CSS, you can clear its content and save an empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:

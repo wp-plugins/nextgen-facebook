@@ -14,12 +14,14 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		protected $p;
 		protected $website = array();
+		protected $plugin_filepath;
 
 		public $sharing_css_min_file;
 		public $sharing_css_min_url;
 
-		public function __construct( &$plugin ) {
+		public function __construct( &$plugin, $plugin_filepath = NGFB_FILEPATH ) {
 			$this->p =& $plugin;
+			$this->plugin_filepath = $plugin_filepath;
 			$this->sharing_css_min_file = NGFB_CACHEDIR.$this->p->cf['lca'].'-sharing-styles.min.css';
 			$this->sharing_css_min_url = NGFB_CACHEURL.$this->p->cf['lca'].'-sharing-styles.min.css';
 			$this->set_objects();
@@ -49,7 +51,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		private function set_objects() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				do_action( $this->p->cf['lca'].'_load_lib', 'website', $id );
+				do_action( $this->p->cf['lca'].'_load_lib', "website/$id" );
 				$classname = __CLASS__.$id;
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
@@ -60,8 +62,12 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 			
 			$this->p->cf['opt']['defaults'] = $this->p->opt->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
 
+			$plugin_dir = trailingslashit( plugin_dir_path( $this->plugin_filepath ) );
+			$url_path = trailingslashit( plugins_url( '', $this->plugin_filepath ) );
+
 			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
-				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
+				$css_file = $plugin_dir.'css/'.$id.'-buttons.css';
+
 				// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
 				if ( empty( $opts_def['buttons_css_'.$id] ) ) {
 					if ( ! $fh = @fopen( $css_file, 'rb' ) )
@@ -70,7 +76,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 						$css_data = fread( $fh, filesize( $css_file ) );
 						fclose( $fh );
 						$this->p->debug->log( 'read css from file '.$css_file );
-						foreach ( array( 'URLPATH' => NGFB_URLPATH ) as $macro => $value )
+						foreach ( array( 'URLPATH' => $url_path ) as $macro => $value )
 							$css_data = preg_replace( '/{{'.$macro.'}}/', $value, $css_data );
 						$opts_def['buttons_css_'.$id] = $css_data;
 					}

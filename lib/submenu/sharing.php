@@ -26,8 +26,8 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		private function set_objects() {
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				do_action( $this->p->cf['lca'].'_load_lib', 'website', $id );
-				$classname = __CLASS__.ucfirst( $id );
+				do_action( $this->p->cf['lca'].'_load_lib', "website/$id" );
+				$classname = __CLASS__.$id;
 				if ( class_exists( $classname ) )
 					$this->website[$id] = new $classname( $this->p );
 			}

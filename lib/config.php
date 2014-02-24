@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.1.3',			// plugin version
+			'version' => '7.1.4dev1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -687,19 +687,19 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
 				require_once( $plugin_dir.'lib/pro/addon.php' );
 
-			add_action( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 2 );
+			add_action( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 1 );
 		}
 
-		public static function load_lib( $sub, $id ) {
-			if ( empty( $sub ) && ! empty( $id ) )
-				$filepath = NGFB_PLUGINDIR.'lib/'.$id.'.php';
-			elseif ( ! empty( self::$cf['lib'][$sub][$id] ) )
-				$filepath = NGFB_PLUGINDIR.'lib/'.$sub.'/'.$id.'.php';
-			else return false;
-			if ( file_exists( $filepath ) )
-				require_once( $filepath );
+		public static function load_lib( $filepath ) {
+			if ( ! empty( $filepath ) ) {
+				$filepath = NGFB_PLUGINDIR.'lib/'.$filepath.'.php';
+				if ( file_exists( $filepath ) ) {
+					require_once( $filepath );
+					return true;
+				}
+			}
+			return false;
 		}
-
 	}
 }
 
