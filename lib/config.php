@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.1.4dev1',			// plugin version
+			'version' => '7.2dev1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -22,6 +22,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'full' => 'NGFB Open Graph+',		// full plugin name
 			'full_pro' => 'NGFB Open Graph+ Pro',
 			'update_hours' => 12,			// check for pro updates
+			'filtered' => false,			// filters have been applied
 			'cache' => array(
 				'file' => true,
 				'object' => true,
@@ -559,7 +560,6 @@ jQuery("#ngfb-sidebar").click( function(){
 				),
 			),
 		);
-		private static $cf_filtered = false;
 
 		public static function get_config( $idx = '' ) { 
 			// remove the sharing libs if disabled
@@ -687,11 +687,11 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
 				require_once( $plugin_dir.'lib/pro/addon.php' );
 
-			add_action( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 1 );
+			add_filter( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 2 );
 		}
 
-		public static function load_lib( $filepath ) {
-			if ( ! empty( $filepath ) ) {
+		public static function load_lib( $loaded = false, $filepath = '' ) {
+			if ( $loaded === false && ! empty( $filepath ) ) {
 				$filepath = NGFB_PLUGINDIR.'lib/'.$filepath.'.php';
 				if ( file_exists( $filepath ) ) {
 					require_once( $filepath );
