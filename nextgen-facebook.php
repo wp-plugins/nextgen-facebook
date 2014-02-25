@@ -42,15 +42,14 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$classname = __CLASS__.'Register';
 			$this->reg = new $classname( $this );
 
-			add_action( 'init', array( &$this, 'set_config_filtered' ), -1 );
+			add_action( 'init', array( &$this, 'set_config' ), -1 );
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );
 			add_action( 'widgets_init', array( &$this, 'init_widgets' ), 10 );
 		}
 
 		// runs at init priority -1
-		public function set_config_filtered() {
+		public function set_config() {
 			$this->cf = apply_filters( 'ngfb_get_config', NgfbConfig::get_config() );
-			$this->cf['filtered'] = true;
 		}
 
 		// runs at init priority 1

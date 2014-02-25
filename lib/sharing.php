@@ -19,6 +19,183 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		public $sharing_css_min_file;
 		public $sharing_css_min_url;
 
+		public static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'buttons_on_index' => 0,
+					'buttons_on_front' => 0,
+					'buttons_add_to_post' => 1,
+					'buttons_add_to_page' => 1,
+					'buttons_add_to_attachment' => 1,
+					'buttons_pos_content' => 'bottom',
+					'buttons_pos_excerpt' => 'bottom',
+					'buttons_use_social_css' => 1,
+					'buttons_enqueue_social_css' => 0,
+					'buttons_css_admin_edit' => '',
+					'buttons_css_sharing' => '',
+					'buttons_css_content' => '',
+					'buttons_css_excerpt' => '',
+					'buttons_css_sidebar' => '',
+					'buttons_css_shortcode' => '',
+					'buttons_css_widget' => '',
+					'buttons_js_sidebar' => '/* Save an empty style text box to reload the default javascript */
+
+jQuery("#ngfb-sidebar").mouseenter( function(){ 
+	jQuery("#ngfb-sidebar-buttons").css({
+		display:"block",
+		width:"auto",
+		height:"auto",
+		overflow:"visible",
+		"border-style":"solid",
+	}); } );
+jQuery("#ngfb-sidebar").click( function(){ 
+	jQuery("#ngfb-sidebar-buttons").toggle(); } );',
+					'buttons_preset_content' => '',
+					'buttons_preset_excerpt' => '',
+					'buttons_preset_sidebar' => 'large_share_vertical',
+					'buttons_preset_admin_edit' => 'small_share_count',
+					'fb_on_content' => 0,
+					'fb_on_excerpt' => 0,
+					'fb_on_admin_edit' => 1,
+					'fb_on_sidebar' => 0,
+					'fb_order' => 1,
+					'fb_js_loc' => 'header',
+					'fb_button' => 'like',
+					'fb_markup' => 'xfbml',
+					'fb_send' => 1,
+					'fb_layout' => 'button_count',
+					'fb_font' => 'arial',
+					'fb_show_faces' => 0,
+					'fb_colorscheme' => 'light',
+					'fb_action' => 'like',
+					'fb_type' => 'button_count',
+					'gp_on_content' => 0,
+					'gp_on_excerpt' => 0,
+					'gp_on_admin_edit' => 1,
+					'gp_on_sidebar' => 0,
+					'gp_order' => 2,
+					'gp_js_loc' => 'header',
+					'gp_lang' => 'en-US',
+					'gp_action' => 'plusone',
+					'gp_size' => 'medium',
+					'gp_annotation' => 'bubble',
+					'gp_expandto' => '',
+					'twitter_on_content' => 0,
+					'twitter_on_excerpt' => 0,
+					'twitter_on_admin_edit' => 1,
+					'twitter_on_sidebar' => 0,
+					'twitter_order' => 3,
+					'twitter_js_loc' => 'header',
+					'twitter_lang' => 'en',
+					'twitter_caption' => 'title',
+					'twitter_cap_len' => 140,
+					'twitter_count' => 'horizontal',
+					'twitter_size' => 'medium',
+					'twitter_via' => 1,
+					'twitter_rel_author' => 1,
+					'twitter_dnt' => 1,
+					'twitter_shortener' => '',
+					'linkedin_on_content' => 0,
+					'linkedin_on_excerpt' => 0,
+					'linkedin_on_admin_edit' => 1,
+					'linkedin_on_sidebar' => 0,
+					'linkedin_order' => 4,
+					'linkedin_js_loc' => 'header',
+					'linkedin_counter' => 'right',
+					'linkedin_showzero' => 1,
+					'managewp_on_content' => 0,
+					'managewp_on_excerpt' => 0,
+					'managewp_on_admin_edit' => 1,
+					'managewp_on_sidebar' => 0,
+					'managewp_order' => 5,
+					'managewp_js_loc' => 'header',
+					'managewp_type' => 'small',
+					'stumble_on_content' => 0,
+					'stumble_on_excerpt' => 0,
+					'stumble_on_admin_edit' => 1,
+					'stumble_on_sidebar' => 0,
+					'stumble_order' => 6,
+					'stumble_js_loc' => 'header',
+					'stumble_badge' => 1,
+					'pin_on_content' => 0,
+					'pin_on_excerpt' => 0,
+					'pin_on_admin_edit' => 1,
+					'pin_on_sidebar' => 0,
+					'pin_order' => 7,
+					'pin_js_loc' => 'header',
+					'pin_button_lang' => 'en',
+					'pin_button_shape' => 'rect',
+					'pin_button_color' => 'gray',
+					'pin_button_height' => 'small',
+					'pin_count_layout' => 'beside',
+					'pin_img_width' => 800,
+					'pin_img_height' => 800,
+					'pin_img_crop' => 0,
+					'pin_caption' => 'both',
+					'pin_cap_len' => 500,
+					'tumblr_on_content' => 0,
+					'tumblr_on_excerpt' => 0,
+					'tumblr_on_admin_edit' => 1,
+					'tumblr_on_sidebar' => 0,
+					'tumblr_order' => 8,
+					'tumblr_js_loc' => 'footer',
+					'tumblr_button_style' => 'share_1',
+					'tumblr_desc_len' => 300,
+					'tumblr_photo' => 1,
+					'tumblr_img_width' => 800,
+					'tumblr_img_height' => 800,
+					'tumblr_img_crop' => 0,
+					'tumblr_caption' => 'both',
+					'tumblr_cap_len' => 500,
+				),
+				'preset' => array(
+					'small_share_count' => array(
+						'fb_button' => 'share',
+						'fb_send' => 0,
+						'fb_show_faces' => 0,
+						'fb_action' => 'like',
+						'fb_type' => 'button_count',
+						'gp_action' => 'share',
+						'gp_size' => 'medium',
+						'gp_annotation' => 'bubble',
+						'gp_expandto' => '',
+						'twitter_size' => 'medium',
+						'twitter_count' => 'horizontal',
+						'linkedin_counter' => 'right',
+						'linkedin_showzero' => 1,
+						'managewp_type' => 'small',
+						'pin_button_shape' => 'rect',
+						'pin_button_height' => 'small',
+						'pin_count_layout' => 'beside',
+						'tumblr_button_style' => 'share_1',
+						'stumble_badge' => 1,
+					),
+					'large_share_vertical' => array(
+						'fb_button' => 'share',
+						'fb_send' => 0,
+						'fb_show_faces' => 0,
+						'fb_action' => 'like',
+						'fb_type' => 'box_count',
+						'fb_layout' => 'box_count',
+						'gp_action' => 'share',
+						'gp_size' => 'tall',
+						'gp_annotation' => 'vertical-bubble',
+						'gp_expandto' => '',
+						'twitter_size' => 'medium',
+						'twitter_count' => 'vertical',
+						'linkedin_counter' => 'top',
+						'linkedin_showzero' => '1',
+						'managewp_type' => 'big',
+						'pin_button_shape' => 'rect',
+						'pin_button_height' => 'large',
+						'pin_count_layout' => 'above',
+						'tumblr_button_style' => 'share_2',
+						'stumble_badge' => 5,
+					),
+				),
+			),
+		);
+
 		public function __construct( &$plugin, $plugin_filepath = NGFB_FILEPATH ) {
 			$this->p =& $plugin;
 			$this->plugin_filepath = $plugin_filepath;
@@ -59,9 +236,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		}
 
 		public function filter_get_defaults( $opts_def ) {
-			
-			$this->p->cf['opt']['defaults'] = $this->p->opt->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
-
+			$opts_def = array_merge( $opts_def, self::$cf['opt']['defaults'] );
+			$opts_def = $this->p->util->push_add_to_options( $opts_def, array( 'buttons' ) );
 			$plugin_dir = trailingslashit( plugin_dir_path( $this->plugin_filepath ) );
 			$url_path = trailingslashit( plugins_url( '', $this->plugin_filepath ) );
 
@@ -504,18 +680,22 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		// get_html() is called by the widget, shortcode, function, and perhaps some filter hooks
 		public function get_html( &$ids = array(), &$atts = array() ) {
 
-			$preset_id = empty( $atts['preset_id'] ) ? '' : preg_replace( '/[^a-z0-9\-_]/', '', $atts['preset_id'] );
-			$filter_id = empty( $atts['filter_id'] ) ? '' : preg_replace( '/[^a-z0-9\-_]/', '', $atts['filter_id'] );
+			$preset_id = empty( $atts['preset_id'] ) ? '' : 
+				preg_replace( '/[^a-z0-9\-_]/', '', $atts['preset_id'] );
 
-			// possibly dereference the opts variable to prevent passing on changes
+			$filter_id = empty( $atts['filter_id'] ) ? '' : 
+				preg_replace( '/[^a-z0-9\-_]/', '', $atts['filter_id'] );
+
+			// IMPORTANT: possibly dereference the opts variable to prevent passing on changes
 			if ( empty( $preset_id ) && empty( $filter_id ) )
 				$custom_opts =& $this->p->options;
 			else $custom_opts = $this->p->options;
 
-			if ( ! empty( $preset_id ) && ! empty( $this->p->cf['opt']['preset'] ) ) {
-				if ( array_key_exists( $preset_id, $this->p->cf['opt']['preset'] ) &&
-					is_array( $this->p->cf['opt']['preset'][$preset_id] ) )
-						$custom_opts = array_merge( $custom_opts, $this->p->cf['opt']['preset'][$preset_id] );
+			// apply the presets if one is specified
+			if ( ! empty( $preset_id ) && ! empty( self::$cf['opt']['preset'] ) ) {
+				if ( array_key_exists( $preset_id, self::$cf['opt']['preset'] ) &&
+					is_array( self::$cf['opt']['preset'][$preset_id] ) )
+						$custom_opts = array_merge( $custom_opts, self::$cf['opt']['preset'][$preset_id] );
 				else $this->p->debug->log( $preset_id.' preset missing or not array'  );
 			} 
 
