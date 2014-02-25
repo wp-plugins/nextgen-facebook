@@ -224,6 +224,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 * Improved the 'ngfb_load_lib' filter for compatibility with future addon plugins.
 * Added support for NextGEN Gallery's 'href_link' image attribute to determine the correct image ID (Pro version).
 * Added an 'ngfb_get_content_img_data_ngg_pid' filter to fetch image information for NGG image attributes (Pro version).
+* **Fixed** Missing default options for sharing button custom post types.
 
 = Version 7.1.3 =
 
