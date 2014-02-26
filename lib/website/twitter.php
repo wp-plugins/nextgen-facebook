@@ -21,11 +21,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$ret = array();
 			
 			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-			( $this->show_on_checkboxes( 'twitter', $this->p->cf['sharing']['show_on'] ) ).'</td>';
+			( $this->show_on_checkboxes( 'twitter' ) ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_order', 
-				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';

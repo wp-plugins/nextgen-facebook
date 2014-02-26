@@ -70,10 +70,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		// called by each website's settings class to display a list of checkboxes
 		// Show Button in: Content, Excerpt, Edit Post/Page, etc.
-		protected function show_on_checkboxes( $prefix, $show_on = array() ) {
+		protected function show_on_checkboxes( $prefix ) {
 			$cols = 0;
 			$html = '<table>';
-			foreach ( apply_filters( $this->p->cf['lca'].'_sharing_show_on', $show_on, $prefix ) as $suffix => $desc ) {
+			$show_on = apply_filters( $this->p->cf['lca'].'_sharing_show_on', 
+				NgfbSharing::$cf['sharing']['show_on'], $prefix );
+			foreach ( $show_on as $suffix => $desc ) {
 				$cols++;
 				$class = array_key_exists( $prefix.'_on_'.$suffix.':is', $this->p->options ) &&
 					$this->p->options[$prefix.'_on_'.$suffix.':is'] === 'disabled' &&

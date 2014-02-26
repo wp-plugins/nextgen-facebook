@@ -27,7 +27,7 @@ if ( ! class_exists( 'NgfbAdminStyle' ) ) {
 
 		private function filter_style_common_rows( &$rows, &$form, $idx ) {
 			$text = $this->p->msgs->get( 'style-'.$idx.'-info' );
-			if ( ! empty( $this->p->cf['sharing']['show_on'][$idx] ) ) {
+			if ( ! empty( NgfbSharing::$cf['sharing']['show_on'][$idx] ) ) {
 				$text .= '<p><strong>The social sharing button options for the '.$idx.
 				' style are subject to preset values, selected on the '.
 				$this->p->util->get_admin_url( 'sharing#sucom-tab_sharing_preset', 'Social Sharing settings page' ).

@@ -48,7 +48,7 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 
 		public function filter_sharing_preset_rows( $rows, $form ) {
 			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
-			foreach( $this->p->cf['sharing']['show_on'] as $filter_id => $filter_name )
+			foreach( NgfbSharing::$cf['sharing']['show_on'] as $filter_id => $filter_name )
 				$rows[] = $this->p->util->th( $filter_name.' Preset', null, 'sharing_preset' ).
 				'<td class="blank">'.$form->get_hidden( 'buttons_preset_'.$filter_id ).
 					$this->p->options['buttons_preset_'.$filter_id].'</td>';

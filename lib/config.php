@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.2dev1',			// plugin version
+			'version' => '7.2dev2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -124,7 +124,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '248',		// increment when changing default options
+				'version' => '250',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
 					'link_author_field' => '',
@@ -367,23 +367,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'head' => array(
 				'min_img_dim' => 200,
 				'min_desc_len' => 156,
-			),
-			'sharing' => array(
-				'show_on' => array( 
-					'content' => 'Content', 
-					'excerpt' => 'Excerpt', 
-					'sidebar' => 'Sidebar', 
-					'admin_edit' => 'Admin Edit',
-				),
-				'style' => array(
-					'sharing' => 'Buttons Style',
-					'content' => 'Content Style',
-					'excerpt' => 'Excerpt Style',
-					'sidebar' => 'Sidebar Style',
-					'shortcode' => 'Shortcode Style',
-					'widget' => 'Widget Style',
-					'admin_edit' => 'Admin Edit Style',
-				),
 			),
 		);
 

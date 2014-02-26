@@ -47,11 +47,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 				image that is equal to or larger than the \'Image Dimensions\' you have chosen 
 				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> custom Posts, 
 				or (lastly) the webpage link.' ).'<td>'.
-				( $this->show_on_checkboxes( 'tumblr', $this->p->cf['sharing']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'tumblr' ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+						'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',

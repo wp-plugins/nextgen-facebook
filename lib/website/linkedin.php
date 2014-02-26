@@ -20,10 +20,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 		protected function get_rows( $metabox, $key ) {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'linkedin', $this->p->cf['sharing']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'linkedin' ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ) . '</td>',
+				$this->form->get_select( 'linkedin_order', 
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
 				$this->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',

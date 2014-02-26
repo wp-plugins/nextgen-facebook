@@ -24,10 +24,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 			'The Pinterest "Pin It" button will only appear on Posts and Pages with a <em>custom image ID</em>, 
 			a <em>featured</em> image, or an <em>attached</em> image that is equal to or larger than the 
 			\'Image Dimensions\' you have chosen.' ).'<td>'.
-			( $this->show_on_checkboxes( 'pin', $this->p->cf['sharing']['show_on'] ) ).'</td>';
+			( $this->show_on_checkboxes( 'pin' ) ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-			$this->form->get_select( 'pin_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
+			$this->form->get_select( 'pin_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
 			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 			$this->form->get_select( 'pin_js_loc', $this->js_locations ).'</td>';

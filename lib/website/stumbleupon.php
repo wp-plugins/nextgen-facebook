@@ -60,11 +60,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-				( $this->show_on_checkboxes( 'stumble', $this->p->cf['sharing']['show_on'] ) ).'</td>',
+				( $this->show_on_checkboxes( 'stumble' ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>',
+					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+						'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',

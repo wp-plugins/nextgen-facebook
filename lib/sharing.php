@@ -194,6 +194,23 @@ jQuery("#ngfb-sidebar").click( function(){
 					),
 				),
 			),
+			'sharing' => array(
+				'show_on' => array( 
+					'content' => 'Content', 
+					'excerpt' => 'Excerpt', 
+					'sidebar' => 'Sidebar', 
+					'admin_edit' => 'Admin Edit',
+				),
+				'style' => array(
+					'sharing' => 'Buttons Style',
+					'content' => 'Content Style',
+					'excerpt' => 'Excerpt Style',
+					'sidebar' => 'Sidebar Style',
+					'shortcode' => 'Shortcode Style',
+					'widget' => 'Widget Style',
+					'admin_edit' => 'Admin Edit Style',
+				),
+			),
 		);
 
 		public function __construct( &$plugin, $plugin_filepath = NGFB_FILEPATH ) {
@@ -211,10 +228,13 @@ jQuery("#ngfb-sidebar").click( function(){
 			$this->add_buttons_filter( 'the_excerpt' );
 			$this->add_buttons_filter( 'the_content' );
 
+			$this->p->util->add_plugin_filters( $this, array( 
+				'get_defaults' => 1,		// add css file content to defaults
+			) );
+
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
 				$this->p->util->add_plugin_filters( $this, array( 
-					'get_defaults' => 1,		// add css file content to defaults
 					'save_options' => 2,		// update the sharing css file
 					'post_cache_transients' => 4,	// flush transients on post save
 					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
@@ -223,7 +243,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					'tooltip_plugin' => 2,		// tooltip messages for advanced settings
 					'tooltip_postmeta' => 3,	// tooltip messages for post meta custom settings
 				) );
-			} else $this->p->debug->mark();
+			}
 		}
 
 		private function set_objects() {
@@ -241,7 +261,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			$plugin_dir = trailingslashit( plugin_dir_path( $this->plugin_filepath ) );
 			$url_path = trailingslashit( plugins_url( '', $this->plugin_filepath ) );
 
-			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
+			foreach ( self::$cf['sharing']['style'] as $id => $name ) {
 				$css_file = $plugin_dir.'css/'.$id.'-buttons.css';
 
 				// css files are only loaded once (when variable is empty) into defaults to minimize disk i/o
@@ -270,10 +290,11 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		public function filter_post_cache_transients( $transients, $post_id, $lang = 'en_US', $sharing_url ) {
-			if ( ! empty( $this->p->cf['sharing']['show_on'] ) &&
-				is_array( $this->p->cf['sharing']['show_on'] ) ) {
+			if ( ! empty( self::$cf['sharing']['show_on'] ) &&
+				is_array( self::$cf['sharing']['show_on'] ) ) {
+
 				$transients['NgfbSharing::get_buttons'] = array();
-				foreach( $this->p->cf['sharing']['show_on'] as $type_id => $type_name )
+				foreach( self::$cf['sharing']['show_on'] as $type_id => $type_name )
 					$transients['NgfbSharing::get_buttons'][$type_id] = 'lang:'.$lang.'_post:'.$post_id.'_type:'.$type_id;
 			}
 			return $transients;
@@ -471,7 +492,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				} else {
 					$css_data = '';
 					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
-						$this->p->cf['sharing']['style'] );
+						self::$cf['sharing']['style'] );
 					foreach ( $style_tabs as $id => $name )
 						if ( array_key_exists( 'buttons_css_'.$id, $opts ) )
 							$css_data .= $opts['buttons_css_'.$id];

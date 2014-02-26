@@ -35,10 +35,12 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 			switch ( $metabox.'-'.$key ) {
 				case 'fb-all':
 					$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-					( $this->show_on_checkboxes( 'fb', $this->p->cf['sharing']['show_on'] ) ).'</td>';
+					( $this->show_on_checkboxes( 'fb' ) ).'</td>';
 
 					$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-					$this->form->get_select( 'fb_order', range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 'short' ).'</td>';
+					$this->form->get_select( 'fb_order', 
+						range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+							'short' ).'</td>';
 	
 					$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_js_loc', $this->js_locations ).'</td>';
