@@ -58,7 +58,7 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 
 		public function filter_get_defaults( $opts_def ) {
 			
-			$this->p->cf['opt']['defaults'] = $this->p->opt->add_to_options( $this->p->cf['opt']['defaults'], array( 'buttons' ) );
+			$opts_def = $this->p->opt->add_to_options( $opts_def, array( 'buttons' ) );
 
 			foreach ( $this->p->cf['sharing']['style'] as $id => $name ) {
 				$css_file = NGFB_PLUGINDIR.'css/'.$id.'-buttons.css';
