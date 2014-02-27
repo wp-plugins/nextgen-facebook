@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.2dev2',			// plugin version
+			'version' => '7.2dev3',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -124,10 +124,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '250',		// increment when changing default options
+				'version' => '253',		// increment when changing default options
 				'defaults' => array(
 					'meta_desc_len' => 156,
-					'link_author_field' => '',
+					'link_author_field' => '',	// default value set by NgfbOptions::get_defaults()
 					'link_def_author_id' => 0,
 					'link_def_author_on_index' => 0,
 					'link_def_author_on_search' => 0,
@@ -156,14 +156,15 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_ngg_tags' => 0,
 					'og_page_parent_tags' => 0,
 					'og_page_title_tag' => 0,
-					'og_author_field' => '',
+					'og_author_field' => '',	// default value set by NgfbOptions::get_defaults()
 					'og_author_fallback' => 0,
 					'og_title_sep' => '-',
 					'og_title_len' => 70,
 					'og_desc_len' => 300,
-					'og_desc_hashtags' => 0,
+					'og_desc_hashtags' => 3,
 					'og_desc_strip' => 0,
 					'og_empty_tags' => 0,
+					'rp_author_name' => 'display_name',     // rich-pin specific article:author
 					'tc_enable' => 1,
 					'tc_site' => '',
 					'tc_desc_len' => 200,
@@ -378,8 +379,16 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					self::$cf['lib']['submenu']['style'],
 					self::$cf['lib']['shortcode']['sharing'],
 					self::$cf['lib']['widget']['sharing'],
-					self::$cf['lib']['util']['rewrite'],
-					self::$cf['lib']['util']['shorten']
+					self::$cf['lib']['gpl']['admin']['sharing'],
+					self::$cf['lib']['gpl']['admin']['style'],
+					self::$cf['lib']['gpl']['admin']['apikeys'],
+					self::$cf['lib']['gpl']['admin']['rewrite'],
+					self::$cf['lib']['pro']['admin']['sharing'],
+					self::$cf['lib']['pro']['admin']['style'],
+					self::$cf['lib']['pro']['admin']['apikeys'],
+					self::$cf['lib']['pro']['admin']['rewrite'],
+					self::$cf['lib']['pro']['util']['rewrite'],
+					self::$cf['lib']['pro']['util']['shorten']
 				);
 				self::$cf['lib']['website'] = array();
 			}

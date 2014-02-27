@@ -332,6 +332,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'og_img_id_pre': 
 				case 'og_def_img_id_pre': 
 				case 'og_author_field':
+				case 'rp_author_name':
 				case 'fb_lang': 
 				case 'fb_markup': 
 				case 'gp_lang': 
