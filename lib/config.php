@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.2rc1',			// plugin version
+			'version' => '7.2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -336,6 +336,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'url' => array(
+				'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook',
 				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
 				'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
