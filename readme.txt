@@ -217,19 +217,19 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.2rc1 =
+= Version 7.2 =
 
 Pinterest Rich Pins have adopted the Open Graph standard, except for the 'article:author' meta tag value. The Open Graph standard expects the 'article:author' to be a profile URL or profile ID, where-as Pinterest expects a person's name instead (and ignores any URL values). To correct this incompatibility, a new Pinterest publisher tab has been added to the Open Graph+ General settings page, with an option to include an author's name specifically for the Pinterest crawler. The default value includes the author's 'Display Name', but you may also choose the author's 'First and Last Names' or 'Nickname' instead.
 
-If you use a full-page caching plugin or front-end, please see the [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/) notes about caches and Pinterest meta tags.
+If you use a full-page caching front-end or plugin (Quick cache, etc.), see the [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/) notes about caches and Pinterest meta tags.
 
 * Added a new Pinterest publisher settings tab, along with a new 'Author Name Format' option.
 * Changed the 'ngfb_load_lib' action to a filter (returning true or false).
 * Improved the 'ngfb_load_lib' filter for compatibility with future addon plugins.
 * Added support for NextGEN Gallery's 'href_link' image attribute to determine the correct image ID (Pro version).
 * Added an 'ngfb_get_content_img_data_ngg_pid' filter to fetch image information for NGG image attributes (Pro version).
-* Moved the social sharing related config variables to `lib/sharing.php`.
-* **Fixed** Missing default options for sharing button custom post types.
+* Moved the social sharing related config variables and options to `lib/sharing.php`.
+* **Fixed** the missing default options for sharing button custom post types.
 
 = Version 7.1.3 =
 
