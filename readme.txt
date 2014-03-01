@@ -276,6 +276,10 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 
 == Upgrade Notice ==
 
+= 7.2 =
+
+Added Pinterest-specific option for 'article:author' meta tag (see Changelog), and small code improvements for NextGEN Gallery.
+
 = 7.1.3 =
 
 Added support for YouTube's old embed code.
