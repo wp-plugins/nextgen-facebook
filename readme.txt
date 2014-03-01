@@ -182,7 +182,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> <div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a>
+		<div>NGFB Open Graph+ is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
