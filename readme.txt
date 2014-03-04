@@ -218,6 +218,10 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
+= Version 7.3dev1 =
+
+* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when multisite blogs are added / activated.
+
 = Version 7.2 =
 
 Pinterest Rich Pins have adopted the Open Graph standard, except for the 'article:author' meta tag value. The Open Graph standard expects the 'article:author' to be a profile URL or profile ID, where-as Pinterest expects a person's name instead (and ignores any URL values). To correct this incompatibility, a new Pinterest publisher tab has been added to the Open Graph+ General settings page, with an option to include an author's name specifically for the Pinterest crawler. The default value includes the author's 'Display Name', but you may also choose the author's 'First and Last Names' or 'Nickname' instead.
