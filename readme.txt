@@ -220,7 +220,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.3dev1 =
 
-* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when multisite blogs are added / activated.
+* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are added / activated.
+* Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information.
 
 = Version 7.2 =
 
