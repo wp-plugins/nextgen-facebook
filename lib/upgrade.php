@@ -127,7 +127,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 		// def_opts accepts output from functions, so don't force reference
 		public function options( $options_name, &$opts = array(), $def_opts = array() ) {
-
 			$opts = SucomUtil::rename_keys( $opts, $this->renamed_keys );
 
 			// custom value changes for regular options
@@ -147,6 +146,22 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 						}
 						unset( $opts['og_img_size'] );
 					}
+				}
+
+				if ( $opts['options_version'] <= 260 &&
+					$opts['og_img_width'] == 1200 &&
+					$opts['og_img_height'] == 630 &&
+					! empty( $opts['og_img_crop'] ) ) {
+
+					$this->p->notice->inf( 'Open Graph Image Dimentions have been updated from '.
+						$opts['og_img_width'].'x'.$opts['og_img_height'].', '.
+						( $opts['og_img_crop'] ? '' : 'un' ).'cropped to '.
+						$def_opts['og_img_width'].'x'.$def_opts['og_img_height'].', '.
+						( $def_opts['og_img_crop'] ? '' : 'un' ).'cropped.', true );
+
+					$opts['og_img_width'] = $def_opts['og_img_width'];
+					$opts['og_img_height'] = $def_opts['og_img_height'];
+					$opts['og_img_crop'] = $def_opts['og_img_crop'];
 				}
 			}
 
