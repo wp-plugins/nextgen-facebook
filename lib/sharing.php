@@ -433,22 +433,31 @@ jQuery("#ngfb-sidebar").click( function(){
 		public function wp_enqueue_styles() {
 			// only include sharing styles if option is checked
 			if ( ! empty( $this->p->options['buttons_use_social_css'] ) ) {
+
+				// create the css file if it does not exist
 				if ( ! file_exists( $this->sharing_css_min_file ) ) {
 					$this->p->debug->log( 'updating '.$this->sharing_css_min_file );
 					$this->update_sharing_css( $this->p->options );
 				}
+
 				if ( ! empty( $this->p->options['buttons_enqueue_social_css'] ) ) {
 					$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
 					wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
 					wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 				} else {
-					echo '<style type="text/css">';
-					if ( ( $fsize = filesize( $this->sharing_css_min_file ) ) > 0 &&
-						$fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
-						echo fread( $fh, $fsize );
-						fclose( $fh );
+					if ( ! is_readable( $this->sharing_css_min_file ) ) {
+						if ( is_admin() )
+							$this->p->notice->err( $this->sharing_css_min_file.' is not readable.', true );
+						$this->p->debug->log( $this->sharing_css_min_file.' is not readable.' );
+					} else {
+						echo '<style type="text/css">';
+						if ( ( $fsize = filesize( $this->sharing_css_min_file ) ) > 0 &&
+							$fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
+							echo fread( $fh, $fsize );
+							fclose( $fh );
+						}
+						echo '</style>',"\n";
 					}
-					echo '</style>',"\n";
 				}
 			} else $this->p->debug->log( 'social css option is disabled' );
 		}
