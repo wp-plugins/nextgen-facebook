@@ -252,7 +252,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'link_publisher_url':
 				case 'og_publisher_url':
 				case 'og_def_img_url':
-				case 'plugin_cdn_urls':
 					return 'url';
 					break;
 
@@ -269,17 +268,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					break;
 
 				// integer options that must be 1 or more (not zero)
-				case 'fb_order': 
-				case 'gp_order': 
-				case 'twitter_order': 
-				case 'linkedin_order': 
-				case 'managewp_order': 
-				case 'stumble_order': 
 				case 'stumble_badge':
-				case 'pin_order': 
-				case 'tumblr_order': 
 				case 'plugin_object_cache_exp':
 				case 'plugin_min_shorten':
+				case ( preg_match( '/_order$/', $key ) ? true : false ):
 				case ( preg_match( '/_len$/', $key ) ? true : false ):
 					return 'posnum';
 					break;
@@ -302,22 +294,20 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 
 				// text strings that can be blank
 				case 'og_art_section':
-				case 'fb_app_id':
-				case 'gp_expandto':
 				case 'og_title':
 				case 'og_desc':
 				case 'og_site_name':
 				case 'og_site_description':
 				case 'meta_desc':
+				case 'fb_app_id':
 				case 'tc_desc':
+				case 'gp_expandto':
 				case 'pin_desc':
 				case 'tumblr_img_desc':
 				case 'tumblr_vid_desc':
 				case 'twitter_desc':
 				case 'plugin_google_api_key':
 				case 'plugin_bitly_api_key':
-				case 'plugin_cdn_folders':
-				case 'plugin_cdn_excl':
 				case 'plugin_cf_vid_url':
 					return 'okblank';
 					break;

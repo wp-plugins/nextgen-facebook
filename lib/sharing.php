@@ -22,6 +22,11 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		public static $cf = array(
 			'opt' => array(				// options
 				'defaults' => array(
+					'plugin_min_shorten' => 21,
+					'plugin_google_api_key' => '',
+					'plugin_google_shorten' => 0,
+					'plugin_bitly_login' => '',
+					'plugin_bitly_api_key' => '',
 					'buttons_on_index' => 0,
 					'buttons_on_front' => 0,
 					'buttons_add_to_post' => 1,
@@ -353,12 +358,6 @@ jQuery("#ngfb-sidebar").click( function(){
 					$this->p->options['plugin_file_cache_hrs'].' Hours (the default value of 0 Hours disables the 
 					file caching feature).';
 					break;
-				case 'tooltip-side-url-rewriter':
-					$text = $this->p->cf['full_pro'].' can rewrite image URLs in meta tags, cached images and JavaScript, 
-					and for social sharing buttons like Pinterest and Tumblr (which use encoded image URLs). 
-					Rewriting image URLs can be an important part of optimizing page load speeds. See the \'Static Content URL(s)\'
-					option on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).' to enable URL rewriting.';
-					break;
 				case 'tooltip-side-url-shortener':
 					$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
 					the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, can be shortened by one 
@@ -374,6 +373,10 @@ jQuery("#ngfb-sidebar").click( function(){
 				/*
 				 * 'API Keys' (URL Shortening) settings
 				 */
+				case 'tooltip-plugin_min_shorten':
+					$text = 'URLs shorter than this length will not be shortened (the default is '.
+					$this->p->opt->get_defaults( 'plugin_min_shorten' ).' characters).';
+					break;
 				case 'tooltip-plugin_bitly_login':
 					$text = 'The Bit.ly username for the following API key. If you don\'t already have one, see 
 					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.';
@@ -396,35 +399,6 @@ jQuery("#ngfb-sidebar").click( function(){
 					menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
 					the \'Yes\' option here. You can then select the Google URL Shortener in the '.
 					$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
-					break;
-				/*
-				 * 'URL Rewrite' settings
-				 */
-				case 'tooltip-plugin_min_shorten':
-					$text = 'URLs shorter than this length will not be shortened (default is '.$this->p->opt->get_defaults( 'plugin_min_shorten' ).').';
-					break;
-				case 'tooltip-plugin_cdn_urls':
-					$text = 'Rewrite image URLs in the Open Graph, Rich Pin, and Twitter Card meta tags, encoded image URLs shared by social buttons 
-					(like Pinterest and Tumblr), and cached social media files. Leave this option blank to disable the URL rewriting feature 
-					(default is disabled). Wildcarding and multiple CDN hostnames are supported -- see the 
-					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/url-rewriting/" target="_blank">URL Rewriting</a> 
-					notes for more information and examples.';
-					break;
-				case 'tooltip-plugin_cdn_folders':
-					$text = 'A comma delimited list of patterns to match. These patterns must be present in the URL for the rewrite to take place 
-					(the default value is "<em>wp-content, wp-includes</em>").';
-					break;
-				case 'tooltip-plugin_cdn_excl':
-					$text = 'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
-					(the default value is blank). If you are caching social website images and JavaScript (see the <em>Social File Cache Expiry</em> 
-					option), the URLs to this cached content will be rewritten as well (that\'s a good thing). To exclude the '.$this->p->cf['full'].
-					' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.';
-					break;
-				case 'tooltip-plugin_cdn_not_https':
-					$text = 'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).';
-					break;
-				case 'tooltip-plugin_cdn_www_opt':
-					$text = 'The www hostname prefix (if any) in the WordPress site URL is optional (default is checked).';
 					break;
 			}
 			return $text;

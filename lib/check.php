@@ -196,9 +196,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'util-language':
 							$chk['optval'] = 'plugin_filter_lang';
 							break;
-						case 'util-rewrite':
-							$chk['optval'] = 'plugin_cdn_urls';
-							break;
 						case 'util-shorten':
 							$chk['optval'] = 'twitter_shortener';
 							break;

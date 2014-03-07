@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.3dev5',			// plugin version
+			'version' => '7.3dev6',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -66,7 +66,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Buttons',
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
-						'rewrite' => 'URL Rewrite',
 						'postmeta' => 'Custom Post Meta',
 					),
 					'forum' => array(
@@ -86,7 +85,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Buttons',
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
-						'rewrite' => 'URL Rewrite',
 						'postmeta' => 'Custom Post Meta',
 					),
 					'ecom' => array(
@@ -117,7 +115,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					),
 					'util' => array(
 						'language' => 'WP Locale Language',
-						'rewrite' => 'URL Rewriter',
 						'shorten' => 'URL Shortener',
 						'postmeta' => 'Custom Post Meta',
 					),
@@ -264,16 +261,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_verify_certs' => 0,
 					'plugin_file_cache_hrs' => 0,
 					'plugin_object_cache_exp' => 3600,
-					'plugin_min_shorten' => 21,
-					'plugin_google_api_key' => '',
-					'plugin_google_shorten' => 0,
-					'plugin_bitly_login' => '',
-					'plugin_bitly_api_key' => '',
-					'plugin_cdn_urls' => '',
-					'plugin_cdn_folders' => 'wp-content, wp-includes',
-					'plugin_cdn_excl' => '',
-					'plugin_cdn_not_https' => 1,
-					'plugin_cdn_www_opt' => 1,
 					'plugin_cm_fb_name' => 'facebook', 
 					'plugin_cm_fb_label' => 'Facebook URL', 
 					'plugin_cm_fb_enabled' => 1,
@@ -383,12 +370,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					self::$cf['lib']['gpl']['admin']['sharing'],
 					self::$cf['lib']['gpl']['admin']['style'],
 					self::$cf['lib']['gpl']['admin']['apikeys'],
-					self::$cf['lib']['gpl']['admin']['rewrite'],
 					self::$cf['lib']['pro']['admin']['sharing'],
 					self::$cf['lib']['pro']['admin']['style'],
 					self::$cf['lib']['pro']['admin']['apikeys'],
-					self::$cf['lib']['pro']['admin']['rewrite'],
-					self::$cf['lib']['pro']['util']['rewrite'],
 					self::$cf['lib']['pro']['util']['shorten']
 				);
 				self::$cf['lib']['website'] = array();
