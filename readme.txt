@@ -220,7 +220,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.3dev6 =
 
-* **Removed the URL Rewrite feature and settings tab ** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
+* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 * Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are added / activated.
 * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
 * Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
