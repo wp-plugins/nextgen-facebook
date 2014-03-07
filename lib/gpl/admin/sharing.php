@@ -18,8 +18,8 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 				'plugin_cache_rows' => 2,	// advanced 'File and Object Cache' options
 				'sharing_include_rows' => 2,	// social sharing 'Include Buttons' options
 				'sharing_preset_rows' => 2,	// social sharing 'Preset Options' options
-				'meta_tabs' => 1,		// post meta 'Social Sharing' tab
-				'meta_sharing_rows' => 3,	// post meta 'Social Sharing' options
+				'meta_tabs' => 1,		// post meta 'Sharing Buttons' tab
+				'meta_sharing_rows' => 3,	// post meta 'Sharing Buttons' options
 			) );
 		}
 
@@ -60,7 +60,7 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 			foreach ( $tabs as $key => $val ) {
 				$new_tabs[$key] = $val;
 				if ( $key === 'header' )	// insert the social sharing tab after the header tab
-					$new_tabs['sharing'] = 'Social Sharing';
+					$new_tabs['sharing'] = 'Sharing Buttons';
 			}
 			return $new_tabs;
 		}

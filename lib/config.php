@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.3dev4',			// plugin version
+			'version' => '7.3dev5',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -34,9 +34,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'submenu' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
-					'sharing' => 'Social Sharing',
-					'style' => 'Social Style',
 					'about' => 'About',
+					'sharing' => 'Buttons',
+					'style' => 'Styles',
 				),
 				'sitesubmenu' => array(
 					'network' => 'Network',
@@ -63,8 +63,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'admin' => array(
 						'general' => 'General Settings',
 						'advanced' => 'Advanced Settings',
-						'sharing' => 'Social Sharing',
-						'style' => 'Social Style',
+						'sharing' => 'Buttons',
+						'style' => 'Styles',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
 						'postmeta' => 'Custom Post Meta',
@@ -83,8 +83,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'admin' => array(
 						'general' => 'General Settings',
 						'advanced' => 'Advanced Settings',
-						'sharing' => 'Social Sharing',
-						'style' => 'Social Style',
+						'sharing' => 'Buttons',
+						'style' => 'Styles',
 						'apikeys' => 'API Keys',
 						'rewrite' => 'URL Rewrite',
 						'postmeta' => 'Custom Post Meta',

@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 			if ( ! is_object( $ngfb ) )
 				return;
 			$this->p =& $ngfb;
-			$widget_name = $this->p->cf['menu'].' Social Sharing';
+			$widget_name = $this->p->cf['menu'].' Sharing Buttons';
 			$widget_class = $this->p->cf['lca'].'-widget-buttons';
 			$widget_ops = array( 
 				'classname' => $widget_class,

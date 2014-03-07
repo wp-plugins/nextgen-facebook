@@ -326,11 +326,10 @@ jQuery("#ngfb-sidebar").click( function(){
 		public function filter_tooltip_side( $text, $idx ) {
 			switch ( $idx ) {
 				case 'tooltip-side-sharing-buttons':
-					$text = 'Social sharing features include the Open Graph+ '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).
-					' and '.$this->p->util->get_admin_url( 'style', 'Social Style' ).' settings pages (aka social sharing buttons), 
-					the Custom Settings / Social Sharing tab on Post or Page editing pages, along with the social sharing shortcode 
-					and widget. All social sharing features can be disabled using one of the available PHP
-					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constants</a>.';
+					$text = 'Social sharing features include the '.$this->p->cf['menu'].' '.$this->p->util->get_admin_url( 'sharing', 'Buttons' ).
+					' and '.$this->p->util->get_admin_url( 'style', 'Styles' ).' settings pages, the Custom Settings Sharing Buttons tab on Post 
+					or Page editing pages, along with the social sharing shortcode and widget. All social sharing features can be disabled using one of 
+					the available PHP <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constants</a>.';
 					break;
 				case 'tooltip-side-sharing-shortcode':
 					$text = 'Support for shortcode(s) can be enabled / disabled on the '.
@@ -339,10 +338,10 @@ jQuery("#ngfb-sidebar").click( function(){
 					break;
 				case 'tooltip-side-sharing-stylesheet':
 					$text = 'A stylesheet can be included on all webpages for the social sharing buttons. Enable or disable the
-					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Social Style settings page' ).'.';
+					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Sharing Styles' ).' settings page.';
 					break;
 				case 'tooltip-side-sharing-widget':
-					$text = 'The social sharing widget feature adds an \'NGFB Social Sharing\' widget in the WordPress Appearance - Widgets page.
+					$text = 'The social sharing widget feature adds a \'NGFB Sharing Buttons\' widget in the WordPress Appearance - Widgets page.
 					The widget can be used in any number of widget areas, to share the current webpage. The widget, along with all social
 					sharing featured, can be disabled using an available 
 					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
@@ -362,9 +361,9 @@ jQuery("#ngfb-sidebar").click( function(){
 					break;
 				case 'tooltip-side-url-shortener':
 					$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
-					the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, 
-					can be shortened by one of the available URL shortening services. Enable URL shortening for Twitter
-					from the '.$this->p->util->get_admin_url( 'sharing', 'Social Sharing' ).' settings page.';
+					the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, can be shortened by one 
+					of the available URL shortening services. Enable URL shortening for Twitter from the '.
+					$this->p->util->get_admin_url( 'sharing', 'Buttons' ).' settings page.';
 					break;
 			}
 			return $text;
@@ -416,10 +415,10 @@ jQuery("#ngfb-sidebar").click( function(){
 					(the default value is "<em>wp-content, wp-includes</em>").';
 					break;
 				case 'tooltip-plugin_cdn_excl':
-					$text = 'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped (the default value is blank).
-					If you are caching social website images and JavaScript (see the <em>Social File Cache Expiry</em> option), 
-					the URLs to this cached content will be rewritten as well (that\'s a good thing).
-					To exclude the '.$this->p->cf['full'].' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.';
+					$text = 'A comma delimited list of patterns to match. If these patterns are found in the URL, the rewrite will be skipped 
+					(the default value is blank). If you are caching social website images and JavaScript (see the <em>Social File Cache Expiry</em> 
+					option), the URLs to this cached content will be rewritten as well (that\'s a good thing). To exclude the '.$this->p->cf['full'].
+					' cache folder URLs from being rewritten, enter \'/nextgen-facebook/cache/\' as a value here.';
 					break;
 				case 'tooltip-plugin_cdn_not_https':
 					$text = 'Skip rewriting URLs when using HTTPS (useful if your CDN provider does not offer HTTPS, for example).';

@@ -86,7 +86,7 @@ NGFB Open Graph+ comes with several sharing buttons, that you can optionally inc
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 <blockquote>
-<p>Don't need the sharing buttons? Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> plugin -- a fork of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting).</p>
+<p>Don't need the sharing buttons? Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin -- a fork of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, url shortening, and url rewriting).</p>
 </blockquote>
 
 = Custom Contacts =
@@ -197,8 +197,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 1. Screenshot 1 : General Settings Page
 2. Screenshot 2 : Advanced Settings Page
-3. Screenshot 3 : Social Sharing Settings Page
-4. Screenshot 4 : Social Styles Settings Page
+3. Screenshot 3 : Buttons Settings Page
+4. Screenshot 4 : Styles Settings Page
 5. Screenshot 5 : An Example Facebook Link Share
 6. Screenshot 6 : An Example Facebook Video Share
 7. Screenshot 7 : An Example Google+ Link Share
@@ -218,7 +218,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.3dev4 =
+= Version 7.3dev5 =
 
 * Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are added / activated.
 * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
