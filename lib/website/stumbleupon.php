@@ -80,11 +80,29 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' )
 
 	class NgfbSharingStumbleupon {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'stumble_on_content' => 0,
+					'stumble_on_excerpt' => 0,
+					'stumble_on_admin_edit' => 1,
+					'stumble_on_sidebar' => 0,
+					'stumble_order' => 6,
+					'stumble_js_loc' => 'header',
+					'stumble_badge' => 1,
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

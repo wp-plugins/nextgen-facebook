@@ -24,10 +24,10 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 		public function filter_messages( $text, $idx ) {
 			switch ( $idx ) {
 				/*
-				 * 'Social Style' settings
+				 * 'Sharing Style' settings
 				 */
 				case 'tooltip-buttons_use_social_css':
-					$text = 'Add the CSS from all Style tabs to webpages (default is checked).
+					$text = 'Add the CSS from all style tabs to webpages (default is checked).
 					The CSS will be <strong>minimized</strong>, and saved to a single 
 					stylesheet with the URL of <a href="'.$this->p->sharing->sharing_css_min_url.'">'.
 					$this->p->sharing->sharing_css_min_url.'</a>. The minimized stylesheet can be 
@@ -35,7 +35,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'tooltip-buttons_js_sidebar':
-					$text = 'Javascript that is added to the social sharing sidebar.';
+					$text = 'JavaScript that is added to the webpage for the social sharing sidebar.';
 					break;
 
 				case 'tooltip-buttons_enqueue_social_css':
@@ -55,7 +55,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'style-content-info':
 					$text = '<p>Social sharing buttons, enabled / added to the content text from the '.
-					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
+					$this->p->util->get_admin_url( 'sharing', 'Buttons settings page' ).
 					', are assigned the \'ngfb-content-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'style-excerpt-info':
 					$text = '<p>Social sharing buttons, enabled / added to the excerpt text from the '.
-					$this->p->util->get_admin_url( 'sharing', 'Social Sharing settings page' ).
+					$this->p->util->get_admin_url( 'sharing', 'Buttons settings page' ).
 					', are assigned the \'ngfb-excerpt-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
@@ -84,7 +84,9 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					a common class for all the sharing buttons (see the Buttons Style tab).</p> 
 					<p>Example:</p><pre>
 #ngfb-sidebar
-    #ngfb-sidebar-header
+    #ngfb-sidebar-header { }
+
+#ngfb-sidebar
     #ngfb-sidebar-buttons
         .ngfb-buttons
 	    .facebook-button { }</pre>';
@@ -103,7 +105,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 				case 'style-widget-info':
 					$text = '<p>Social sharing buttons within the '.$this->p->cf['menu'].
-					' Social Sharing widget are assigned the 
+					' Sharing Buttons widget are assigned the 
 					\'ngfb-widget-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
 					(see the Buttons Style tab).</p> 
@@ -111,7 +113,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 .ngfb-widget-buttons 
     .ngfb-buttons
         .facebook-button { }</pre>
-					<p>The '.$this->p->cf['menu'].' Social Sharing widget also has an id of 
+					<p>The '.$this->p->cf['menu'].' Sharing Buttons widget also has an id of 
 					\'ngfb-widget-buttons-<em>#</em>\', and the buttons have an id of 
 					\'<em>name</em>-ngfb-widget-buttons-<em>#</em>\'.</p>
 					<p>Example:</p><pre>
@@ -136,7 +138,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook.'_style', 'Social Styles', array( &$this, 'show_metabox_style' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_style', 'Social Sharing Styles', array( &$this, 'show_metabox_style' ), $this->pagehook, 'normal' );
 		}
 
 		public function show_metabox_style() {

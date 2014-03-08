@@ -37,7 +37,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
 			'link_desc_len' => 'meta_desc_len',
-			'ngfb_version' => 'options_version',
+			'ngfb_version' => 'plugin_version',
 			'ngfb_opts_ver' => 'options_version',
 			'ngfb_pro_tid' => 'plugin_tid',
 			'ngfb_preserve' => 'plugin_preserve',

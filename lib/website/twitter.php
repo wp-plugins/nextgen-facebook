@@ -83,11 +83,37 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
 
 	class NgfbSharingTwitter {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'twitter_on_content' => 0,
+					'twitter_on_excerpt' => 0,
+					'twitter_on_admin_edit' => 1,
+					'twitter_on_sidebar' => 0,
+					'twitter_order' => 3,
+					'twitter_js_loc' => 'header',
+					'twitter_lang' => 'en',
+					'twitter_caption' => 'title',
+					'twitter_cap_len' => 140,
+					'twitter_count' => 'horizontal',
+					'twitter_size' => 'medium',
+					'twitter_via' => 1,
+					'twitter_rel_author' => 1,
+					'twitter_dnt' => 1,
+					'twitter_shortener' => '',
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

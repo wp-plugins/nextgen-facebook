@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.3dev6',			// plugin version
+			'version' => '7.3dev7',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -21,7 +21,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'menu' => 'Open Graph+',		// menu item label
 			'full' => 'NGFB Open Graph+',		// full plugin name
 			'full_pro' => 'NGFB Open Graph+ Pro',
-			'update_hours' => 12,			// check for pro updates
+			'update_hours' => 24,			// check for pro updates
 			'cache' => array(
 				'file' => true,
 				'object' => true,
@@ -121,8 +121,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '260',		// increment when changing default options
+				'version' => '262',		// increment when changing default options
 				'defaults' => array(
+					'options_filtered' => false,
+					'options_version' => '',
 					'meta_desc_len' => 156,
 					'link_author_field' => '',	// default value set by NgfbOptions::get_defaults()
 					'link_def_author_id' => 0,
@@ -238,7 +240,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'inc_twitter:label3' => 1,
 					'inc_twitter:data4' => 1,
 					'inc_twitter:label4' => 1,
-					'options_version' => '',
 					'plugin_version' => '',
 					'plugin_tid' => '',
 					'plugin_preserve' => 0,
@@ -296,6 +297,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'wp_cm_yim_enabled' => 1,
 				),
 				'site_defaults' => array(
+					'options_filtered' => false,
 					'options_version' => '',
 					'plugin_version' => '',
 					'plugin_tid' => '',

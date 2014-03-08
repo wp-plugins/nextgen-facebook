@@ -142,11 +142,37 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) 
 
 	class NgfbSharingFacebook {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'fb_on_content' => 0,
+					'fb_on_excerpt' => 0,
+					'fb_on_admin_edit' => 1,
+					'fb_on_sidebar' => 0,
+					'fb_order' => 1,
+					'fb_js_loc' => 'header',
+					'fb_button' => 'like',
+					'fb_markup' => 'xfbml',
+					'fb_send' => 1,
+					'fb_layout' => 'button_count',
+					'fb_font' => 'arial',
+					'fb_show_faces' => 0,
+					'fb_colorscheme' => 'light',
+					'fb_action' => 'like',
+					'fb_type' => 'button_count',
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

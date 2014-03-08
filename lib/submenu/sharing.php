@@ -91,7 +91,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook.'_sharing', 'Sharing Buttons', array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_sharing', 'Social Sharing Buttons', array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
 			$col = 0;
 			$row = 0;
 			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {

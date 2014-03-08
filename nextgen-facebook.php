@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
-Version: 7.3dev6
+Version: 7.3dev7
 
 Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -128,9 +128,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					( defined( 'NGFB_RESET_ON_ACTIVATE' ) && NGFB_RESET_ON_ACTIVATE ) ) {
 
 					$this->options = $this->opt->get_defaults();
-					$this->options['options_version'] = $this->cf['opt']['version'];
-					$this->options['plugin_version'] = $this->cf['version'];
-
 					delete_option( NGFB_OPTIONS_NAME );
 					add_option( NGFB_OPTIONS_NAME, $this->options, null, 'yes' );
 					$this->debug->log( 'default options have been added to the database' );

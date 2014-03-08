@@ -75,12 +75,39 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 
 	class NgfbSharingPinterest {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'pin_on_content' => 0,
+					'pin_on_excerpt' => 0,
+					'pin_on_admin_edit' => 1,
+					'pin_on_sidebar' => 0,
+					'pin_order' => 7,
+					'pin_js_loc' => 'header',
+					'pin_button_lang' => 'en',
+					'pin_button_shape' => 'rect',
+					'pin_button_color' => 'gray',
+					'pin_button_height' => 'small',
+					'pin_count_layout' => 'beside',
+					'pin_img_width' => 800,
+					'pin_img_height' => 800,
+					'pin_img_crop' => 0,
+					'pin_caption' => 'both',
+					'pin_cap_len' => 500,
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
 			$this->p->util->add_img_sizes_from_opts( array( 'pin_img' => 'pinterest' ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

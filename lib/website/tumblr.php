@@ -84,12 +84,37 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
 
 	class NgfbSharingTumblr {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'tumblr_on_content' => 0,
+					'tumblr_on_excerpt' => 0,
+					'tumblr_on_admin_edit' => 1,
+					'tumblr_on_sidebar' => 0,
+					'tumblr_order' => 8,
+					'tumblr_js_loc' => 'footer',
+					'tumblr_button_style' => 'share_1',
+					'tumblr_desc_len' => 300,
+					'tumblr_photo' => 1,
+					'tumblr_img_width' => 800,
+					'tumblr_img_height' => 800,
+					'tumblr_img_crop' => 0,
+					'tumblr_caption' => 'both',
+					'tumblr_cap_len' => 500,
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
 			$this->p->util->add_img_sizes_from_opts( array( 'tumblr_img' => 'tumblr' ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

@@ -17,6 +17,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 			$this->p->debug->mark();
 		}
 
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
+		}
+
 		protected function get_rows( $metabox, $key ) {
 			return array(
 				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
@@ -50,11 +54,30 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) && class_exists( 'NgfbSharing' ) ) 
 
 	class NgfbSharingLinkedin {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'linkedin_on_content' => 0,
+					'linkedin_on_excerpt' => 0,
+					'linkedin_on_admin_edit' => 1,
+					'linkedin_on_sidebar' => 0,
+					'linkedin_order' => 4,
+					'linkedin_js_loc' => 'header',
+					'linkedin_counter' => 'right',
+					'linkedin_showzero' => 1,
+				),
+			),
+		);
+
 		protected $p;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {

@@ -76,9 +76,33 @@ if ( ! class_exists( 'NgfbSharingGplus' ) && class_exists( 'NgfbSharing' ) ) {
 
 	class NgfbSharingGplus {
 
+		private static $cf = array(
+			'opt' => array(				// options
+				'defaults' => array(
+					'gp_on_content' => 0,
+					'gp_on_excerpt' => 0,
+					'gp_on_admin_edit' => 1,
+					'gp_on_sidebar' => 0,
+					'gp_order' => 2,
+					'gp_js_loc' => 'header',
+					'gp_lang' => 'en-US',
+					'gp_action' => 'plusone',
+					'gp_size' => 'medium',
+					'gp_annotation' => 'bubble',
+					'gp_expandto' => '',
+				),
+			),
+		);
+
+		protected $p;
+
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
-			$this->p->debug->mark();
+			$this->p->util->add_plugin_filters( $this, array( 'get_defaults' => 1 ) );
+		}
+
+		public function filter_get_defaults( $opts_def ) {
+			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
 		public function get_html( &$atts = array(), &$opts = array() ) {
