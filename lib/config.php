@@ -46,8 +46,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'gplus' => 'GooglePlus',
 					'twitter' => 'Twitter',
 					'linkedin' => 'LinkedIn',
-					'managewp' => 'ManageWP',
 					'pinterest' => 'Pinterest',
+					'reddit' => 'Reddit',
+					'managewp' => 'ManageWP',
 					'stumbleupon' => 'StumbleUpon',
 					'tumblr' => 'Tumblr',
 					'youtube' => 'YouTube',
@@ -121,7 +122,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '262',		// increment when changing default options
+				'version' => '263',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -308,8 +309,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'gplus' => 'gp',
 					'twitter' => 'twitter',
 					'linkedin' => 'linkedin',
-					'managewp' => 'managewp',
 					'pinterest' => 'pin',
+					'reddit' => 'reddit',
+					'managewp' => 'managewp',
 					'stumbleupon' => 'stumble',
 					'tumblr' => 'tumblr',
 					'youtube' => 'yt',

@@ -82,7 +82,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) )
 					'pin_on_excerpt' => 0,
 					'pin_on_admin_edit' => 1,
 					'pin_on_sidebar' => 0,
-					'pin_order' => 7,
+					'pin_order' => 5,
 					'pin_js_loc' => 'header',
 					'pin_button_lang' => 'en',
 					'pin_button_shape' => 'rect',

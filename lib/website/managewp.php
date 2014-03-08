@@ -27,9 +27,6 @@ if ( ! class_exists( 'NgfbSubmenuSharingManagewp' ) && class_exists( 'NgfbSubmen
 					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 						'short' ) . '</td>',
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->form->get_select( 'managewp_js_loc', $this->js_locations ) . '</td>',
-
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
 				$this->form->get_select( 'managewp_counter', 
 					array( 
@@ -53,8 +50,7 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) && class_exists( 'NgfbSharing' ) ) 
 					'managewp_on_excerpt' => 0,
 					'managewp_on_admin_edit' => 1,
 					'managewp_on_sidebar' => 0,
-					'managewp_order' => 5,
-					'managewp_js_loc' => 'header',
+					'managewp_order' => 7,
 					'managewp_type' => 'small',
 				),
 			),
@@ -77,20 +73,24 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) && class_exists( 'NgfbSharing' ) ) 
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'managewp', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
+
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
-			$js_url = $this->p->util->get_cache_url( 'http://managewp.org/share.js' ).'#http://managewp.org/share';
 
 			if ( empty( $atts['title'] ) ) 
 				$atts['title'] = $this->p->webpage->get_title( null, null, $use_post);
 
+			$script_src = $this->p->util->get_cache_url( 'http://managewp.org/share.js' ).'#http://managewp.org/share';
+
 			$html = '<!-- ManageWP Button --><div '.$this->p->sharing->get_css( 'managewp', $atts ).'>';
-			$html .= '<script src="'.$js_url.'" data-url="'.$atts['url'].'" data-title="'.$atts['title'].'"';
+			$html .= '<script type="text/javascript" src="'.$script_src.'" data-url="'.$atts['url'].'" data-title="'.$atts['title'].'"';
 			$html .= empty( $opts['managewp_type'] ) ? '' : ' data-type="'.$opts['managewp_type'].'"';
 			$html .= '></script></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
+
 			return $html;
 		}
 	}

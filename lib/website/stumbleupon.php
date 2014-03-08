@@ -87,7 +87,7 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' )
 					'stumble_on_excerpt' => 0,
 					'stumble_on_admin_edit' => 1,
 					'stumble_on_sidebar' => 0,
-					'stumble_order' => 6,
+					'stumble_order' => 8,
 					'stumble_js_loc' => 'header',
 					'stumble_badge' => 1,
 				),

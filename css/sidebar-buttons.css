@@ -53,8 +53,7 @@
 	margin:10px 5px;
 }
 
-/* fix for the pinterest button */
+/* adjustments for specific buttons */
 #ngfb-sidebar .ngfb-buttons div.pinterest-button { height:28px; margin-top:42px; }
-
-/* fix for the tumblr button, which does not have a vertical counter */
 #ngfb-sidebar .ngfb-buttons div.tumblr-button { height:20px; }
+#ngfb-sidebar .ngfb-buttons div.reddit-button { margin-bottom:15px; }
