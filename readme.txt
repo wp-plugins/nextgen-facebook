@@ -217,13 +217,16 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.3dev6 =
+= Version 7.3dev7 =
 
 * **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 * Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are added / activated.
 * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
 * Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
-* Changed the default Open Graph Image Dimensions from 1200x630, cropped to 1200x1200, cropped.
+* Changed the default Open Graph Image Dimensions from 1200x630 cropped to 1200x1200 cropped.
+* Changed the update check schedule from every 12 hours to every 24 hours.
+* Changed the `NgfbOptions::get_defaults()` method to filter the default options only once.
+* Moved default social website options into each website class (with a hook into the 'ngfb_get_defaults' filter).
 
 = Version 7.2 =
 
