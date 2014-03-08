@@ -451,7 +451,7 @@ jQuery("#ngfb-sidebar").click( function(){
 						$this->p->debug->log( $this->sharing_css_min_file.' is not readable.' );
 					} else {
 						echo '<style type="text/css">';
-						if ( ( $fsize = filesize( $this->sharing_css_min_file ) ) > 0 &&
+						if ( ( $fsize = @filesize( $this->sharing_css_min_file ) ) > 0 &&
 							$fh = @fopen( $this->sharing_css_min_file, 'rb' ) ) {
 							echo fread( $fh, $fsize );
 							fclose( $fh );
