@@ -23,8 +23,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function get_site_defaults( $idx = '' ) {
-			// only filter the default options once
-			if ( $this->p->cf['opt']['site_defaults']['options_filtered'] === false ) {
+			if ( ! isset( $this->p->cf['opt']['site_defaults']['options_filtered'] ) ||
+				$this->p->cf['opt']['site_defaults']['options_filtered'] === false ) {
+
 				$this->p->cf['opt']['site_defaults'] = apply_filters( 
 					$this->p->cf['lca'].'_get_site_defaults', 
 					$this->p->cf['opt']['site_defaults'] );
@@ -40,8 +41,8 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function get_defaults( $idx = '' ) {
-			// only filter the default options once
-			if ( $this->p->cf['opt']['defaults']['options_filtered'] === false ) {
+			if ( ! isset( $this->p->cf['opt']['defaults']['options_filtered'] ) ||
+				$this->p->cf['opt']['defaults']['options_filtered'] === false ) {
 
 				$this->p->cf['opt']['defaults'] = $this->p->util->push_add_to_options( $this->p->cf['opt']['defaults'], array( 'plugin' ) );
 
