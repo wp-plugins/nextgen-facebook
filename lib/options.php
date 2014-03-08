@@ -71,7 +71,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				$this->p->cf['opt']['defaults']['options_filtered'] = true;
 				$this->p->cf['opt']['defaults']['options_version'] = $this->p->cf['opt']['version'];
 				$this->p->cf['opt']['defaults']['plugin_version'] = $this->p->cf['version'];
-				error_log(print_r($this->p->cf['opt']['defaults'],true));
 			}
 			if ( ! empty( $idx ) ) 
 				if ( array_key_exists( $idx, $this->p->cf['opt']['defaults'] ) )
