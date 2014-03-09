@@ -219,8 +219,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.3 =
 
-* **Added the Reddit social sharing button** (interactive button styles).
-* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are added / activated.
+* **Added the Reddit social sharing button** (interactive button type).
+* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
 * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
 * Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
 * Changed the default Open Graph Image Dimensions from 1200x630 cropped to 1200x1200 cropped.
@@ -287,6 +287,10 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 * **Fixed** missing closure of anchor tag for Pinterest button.
 
 == Upgrade Notice ==
+
+= 7.3 =
+
+Added the Reddit sharing button, added default options when creating a new multisite blog, changed the default Open Graph image size to 1200x1200 cropped, removed the URL Rewriting feature.
 
 = 7.2 =
 
