@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.2
+Stable Tag: 7.3.1
 
 Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
 
@@ -217,7 +217,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.3 =
+= Version 7.3.1 =
 
 This latest version includes one significant change, and several smaller ones. <strong>The URL Rewring feature (and its tab on the Advanced settings page) has been removed</strong>. This feature was not necessary to the "social sharing" purpose of the plugin, and many other 3rd party plugins already offer the same and/or similar functionality (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
@@ -294,7 +294,7 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 
 == Upgrade Notice ==
 
-= 7.3 =
+= 7.3.1 =
 
 Added the Reddit sharing button, added default options when creating a new multisite blog, changed the default Open Graph image size to 1200x1200 cropped, removed the URL Rewriting feature.
 
