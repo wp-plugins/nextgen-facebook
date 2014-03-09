@@ -746,10 +746,10 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( ! empty( $post ) ) {
 				$post_type = $post->post_type;
 				if ( $this->p->addons['util']['postmeta']->get_options( $post->ID, 'buttons_disabled' ) ) {
-					$this->p->debug->log( 'found custom meta buttons disabled = true' );
+					$this->p->debug->log( 'post '.$post->ID.': sharing buttons disabled by custom meta option' );
 					$ret = true;
 				} elseif ( ! empty( $post_type ) && empty( $this->p->options['buttons_add_to_'.$post_type] ) ) {
-					$this->p->debug->log( 'sharing buttons disabled for post '.$post->ID.' of type '.$post_type );
+					$this->p->debug->log( 'post '.$post->ID.': sharing buttons not enabled for post type '.$post_type );
 					$ret = true;
 				}
 			}
