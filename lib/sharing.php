@@ -357,7 +357,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					if ( ! is_readable( $this->sharing_css_min_file ) ) {
 						if ( is_admin() )
 							$this->p->notice->err( $this->sharing_css_min_file.' is not readable.', true );
-						$this->p->debug->log( $this->sharing_css_min_file.' is not readable.' );
+						$this->p->debug->log( $this->sharing_css_min_file.' is not readable' );
 					} else {
 						echo '<style type="text/css">';
 						if ( ( $fsize = @filesize( $this->sharing_css_min_file ) ) > 0 &&
@@ -374,12 +374,14 @@ jQuery("#ngfb-sidebar").click( function(){
 		public function update_sharing_css( &$opts ) {
 			if ( ! empty( $opts['buttons_use_social_css'] ) ) {
 				if ( ! $fh = @fopen( $this->sharing_css_min_file, 'wb' ) ) {
-					if ( is_admin() ) {
-						if ( ! is_writable( NGFB_CACHEDIR ) )
+					if ( ! is_writable( NGFB_CACHEDIR ) ) {
+						if ( is_admin() )
 							$this->p->notice->err( NGFB_CACHEDIR.' is not writable.', true );
-						$this->p->notice->err( 'Failed to open file '.$this->sharing_css_min_file.' for writing.', true );
+						$this->p->debug->log( NGFB_CACHEDIR.' is not writable', true );
 					}
-					$this->p->debug->log( 'failed to open '.$this->sharing_css_min_file.' for writing.' );
+					if ( is_admin() )
+						$this->p->notice->err( 'Failed to open file '.$this->sharing_css_min_file.' for writing.', true );
+					$this->p->debug->log( 'failed opening '.$this->sharing_css_min_file.' for writing' );
 				} else {
 					$css_data = '';
 					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
@@ -389,9 +391,12 @@ jQuery("#ngfb-sidebar").click( function(){
 							$css_data .= $opts['buttons_css_'.$id];
 					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
 					$css_data = SuextMinifyCssCompressor::process( $css_data );
-					fwrite( $fh, $css_data );
+					if ( fwrite( $fh, $css_data ) === false ) {
+						if ( is_admin() )
+							$this->p->notice->err( 'Failed writing to file '.$this->sharing_css_min_file.'.', true );
+						$this->p->debug->log( 'failed writing to '.$this->sharing_css_min_file );
+					} else $this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
 					fclose( $fh );
-					$this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
 				}
 			} else $this->unlink_sharing_css();
 		}
