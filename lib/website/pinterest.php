@@ -71,7 +71,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingPinterest' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 
 	class NgfbSharingPinterest {
 

@@ -76,7 +76,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingStumbleupon' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingStumbleupon' ) ) {
 
 	class NgfbSharingStumbleupon {
 

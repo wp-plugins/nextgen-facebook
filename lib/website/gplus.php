@@ -72,7 +72,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSh
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingGplus' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingGplus' ) ) {
 
 	class NgfbSharingGplus {
 

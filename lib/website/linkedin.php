@@ -50,7 +50,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingLinkedin' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingLinkedin' ) ) {
 
 	class NgfbSharingLinkedin {
 

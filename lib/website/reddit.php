@@ -40,7 +40,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingReddit' ) && class_exists( 'NgfbSubmenuS
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingReddit' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingReddit' ) ) {
 
 	class NgfbSharingReddit {
 
