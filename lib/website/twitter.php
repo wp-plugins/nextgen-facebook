@@ -79,7 +79,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingTwitter' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 
 	class NgfbSharingTwitter {
 

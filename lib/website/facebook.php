@@ -138,7 +138,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingFacebook' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingFacebook' ) ) {
 
 	class NgfbSharingFacebook {
 

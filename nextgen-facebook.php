@@ -141,7 +141,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			do_action( $this->cf['lca'].'_init_addon' );
 
 			/*
-			 * check and create default options
+			 * check and create the default options array
 			 *
 			 * execute after all objects have been defines, so hooks into 'ngfb_get_defaults' are available
 			 */

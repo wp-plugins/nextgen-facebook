@@ -39,7 +39,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingManagewp' ) && class_exists( 'NgfbSubmen
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingManagewp' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingManagewp' ) ) {
 
 	class NgfbSharingManagewp {
 

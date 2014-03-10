@@ -122,7 +122,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '265',		// increment when changing default options
+				'version' => '266',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -505,7 +505,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					return true;
 				}
 			}
-			return false;
+			return $loaded;
 		}
 	}
 }

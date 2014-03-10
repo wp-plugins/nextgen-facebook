@@ -80,7 +80,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 	}
 }
 
-if ( ! class_exists( 'NgfbSharingTumblr' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 
 	class NgfbSharingTumblr {
 
