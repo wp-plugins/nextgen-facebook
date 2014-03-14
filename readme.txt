@@ -217,6 +217,11 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
+= Version 7.3.2 =
+
+* Added a 'Widget Preset' option on the Preset Options tab.
+* Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
+
 = Version 7.3.1 =
 
 This latest version includes one significant change, and several smaller ones. <strong>The URL Rewring feature (and its tab on the Advanced settings page) has been removed</strong>. This feature was not necessary to the "social sharing" purpose of the plugin, and many other 3rd party plugins already offer the same and/or similar functionality (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).

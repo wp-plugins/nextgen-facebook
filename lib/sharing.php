@@ -57,6 +57,7 @@ jQuery("#ngfb-sidebar").click( function(){
 	jQuery("#ngfb-sidebar-buttons").toggle(); } );',
 					'buttons_preset_content' => '',
 					'buttons_preset_excerpt' => '',
+					'buttons_preset_widget' => '',
 					'buttons_preset_sidebar' => 'large_share_vertical',
 					'buttons_preset_admin_edit' => 'small_share_count',
 				),

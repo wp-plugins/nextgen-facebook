@@ -64,6 +64,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						$ret = remove_action( 'wpseo_head', array( $wpseo_front, 'author' ), $prio );
 				}
 			}
+			do_action( $this->p->cf['lca'].'_init_check', $this->active_plugins );
 		}
 
 		public function get_active() {
