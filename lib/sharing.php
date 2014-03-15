@@ -151,6 +151,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
 				$this->p->util->add_plugin_filters( $this, array( 
 					'save_options' => 2,		// update the sharing css file
+					'option_type' => 2,		// identify option type for sanitation
 					'post_cache_transients' => 4,	// flush transients on post save
 					'status_gpl_features' => 1,	// include sharing, shortcode, and widget status
 					'status_pro_features' => 1,	// include social file cache status
@@ -202,6 +203,61 @@ jQuery("#ngfb-sidebar").click( function(){
 				$this->update_sharing_css( $opts );
 			}
 			return $opts;
+		}
+
+		public function filter_option_type( $ret, $key ) {
+			if ( ! empty( $ret ) )
+				return $ret;
+
+			switch ( $key ) {
+				// css
+				case ( strpos( $key, 'buttons_js_' ) === 0 ? true : false ):
+				case ( strpos( $key, 'buttons_css_' ) === 0 ? true : false ):
+					return 'code';
+					break;
+
+				// integer options that must be 1 or more (not zero)
+				case 'stumble_badge':
+				case 'plugin_min_shorten':
+				case ( preg_match( '/_order$/', $key ) ? true : false ):
+					return 'posnum';
+					break;
+
+				// text strings that can be blank
+				case 'gp_expandto':
+				case 'pin_desc':
+				case 'tumblr_img_desc':
+				case 'tumblr_vid_desc':
+				case 'twitter_desc':
+				case 'plugin_google_api_key':
+				case 'plugin_bitly_api_key':
+					return 'okblank';
+					break;
+
+				// options that cannot be blank
+				case 'fb_markup': 
+				case 'gp_lang': 
+				case 'gp_action': 
+				case 'gp_size': 
+				case 'gp_annotation': 
+				case 'twitter_count': 
+				case 'twitter_size': 
+				case 'linkedin_counter':
+				case 'managewp_type':
+				case 'pin_button_lang':
+				case 'pin_button_shape':
+				case 'pin_button_color':
+				case 'pin_button_height':
+				case 'pin_count_layout':
+				case 'pin_caption':
+				case 'tumblr_button_style':
+				case 'tumblr_caption':
+				case ( strpos( $key, 'buttons_pos_' ) === 0 ? true : false ):
+				case ( preg_match( '/^[a-z]+_js_loc$/', $key ) ? true : false ):
+					return 'notblank';
+					break;
+			}
+			return $ret;
 		}
 
 		public function filter_post_cache_transients( $transients, $post_id, $lang = 'en_US', $sharing_url ) {

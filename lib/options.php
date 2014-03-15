@@ -151,8 +151,9 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 							'\' and \''.$this->p->cf['opt']['defaults']['tc_prod_def_d2'].'\').' );
 					}
 				}
-				if ( $this->p->is_avail['aop'] === true && empty( $this->p->options['plugin_tid'] ) )
-					$this->p->notice->nag( $this->p->msgs->get( 'pro-activate-nag' ) );
+				if ( $this->p->is_avail['aop'] === true && 
+					empty( $this->p->options['plugin_tid'] ) )
+						$this->p->notice->nag( $this->p->msgs->get( 'pro-activate-nag' ) );
 			}
 			return $opts;
 		}
@@ -180,9 +181,15 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 			}
 
 			/*
-			 * Adjust dependent options
-			 * All options (site and meta as well) are sanitized here, so use array_key_exists() on all tests
+			 * Adjust dependent options -- All options (site and meta as well) are sanitized here, 
+			 * so use array_key_exists() on all tests
 			 */
+			if ( array_key_exists( 'og_def_img_id', $opts ) &&
+				! empty( $opts['og_def_img_id'] ) ) {
+				$opts['og_def_img_url'] = '';
+				$opts['og_def_img_url:is'] = 'disabled';
+			}
+
 			if ( ! $this->p->check->is_aop() )
 				$opts['plugin_file_cache_hrs'] = 0;
 
@@ -248,13 +255,10 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 		}
 
 		public function filter_option_type( $ret, $key ) {
-			switch ( $key ) {
-				// css
-				case ( strpos( $key, 'buttons_js_' ) === 0 ? true : false ):
-				case ( strpos( $key, 'buttons_css_' ) === 0 ? true : false ):
-					return 'code';
-					break;
+			if ( ! empty( $ret ) )
+				return $ret;
 
+			switch ( $key ) {
 				// twitter-style usernames (prepend with an at)
 				case 'tc_site':
 					return 'atname';
@@ -285,10 +289,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 					break;
 
 				// integer options that must be 1 or more (not zero)
-				case 'stumble_badge':
 				case 'plugin_object_cache_exp':
-				case 'plugin_min_shorten':
-				case ( preg_match( '/_order$/', $key ) ? true : false ):
 				case ( preg_match( '/_len$/', $key ) ? true : false ):
 					return 'posnum';
 					break;
@@ -318,13 +319,6 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'meta_desc':
 				case 'fb_app_id':
 				case 'tc_desc':
-				case 'gp_expandto':
-				case 'pin_desc':
-				case 'tumblr_img_desc':
-				case 'tumblr_vid_desc':
-				case 'twitter_desc':
-				case 'plugin_google_api_key':
-				case 'plugin_bitly_api_key':
 				case 'plugin_cf_vid_url':
 					return 'okblank';
 					break;
@@ -336,26 +330,7 @@ if ( ! class_exists( 'NgfbOptions' ) ) {
 				case 'og_author_field':
 				case 'rp_author_name':
 				case 'fb_lang': 
-				case 'fb_markup': 
-				case 'gp_lang': 
-				case 'gp_action': 
-				case 'gp_size': 
-				case 'gp_annotation': 
-				case 'twitter_count': 
-				case 'twitter_size': 
-				case 'linkedin_counter':
-				case 'managewp_type':
-				case 'pin_button_lang':
-				case 'pin_button_shape':
-				case 'pin_button_color':
-				case 'pin_button_height':
-				case 'pin_count_layout':
-				case 'pin_caption':
-				case 'tumblr_button_style':
-				case 'tumblr_caption':
 				case 'plugin_tid:use':
-				case ( strpos( $key, 'buttons_pos_' ) === 0 ? true : false ):
-				case ( preg_match( '/^[a-z]+_js_loc$/', $key ) ? true : false ):
 				case ( preg_match( '/^(plugin|wp)_cm_[a-z]+_(name|label)$/', $key ) ? true : false ):
 					return 'notblank';
 					break;
