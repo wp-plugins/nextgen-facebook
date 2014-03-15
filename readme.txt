@@ -219,8 +219,11 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.3.2 =
 
-* Added a 'Widget Preset' option on the Preset Options tab.
 * Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
+* Disabled the Default Image URL option when a Default Image ID has been specified.
+* Moved the sharing related option_type filter from lib/options.php to lib/sharing.php.
+* Added a 'Widget Preset' option on the Preset Options tab.
+* Updated a few help messages in lib/messages.php
 
 = Version 7.3.1 =
 
