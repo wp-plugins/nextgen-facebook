@@ -223,7 +223,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 * Disabled the Default Image URL option when a Default Image ID has been specified.
 * Moved the sharing related option_type filter from lib/options.php to lib/sharing.php.
 * Added a 'Widget Preset' option on the Preset Options tab.
-* Updated a few help messages in lib/messages.php
+* Updated a few help messages in lib/messages.php.
 
 = Version 7.3.1 =
 
@@ -301,6 +301,10 @@ A small compatibility issue with Facebook's sharing button and version 7.0.1's n
 * **Fixed** missing closure of anchor tag for Pinterest button.
 
 == Upgrade Notice ==
+
+= 7.3.2 =
+
+Changed default Open Graph 'Image Dimensions' from 1200x1200 to 800x800 cropped, disabled Default Image URL when a Default Image ID has been specified, added 'Widget Preset' option.
 
 = 7.3.1 =
 
