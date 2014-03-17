@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.8.1
 Stable Tag: 7.3.2
 
-Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Includes optional Social Sharing Buttons!
+Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Includes Social Sharing Buttons!
 
 == Description ==
 
