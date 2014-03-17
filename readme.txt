@@ -6,9 +6,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.3.1
+Stable Tag: 7.3.2
 
-Improve the appearance and ranking of WordPress Posts, Pages, and eCommerce Products in Google Search and Social Website shares
+Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Includes Social Sharing Buttons!
 
 == Description ==
 
@@ -227,12 +227,6 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 = Version 7.3.1 =
 
-This latest version includes one significant change, and several smaller ones. <strong>The URL Rewring feature (and its tab on the Advanced settings page) has been removed</strong>. This feature was not necessary to the "social sharing" purpose of the plugin, and many other 3rd party plugins already offer the same and/or similar functionality (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
-
-In previous versions, the default Open Graph Image Dimensions were 1200x630px (in consideration of Facebook’s documented preferences), but this was less than ideal for G+ and Pinterest, for example. The new Image Dimension defaults are now 1200x1200px, which should be a good compromise &ndash; make sure your original images are large enough. If not, <strong>you can reduce the Image Dimension value, but your images may not feature as prominently when posted to facebook</strong>. The class method used to generate default option values has also been improved by calling the option filter just once. And if you’re on a multisite, the plugin will now generate a default set of option values when you create a new blog.
-
-A new Reddit social sharing button has been added. Reddit offers many button styles, but for now, NGFB Open Graph+ supports only the JavaScript based "interactive" button type (additional button types will be added in future versions).
-
 * **Added the Reddit social sharing button** (interactive button type).
 * Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
 * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
@@ -243,63 +237,6 @@ A new Reddit social sharing button has been added. Reddit offers many button sty
 * Moved the default social website options into each website class (with a hook into the 'ngfb_get_defaults' filter).
 * **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
-= Version 7.2 =
-
-Pinterest Rich Pins have adopted the Open Graph standard, except for the 'article:author' meta tag value. The Open Graph standard expects the 'article:author' to be a profile URL or profile ID, where-as Pinterest expects a person's name instead (and ignores any URL values). To correct this incompatibility, a new Pinterest publisher tab has been added to the Open Graph+ General settings page, with an option to include an author's name specifically for the Pinterest crawler. The default value includes the author's 'Display Name', but you may also choose the author's 'First and Last Names' or 'Nickname' instead.
-
-If you use a full-page caching front-end or plugin (Quick cache, etc.), see the [Performance Tuning](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/) notes about caches and Pinterest meta tags.
-
-* Added a new Pinterest publisher settings tab, along with a new 'Author Name Format' option.
-* Changed the 'ngfb_load_lib' action to a filter (returning true or false).
-* Improved the 'ngfb_load_lib' filter for compatibility with future addon plugins.
-* Added support for NextGEN Gallery's 'href_link' image attribute to determine the correct image ID (Pro version).
-* Added an 'ngfb_get_content_img_data_ngg_pid' filter to fetch image information for NGG image attributes (Pro version).
-* Moved the social sharing related config variables and options to `lib/sharing.php`.
-* **Fixed** the missing default options for sharing button custom post types.
-
-= Version 7.1.3 =
-
-* Added support for YouTube's old video embed code.
-
-= Version 7.1.2 =
-
-* **Fixed** checks for the `NGFB_META_TAGS_DISABLE`, `NGFB_OPEN_GRAPH_DISABLE`, and `NGFB_SOCIAL_SHARING_DISABLE` constants.
-* **Fixed** the detection of featured images for the Pinterest button in the sidebar and widget.
-
-Note: **The default sidebar CSS has been updated**. If you have not made any modifications to the default sidebar CSS, you can clear its content and save an empty text area -- the new defaults will be reloaded. If you would like to manually update the CSS, you should change:
-
-`
-#ngfb-sidebar .ngfb-buttons div.pinterest-button > a { vertical-align:bottom !important; }
-`
-
-to:
-
-`
-#ngfb-sidebar .ngfb-buttons div.pinterest-button { height:28px; margin-top:42px; }
-`
-
-Also note: The default sidebar JavaScript was also updated in v7.1. If you have not cleared and reloaded the default JavaScript from v7.1, you may want to do this as well.
-
-= Version 7.1.1 =
-
-* **Fixed** logic for the sharing shortcode to ignore include/exclude buttons options.
-* Added error messages for permission issues when updating the minimized stylesheet.
-* Improved error message reporting for permission issues accessing the cache folder.
-
-= Version 7.1 =
-
-NGFB Open Graph+ can recognize and parse standard object / iframe embed code, but some themes and plugins offer a custom field for video URLs, which is then used to create custom / non-standard embed code. Version 7.1 includes a new 'Video URL Custom Field' option on the Advanced settings page, under the Custom Settings tab, where you can enter the name of such a custom field. If found, the video URL will be used to retrieve information on that video, just like if it was found embedded in the content. Typically, the custom field name will start with an underscore, and the default 'Video URL Custom Field' name is "_format_video_embed" (which may or may not be supported by your theme, or may be known under a different name).
-
-A small compatibility issue with Facebook's sharing button and version 7.0.1's new sharing sidebar CSS has been found. The Facebook sharing button is not compatible with 'display:none' (which is toggled on mouse-over with jQuery). An alternate method, using a combination of width:0, height:0, and visibility:none is now used in the sidebar CSS. After upgrading to version 7.1, you should clear the 'Sidebar Style' and 'Sidebar Javascript' text input areas, then save the empty values to reload new defaults.
-
-* Added an 'Video URL Custom Field' option to include a video URL from a theme's custom field (Pro version).
-* Added new 'ngfb_post_cache_transients' and 'ngfb_post_cache_objects' filters, called when a Post or Page is updated.
-* Moved the Vimeo and Yahoo APIs to Pro version addons.
-* **Fixed** false positive on the Custom Post Meta addon status (GPL version).
-* **Fixed** flushing of transient cache for sharing buttons on Post / Page updates.
-* **Fixed** the sidebar CSS and JS for Facebook's share button (which is incompatible with display:none). You will have to manually save empty 'Sidebar Style' and 'Sidebar Javascript' values to reload the new defaults.
-* **Fixed** missing closure of anchor tag for Pinterest button.
-
 == Upgrade Notice ==
 
 = 7.3.2 =
@@ -309,24 +246,4 @@ Changed default Open Graph 'Image Dimensions' from 1200x1200 to 800x800 cropped,
 = 7.3.1 =
 
 Added the Reddit sharing button, added default options when creating a new multisite blog, changed the default Open Graph image size to 1200x1200 cropped, removed the URL Rewriting feature.
-
-= 7.2 =
-
-Added Pinterest-specific option for 'article:author' meta tag (see Changelog), and small code improvements for NextGEN Gallery.
-
-= 7.1.3 =
-
-Added support for YouTube's old embed code.
-
-= 7.1.2 =
-
-Fixed the detection of featured images for the Pinterest button in the sidebar and widget, fixed checks for a few constants that disable features.
-
-= 7.1.1 =
-
-Fixed logic for the sharing buttons shortcode to ignore the include/exclude buttons options.
-
-= 7.1 =
-
-Added a new 'Video URL Custom Field' option, fixed the sidebar CSS and JS for Facebook's share button, fixed transient cache expiration on Post / Page updates.
 
