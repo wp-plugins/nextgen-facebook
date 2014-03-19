@@ -228,6 +228,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 * Added an 'ngfb_the_object' filter to modify the return of post objects.
 * Changed update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins'.
 * Added debugging messages to `SucomUpdate::inject_update()` method.
+* Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
 
 = Version 7.3.2 =
 
