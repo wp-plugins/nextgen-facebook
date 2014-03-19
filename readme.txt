@@ -170,7 +170,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> <div>An example showing the difference in meta tags between the NGFB Open Graph+ GPL version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a>
+			<div>An example showing the difference in meta tags between the NGFB Open Graph+ GPL version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
 		<div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
@@ -179,7 +180,8 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">Filters</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> <div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a>
+			<div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a>
@@ -216,6 +218,16 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 7.4rc1 =
+
+* Split the 'Image and Video' General settings tab into an 'Images' and 'Videos' settings tab. 
+* Added the 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
+* Added check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags.
+* Added a `NgfbMedia::get_default_video()` method.
+* Added an 'ngfb_the_object' filter to modify the return of post objects.
+* Changed update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins'.
+* Added debugging messages to `SucomUpdate::inject_update()` method.
 
 = Version 7.3.2 =
 
