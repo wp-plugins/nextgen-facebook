@@ -221,16 +221,16 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 = Version 7.4rc3 =
 
-* Split the 'Image and Video' General settings tab into an 'Images' and 'Videos' settings tab. 
-* Added the 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
-* Added check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags.
-* Added a `NgfbMedia::get_default_video()` method.
-* Added an 'ngfb_the_object' filter to modify the return of post objects.
-* Changed update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins'.
-* Added debugging messages to `SucomUpdate::inject_update()` method.
+* Split the existing 'Image and Video' General settings tab into seperate 'Images' and 'Videos' settings tabs.
+* Added 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
+* Added a missing check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags (Pro version).
+* Added a new `NgfbMedia::get_default_video()` method.
+* Added a new 'ngfb_the_object' filter to modify the return of post objects.
+* Changed the update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins' (Pro version).
+* Added debugging messages to the `SucomUpdate::inject_update()` method (Pro version).
 * Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
-* Changed the image resize crop value from 1/0 to true/false.
 * Added reporting on the number of licenses assigned (Pro version).
+* Changed the image resize crop value from 1/0 to true/false.
 
 = Version 7.3.2 =
 
