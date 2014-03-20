@@ -219,7 +219,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 
 == Changelog ==
 
-= Version 7.4rc2 =
+= Version 7.4rc3 =
 
 * Split the 'Image and Video' General settings tab into an 'Images' and 'Videos' settings tab. 
 * Added the 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
@@ -230,6 +230,7 @@ Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Fac
 * Added debugging messages to `SucomUpdate::inject_update()` method.
 * Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
 * Changed the image resize crop value from 1/0 to true/false.
+* Added reporting on the number of licenses assigned (Pro version).
 
 = Version 7.3.2 =
 
