@@ -89,7 +89,7 @@ if ( ! class_exists( 'NgfbSubmenuGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					$rows[] = $this->p->util->th( 'Add Page Ancestor Tags', null, 'og_page_parent_tags' ).
 					'<td>'.$this->form->get_checkbox( 'og_page_parent_tags' ).'</td>';
 	
-					$rows[] = $this->p->util->th( 'Number of Hashtags to Include', 'highlight', 'og_desc_hashtags' ).
+					$rows[] = $this->p->util->th( 'Number of Hashtags to Include', null, 'og_desc_hashtags' ).
 					'<td>'.$this->form->get_select( 'og_desc_hashtags', 
 						range( 0, $this->p->cf['form']['max_desc_hashtags'] ), 'short', null, true ).' tag names</td>';
 	
