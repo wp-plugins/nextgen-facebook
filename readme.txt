@@ -224,7 +224,6 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 * Bugfixes
 	* Fixed a missing check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags (Pro version).
 	* Fixed an incorrect 'twitter:title' value when in the admin interface, by adding a missing `$use_post` argument to `SucomWebpage::get_title()` in the Twitter Card addon (Pro version).
-
 * Enhancement
 	* Split the existing 'Image and Video' General settings tab into separate 'Images' and 'Videos' settings tabs.
 	* Added 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
@@ -240,7 +239,6 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 * Bugfixes
 	* *None*
-
 * Enhancement
 	* Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
 	* Disabled the Default Image URL option when a Default Image ID has been specified.
@@ -252,7 +250,6 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 * Bugfixes
 	* *None*
-
 * Enhancement
 	* **Added the Reddit social sharing button** (interactive button type).
 	* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
