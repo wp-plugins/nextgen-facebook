@@ -23,16 +23,16 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 * Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
 * Configurable contact fields for author meta tags and user profile pages.
 * Integrates with 3rd party plugins and services for additional image, video, product, and content information:
-  * NextGEN Gallery
-  * JetPack Photon
-  * WordPress SEO by Yoast
-  * All in One SEO Pack
-  * WooCommerce
-  * MarketPress
-  * WP e-Commerce
-  * bbPress
-  * BuddyPress
-  * Slideshare, Vimeo, Wistia, Youtube APIs
+	* NextGEN Gallery
+	* JetPack Photon
+	* WordPress SEO by Yoast
+	* All in One SEO Pack
+	* WooCommerce
+	* MarketPress
+	* WP e-Commerce
+	* bbPress
+	* BuddyPress
+	* Slideshare, Vimeo, Wistia, Youtube APIs
 
 = Complete Meta Tags =
 
@@ -222,46 +222,47 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 = Version 7.4rc4 =
 
 * Bugfixes
-  * Fixed missing check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags (Pro version).
+	* Fixed a missing check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags (Pro version).
+	* Fixed an incorrect 'twitter:title' value when in the admin interface, by adding a missing `$use_post` argument to `SucomWebpage::get_title()` in the Twitter Card addon (Pro version).
 
 * Enhancement
-  * Split the existing 'Image and Video' General settings tab into separate 'Images' and 'Videos' settings tabs.
-  * Added 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
-  * Added a new `NgfbMedia::get_default_video()` method.
-  * Added a new 'ngfb_the_object' filter to modify the return of post objects.
-  * Changed the update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins' (Pro version).
-  * Added debugging messages to the `SucomUpdate::inject_update()` method (Pro version).
-  * Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
-  * Added reporting on the number of licenses assigned (Pro version).
-  * Changed the image resize crop value from 1/0 to true/false.
+	* Split the existing 'Image and Video' General settings tab into separate 'Images' and 'Videos' settings tabs.
+	* Added 'Default Video URL', 'Use Default Video on Indexes', and 'Use Default Video on Search Results' options.
+	* Added a new `NgfbMedia::get_default_video()` method.
+	* Added a new 'ngfb_the_object' filter to modify the return of post objects.
+	* Changed the update hook from 'site_transient_update_plugins' to 'pre_set_site_transient_update_plugins' (Pro version).
+	* Added debugging messages to the `SucomUpdate::inject_update()` method (Pro version).
+	* Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
+	* Added reporting on the number of licenses assigned (Pro version).
+	* Changed the image resize crop value from 1/0 to true/false.
 
 = Version 7.3.2 =
 
 * Bugfixes
-  * *None*
+	* *None*
 
 * Enhancement
-  * Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
-  * Disabled the Default Image URL option when a Default Image ID has been specified.
-  * Moved the sharing related option_type filter from lib/options.php to lib/sharing.php.
-  * Added a 'Widget Preset' option on the Preset Options tab.
-  * Updated a few help messages in lib/messages.php.
+	* Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
+	* Disabled the Default Image URL option when a Default Image ID has been specified.
+	* Moved the sharing related option_type filter from lib/options.php to lib/sharing.php.
+	* Added a 'Widget Preset' option on the Preset Options tab.
+	* Updated a few help messages in lib/messages.php.
 
 = Version 7.3.1 =
 
 * Bugfixes
-  * *None*
+	* *None*
 
 * Enhancement
-  * **Added the Reddit social sharing button** (interactive button type).
-  * Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
-  * Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
-  * Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
-  * Changed the default Open Graph Image Dimensions from 1200x630 cropped to 1200x1200 cropped.
-  * Changed the update check schedule from every 12 hours to every 24 hours.
-  * Changed the `NgfbOptions::get_defaults()` method to filter the default options only once.
-  * Moved the default social website options into each website class (with a hook into the 'ngfb_get_defaults' filter).
-  * **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
+	* **Added the Reddit social sharing button** (interactive button type).
+	* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
+	* Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
+	* Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
+	* Changed the default Open Graph Image Dimensions from 1200x630 cropped to 1200x1200 cropped.
+	* Changed the update check schedule from every 12 hours to every 24 hours.
+	* Changed the `NgfbOptions::get_defaults()` method to filter the default options only once.
+	* Moved the default social website options into each website class (with a hook into the 'ngfb_get_defaults' filter).
+	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
 == Upgrade Notice ==
 
