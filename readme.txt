@@ -50,22 +50,14 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 An example of [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/) results, using [WP Test Data](http://wptest.io/) and plugin defaults:
 
-* All in One SEO Pack v2.1.4
-	* 0.0107 secs
-* WPSSO Free (GPL) v2.4.0
-	* 0.0124 secs
-* NGFB Open Graph+ Free (GPL) v7.4.0
-	* 0.0179 secs
-* bbPress v2.5.3 (No Forums or Topics)
-	* 0.0393 secs
-* WooCommerce v2.1.5 (No Products)
-	* 0.0405 secs
-* SEO Ultimate v7.6.2
-	* 0.0572 secs
-* BuddyPress v1.9.2 (No Activities)
-	* 0.0656 secs
-* WordPress SEO v1.5.2.5
-	* 0.1051 secs
+* `0.0107` secs - All in One SEO Pack v2.1.4
+* `0.0124` secs - WPSSO Free (GPL) v2.4.0
+* `0.0179` secs - NGFB Open Graph+ Free (GPL) v7.4.0
+* `0.0393` secs - bbPress v2.5.3 (No Forums or Topics)
+* `0.0405` secs - WooCommerce v2.1.5 (No Products)
+* `0.0572` secs - SEO Ultimate v7.6.2
+* `0.0656` secs - BuddyPress v1.9.2 (No Activities)
+* `0.1051` secs - WordPress SEO v1.5.2.5
 
 = 3rd Party Integration =
 
