@@ -321,7 +321,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					$text = $this->p->cf['full_pro'].' can save social sharing images and JavaScript to a cache folder, 
 					and provide URLs to these cached files instead of the originals. The current \'File Cache Expiry\'
 					value, as defined on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).', is '.
-					$this->p->options['plugin_file_cache_hrs'].' Hours (the default value of 0 Hours disables the 
+					$this->p->options['plugin_file_cache_hrs'].' hours (the default value of 0 hours disables the 
 					file caching feature).';
 					break;
 				case 'tooltip-side-url-shortener':
