@@ -219,7 +219,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Changelog ==
 
-= Version 7.4rc4 =
+= Version 7.4.0 =
 
 * Bugfixes
 	* Fixed a missing check for 'og_def_img_on_index' and 'og_def_img_on_search' options for Twitter Card meta tags (Pro version).
@@ -234,6 +234,8 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	* Added hooks into 'wp_head', 'wp_footer', 'admin_head', and 'admin_footer' to print the debug log.
 	* Added reporting on the number of licenses assigned (Pro version).
 	* Changed the image resize crop value from 1/0 to true/false.
+	* Added a 'Object Cache Expiry' option to the multisite Network admin settings page.
+	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
 = Version 7.3.2 =
 
@@ -262,6 +264,10 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
 == Upgrade Notice ==
+
+= 7.4.0 =
+
+Fixed the 'twitter:title' value in admin interface, fixed missing Default Image use for Twitter Cards, added new default video options, added license use status (Pro version).
 
 = 7.3.2 =
 
