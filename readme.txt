@@ -48,7 +48,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 **NGFB Open Graph+ only loads the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
-An example of [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/) results, using [WP Test Data](http://wptest.io/) and plugin defaults:
+An example of [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/) results, using [WP Test Data](http://wptest.io/) and default plugin settings:
 
 * `0.0107` secs - All in One SEO Pack v2.1.4
 * `0.0124` secs - WPSSO Free (GPL) v2.4.0
