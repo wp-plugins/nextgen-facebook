@@ -20,11 +20,10 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 				'sharing_preset_rows' => 2,	// social sharing 'Preset Options' options
 				'meta_tabs' => 1,		// post meta 'Sharing Buttons' tab
 				'meta_sharing_rows' => 3,	// post meta 'Sharing Buttons' options
-			) );
+			), 30 );
 		}
 
 		public function filter_plugin_cache_rows( $rows, $form ) {
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
 			'<td class="blank">'.$form->get_hidden( 'plugin_file_cache_hrs' ). 
