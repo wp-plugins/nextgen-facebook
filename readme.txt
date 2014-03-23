@@ -42,14 +42,14 @@ NGFB Open Graph+ is a complete social sharing solution that uses the *existing* 
 
 NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
 
-= Best Performance =
+= Excellent Performance =
 
 **NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
 
 **NGFB Open Graph+ only loads the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <blockquote>
-<p>Example <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a> PHP code execution metrics using <a href="http://wptest.io/">WP Test Data</a> and default plugin settings:</p>
+<p>A sample of <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a> PHP code execution metrics using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0124</strong> secs - WPSSO Free (GPL) v2.4.0</li>
