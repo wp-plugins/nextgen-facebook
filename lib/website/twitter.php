@@ -61,7 +61,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
+			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_rel_author' ).'</td>' :
 			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {
