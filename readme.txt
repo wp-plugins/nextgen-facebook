@@ -28,7 +28,7 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 	* WordPress SEO by Yoast
 	* All in One SEO Pack
 	* WooCommerce
-	* MarketPress
+	* MarketPress - WordPress eCommerce
 	* WP e-Commerce
 	* bbPress
 	* BuddyPress
@@ -50,9 +50,11 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 An example of [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/) results, using [WP Test Data](http://wptest.io/) and default plugin settings:
 
-* `0.0107` secs - All in One SEO Pack v2.1.4
-* `0.0124` secs - WPSSO Free (GPL) v2.4.0
-* `0.0179` secs - **NGFB Open Graph+ Free (GPL) v7.4.0**
+* `0.0117` secs - All in One SEO Pack v2.1.4
+* `0.0124` secs - **WPSSO Free (GPL) v2.4.0**
+* `0.0130` secs - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)
+* `0.0179` secs - NGFB Open Graph+ Free (GPL) v7.4.0
+* `0.0322` secs - WP e-Commerce v3.8.13.3 (No Products)
 * `0.0393` secs - bbPress v2.5.3 (No Forums or Topics)
 * `0.0405` secs - WooCommerce v2.1.5 (No Products)
 * `0.0572` secs - SEO Ultimate v7.6.2
@@ -76,7 +78,7 @@ NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://w
 
 **eCommerce Products**
 
-NGFB Open Graph+ (Pro version) also supports [WooCommerce v1 and v2](http://wordpress.org/plugins/woocommerce/), [MarketPress WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including poduct variations (size, color, etc.) and additional / custom images.
+NGFB Open Graph+ (Pro version) also supports [WooCommerce v1 and v2](http://wordpress.org/plugins/woocommerce/), [MarketPress - WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including poduct variations (size, color, etc.) and additional / custom images.
 
 **Forums and Social**
 
