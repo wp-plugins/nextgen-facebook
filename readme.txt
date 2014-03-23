@@ -49,19 +49,19 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 **NGFB Open Graph+ only loads the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <blockquote>
-<p>PHP code execution metrics from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a> for NGFB Open Graph+, WPSSO, and other popular plugins, using <a href="http://wptest.io/">WP Test Data</a> and default plugin settings:</p>
+<p>Example <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a> PHP code execution metrics for NGFB Open Graph+, WPSSO, and other popular plugins, using <a href="http://wptest.io/">WP Test Data</a> and default plugin settings:</p>
 <ul>
-	<li><code>0.0117</code> secs - All in One SEO Pack v2.1.4</li>
-	<li><code>0.0124</code> secs - WPSSO Free (GPL) v2.4.0</li>
-	<li><code>0.0130</code> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
-	<li><code>0.0179</code> secs - <strong>NGFB Open Graph+ Free (GPL) v7.4.0</strong></li>
-	<li><code>0.0322</code> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
-	<li><code>0.0393</code> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
-	<li><code>0.0405</code> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
-	<li><code>0.0572</code> secs - SEO Ultimate v7.6.2</li>
-	<li><code>0.0579</code> secs - Facebook v1.5.5</li>
-	<li><code>0.0656</code> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
-	<li><code>0.1051</code> secs - WordPress SEO v1.5.2.5</li>
+	<li>0.0117 secs - All in One SEO Pack v2.1.4</li>
+	<li>0.0124 secs - WPSSO Free (GPL) v2.4.0</li>
+	<li>0.0130 secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
+	<li>0.0179 secs - <strong>NGFB Open Graph+ Free (GPL) v7.4.0</strong></li>
+	<li>0.0322 secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
+	<li>0.0393 secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
+	<li>0.0405 secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
+	<li>0.0572 secs - SEO Ultimate v7.6.2</li>
+	<li>0.0579 secs - Facebook v1.5.5</li>
+	<li>0.0656 secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
+	<li>0.1051 secs - WordPress SEO v1.5.2.5</li>
 </ul>
 </blockquote>
 
