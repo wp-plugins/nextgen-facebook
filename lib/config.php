@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.4.0',			// plugin version
+			'version' => '7.4.1dev1',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -47,6 +47,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'twitter' => 'Twitter',
 					'linkedin' => 'LinkedIn',
 					'pinterest' => 'Pinterest',
+					'buffer' => 'Buffer',
 					'reddit' => 'Reddit',
 					'managewp' => 'ManageWP',
 					'stumbleupon' => 'StumbleUpon',
@@ -313,6 +314,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'twitter' => 'twitter',
 					'linkedin' => 'linkedin',
 					'pinterest' => 'pin',
+					'buffer' => 'buffer',
 					'reddit' => 'reddit',
 					'managewp' => 'managewp',
 					'stumbleupon' => 'stumble',

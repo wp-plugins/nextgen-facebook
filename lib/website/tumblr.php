@@ -71,10 +71,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
 
 				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-				$this->form->get_input( 'tumblr_cap_len', 'short' ).' Characters or less</td>',
+				$this->form->get_input( 'tumblr_cap_len', 'short' ).' characters or less</td>',
 
 				$this->p->util->th( 'Link Description', 'short' ).'<td>'.
-				$this->form->get_input( 'tumblr_desc_len', 'short' ).' Characters or less</td>',
+				$this->form->get_input( 'tumblr_desc_len', 'short' ).' characters or less</td>',
 			);
 		}
 	}
@@ -91,7 +91,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 					'tumblr_on_excerpt' => 0,
 					'tumblr_on_admin_edit' => 1,
 					'tumblr_on_sidebar' => 0,
-					'tumblr_order' => 9,
+					'tumblr_order' => 10,
 					'tumblr_js_loc' => 'footer',
 					'tumblr_button_style' => 'share_1',
 					'tumblr_desc_len' => 300,

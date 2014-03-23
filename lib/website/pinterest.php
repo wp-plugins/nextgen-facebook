@@ -64,7 +64,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 			$this->form->get_select( 'pin_caption', $this->captions ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-			$this->form->get_input( 'pin_cap_len', 'short' ).' Characters or less</td>';
+			$this->form->get_input( 'pin_cap_len', 'short' ).' characters or less</td>';
 
 			return $rows;
 		}

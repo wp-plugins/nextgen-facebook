@@ -45,24 +45,26 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$this->form->get_select( 'twitter_caption', $this->captions ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Text Length', 'short' ).'<td>'.
-			$this->form->get_input( 'twitter_cap_len', 'short' ).' Characters or less</td>';
+			$this->form->get_input( 'twitter_cap_len', 'short' ).' characters or less</td>';
 
 			$ret[] = $this->p->util->th( 'Do Not Track', 'short', null,
 			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
 			'<td>'.$this->form->get_checkbox( 'twitter_dnt' ).'</td>';
 
 			$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
-			'Append the website\'s @username (entered on the ' .
+			'Append the website\'s @username (entered on the '.
 			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'General / Twitter' ).' settings tab) to the Tweet.
 			The website\'s @username will also be displayed and recommended for following after the Post / Page is shared.' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
-			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
+			( $this->p->check->is_aop() == true ? 
+				'<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
 
 			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
-			'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
+			( $this->p->check->is_aop() == true ? 
+				'<td>'.$this->form->get_checkbox( 'twitter_rel_author' ).'</td>' :
+				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {
 				$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
