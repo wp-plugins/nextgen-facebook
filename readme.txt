@@ -37,7 +37,7 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 * Provides social sharing buttons in content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
 
-**Pro (Power User) Version**
+**Pro / Power-User Version**
 
 * Adds Twitter Card meta tags (Summary, Large Image Summary, Photo, Gallery, Player, and Product).
 * Additional image sizes for each type of Twitter Card.
