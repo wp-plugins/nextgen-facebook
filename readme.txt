@@ -20,8 +20,8 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 
 **Free (GPL) Version**
 
-* Adds Open Graph / Rich Pin meta tags (Facebook, Google+, LinkedIn, Pinterest).
-* Configurable image sizes, title and description lengths for different contexts (Facebook, Google, etc.).
+* Adds Open Graph / Rich Pin meta tags (Facebook, Google+, LinkedIn, Pinterest, etc.).
+* Configurable image sizes, title and description lengths for different contexts.
 * Optional fallback to a default image and video for index and search webpages.
 * Validation of source image dimensions to provide accurate images for the social websites.
 * Auto-generation of innacurate / missing WordPress image sizes.
