@@ -110,14 +110,14 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
-		public function get_html( &$atts = array(), &$opts = array() ) {
+		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			global $post; 
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'pinterest', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
+
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
@@ -138,6 +138,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 
 			if ( empty( $atts['photo'] ) ) {
 				if ( empty( $atts['pid'] ) && $post_id > 0 ) {
+					// check for meta, featured, and attached images
 					$pid = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id' );
 					$pre = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id_pre' );
 					if ( ! empty( $pid ) ) 

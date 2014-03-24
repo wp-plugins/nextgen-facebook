@@ -43,10 +43,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 
 			return array(
 				$this->p->util->th( 'Show Button in', 'short highlight', null,
-				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, or an <em>attached</em> 
-				image that is equal to or larger than the \'Image Dimensions\' you have chosen 
-				(when the <em>Use Featured Image</em> option is checked), embedded video, the content of <em>quote</em> custom Posts, 
-				or (lastly) the webpage link.' ).'<td>'.
+				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, 
+				or an <em>attached</em> image that is equal to or larger than the \'Image Dimensions\' 
+				you have chosen (when the <em>Use Attached Image</em> option is checked), embedded video, 
+				the content of <em>quote</em> custom Posts, or (lastly) the webpage link.' ).'<td>'.
 				( $this->show_on_checkboxes( 'tumblr' ) ).'</td>',
 
 				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
@@ -59,7 +59,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons_html.'</td>',
 
-				$this->p->util->th( 'Use Featured Image', 'short' ).'<td>'.
+				$this->p->util->th( 'Use Attached Image', 'short' ).'<td>'.
 				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
 
 				$this->p->util->th( 'Image Dimensions', 'short' ).
@@ -117,34 +117,43 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
-		public function get_html( &$atts = array(), &$opts = array() ) {
+		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
-			global $post; 
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'tumblr', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
+
 			$atts['url'] = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
 
+			$post_id = 0;
+			if ( is_singular() || $use_post !== false ) {
+				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+					$this->p->debug->log( 'exiting early: invalid object type' );
+					return false;
+				}
+				if ( ! empty( $obj->ID ) )
+					$post_id = $obj->ID;
+			}
+
 			if ( empty( $atts['size'] ) ) 
 				$atts['size'] = $this->p->cf['lca'].'-tumblr';
 
-			// only use featured image if 'tumblr_photo' option allows it
+			// only use an image if the 'tumblr_photo' option allows it
 			if ( empty( $atts['photo'] ) && $opts['tumblr_photo'] ) {
-				if ( empty( $atts['pid'] ) ) {
-					// allow on index pages only if in content (not a widget)
-					if ( ! empty( $post ) && $use_post == true ) {
-						$pid = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id' );
-						$pre = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_img_id_pre' );
-						if ( ! empty( $pid ) )
-							$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
-						elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post->ID ) )
-							$atts['pid'] = get_post_thumbnail_id( $post->ID );
-						else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post->ID );
-					}
+				if ( empty( $atts['pid'] ) && $post_id > 0 ) {
+					// check for meta, featured, and attached images
+					$pid = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id' );
+					$pre = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_img_id_pre' );
+					if ( ! empty( $pid ) )
+						$atts['pid'] = $pre == 'ngg' ? 'ngg-'.$pid : $pid;
+					elseif ( $this->p->is_avail['postthumb'] == true && has_post_thumbnail( $post_id ) )
+						$atts['pid'] = get_post_thumbnail_id( $post_id );
+					else $atts['pid'] = $this->p->media->get_first_attached_image_id( $post_id );
 				}
 				if ( ! empty( $atts['pid'] ) )
 					list( $atts['photo'], $atts['width'], $atts['height'],
@@ -152,33 +161,27 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 			}
 
 			// check for custom or embedded videos
-			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) ) {
-				// allow on index pages only if in content (not a widget)
-				if ( ! empty( $post ) && $use_post == true ) {
-					$atts['embed'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'og_vid_url' );
-					if ( empty( $atts['embed'] ) ) {
-						$videos = array();
-						$videos = $this->p->media->get_content_videos( 1, $post->ID, false );
-						if ( ! empty( $videos[0]['og:video'] ) ) 
-							$atts['embed'] = $videos[0]['og:video'];
-					}
+			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && $post_id > 0 ) {
+				$atts['embed'] = $this->p->addons['util']['postmeta']->get_options( $post_id, 'og_vid_url' );
+				if ( empty( $atts['embed'] ) ) {
+					$videos = array();
+					$videos = $this->p->media->get_content_videos( 1, $post_id, false );
+					if ( ! empty( $videos[0]['og:video'] ) ) 
+						$atts['embed'] = $videos[0]['og:video'];
 				}
 			}
 
 			// if no image or video, then check for a 'quote'
-			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && empty( $atts['quote'] ) ) {
-				// allow on index pages only if in content (not a widget)
-				if ( ! empty( $post ) && $use_post == true ) {
-					if ( get_post_format( $post->ID ) == 'quote' ) 
-						$atts['quote'] = $this->p->webpage->get_quote();
-				}
+			if ( empty( $atts['photo'] ) && empty( $atts['embed'] ) && empty( $atts['quote'] ) && $post_id > 0 ) {
+				if ( get_post_format( $post_id ) == 'quote' ) 
+					$atts['quote'] = $this->p->webpage->get_quote();
 			}
 
 			// we only need the caption, title, or description for some types of shares
 			if ( ! empty( $atts['photo'] ) || ! empty( $atts['embed'] ) ) {
 				// check for custom image or video caption
 				if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
-					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 
+					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post_id, 
 						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
 				if ( empty( $atts['caption'] ) ) 
 					$atts['caption'] = $this->p->webpage->get_caption( $opts['tumblr_caption'], 

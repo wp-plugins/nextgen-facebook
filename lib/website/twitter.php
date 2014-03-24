@@ -18,48 +18,49 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			$ret = array();
+			$rows = array();
 			
-			$ret[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
 			( $this->show_on_checkboxes( 'twitter' ) ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_order', 
 				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 					'short' ).'</td>';
 
-			$ret[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_lang', SucomUtil::get_lang( 'twitter' ) ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_count', array( 'none' => '', 
 			'horizontal' => 'Horizontal', 'vertical' => 'Vertical' ) ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Button Size', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Button Size', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Tweet Text', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Tweet Text Source', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_caption', $this->captions ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Text Length', 'short' ).'<td>'.
+			$rows[] = $this->p->util->th( 'Tweet Text Length', 'short' ).'<td>'.
 			$this->form->get_input( 'twitter_cap_len', 'short' ).' characters or less</td>';
 
-			$ret[] = $this->p->util->th( 'Do Not Track', 'short', null,
+			$rows[] = $this->p->util->th( 'Do Not Track', 'short', null,
 			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
 			'<td>'.$this->form->get_checkbox( 'twitter_dnt' ).'</td>';
 
-			$ret[] = $this->p->util->th( 'Add via @username', 'short', null,
-			'Append the website\'s @username (entered on the '.
-			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'General / Twitter' ).' settings tab) to the Tweet.
-			The website\'s @username will also be displayed and recommended for following after the Post / Page is shared.' ).
+			$rows[] = $this->p->util->th( 'Add via @username', 'short', null,
+			'Append the website\'s @username to the tweet (see the '.
+			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'Twitter' ).
+			' options tab on the General settings page). '.
+			'The website\'s @username will also be displayed and recommended after the Post / Page is shared.' ).
 			( $this->p->check->is_aop() == true ? 
 				'<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
 
-			$ret[] = $this->p->util->th( 'Recommend Author', 'short', null, 
+			$rows[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
 			( $this->p->check->is_aop() == true ? 
@@ -68,7 +69,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {
 				$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
-				$ret[] = $this->p->util->th( 'Shorten URLs with', 'short', null, 
+				$rows[] = $this->p->util->th( 'Shorten URLs with', 'short', null, 
 				'If you select a URL shortening service here, <strong>you must also enter its API credentials</strong>
 				on the '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Advanced settings page' ).'.' ).
 				( $this->p->check->is_aop() == true ?  '<td>'.$this->form->get_select( 'twitter_shortener', $shorteners, 'medium' ).
@@ -76,7 +77,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 				'<td class="blank">'.$this->form->get_hidden( 'twitter_shortener' ).$this->p->options['twitter_shortener'] ).'</td>';
 			}
 
-			return $ret;
+			return $rows;
 		}
 	}
 }
@@ -95,9 +96,9 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 					'twitter_order' => 3,
 					'twitter_js_loc' => 'header',
 					'twitter_lang' => 'en',
+					'twitter_count' => 'horizontal',
 					'twitter_caption' => 'title',
 					'twitter_cap_len' => 140,
-					'twitter_count' => 'horizontal',
 					'twitter_size' => 'medium',
 					'twitter_via' => 1,
 					'twitter_rel_author' => 1,
@@ -118,7 +119,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 			return array_merge( $opts_def, self::$cf['opt']['defaults'] );
 		}
 
-		public function get_html( &$atts = array(), &$opts = array() ) {
+		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
 			global $post; 
@@ -126,10 +127,12 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'twitter', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
+
 			$long_url = empty( $atts['url'] ) ? 
 				$this->p->util->get_sharing_url( $use_post, $atts['add_page'], $source_id ) : 
 				apply_filters( $this->p->cf['lca'].'_sharing_url', $atts['url'], 
 					$use_post, $atts['add_page'], $source_id );
+
 			$short_url = apply_filters( $this->p->cf['lca'].'_shorten_url', 
 				$long_url, $opts['twitter_shortener'] );
 
@@ -145,7 +148,8 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post->ID, 'twitter_desc' );
 
 				if ( empty( $atts['caption'] ) ) {
-					$cap_len = $this->p->util->tweet_max_len( $long_url );	// tweet_max_len() shortens -- don't shorten twice
+					// get_tweet_max_len() needs the long URL as input
+					$cap_len = $this->p->util->get_tweet_max_len( $long_url );
 					$atts['caption'] = $this->p->webpage->get_caption( $opts['twitter_caption'], $cap_len, $use_post );
 				}
 			}

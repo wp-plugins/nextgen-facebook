@@ -10,11 +10,15 @@
 	position:fixed;
 	z-index:99;
 
-	/* position 20% down from top and 485px left of center */
-	top:20%;
-	right:50%;
-	margin:0 485px 0 0;
+	/* position 100px down from top and 10% from left */
+		top:100px;
+		left:10%;
 
+	/* position 15% down from top and 400px left of center 
+	 * by using the right margin to push sidebar left */
+	/*	top:15%;
+		right:50%;
+		margin:0 400px 0 0; */
 }
 
 /* show a large sharing icon at the top */

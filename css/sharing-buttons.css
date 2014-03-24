@@ -35,7 +35,7 @@
 /* Define specific widths for each button.
  * These defaults assume small button sizes with counters.
  */
-.ngfb-buttons div.facebook-button { width:149px; }
+.ngfb-buttons div.facebook-button { width:139px; }
 .ngfb-buttons div.gplus-button { width:99px; }
 .ngfb-buttons div.gplusone-button { width:75px; }
 .ngfb-buttons div.twitter-button { width:89px; }
