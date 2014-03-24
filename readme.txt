@@ -18,7 +18,7 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 
 = Summary List of Features =
 
-**Free (GPL) Version**
+**Free / Basic Version**
 
 * Adds Open Graph / Rich Pin meta tags (Facebook, Google+, LinkedIn, Pinterest, etc.).
 * Configurable image sizes, title and description lengths for different contexts.
@@ -91,7 +91,7 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = 3rd Party Integration =
 
-Aside from the additional support for Twitter Cards, the main difference between the Free (GPL) and Pro versions is the integration of 3rd party plugins and services.
+Aside from the additional support for Twitter Cards, the main difference between the Free and Pro versions is the integration of 3rd party plugins and services.
 
 **Images and Videos**
 
@@ -194,7 +194,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-are-supported/">What features of NextGEN Gallery are supported?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/">What is the difference between the Free (GPL) and Pro versions?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/">What is the difference between the Free and Pro versions?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/">Where do I start?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/">Why aren’t Pins from my website posting Rich?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/">Why do my Facebook shares have small images?</a></li>
@@ -212,7 +212,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a>
-			<div>An example showing the difference in meta tags between the NGFB Open Graph+ Free (GPL) version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+			<div>An example showing the difference in meta tags between the NGFB Open Graph+ Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
 		<div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
