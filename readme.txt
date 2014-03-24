@@ -16,12 +16,38 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
-= Summary of Features =
+= Summary List of Features =
 
-* Adds Facebook / Google+ / LinkedIn / etc. Open Graph, Pinterest Rich Pin, and Twitter Card meta tags.
-* Configurable image sizes and content descriptions for different contexts (meta tags and sharing buttons).
-* Optional social sharing buttons, both on front-end webpages and back-end admin editing pages.
-* Configurable contact fields for author meta tags and user profile pages.
+**Free (GPL) Version**
+
+* Adds Open Graph / Rich Pin meta tags (Facebook, Google+, LinkedIn, Pinterest).
+* Configurable image sizes, title and description lengths for different contexts (Facebook, Google, etc.).
+* Optional fallback to a default image and video for index and search webpages.
+* Validation of source image dimensions to provide accurate images for the social websites.
+* Auto-generation of innacurate / missing WordPress image sizes.
+* Support for embedded videos (iframe and/or object HTML tags).
+* Fully render content (including shortcodes) for accurate description texts.
+* Include author and publisher profile URLs for Facebook and Google Search.
+* Include hashtags from Post / Page WordPress Tags.
+* Include the author's name for Pinterest Rich Pins.
+* Uses object and transient cache for fastest execution speed.
+* Provides Facebook, Google+ and Twitter URL profile contact fields.
+* Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
+* Validation tools and meta tag preview information on admin edit pages.
+* Provides social sharing buttons in content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
+* Includes a default stylesheet for all social sharing button locations.
+
+**Pro (Power User) Version**
+
+* Adds Twitter Card meta tags (Summary, Large Image Summary, Photo, Gallery, Player, and Product).
+* Additional image sizes for each type of Twitter Card.
+* Additional profile contact fields with configurable label and field names.
+* Custom meta tag values (topic, description, image, video, etc.) for each Post, Page, and custom post type.
+* Ability to turn off / exclude specific Google / SEO, Open Graph and Twitter Card meta tags.
+* File caching for social sharing button images and JavaScript.
+* URL shortening (Bitly and Google) for URLs in Twitter shares.
+* Stylesheets editor for each social sharing button locations.
+* Options to include or exclude social sharing buttons on Posts, Page, and custom post types.
 * Integrates with 3rd party plugins and services for additional image, video, product, and content information:
 	* NextGEN Gallery
 	* JetPack Photon
