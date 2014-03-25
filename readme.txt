@@ -266,7 +266,6 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 * Bugfixes
 	* Re-added the 'site_transient_update_plugins' filter to return update information (Pro version).
 	* Removed pass-by-reference for $atts array in social sharing methods (to prevent cross-contamination of attributes).
-
 * Enhancements
 	* Added a new Buffer social sharing button.
 	* Modified the 'pre_site_transient_update_plugins' hook to re-introduce update information for NGFB Open Graph+, in cases where it has been used to disable plugin updates (Pro version).
