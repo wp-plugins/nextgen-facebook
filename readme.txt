@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.4.0
+Stable Tag: 7.4.1
 
 Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Also Includes Social Sharing Buttons!
 
@@ -270,6 +270,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 * Enhancements
 	* Added a new Buffer social sharing button.
 	* Modified the 'pre_site_transient_update_plugins' hook to re-introduce update information for NGFB Open Graph+, in cases where it has been used to disable plugin updates (Pro version).
+	* Added a second 'transient_update_plugins' hook to return update information (Pro version).
 	* Renamed several variables in the `NgfbHead::get_single_meta()` method for clarity.
 	* A few minor changes to informational and debug messages.
 
@@ -318,6 +319,10 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
 == Upgrade Notice ==
+
+= 7.4.1 =
+
+Fixed a potential issue with updating filter hooks, added a new Buffer sharing button, and includes a few minor changes to informational and debug messages.
 
 = 7.4.0 =
 
