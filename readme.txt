@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.4.1
+Stable Tag: 7.4.2
 
 Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Also Includes Social Sharing Buttons!
 
@@ -262,6 +262,13 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
 
 == Changelog ==
+
+= Version 7.4.2 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added support for WordPress SEO v1.5+ `WPSEO_Options::get_all()` method (Pro version).
 
 = Version 7.4.1 =
 
