@@ -263,6 +263,14 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Changelog ==
 
+= Version 7.4.2dev2 =
+
+* Bugfixes
+	* Fixed the `get_max_nums()` method to return the maximum image/video option values from the Custom Settings (Pro version).
+	* Fixed Twitter Card images to use the maximum number of images value (from defaults and Custom Settings) (Pro version).
+* Enhancements
+	* Added support for WordPress SEO v1.5+ `WPSEO_Options::get_all()` method (Pro version).
+
 = Version 7.4.1 =
 
 * Bugfixes
