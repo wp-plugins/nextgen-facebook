@@ -263,7 +263,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Changelog ==
 
-= Version 7.4.2dev2 =
+= Version 7.4.2 =
 
 * Bugfixes
 	* Fixed the `get_max_nums()` method to return the maximum image/video option values from the Custom Settings (Pro version).
@@ -330,6 +330,10 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
 == Upgrade Notice ==
+
+= 7.4.2 =
+
+Fixed custom setting max image/video use, fixed JetPack Photon addon error when image sizes doesn't exist, improved image resizing method.
 
 = 7.4.1 =
 
