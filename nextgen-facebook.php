@@ -185,6 +185,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->is_avail['cache']['file'] = $this->cache->file_expire > 0 ? true : false;
 
 			// set the object cache expiration value
+			// disable the transient and object cache ONLY if the html debug mode is on
 			if ( $this->debug->is_on( 'html' ) === true ) {
 				foreach ( array( 'object', 'transient' ) as $name ) {
 					$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
