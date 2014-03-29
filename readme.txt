@@ -240,26 +240,27 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Screenshots ==
 
-1. Screenshot 1 : General Settings Page
-2. Screenshot 2 : Advanced Settings Page
-3. Screenshot 3 : Buttons Settings Page
-4. Screenshot 4 : Styles Settings Page
-5. Screenshot 5 : An Example Facebook Link Share
-6. Screenshot 6 : An Example Facebook Video Share
-7. Screenshot 7 : An Example Google+ Link Share
-8. Screenshot 8 : An Example Google+ Video Share
-9. Screenshot 9 : An Example Google Search Result showing Author Profile Info
-10. Screenshot 10 : An Example LinkedIn Share
-11. Screenshot 11 : An Example Pinterest Image Pin
-12. Screenshot 12 : An Example StumbleUpon Share
-13. Screenshot 13 : An Example Tumblr 'Link' Share
-14. Screenshot 14 : An Example Tumblr 'Photo' Share
-15. Screenshot 15 : An Example Tumblr 'Video' Share
-16. Screenshot 16 : An Example Twitter 'Summary' Card
-17. Screenshot 17 : An Example Twitter 'Large Image Summary' Card
-18. Screenshot 18 : An Example Twitter 'Photo' Card
-19. Screenshot 19 : An Example Twitter 'Gallery' Card
-20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
+1. Screenshot 1 : An Example Facebook Link Share
+2. Screenshot 2 : An Example Facebook Video Share
+3. Screenshot 3 : An Example Google+ Link Share
+4. Screenshot 4 : An Example Google+ Video Share
+5. Screenshot 5 : An Example Google Search Result showing Author Profile Info
+6. Screenshot 6 : An Example LinkedIn Share
+7. Screenshot 7 : An Example Pinterest Image Pin
+8. Screenshot 8 : An Example StumbleUpon Share
+9. Screenshot 9 : An Example Tumblr 'Link' Share
+10. Screenshot 10 : An Example Tumblr 'Photo' Share
+11. Screenshot 11 : An Example Tumblr 'Video' Share
+12. Screenshot 12 : An Example Twitter 'Summary' Card
+13. Screenshot 13 : An Example Twitter 'Large Image Summary' Card
+14. Screenshot 14 : An Example Twitter 'Photo' Card
+15. Screenshot 15 : An Example Twitter 'Gallery' Card
+16. Screenshot 16 : An Example Twitter 'Product' Card
+17. Screenshot 17 : Open Graph+ General Settings Page
+18. Screenshot 18 : Open Graph+ Advanced Settings Page
+19. Screenshot 19 : Open Graph+ Buttons Settings Page
+20. Screenshot 20 : Open Graph+ Styles Settings Page
+21. Screenshot 21 : Post / Page Open Graph+ Custom Settings
 
 == Changelog ==
 
