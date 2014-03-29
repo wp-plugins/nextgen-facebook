@@ -1,7 +1,7 @@
 === NextGEN Facebook Open Graph+ ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Tags: nextgen, featured, attached, open graph, meta, buttons, like, send, share, facebook, google, google plus, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, nextgen gallery, gallery, twitter cards, photo card, gallery card, player card, large image summary card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube
+Tags: nextgen gallery, featured, attached, open graph, meta tags, buttons, like, send, share, facebook, google, google+, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, gallery, twitter cards, photo card, gallery card, player card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
@@ -12,7 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for **improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**. 
+NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for **improved Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -35,7 +35,7 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 * Provides Facebook, Google+ and Twitter URL profile contact fields.
 * Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
 * Validation tools and meta tag preview information on admin edit pages.
-* Provides social sharing buttons in content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
+* Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
 
 **Pro / Power-User Version**
@@ -240,26 +240,29 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Screenshots ==
 
-1. Screenshot 1 : General Settings Page
-2. Screenshot 2 : Advanced Settings Page
-3. Screenshot 3 : Buttons Settings Page
-4. Screenshot 4 : Styles Settings Page
-5. Screenshot 5 : An Example Facebook Link Share
-6. Screenshot 6 : An Example Facebook Video Share
-7. Screenshot 7 : An Example Google+ Link Share
-8. Screenshot 8 : An Example Google+ Video Share
-9. Screenshot 9 : An Example Google Search Result showing Author Profile Info
-10. Screenshot 10 : An Example LinkedIn Share
-11. Screenshot 11 : An Example Pinterest Image Pin
-12. Screenshot 12 : An Example StumbleUpon Share
-13. Screenshot 13 : An Example Tumblr 'Link' Share
-14. Screenshot 14 : An Example Tumblr 'Photo' Share
-15. Screenshot 15 : An Example Tumblr 'Video' Share
-16. Screenshot 16 : An Example Twitter 'Summary' Card
-17. Screenshot 17 : An Example Twitter 'Large Image Summary' Card
-18. Screenshot 18 : An Example Twitter 'Photo' Card
-19. Screenshot 19 : An Example Twitter 'Gallery' Card
-20. Screenshot 20 : An Example Twitter 'Product' Card from a WooCommerce Product Page
+1. Screenshot 1 : An Example Facebook Link Share
+2. Screenshot 2 : An Example Facebook Video Share
+3. Screenshot 3 : An Example Google+ Link Share
+4. Screenshot 4 : An Example Google+ Video Share
+5. Screenshot 5 : An Example Google Search Result showing Author Profile Info
+6. Screenshot 6 : An Example LinkedIn Share
+7. Screenshot 7 : An Example Pinterest Image Pin
+8. Screenshot 8 : An Example Pinterest Product Pin
+9. Screenshot 9 : An Example Pinterest Product Pin (Zoomed)
+10. Screenshot 10 : An Example StumbleUpon Share
+11. Screenshot 11 : An Example Tumblr 'Link' Share
+12. Screenshot 12 : An Example Tumblr 'Photo' Share
+13. Screenshot 13 : An Example Tumblr 'Video' Share
+14. Screenshot 14 : An Example Twitter 'Summary' Card
+15. Screenshot 15 : An Example Twitter 'Large Image Summary' Card
+16. Screenshot 16 : An Example Twitter 'Photo' Card
+17. Screenshot 17 : An Example Twitter 'Gallery' Card
+18. Screenshot 18 : An Example Twitter 'Product' Card
+19. Screenshot 19 : Open Graph+ General Settings Page
+20. Screenshot 20 : Open Graph+ Advanced Settings Page
+21. Screenshot 21 : Open Graph+ Buttons Settings Page
+22. Screenshot 22 : Open Graph+ Styles Settings Page
+23. Screenshot 23 : Post / Page Open Graph+ Custom Settings
 
 == Changelog ==
 
