@@ -12,7 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for **improved Google Search results / ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**. 
+NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for **improved Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with many of the most popuplar social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -35,7 +35,7 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 * Provides Facebook, Google+ and Twitter URL profile contact fields.
 * Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
 * Validation tools and meta tag preview information on admin edit pages.
-* Provides social sharing buttons in content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
+* Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
 
 **Pro / Power-User Version**
