@@ -211,6 +211,10 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( ! empty( $ret ) )
 				return $ret;
 
+			// remove localization for more generic match
+			if ( strpos( $key, '#' ) !== false )
+				$key = preg_replace( '/#.*$/', '', $key );
+
 			switch ( $key ) {
 				// css
 				case ( strpos( $key, 'buttons_js_' ) === 0 ? true : false ):
@@ -598,7 +602,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			$html = false;
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				// if the post id is 0, then add the sharing url to ensure a unique salt string
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_post:'.$obj->ID.'_type:'.$type.
+				$cache_salt = __METHOD__.'(lang:'.SucomUtil::get_locale().'_post:'.$obj->ID.'_type:'.$type.
 					( empty( $obj->ID ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';

@@ -46,7 +46,7 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				$sharing_url = $this->p->util->get_sharing_url();
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
+				$cache_salt = __METHOD__.'(lang:'.SucomUtil::get_locale().'_widget:'.$this->id.'_sharing_url:'.$sharing_url.')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
 				$this->p->debug->log( $cache_type.': html transient salt '.$cache_salt );

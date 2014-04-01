@@ -19,7 +19,7 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 		global $ngfb;
 		if ( $ngfb->is_avail['ssb'] ) {
 			if ( $ngfb->is_avail['cache']['transient'] ) {
-				$cache_salt = __METHOD__.'(lang:'.get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().
+				$cache_salt = __METHOD__.'(lang:'.SucomUtil::get_locale().'_sharing_url:'.$ngfb->util->get_sharing_url().
 					'_ids:'.( implode( '_', $ids ) ).'_atts:'.( implode( '_', $atts ) ).')';
 				$cache_id = $ngfb->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
