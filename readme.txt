@@ -41,16 +41,16 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 
 **Pro / Power-User Version**
 
-* Twitter Card meta tags (Summary, Large Image Summary, Photo, Gallery, Player, and Product).
+* Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
 * Customizable image dimensions for each Twitter Card type.
 * Additional profile contact fields with configurable label and field names.
-* Custom meta tag values (topic, description, image, video, etc.) for each Post, Page, and custom post type.
+* Custom settings and meta tag values for each Post, Page, and custom post type.
 * Options to exclude specific Google / SEO, Open Graph, and Twitter Card meta tags.
 * File caching for social sharing button images and JavaScript.
 * URL shortening (Bitly and Google) for URLs in Twitter shares.
 * Stylesheets editor for each social sharing button locations.
 * Options to include / exclude *multilingual* social sharing buttons on Posts, Page, and custom post types.
-* Integrates with 3rd party plugins and services for image, video, product, and content information:
+* Integrates with 3rd party plugins and services for additional image, video, product, and content information:
 	* Plugins
 		* All in One SEO Pack
 		* bbPress
