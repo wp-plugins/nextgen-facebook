@@ -280,7 +280,8 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 * Bugfixes
 	* *None*
 * Enhancements
-	* Localized the "Site Name" and "Site Description" options on the NGFB General settings page.
+	* **Renamed the 'Open Graph+' menu item to 'NGFB'**.
+	* Localized the 'Site Name' and 'Site Description' options on the NGFB General settings page.
 	* Added support for locale values from the [Polylang](http://wordpress.org/plugins/polylang/) plugin (Pro version).
 	* Added `SucomUtil::get_locale()` and `SucomUtil::get_locale_key()` static methods.
 	* Modified some `SucomUpdate` class construct parameters and variable definitions (Pro version).
@@ -355,7 +356,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 = 7.4.3dev2 =
 
-Localized the "Site Name" and "Site Description" options, added support for the Polylang plugin (Pro version).
+Localized the 'Site Name' and 'Site Description' options, added support for the Polylang plugin (Pro version).
 
 = 7.4.2 =
 
