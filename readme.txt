@@ -12,6 +12,8 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
+= Get Control Over Your Social Content! =
+
 NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to **improve Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
