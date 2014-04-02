@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: NGFB Open Graph+
+Plugin Name: NextGEN Facebook Open Graph +
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/

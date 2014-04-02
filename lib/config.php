@@ -13,21 +13,20 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.4.3dev2',			// plugin version
-			'lca' => 'ngfb',			// lowercase acronym
-			'cca' => 'Ngfb',			// camelcase acronym
-			'uca' => 'NGFB',			// uppercase acronym
+			'version' => '7.4.3dev2',		// plugin version
+			'lca' => 'ngfb',		// lowercase acronym
+			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
-			'menu' => 'Open Graph+',		// menu item label
-			'full' => 'NGFB Open Graph+',		// full plugin name
-			'full_pro' => 'NGFB Open Graph+ Pro',
-			'update_hours' => 24,			// check for pro updates
+			'menu' => 'NGFB',		// menu item label
+			'full' => 'NGFB',		// full plugin name
+			'full_pro' => 'NGFB Pro',
+			'update_hours' => 24,		// check for pro updates
 			'cache' => array(
 				'file' => true,
 				'object' => true,
 				'transient' => true,
 			),
-			'lib' => array(				// libraries
+			'lib' => array(			// libraries
 				'setting' => array (
 					'contact' => 'Contact Methods',
 				),

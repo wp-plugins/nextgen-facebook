@@ -88,16 +88,16 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
-				class_exists( $this->p->cf['cca'].'Opengraph' ) ? true : false;
+				class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
 
 			$ret['aop'] = self::$a = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
-				class_exists( $this->p->cf['cca'].'AddonPro' ) ? true : false;
+				class_exists( $this->p->cf['lca'].'addonpro' ) ? true : false;
 
 			$ret['ssb'] = ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
 				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
-				class_exists( $this->p->cf['cca'].'Sharing' ) ? true : false;
+				class_exists( $this->p->cf['lca'].'sharing' ) ? true : false;
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
 				$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';

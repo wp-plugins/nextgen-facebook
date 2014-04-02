@@ -93,7 +93,7 @@ if ( ! class_exists( 'NgfbSocialBuddypressSharing' ) && class_exists( 'NgfbShari
 			return $opts_def;
 		}
 
-		/* Purpose: Add a 'BuddyPress Activity' tab to the Open Graph+ Social Style settings */
+		/* Purpose: Add a 'BuddyPress Activity' tab to the Style settings */
 		public function filter_style_tabs( $tabs ) {
 			$tabs['bp_activity'] = 'BuddyPress Activity';
 			return $tabs;

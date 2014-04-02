@@ -361,8 +361,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					$text = 'The Google BrowserKey for this website / project. If you don\'t already have one, visit
 					<a href="https://cloud.google.com/console#/project" target="_blank">Google\'s Cloud Console</a>,
 					create a new project for your website, and under the API &amp; auth - Registered apps, 
-					register a new \'Web Application\' (name it \'NGFB Open Graph+\' for example), 
-					and enter it\'s BrowserKey here.';
+					register a new \'Web Application\' (name it \'NGFB\' for example), and enter it\'s BrowserKey here.';
 					break;
 				case 'tooltip-plugin_google_shorten':
 					$text = 'In order to use Google\'s URL Shortener for URLs in Tweets, you must turn on the 

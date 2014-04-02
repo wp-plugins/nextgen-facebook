@@ -76,7 +76,7 @@ if ( ! class_exists( 'NgfbForumBbpressSharing' ) && class_exists( 'NgfbSharing' 
 			return $opts_def;
 		}
 
-		/* Purpose: Add a 'bbPress Single' tab to the Open Graph+ Social Style settings */
+		/* Purpose: Add a 'bbPress Single' tab to the Style settings */
 		public function filter_style_tabs( $tabs ) {
 			$tabs['bbp_single'] = 'bbPress Single';
 			return $tabs;
