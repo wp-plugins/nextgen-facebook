@@ -51,17 +51,24 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 * Stylesheets editor for each social sharing button locations.
 * Options to include or exclude *multilingual* social sharing buttons on Posts, Page, and custom post types.
 * Integrates with 3rd party plugins and services for additional image, video, product, and content information:
-	* All in One SEO Pack
-	* bbPress
-	* BuddyPress
-	* JetPack Photon
-	* NextGEN Gallery
-	* MarketPress - WordPress eCommerce
-	* Polylang
-	* Slideshare, Vimeo, Wistia, Youtube APIs
-	* WooCommerce
-	* WordPress SEO by Yoast
-	* WP e-Commerce
+	* Plugins
+		* All in One SEO Pack
+		* bbPress
+		* BuddyPress
+		* JetPack Photon
+		* NextGEN Gallery
+		* MarketPress - WordPress eCommerce
+		* Polylang
+		* WooCommerce
+		* WordPress SEO by Yoast
+		* WP e-Commerce
+	* Service APIs
+		* Bitly
+		* Google Shortener
+		* Slideshare
+		* Vimeo
+		* Wistia
+		* Youtube
 
 = Complete Meta Tags =
 
