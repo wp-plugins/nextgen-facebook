@@ -1,4 +1,4 @@
-=== NextGEN Facebook Open Graph+ ===
+=== NextGEN Facebook Open Graph + ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen gallery, featured, attached, open graph, meta tags, buttons, like, send, share, facebook, google, google+, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, gallery, twitter cards, photo card, gallery card, player card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube, polylang
@@ -12,7 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-NextGEN Facebook Open Graph+ (NGFB) provides the information that social websites need to **improve Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with providing many of the most popular social sharing buttons.
+NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to **improve Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -89,7 +89,7 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
 	<li><strong>0.0130</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
-	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook Open Graph+</strong> (NGFB) v7.4.2</li>
+	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook Open Graph +</strong> (NGFB) v7.4.2</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
 	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
@@ -139,7 +139,7 @@ NGFB comes with several sharing buttons, that you can optionally include on Post
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook Open Graph+ (NGFB). WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook Open Graph + (NGFB). WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
 </blockquote>
 
 = Custom Contacts =
