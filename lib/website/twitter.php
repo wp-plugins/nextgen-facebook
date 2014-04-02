@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
-			$this->form->get_select( 'twitter_lang', SucomUtil::get_lang( 'twitter' ) ).'</td>';
+			$this->form->get_select( 'twitter_lang', SucomUtil::get_pub_lang( 'twitter' ) ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_count', array( 'none' => '', 
@@ -138,7 +138,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 
 			if ( ! array_key_exists( 'lang', $atts ) )
 				$atts['lang'] = empty( $opts['twitter_lang'] ) ? 'en' : $opts['twitter_lang'];
-			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_lang( 'twitter' ) );
+			$atts['lang'] = apply_filters( $this->p->cf['lca'].'_lang', $atts['lang'], SucomUtil::get_pub_lang( 'twitter' ) );
 
 			if ( array_key_exists( 'tweet', $atts ) )
 				$atts['caption'] = $atts['tweet'];

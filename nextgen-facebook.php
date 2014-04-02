@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search - Also Includes Social Sharing Buttons!
-Version: 7.4.3dev1
+Version: 7.4.3dev2
 
 Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */

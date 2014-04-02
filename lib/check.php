@@ -137,6 +137,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['class'] = 'bbPress'; 
 							$chk['plugin'] = 'bbpress/bbpress.php';
 							break;
+						case 'lang-polylang':
+							$chk['class'] = 'Polylang'; 
+							$chk['plugin'] = 'polylang/polylang.php';
+							break;
 						case 'media-ngg':
 							$chk['class'] = 'nggdb';	// C_NextGEN_Bootstrap
 							$chk['plugin'] = 'nextgen-gallery/nggallery.php';

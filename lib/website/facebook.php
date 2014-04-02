@@ -46,7 +46,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 					$this->form->get_select( 'fb_js_loc', $this->js_locations ).'</td>';
 	
 					$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
-					$this->form->get_select( 'fb_lang', SucomUtil::get_lang( 'facebook' ) ).'</td>';
+					$this->form->get_select( 'fb_lang', SucomUtil::get_pub_lang( 'facebook' ) ).'</td>';
 	
 					$rows[] = $this->p->util->th( 'Button Type', 'short highlight', null,
 					'The Share button has been deprecated and replaced by the Facebook Like and Send buttons. 
@@ -229,7 +229,7 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$lang = empty( $this->p->options['fb_lang'] ) ? 'en_US' : $this->p->options['fb_lang'];
-			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'facebook' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_pub_lang( 'facebook' ) );
 			$app_id = empty( $this->p->options['fb_app_id'] ) ? '' : $this->p->options['fb_app_id'];
 			$js_url = $this->p->util->get_cache_url( $prot.'//connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id );
 

@@ -773,7 +773,7 @@ jQuery("#ngfb-sidebar").click( function(){
 
 		public function get_js_loader( $pos = 'id' ) {
 			$lang = empty( $this->p->options['gp_lang'] ) ? 'en-US' : $this->p->options['gp_lang'];
-			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_lang( 'gplus' ) );
+			$lang = apply_filters( $this->p->cf['lca'].'_lang', $lang, SucomUtil::get_pub_lang( 'gplus' ) );
 			return '<script type="text/javascript" id="ngfb-header-script">
 				window.___gcfg = { lang: "'.$lang.'" };
 				function '.$this->p->cf['lca'].'_insert_js( script_id, url, async ) {

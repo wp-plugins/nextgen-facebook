@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.4.3dev1',			// plugin version
+			'version' => '7.4.3dev2',			// plugin version
 			'lca' => 'ngfb',			// lowercase acronym
 			'cca' => 'Ngfb',			// camelcase acronym
 			'uca' => 'NGFB',			// uppercase acronym
@@ -100,6 +100,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'head' => array(
 						'twittercard' => 'Twitter Cards',
 					),
+					'lang' => array(
+						'polylang' => 'Polylang',
+					),
 					'media' => array(
 						'ngg' => 'NextGEN Gallery',
 						'photon' => 'Jetpack Photon',
@@ -116,7 +119,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'buddypress' => 'BuddyPress',
 					),
 					'util' => array(
-						'language' => 'WP Locale Language',
+						'language' => 'Publisher Language',
 						'shorten' => 'URL Shortener',
 						'postmeta' => 'Custom Post Meta',
 					),
