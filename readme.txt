@@ -12,7 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages for **improved Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with many of the most popular social sharing buttons.
+NextGEN Facebook Open Graph+ (NGFB) provides the information that social websites need to **improve Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -72,24 +72,24 @@ NGFB Open Graph+ adds HTML meta tags to the head section of WordPress webpages f
 
 = Complete Meta Tags =
 
-NGFB Open Graph+ adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most Social Websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.). [See a few examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most Social Websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.). [See a few examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
 
-NGFB Open Graph+ is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
+NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
-NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
+NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
 
 = Excellent Performance =
 
-**NGFB Open Graph+ is fast and tuned for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
+**NGFB is fast and tuned for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
 
-**NGFB Open Graph+ loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+**NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
 	<li><strong>0.0130</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
-	<li><strong>0.0180</strong> secs - <strong>NGFB Open Graph+</strong> v7.4.2</li>
+	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook Open Graph+</strong> (NGFB) v7.4.2</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
 	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
@@ -107,25 +107,25 @@ Aside from the additional support for Twitter Cards, the main difference between
 
 **Images and Videos**
 
-NGFB Open Graph+ detects and uses all images - associated or included in your Post or Page content - including WordPress Media Library image galleries and embedded videos from Slideshare, Vimeo, Wistia, and Youtube (including their preview images). WordPress Media Library images (and NextGEN Gallery in the Pro version) are resized according to their intended audience (Facebook, Twitter, Pinterest, etc). 
+NGFB detects and uses all images - associated or included in your Post or Page content - including WordPress Media Library image galleries and embedded videos from Slideshare, Vimeo, Wistia, and Youtube (including their preview images). WordPress Media Library images (and NextGEN Gallery in the Pro version) are resized according to their intended audience (Facebook, Twitter, Pinterest, etc). 
 
-NGFB Open Graph+ (Pro version) also includes support for [JetPack Photon](http://jetpack.me/support/photon/) and [NextGEN Gallery v1 and v2](http://wordpress.org/plugins/nextgen-gallery/) albums, galleries and images (shortcodes, image tags, album / gallery preview images, etc.).
+NGFB (Pro version) also includes support for [JetPack Photon](http://jetpack.me/support/photon/) and [NextGEN Gallery v1 and v2](http://wordpress.org/plugins/nextgen-gallery/) albums, galleries and images (shortcodes, image tags, album / gallery preview images, etc.).
 
 **Enhanced SEO**
 
-NGFB Open Graph+ (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph, Rich Pin, and Twitter Card meta tags.
+NGFB (Pro version) integrates with [WordPress SEO by Yoast](http://wordpress.org/plugins/wordpress-seo/) and [All in One SEO Pack](http://wordpress.org/plugins/all-in-one-seo-pack/), making sure your custom SEO settings are reflected in the Open Graph, Rich Pin, and Twitter Card meta tags.
 
 **eCommerce Products**
 
-NGFB Open Graph+ (Pro version) also supports [WooCommerce v1 and v2](http://wordpress.org/plugins/woocommerce/), [MarketPress - WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including poduct variations (size, color, etc.) and additional / custom images.
+NGFB (Pro version) also supports [WooCommerce v1 and v2](http://wordpress.org/plugins/woocommerce/), [MarketPress - WordPress eCommerce](http://wordpress.org/plugins/wordpress-ecommerce/) and [WP e-Commerce](http://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including poduct variations (size, color, etc.) and additional / custom images.
 
 **Forums and Social**
 
-NGFB Open Graph+ (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the page content, including appropriate titles, descriptions, images, etc. Social sharing buttons can also be added to [bbPress](http://wordpress.org/plugins/bbpress/) single template pages and [BuddyPress](http://wordpress.org/plugins/buddypress/) activities.
+NGFB (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and [BuddyPress](http://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the page content, including appropriate titles, descriptions, images, etc. Social sharing buttons can also be added to [bbPress](http://wordpress.org/plugins/bbpress/) single template pages and [BuddyPress](http://wordpress.org/plugins/buddypress/) activities.
 
 = Social Sharing Buttons =
 
-NGFB Open Graph+ comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
+NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
 * Facebook Like, Send, Share
 * Google+
@@ -136,15 +136,15 @@ NGFB Open Graph+ comes with several sharing buttons, that you can optionally inc
 * Tumblr (Links, Quotes, Images, Videos)
 * Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB Open Graph+ settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB Open Graph+ can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NGFB Open Graph+. WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook Open Graph+ (NGFB). WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
 </blockquote>
 
 = Custom Contacts =
 
-NGFB Open Graph+ (Pro version) allows you to customize the field names, label, and show / remove the following Contact Methods from the user profile page:
+NGFB (Pro version) allows you to customize the field names, label, and show / remove the following Contact Methods from the user profile page:
 
 * AIM
 * Facebook 
@@ -160,11 +160,11 @@ NGFB Open Graph+ (Pro version) allows you to customize the field names, label, a
 
 = Clean Uninstall =
 
-**Try the NGFB Open Graph+ plugin with complete confidence** - when uninstalled, NGFB Open Graph+ removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
+**Try the NGFB plugin with complete confidence** - when uninstalled, NGFB removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
 
 = Great Support =
 
-**NGFB Open Graph+ support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
+**NGFB support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
 Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom).
 
@@ -176,7 +176,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/">Install the Plugin</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/">Uninstall the Plugin</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO to NGFB Open Graph+</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO to NGFB</a></li>
 </ul>
 
 == Frequently Asked Questions ==
@@ -192,7 +192,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/">How can I share a single NextGEN Gallery image?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/">How do I attach an image without showing it on the webpage?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/">How do I install the Pro version?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/">How does NGFB Open Graph+ find images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/">How does NGFB find images?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/">Social Sharing Buttons</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
@@ -224,12 +224,12 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a>
-			<div>An example showing the difference in meta tags between the NGFB Open Graph+ Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+			<div>An example showing the difference in meta tags between the NGFB Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
-		<div>A list of available PHP constants for the NGFB Open Graph+ plugin for WordPress.</div></li>
+		<div>A list of available PHP constants for the NGFB plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a>
-		<div>A few debugging and problem solving techniques for the NGFB Open Graph+ plugin for WordPress.</div></li>
+		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">Filters</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
 	<ul>
@@ -238,7 +238,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a>
-		<div>NGFB Open Graph+ is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
+		<div>NGFB is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
@@ -267,11 +267,11 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 16. Screenshot 16 : An Example Twitter 'Photo' Card
 17. Screenshot 17 : An Example Twitter 'Gallery' Card
 18. Screenshot 18 : An Example Twitter 'Product' Card
-19. Screenshot 19 : Open Graph+ General Settings Page
-20. Screenshot 20 : Open Graph+ Advanced Settings Page
-21. Screenshot 21 : Open Graph+ Buttons Settings Page
-22. Screenshot 22 : Open Graph+ Styles Settings Page
-23. Screenshot 23 : Post / Page Open Graph+ Custom Settings
+19. Screenshot 19 : NGFB General Settings Page
+20. Screenshot 20 : NGFB Advanced Settings Page
+21. Screenshot 21 : NGFB Buttons Settings Page
+22. Screenshot 22 : NGFB Styles Settings Page
+23. Screenshot 23 : Post / Page NGFB Custom Settings
 
 == Changelog ==
 
@@ -280,7 +280,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 * Bugfixes
 	* *None*
 * Enhancements
-	* Localized the "Site Name" and "Site Description" options on the Open Graph+ General settings page.
+	* Localized the "Site Name" and "Site Description" options on the NGFB General settings page.
 	* Added support for locale values from the [Polylang](http://wordpress.org/plugins/polylang/) plugin (Pro version).
 	* Added `SucomUtil::get_locale()` and `SucomUtil::get_locale_key()` static methods.
 	* Modified some `SucomUpdate` class construct parameters and variable definitions (Pro version).
@@ -302,7 +302,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	* Removed pass-by-reference for $atts array in social sharing methods (to prevent cross-contamination of attributes).
 * Enhancements
 	* Added a new Buffer social sharing button.
-	* Modified the 'pre_site_transient_update_plugins' hook to re-introduce update information for NGFB Open Graph+, in cases where it has been used to disable plugin updates (Pro version).
+	* Modified the 'pre_site_transient_update_plugins' hook to re-introduce update information for NGFB, in cases where it has been used to disable plugin updates (Pro version).
 	* Added a second 'transient_update_plugins' hook to return update information (Pro version).
 	* Renamed several variables in the `NgfbHead::get_single_meta()` method for clarity.
 	* A few minor changes to informational and debug messages.
