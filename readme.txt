@@ -18,7 +18,7 @@ NextGEN Facebook Open Graph + (NGFB) provides the information that social websit
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
-= Summary List of Features =
+= Quick List of Features =
 
 **Free / Basic Version**
 
