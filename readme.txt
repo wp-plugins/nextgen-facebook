@@ -80,9 +80,9 @@ NGFB Open Graph+ (Pro version) provides the [Summary](https://dev.twitter.com/do
 
 = Excellent Performance =
 
-**NGFB Open Graph+ is fast and tuned for performance**, and unlike most plugins, makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
+**NGFB Open Graph+ is fast and tuned for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
 
-**NGFB Open Graph+ only loads the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+**NGFB Open Graph+ loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
 <ul>
