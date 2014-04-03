@@ -80,29 +80,6 @@ NGFB is a complete social sharing solution that uses the *existing* content of y
 
 NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
 
-= Excellent Performance =
-
-**NGFB is fast and tuned for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
-
-**NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
-
-<p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
-<ul>
-	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
-	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
-	<li><strong>0.0130</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
-	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook Open Graph +</strong> (NGFB) v7.4.2</li>
-	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
-	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
-	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
-	<li><strong>0.0572</strong> secs - SEO Ultimate v7.6.2</li>
-	<li><strong>0.0579</strong> secs - Facebook v1.5.5</li>
-	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
-	<li><strong>0.1051</strong> secs - WordPress SEO v1.5.2.5</li>
-</ul>
-
-<small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small>
-
 = 3rd Party Integration =
 
 Aside from the additional support for Twitter Cards, the main difference between the Free and Pro versions is the integration of 3rd party plugins and services.
@@ -159,6 +136,29 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 * Twitter 
 * Yahoo IM
 * YouTube
+
+= Excellent Performance =
+
+**NGFB is fast and tuned for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
+
+**NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+
+<p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
+<ul>
+	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
+	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
+	<li><strong>0.0130</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
+	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook Open Graph +</strong> (NGFB) v7.4.2</li>
+	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
+	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
+	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
+	<li><strong>0.0572</strong> secs - SEO Ultimate v7.6.2</li>
+	<li><strong>0.0579</strong> secs - Facebook v1.5.5</li>
+	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
+	<li><strong>0.1051</strong> secs - WordPress SEO v1.5.2.5</li>
+</ul>
+
+<small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small>
 
 = Clean Uninstall =
 
@@ -277,7 +277,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Changelog ==
 
-= Version 7.4.3rc1 =
+= Version 7.4.3 =
 
 * Bugfixes
 	* *None*
@@ -356,7 +356,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Upgrade Notice ==
 
-= 7.4.3rc1 =
+= 7.4.3 =
 
 Localized the 'Site Name' and 'Site Description' options, added support for the Polylang plugin (Pro version).
 
