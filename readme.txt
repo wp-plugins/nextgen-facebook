@@ -12,9 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-= Get Control Over Your Social Content! =
-
-NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to **improve Google Search ranking and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and other social websites**, along with providing many of the most popular social sharing buttons.
+NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -106,14 +104,14 @@ NGFB (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and
 
 NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
-* Facebook Like, Send, Share
-* Google+
-* LinkedIn
-* ManageWP.org
-* Pinterest
-* StumbleUpon 
-* Tumblr (Links, Quotes, Images, Videos)
-* Twitter (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
+* **Facebook** Like, Send, Share
+* **Google+**
+* **LinkedIn**
+* **ManageWP.org**
+* **Pinterest**
+* **StumbleUpon**
+* **Tumblr** (Links, Quotes, Images, Videos)
+* **Twitter** (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
@@ -144,6 +142,8 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 **NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
+
+<blockquote>
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
@@ -157,6 +157,7 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
 	<li><strong>0.1051</strong> secs - WordPress SEO v1.5.2.5</li>
 </ul>
+</blockquote>
 
 <small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small>
 
