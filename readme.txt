@@ -12,7 +12,7 @@ Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Sear
 
 == Description ==
 
-NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
+NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to improve **Google Search rank, and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -142,7 +142,7 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 **NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
 <blockquote>
-<p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
+<p>PHP code execution results from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
