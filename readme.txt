@@ -6,13 +6,13 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.8.1
-Stable Tag: 7.4.2
+Stable Tag: 7.4.3
 
 Improves Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Also Includes Social Sharing Buttons!
 
 == Description ==
 
-NextGEN Facebook Open Graph + (NGFB) provides the information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
+NextGEN Facebook Open Graph + (NGFB) provides information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
 
 [youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
@@ -24,8 +24,8 @@ NextGEN Facebook Open Graph + (NGFB) provides the information that social websit
 * Configurable image sizes, title and description lengths for different contexts.
 * Optional fallback to a default image and video for index and search webpages.
 * Supports featured, attached, gallery shortcode, and/or HTML image tags in content.
-* Validates of image dimensions to provide accurate media for social websites.
-* Auto-regeneration of innacurate / missing WordPress image sizes.
+* Validates image dimensions to provide accurate media for social websites.
+* Auto-regeneration of inaccurate / missing WordPress image sizes.
 * Support for embedded videos (iframe and object HTML tags).
 * Fully renders content (including shortcodes) for accurate description texts.
 * Includes author and publisher profile URLs for Facebook and Google Search.
@@ -141,9 +141,8 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 **NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
-<p>An example of PHP code execution speeds from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
-
 <blockquote>
+<p>PHP code execution results from <a href="http://wordpress.org/plugins/p3-profiler/">P3 (Plugin Performance Profiler)</a>, using <a href="http://wptest.io/">WP Test Data</a> and the default settings of a few popular plugins:</p>
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
@@ -157,9 +156,8 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
 	<li><strong>0.1051</strong> secs - WordPress SEO v1.5.2.5</li>
 </ul>
+<p><small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small></p>
 </blockquote>
-
-<small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small>
 
 = Clean Uninstall =
 
