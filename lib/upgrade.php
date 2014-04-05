@@ -17,7 +17,6 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 		);
 
 		private $renamed_keys = array(
-			'add_meta_desc' => 'inc_description',
 			'og_def_img' => 'og_def_img_url',
 			'og_def_home' => 'og_def_img_on_index',
 			'og_def_on_home' => 'og_def_img_on_index',
@@ -36,7 +35,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'plugin_pro_tid' => 'plugin_tid',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
-			'link_desc_len' => 'meta_desc_len',
+			'link_desc_len' => 'seo_desc_len',
 			'ngfb_version' => 'plugin_version',
 			'ngfb_opts_ver' => 'options_version',
 			'ngfb_pro_tid' => 'plugin_tid',
@@ -126,7 +125,12 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 
 			// custom value changes for regular options
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
-	
+
+				// remove the old inc_* options
+				foreach ( $opts as $key => $val )
+					if ( strpos( $key, 'inc_' ) === 0 )
+						unset( $opts[$key] );
+
 				if ( ! empty( $opts['twitter_shorten'] ) )
 					$opts['twitter_shortener'] = 'googl';
 	
