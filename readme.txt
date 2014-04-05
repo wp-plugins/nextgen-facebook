@@ -69,7 +69,7 @@ NextGEN Facebook (NGFB) provides information that social websites need to improv
 		* Youtube Videos and Playlists
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). They have the same author, many of the same great features, but WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
 </blockquote>
 
 = Complete Meta Tags =
