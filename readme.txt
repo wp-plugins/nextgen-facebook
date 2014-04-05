@@ -14,8 +14,6 @@ Improve Ranking and Click-Through-Rate (CTR) on Social Websites and Google Searc
 
 NextGEN Facebook (NGFB) provides information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
 
-[youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
-
 = Quick List of Features =
 
 **Free / Basic Version**
@@ -73,6 +71,8 @@ NextGEN Facebook (NGFB) provides information that social websites need to improv
 <blockquote>
 <p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). WPSSO strives to be a little smaller and lighter by removing the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
 </blockquote>
+
+[youtube https://www.youtube.com/watch?v=wMeVh8eoKsQ]
 
 = Complete Meta Tags =
 
