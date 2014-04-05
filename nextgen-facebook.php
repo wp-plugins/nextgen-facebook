@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: NextGEN Facebook
+Plugin Name: NextGEN Facebook (NGFB)
 Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Author: Jean-Sebastien Morisset
 Author URI: http://surniaulula.com/
