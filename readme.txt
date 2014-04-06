@@ -8,12 +8,12 @@ Requires At Least: 3.0
 Tested Up To: 3.8.1
 Stable Tag: 7.4.3
 
-Improves ranking and click-through-rate (CTR) on social websites and Google Search &mdash; Also includes social sharing buttons!
+Improves shared content on social websites and Google Search for higher ranking and click-through-rates (CTR)
 
 == Description ==
 
 <blockquote>
-<p>NextGEN Facebook (NGFB) <strong>provides information that social websites need</strong> to improve <strong>Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
+<p>NextGEN Facebook (NGFB) <strong>provides the information that social websites need</strong> to improve <strong>Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
 </blockquote>
 
 = Quick List of Features =
