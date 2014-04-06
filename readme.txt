@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.8.1
 Stable Tag: 7.4.3
 
-Improves shared content on social websites and Google Search for better exposure, higher ranking and click-through-rates (CTR)
+Improve your shared content on social websites and Google Search for better exposure, higher ranking and click-through-rates (CTR)
 
 == Description ==
 
