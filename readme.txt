@@ -13,7 +13,7 @@ Improves ranking and click-through-rate (CTR) on social websites and Google Sear
 == Description ==
 
 <blockquote>
-<p>NextGEN Facebook (NGFB) <strong>provides information that social websites need</strong> to improve <strong>Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with providing many of the most popular social sharing buttons.</p>
+<p>NextGEN Facebook (NGFB) <strong>provides information that social websites need</strong> to improve <strong>Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
 </blockquote>
 
 = Quick List of Features =
