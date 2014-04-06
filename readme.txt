@@ -13,7 +13,7 @@ Improve your shared content on social websites and Google Search for better expo
 == Description ==
 
 <blockquote>
-<p>NextGEN Facebook (NGFB) provides the <strong>information that social websites need</strong> to improve <strong>Google Search rank</strong> and <strong>sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
+<p>NextGEN Facebook (NGFB) <strong>provides the information that social websites need</strong> to improve Google Search ranking and social engagement on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
 </blockquote>
 
 = Quick List of Features =
