@@ -1,4 +1,4 @@
-=== NextGEN Facebook: Open Graph + Twitter Card Meta Tags and Social Buttons ===
+=== NextGEN Facebook: Open Graph + Twitter Card Meta Tags ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen gallery, featured, attached, open graph, meta tags, buttons, like, send, share, facebook, google, google+, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, gallery, twitter cards, photo card, gallery card, player card, summary card, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube, polylang
@@ -8,11 +8,11 @@ Requires At Least: 3.0
 Tested Up To: 3.8.1
 Stable Tag: 7.4.3
 
-Improve Ranking and Click-Through-Rate (CTR) on Social Websites and Google Search &mdash; Also Includes Social Sharing Buttons!
+Improve ranking and click-through-rate (CTR) on social websites and Google Search &mdash; Also includes social sharing buttons!
 
 == Description ==
 
-NextGEN Facebook (NGFB) provides information that social websites need to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
+NextGEN Facebook (NGFB) **provides information that social websites need** to improve **Google Search rank and sharing on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more** &mdash; along with providing many of the most popular social sharing buttons.
 
 = Quick List of Features =
 
