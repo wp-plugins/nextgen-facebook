@@ -191,7 +191,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/">How can I share a single NextGEN Gallery image?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/">How do I attach an image without showing it on the webpage?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/">How do I install the Pro version?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-open-graph-find-images/">How does NGFB find images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-find-detect-select-images/">How does NGFB find / detect / select images?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/">Social Sharing Buttons</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
@@ -205,7 +205,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-are-supported/">What features of NextGEN Gallery are supported?</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-gpl-and-pro-versions/">What is the difference between the Free and Pro versions?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-free-and-pro-versions/">What is the difference between the Free and Pro versions?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/where-do-i-start/">Where do I start?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/">Why aren’t Pins from my website posting Rich?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/">Why do my Facebook shares have small images?</a></li>
