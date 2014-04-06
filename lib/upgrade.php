@@ -127,9 +127,10 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
 
 				// remove the old inc_* options
-				foreach ( $opts as $key => $val )
+				foreach ( $opts as $key => $val ) {
 					if ( strpos( $key, 'inc_' ) === 0 )
 						unset( $opts[$key] );
+				}
 
 				if ( ! empty( $opts['twitter_shorten'] ) )
 					$opts['twitter_shortener'] = 'googl';

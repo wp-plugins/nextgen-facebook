@@ -334,7 +334,7 @@ Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author
 
 == Changelog ==
 
-= Version 7.4.4dev1 =
+= Version 7.4.4 =
 
 * Bugfixes
 	* *None*
