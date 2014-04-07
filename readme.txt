@@ -199,11 +199,11 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 = Proven Performance =
 
-**NGFB is fast and coded for performance**, and makes full use of all available caching techniques (persistent / non-persistent object and disk caching).
+NGFB is fast and coded for performance, making full use of all available caching techniques (persistent / non-persistent object and disk caching).
 
-**NGFB loads only the library files and object classes it needs**, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
-**Example execution results from [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/)**, using [WP Test Data](http://wptest.io/) and the default settings of a few popular plugins:
+Example execution times from [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of a few popular plugins:
 
 <ul>
 	<li><strong>0.0117</strong> secs - All in One SEO Pack v2.1.4</li>
@@ -223,11 +223,11 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 = Clean Uninstall =
 
-**Try the NGFB plugin with complete confidence** - when uninstalled, NGFB removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
+Try the NGFB plugin with complete confidence &mdash; when uninstalled, NGFB removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
 
 = Great Support =
 
-**NGFB support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
+NGFB support and development is on-going. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
 **Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom)**.
 
