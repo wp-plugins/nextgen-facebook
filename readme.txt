@@ -79,7 +79,7 @@ Improve your shared content on social websites and Google Search for better expo
 NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.).
 
 <blockquote>
-<p><center><a href="http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/">See examples from Google Search, Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, etc. &mdash; along with Screenshots from the NGFB Settings pages</a>.</center></p>
+<p><a href="http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/">See examples from Google Search, Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, etc. &mdash; along with Screenshots from the NGFB Settings pages</a>.</p>
 </blockquote>
 
 NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
