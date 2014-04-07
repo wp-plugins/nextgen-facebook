@@ -76,7 +76,11 @@ Improve your shared content on social websites and Google Search for better expo
 
 = Complete Meta Tags =
 
-NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.). [See a few examples from Google Search / Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, and others](/extend/plugins/nextgen-facebook/screenshots/). 
+NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and most social websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.).
+
+<blockquote>
+<a href="http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/">See examples from Google Search, Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, etc., and Screenshots from the NGFB Settings pages</a>.
+</blockquote>
 
 NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
@@ -225,7 +229,7 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 **NGFB support and development is on-going**. You can review the [FAQ](http://faq.ngfb.surniaulula.com/) and [Notes](http://notes.ngfb.surniaulula.com/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](http://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://support.ngfb.surniaulula.com/).
 
-Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom).
+**Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom)**.
 
 == Installation ==
 
