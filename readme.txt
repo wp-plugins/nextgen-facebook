@@ -343,7 +343,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.4.4rc1 =
 
 * Bugfixes
-	* *None*
+	* Added `is_active_widget()` test to prevent loading JavaScript for inactive NGFB Sharing Buttons widget(s).
 * Enhancements
 	* Added the schema itemprop description meta tag.
 	* Modified the Meta Tag List on the Advanced settings page to include the type as well (property, name, itemprop, etc.).

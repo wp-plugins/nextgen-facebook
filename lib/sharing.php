@@ -315,7 +315,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					break;
 				case 'tooltip-side-sharing-stylesheet':
 					$text = 'A stylesheet can be included on all webpages for the social sharing buttons. Enable or disable the
-					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Sharing Styles' ).' settings page.';
+					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Styles' ).' settings page.';
 					break;
 				case 'tooltip-side-sharing-widget':
 					$text = 'The social sharing widget feature adds a \'NGFB Sharing Buttons\' widget in the WordPress Appearance - Widgets page.
@@ -486,7 +486,7 @@ jQuery("#ngfb-sidebar").click( function(){
 
 			if ( ! empty( $this->p->options[ 'buttons_add_to_'.$post_type->name ] ) ) {
 				// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-				add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing', 
+				add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing Buttons', 
 					array( &$this, 'show_admin_sharing' ), $post_type->name, 'side', 'high' );
 			}
 		}
@@ -727,17 +727,21 @@ jQuery("#ngfb-sidebar").click( function(){
 						if ( is_singular() 
 							|| ( ! is_singular() && ! empty( $this->p->options['buttons_on_index'] ) ) 
 							|| ( is_front_page() && ! empty( $this->p->options['buttons_on_front'] ) ) ) {
-	
+
 							// exclude buttons enabled for admin editing pages
 							foreach ( SucomUtil::preg_grep_keys( '/^'.$pre.'_on_/', $this->p->options ) as $key => $val )
 								if ( strpos( $key, $pre.'_on_admin_' ) === false && ! empty( $val ) )
 									$ids[] = $id;
-	
 						}
-						// check for enabled buttons in widget(s)
-						foreach ( $widget_settings as $instance )
-							if ( array_key_exists( $id, $instance ) && (int) $instance[$id] )
-								$ids[] = $id;
+						// check for enabled buttons in ACTIVE widget(s)
+						foreach ( $widget_settings as $num => $instance ) {
+							if ( is_object( $widget ) && 
+								is_active_widget( false, $widget->id_base.'-'.$num, $widget->id_base ) ) {
+								if ( array_key_exists( $id, $instance ) && 
+									(int) $instance[$id] )
+										$ids[] = $id;
+							}
+						}
 					}
 				}
 				if ( empty( $ids ) ) {
