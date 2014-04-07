@@ -126,42 +126,62 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			// custom value changes for regular options
 			if ( $options_name == constant( $this->p->cf['uca'].'_OPTIONS_NAME' ) ) {
 
-				// remove the old inc_* options
-				foreach ( $opts as $key => $val ) {
-					if ( strpos( $key, 'inc_' ) === 0 )
-						unset( $opts[$key] );
-				}
-
-				if ( ! empty( $opts['twitter_shorten'] ) )
-					$opts['twitter_shortener'] = 'googl';
-	
-				// upgrade the old og_img_size name into width / height / crop values
-				if ( array_key_exists( 'og_img_size', $opts ) ) {
-					if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
-						$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
-						if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
-							$opts['og_img_width'] = $size_info['width'];
-							$opts['og_img_height'] = $size_info['height'];
-							$opts['og_img_crop'] = $size_info['crop'];
+				if ( $opts['options_version'] <= 270 ) {
+					foreach ( $opts as $key => $val ) {
+						if ( strpos( $key, 'inc_' ) === 0 ) {
+							$new_key = '';
+							switch ( $key ) {
+								case ( preg_match( '/^inc_(description|twitter:)/', $key ) ? true : false ):
+									$new_key = preg_replace( '/^inc_/', 'add_meta_name_', $key );
+									break;
+								default:
+									$new_key = preg_replace( '/^inc_/', 'add_meta_property_', $key );
+									break;
+							}
+							if ( ! empty( $new_key ) )
+								$opts[$new_key] = $val;
+							unset( $opts[$key] );
 						}
-						unset( $opts['og_img_size'] );
 					}
 				}
 
-				if ( $opts['options_version'] <= 260 &&
-					$opts['og_img_width'] == 1200 &&
-					$opts['og_img_height'] == 630 &&
-					! empty( $opts['og_img_crop'] ) ) {
+				if ( $opts['options_version'] <= 260 ) {
+					if ( $opts['og_img_width'] == 1200 &&
+						$opts['og_img_height'] == 630 &&
+						! empty( $opts['og_img_crop'] ) ) {
 
-					$this->p->notice->inf( 'Open Graph Image Dimentions have been updated from '.
-						$opts['og_img_width'].'x'.$opts['og_img_height'].', '.
-						( $opts['og_img_crop'] ? '' : 'un' ).'cropped to '.
-						$def_opts['og_img_width'].'x'.$def_opts['og_img_height'].', '.
-						( $def_opts['og_img_crop'] ? '' : 'un' ).'cropped.', true );
+						$this->p->notice->inf( 'Open Graph Image Dimentions have been updated from '.
+							$opts['og_img_width'].'x'.$opts['og_img_height'].', '.
+							( $opts['og_img_crop'] ? '' : 'un' ).'cropped to '.
+							$def_opts['og_img_width'].'x'.$def_opts['og_img_height'].', '.
+							( $def_opts['og_img_crop'] ? '' : 'un' ).'cropped.', true );
+	
+						$opts['og_img_width'] = $def_opts['og_img_width'];
+						$opts['og_img_height'] = $def_opts['og_img_height'];
+						$opts['og_img_crop'] = $def_opts['og_img_crop'];
+					}
+				}
 
-					$opts['og_img_width'] = $def_opts['og_img_width'];
-					$opts['og_img_height'] = $def_opts['og_img_height'];
-					$opts['og_img_crop'] = $def_opts['og_img_crop'];
+				if ( $opts['options_version'] <= 247 ) {
+					if ( ! empty( $opts['twitter_shorten'] ) ) {
+						$opts['twitter_shortener'] = 'googl';
+						unset( $opts['twitter_shorten'] );
+					}
+				}
+	
+				if ( $opts['options_version'] <= 28 ) {
+					// upgrade the old og_img_size name into width / height / crop values
+					if ( array_key_exists( 'og_img_size', $opts ) ) {
+						if ( ! empty( $opts['og_img_size'] ) && $opts['og_img_size'] !== 'medium' ) {
+							$size_info = $this->p->media->get_size_info( $opts['og_img_size'] );
+							if ( $size_info['width'] > 0 && $size_info['height'] > 0 ) {
+								$opts['og_img_width'] = $size_info['width'];
+								$opts['og_img_height'] = $size_info['height'];
+								$opts['og_img_crop'] = $size_info['crop'];
+							}
+						}
+						unset( $opts['og_img_size'] );
+					}
 				}
 			}
 
