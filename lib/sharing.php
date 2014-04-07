@@ -602,10 +602,10 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( $this->p->is_avail['cache']['transient'] ) {
 				// if the post id is 0, then add the sharing url to ensure a unique salt string
 				$cache_salt = __METHOD__.'(lang:'.SucomUtil::get_locale().'_post:'.$obj->ID.'_type:'.$type.
-					( empty( $obj->ID ) ? '_sharing_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
+					( empty( $obj->ID ) ? '_url:'.$this->p->util->get_sharing_url( true ) : '' ).')';
 				$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 				$cache_type = 'object cache';
-				$this->p->debug->log( $cache_type.': '.$type.' html transient salt '.$cache_salt );
+				$this->p->debug->log( $cache_type.': transient salt '.$cache_salt );
 				$html = get_transient( $cache_id );
 			}
 

@@ -381,7 +381,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			echo '<td colspan="2">'.$this->p->cf['version'].' (';
 			if ( $this->p->is_avail['aop'] ) 
 				echo __( 'Pro', NGFB_TEXTDOM );
-			else echo __( 'GPL', NGFB_TEXTDOM );
+			else echo __( 'Free', NGFB_TEXTDOM );
 			echo ')</td></tr>';
 			echo '<tr><th class="side">'.__( 'Stable', NGFB_TEXTDOM ).':</th><td colspan="2">'.$stable_tag.'</td></tr>';
 			echo '<tr><th class="side">'.__( 'Latest', NGFB_TEXTDOM ).':</th><td colspan="2">'.$latest_version.'</td></tr>';
