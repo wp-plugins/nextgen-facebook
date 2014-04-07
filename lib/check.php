@@ -90,7 +90,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
 				class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
 
-			$ret['aop'] = self::$a = file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
+			$ret['aop'] = self::$a = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
+				( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
+				file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
 				class_exists( $this->p->cf['lca'].'addonpro' ) ? true : false;
 
 			$ret['ssb'] = ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
