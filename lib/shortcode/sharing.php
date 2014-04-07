@@ -80,7 +80,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 					$cache_salt = __METHOD__.'(lang:'.SucomUtil::get_locale().'_post:'.$post_id.'_atts_keys:'.$keys. '_atts_vals:'.$vals.')';
 					$cache_id = $this->p->cf['lca'].'_'.md5( $cache_salt );
 					$cache_type = 'object cache';
-					$this->p->debug->log( $cache_type.': shortcode transient salt '.$cache_salt );
+					$this->p->debug->log( $cache_type.': transient salt '.$cache_salt );
 					$html = get_transient( $cache_id );
 					if ( $html !== false ) {
 						$this->p->debug->log( $cache_type.': html retrieved from transient '.$cache_id );

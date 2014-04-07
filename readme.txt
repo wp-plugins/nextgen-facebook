@@ -210,13 +210,15 @@ Example execution times from [P3 (Plugin Performance Profiler)](http://wordpress
 	<li><strong>0.0120</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.1</li>
 	<li><strong>0.0130</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
 	<li><strong>0.0180</strong> secs - <strong>NextGEN Facebook</strong> (NGFB) v7.4.2</li>
+	<li><strong>0.0190</strong> secs - Contact Form 7 v3.7.2</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
 	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
 	<li><strong>0.0572</strong> secs - SEO Ultimate v7.6.2</li>
 	<li><strong>0.0579</strong> secs - Facebook v1.5.5</li>
 	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
-	<li><strong>0.1051</strong> secs - WordPress SEO v1.5.2.5</li>
+	<li><strong>0.1051</strong> secs - WordPress SEO by Yoast v1.5.2.5</li>
+	<li><strong>0.1980</strong> secs - JetPack by WordPress.com v2.9.2</li>
 </ul>
 
 <p><small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small></p>
@@ -346,6 +348,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added the schema itemprop description meta tag.
 	* Modified the Meta Tag List on the Advanced settings page to include the type as well (property, name, itemprop, etc.).
 	* Renamed the 'inc_*' option prefix to 'add_meta_name_*' and 'add_meta_property_*' to allow for the new schema option name(s).
+	* Replaced the Open Graph array transient cache by a header HTML transient cache object (which includes all the meta tags).
+	* Removed the Open Graph array argument to `NgfbHead::get_header_html()` (fetching the Open Graph array within the method instead).
 
 = Version 7.4.3 =
 
