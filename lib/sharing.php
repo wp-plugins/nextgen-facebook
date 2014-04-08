@@ -177,7 +177,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			$opts_def = array_merge( $opts_def, self::$cf['opt']['defaults'] );
 			$opts_def = $this->p->util->push_add_to_options( $opts_def, array( 'buttons' ) );
 			$plugin_dir = trailingslashit( plugin_dir_path( $this->plugin_filepath ) );
-			$url_path = trailingslashit( plugins_url( '', $this->plugin_filepath ) );
+			$url_path = parse_url( trailingslashit( plugins_url( '', $this->plugin_filepath ) ), PHP_URL_PATH );	// relative URL
 
 			foreach ( self::$cf['sharing']['style'] as $id => $name ) {
 				$css_file = $plugin_dir.'css/'.$id.'-buttons.css';
