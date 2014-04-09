@@ -340,7 +340,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.4.4rc1 =
+= Version 7.4.4rc2 =
 
 * Bugfixes
 	* Added `is_active_widget()` test to prevent loading JavaScript for inactive NGFB Sharing Buttons widget(s).

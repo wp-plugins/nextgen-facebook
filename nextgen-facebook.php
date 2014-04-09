@@ -7,7 +7,7 @@ Author URI: http://surniaulula.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Description: Improve your shared content on social websites and Google Search for better exposure, higher ranking and click-through-rates (CTR)
-Version: 7.4.4rc1
+Version: 7.4.4rc2
 
 Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 */
@@ -230,6 +230,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function set_options() {
 			$this->options = get_option( NGFB_OPTIONS_NAME );
+
 			// look for alternate options name
 			if ( ! is_array( $this->options ) ) {
 				if ( defined( 'NGFB_OPTIONS_NAME_ALT' ) && NGFB_OPTIONS_NAME_ALT ) {
@@ -270,6 +271,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 									if ( empty( $this->options[$key] ) )
 										$this->options[$key] = $this->site_options[$key];
 									break;
+							}
+
+							// check for constant over-rides
+							if ( function_exists( 'get_current_blog_id' ) ) {
+								$constant_name = 'NGFB_OPTIONS_'.get_current_blog_id().'_'.strtoupper( $key );
+								if ( defined( $constant_name ) )
+									$this->options[$key] = constant( $constant_name );
 							}
 						}
 					}
