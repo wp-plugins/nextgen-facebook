@@ -72,7 +72,7 @@ if ( ! class_exists( 'NgfbSubmenuGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 					'<td>'.$this->form->get_input( SucomUtil::get_locale_key( 'og_site_name' ), 
 						null, null, null, get_bloginfo( 'name', 'display' ) ).'</td>';
 
-					$rows[] = $this->p->util->th( 'Site Description', 'hightlight', 'og_site_description', array( 'is_locale' => true ) ).
+					$rows[] = $this->p->util->th( 'Site Description', 'highlight', 'og_site_description', array( 'is_locale' => true ) ).
 					'<td>'.$this->form->get_textarea( SucomUtil::get_locale_key( 'og_site_description' ), 
 						null, null, null, get_bloginfo( 'description', 'display' ) ).'</td>';
 
