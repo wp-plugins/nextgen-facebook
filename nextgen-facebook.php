@@ -190,7 +190,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( $this->debug->is_on( 'html' ) === true ) {
 				foreach ( array( 'object', 'transient' ) as $name ) {
 					$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
-					$this->is_avail['cache'][$name] = ( defined( $constant_name ) && ! constant( $constant_name ) ) ? true : false;
+					$this->is_avail['cache'][$name] = ( defined( $constant_name ) && 
+						! constant( $constant_name ) ) ? true : false;
 				}
 				$cache_msg = 'object cache '.( $this->is_avail['cache']['object'] ? 'could not be' : 'is' ).
 					' disabled, and transient cache '.( $this->is_avail['cache']['transient'] ? 'could not be' : 'is' ).' disabled.';
@@ -229,6 +230,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		public function set_options() {
 			$this->options = get_option( NGFB_OPTIONS_NAME );
+
 			// look for alternate options name
 			if ( ! is_array( $this->options ) ) {
 				if ( defined( 'NGFB_OPTIONS_NAME_ALT' ) && NGFB_OPTIONS_NAME_ALT ) {
@@ -269,6 +271,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 									if ( empty( $this->options[$key] ) )
 										$this->options[$key] = $this->site_options[$key];
 									break;
+							}
+
+							// check for constant over-rides
+							if ( function_exists( 'get_current_blog_id' ) ) {
+								$constant_name = 'NGFB_OPTIONS_'.get_current_blog_id().'_'.strtoupper( $key );
+								if ( defined( $constant_name ) )
+									$this->options[$key] = constant( $constant_name );
 							}
 						}
 					}
