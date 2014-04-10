@@ -340,10 +340,11 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.4.4rc2 =
+= Version 7.4.4rc3 =
 
 * Bugfixes
 	* Added `is_active_widget()` test to prevent loading JavaScript for inactive NGFB Sharing Buttons widget(s).
+	* The Default Image URL could be disabled permanently in some situations. Fixed by removing stateful option names before saving the settings.
 * Enhancements
 	* Added the schema itemprop description meta tag.
 	* Modified the Meta Tag List on the Advanced settings page to include the type as well (property, name, itemprop, etc.).
