@@ -248,7 +248,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 								w3tc_pgcache_flush();
 							elseif ( function_exists('wp_cache_clear_cache') ) 
 								wp_cache_clear_cache();
-							$this->p->notice->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
+							$this->p->notice->inf( __( 'Cached files, WP object cache, transient cache, and any additional caches, '.
+								'like APC, Memcache, Xcache, W3TC, Super Cache, etc. have all been cleared.', NGFB_TEXTDOM ) );
 							break;
 						case 'clear_metabox_prefs' : 
 							NgfbUser::delete_metabox_prefs( get_current_user_id() );
