@@ -71,7 +71,7 @@ Improve your shared content on social websites and Google Search for better expo
 		* Youtube Videos and Playlists
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). They have the same author, many of the same great features, are both <strong>extremely fast and reliable</strong>, but WPSSO comes without the sharing buttons and related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening).</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). They have the same author, many of the same great features, are both <strong>extremely fast and reliable</strong>, but WPSSO is packaged without the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
 </blockquote>
 
 = Complete Meta Tags =
