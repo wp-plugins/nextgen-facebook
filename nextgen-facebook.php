@@ -18,12 +18,32 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( 'Ngfb' ) ) {
 
 	class Ngfb {
+		/*
+		 * Class Object Variables
+		 */
+		public $admin;			// NgfbAdmin (admin menus and page loader)
+		public $cache;			// SucomCache (object and file caching)
+		public $debug;			// SucomDebug or NgfbNoDebug
+		public $gpl;			// NgfbAddonGpl
+		public $head;			// NgfbHead
+		public $media;			// NgfbMedia (images, videos, etc.)
+		public $msgs;			// NgfbMessages (admin tooltip messages)
+		public $notice;			// SucomNotice
+		public $og;			// NgfbOpenGraph (extends SucomOpengraph)
+		public $opt;			// NgfbOptions
+		public $pro;			// NgfbAddonPro
+		public $reg;			// NgfbRegister
+		public $script;			// SucomScript (admin jquery tooltips)
+		public $sharing;		// NgfbSharing (wp_head and wp_footer js and buttons)
+		public $style;			// SucomStyle (admin styles)
+		public $update;			// SucomUpdate
+		public $user;			// NgfbUser (contact methods and metabox prefs)
+		public $util;			// NgfbUtil (extends SucomUtil)
+		public $webpage;		// SucomWebpage (title, desc, etc., plus shortcodes)
 
-		// class object variables
-		public $debug, $util, $notice, $opt, $user, $media, $meta,
-			$style, $script, $cache, $admin, $head, $og, $webpage,
-			$sharing, $seo, $gpl, $pro, $update, $reg, $msgs;
-
+		/*
+		 * Reference Variables (config, options, addon objects, etc.)
+		 */
 		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
 		public $options = array();	// individual blog/site options

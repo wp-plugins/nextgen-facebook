@@ -16,7 +16,6 @@ if ( ! class_exists( 'NgfbPostmeta' ) ) {
 	 * gpl/addons.php or pro/addons.php.
 	 *
 	 */
-
 	class NgfbPostmeta {
 
 		protected $p;
