@@ -1,16 +1,18 @@
 <?php
-/*
-Plugin Name: NextGEN Facebook (NGFB)
-Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
-Author: Jean-Sebastien Morisset
-Author URI: http://surniaulula.com/
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl.txt
-Description: Improve your shared content on social websites and Google Search for better exposure, higher ranking and click-through-rates (CTR)
-Version: 7.4.4
-
-Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
-*/
+/**
+ * Plugin Name: NextGEN Facebook (NGFB)
+ * Plugin URI: http://surniaulula.com/extend/plugins/nextgen-facebook/
+ * Author: Jean-Sebastien Morisset
+ * Author URI: http://surniaulula.com/
+ * License: GPLv3
+ * License URI: http://www.gnu.org/licenses/gpl.txt
+ * Description: Improve the Appearance, Ranking, and Social Engagement of your social shares on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc.
+ * Requires At Least: 3.0
+ * Tested Up To: 3.8.2
+ * Version: 7.4.4
+ * 
+ * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
+ */
 
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
@@ -18,18 +20,54 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( 'Ngfb' ) ) {
 
 	class Ngfb {
+		/**
+		 * Class Object Variables
+		 */
+		public $admin;			// NgfbAdmin (admin menus and page loader)
+		public $cache;			// SucomCache (object and file caching)
+		public $debug;			// SucomDebug or NgfbNoDebug
+		public $gpl;			// NgfbAddonGpl
+		public $head;			// NgfbHead
+		public $media;			// NgfbMedia (images, videos, etc.)
+		public $msgs;			// NgfbMessages (admin tooltip messages)
+		public $notice;			// SucomNotice
+		public $og;			// NgfbOpenGraph (extends SucomOpengraph)
+		public $opt;			// NgfbOptions
+		public $pro;			// NgfbAddonPro
+		public $reg;			// NgfbRegister
+		public $script;			// SucomScript (admin jquery tooltips)
+		public $sharing;		// NgfbSharing (wp_head and wp_footer js and buttons)
+		public $style;			// SucomStyle (admin styles)
+		public $update;			// SucomUpdate
+		public $user;			// NgfbUser (contact methods and metabox prefs)
+		public $util;			// NgfbUtil (extends SucomUtil)
+		public $webpage;		// SucomWebpage (title, desc, etc., plus shortcodes)
 
-		// class object variables
-		public $debug, $util, $notice, $opt, $user, $media, $meta,
-			$style, $script, $cache, $admin, $head, $og, $webpage,
-			$sharing, $seo, $gpl, $pro, $update, $reg, $msgs;
-
+		/**
+		 * Reference Variables (config, options, addon objects, etc.)
+		 */
 		public $cf = array();		// config array defined in construct method
 		public $is_avail = array();	// assoc array for other plugin checks
 		public $options = array();	// individual blog/site options
 		public $site_options = array();	// multisite options
 		public $addons = array();	// pro addons
 
+		/**
+		 * Ngfb Constructor
+		 *
+		 * Uses NgfbConfig's static methods to read configuration
+		 * values into the $cf array, define constants, and require
+		 * essential library files. Instantiates the NgfbRegister
+		 * class, to register the activation / deactivation / uninstall
+		 * hooks, along with adding the wpmu_new_blog and
+		 * wpmu_activate_blog action hooks.
+		 *
+		 * set_config() is hooked into 'init' at -1 to allow other
+		 * plugins to extend the $cf array as early as possible.
+		 *
+		 * @access public
+		 * @return Ngfb
+		 */
 		public function __construct() {
 
 			require_once( dirname( __FILE__ ).'/lib/config.php' );
