@@ -273,7 +273,7 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					array( 'purchase' ), null, 'side', true );
 			}
 
-			add_meta_box( $this->pagehook.'_rating', __( 'Would You Recommend '.NgfbConfig::get_config( 'full' ).'?', NGFB_TEXTDOM ), 
+			add_meta_box( $this->pagehook.'_rating', __( 'Recommend '.NgfbConfig::get_config( 'full' ), NGFB_TEXTDOM ), 
 				array( &$this, 'show_metabox_rating' ), $this->pagehook, 'side' );
 
 			add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_rating', 
