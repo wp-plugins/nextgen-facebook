@@ -71,7 +71,7 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 		* Youtube Videos and Playlists
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (child) of NextGEN Facebook (NGFB). They have the same author, many of the same great features, are both <strong>extremely fast and reliable</strong>, but WPSSO is packaged without the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both <strong>extremely fast and reliable</strong>, but WPSSO is packaged without the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
 </blockquote>
 
 = Complete Meta Tags =
@@ -199,11 +199,11 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 = Proven Performance =
 
-NGFB is fast and coded for performance, making full use of all available caching techniques (persistent / non-persistent object and disk caching).
+NGFB is fast and coded for performance, making full use of all available caching techniques (persistent / non-persistent object and disk caching). NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
-NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+<strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong>
 
-Example execution times from [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of a few popular plugins:
+Here are some example execution times from [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of a few popular plugins:
 
 <ul>
 	<li><strong>0.0105</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.4</li>
