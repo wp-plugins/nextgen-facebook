@@ -82,9 +82,9 @@ NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://
 <p><a href="http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/">See examples from Google Search, Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, etc. &mdash; along with Screenshots from the NGFB Settings pages</a>.</p>
 </ul>
 
-NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &ndash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
+NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &mdash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available).
 
-NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards, including configurable image sizes for each card type.
+NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards &mdash; *including configurable image sizes for each card type*.
 
 * **Google / SEO Link and Meta Tags**
 	* author
@@ -286,27 +286,27 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> &mdash;
 			<div>An example showing the difference in meta tags between the NGFB Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a> &mdash;
 		<div>A list of available PHP constants for the NGFB plugin for WordPress.</div></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a> &mdash;
 		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">Filters</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> &mdash;
 			<div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a> &mdash;
 		<div>NGFB is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a> &mdash;
 		<div>A selection of plugins available to manage WordPress image attachments.</div></li>
 </ul>
 
