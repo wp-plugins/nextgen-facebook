@@ -201,9 +201,7 @@ NGFB (Pro version) allows you to customize the field names, label, and show / re
 
 NGFB is fast and coded for performance, making full use of all available caching techniques (persistent / non-persistent object and disk caching). NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
-<strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong> Very Fast.
-
-Here are example execution times from [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of a few popular plugins:
+<strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong> Very Fast. A few examples from the [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of some well known plugins:
 
 <ul>
 	<li><strong>0.0105</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.4.4</li>
