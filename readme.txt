@@ -338,6 +338,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.4.4.1 =
+
+* Bugfixes
+	* Added a extra check for missing information returned by `wp_get_attachment_metadata()` for original / full-size image dimensions.
+* Enhancements
+	* *None*
+
 = Version 7.4.4 =
 
 * Bugfixes
@@ -430,6 +437,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
 
 == Upgrade Notice ==
+
+= 7.4.4.1 =
+
+Added a extra check for missing information returned by `wp_get_attachment_metadata()` for original / full-size image dimensions.
 
 = 7.4.4 =
 
