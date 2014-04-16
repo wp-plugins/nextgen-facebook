@@ -125,16 +125,16 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '274',		// increment when changing default options
+				'version' => '275',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
 					'seo_desc_len' => 156,			// meta name="description" maximum text length
 					'seo_author_name' => 'display_name',	// meta name="author" format
+					'seo_def_author_id' => 0,
+					'seo_def_author_on_index' => 0,
+					'seo_def_author_on_search' => 0,
 					'link_author_field' => '',		// default value set by NgfbOptions::get_defaults()
-					'link_def_author_id' => 0,
-					'link_def_author_on_index' => 0,
-					'link_def_author_on_search' => 0,
 					'link_publisher_url' => '',
 					'fb_admins' => '',
 					'fb_app_id' => '',
