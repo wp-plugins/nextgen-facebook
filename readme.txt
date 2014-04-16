@@ -286,6 +286,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/jetpack-photon/">Jetpack Photon</a> &mdash;
+			<div>The Jetpack Photon Addon for NGFB re-introduces the missing width and height values for NGFB image sizes.</div></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> &mdash;
 			<div>An example showing the difference in meta tags between the NGFB Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
 	</ul></li>
