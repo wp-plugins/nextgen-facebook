@@ -39,6 +39,10 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
 
+<blockquote>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both <strong>extremely fast and reliable</strong>, but WPSSO is packaged without the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
+</blockquote>
+
 **Pro / Power-User Version**
 
 * Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
@@ -69,10 +73,6 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 		* Vimeo Videos
 		* Wistia Videos
 		* Youtube Videos and Playlists
-
-<blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both <strong>extremely fast and reliable</strong>, but WPSSO is packaged without the sharing buttons and their related features (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
-</blockquote>
 
 = Complete Meta Tags =
 
