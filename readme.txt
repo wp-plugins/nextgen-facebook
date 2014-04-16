@@ -411,32 +411,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a 'Object Cache Expiry' option to the multisite Network admin settings page.
 	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
-= Version 7.3.2 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Changed the default Open Graph 'Image Dimensions' from 1200x1200 cropped to 800x800 cropped.
-	* Disabled the Default Image URL option when a Default Image ID has been specified.
-	* Moved the sharing related option_type filter from lib/options.php to lib/sharing.php.
-	* Added a 'Widget Preset' option on the Preset Options tab.
-	* Updated a few help messages in lib/messages.php.
-
-= Version 7.3.1 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* **Added the Reddit social sharing button** (interactive button type).
-	* Added action hooks for 'wpmu_new_blog' and 'wpmu_activate_blog' to install default options (if necessary) when **multisite** blogs are created and/or activated.
-	* Added a notice error message if/when the WordPress `wp_remote_get()` function (used when checking for updates) returns an error (Pro version).
-	* Changed the update filter hook priorities from 10 to 100 in order to avoid 3rd party filters from modifying the update information (Pro version).
-	* Changed the default Open Graph Image Dimensions from 1200x630 cropped to 1200x1200 cropped.
-	* Changed the update check schedule from every 12 hours to every 24 hours.
-	* Changed the `NgfbOptions::get_defaults()` method to filter the default options only once.
-	* Moved the default social website options into each website class (with a hook into the 'ngfb_get_defaults' filter).
-	* **Removed the URL Rewrite feature and settings tab** (see the CDN Linker plugin at https://github.com/wmark/CDN-Linker for one of many alternative URL rewriters).
-
 == Upgrade Notice ==
 
 = 7.4.5 =
@@ -462,12 +436,4 @@ Fixed a potential issue with updating filter hooks, added a new Buffer sharing b
 = 7.4.0 =
 
 Fixed the 'twitter:title' value in admin interface, fixed missing Default Image use for Twitter Cards, added new default video options, added license use status (Pro version).
-
-= 7.3.2 =
-
-Changed default Open Graph 'Image Dimensions' from 1200x1200 to 800x800 cropped, disabled Default Image URL when a Default Image ID has been specified, added 'Widget Preset' option.
-
-= 7.3.1 =
-
-Added the Reddit sharing button, added default options when creating a new multisite blog, changed the default Open Graph image size to 1200x1200 cropped, removed the URL Rewriting feature.
 
