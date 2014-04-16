@@ -110,6 +110,9 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'pin_on_the_excerpt' => 'pin_on_excerpt',
 			'tumblr_on_the_content' => 'tumblr_on_content',
 			'tumblr_on_the_excerpt' => 'tumblr_on_excerpt',
+			'link_def_author_id' => 'seo_def_author_id',
+			'link_def_author_on_index' => 'seo_def_author_on_index',
+			'link_def_author_on_search' => 'seo_def_author_on_search',
 		);
 
 		protected $p;
