@@ -341,7 +341,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.4.5 =
 
 * Bugfixes
-	* Added a extra check for missing information returned by `wp_get_attachment_metadata()` for original / full-size image dimensions.
+	* Added a extra check for missing / corrupted metadata returned by `wp_get_attachment_metadata()` for original / full-size image dimensions.
 * Enhancements
 	* Added a new 'Author Name Format' option under the Google / SEO Publisher settings tab (the default is the user's Display Name value).
 	* Added a new 'author' meta tag (different from 'article:author') for Facebook to display the author's name bellow shares.
@@ -441,7 +441,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.4.5 =
 
-Added a extra check for missing information returned by `wp_get_attachment_metadata()`, added an 'Author Name Format' option for the new 'author' meta tag (different from 'article:author').
+Added a extra check for missing / corrupted metadata returned by `wp_get_attachment_metadata()`, added an 'Author Name Format' option for the new 'author' meta tag (different from 'article:author').
 
 = 7.4.4 =
 
