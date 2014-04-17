@@ -737,7 +737,7 @@ if ( ! class_exists( 'NgfbMessages' ) ) {
 					<a href="'.$this->p->cf['url']['pro_ticket'].'" target="_blank">Submit a new Support Ticket</a> and we will be happy to assist you.';
 					break;
 				case 'side-rating':
-					$text .= '<p>Please <a href="'.$this->p->cf['url']['review'].'" target="_blank">rate '.NgfbConfig::get_config( 'full' ).
+					$text .= '<p><a href="'.$this->p->cf['url']['review'].'" target="_blank">Please rate '.NgfbConfig::get_config( 'full' ).
 					' on WordPress.org</a>. This helps other WordPress users find stable and well supported plugins, along with encouraging us
 					to keep investing in '.NgfbConfig::get_config( 'full' ).' and its community.</p><p>Thank you.</p>';
 					break;
