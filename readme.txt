@@ -301,8 +301,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 			<div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">NGFB Filters</a>
-		<div>Several filters are available within NGFB to manipulate text (title, description, content, etc.) and array (tags, open graph, etc.) values.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a> &mdash;
 		<div>NGFB is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
