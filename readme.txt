@@ -295,13 +295,14 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		<div>A list of available PHP constants for the NGFB plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a> &mdash;
 		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">Filters</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> &mdash;
 			<div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/filters/">NGFB Filters</a>
+		<div>Several filters are available within NGFB to manipulate text (title, description, content, etc.) and array (tags, open graph, etc.) values.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a> &mdash;
 		<div>NGFB is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
