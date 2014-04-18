@@ -233,12 +233,16 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Installation ==
 
-= Installation and How-Tos =
+= Installation and Setup =
 
 <ul>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/">Install the Plugin</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/">Uninstall the Plugin</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO to NGFB</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/install-the-plugin/">Install the Plugin</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration-notes/">Integration Notes</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration-notes/buddypress-integration/">BuddyPress Integration</a></li>
+	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
 </ul>
 
 == Frequently Asked Questions ==
@@ -280,37 +284,26 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/">Why is the Open Graph title the same for every webpage?</a></li>
 </ul>
 
-== Other / Additional Notes ==
+== Other Notes ==
 
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/jetpack-photon/">Jetpack Photon</a> &mdash;
-			<div>The Jetpack Photon Addon for NGFB re-introduces the missing width and height values for NGFB image sizes.</div></li>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a> &mdash;
-			<div>An example showing the difference in meta tags between the NGFB Free version, which does not support video APIs or Twitter Cards, and the Pro version which does.</div></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/jetpack-photon/">Jetpack Photon</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a> &mdash;
-		<div>A list of available PHP constants for the NGFB plugin for WordPress.</div></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a> &mdash;
-		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
-	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> &mdash;
-			<div>BuddyPress specific integration issues, and a few possible techniques to overcome them.</div></li>
-	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a> &mdash;
-		<div>NGFB is highly optimized, but you may still improve page load times by a few milliseconds by considering the following suggestions.</div></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a> &mdash;
-		<div>A selection of plugins available to manage WordPress image attachments.</div></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a></li>
 </ul>
 
 == Screenshots ==
