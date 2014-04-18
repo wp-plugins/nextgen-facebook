@@ -292,16 +292,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/jetpack-photon/">Jetpack Photon</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a>
-	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
-	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/contact-information/">Contact Information and Feeds</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/">Developer Resources</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/">Constants</a>
+		<ul>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
+		</ul></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/sharing-buttons-function/">Sharing Buttons Function</a></li>
+	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/resources-and-contacts/">Resources and Contacts</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/shortcodes/">Shortcodes</a></li> 
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a></li>
 </ul>
