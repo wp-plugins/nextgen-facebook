@@ -238,7 +238,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/install-the-plugin/">Install the Plugin</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/uninstall-the-plugin/">Uninstall the Plugin</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO to NGFB</a></li>
 </ul>
 
@@ -294,7 +293,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/">Constants</a> &mdash;
 		<div>A list of available PHP constants for the NGFB plugin for WordPress.</div></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a> &mdash;
-		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div></li>
+		<div>A few debugging and problem solving techniques for the NGFB plugin for WordPress.</div>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/how-to/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
+	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/">Integration Notes</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/integration-notes/buddypress-integration/">BuddyPress Integration</a> &mdash;
