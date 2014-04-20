@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.4.5',		// plugin version
+			'version' => '7.4.6dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -89,8 +89,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'postmeta' => 'Custom Post Meta',
 					),
 					'ecom' => array(
-						'woocommerce' => 'WooCommerce',
+						'edd' => 'Easy Digital Downloads',
 						'marketpress' => 'MarketPress',
+						'woocommerce' => 'WooCommerce',
 						'wpecommerce' => 'WP e-Commerce',
 					),
 					'forum' => array(
