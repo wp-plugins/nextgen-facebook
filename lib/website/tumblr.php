@@ -132,7 +132,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 
 			$post_id = 0;
 			if ( is_singular() || $use_post !== false ) {
-				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+				if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return false;
 				}

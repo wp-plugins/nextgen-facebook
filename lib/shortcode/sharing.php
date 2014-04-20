@@ -60,7 +60,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 
 		public function shortcode( $atts, $content = null ) { 
 			$atts = apply_filters( $this->p->cf['lca'].'_shortcode_'.$this->shortcode_tag, $atts, $content );
-			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+			if ( ( $obj = $this->p->util->get_post_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $content;
 			}

@@ -478,7 +478,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				return;
 
 			// get the current object / post type
-			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+			if ( ( $obj = $this->p->util->get_post_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return;
 			}
@@ -593,7 +593,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			}
 
 			// get the post id for the transient cache salt
-			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+			if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $text;
 			}
@@ -696,7 +696,7 @@ jQuery("#ngfb-sidebar").click( function(){
 		// add javascript for enabled buttons in content, widget, shortcode, etc.
 		public function get_js( $pos = 'header', $ids = array() ) {
 
-			if ( ( $obj = $this->p->util->get_the_object() ) === false ) {
+			if ( ( $obj = $this->p->util->get_post_object() ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return;
 			}

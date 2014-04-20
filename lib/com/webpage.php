@@ -89,7 +89,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$post_id = 0;
 
 			if ( is_singular() || $use_post !== false ) {
-				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+				if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $title;
 				}
@@ -210,7 +210,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$post_id = 0;
 
 			if ( is_singular() || $use_post !== false ) {
-				if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+				if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
 					$this->p->debug->log( 'exiting early: invalid object type' );
 					return $desc;
 				}
@@ -334,7 +334,7 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$this->p->debug->args( array( 'use_post' => $use_post, 'use_cache' => $use_cache ) );
 			$content = false;
 
-			if ( ( $obj = $this->p->util->get_the_object( $use_post ) ) === false ) {
+			if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
 				$this->p->debug->log( 'exiting early: invalid object type' );
 				return $content;
 			}
