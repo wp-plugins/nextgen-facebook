@@ -337,6 +337,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.4.6dev1 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added WooCommerce product tags to description hashtag lists (Pro version).
+	* Added WooCommerce product tags and categories to Twitter Product Card labels (Pro version).
+	* Added a new EDD addon for Easy Digital Downloads products (Pro version).
+
 = Version 7.4.5 =
 
 [See the complete Release Notes on Surnia Ulula](http://surniaulula.com/2014/04/16/wpsso-v2-4-5-and-ngfb-v7-4-5/)
