@@ -338,7 +338,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.4.6dev2 =
+= Version 7.4.6 =
 
 * Bugfixes
 	* *None*
