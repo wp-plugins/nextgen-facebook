@@ -27,7 +27,7 @@ if ( ! class_exists( 'NgfbSubmenuAbout' ) && class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_changelog', 'Changelog', array( &$this, 'show_metabox_changelog' ), $this->pagehook, 'normal' );
 
 			// these metabox ids should be closed by default
-			$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'description', 'changelog' ), 'closed' );
+			$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'description', 'changelog', 'rating' ), 'closed' );
 		}
 
 		public function show_metabox_description() {
