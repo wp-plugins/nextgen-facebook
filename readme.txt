@@ -289,10 +289,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 == Other Notes ==
 
 <ul>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/">About Pro Addons</a>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/">About Pro Addons</a>
 	<ul>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/jetpack-photon/">Jetpack Photon</a></li>
-		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/about-pro-addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/jetpack-photon/">Jetpack Photon</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/contact-information/">Contact Information and Feeds</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
