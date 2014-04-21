@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.9
-Stable Tag: 7.4.5
+Stable Tag: 7.4.6
 
 Improve the Appearance, Ranking, and Social Engagement of your social shares on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc.
 
@@ -341,6 +341,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = Version 7.4.6 =
 
+[See the complete Release Notes on Surnia Ulula](http://surniaulula.com/wpsso-v2-4-6-and-ngfb-v7-4-6/)
+
 * Bugfixes
 	* *None*
 * Enhancements
@@ -351,8 +353,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Renamed the SucomUtil class `get_the_object()` method to `get_post_object()`.
 
 = Version 7.4.5 =
-
-[See the complete Release Notes on Surnia Ulula](http://surniaulula.com/2014/04/16/wpsso-v2-4-5-and-ngfb-v7-4-5/)
 
 * Bugfixes
 	* Added a extra check for missing / corrupted metadata returned by `wp_get_attachment_metadata()` for original / full-size image dimensions.
@@ -426,6 +426,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
 == Upgrade Notice ==
+
+= 7.4.6 =
+
+Added support for the Easy Digital Downloads plugin (Pro version), and WooCommerce support has been improved with hashtags and new Twitter Product Card labels (Pro version).
 
 = 7.4.5 =
 
