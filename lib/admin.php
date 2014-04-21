@@ -269,15 +269,15 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 					array( &$this, 'show_metabox_purchase' ), $this->pagehook, 'side' );
 				add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_purchase', 
 					array( &$this, 'add_class_postbox_highlight_side' ) );
-				$this->p->user->reset_metabox_prefs( $this->pagehook, 
-					array( 'purchase' ), null, 'side', true );
+				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'purchase' ), null, 'side', true );
+				$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'rating' ), 'closed', 'side', true );
 			}
 
-			add_meta_box( $this->pagehook.'_rating', __( 'Help the WordPress Community', NGFB_TEXTDOM ), 
+			add_meta_box( $this->pagehook.'_rating', __( 'Help Other WordPress Users', NGFB_TEXTDOM ), 
 				array( &$this, 'show_metabox_rating' ), $this->pagehook, 'side' );
-
 			add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_rating', 
 				array( &$this, 'add_class_postbox_highlight_side' ) );
+			$this->p->user->reset_metabox_prefs( $this->pagehook, array( 'rating' ), 'closed', 'side' );
 
 			add_meta_box( $this->pagehook.'_info', __( 'Version Information', NGFB_TEXTDOM ), 
 				array( &$this, 'show_metabox_info' ), $this->pagehook, 'side' );
