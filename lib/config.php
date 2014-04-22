@@ -126,7 +126,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '275',		// increment when changing default options
+				'version' => '276',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -227,6 +227,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'add_meta_property_product:availability' => 1,
 					'add_meta_name_twitter:card' => 1,
 					'add_meta_name_twitter:creator' => 1,
+					'add_meta_name_twitter:domain' => 1,
 					'add_meta_name_twitter:site' => 1,
 					'add_meta_name_twitter:title' => 1,
 					'add_meta_name_twitter:description' => 1,
