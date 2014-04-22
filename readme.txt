@@ -38,6 +38,7 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * Customizable *multilingual* Site Title and (default) Description texts.
 * Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
+* Contextual help for every option and [comprehensive plugin documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
 
 <blockquote>
 <p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both extremely fast and reliable, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
@@ -54,7 +55,7 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * URL shortening (Bitly and Google) for URLs in Twitter shares.
 * Stylesheets editor for each social sharing button locations.
 * Options to include / exclude *multilingual* social sharing buttons on Posts, Page, and custom post types.
-* Integrates with 3rd party plugins and services for additional image, video, product, and content information:
+* Integrates with 3rd party plugins and services for additional image, video, product, and content information (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details):
 	* Plugins
 		* All in One SEO Pack
 		* bbPress
@@ -244,7 +245,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/buddypress-integration/">BuddyPress Integration</a></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/migrate-from-wpsso-to-ngfb-open-graph/">Migrate from WPSSO</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/migrate-from-wpsso/">Migrate from WPSSO</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
 </ul>
 
