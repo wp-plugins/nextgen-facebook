@@ -13,7 +13,7 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 == Description ==
 
 <blockquote>
-<p>NextGEN Facebook (NGFB) <strong>provides the information that social websites need</strong> to improve Google Search ranking and social engagement on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
+<p>NextGEN Facebook (NGFB) <strong>provides the information social websites need</strong> to improve Google Search ranking and social engagement on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
 </blockquote>
 
 = Quick List of Features =
@@ -38,10 +38,11 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * Customizable *multilingual* Site Title and (default) Description texts.
 * Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
 * Includes a default stylesheet for all social sharing button locations.
-* Contextual help for every plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
+* Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both extremely fast and reliable, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO uses 25% less code and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
+<p><strong>Don't need the sharing buttons?</strong></p>
+<p>Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, are both extremely fast and reliable, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
 </blockquote>
 
 **Pro / Power-User Version**
