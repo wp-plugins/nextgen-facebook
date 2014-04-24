@@ -92,6 +92,9 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 	* author
 	* description
 	* publisher
+* **Facebook Meta Tags**
+	* fb:admins
+	* fb:app_id
 * **Open Graph Meta Tags**
 	* article:author
 	* article:publisher
@@ -99,8 +102,6 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 	* article:modified_time
 	* article:section
 	* article:tag
-	* fb:admins
-	* fb:app_id
 	* og:description
 	* og:image
 	* og:image:secure_url
