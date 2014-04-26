@@ -343,7 +343,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.4.7dev1 =
+= Version 7.4.7dev2 =
 
 * Bugfixes
 	* Removed a warning in the Free version when Twitter Cards are enabled in WordPress SEO (the Free version does not provide Twitter Cards, so no conflict exists).
