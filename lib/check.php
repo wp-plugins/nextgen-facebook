@@ -45,7 +45,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( is_object( $wpseo_og ) && ( $prio = has_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ) ) ) )
 					$ret = remove_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ), $prio );
 
-				if ( ! empty( $this->p->options['tc_enable'] ) ) {
+				if ( ! empty( $this->p->options['tc_enable'] ) && $this->is_aop() ) {
 					global $wpseo_twitter;
 					if ( is_object( $wpseo_twitter ) && ( $prio = has_action( 'wpseo_head', array( $wpseo_twitter, 'twitter' ) ) ) )
 						$ret = remove_action( 'wpseo_head', array( $wpseo_twitter, 'twitter' ), $prio );
@@ -260,20 +260,23 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( ! empty( $opts['opengraph'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo opengraph meta data option is enabled' );
 					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
+						sprintf( __( 'Please uncheck the \'<em>Open Graph meta data</em>\' Facebook option in the '.
+							'<a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
-				if ( ! empty( $this->p->options['tc_enable'] ) && ! empty( $opts['twitter'] ) ) {
+				if ( ! empty( $this->p->options['tc_enable'] ) && $this->is_aop() && ! empty( $opts['twitter'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo twitter meta data option is enabled' );
 					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
+						sprintf( __( 'Please uncheck the \'<em>Twitter Card meta data</em>\' Twitter option in the '.
+							'<a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 
 				if ( ! empty( $this->p->options['link_publisher_url'] ) && ! empty( $opts['plus-publisher'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo google plus publisher option is defined' );
 					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please remove the \'<em>Google Publisher Page</em>\' value entered in the <a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
+						sprintf( __( 'Please remove the \'<em>Google Publisher Page</em>\' value entered in the '.
+							'<a href="%s">Yoast WordPress SEO plugin Social settings</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
 			}
@@ -285,7 +288,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					if ( array_key_exists( 'opengraph', $opts['modules'] ) && $opts['modules']['opengraph'] !== -10 ) {
 						$this->p->debug->log( $conflict_log_prefix.'seo ultimate opengraph module is enabled' );
 						$this->p->notice->err( $conflict_err_prefix.
-							sprintf( __( 'Please disable the \'<em>Open Graph Integrator</em>\' module in the <a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), 
+							sprintf( __( 'Please disable the \'<em>Open Graph Integrator</em>\' module in the '.
+								'<a href="%s">SEO Ultimate plugin Module Manager</a>.', NGFB_TEXTDOM ), 
 								get_admin_url( null, 'admin.php?page=seo' ) ) );
 					}
 				}
@@ -308,7 +312,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				$this->p->notice->err( $conflict_err_prefix.
 					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
 						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a>
-							(which includes support for JetPack Photon).', NGFB_TEXTDOM ), 
+							(which includes an addon to fix the crippled functions).', NGFB_TEXTDOM ), 
 						get_admin_url( null, 'admin.php?page=jetpack' ),
 						$this->p->cf['url']['purchase'],
 						$this->p->cf['full_pro'] ) );

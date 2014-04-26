@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbUtil' ) && class_exists( 'SucomUtil' ) ) {
 				$sharing_url = $this->p->util->get_sharing_url( $post_id );
 
 				$transients = array(
-					'NgfbHead::get_header_html' => array( 
+					'NgfbHead::get_header_array' => array( 
 						'lang:'.$lang.'_post:'.$post_id.'_url:'.$sharing_url,
 						'lang:'.$lang.'_post:'.$post_id.'_url:'.$sharing_url.'_crawler:pinterest',
 					),
