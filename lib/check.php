@@ -301,7 +301,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( array_key_exists( 'aiosp_google_disable_profile', $opts ) && empty( $opts['aiosp_google_disable_profile'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'aioseop google plus profile is enabled' );
 					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the <a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), 
+						sprintf( __( 'Please check the \'<em>Disable Google Plus Profile</em>\' option in the '.
+							'<a href="%s">All in One SEO Pack Plugin Options</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=all-in-one-seo-pack/aioseop_class.php' ) ) );
 				}
 			}
@@ -311,8 +312,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				$this->p->debug->log( $conflict_log_prefix.'jetpack photon is enabled' );
 				$this->p->notice->err( $conflict_err_prefix.
 					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
-						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a>
-							(which includes an addon to fix the crippled functions).', NGFB_TEXTDOM ), 
+						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a> '.
+							'(which includes an addon to fix the crippled functions).', NGFB_TEXTDOM ), 
 						get_admin_url( null, 'admin.php?page=jetpack' ),
 						$this->p->cf['url']['purchase'],
 						$this->p->cf['full_pro'] ) );
@@ -340,7 +341,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( empty( $opts['wordbooker_fb_disable_og'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wordbooker opengraph is enabled' );
 					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the <a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), 
+						sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the '.
+							'<a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
 				}
 			}
