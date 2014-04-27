@@ -95,7 +95,7 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 * **Facebook Meta Tags**
 	* fb:admins
 	* fb:app_id
-* **Open Graph Meta Tags**
+* **Open Graph / Rich Pin Meta Tags**
 	* article:author
 	* article:publisher
 	* article:published_time
