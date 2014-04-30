@@ -350,12 +350,16 @@ jQuery("#ngfb-sidebar").click( function(){
 					$this->p->opt->get_defaults( 'plugin_min_shorten' ).' characters).';
 					break;
 				case 'tooltip-plugin_bitly_login':
-					$text = 'The Bit.ly username for the following API key. If you don\'t already have one, see 
-					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.';
+					$text = 'The Bit.ly username for your API key. If you don\'t already have one, see 
+					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.
+					After setting your username and API key, you may select the Bit.ly shortener in the '.
+					$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
 					break;
 				case 'tooltip-plugin_bitly_api_key':
 					$text = 'The Bit.ly API key for this website. If you don\'t already have one, see 
-					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.';
+					<a href="https://bitly.com/a/your_api_key" target="_blank">Your Bit.ly API Key</a>.
+					After setting your username and API key, you may select the Bit.ly shortener in the '.
+					$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
 					break;
 				case 'tooltip-plugin_google_api_key':
 					$text = 'The Google BrowserKey for this website / project. If you don\'t already have one, visit
@@ -368,7 +372,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					URL Shortener API from <a href="https://cloud.google.com/console#/project" 
 					target="_blank">Google\'s Cloud Console</a>, under the API &amp; auth - APIs 
 					menu options. Confirm that you have enabled Google\'s URL Shortener by checking 
-					the \'Yes\' option here. You can then select the Google URL Shortener in the '.
+					the \'Yes\' option here. You can then select the Goo.gl shortener in the '.
 					$this->p->util->get_admin_url( 'sharing', 'Twitter settings' ).'.';
 					break;
 			}
