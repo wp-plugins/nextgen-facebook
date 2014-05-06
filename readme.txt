@@ -343,6 +343,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.4.8 =
+
+* Bugfixes
+	* Fixed the sharing URL of BuddyPress group pages by adding support for the `bp_get_canonical_url()` function (Pro version).
+* Enhancements
+	* *None*
+
 = Version 7.4.7 =
 
 [See the complete Release Notes on Surnia Ulula](http://surniaulula.com/wpsso-v2-4-7-and-ngfb-v7-4-7/)
@@ -443,6 +450,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
 == Upgrade Notice ==
+
+= 7.4.8 =
+
+Fixed the sharing URL of BuddyPress group pages by adding support for the bp_get_canonical_url() function (Pro version).
 
 = 7.4.7 =
 
