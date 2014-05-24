@@ -343,6 +343,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.4.9 =
+
+* Bugfixes
+	* Fixed the detection of an extra separator value in the title for non-compliant frameworks (that may add HTML to the title value).
+* Enhancements
+	* *None*
+
 = Version 7.4.8 =
 
 * Bugfixes
@@ -450,6 +457,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
 == Upgrade Notice ==
+
+= 7.4.9 =
+
+Fixed the detection of an extra separator value in the title for non-compliant frameworks.
 
 = 7.4.8 =
 
