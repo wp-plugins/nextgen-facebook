@@ -183,14 +183,15 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 				if ( empty( $atts['caption'] ) && ! empty( $post ) && $use_post == true ) 
 					$atts['caption'] = $this->p->addons['util']['postmeta']->get_options( $post_id, 
 						( ! empty( $atts['photo'] ) ? 'tumblr_img_desc' : 'tumblr_vid_desc' ) );
+				// html encode param is false to use url encoding instead
 				if ( empty( $atts['caption'] ) ) 
-					$atts['caption'] = $this->p->webpage->get_caption( $opts['tumblr_caption'], 
-						$opts['tumblr_cap_len'], $use_post );
+					$atts['caption'] = $this->p->webpage->get_caption( $opts['tumblr_caption'], $opts['tumblr_cap_len'], $use_post, true, true, false );
 			} else {
 				if ( empty( $atts['title'] ) ) 
 					$atts['title'] = $this->p->webpage->get_title( null, null, $use_post);
+				// html encode param is false to use url encoding instead
 				if ( empty( $atts['description'] ) ) 
-					$atts['description'] = $this->p->webpage->get_description( $opts['tumblr_desc_len'], '...', $use_post );
+					$atts['description'] = $this->p->webpage->get_description( $opts['tumblr_desc_len'], '...', $use_post, true, true, false );
 			}
 
 			// define the button, based on what we have

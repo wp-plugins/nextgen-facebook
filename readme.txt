@@ -343,6 +343,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.4.10 =
+
+* Bugfixes
+	* Fixed the Pinterest and Tumblr double encoded caption and description values in the sharing button URLs.
+* Enhancements
+	* Added an $encode parameter to the SucomWebpage class get_caption(), get_title(), and get_description() methods.
+
 = Version 7.4.9 =
 
 * Bugfixes
@@ -358,8 +365,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* *None*
 
 = Version 7.4.7 =
-
-[See the complete Release Notes on Surnia Ulula](http://surniaulula.com/wpsso-v2-4-7-and-ngfb-v7-4-7/)
 
 * Bugfixes
 	* Fixed CSS for the Custom Settings metabox to re-enable on hover highlight for the 'Header Tags Preview' tab. 
@@ -457,6 +462,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Increased the default object cache expiry value from 3600 to 7200 seconds.
 
 == Upgrade Notice ==
+
+= Version 7.4.10 =
+
+Fixed the Pinterest and Tumblr double-encoded values in the sharing button URLs, added an $encode parameter to three SucomWebpage class methods.
 
 = 7.4.9 =
 

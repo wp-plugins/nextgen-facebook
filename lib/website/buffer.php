@@ -165,7 +165,7 @@ if ( ! class_exists( 'NgfbSharingBuffer' ) ) {
 			$html .= '<a href="'.$prot.'//bufferapp.com/add" class="buffer-add-button" ';
 			$html .= 'data-url="'.$atts['url'].'" ';
 			$html .= empty( $atts['photo'] ) ? '' : 'data-picture="'.$atts['photo'].'" ';
-			$html .= empty( $atts['caption'] ) ? '' : 'data-text="'.$atts['caption'].'" ';
+			$html .= empty( $atts['caption'] ) ? '' : 'data-text="'.$atts['caption'].'" ';	// html encoded
 			$html .= empty( $atts['vis'] ) ? '' : 'data-via="'.$atts['via'].'" ';
 			$html .= 'data-count="'.$opts['buffer_count'].'"></a></div>';
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
