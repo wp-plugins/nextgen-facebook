@@ -181,8 +181,9 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 			$html .= 'data-url="'.$short_url.'" data-counturl="'.$long_url.'" data-text="'.$atts['caption'].'" ';
 			$html .= 'data-via="'.$atts['via'].'" data-related="'.$atts['related'].'" data-hashtags="'.$atts['hashtags'].'" ';
 			$html .= 'data-count="'.$opts['twitter_count'].'" data-size="'.$opts['twitter_size'].'" data-dnt="'.$atts['dnt'].'"></a></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 		
 		public function get_js( $pos = 'id' ) {
@@ -190,7 +191,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$js_url = $this->p->util->get_cache_url( $prot.'//platform.twitter.com/widgets.js' );
 
-			return '<script type="text/javascript" id="twitter-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "twitter-script-'.$pos.'", "'.$js_url.'" );</script>';
+			return '<script type="text/javascript" id="twitter-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "twitter-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 		}
 	}
 }

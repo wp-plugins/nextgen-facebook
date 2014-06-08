@@ -237,10 +237,9 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Installation ==
 
-= Installation and Setup =
+= Install and Uninstall =
 
 <ul>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/">A Setup Guide</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/install-the-plugin/">Install the Plugin</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/">Integration Notes</a>
 	<ul>
@@ -248,6 +247,12 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/migrate-from-wpsso/">Migrate from WPSSO</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
+</ul>
+
+= Setup =
+
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/">A Setup Guide</a></li>
 </ul>
 
 == Frequently Asked Questions ==

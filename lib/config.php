@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.4.10',		// plugin version
+			'version' => '7.5.0dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -126,7 +126,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '278',		// increment when changing default options
+				'version' => '279',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -272,6 +272,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_wistia_api' => 1,
 					'plugin_youtube_api' => 1,
 					'plugin_cf_vid_url' => '_format_video_embed',
+					'plugin_add_to_user' => 1,
 					'plugin_add_to_post' => 1,
 					'plugin_add_to_page' => 1,
 					'plugin_add_to_attachment' => 1,

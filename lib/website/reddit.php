@@ -71,6 +71,7 @@ if ( ! class_exists( 'NgfbSharingReddit' ) ) {
 		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'reddit', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -85,25 +86,24 @@ if ( ! class_exists( 'NgfbSharingReddit' ) ) {
 
 			switch ( $opts['reddit_type'] ) {
 				case 'static-wide':
-					$script_src = 'http://www.reddit.com/static/button/button1.js';
+					$script_src = $prot.'//www.reddit.com/static/button/button1.js';
 					break;
 				case 'static-tall-text':
-					$script_src = 'http://www.reddit.com/static/button/button2.js';
+					$script_src = $prot.'//www.reddit.com/static/button/button2.js';
 					break;
 				case 'static-tall-logo':
-					$script_src = 'http://www.reddit.com/static/button/button3.js';
+					$script_src = $prot.'//www.reddit.com/static/button/button3.js';
 					break;
 			}
 			$script_src = $this->p->util->get_cache_url( $script_src );
 
 			$html = '<!-- Reddit Button -->';
-			$html .= '<script type="text/javascript">reddit_url=\''.$atts['url'].'\';reddit_title=\''.$atts['title'].'\';</script>';
+			$html .= '<script type="text/javascript">reddit_url=\''.$atts['url'].'\'; reddit_title=\''.$atts['title'].'\';</script>';
 			$html .= '<div '.$this->p->sharing->get_css( 'reddit', $atts ).'>';
 			$html .= '<script type="text/javascript" src="'.$script_src.'"></script></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-
-			return $html;
+			return $html."\n";
 		}
 	}
 }
