@@ -511,4 +511,3 @@ Fixed a potential issue with updating filter hooks, added a new Buffer sharing b
 = 7.4.0 =
 
 Fixed the 'twitter:title' value in admin interface, fixed missing Default Image use for Twitter Cards, added new default video options, added license use status (Pro version).
-
