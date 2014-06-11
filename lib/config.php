@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.0dev1',		// plugin version
+			'version' => '7.5.0dev2',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -68,6 +68,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
 						'postmeta' => 'Custom Post Meta',
+						'user' => 'Custom User Meta',
 					),
 					'forum' => array(
 						'bbpress' => 'bbPress',
@@ -77,6 +78,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					),
 					'util' => array(
 						'postmeta' => 'Custom Post Meta',
+						'user' => 'Custom User Meta',
 					),
 				),
 				'pro' => array(
@@ -87,6 +89,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
 						'postmeta' => 'Custom Post Meta',
+						'user' => 'Custom User Meta',
 					),
 					'ecom' => array(
 						'edd' => 'Easy Digital Downloads',
@@ -122,6 +125,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'language' => 'Publisher Language',
 						'shorten' => 'URL Shortener',
 						'postmeta' => 'Custom Post Meta',
+						'user' => 'Custom User Meta',
 					),
 				),
 			),
@@ -486,8 +490,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			require_once( $plugin_dir.'lib/check.php' );
 			require_once( $plugin_dir.'lib/util.php' );
 			require_once( $plugin_dir.'lib/options.php' );
-			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/postmeta.php' );
+			require_once( $plugin_dir.'lib/user.php' );
 			require_once( $plugin_dir.'lib/media.php' );
 			require_once( $plugin_dir.'lib/head.php' );
 

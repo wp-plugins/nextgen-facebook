@@ -201,7 +201,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'admin-general':
 						case 'admin-advanced':
 						case 'admin-postmeta':
+						case 'admin-user':
 						case 'util-postmeta':
+						case 'util-user':
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 							break;
 						case 'util-language':
