@@ -237,6 +237,8 @@ if ( ! class_exists( 'SucomWebpage' ) ) {
 			$desc = false;
 			$hashtags = '';
 			$post_id = 0;
+			$screen = '';
+			$page = ''; 
 
 			if ( is_singular() || $use_post !== false ) {
 				if ( ( $obj = $this->p->util->get_post_object( $use_post ) ) === false ) {
