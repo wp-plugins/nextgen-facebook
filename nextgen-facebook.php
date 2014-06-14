@@ -9,7 +9,7 @@
  * Description: Improve the Appearance, Ranking, and Social Engagement of your social shares on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc.
  * Requires At Least: 3.0
  * Tested Up To: 3.9.1
- * Version: 7.4.10
+ * Version: 7.5.0rc2
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -39,7 +39,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $sharing;		// NgfbSharing (wp_head and wp_footer js and buttons)
 		public $style;			// SucomStyle (admin styles)
 		public $update;			// SucomUpdate
-		public $user;			// NgfbUser (contact methods and metabox prefs)
 		public $util;			// NgfbUtil (extends SucomUtil)
 		public $webpage;		// SucomWebpage (title, desc, etc., plus shortcodes)
 
@@ -155,7 +154,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->style = new SucomStyle( $this );			// admin styles
 			$this->script = new SucomScript( $this );		// admin jquery tooltips
 			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
-			$this->user = new NgfbUser( $this );			// contact methods and metabox prefs
 			$this->media = new NgfbMedia( $this );			// images, videos, etc.
 			$this->head = new NgfbHead( $this );			// open graph and twitter card meta tags
 
@@ -217,8 +215,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			 * configure class properties based on plugin settings
 			 */
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
-			if ( ! empty( $this->options['plugin_file_cache_hrs'] ) ) {
-				if ( $this->debug->is_on( 'wp' ) === true ) 
+			if ( ! empty( $this->options['plugin_file_cache_hrs'] ) && $this->check->is_aop() ) {
+				if ( $this->debug->is_on( 'wp' ) === true )
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;	// reduce to 300 seconds
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
 			} else $this->cache->file_expire = 0;	// just in case

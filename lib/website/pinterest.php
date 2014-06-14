@@ -201,7 +201,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 			'<img border="0" alt="Pin It" src="'.$pin_img_url.'" width="'.$pin_img_width.'" height="'.$pin_img_height.'" /></a></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 
 		public function get_js( $pos = 'id' ) {
@@ -209,7 +209,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$js_url = $this->p->util->get_cache_url( $prot.'//assets.pinterest.com/js/pinit.js' );
 
-			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$js_url.'" );</script>';
+			return '<script type="text/javascript" id="pinterest-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "pinterest-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 		}
 	}
 }

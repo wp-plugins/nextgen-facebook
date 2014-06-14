@@ -95,8 +95,9 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) ) {
 			$html .= empty( $opts['linkedin_counter'] ) ? '' : ' data-counter="'.$opts['linkedin_counter'].'"';
 			$html .= empty( $opts['linkedin_showzero'] ) ? '' : ' data-showzero="true"';
 			$html .= '></script></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 		
 		public function get_js( $pos = 'id' ) {
@@ -104,7 +105,7 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$js_url = $this->p->util->get_cache_url( $prot.'//platform.linkedin.com/in.js' );
 
-			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$js_url.'" );</script>';
+			return  '<script type="text/javascript" id="linkedin-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "linkedin-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 		}
 	}
 }

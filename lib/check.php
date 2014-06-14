@@ -179,6 +179,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'head-twittercard':
 							$chk['optval'] = 'tc_enable';
 							break;
+						case 'media-gravatar':
+							$chk['optval'] = 'plugin_gravatar_api';
+							break;
 						case 'media-slideshare':
 							$chk['optval'] = 'plugin_slideshare_api';
 							break;
@@ -201,7 +204,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'admin-general':
 						case 'admin-advanced':
 						case 'admin-postmeta':
+						case 'admin-user':
 						case 'util-postmeta':
+						case 'util-user':
 							$ret[$sub]['*'] = $ret[$sub][$id] = true;
 							break;
 						case 'util-language':

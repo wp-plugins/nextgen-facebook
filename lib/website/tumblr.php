@@ -216,17 +216,19 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 			$html = '<!-- Tumblr Button --><div '.$this->p->sharing->get_css( 'tumblr', $atts ).'>';
 			$html .= '<a href="http://www.tumblr.com/share/'. $query.'" title="Share on Tumblr">';
 			$html .= '<img border="0" alt="Share on Tumblr" src="'.
-				$this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/'.$opts['tumblr_button_style'].'.png' ).'" /></a></div>';
+				$this->p->util->get_cache_url( $prot.'//platform.tumblr.com/v1/'.$opts['tumblr_button_style'].'.png' ).'" /></a></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 
 		// the tumblr host does not have a valid SSL cert, and it's javascript does not work in async mode
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
-			$js_url = $this->p->util->get_cache_url( 'http://platform.tumblr.com/v1/share.js' );
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
+			$js_url = $this->p->util->get_cache_url( $prot.'//platform.tumblr.com/v1/share.js' );
 
-			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$js_url.'"></script>';
+			return '<script type="text/javascript" id="tumblr-script-'.$pos.'" src="'.$js_url.'"></script>'."\n";
 		}
 	}
 }

@@ -221,8 +221,9 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) ) {
 					$atts['url'].'" font="'.$opts['fb_font'].'" type="'.$opts['fb_type'].'"></fb:share-button></div>';
 					break;
 			}
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 		
 		public function get_js( $pos = 'id' ) {
@@ -234,7 +235,7 @@ if ( ! class_exists( 'NgfbSharingFacebook' ) ) {
 			$js_url = $this->p->util->get_cache_url( $prot.'//connect.facebook.net/'.$lang.'/all.js#xfbml=1&appId='.$app_id );
 
 			$html = '<script type="text/javascript" id="fb-script-'.$pos.'">'.
-			$this->p->cf['lca'].'_insert_js( "fb-script-'.$pos.'", "'.$js_url.'" );</script>';
+			$this->p->cf['lca'].'_insert_js( "fb-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 			return $html;
 		}
 	}

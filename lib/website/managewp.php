@@ -70,6 +70,7 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) ) {
 		public function get_html( $atts = array(), &$opts = array() ) {
 			if ( empty( $opts ) ) 
 				$opts =& $this->p->options;
+			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$use_post = array_key_exists( 'use_post', $atts ) ? $atts['use_post'] : true;
 			$source_id = $this->p->util->get_source_id( 'managewp', $atts );
 			$atts['add_page'] = array_key_exists( 'add_page', $atts ) ? $atts['add_page'] : true;	// get_sharing_url argument
@@ -82,7 +83,7 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) ) {
 			if ( empty( $atts['title'] ) ) 
 				$atts['title'] = $this->p->webpage->get_title( null, null, $use_post);
 
-			$script_src = $this->p->util->get_cache_url( 'http://managewp.org/share.js' ).'#http://managewp.org/share';
+			$script_src = $this->p->util->get_cache_url( $prot.'//managewp.org/share.js' ).'#'.$prot.'//managewp.org/share';
 
 			$html = '<!-- ManageWP Button --><div '.$this->p->sharing->get_css( 'managewp', $atts ).'>';
 			$html .= '<script type="text/javascript" src="'.$script_src.'" data-url="'.$atts['url'].'" data-title="'.$atts['title'].'"';
@@ -90,8 +91,7 @@ if ( ! class_exists( 'NgfbSharingManagewp' ) ) {
 			$html .= '></script></div>';
 
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-
-			return $html;
+			return $html."\n";
 		}
 	}
 }

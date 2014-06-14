@@ -304,7 +304,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			switch ( $idx ) {
 				case 'tooltip-side-sharing-buttons':
 					$text = 'Social sharing features include the '.$this->p->cf['menu'].' '.$this->p->util->get_admin_url( 'sharing', 'Buttons' ).
-					' and '.$this->p->util->get_admin_url( 'style', 'Styles' ).' settings pages, the Custom Settings Sharing Buttons tab on Post 
+					' and '.$this->p->util->get_admin_url( 'style', 'Styles' ).' settings pages, the Social Settings -&gt; Sharing Buttons tab on Post 
 					or Page editing pages, along with the social sharing shortcode and widget. All social sharing features can be disabled using one of 
 					the available PHP <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constants</a>.';
 					break;
@@ -693,7 +693,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					$html .= $this->website[$id]->get_html( $atts, $custom_opts );
 			}
 			if ( ! empty( $html ) ) 
-				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'.$html.'</div>';
+				$html = '<div class="'.$this->p->cf['lca'].'-buttons">'."\n".$html.'</div>';
 			return $html;
 		}
 
@@ -756,7 +756,7 @@ jQuery("#ngfb-sidebar").click( function(){
 
 			natsort( $ids );
 			$ids = array_unique( $ids );
-			$js = '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript begin -->';
+			$js = '<!-- '.$this->p->cf['lca'].' '.$pos.' javascript begin -->'."\n";
 
 			if ( strpos( $pos, '-header' ) ) 
 				$js_loc = 'header';

@@ -168,15 +168,16 @@ if ( ! class_exists( 'NgfbSharingBuffer' ) ) {
 			$html .= empty( $atts['caption'] ) ? '' : 'data-text="'.$atts['caption'].'" ';	// html encoded
 			$html .= empty( $atts['vis'] ) ? '' : 'data-via="'.$atts['via'].'" ';
 			$html .= 'data-count="'.$opts['buffer_count'].'"></a></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 		
 		public function get_js( $pos = 'id' ) {
 			$this->p->debug->mark();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$js_url = $this->p->util->get_cache_url( $prot.'//d389zggrogs7qo.cloudfront.net/js/button.js' );
-			return '<script type="text/javascript" id="buffer-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "buffer-script-'.$pos.'", "'.$js_url.'" );</script>';
+			return '<script type="text/javascript" id="buffer-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "buffer-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 		}
 	}
 }

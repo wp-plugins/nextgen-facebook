@@ -118,8 +118,9 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) ) {
 
 			$html = '<!-- StumbleUpon Button --><div '.$this->p->sharing->get_css( 'stumbleupon', $atts, 'stumble-button' ).'>';
 			$html .= '<su:badge layout="'.$opts['stumble_badge'].'" location="'.$atts['url'].'"></su:badge></div>';
+
 			$this->p->debug->log( 'returning html ('.strlen( $html ).' chars)' );
-			return $html;
+			return $html."\n";
 		}
 
 		public function get_js( $pos = 'id' ) {
@@ -127,7 +128,7 @@ if ( ! class_exists( 'NgfbSharingStumbleupon' ) ) {
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$js_url = $this->p->util->get_cache_url( $prot.'//platform.stumbleupon.com/1/widgets.js' );
 
-			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$js_url.'" );</script>';
+			return '<script type="text/javascript" id="stumbleupon-script-'.$pos.'">'.$this->p->cf['lca'].'_insert_js( "stumbleupon-script-'.$pos.'", "'.$js_url.'" );</script>'."\n";
 		}
 	}
 }
