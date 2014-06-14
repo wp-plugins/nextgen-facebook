@@ -9,7 +9,7 @@
  * Description: Improve the Appearance, Ranking, and Social Engagement of your social shares on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc.
  * Requires At Least: 3.0
  * Tested Up To: 3.9.1
- * Version: 7.5.0dev2
+ * Version: 7.5.0rc1
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -215,8 +215,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			 * configure class properties based on plugin settings
 			 */
 			$this->cache->object_expire = $this->options['plugin_object_cache_exp'];
-			if ( ! empty( $this->options['plugin_file_cache_hrs'] ) ) {
-				if ( $this->debug->is_on( 'wp' ) === true ) 
+			if ( ! empty( $this->options['plugin_file_cache_hrs'] ) && $this->check->is_aop() ) {
+				if ( $this->debug->is_on( 'wp' ) === true )
 					$this->cache->file_expire = NGFB_DEBUG_FILE_EXP;	// reduce to 300 seconds
 				else $this->cache->file_expire = $this->options['plugin_file_cache_hrs'] * 60 * 60;
 			} else $this->cache->file_expire = 0;	// just in case

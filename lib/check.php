@@ -179,6 +179,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						case 'head-twittercard':
 							$chk['optval'] = 'tc_enable';
 							break;
+						case 'media-gravatar':
+							$chk['optval'] = 'plugin_gravatar_api';
+							break;
 						case 'media-slideshare':
 							$chk['optval'] = 'plugin_slideshare_api';
 							break;
