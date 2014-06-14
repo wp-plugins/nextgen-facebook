@@ -11,6 +11,12 @@ if ( ! defined( 'ABSPATH' ) )
 if ( ! class_exists( 'NgfbUtilPostmeta' ) && class_exists( 'NgfbPostmeta' ) ) {
 
 	class NgfbUtilPostmeta extends NgfbPostmeta {
+
+		public function __construct( &$plugin ) {
+			$this->p =& $plugin;
+			$this->p->debug->mark();
+			$this->add_actions();
+		}
 	}
 }
 
