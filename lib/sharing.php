@@ -318,7 +318,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					addition of the stylesheet from the '.$this->p->util->get_admin_url( 'style', 'Styles' ).' settings page.';
 					break;
 				case 'tooltip-side-sharing-widget':
-					$text = 'The social sharing widget feature adds a \'NGFB Sharing Buttons\' widget in the WordPress Appearance - Widgets page.
+					$text = 'The social sharing widget feature adds a \'Sharing Buttons\' widget in the WordPress Appearance - Widgets page.
 					The widget can be used in any number of widget areas, to share the current webpage. The widget, along with all social
 					sharing featured, can be disabled using an available 
 					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
@@ -490,7 +490,7 @@ jQuery("#ngfb-sidebar").click( function(){
 
 			if ( ! empty( $this->p->options[ 'buttons_add_to_'.$post_type->name ] ) ) {
 				// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-				add_meta_box( '_'.$this->p->cf['lca'].'_share', $this->p->cf['menu'].' Sharing Buttons', 
+				add_meta_box( '_'.$this->p->cf['lca'].'_share', 'Sharing Buttons', 
 					array( &$this, 'show_admin_sharing' ), $post_type->name, 'side', 'high' );
 			}
 		}
