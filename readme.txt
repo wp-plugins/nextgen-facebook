@@ -14,7 +14,9 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 
 <blockquote>
 <p>NextGEN Facebook (NGFB) <strong>provides the information social websites need</strong> to improve Google Search ranking and social engagement on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
+</blockquote>
 
+<blockquote>
 <p><u>HTML meta tags provide information about your content, not the sharing buttons</u>. <strong>Make sure social websites present your content in the best possible way, no matter <em>how</em> your webpage is shared</strong> &mdash; from sharing buttons on the webpage, browser add-ons and extensions, or URLs pasted directly on social websites.</p>
 </blockquote>
 
