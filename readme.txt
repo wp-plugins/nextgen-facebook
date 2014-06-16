@@ -14,6 +14,8 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 
 <blockquote>
 <p>NextGEN Facebook (NGFB) <strong>provides the information social websites need</strong> to improve Google Search ranking and social engagement on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more</strong> &mdash; along with offering many of the most popular social sharing buttons!</p>
+
+<p><u>HTML meta tags provide information about your content, not the sharing buttons</u>. <strong>Make sure social websites present your content in the best possible way, no matter <em>how</em> your webpage is shared</strong> &mdash; from sharing buttons on the webpage, browser add-ons and extensions, or URLs pasted directly on social websites.</p>
 </blockquote>
 
 = Quick List of Features =
@@ -36,7 +38,17 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * Provides Facebook, Google+ and Twitter URL profile contact fields.
 * Validation tools and special meta tag preview tabs on admin edit pages.
 * Customizable *multilingual* Site Title and (default) Description texts.
-* Provides social sharing buttons for the content, excerpt, widget, shortcode, floating sidebar, and/or PHP function.
+* Social sharing buttons for the content, excerpt, in a widget, as a shortcode, floating sidebar, and/or PHP function.
+	* Buffer
+	* Facebook
+	* Google+
+	* LinkedIn
+	* ManageWP
+	* Pinterest
+	* Reddit
+	* StumbleUpon
+	* Tumblr
+	* Twitter
 * Includes a default stylesheet for all social sharing button locations.
 * Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
 
