@@ -38,6 +38,8 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 * Provides Facebook, Google+ and Twitter URL profile contact fields.
 * Validation tools and special meta tag preview tabs on admin edit pages.
 * Customizable *multilingual* Site Title and (default) Description texts.
+* Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
+* Default stylesheets for each social sharing button location.
 * Social sharing buttons for the content, excerpt, in a widget, as a shortcode, floating sidebar, and/or PHP function.
 	* Buffer
 	* Facebook
@@ -49,8 +51,6 @@ Improve the Appearance, Ranking, and Social Engagement of your social shares on 
 	* StumbleUpon
 	* Tumblr
 	* Twitter
-* Includes a default stylesheet for all social sharing button locations.
-* Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
 
 <blockquote>
 <p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons.</p>
