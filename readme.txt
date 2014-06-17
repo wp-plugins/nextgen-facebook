@@ -311,6 +311,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 <ul>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/">About Pro Addons</a>
 	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/author-gravatar/">Author Gravatar</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/easy-digital-downloads/">Easy Digital Downloads</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/jetpack-photon/">Jetpack Photon</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
