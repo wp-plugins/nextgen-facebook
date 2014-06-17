@@ -55,7 +55,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 						'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->form->get_select( 'tumblr_js_loc', $this->js_locations ).'</td>',
+				$this->form->get_select( 'tumblr_js_loc', $this->p->cf['form']['js_locations'] ).'</td>',
 
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons_html.'</td>',
 
@@ -68,7 +68,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 				'Crop '.$this->form->get_checkbox( 'tumblr_img_crop' ).'</td>',
 
 				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
-				$this->form->get_select( 'tumblr_caption', $this->captions ).'</td>',
+				$this->form->get_select( 'tumblr_caption', $this->p->cf['form']['caption_types'] ).'</td>',
 
 				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
 				$this->form->get_input( 'tumblr_cap_len', 'short' ).' characters or less</td>',

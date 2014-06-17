@@ -29,7 +29,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingBuffer' ) && class_exists( 'NgfbSubmenuS
 					'short' ).'</td>';
 
 			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-			$this->form->get_select( 'buffer_js_loc', $this->js_locations ).'</td>';
+			$this->form->get_select( 'buffer_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Count Position', 'short' ).'<td>'.
 			$this->form->get_select( 'buffer_count', array( 'none' => '', 
@@ -41,7 +41,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingBuffer' ) && class_exists( 'NgfbSubmenuS
 			'Crop '.$this->form->get_checkbox( 'buffer_img_crop' ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Tweet Text Source', 'short' ).'<td>'.
-			$this->form->get_select( 'buffer_caption', $this->captions ).'</td>';
+			$this->form->get_select( 'buffer_caption', $this->p->cf['form']['caption_types'] ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Tweet Text Length', 'short' ).'<td>'.
 			$this->form->get_input( 'buffer_cap_len', 'short' ).' characters or less</td>';

@@ -68,7 +68,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 						'short' ).'</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->form->get_select( 'stumble_js_loc', $this->js_locations ).'</td>',
+				$this->form->get_select( 'stumble_js_loc', $this->p->cf['form']['js_locations'] ).'</td>',
 
 				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge_html.'</td>',
 			);

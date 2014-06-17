@@ -32,7 +32,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_js_loc', $this->js_locations ) . '</td>',
+				$this->form->get_select( 'linkedin_js_loc', $this->p->cf['form']['js_locations'] ) . '</td>',
 
 				$this->p->util->th( 'Counter Mode', 'short' ) . '<td>' . 
 				$this->form->get_select( 'linkedin_counter', 

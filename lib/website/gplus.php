@@ -28,7 +28,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSh
 						'short' ) . '</td>',
 
 				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_js_loc', $this->js_locations ) . '</td>',
+				$this->form->get_select( 'gp_js_loc', $this->p->cf['form']['js_locations'] ) . '</td>',
 
 				$this->p->util->th( 'Default Language', 'short' ) . '<td>' . 
 				$this->form->get_select( 'gp_lang', SucomUtil::get_pub_lang( 'gplus' ) ) . '</td>',

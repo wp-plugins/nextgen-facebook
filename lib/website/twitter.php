@@ -29,7 +29,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 					'short' ).'</td>';
 
 			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-			$this->form->get_select( 'twitter_js_loc', $this->js_locations ).'</td>';
+			$this->form->get_select( 'twitter_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_lang', SucomUtil::get_pub_lang( 'twitter' ) ).'</td>';
@@ -42,7 +42,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$this->form->get_select( 'twitter_size', array( 'medium' => 'Medium', 'large' => 'Large' ) ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Tweet Text Source', 'short' ).'<td>'.
-			$this->form->get_select( 'twitter_caption', $this->captions ).'</td>';
+			$this->form->get_select( 'twitter_caption', $this->p->cf['form']['caption_types'] ).'</td>';
 
 			$rows[] = $this->p->util->th( 'Tweet Text Length', 'short' ).'<td>'.
 			$this->form->get_input( 'twitter_cap_len', 'short' ).' characters or less</td>';
