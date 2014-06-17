@@ -167,7 +167,9 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 
 			$query = 'url='.urlencode( $atts['url'] );
 			$query .= '&amp;media='.urlencode( $atts['photo'] );
-			$query .= '&amp;description='.urlencode( $atts['caption'] );
+
+			// use rawurlencode() for for mobile devices (encodes a space as '%20' instead of '+')
+			$query .= '&amp;description='.rawurlencode( $atts['caption'] );
 
 			switch ( $opts['pin_button_shape'] ) {
 				case 'rect':
