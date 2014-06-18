@@ -362,12 +362,12 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.5.1dev1 =
+= Version 7.5.1 =
 
 * Bugfixes
 	* Changed the urlencode() call to rawurlencode() to remove the '+' character from Pinterest descriptions on mobile devices.
 * Enhancements
-	* Added the 'JavaScript in: [none]' option value for social button settings, allowing a button to be active, but not include / source its JavaScript.
+	* Added the 'JavaScript in: [none]' option value for social button settings, allowing a button to be active, but not include its JavaScript.
 
 = Version 7.5.0 =
 
