@@ -28,7 +28,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingManagewp' ) && class_exists( 'NgfbSubmen
 						'short' ) . '</td>',
 
 				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'managewp_counter', 
+				$this->form->get_select( 'managewp_type', 
 					array( 
 						'small' => 'Small',
 						'big' => 'Big',

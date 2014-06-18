@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.1dev1',		// plugin version
+			'version' => '7.5.1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -136,7 +136,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'options_filtered' => false,
 					'options_version' => '',
 					'seo_desc_len' => 156,			// meta name="description" maximum text length
-					'seo_author_name' => '',		// meta name="author" format
+					'seo_author_name' => 'none',		// meta name="author" format
 					'seo_def_author_id' => 0,
 					'seo_def_author_on_index' => 0,
 					'seo_def_author_on_search' => 0,
@@ -148,7 +148,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_site_name' => '',
 					'og_site_description' => '',
 					'og_publisher_url' => '',
-					'og_art_section' => '',
+					'og_art_section' => 'none',
 					'og_img_width' => 800,
 					'og_img_height' => 800,
 					'og_img_crop' => 1,
@@ -205,16 +205,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tc_prod_crop' => 1,			// prefers square product images
 					'tc_prod_def_l2' => 'Location',
 					'tc_prod_def_d2' => 'Unknown',
-					// product data/label value priorities
-					'tc_prod_prio_price' => '10',
-					'tc_prod_prio_meta' => '20',
-					'tc_prod_prio_bundled' => '30',
-					'tc_prod_prio_dimensions' => '40',
-					'tc_prod_prio_weight' => '50',
-					'tc_prod_prio_attribute' => '60',
-					'tc_prod_prio_categories' => '70',
-					'tc_prod_prio_tags' => '80',
-					'tc_prod_prio_default' => '90',
 					// enable/disable header html tags
 					'add_link_rel_author' => 1,
 					'add_link_rel_publisher' => 1,

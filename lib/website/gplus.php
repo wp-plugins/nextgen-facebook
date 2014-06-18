@@ -89,7 +89,7 @@ if ( ! class_exists( 'NgfbSharingGplus' ) ) {
 					'gp_action' => 'plusone',
 					'gp_size' => 'medium',
 					'gp_annotation' => 'bubble',
-					'gp_expandto' => '',
+					'gp_expandto' => 'none',
 				),
 			),
 		);
