@@ -186,10 +186,11 @@ NGFB (Pro version) supports [bbPress](http://wordpress.org/plugins/bbpress/) and
 
 NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](http://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](http://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even a function call from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
-* **Facebook** Like, Send, Share
+* **Buffer**
+* **Facebook** (Like, Send, and Share)
 * **Google+**
 * **LinkedIn**
-* **ManageWP.org**
+* **ManageWP**
 * **Pinterest**
 * **StumbleUpon**
 * **Tumblr** (Links, Quotes, Images, Videos)
