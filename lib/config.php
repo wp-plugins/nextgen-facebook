@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.1',		// plugin version
+			'version' => '7.5.2dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -33,9 +33,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'submenu' => array (
 					'general' => 'General',
 					'advanced' => 'Advanced',
-					'about' => 'About',
 					'sharing' => 'Buttons',
 					'style' => 'Styles',
+					'readme' => 'Read Me',
+					'setup' => 'Setup Guide',
 				),
 				'sitesubmenu' => array(
 					'network' => 'Network',
@@ -355,8 +356,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'url' => array(
-				'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook',
+				'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',
 				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
+				'setup' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/setup.html',
 				'changelog' => 'http://wordpress.org/plugins/nextgen-facebook/changelog/',
 				'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 				'codex' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/',
