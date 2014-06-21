@@ -511,6 +511,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.5.1 =
+
+Fixed description text for Pinterest button on mobile, added an option to disable share button JavaScripts.
+
 = 7.5.0 =
 
 Added a new 'Social Settings' metabox to the user profile page, and added support for author Gravatar images (Pro version).
