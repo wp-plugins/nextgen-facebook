@@ -362,7 +362,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',
 				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
 				'setup' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/setup.html',
-				'whatsnew' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/whatsnew.html',
 				'changelog' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/changelog/',
 				'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 				'codex' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/',
