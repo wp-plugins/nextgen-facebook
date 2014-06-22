@@ -370,6 +370,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * Enhancements
 	* Renamed the 'About' settings page to 'Read Me'.
 	* Added a new 'Setup Guide' settings page with [configuration hints and suggestions](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/).
+	* Added a new 'Welcome' dashboard page, displayed only once, when the plugin or options are updated.
 
 = Version 7.5.1 =
 
