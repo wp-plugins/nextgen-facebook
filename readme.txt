@@ -363,7 +363,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.5.2dev1 =
+= Version 7.5.2 =
 
 * Bugfixes
 	* *None*

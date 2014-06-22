@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.2dev1',		// plugin version
+			'version' => '7.5.2dev2',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -27,6 +27,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'transient' => true,
 			),
 			'lib' => array(			// libraries
+				'dashboard' => array (
+					'welcome' => 'Welcome',
+				),
 				'setting' => array (
 					'contact' => 'Contact Methods',
 				),
@@ -132,7 +135,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '280',		// increment when changing default options
+				'version' => '282',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
