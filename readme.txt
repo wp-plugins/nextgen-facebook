@@ -370,7 +370,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * Enhancements
 	* Renamed the 'About' settings page to 'Read Me'.
 	* Added a new 'Setup Guide' settings page with [configuration hints and suggestions](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/).
-	* Added a new 'Welcome' dashboard page, displayed only once, when the plugin or options are updated.
+	* Added a new 'Welcome' dashboard page, displayed only once, when the options are updated or the plugin is activated.
 
 = Version 7.5.1 =
 
@@ -401,6 +401,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a new 'Social Settings' metabox to the user profile page (Pro version).
 
 == Upgrade Notice ==
+
+= 7.5.2 =
+
+Added a new 'Setup Guide' settings page and 'Welcome' dashboard page (displayed only once, when options are updated or the plugin is activated).
 
 = 7.5.1 =
 
