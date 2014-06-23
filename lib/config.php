@@ -71,8 +71,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Buttons',
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
-						'postmeta' => 'Custom Post Meta',
-						'user' => 'Custom User Meta',
+						'postmeta' => 'Post Social Settings',
+						'user' => 'User Social Settings',
 					),
 					'forum' => array(
 						'bbpress' => 'bbPress',
@@ -81,8 +81,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'buddypress' => 'BuddyPress',
 					),
 					'util' => array(
-						'postmeta' => 'Custom Post Meta',
-						'user' => 'Custom User Meta',
+						'postmeta' => 'Post Social Settings',
+						'user' => 'User Social Settings',
 					),
 				),
 				'pro' => array(
@@ -92,8 +92,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'sharing' => 'Buttons',
 						'style' => 'Styles',
 						'apikeys' => 'API Keys',
-						'postmeta' => 'Custom Post Meta',
-						'user' => 'Custom User Meta',
+						'postmeta' => 'Post Social Settings',
+						'user' => 'User Social Settings',
 					),
 					'ecom' => array(
 						'edd' => 'Easy Digital Downloads',
@@ -129,13 +129,13 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'util' => array(
 						'language' => 'Publisher Language',
 						'shorten' => 'URL Shortener',
-						'postmeta' => 'Custom Post Meta',
-						'user' => 'Custom User Meta',
+						'postmeta' => 'Post Social Settings',
+						'user' => 'User Social Settings',
 					),
 				),
 			),
 			'opt' => array(				// options
-				'version' => '284',		// increment when changing default options
+				'version' => '285',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',

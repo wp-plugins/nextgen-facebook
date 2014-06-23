@@ -159,7 +159,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					'status_pro_features' => 1,	// include social file cache status
 					'tooltip_side' => 2,		// tooltip messages for side boxes
 					'tooltip_plugin' => 2,		// tooltip messages for advanced settings
-					'tooltip_postmeta' => 3,	// tooltip messages for post meta custom settings
+					'tooltip_postmeta' => 3,	// tooltip messages for post social settings
 				) );
 			}
 		}
