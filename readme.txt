@@ -366,7 +366,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.5.2 =
 
 * Bugfixes
-	* *None*
+	* Fixed the post ID reference for header transient objects.
 * Enhancements
 	* Renamed the 'About' settings page to 'Read Me'.
 	* Added a new 'Setup Guide' settings page with [configuration hints and suggestions](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/).
