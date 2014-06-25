@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.2',		// plugin version
+			'version' => '7.5.3dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -135,7 +135,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '285',		// increment when changing default options
+				'version' => '287',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -183,6 +183,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_desc_hashtags' => 3,
 					'og_desc_strip' => 0,
 					'rp_author_name' => 'display_name',     // rich-pin specific article:author
+					'rp_img_width' => 800,
+					'rp_img_height' => 800,
+					'rp_img_crop' => 0,
 					'tc_enable' => 1,
 					'tc_site' => '',
 					'tc_desc_len' => 200,

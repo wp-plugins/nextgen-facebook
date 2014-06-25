@@ -60,6 +60,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					'buttons_preset_widget' => '',
 					'buttons_preset_sidebar' => 'large_share_vertical',
 					'buttons_preset_admin_edit' => 'small_share_count',
+					'buttons_preset_shortcode' => '',
 				),
 				'preset' => array(
 					'small_share_count' => array(

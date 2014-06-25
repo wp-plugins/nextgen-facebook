@@ -69,6 +69,7 @@ if ( ! class_exists( 'NgfbShortcodeSharing' ) ) {
 			$atts['css_id'] = empty( $atts['css_id'] ) && ! empty( $post_id ) ? 'shortcode' : $atts['css_id'];
 			$atts['css_class'] = empty( $atts['css_class'] ) ? 'button' : $atts['css_class'];
 			$atts['filter_id'] = empty( $atts['filter_id'] ) ? 'shortcode' : $atts['filter_id'];
+			$atts['preset_id'] = empty( $atts['preset_id'] ) ? $this->p->options['buttons_preset_shortcode'] : $atts['preset_id'];
 
 			$html = '';
 			if ( ! empty( $atts['buttons'] ) ) {

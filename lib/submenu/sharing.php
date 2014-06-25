@@ -127,8 +127,6 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			foreach ( $tabs as $key => $title )
 				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
 					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
-			echo '<table class="sucom-setting" style="padding-bottom:0"><tr><td>'.
-			$this->p->msgs->get( $metabox.'-buttons-info' ).'</td></tr></table>';
 			$this->p->util->do_tabs( $metabox, $tabs, $rows );
 		}
 
@@ -153,6 +151,8 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'sharing-include' :
+					$rows[] = '<tr><td colspan="2">'.$this->p->msgs->get( $metabox.'-'.$key.'-info' ).'</td></tr>';
+
 					$rows[] = $this->p->util->th( 'Include on Index Webpages', null, 'buttons_on_index' ).
 					'<td>'.$this->form->get_checkbox( 'buttons_on_index' ).'</td>';
 
