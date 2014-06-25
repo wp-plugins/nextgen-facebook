@@ -363,6 +363,16 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.5.3 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added a 'Shortcode Preset' option.
+	* Added support for a 'preset_id' to the NGFB shortcode.
+	* Added an 'Image Dimensions' option in the Pinterest publisher settings tab.
+	* Added an additional check for images sizes returned by WordPress to validate the aspect ratio of uncropped images. WordPress has an unfortunate habit of returning images that are "close enough" and may return cropped images when an uncropped image was requested.
+
 = Version 7.5.2 =
 
 * Bugfixes
