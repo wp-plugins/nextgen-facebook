@@ -17,35 +17,14 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			$this->menu_id = $id;
 			$this->menu_name = $name;
 			$this->p->util->add_plugin_filters( $this, array( 
+				'messages_info' => 2,		// info messages filter
 				'messages' => 2,		// default messages filter
 			) );
 		}
 
-		public function filter_messages( $text, $idx ) {
+		public function filter_messages_info( $text, $idx ) {
 			switch ( $idx ) {
-				/*
-				 * 'Sharing Style' settings
-				 */
-				case 'tooltip-buttons_use_social_css':
-					$text = 'Add the CSS from all style tabs to webpages (default is checked).
-					The CSS will be <strong>minimized</strong>, and saved to a single 
-					stylesheet with the URL of <a href="'.$this->p->sharing->sharing_css_min_url.'">'.
-					$this->p->sharing->sharing_css_min_url.'</a>. The minimized stylesheet can be 
-					enqueued by WordPress, or included directly in the webpage header.';
-					break;
-
-				case 'tooltip-buttons_js_sidebar':
-					$text = 'JavaScript that is added to the webpage for the social sharing sidebar.';
-					break;
-
-				case 'tooltip-buttons_enqueue_social_css':
-					$text = 'Have WordPress enqueue the social stylesheet instead of including the 
-					CSS directly in the webpage header (default is unchecked). Enqueueing the stylesheet
-					may be desirable if you use a plugin to concatenate all enqueued styles
-					into a single stylesheet URL.';
-					break;
-
-				case 'style-sharing-info':
+				case 'info-style-sharing':
 					$text = '<p>'.$this->p->cf['full'].' uses the \'ngfb-buttons\' class to wrap all its 
 					sharing buttons, and each button has it\'s own individual class name as well. 
 					Refer to the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Notes</a> 
@@ -53,7 +32,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 					buttons for specific Posts, Pages, categories, tags, etc.</p>';
 					break;
 
-				case 'style-content-info':
+				case 'info-style-content':
 					$text = '<p>Social sharing buttons, enabled / added to the content text from the '.
 					$this->p->util->get_admin_url( 'sharing', 'Buttons settings page' ).
 					', are assigned the \'ngfb-content-buttons\' class, which itself contains the 
@@ -65,7 +44,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre>';
 					break;
 
-				case 'style-excerpt-info':
+				case 'info-style-excerpt':
 					$text = '<p>Social sharing buttons, enabled / added to the excerpt text from the '.
 					$this->p->util->get_admin_url( 'sharing', 'Buttons settings page' ).
 					', are assigned the \'ngfb-excerpt-buttons\' class, which itself contains the 
@@ -77,7 +56,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre>';
 					break;
 
-				case 'style-sidebar-info':
+				case 'info-style-sidebar':
 					$text = '<p>Social sharing buttons added to the sidebar are assigned the 
 					\'#ngfb-sidebar\' CSS id, which itself contains \'#ngfb-sidebar-header\',
 					\'#ngfb-sidebar-buttons\', and the \'ngfb-buttons\' class -- 
@@ -92,7 +71,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 	    .facebook-button { }</pre>';
 					break;
 
-				case 'style-shortcode-info':
+				case 'info-style-shortcode':
 					$text = '<p>Social sharing buttons added from a shortcode are assigned the 
 					\'ngfb-shortcode-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
@@ -103,7 +82,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         .facebook-button { }</pre>';
 					break;
 
-				case 'style-widget-info':
+				case 'info-style-widget':
 					$text = '<p>Social sharing buttons within the '.$this->p->cf['menu'].
 					' Sharing Buttons widget are assigned the 
 					\'ngfb-widget-buttons\' class, which itself contains the 
@@ -122,7 +101,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
         #facebook-ngfb-widget-buttons-2 { }</pre>';
 					break;
 
-				case 'style-admin_edit-info':
+				case 'info-style-admin_edit':
 					$text = '<p>Social sharing buttons within the Admin Post / Page Edit metabox
 					are assigned the \'ngfb-admin_edit-buttons\' class, which itself contains the 
 					\'ngfb-buttons\' class -- a common class for all the sharing buttons 
@@ -131,6 +110,30 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 .ngfb-admin_edit-buttons 
     .ngfb-buttons
         .facebook-button { }</pre>';
+					break;
+			}
+			return $text;
+		}
+
+		public function filter_messages( $text, $idx ) {
+			switch ( $idx ) {
+				case 'tooltip-buttons_use_social_css':
+					$text = 'Add the CSS from all style tabs to webpages (default is checked).
+					The CSS will be <strong>minimized</strong>, and saved to a single 
+					stylesheet with the URL of <a href="'.$this->p->sharing->sharing_css_min_url.'">'.
+					$this->p->sharing->sharing_css_min_url.'</a>. The minimized stylesheet can be 
+					enqueued by WordPress, or included directly in the webpage header.';
+					break;
+
+				case 'tooltip-buttons_js_sidebar':
+					$text = 'JavaScript that is added to the webpage for the social sharing sidebar.';
+					break;
+
+				case 'tooltip-buttons_enqueue_social_css':
+					$text = 'Have WordPress enqueue the social stylesheet instead of including the 
+					CSS directly in the webpage header (default is unchecked). Enqueueing the stylesheet
+					may be desirable if you use a plugin to concatenate all enqueued styles
+					into a single stylesheet URL.';
 					break;
 			}
 			return $text;
