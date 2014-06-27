@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.9.1
 Stable Tag: 7.5.2
 
-Show off your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no mater how your webpage is shared!
+Show off your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no matter how your webpage is shared!
 
 == Description ==
 
