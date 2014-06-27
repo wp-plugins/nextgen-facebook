@@ -8,7 +8,7 @@ Requires At Least: 3.0
 Tested Up To: 3.9.1
 Stable Tag: 7.5.2
 
-Improve the appearance, ranking, and social engagement of shares on Facebook, Twitter, Pinterest, Google+, LinkedIn, and other social sites.
+Show off your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no mater how your webpage is shared!
 
 == Description ==
 
