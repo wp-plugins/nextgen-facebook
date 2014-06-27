@@ -326,6 +326,20 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		<ul>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
 		</ul></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/">Filters</a>
+		<ul>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/">Examples</a>
+			<ul>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-shortcode-attributes-url/">Modify Shortcode Attributes (URL)</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-articletag-keywords-names/">Modify the article:tag Keywords / Names</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-default-topics-list/">Modify the Default Topics List</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-title-value/">Modify the Title Value</a></li>
+			</ul></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/media/">Media Filters</a></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/open-graph/">Open Graph Filters</a></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/twitter-card/">Twitter Card Filters</a></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/webpage/">Webpage Filters</a></li>
+		</ul></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
