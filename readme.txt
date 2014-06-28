@@ -426,6 +426,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.5.3 =
+
+Adds a new 'Image Dimensions' option on the Pinterest publisher settings tab, along with a 'Shortcode Preset' option on the Buttons settings page.
+
 = 7.5.2 =
 
 Added a new 'Setup Guide' settings page and 'Welcome' dashboard page (displayed only once, when options are updated or the plugin is activated).
