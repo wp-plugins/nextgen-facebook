@@ -151,7 +151,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 					break;
 
 				case 'sharing-include' :
-					$rows[] = '<tr><td colspan="2">'.$this->p->msgs->get( $metabox.'-'.$key.'-info' ).'</td></tr>';
+					$rows[] = '<tr><td colspan="2">'.$this->p->msgs->get( 'info-'.$metabox.'-'.$key ).'</td></tr>';
 
 					$rows[] = $this->p->util->th( 'Include on Index Webpages', null, 'buttons_on_index' ).
 					'<td>'.$this->form->get_checkbox( 'buttons_on_index' ).'</td>';
