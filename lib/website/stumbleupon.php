@@ -18,6 +18,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 		}
 
 		protected function get_rows( $metabox, $key ) {
+			$rows = array();
 			$prot = empty( $_SERVER['HTTPS'] ) ? 'http:' : 'https:';
 			$badge_html = '
 				<style type="text/css">
@@ -58,20 +59,22 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 			}
 			$badge_html .= '</div>';
 
-			return array(
-				$this->p->util->th( 'Show Button in', 'short' ).'<td>'.
-				( $this->show_on_checkboxes( 'stumble' ) ).'</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			( $this->show_on_checkboxes( 'stumble' ) ).'</td>';
 
-				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'stumble_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ).'</td>',
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'stumble_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
-				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->form->get_select( 'stumble_js_loc', $this->p->cf['form']['js_locations'] ).'</td>',
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'stumble_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
-				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge_html.'</td>',
-			);
+			$rows[] = $this->p->util->th( 'Button Style', 'short' ).'<td>'.$badge_html.'</td>';
+
+			return $rows;
 		}
 	}
 }

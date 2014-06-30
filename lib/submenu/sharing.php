@@ -113,16 +113,22 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function add_class_postbox_website( $classes ) {
+			array_push( $classes, 'display_'.$this->p->options['plugin_display'] );
 			array_push( $classes, 'admin_postbox_website' );
 			return $classes;
 		}
 
 		public function show_metabox_sharing() {
 			$metabox = 'sharing';
-			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', array( 
+			$tabs = array(
 				'include' => 'Include Buttons',
-				'position' => 'Buttons Position',
-				'preset' => 'Preset Options' ) );
+				'position' => 'Buttons Position' 
+			);
+
+			if ( $this->p->options['plugin_display'] == 'all' )
+				$tabs['preset'] = 'Preset Options';
+
+			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', $tabs );
 			$rows = array();
 			foreach ( $tabs as $key => $title )
 				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 

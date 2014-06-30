@@ -42,8 +42,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingFacebook' ) && class_exists( 'NgfbSubmen
 						range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 							'short' ).'</td>';
 	
-					$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-					$this->form->get_select( 'fb_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+					if ( $this->p->options['plugin_display'] == 'all' ) {
+						$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+						$this->form->get_select( 'fb_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+					}
 	
 					$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
 					$this->form->get_select( 'fb_lang', SucomUtil::get_pub_lang( 'facebook' ) ).'</td>';

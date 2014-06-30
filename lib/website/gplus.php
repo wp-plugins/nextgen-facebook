@@ -18,44 +18,48 @@ if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSh
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array(
-				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'gp' ) ).'</td>',
+			$rows = array();
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ) . '</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			( $this->show_on_checkboxes( 'gp' ) ).'</td>';
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_js_loc', $this->p->cf['form']['js_locations'] ) . '</td>',
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'gp_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
-				$this->p->util->th( 'Default Language', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_lang', SucomUtil::get_pub_lang( 'gplus' ) ) . '</td>',
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'gp_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
-				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_action', array( 
-					'plusone' => 'G +1', 
-					'share' => 'G+ Share',
-				) ) . '</td>',
+			$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
+			$this->form->get_select( 'gp_lang', SucomUtil::get_pub_lang( 'gplus' ) ).'</td>';
 
-				$this->p->util->th( 'Button Size', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_size', array( 
-					'small' => 'Small [ 15px ]',
-					'medium' => 'Medium [ 20px ]',
-					'standard' => 'Standard [ 24px ]',
-					'tall' => 'Tall [ 60px ]',
-				) ) . '</td>',
+			$rows[] = $this->p->util->th( 'Button Type', 'short' ).'<td>'.
+			$this->form->get_select( 'gp_action', array( 
+				'plusone' => 'G +1', 
+				'share' => 'G+ Share',
+			) ).'</td>';
 
-				$this->p->util->th( 'Annotation', 'short' ) . '<td>' . 
-				$this->form->get_select( 'gp_annotation', array( 
-					'none' => '',
-					'inline' => 'Inline',
-					'bubble' => 'Bubble',
-					'vertical-bubble' => 'Vertical Bubble',
-				) ) . '</td>',
+			$rows[] = $this->p->util->th( 'Button Size', 'short' ).'<td>'.
+			$this->form->get_select( 'gp_size', array( 
+				'small' => 'Small [ 15px ]',
+				'medium' => 'Medium [ 20px ]',
+				'standard' => 'Standard [ 24px ]',
+				'tall' => 'Tall [ 60px ]',
+			) ).'</td>';
 
-				$this->p->util->th( 'Expand to', 'short' ) . '<td>' . 
+			$rows[] = $this->p->util->th( 'Annotation', 'short' ).'<td>'.
+			$this->form->get_select( 'gp_annotation', array( 
+				'none' => '',
+				'inline' => 'Inline',
+				'bubble' => 'Bubble',
+				'vertical-bubble' => 'Vertical Bubble',
+			) ).'</td>';
+
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Expand to', 'short' ).'<td>'.
 				$this->form->get_select( 'gp_expandto', array( 
 					'none' => '',
 					'top' => 'Top',
@@ -66,8 +70,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingGplus' ) && class_exists( 'NgfbSubmenuSh
 					'top,right' => 'Top Right',
 					'bottom,left' => 'Bottom Left',
 					'bottom,right' => 'Bottom Right',
-				) ) . '</td>',
-			);
+				) ).'</td>';
+			}
+	
+			return $rows;
 		}
 	}
 }

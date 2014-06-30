@@ -18,23 +18,25 @@ if ( ! class_exists( 'NgfbSubmenuSharingManagewp' ) && class_exists( 'NgfbSubmen
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array(
-				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'managewp' ) ).'</td>',
+			$rows = array();
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'managewp_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ) . '</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			( $this->show_on_checkboxes( 'managewp' ) ).'</td>';
 
-				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'managewp_type', 
-					array( 
-						'small' => 'Small',
-						'big' => 'Big',
-					)
-				) . '</td>',
-			);
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'managewp_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
+
+			$rows[] = $this->p->util->th( 'Button Type', 'short' ).'<td>'.
+			$this->form->get_select( 'managewp_type', 
+				array( 
+					'small' => 'Small',
+					'big' => 'Big',
+				)
+			).'</td>';
+
+			return $rows;
 		}
 	}
 }

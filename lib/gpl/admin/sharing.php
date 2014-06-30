@@ -29,8 +29,10 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 			'<td class="blank">'.$form->get_hidden( 'plugin_file_cache_hrs' ). 
 			$this->p->options['plugin_file_cache_hrs'].' hours</td>';
 
-			$rows[] = $this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
-			'<td class="blank">'.$form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
+				'<td class="blank">'.$form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>';
+			}
 
 			return $rows;
 		}

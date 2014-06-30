@@ -18,6 +18,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 		}
 
 		protected function get_rows( $metabox, $key ) {
+			$rows = array();
 			$buttons_html = '<div class="btn_wizard_row clearfix" id="button_styles">';
 			$buttons_style = empty( $this->p->options['tumblr_button_style'] ) ? 
 				'share_1' : $this->p->options['tumblr_button_style'];
@@ -41,41 +42,44 @@ if ( ! class_exists( 'NgfbSubmenuSharingTumblr' ) && class_exists( 'NgfbSubmenuS
 			}
 			$buttons_html .= '</div>';
 
-			return array(
-				$this->p->util->th( 'Show Button in', 'short highlight', null,
-				'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, 
-				or an <em>attached</em> image that is equal to or larger than the \'Image Dimensions\' 
-				you have chosen (when the <em>Use Attached Image</em> option is checked), embedded video, 
-				the content of <em>quote</em> custom Posts, or (lastly) the webpage link.' ).'<td>'.
-				( $this->show_on_checkboxes( 'tumblr' ) ).'</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short highlight', null,
+			'The Tumblr button shares a <em>custom image ID</em>, a <em>featured</em> image, 
+			or an <em>attached</em> image that is equal to or larger than the \'Image Dimensions\' 
+			you have chosen (when the <em>Use Attached Image</em> option is checked), embedded video, 
+			the content of <em>quote</em> custom Posts, or (lastly) the webpage link.' ).'<td>'.
+			( $this->show_on_checkboxes( 'tumblr' ) ).'</td>';
 
-				$this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
-				$this->form->get_select( 'tumblr_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ).'</td>',
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'tumblr_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
-				$this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-				$this->form->get_select( 'tumblr_js_loc', $this->p->cf['form']['js_locations'] ).'</td>',
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'tumblr_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
-				$this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons_html.'</td>',
+			$rows[] = $this->p->util->th( 'Button Style', 'short' ).'<td>'.$buttons_html.'</td>';
 
-				$this->p->util->th( 'Use Attached Image', 'short' ).'<td>'.
-				$this->form->get_checkbox( 'tumblr_photo' ).'</td>',
+			$rows[] = $this->p->util->th( 'Use Attached Image', 'short' ).'<td>'.
+			$this->form->get_checkbox( 'tumblr_photo' ).'</td>';
 
-				$this->p->util->th( 'Image Dimensions', 'short' ).
-				'<td>Width '.$this->form->get_input( 'tumblr_img_width', 'short' ).' x '.
-				'Height '.$this->form->get_input( 'tumblr_img_height', 'short' ).' &nbsp; '.
-				'Crop '.$this->form->get_checkbox( 'tumblr_img_crop' ).'</td>',
+			$rows[] = $this->p->util->th( 'Image Dimensions', 'short' ).
+			'<td>Width '.$this->form->get_input( 'tumblr_img_width', 'short' ).' x '.
+			'Height '.$this->form->get_input( 'tumblr_img_height', 'short' ).' &nbsp; '.
+			'Crop '.$this->form->get_checkbox( 'tumblr_img_crop' ).'</td>';
 
-				$this->p->util->th( 'Media Caption', 'short' ).'<td>'.
-				$this->form->get_select( 'tumblr_caption', $this->p->cf['form']['caption_types'] ).'</td>',
+			$rows[] = $this->p->util->th( 'Media Caption', 'short' ).'<td>'.
+			$this->form->get_select( 'tumblr_caption', $this->p->cf['form']['caption_types'] ).'</td>';
 
-				$this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-				$this->form->get_input( 'tumblr_cap_len', 'short' ).' characters or less</td>',
-
-				$this->p->util->th( 'Link Description', 'short' ).'<td>'.
-				$this->form->get_input( 'tumblr_desc_len', 'short' ).' characters or less</td>',
-			);
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Caption Length', 'short' ).'<td>'.
+				$this->form->get_input( 'tumblr_cap_len', 'short' ).' characters or less</td>';
+	
+				$rows[] = $this->p->util->th( 'Link Description', 'short' ).'<td>'.
+				$this->form->get_input( 'tumblr_desc_len', 'short' ).' characters or less</td>';
+			}
+			return $rows;
 		}
 	}
 }
@@ -100,7 +104,7 @@ if ( ! class_exists( 'NgfbSharingTumblr' ) ) {
 					'tumblr_img_height' => 800,
 					'tumblr_img_crop' => 0,
 					'tumblr_caption' => 'both',
-					'tumblr_cap_len' => 500,
+					'tumblr_cap_len' => 400,
 				),
 			),
 		);

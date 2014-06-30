@@ -31,8 +31,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 					'short' ).'</td>';
 
-			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-			$this->form->get_select( 'pin_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'pin_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
 			$rows[] = $this->p->util->th( 'Button Height', 'short' ).'<td>'.
 			$this->form->get_select( 'pin_button_height', array( 'small' => 'Small', 'large' => 'Large' ) );
@@ -63,8 +65,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 			$rows[] = $this->p->util->th( 'Image Caption Text', 'short' ).'<td>'.
 			$this->form->get_select( 'pin_caption', $this->p->cf['form']['caption_types'] ).'</td>';
 
-			$rows[] = $this->p->util->th( 'Caption Length', 'short' ).'<td>'.
-			$this->form->get_input( 'pin_cap_len', 'short' ).' characters or less</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Caption Length', 'short' ).'<td>'.
+				$this->form->get_input( 'pin_cap_len', 'short' ).' characters or less</td>';
+			}
 
 			return $rows;
 		}
@@ -93,7 +97,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 					'pin_img_height' => 800,
 					'pin_img_crop' => 0,
 					'pin_caption' => 'both',
-					'pin_cap_len' => 500,
+					'pin_cap_len' => 400,
 				),
 			),
 		);

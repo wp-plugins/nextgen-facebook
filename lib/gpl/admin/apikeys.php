@@ -28,9 +28,11 @@ if ( ! class_exists( 'NgfbAdminApikeys' ) ) {
 		public function filter_plugin_apikeys_rows( $rows, $form ) {
 			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
-			$rows[] = $this->p->util->th( 'Minimum URL Length to Shorten', null, 'plugin_min_shorten' ). 
-			'<td class="blank">'.$form->get_hidden( 'plugin_min_shorten' ).
-				$this->p->options['plugin_min_shorten'].' characters</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Minimum URL Length to Shorten', null, 'plugin_min_shorten' ). 
+				'<td class="blank">'.$form->get_hidden( 'plugin_min_shorten' ).
+					$this->p->options['plugin_min_shorten'].' characters</td>';
+			}
 
 			$rows[] = $this->p->util->th( 'Bit.ly Username', null, 'plugin_bitly_login' ).
 			'<td class="blank mono">'.$form->get_hidden( 'plugin_bitly_login' ).

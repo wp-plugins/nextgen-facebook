@@ -28,8 +28,10 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 					'short' ).'</td>';
 
-			$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
-			$this->form->get_select( 'twitter_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'twitter_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
 			$rows[] = $this->p->util->th( 'Default Language', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_lang', SucomUtil::get_pub_lang( 'twitter' ) ).'</td>';
@@ -44,27 +46,27 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			$rows[] = $this->p->util->th( 'Tweet Text Source', 'short' ).'<td>'.
 			$this->form->get_select( 'twitter_caption', $this->p->cf['form']['caption_types'] ).'</td>';
 
-			$rows[] = $this->p->util->th( 'Tweet Text Length', 'short' ).'<td>'.
-			$this->form->get_input( 'twitter_cap_len', 'short' ).' characters or less</td>';
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Tweet Text Length', 'short' ).'<td>'.
+				$this->form->get_input( 'twitter_cap_len', 'short' ).' characters or less</td>';
 
-			$rows[] = $this->p->util->th( 'Do Not Track', 'short', null,
-			'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
-			'<td>'.$this->form->get_checkbox( 'twitter_dnt' ).'</td>';
+				$rows[] = $this->p->util->th( 'Do Not Track', 'short', null,
+				'Disable tracking for Twitter\'s tailored suggestions and tailored ads.' ).
+				'<td>'.$this->form->get_checkbox( 'twitter_dnt' ).'</td>';
+			}
 
 			$rows[] = $this->p->util->th( 'Add via @username', 'short', null,
 			'Append the website\'s @username to the tweet (see the '.
 			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'Twitter' ).
 			' options tab on the General settings page). '.
 			'The website\'s @username will also be displayed and recommended after the Post / Page is shared.' ).
-			( $this->p->check->is_aop() == true ? 
-				'<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
+			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
 
 			$rows[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
-			( $this->p->check->is_aop() == true ? 
-				'<td>'.$this->form->get_checkbox( 'twitter_rel_author' ).'</td>' :
+			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'twitter_rel_author' ).'</td>' :
 				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {

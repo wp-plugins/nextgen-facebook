@@ -18,24 +18,26 @@ if ( ! class_exists( 'NgfbSubmenuSharingReddit' ) && class_exists( 'NgfbSubmenuS
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array(
-				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'reddit' ) ).'</td>',
+			$rows = array();
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'reddit_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ) . '</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			( $this->show_on_checkboxes( 'reddit' ) ).'</td>';
 
-				$this->p->util->th( 'Button Type', 'short' ) . '<td>' . 
-				$this->form->get_select( 'reddit_type', 
-					array( 
-						'static-wide' => 'Interactive Wide',
-						'static-tall-text' => 'Interactive Tall Text',
-						'static-tall-logo' => 'Interactive Tall Logo',
-					)
-				) . '</td>',
-			);
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'reddit_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
+
+			$rows[] = $this->p->util->th( 'Button Type', 'short' ).'<td>'.
+			$this->form->get_select( 'reddit_type', 
+				array( 
+					'static-wide' => 'Interactive Wide',
+					'static-tall-text' => 'Interactive Tall Text',
+					'static-tall-logo' => 'Interactive Tall Logo',
+				)
+			).'</td>';
+
+			return $rows;
 		}
 	}
 }

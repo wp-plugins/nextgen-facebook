@@ -157,14 +157,16 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<td>'.$this->form->get_checkbox( 'buttons_enqueue_social_css' ).'</td>';
 			echo '</tr></table>';
 
-			$metabox = 'style';
-			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', 
-				NgfbSharing::$cf['sharing']['style'] );
-			$rows = array();
-			foreach ( $tabs as $key => $title )
-				$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
-					apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
-			$this->p->util->do_tabs( $metabox, $tabs, $rows );
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$metabox = 'style';
+				$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', 
+					NgfbSharing::$cf['sharing']['style'] );
+				$rows = array();
+				foreach ( $tabs as $key => $title )
+					$rows[$key] = array_merge( $this->get_rows( $metabox, $key ), 
+						apply_filters( $this->p->cf['lca'].'_'.$metabox.'_'.$key.'_rows', array(), $this->form ) );
+				$this->p->util->do_tabs( $metabox, $tabs, $rows );
+			}
 		}
 
 		protected function get_rows( $metabox, $key ) {

@@ -22,30 +22,36 @@ if ( ! class_exists( 'NgfbSubmenuSharingLinkedin' ) && class_exists( 'NgfbSubmen
 		}
 
 		protected function get_rows( $metabox, $key ) {
-			return array(
-				$this->p->util->th( 'Show Button in', 'short' ) . '<td>' . 
-				( $this->show_on_checkboxes( 'linkedin' ) ).'</td>',
+			$rows = array();
 
-				$this->p->util->th( 'Preferred Order', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_order', 
-					range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
-						'short' ) . '</td>',
+			$rows[] = $this->p->util->th( 'Show Button in', 'short' ).'<td>'.
+			( $this->show_on_checkboxes( 'linkedin' ) ).'</td>';
 
-				$this->p->util->th( 'JavaScript in', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_js_loc', $this->p->cf['form']['js_locations'] ) . '</td>',
+			$rows[] = $this->p->util->th( 'Preferred Order', 'short' ).'<td>'.
+			$this->form->get_select( 'linkedin_order', 
+				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
+					'short' ).'</td>';
 
-				$this->p->util->th( 'Counter Mode', 'short' ) . '<td>' . 
-				$this->form->get_select( 'linkedin_counter', 
-					array( 
-						'none' => '',
-						'right' => 'Horizontal',
-						'top' => 'Vertical',
-					)
-				) . '</td>',
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
+				$this->form->get_select( 'linkedin_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
+			}
 
-				$this->p->util->th( 'Zero in Counter', 'short' ) . '<td>' . 
-				$this->form->get_checkbox( 'linkedin_showzero' ) . '</td>',
-			);
+			$rows[] = $this->p->util->th( 'Counter Mode', 'short' ).'<td>'.
+			$this->form->get_select( 'linkedin_counter', 
+				array( 
+					'none' => '',
+					'right' => 'Horizontal',
+					'top' => 'Vertical',
+				)
+			).'</td>';
+
+			if ( $this->p->options['plugin_display'] == 'all' ) {
+				$rows[] = $this->p->util->th( 'Zero in Counter', 'short' ).'<td>'.
+				$this->form->get_checkbox( 'linkedin_showzero' ).'</td>';
+			}
+
+			return $rows;
 		}
 	}
 }
