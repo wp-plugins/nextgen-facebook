@@ -377,6 +377,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.5.4 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added the "Read Me", "Setup Guide", and "What's New" setting pages to the Network Admin menu.
+	* Added a new 'Plugin Settings to Display' option to select between a set of 'Basic Plugin Options' and 'All Plugin Options'.
+	* Improved the CSS to add more space between the various plugin option fields.
+
 = Version 7.5.3 =
 
 * Bugfixes
