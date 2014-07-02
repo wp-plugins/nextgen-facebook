@@ -139,7 +139,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '289',		// increment when changing default options
+				'version' => '290',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
