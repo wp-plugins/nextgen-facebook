@@ -40,6 +40,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'style' => 'Styles',
 					'readme' => 'Read Me',
 					'setup' => 'Setup Guide',
+					'whatsnew' => 'What\'s New',
 				),
 				'sitesubmenu' => array(
 					'network' => 'Network Settings',
@@ -396,9 +397,10 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'max_desc_hashtags' => 10,
 				'max_media_items' => 20,
 				'file_cache_hours' => array( 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 ),
-				'js_locations' => array( 'none' => '', 'header' => 'Header', 'footer' => 'Footer' ),
-				'caption_types' => array( 'none' => '', 'title' => 'Title Only', 'excerpt' => 'Excerpt Only', 'both' => 'Title and Excerpt' ),
+				'js_locations' => array( 'none' => '[none]', 'header' => 'Header', 'footer' => 'Footer' ),
+				'caption_types' => array( 'none' => '[none]', 'title' => 'Title Only', 'excerpt' => 'Excerpt Only', 'both' => 'Title and Excerpt' ),
 				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
+				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
 			),
 			'head' => array(
 				'min_img_dim' => 200,

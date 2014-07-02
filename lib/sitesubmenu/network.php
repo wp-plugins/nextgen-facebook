@@ -73,8 +73,6 @@ if ( ! class_exists( 'NgfbSitesubmenuNetwork' ) && class_exists( 'NgfbAdmin' ) )
 
 					break;
 
-					break;
-
 			}
 			return $ret;
 		}
