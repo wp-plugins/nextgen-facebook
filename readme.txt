@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.9.1
-Stable Tag: 7.5.4
+Stable Tag: 7.5.4.1
 
 Display your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no matter how your webpage is shared!
 
@@ -380,7 +380,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.5.4.1 =
 
 * Bugfixes
-        * Added an is_array() test for values returned by the WordPress get_the_terms() function in the EDD and WooCommerce addons (Pro version).
+        * Added an `is_array()` test for values returned by the WordPress `get_the_terms()` function in the EDD and WooCommerce addons (Pro version).
 * Enhancements
 	* *None*
 
@@ -442,6 +442,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a new 'Social Settings' metabox to the user profile page (Pro version).
 
 == Upgrade Notice ==
+
+= 7.5.4.1 =
+
+Version 7.5.4 simplifies the settings pages by adding a new 'Plugin Settings to Display' option on the NGFB Advanced settings page.
 
 = 7.5.3 =
 
