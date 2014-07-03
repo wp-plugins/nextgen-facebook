@@ -377,6 +377,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.5.4.1 =
+
+* Bugfixes
+        * Added an is_array() test for values returned by the WordPress get_the_terms() function in the EDD and WooCommerce addons (Pro version).
+* Enhancements
+	* *None*
+
 = Version 7.5.4 =
 
 * Bugfixes
