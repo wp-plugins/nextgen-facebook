@@ -1,14 +1,12 @@
-<p><strong><a href="http://wordpress.org/plugins/nextgen-facebook/">NGFB version 7.5</a></strong> includes two new features -- a 'Social Settings' metabox for the user profile page, and a new <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/author-gravatar/">Author Gravatar</a> addon for author index pages. The 'Social Settings' metabox on the profile page allows users and admins to specify different descriptions for each social context (an alternative to the profile biography value), along with choosing a different image, either by entering an image ID or URL. The new Author Gravatar addon also pre-populates the Image URL field with the user's Gravatar image (if one exists). 
-<strong>Support for HTTPS URLs has also been added to the Reddit, ManageWP, and Tumblr buttons</strong>.</p>
+<p><strong><a href="http://wordpress.org/plugins/nextgen-facebook/">NGFB version 7.5</a></strong> includes two new features -- a 'Social Settings' metabox for the user profile page, and a new <a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/author-gravatar/">Author Gravatar</a> addon for author index pages. The 'Social Settings' metabox on the profile page allows users and admins to specify different descriptions for each social context (an alternative to the profile biography value), along with choosing a different image, either by entering an image ID or URL. The new Author Gravatar addon also pre-populates the Image URL field with the user's Gravatar image (if one exists). <strong>Support for HTTPS URLs has also been added to the Reddit, ManageWP, and Tumblr buttons</strong>.</p>
 
 <p><strong>Version 7.5.2</strong> introduces a new 'Welcome' dashboard page, displayed once when the plugin or options are updated.</p>
 
 <p><strong>Version 7.5.3</strong> adds a new 'Image Dimensions' option on the Pinterest publisher settings tab, along with a 'Shortcode Preset' option on the Buttons settings page.</p>
 
-<p><strong>Version 7.5.4</strong> simplifies the settings pages by adding a new 'Plugin Settings to Display' option on the NGFB Advanced settings page, 
-and updates the admin-side CSS to improve the layout.
-<strong>The 'Plugin Settings to Display' value is set to 'Basic Plugin Options' by default</strong>, 
-so if you find that some options have disappeared, you can change that option to 'All Plugin Options'.</p>
+<p><strong>Version 7.5.4</strong> simplifies the settings pages by adding a new 'Plugin Settings to Display' option on the NGFB Advanced settings page, and updates the admin-side CSS to improve the layout. <strong>The 'Plugin Settings to Display' value is set to 'Basic Plugin Options' by default</strong>, so if you find that some options have disappeared, you can change that option to 'All Plugin Options'.</p>
+
+<p><strong>Version 7.5.5</strong> fixes the Basic / All Option switching not being saved, a missing schema itemtype value for the webpage, and adds a new 'G+ / Schema Description' field in the Social Settings metabox.</p>
 
 <!--more-->
 
@@ -22,6 +20,28 @@ The image shown is provided by the Gravatar addon, and the description value has
 	alt="facebook-author-index-example" width="514" height="558" data-wp-pid="4099" />
 
 <h3>Changelog</h3>
+
+<h4>Version 7.5.5</h4>
+
+<ul>
+<li>Bugfixes
+	<ul>
+	<li>Fixed the Basic / All Options switching feature on the settings pages, to save the new display preference upon switching.</li>
+	<li>Added the missing schema 'itemscope' / 'itemtype' value in the &lt;html&gt; tag for Google+..</li>
+	</ul>
+</li>
+
+<li>Enhancements
+	<ul>
+	<li>Added a new 'G+ / Schema Description Length' option on the "Google+ and Search" settings tab.</li>
+	<li>Added a new 'G+ / Schema Description' field in the Social Settings metabox.</li>
+	<li>Renamed the 'Default Description' field in the Social Settings metabox to 'Default / OG Description'.</li>
+	<li>Renamed the 'Google / SEO Description' field in the Social Settings metabox to 'Search / SEO Description'.</li>
+	<li>Renamed the (not yet documented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.</li>
+	<li>Added the <code>$encode</code> and <code>$custom</code> variables to the 'ngfb_title_seed' and 'ngfb_description_seed' filter parameters.</li>
+	</ul>
+</li>
+</ul>
 
 <h4>Version 7.5.4.1</h4>
 
