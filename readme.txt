@@ -377,6 +377,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.5.5 =
+
+* Bugfixes
+	* Fixed the Basic / All Options switching on the settings page to save the new display preference upon switching.
+	* Added the missing 'itemscope' / 'itemtype' value to the &lt;html&gt; tag for Google+.
+* Enhancements
+	* Added a new Post / Page custom meta 'G+ / Schema Description' field.
+	* Renamed the Post / Page custom meta 'Default Description' field to 'Default / OG Description'.
+	* Renamed the Post / Page custom meta 'Google / SEO Description' field to 'Search / SEO Description'.
+	* Added a new 'G+ / Schema Description Length' option on the "Google+ and Search" settings tab.
+	* Renamed the (undocumented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.
+	* Added the `$encode` and `$custom` variables to the `ngfb_title_seed` and `ngfb_description_seed` filter parameters.
+
 = Version 7.5.4.1 =
 
 * Bugfixes
