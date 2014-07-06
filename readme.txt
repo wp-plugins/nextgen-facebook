@@ -380,14 +380,14 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.5.5 =
 
 * Bugfixes
-	* Fixed the Basic / All Options switching on the settings page to save the new display preference upon switching.
-	* Added the missing 'itemscope' / 'itemtype' value to the &lt;html&gt; tag for Google+.
+	* Fixed the Basic / All Options switching feature on the settings pages, to save the new display preference upon switching.
+	* Added the missing schema 'itemscope' / 'itemtype' value in the &lt;html&gt; tag for Google+.
 * Enhancements
-	* Added a new Post / Page custom meta 'G+ / Schema Description' field.
-	* Renamed the Post / Page custom meta 'Default Description' field to 'Default / OG Description'.
-	* Renamed the Post / Page custom meta 'Google / SEO Description' field to 'Search / SEO Description'.
 	* Added a new 'G+ / Schema Description Length' option on the "Google+ and Search" settings tab.
-	* Renamed the (undocumented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.
+	* Added a new 'G+ / Schema Description' field in the Social Settings metabox.
+	* Renamed the 'Default Description' field in the Social Settings metabox to 'Default / OG Description'.
+	* Renamed the 'Google / SEO Description' field in the Social Settings metabox to 'Search / SEO Description'.
+	* Renamed the (not yet documented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.
 	* Added the `$encode` and `$custom` variables to the `ngfb_title_seed` and `ngfb_description_seed` filter parameters.
 
 = Version 7.5.4.1 =
@@ -455,6 +455,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a new 'Social Settings' metabox to the user profile page (Pro version).
 
 == Upgrade Notice ==
+
+= 7.5.5 =
+
+Fixed the option display switching to save current view, missing schema itemtype value for the webpage, and added a 'G+ / Schema Description' field to the Social Settings metabox.
 
 = 7.5.4.1 =
 
