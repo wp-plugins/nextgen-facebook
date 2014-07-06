@@ -388,7 +388,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Renamed the 'Default Description' field in the Social Settings metabox to 'Default / OG Description'.
 	* Renamed the 'Google / SEO Description' field in the Social Settings metabox to 'Search / SEO Description'.
 	* Renamed the (not yet documented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.
-	* Added the `$encode` and `$custom` variables to the `ngfb_title_seed` and `ngfb_description_seed` filter parameters.
+	* Added the `$encode` and `$custom` variables to the 'ngfb_title_seed' and 'ngfb_description_seed' filter parameters.
 
 = Version 7.5.4.1 =
 
