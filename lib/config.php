@@ -13,7 +13,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.4.1',		// plugin version
+			'version' => '7.5.5',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'slug' => 'nextgen-facebook',
@@ -139,10 +139,11 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '290',		// increment when changing default options
+				'version' => '291',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
+					'schema_desc_len' => 300,		// meta itemprop="description" maximum text length
 					'seo_desc_len' => 156,			// meta name="description" maximum text length
 					'seo_author_name' => 'none',		// meta name="author" format
 					'seo_def_author_id' => 0,
