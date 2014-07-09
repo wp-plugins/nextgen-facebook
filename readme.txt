@@ -53,7 +53,7 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 	* Twitter
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). <strong>WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons</strong>.</p>
+<p><strong>Don't need the sharing buttons?</strong> Have a look at the <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em> (shortcodes, widgets, stylesheets, javascript caching, and url shortening). As a result, <strong>WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons</strong>.</p>
 </blockquote>
 
 **Pro / Power-User Version**
