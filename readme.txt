@@ -18,7 +18,7 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 
 <p>NextGEN Facebook (NGFB) <strong>gives you total control over the information social websites need</strong>, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
 
-[Looking for NGFB Pro? Upgrade to the Pro version quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
+[Looking for NGFB Pro? Upgrade the Free version quickly and easily right here.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
 
 = Quick List of Features =
 
@@ -60,7 +60,7 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 
 **Pro / Power-User Version**
 
-[Looking for NGFB Pro? Upgrade to the Pro version quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
+[Looking for NGFB Pro? Upgrade the Free version quickly and easily right here.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
 
 * Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
 * Customizable image dimensions for each Twitter Card type.
