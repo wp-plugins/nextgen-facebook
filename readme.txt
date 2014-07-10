@@ -18,7 +18,7 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 
 <p>NextGEN Facebook (NGFB) <strong>gives you total control over the information social websites need</strong>, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
 
-<strong>Looking for NGFB Pro?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
+<strong>Looking for the NGFB Pro version?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
 
 = Quick List of Features =
 
@@ -60,7 +60,7 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 
 **Pro / Power-User Version**
 
-<strong>Looking for NGFB Pro?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
+<strong>Looking for the NGFB Pro version?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
 
 * Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
 * Customizable image dimensions for each Twitter Card type.
@@ -168,7 +168,7 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 
 Aside from the additional support for Twitter Cards, the main difference between the Free and Pro versions is the integration of 3rd party plugins and services.
 
-<strong>Looking for NGFB Pro?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
+<strong>Looking for the NGFB Pro version?</strong> [Upgrade the Free plugin quickly and easily.](http://surniaulula.com/extend/plugins/nextgen-facebook/)
 
 **Images and Videos**
 
