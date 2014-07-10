@@ -18,6 +18,8 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 
 <p>NextGEN Facebook (NGFB) <strong>gives you total control over the information social websites need</strong>, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, LinkedIn, Pinterest, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
 
+[Upgrade to the NGFB Pro version quickly and easily here](http://surniaulula.com/extend/plugins/nextgen-facebook/).
+
 = Quick List of Features =
 
 **Free / Basic Version**
@@ -88,6 +90,8 @@ Display your content in the best possible way on Facebook, Twitter, Pinterest, G
 		* Vimeo Videos
 		* Wistia Videos
 		* Youtube Videos and Playlists
+
+[Upgrade to the NGFB Pro version quickly and easily here](http://surniaulula.com/extend/plugins/nextgen-facebook/).
 
 = Complete Meta Tags =
 
