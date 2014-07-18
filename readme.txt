@@ -483,3 +483,4 @@ Fixed description text for Pinterest button on mobile, added an option to disabl
 = 7.5.0 =
 
 Added a new 'Social Settings' metabox to the user profile page, and added support for author Gravatar images (Pro version).
+
