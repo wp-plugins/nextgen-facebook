@@ -48,7 +48,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $is_avail = array();	// assoc array for other plugin checks
 		public $options = array();	// individual blog/site options
 		public $site_options = array();	// multisite options
-		public $addons = array();	// pro or gpl addons
+		public $addons = array();	// pro and gpl addons
 
 		/**
 		 * Ngfb Constructor
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			require_once( dirname( __FILE__ ).'/lib/config.php' );
 			require_once( dirname( __FILE__ ).'/lib/register.php' );
 
-			$this->cf = NgfbConfig::get_config();
+			$this->cf = NgfbConfig::get_config();	// unfiltered
 			NgfbConfig::set_constants( __FILE__ );
 			NgfbConfig::require_libs( __FILE__ );
 
@@ -130,7 +130,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();	// uses options
 			if ( $this->is_avail['aop'] ) 
-				$this->cf['name'] = $this->cf['short_pro'];
+				$this->cf['short'] = $this->cf['short_pro'];
 
 			// load and config debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 

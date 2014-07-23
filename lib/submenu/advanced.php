@@ -120,10 +120,8 @@ if ( ! class_exists( 'NgfbSubmenuAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 									} else {
 										$rows[] = $this->p->util->th( $name, 'medium' ).
 										'<td class="blank checkbox">'.$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
-										'<td class="blank medium">'.$this->form->get_hidden( $cm_opt.'name' ).
-										$this->p->options[$cm_opt.'name'].'</td>'.
-										'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
-										$this->p->options[$cm_opt.'label'].'</td>';
+										'<td class="blank">'.$this->form->get_fake_input( $cm_opt.'name', 'medium' ).'</td>'.
+										'<td class="blank">'.$this->form->get_fake_input( $cm_opt.'label' ).'</td>';
 									}
 								}
 								break;
@@ -155,8 +153,7 @@ if ( ! class_exists( 'NgfbSubmenuAdvanced' ) && class_exists( 'NgfbAdmin' ) ) {
 								'<td class="blank checkbox">'.$this->form->get_hidden( $cm_opt.'enabled' ).
 									$this->form->get_fake_checkbox( $cm_opt.'enabled' ).'</td>'.
 								'<td>'.$this->form->get_fake_input( $cm_opt.'name', 'medium' ).'</td>'.
-								'<td class="blank">'.$this->form->get_hidden( $cm_opt.'label' ).
-									$this->p->options[$cm_opt.'label'].'</td>';
+								'<td class="blank">'.$this->form->get_fake_input( $cm_opt.'label' ).'</td>';
 							}
 						}
 					}

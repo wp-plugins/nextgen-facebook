@@ -347,7 +347,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'wp_cm_aim_label' => 'AIM', 
 					'wp_cm_aim_enabled' => 1,
 					'wp_cm_jabber_name' => 'jabber', 
-					'wp_cm_jabber_label' => 'Jabber / Google Talk', 
+					'wp_cm_jabber_label' => 'Google Talk', 
 					'wp_cm_jabber_enabled' => 1,
 					'wp_cm_yim_name' => 'yim',
 					'wp_cm_yim_label' => 'Yahoo IM', 
@@ -385,7 +385,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'min_version' => '3.0',		// minimum wordpress version
 				'cm' => array(
 					'aim' => 'AIM',
-					'jabber' => 'Jabber / Google Talk',
+					'jabber' => 'Google Talk',
 					'yim' => 'Yahoo IM',
 				),
 			),
