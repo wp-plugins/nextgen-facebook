@@ -381,6 +381,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.5.6 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added a new Licenses settings sub-menu page, for both single and network admin menus.
+	* Renamed the 'Network' multisite sub-menu to 'Advanced'.
+	* Modified the 'ngfb_load_lib' filter to return a class name.
+	* Modified the `SucomUpdate` class construct to receive an *array* of plugin options (as the second argument).
+	* Renamed the 'plugin_tid' option to 'plugin_ngfb_tid'.
+	* Renamed all GPL and Pro class names to start with  'NgfbGpl' or 'NgfbPro'.
+	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
+
 = Version 7.5.5 =
 
 * Bugfixes
