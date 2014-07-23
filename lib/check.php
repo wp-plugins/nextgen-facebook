@@ -15,8 +15,12 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		private $p;
 		private $active_plugins;
 		private $network_plugins;
-		private static $a = false;
-		private static $n = false;
+		private static $aop = false;
+		private static $mac = array(
+			'seo' => array(
+				'seou' => 'SEO Ultimate',
+			),
+		);
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
@@ -90,10 +94,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
 				class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
 
-			$ret['aop'] = self::$a = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
+			$ret['aop'] = self::$aop = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
 				( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
-				file_exists( NGFB_PLUGINDIR.'lib/pro/addon.php' ) &&
-				class_exists( $this->p->cf['lca'].'addonpro' ) ? true : false;
+				file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
 
 			$ret['ssb'] = ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
 				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
@@ -107,18 +110,17 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					constant( $constant_name ) ? false : true;
 			}
 
-			$more_avail_checks = array(
-				'seo' => array(
-					'seou' => 'SEO Ultimate',
-				),
-			);
+			foreach ( SucomUtil::array_merge_recursive_distinct( 
+				$this->p->cf['lib']['pro'], self::$mac ) as $sub => $lib ) {
 
-			foreach ( SucomUtil::array_merge_recursive_distinct( $this->p->cf['lib']['pro'], $more_avail_checks ) as $sub => $libs ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
-				foreach ( $libs as $id => $name ) {
+
+				foreach ( $lib as $id => $name ) {
+
 					$chk = array();
 					$ret[$sub][$id] = false;	// default value
+
 					switch ( $sub.'-'.$id ) {
 						/*
 						 * 3rd Party Plugins
@@ -195,7 +197,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['optval'] = 'plugin_youtube_api';
 							break;
 						case 'admin-apikeys':
-						case 'admin-rewrite':
 						case 'admin-sharing':
 						case 'admin-style':
 							if ( $ret['ssb'] === true )
@@ -320,14 +321,13 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 
 			// JetPack Photon
 			if ( $this->p->is_avail['media']['photon'] === true && ! $this->is_aop() ) {
+				$purchase_url = $this->p->cf['plugin'][$this->p->cf['lca']]['url']['purchase'];
 				$this->p->debug->log( $conflict_log_prefix.'jetpack photon is enabled' );
 				$this->p->notice->err( $conflict_err_prefix.
 					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
 						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a> '.
 							'(which includes an addon to fix the crippled functions).', NGFB_TEXTDOM ), 
-						get_admin_url( null, 'admin.php?page=jetpack' ),
-						$this->p->cf['url']['purchase'],
-						$this->p->cf['full_pro'] ) );
+						get_admin_url( null, 'admin.php?page=jetpack' ), $purchase_url, $this->p->cf['short_pro'] ) );
 			}
 
 			/*
@@ -343,18 +343,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 						__( 'The WooCommerce ShareYourCart Extension does not provide an option to turn off its Open Graph meta tags.', NGFB_TEXTDOM ).' '.
 						sprintf( __( 'Please disable the extension on the <a href="%s">ShareYourCart Integration Tab</a>.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=woocommerce&tab=integration&section=shareyourcart' ) ) );
-				}
-			}
-
-			// Wordbooker
-			if ( function_exists( 'wordbooker_og_tags' ) ) {
-				$opts = get_option( 'wordbooker_settings' );
-				if ( empty( $opts['wordbooker_fb_disable_og'] ) ) {
-					$this->p->debug->log( $conflict_log_prefix.'wordbooker opengraph is enabled' );
-					$this->p->notice->err( $conflict_err_prefix.
-						sprintf( __( 'Please check the \'<em>Disable in-line production of OpenGraph Tags</em>\' option on the '.
-							'<a href="%s">Wordbooker Options Page</a>.', NGFB_TEXTDOM ), 
-							get_admin_url( null, 'options-general.php?page=wordbooker' ) ) );
 				}
 			}
 
@@ -389,11 +377,13 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function is_aop() {
-			return ( ! empty( $this->p->options['plugin_tid'] ) && 
-				self::$a && class_exists( 'SucomUpdate' ) &&
-				( $u = SucomUpdate::get_umsg( $this->p->cf['lca'] ) ? 
-					self::$n : self::$a ) ) ? $u : self::$n;
+		public function is_aop( $lca = false ) {
+			$lca = $lca === false ? $this->p->cf['lca'] : $lca;
+			return ( ! empty( $this->p->options['plugin_'.$lca.'_tid'] ) && 
+				( isset( self::$aop ) ? self::$aop : false ) && 
+					class_exists( 'SucomUpdate' ) &&
+						( $umsg = SucomUpdate::get_umsg( $lca ) ? 
+							false : self::$aop ) ) ? $umsg : false;
 		}
 	}
 }

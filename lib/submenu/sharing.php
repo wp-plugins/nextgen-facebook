@@ -25,11 +25,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		private function set_objects() {
-			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$loaded = apply_filters( $this->p->cf['lca'].'_load_lib', false, "website/$id" );
-				$classname = __CLASS__.$id;
-				if ( class_exists( $classname ) )
-					$this->website[$id] = new $classname( $this->p );
+			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
+				foreach ( $info['lib']['website'] as $id => $name ) {
+					$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'submenusharing'.$id );
+					if ( $classname !== false && class_exists( $classname ) )
+						$this->website[$id] = new $classname( $this->p );
+				}
 			}
 		}
 

@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminGeneral' ) ) {
+if ( ! class_exists( 'NgfbGplAdminGeneral' ) ) {
 
-	class NgfbAdminGeneral {
+	class NgfbGplAdminGeneral {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;

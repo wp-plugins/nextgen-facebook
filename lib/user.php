@@ -333,7 +333,7 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 		}
 
 		static function delete_metabox_prefs( $user_id = false ) {
-			$cf = NgfbConfig::get_config();
+			$cf = NgfbConfig::get_config( null, true );
 
 			$parent_slug = 'options-general.php';
 			foreach ( array_keys( $cf['lib']['setting'] ) as $id ) {

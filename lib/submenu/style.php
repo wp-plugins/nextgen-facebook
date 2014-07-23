@@ -25,9 +25,10 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 		public function filter_messages_info( $text, $idx ) {
 			switch ( $idx ) {
 				case 'info-style-sharing':
-					$text = '<p>'.$this->p->cf['full'].' uses the \'ngfb-buttons\' class to wrap all its 
+					$notes_url = $this->p->cf['plugin'][$this->p->cf['lca']]['url']['notes'];
+					$text = '<p>'.$this->p->cf['short'].' uses the \'ngfb-buttons\' class to wrap all its 
 					sharing buttons, and each button has it\'s own individual class name as well. 
-					Refer to the <a href="'.$this->p->cf['url']['notes'].'" target="_blank">Notes</a> 
+					Refer to the <a href="'.$notes_url.'" target="_blank">Notes</a> 
 					webpage for additional stylesheet information, including how to hide the sharing 
 					buttons for specific Posts, Pages, categories, tags, etc.</p>';
 					break;

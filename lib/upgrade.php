@@ -13,7 +13,9 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 	class NgfbOptionsUpgrade extends NgfbOptions {
 
 		private $renamed_site_keys = array(
-			'plugin_tid_use' => 'plugin_tid:use',
+			'plugin_tid_use' => 'plugin_ngfb_tid:use',
+			'plugin_tid:use' => 'plugin_ngfb_tid:use',
+			'plugin_tid' => 'plugin_ngfb_tid',
 		);
 
 		private $renamed_keys = array(
@@ -32,13 +34,13 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'stumble_enable' => 'stumble_on_content',
 			'tumblr_enable' => 'tumblr_on_content',
 			'buttons_location' => 'buttons_pos_content',
-			'plugin_pro_tid' => 'plugin_tid',
+			'plugin_pro_tid' => 'plugin_ngfb_tid',
 			'og_admins' => 'fb_admins',
 			'og_app_id' => 'fb_app_id',
 			'link_desc_len' => 'seo_desc_len',
 			'ngfb_version' => 'plugin_version',
 			'ngfb_opts_ver' => 'options_version',
-			'ngfb_pro_tid' => 'plugin_tid',
+			'ngfb_pro_tid' => 'plugin_ngfb_tid',
 			'ngfb_preserve' => 'plugin_preserve',
 			'ngfb_debug' => 'plugin_debug',
 			'ngfb_enable_shortcode' => 'plugin_shortcodes',
@@ -113,6 +115,7 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'link_def_author_id' => 'seo_def_author_id',
 			'link_def_author_on_index' => 'seo_def_author_on_index',
 			'link_def_author_on_search' => 'seo_def_author_on_search',
+			'plugin_tid' => 'plugin_ngfb_tid',
 		);
 
 		protected $p;

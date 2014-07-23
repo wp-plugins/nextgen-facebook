@@ -13,133 +13,151 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.5',		// plugin version
+			'version' => '7.5.6dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
-			'slug' => 'nextgen-facebook',
 			'menu' => 'NGFB',		// menu item label
-			'full' => 'NGFB',		// full plugin name
-			'full_pro' => 'NGFB Pro',
-			'update_hours' => 24,		// check for pro updates
-			'cache' => array(
-				'file' => true,
-				'object' => true,
-				'transient' => true,
-			),
-			'lib' => array(			// libraries
-				'dashboard' => array (
-					'welcome' => 'Welcome to the NextGEN Facebook (NGFB) plugin!',
-				),
-				'setting' => array (
-					'contact' => 'Contact Methods',
-				),
-				'submenu' => array (
-					'general' => 'General',
-					'advanced' => 'Advanced',
-					'sharing' => 'Buttons',
-					'style' => 'Styles',
-					'readme' => 'Read Me',
-					'setup' => 'Setup Guide',
-					'whatsnew' => 'What\'s New',
-				),
-				'sitesubmenu' => array(
-					'network' => 'Network',
-					'readme' => 'Read Me',
-					'setup' => 'Setup Guide',
-					'whatsnew' => 'What\'s New',
-				),
-				'website' => array(
-					'facebook' => 'Facebook', 
-					'gplus' => 'GooglePlus',
-					'twitter' => 'Twitter',
-					'linkedin' => 'LinkedIn',
-					'pinterest' => 'Pinterest',
-					'buffer' => 'Buffer',
-					'reddit' => 'Reddit',
-					'managewp' => 'ManageWP',
-					'stumbleupon' => 'StumbleUpon',
-					'tumblr' => 'Tumblr',
-					'youtube' => 'YouTube',
-					'skype' => 'Skype',
-				),
-				'shortcode' => array(
-					'sharing' => 'Sharing',
-				),
-				'widget' => array(
-					'sharing' => 'Sharing',
-				),
-				'gpl' => array(
-					'admin' => array(
-						'general' => 'General Settings',
-						'advanced' => 'Advanced Settings',
-						'sharing' => 'Button Settings',
-						'style' => 'Style Settings',
-						'apikeys' => 'API Key Settings',
-						'postmeta' => 'Post Social Settings',
-						'user' => 'User Social Settings',
+			'short' => 'NGFB',		// short plugin name
+			'short_pro' => 'NGFB Pro',
+			'update_check_hours' => 24,
+			'plugin' => array(
+				'ngfb' => array(
+					'name' => 'NextGEN Facebook (NGFB) Pro',
+					'slug' => 'nextgen-facebook',
+					'base' => 'nextgen-facebook/nextgen-facebook.php',
+					'url' => array(
+						'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
+						'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
+						'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',
+						'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
+						'setup' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/setup.html',
+						'changelog' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/changelog/',
+						'codex' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/',
+						'faq' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/faq/',
+						'notes' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/',
+						'feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
+						'wp_support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
+						'pro_support' => 'http://support.ngfb.surniaulula.com/',
+						'pro_ticket' => 'http://ticket.ngfb.surniaulula.com/',
 					),
-					'forum' => array(
-						'bbpress' => 'bbPress',
-					),
-					'social' => array(
-						'buddypress' => 'BuddyPress',
-					),
-					'util' => array(
-						'postmeta' => 'Post Social Settings',
-						'user' => 'User Social Settings',
-					),
-				),
-				'pro' => array(
-					'admin' => array(
-						'general' => 'General Settings',
-						'advanced' => 'Advanced Settings',
-						'sharing' => 'Button Settings',
-						'style' => 'Style Settings',
-						'apikeys' => 'API Key Settings',
-						'postmeta' => 'Post Social Settings',
-						'user' => 'User Social Settings',
-					),
-					'ecom' => array(
-						'edd' => 'Easy Digital Downloads',
-						'marketpress' => 'MarketPress',
-						'woocommerce' => 'WooCommerce',
-						'wpecommerce' => 'WP e-Commerce',
-					),
-					'forum' => array(
-						'bbpress' => 'bbPress',
-					),
-					'head' => array(
-						'twittercard' => 'Twitter Cards',
-					),
-					'lang' => array(
-						'polylang' => 'Polylang',
-					),
-					'media' => array(
-						'gravatar' => 'Author Gravatar',
-						'ngg' => 'NextGEN Gallery',
-						'photon' => 'Jetpack Photon',
-						'slideshare' => 'Slideshare API',
-						'vimeo' => 'Vimeo Video API',
-						'wistia' => 'Wistia Video API',
-						'youtube' => 'YouTube Video / Playlist API',
-					),
-					'seo' => array(
-						'aioseop' => 'All in One SEO Pack',
-						'wpseo' => 'WordPress SEO',
-					),
-					'social' => array(
-						'buddypress' => 'BuddyPress',
-					),
-					'util' => array(
-						'language' => 'Publisher Language',
-						'shorten' => 'URL Shortener',
-						'postmeta' => 'Post Social Settings',
-						'user' => 'User Social Settings',
+					'lib' => array(			// libraries
+						'dashboard' => array (
+							'welcome' => 'Welcome to the NextGEN Facebook (NGFB) plugin!',
+						),
+						'setting' => array (
+							'contact' => 'Contact Methods',
+						),
+						'submenu' => array (
+							'general' => 'General',
+							'advanced' => 'Advanced',
+							'sharing' => 'Buttons',
+							'style' => 'Styles',
+							'licenses' => 'Licenses',
+							'readme' => 'Read Me',
+							'setup' => 'Setup Guide',
+							'whatsnew' => 'What\'s New',
+						),
+						'sitesubmenu' => array(
+							'siteadvanced' => 'Advanced',
+							'sitelicenses' => 'Licenses',
+							'sitereadme' => 'Read Me',
+							'sitesetup' => 'Setup Guide',
+							'sitewhatsnew' => 'What\'s New',
+						),
+						'website' => array(
+							'facebook' => 'Facebook', 
+							'gplus' => 'GooglePlus',
+							'twitter' => 'Twitter',
+							'linkedin' => 'LinkedIn',
+							'pinterest' => 'Pinterest',
+							'buffer' => 'Buffer',
+							'reddit' => 'Reddit',
+							'managewp' => 'ManageWP',
+							'stumbleupon' => 'StumbleUpon',
+							'tumblr' => 'Tumblr',
+							'youtube' => 'YouTube',
+							'skype' => 'Skype',
+						),
+						'shortcode' => array(
+							'sharing' => 'Sharing',
+						),
+						'widget' => array(
+							'sharing' => 'Sharing',
+						),
+						'gpl' => array(
+							'admin' => array(
+								'general' => 'General Settings',
+								'advanced' => 'Advanced Settings',
+								'sharing' => 'Button Settings',
+								'style' => 'Style Settings',
+								'apikeys' => 'API Key Settings',
+								'postmeta' => 'Post Social Settings',
+								'user' => 'User Social Settings',
+							),
+							'forum' => array(
+								'bbpress' => 'bbPress',
+							),
+							'social' => array(
+								'buddypress' => 'BuddyPress',
+							),
+							'util' => array(
+								'postmeta' => 'Post Social Settings',
+								'user' => 'User Social Settings',
+							),
+						),
+						'pro' => array(
+							'admin' => array(
+								'general' => 'General Settings',
+								'advanced' => 'Advanced Settings',
+								'sharing' => 'Button Settings',
+								'style' => 'Style Settings',
+								'apikeys' => 'API Key Settings',
+								'postmeta' => 'Post Social Settings',
+								'user' => 'User Social Settings',
+							),
+							'ecom' => array(
+								'edd' => 'Easy Digital Downloads',
+								'marketpress' => 'MarketPress',
+								'woocommerce' => 'WooCommerce',
+								'wpecommerce' => 'WP e-Commerce',
+							),
+							'forum' => array(
+								'bbpress' => 'bbPress',
+							),
+							'head' => array(
+								'twittercard' => 'Twitter Cards',
+							),
+							'lang' => array(
+								'polylang' => 'Polylang',
+							),
+							'media' => array(
+								'gravatar' => 'Author Gravatar',
+								'ngg' => 'NextGEN Gallery',
+								'photon' => 'Jetpack Photon',
+								'slideshare' => 'Slideshare API',
+								'vimeo' => 'Vimeo Video API',
+								'wistia' => 'Wistia Video API',
+								'youtube' => 'YouTube Video / Playlist API',
+							),
+							'seo' => array(
+								'aioseop' => 'All in One SEO Pack',
+								'wpseo' => 'WordPress SEO',
+							),
+							'social' => array(
+								'buddypress' => 'BuddyPress',
+							),
+							'util' => array(
+								'language' => 'Publisher Language',
+								'shorten' => 'URL Shortener',
+								'postmeta' => 'Post Social Settings',
+								'user' => 'User Social Settings',
+							),
+						),
 					),
 				),
 			),
 			'opt' => array(				// options
-				'version' => '291',		// increment when changing default options
+				'version' => '294',		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -276,7 +294,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'add_meta_itemprop_description' => 1,
 					// advanced plugin options
 					'plugin_version' => '',
-					'plugin_tid' => '',
+					'plugin_ngfb_tid' => '',
 					'plugin_display' => 'basic',
 					'plugin_preserve' => 0,
 					'plugin_debug' => 0,
@@ -297,9 +315,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_add_to_post' => 1,
 					'plugin_add_to_page' => 1,
 					'plugin_add_to_attachment' => 1,
-					'plugin_verify_certs' => 0,
-					'plugin_file_cache_hrs' => 0,
 					'plugin_object_cache_exp' => 21600,	// 6 hours
+					'plugin_file_cache_hrs' => 0,
+					'plugin_verify_certs' => 0,
 					'plugin_cm_fb_name' => 'facebook', 
 					'plugin_cm_fb_label' => 'Facebook URL', 
 					'plugin_cm_fb_enabled' => 1,
@@ -339,10 +357,14 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'options_filtered' => false,
 					'options_version' => '',
 					'plugin_version' => '',
-					'plugin_tid' => '',
-					'plugin_tid:use' => 'default',
+					'plugin_ngfb_tid' => '',
+					'plugin_ngfb_tid:use' => 'default',
 					'plugin_object_cache_exp' => 21600,	// 6 hours
 					'plugin_object_cache_exp:use' => 'default',
+					'plugin_file_cache_hrs' => 0,
+					'plugin_file_cache_hrs:use' => 'default',
+					'plugin_verify_certs' => 0,
+					'plugin_verify_certs:use' => 'default',
 				),
 				'pre' => array(
 					'facebook' => 'fb', 
@@ -367,21 +389,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'yim' => 'Yahoo IM',
 				),
 			),
-			'url' => array(
-				'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',
-				'readme' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
-				'setup' => 'http://plugins.svn.wordpress.org/nextgen-facebook/trunk/setup.html',
-				'changelog' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/changelog/',
-				'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
-				'codex' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/',
-				'faq' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/faq/',
-				'notes' => 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/',
-				'feed' => 'http://surniaulula.com/category/application/wordpress/wp-plugins/ngfb/feed/',
-				'support' => 'http://wordpress.org/support/plugin/nextgen-facebook',
-				'pro_support' => 'http://support.ngfb.surniaulula.com/',
-				'pro_ticket' => 'http://ticket.ngfb.surniaulula.com/',
-				'pro_update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
-			),
 			'follow' => array(
 				'size' => 32,
 				'src' => array(
@@ -400,33 +407,57 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'file_cache_hours' => array( 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 ),
 				'js_locations' => array( 'none' => '[none]', 'header' => 'Header', 'footer' => 'Footer' ),
 				'caption_types' => array( 'none' => '[none]', 'title' => 'Title Only', 'excerpt' => 'Excerpt Only', 'both' => 'Title and Excerpt' ),
-				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
 				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
+				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
+				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
 			),
 			'head' => array(
 				'min_img_dim' => 200,
 				'min_desc_len' => 156,
 			),
+			'cache' => array(
+				'file' => true,
+				'object' => true,
+				'transient' => true,
+			),
 		);
 
-		public static function get_config( $idx = '' ) { 
-			// remove the sharing libs if social sharing features are disabled
-			if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
-				unset (
-					self::$cf['lib']['submenu']['sharing'],
-					self::$cf['lib']['submenu']['style'],
-					self::$cf['lib']['shortcode']['sharing'],
-					self::$cf['lib']['widget']['sharing'],
-					self::$cf['lib']['gpl']['admin']['sharing'],
-					self::$cf['lib']['gpl']['admin']['style'],
-					self::$cf['lib']['gpl']['admin']['apikeys'],
-					self::$cf['lib']['pro']['admin']['sharing'],
-					self::$cf['lib']['pro']['admin']['style'],
-					self::$cf['lib']['pro']['admin']['apikeys'],
-					self::$cf['lib']['pro']['util']['shorten']
-				);
-				self::$cf['lib']['website'] = array();
+		// get_config is called very early, so don't apply filters unless instructed
+		public static function get_config( $idx = '', $filter = false ) { 
+
+			if ( ! isset( self::$cf['config_filtered'] ) ||
+				self::$cf['config_filtered'] !== true ) {
+
+				// remove the sharing libs if social sharing features are disabled
+				if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
+					foreach ( self::$cf['plugin'] as $lca => $info ) {
+						unset (
+							$info['lib']['website'],
+							$info['lib']['submenu']['sharing'],
+							$info['lib']['submenu']['style'],
+							$info['lib']['shortcode']['sharing'],
+							$info['lib']['widget']['sharing'],
+							$info['lib']['gpl']['admin']['sharing'],
+							$info['lib']['gpl']['admin']['style'],
+							$info['lib']['gpl']['admin']['apikeys'],
+							$info['lib']['pro']['admin']['sharing'],
+							$info['lib']['pro']['admin']['style'],
+							$info['lib']['pro']['admin']['apikeys'],
+							$info['lib']['pro']['util']['shorten']
+						);
+						self::$cf['plugin'][$lca] = $info;
+					}
+				}
+
+				if ( $filter === true ) {
+					self::$cf = apply_filters( self::$cf['lca'].'_get_config', self::$cf );
+					self::$cf['config_filtered'] = true;
+					self::$cf['lib'] = array();
+					foreach ( self::$cf['plugin'] as $lca => $info )
+						self::$cf['lib'] = SucomUtil::array_merge_recursive_distinct( self::$cf['lib'], $info['lib'] );
+				}
 			}
+
 			if ( ! empty( $idx ) ) {
 				if ( array_key_exists( $idx, self::$cf ) )
 					return self::$cf[$idx];
@@ -437,11 +468,12 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		public static function set_constants( $plugin_filepath ) { 
 
 			$cf = self::get_config();
+			$slug = $cf['plugin'][$cf['lca']]['slug'];
 
 			define( 'NGFB_FILEPATH', $plugin_filepath );						
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
 			define( 'NGFB_PLUGINBASE', plugin_basename( $plugin_filepath ) );
-			define( 'NGFB_TEXTDOM', $cf['slug'] );
+			define( 'NGFB_TEXTDOM', $slug );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
 			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$cf['version'] ) );
 
@@ -499,59 +531,61 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		public static function require_libs( $plugin_filepath ) {
 			
 			$cf = self::get_config();
-			$plugin_dir = NGFB_PLUGINDIR;
 
-			require_once( $plugin_dir.'lib/com/util.php' );
-			require_once( $plugin_dir.'lib/com/cache.php' );
-			require_once( $plugin_dir.'lib/com/notice.php' );
-			require_once( $plugin_dir.'lib/com/script.php' );
-			require_once( $plugin_dir.'lib/com/style.php' );
-			require_once( $plugin_dir.'lib/com/webpage.php' );
-			require_once( $plugin_dir.'lib/com/opengraph.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/util.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/cache.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/notice.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/script.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/style.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/webpage.php' );
+			require_once( NGFB_PLUGINDIR.'lib/com/opengraph.php' );
 
-			require_once( $plugin_dir.'lib/check.php' );
-			require_once( $plugin_dir.'lib/util.php' );
-			require_once( $plugin_dir.'lib/options.php' );
-			require_once( $plugin_dir.'lib/postmeta.php' );
-			require_once( $plugin_dir.'lib/user.php' );
-			require_once( $plugin_dir.'lib/media.php' );
-			require_once( $plugin_dir.'lib/head.php' );
+			require_once( NGFB_PLUGINDIR.'lib/check.php' );
+			require_once( NGFB_PLUGINDIR.'lib/util.php' );
+			require_once( NGFB_PLUGINDIR.'lib/options.php' );
+			require_once( NGFB_PLUGINDIR.'lib/postmeta.php' );
+			require_once( NGFB_PLUGINDIR.'lib/user.php' );
+			require_once( NGFB_PLUGINDIR.'lib/media.php' );
+			require_once( NGFB_PLUGINDIR.'lib/head.php' );
 
 			if ( is_admin() ) {
-				require_once( $plugin_dir.'lib/messages.php' );
-				require_once( $plugin_dir.'lib/admin.php' );
-				require_once( $plugin_dir.'lib/com/form.php' );
-				require_once( $plugin_dir.'lib/ext/parse-readme.php' );
-			} else require_once( $plugin_dir.'lib/functions.php' );
+				require_once( NGFB_PLUGINDIR.'lib/messages.php' );
+				require_once( NGFB_PLUGINDIR.'lib/admin.php' );
+				require_once( NGFB_PLUGINDIR.'lib/com/form.php' );
+				require_once( NGFB_PLUGINDIR.'lib/ext/parse-readme.php' );
+			} else require_once( NGFB_PLUGINDIR.'lib/functions.php' );
 
 			if ( ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
 				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
-				file_exists( $plugin_dir.'lib/sharing.php' ) )
-					require_once( $plugin_dir.'lib/sharing.php' );
+				file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) )
+					require_once( NGFB_PLUGINDIR.'lib/sharing.php' );
 
 			if ( ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
-				file_exists( $plugin_dir.'lib/opengraph.php' ) )
-					require_once( $plugin_dir.'lib/opengraph.php' );	// extends lib/com/opengraph.php
+				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) )
+					require_once( NGFB_PLUGINDIR.'lib/opengraph.php' );	// extends lib/com/opengraph.php
 
-			// additional classes are loaded and extended by the pro addon construct
-			if ( file_exists( $plugin_dir.'lib/pro/addon.php' ) )
-				require_once( $plugin_dir.'lib/pro/addon.php' );
+			if ( file_exists( NGFB_PLUGINDIR.'lib/loader.php' ) )
+				require_once( NGFB_PLUGINDIR.'lib/loader.php' );
 
-			add_filter( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 2 );
+			add_filter( 'ngfb_load_lib', array( 'NgfbConfig', 'load_lib' ), 10, 3 );
 		}
 
-		public static function load_lib( $loaded = false, $filepath = '' ) {
-			if ( $loaded === false && ! empty( $filepath ) ) {
-				$filepath = NGFB_PLUGINDIR.'lib/'.$filepath.'.php';
+		public static function load_lib( $ret = false, $filespec = '', $classname = '' ) {
+			if ( $ret === false && ! empty( $filespec ) ) {
+				$filepath = NGFB_PLUGINDIR.'lib/'.$filespec.'.php';
 				if ( file_exists( $filepath ) ) {
 					require_once( $filepath );
-					return true;
+					if ( empty( $classname ) )
+						return 'ngfb'.str_replace( '/', '', $filespec );
+					else return $classname;
 				}
 			}
-			return $loaded;
+			return $ret;
 		}
 	}
 }

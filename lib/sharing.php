@@ -120,13 +120,13 @@ jQuery("#ngfb-sidebar").click( function(){
 					'admin_edit' => 'Admin Edit',
 				),
 				'style' => array(
-					'sharing' => 'Buttons Style',
-					'content' => 'Content Style',
-					'excerpt' => 'Excerpt Style',
-					'sidebar' => 'Sidebar Style',
-					'shortcode' => 'Shortcode Style',
-					'widget' => 'Widget Style',
-					'admin_edit' => 'Admin Edit Style',
+					'sharing' => 'All Buttons',
+					'content' => 'Content',
+					'excerpt' => 'Excerpt',
+					'sidebar' => 'Sidebar',
+					'shortcode' => 'Shortcode',
+					'widget' => 'Widget',
+					'admin_edit' => 'Admin Edit',
 				),
 			),
 		);
@@ -166,11 +166,12 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		private function set_objects() {
-			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
-				$loaded = apply_filters( $this->p->cf['lca'].'_load_lib', false, "website/$id" );
-				$classname = __CLASS__.$id;
-				if ( class_exists( $classname ) )
-					$this->website[$id] = new $classname( $this->p );
+			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
+				foreach ( $info['lib']['website'] as $id => $name ) {
+					$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'sharing'.$id );
+					if ( $classname !== false && class_exists( $classname ) )
+						$this->website[$id] = new $classname( $this->p );
+				}
 			}
 		}
 
@@ -325,14 +326,14 @@ jQuery("#ngfb-sidebar").click( function(){
 					<a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/constants/" target="_blank">constant</a>.';
 					break;
 				case 'tooltip-side-social-file-cache':
-					$text = $this->p->cf['full_pro'].' can save social sharing images and JavaScript to a cache folder, 
+					$text = $this->p->cf['short_pro'].' can save social sharing images and JavaScript to a cache folder, 
 					and provide URLs to these cached files instead of the originals. The current \'File Cache Expiry\'
 					value, as defined on the '.$this->p->util->get_admin_url( 'advanced', 'Advanced settings page' ).', is '.
 					$this->p->options['plugin_file_cache_hrs'].' hours (the default value of 0 hours disables the 
 					file caching feature).';
 					break;
 				case 'tooltip-side-url-shortener':
-					$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['full_pro'].'</strong>, 
+					$text = '<strong>When using the Twitter social sharing button provided by '.$this->p->cf['short_pro'].'</strong>, 
 					the webpage URL (aka the <em>canonical</em> or <em>permalink</em> URL) within the Tweet, can be shortened by one 
 					of the available URL shortening services. Enable URL shortening for Twitter from the '.
 					$this->p->util->get_admin_url( 'sharing', 'Buttons' ).' settings page.';

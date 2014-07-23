@@ -8,14 +8,14 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbAdminSharing' ) ) {
+if ( ! class_exists( 'NgfbGplAdminSharing' ) ) {
 
-	class NgfbAdminSharing {
+	class NgfbGplAdminSharing {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->util->add_plugin_filters( $this, array( 
-				'plugin_cache_rows' => 2,	// advanced 'File and Object Cache' options
+				'plugin_cache_rows' => 3,	// advanced 'File and Object Cache' options
 				'sharing_include_rows' => 2,	// social sharing 'Include Buttons' options
 				'sharing_preset_rows' => 2,	// social sharing 'Preset Options' options
 				'meta_tabs' => 1,		// post meta 'Sharing Buttons' tab
@@ -23,15 +23,20 @@ if ( ! class_exists( 'NgfbAdminSharing' ) ) {
 			), 30 );
 		}
 
-		public function filter_plugin_cache_rows( $rows, $form ) {
+		public function filter_plugin_cache_rows( $rows, $form, $network = false ) {
 
 			$rows[] = $this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
-			'<td class="blank">'.$form->get_hidden( 'plugin_file_cache_hrs' ). 
-			$this->p->options['plugin_file_cache_hrs'].' hours</td>';
+			'<td nowrap class="blank">'.$form->get_fake_input( 'plugin_file_cache_hrs', 'short' ).' hours</td>'.
+			( $network === false ? '' : $this->p->util->th( 'Site Use', 'site_use' ).
+				'<td class="site_use blank">'.$form->get_select( 'plugin_file_cache_hrs:use', 
+					$this->p->cf['form']['site_option_use'], 'site_use', null, true, true ).'</td>' );
 
 			if ( $this->p->options['plugin_display'] == 'all' ) {
 				$rows[] = $this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
-				'<td class="blank">'.$form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>';
+				'<td class="blank">'.$form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>'.
+				( $network === false ? '' : $this->p->util->th( 'Site Use', 'site_use' ).
+					'<td class="site_use blank">'.$form->get_select( 'plugin_verify_certs:use', 
+						$this->p->cf['form']['site_option_use'], 'site_use', null, true, true ).'</td>' );
 			}
 
 			return $rows;

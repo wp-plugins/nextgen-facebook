@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 3.9.1
- * Version: 7.5.5
+ * Version: 7.5.6dev1
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -26,14 +26,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $admin;			// NgfbAdmin (admin menus and page loader)
 		public $cache;			// SucomCache (object and file caching)
 		public $debug;			// SucomDebug or NgfbNoDebug
-		public $gpl;			// NgfbAddonGpl
 		public $head;			// NgfbHead
+		public $loader;			// NgfbLoader
 		public $media;			// NgfbMedia (images, videos, etc.)
 		public $msgs;			// NgfbMessages (admin tooltip messages)
 		public $notice;			// SucomNotice
 		public $og;			// NgfbOpenGraph (extends SucomOpengraph)
 		public $opt;			// NgfbOptions
-		public $pro;			// NgfbAddonPro
 		public $reg;			// NgfbRegister
 		public $script;			// SucomScript (admin jquery tooltips)
 		public $sharing;		// NgfbSharing (wp_head and wp_footer js and buttons)
@@ -49,7 +48,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $is_avail = array();	// assoc array for other plugin checks
 		public $options = array();	// individual blog/site options
 		public $site_options = array();	// multisite options
-		public $addons = array();	// pro and gpl addons
+		public $addons = array();	// pro or gpl addons
 
 		/**
 		 * Ngfb Constructor
@@ -86,7 +85,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		// runs at init priority -1
 		public function set_config() {
-			$this->cf = apply_filters( 'ngfb_get_config', NgfbConfig::get_config() );
+			$this->cf = NgfbConfig::get_config( null, true );
 		}
 
 		// runs at init priority 1
@@ -94,9 +93,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$opts = get_option( NGFB_OPTIONS_NAME );
 			if ( ! empty( $opts['plugin_widgets'] ) && ! empty( $this->cf['lib']['widget'] ) ) {
 				foreach ( $this->cf['lib']['widget'] as $id => $name ) {
-					$loaded = apply_filters( $this->cf['lca'].'_load_lib', false, "widget/$id" );
-					$classname = __CLASS__.'widget'.$name;
-					if ( class_exists( $classname ) )
+					$classname = apply_filters( $this->cf['lca'].'_load_lib', false, "widget/$id" );
+					if ( $classname !== false && class_exists( $classname ) )
 						register_widget( $classname );
 				}
 			}
@@ -129,15 +127,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
 			$this->set_options();
-
-			require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
-			if ( ! empty( $this->options['plugin_tid'] ) )
-				require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
-
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();	// uses options
 			if ( $this->is_avail['aop'] ) 
-				$this->cf['full'] = $this->cf['full_pro'];
+				$this->cf['name'] = $this->cf['short_pro'];
 
 			// load and config debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
@@ -169,12 +162,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( $this->is_avail['ssb'] )
 				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons
 
-			if ( ! $this->check->is_aop() ||
-				get_option( $this->cf['lca'].'_umsg' ) ||
-				SucomUpdate::get_umsg( $this->cf['lca'] ) ) {
-				require_once( NGFB_PLUGINDIR.'lib/gpl/addon.php' );
-				$this->gpl = new NgfbAddonGpl( $this );
-			} else $this->pro = new NgfbAddonPro( $this );
+			$this->loader = new NgfbLoader( $this );
 
 			do_action( $this->cf['lca'].'_init_addon' );
 
@@ -236,17 +224,17 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					__( 'Informational messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
 			}
 
-			// setup the update checks if we have an Authentication ID
-			if ( ! empty( $this->options['plugin_tid'] ) ) {
-				add_filter( $this->cf['lca'].'_ua_plugin', array( &$this, 'filter_ua_plugin' ), 10, 1 );
-				add_filter( $this->cf['lca'].'_installed_version', array( &$this, 'filter_installed_version' ), 10, 1 );
-				$this->update = new SucomUpdate( $this, $this->cf['lca'], $this->cf['slug'], NGFB_PLUGINBASE, $this->cf['url']['pro_update'] );
+			if ( ! empty( $this->options['plugin_'.$this->cf['lca'].'_tid'] ) ) {
+				$this->util->add_plugin_filters( $this, array( 'installed_version' => 1, 'ua_plugin' => 1 ) );
+				$this->update = new SucomUpdate( $this, $this->cf['plugin'], $this->cf['update_check_hours'] );
 				if ( is_admin() ) {
-					// if update_hours * 2 has passed without an update, then force one now
-					$last_update = get_option( $this->cf['lca'].'_utime' );
-					if ( empty( $last_update ) || 
-						( ! empty( $this->cf['update_hours'] ) && $last_update + ( $this->cf['update_hours'] * 7200 ) < time() ) )
-							$this->update->check_for_updates();
+					foreach ( $this->cf['plugin'] as $lca => $info ) {
+						$last_update = get_option( $lca.'_utime' );
+						if ( empty( $last_update ) || 
+							( ! empty( $this->cf['update_check_hours'] ) && 
+								$last_update + ( $this->cf['update_check_hours'] * 7200 ) < time() ) )
+									$this->update->check_for_updates( $lca );
+					}
 				}
 			}
 		}

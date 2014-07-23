@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbSocialBuddypress' ) ) {
+if ( ! class_exists( 'NgfbGplSocialBuddypress' ) ) {
 
-	class NgfbSocialBuddypress {
+	class NgfbGplSocialBuddypress {
 
 		private $p;
 		private $sharing;
@@ -53,9 +53,9 @@ if ( ! class_exists( 'NgfbSocialBuddypress' ) ) {
 	}
 }
 
-if ( ! class_exists( 'NgfbSocialBuddypressSharing' ) && class_exists( 'NgfbSharing' ) ) {
+if ( ! class_exists( 'NgfbGplSocialBuddypressSharing' ) && class_exists( 'NgfbSharing' ) ) {
 
-	class NgfbSocialBuddypressSharing {
+	class NgfbGplSocialBuddypressSharing {
 
 		private $p;
 

@@ -8,9 +8,9 @@ Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
 if ( ! defined( 'ABSPATH' ) ) 
 	die( 'These aren\'t the droids you\'re looking for...' );
 
-if ( ! class_exists( 'NgfbUtilPostmeta' ) && class_exists( 'NgfbPostmeta' ) ) {
+if ( ! class_exists( 'NgfbGplUtilPostmeta' ) && class_exists( 'NgfbPostmeta' ) ) {
 
-	class NgfbUtilPostmeta extends NgfbPostmeta {
+	class NgfbGplUtilPostmeta extends NgfbPostmeta {
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
