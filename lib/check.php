@@ -377,8 +377,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function is_aop( $lca = false ) {
-			$lca = $lca === false ? $this->p->cf['lca'] : $lca;
+		public function is_aop( $lca = '' ) {
+			$lca = empty( $lca ) ? $this->p->cf['lca'] : $lca;
 			return ( ! empty( $this->p->options['plugin_'.$lca.'_tid'] ) && 
 				( isset( self::$aop ) ? self::$aop : false ) && 
 					class_exists( 'SucomUpdate' ) &&
