@@ -61,13 +61,13 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 			' options tab on the General settings page). '.
 			'The website\'s @username will also be displayed and recommended after the Post / Page is shared.' ).
 			( $this->p->check->is_aop( 'ngfb' ) ? '<td>'.$this->form->get_checkbox( 'twitter_via' ).'</td>' :
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_via' ).'</td>' );
+				'<td class="blank">'.$this->form->get_no_checkbox( 'twitter_via' ).'</td>' );
 
 			$rows[] = $this->p->util->th( 'Recommend Author', 'short', null, 
 			'Recommend following the Author\'s Twitter @username (from their profile) after sharing. 
 			If the \'<em>Add via @username</em>\' option (above) is also checked, the Website\'s @username will be suggested first.' ).
 			( $this->p->check->is_aop( 'ngfb' ) ? '<td>'.$this->form->get_checkbox( 'twitter_rel_author' ).'</td>' :
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'twitter_rel_author' ).'</td>' );
+				'<td class="blank">'.$this->form->get_no_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {
 				$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );

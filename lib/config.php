@@ -13,7 +13,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 	class NgfbConfig {
 
 		private static $cf = array(
-			'version' => '7.5.6dev1',		// plugin version
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'menu' => 'NGFB',		// menu item label
@@ -22,6 +21,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
+					'version' => '7.5.6',		// plugin version
 					'name' => 'NextGEN Facebook (NGFB) Pro',
 					'slug' => 'nextgen-facebook',
 					'base' => 'nextgen-facebook/nextgen-facebook.php',
@@ -410,6 +410,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
 				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
 				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
+				'yes_no' => array( '1' => 'Yes', '0' => 'No' ),
 			),
 			'head' => array(
 				'min_img_dim' => 200,
@@ -425,8 +426,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		// get_config is called very early, so don't apply filters unless instructed
 		public static function get_config( $idx = '', $filter = false ) { 
 
-			if ( ! isset( self::$cf['config_filtered'] ) ||
-				self::$cf['config_filtered'] !== true ) {
+			if ( ! isset( self::$cf['config_filtered'] ) || self::$cf['config_filtered'] !== true ) {
 
 				// remove the sharing libs if social sharing features are disabled
 				if ( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && NGFB_SOCIAL_SHARING_DISABLE ) {
@@ -452,9 +452,17 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				if ( $filter === true ) {
 					self::$cf = apply_filters( self::$cf['lca'].'_get_config', self::$cf );
 					self::$cf['config_filtered'] = true;
-					self::$cf['lib'] = array();
-					foreach ( self::$cf['plugin'] as $lca => $info )
-						self::$cf['lib'] = SucomUtil::array_merge_recursive_distinct( self::$cf['lib'], $info['lib'] );
+					self::$cf['*'] = array( 
+						'lib' => array(),
+						'version' => '',
+					);
+					foreach ( self::$cf['plugin'] as $lca => $info ) {
+						if ( isset( $info['lib'] ) && is_array( $info['lib'] ) )
+							self::$cf['*']['lib'] = SucomUtil::array_merge_recursive_distinct( self::$cf['*']['lib'], $info['lib'] );
+						if ( isset( $info['version'] ) )
+							self::$cf['*']['version'] .= '-'.$lca.$info['version'];
+					}
+					self::$cf['*']['version'] = trim( self::$cf['*']['version'], '-' );
 				}
 			}
 
@@ -469,13 +477,14 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 
 			$cf = self::get_config();
 			$slug = $cf['plugin'][$cf['lca']]['slug'];
+			$version = $cf['plugin'][$cf['lca']]['version'];
 
 			define( 'NGFB_FILEPATH', $plugin_filepath );						
 			define( 'NGFB_PLUGINDIR', trailingslashit( plugin_dir_path( $plugin_filepath ) ) );
 			define( 'NGFB_PLUGINBASE', plugin_basename( $plugin_filepath ) );
 			define( 'NGFB_TEXTDOM', $slug );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
-			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$cf['version'] ) );
+			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$version ) );
 
 			/*
 			 * Allow some constants to be pre-defined in wp-config.php

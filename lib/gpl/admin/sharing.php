@@ -26,14 +26,14 @@ if ( ! class_exists( 'NgfbGplAdminSharing' ) ) {
 		public function filter_plugin_cache_rows( $rows, $form, $network = false ) {
 
 			$rows[] = $this->p->util->th( 'Social File Cache Expiry', 'highlight', 'plugin_file_cache_hrs' ).
-			'<td nowrap class="blank">'.$form->get_fake_input( 'plugin_file_cache_hrs', 'short' ).' hours</td>'.
+			'<td nowrap class="blank">'.$form->get_no_input( 'plugin_file_cache_hrs', 'short' ).' hours</td>'.
 			( $network === false ? '' : $this->p->util->th( 'Site Use', 'site_use' ).
 				'<td class="site_use blank">'.$form->get_select( 'plugin_file_cache_hrs:use', 
 					$this->p->cf['form']['site_option_use'], 'site_use', null, true, true ).'</td>' );
 
 			if ( $this->p->options['plugin_display'] == 'all' ) {
 				$rows[] = $this->p->util->th( 'Verify SSL Certificates', null, 'plugin_verify_certs' ).
-				'<td class="blank">'.$form->get_fake_checkbox( 'plugin_verify_certs' ).'</td>'.
+				'<td class="blank">'.$form->get_no_checkbox( 'plugin_verify_certs' ).'</td>'.
 				( $network === false ? '' : $this->p->util->th( 'Site Use', 'site_use' ).
 					'<td class="site_use blank">'.$form->get_select( 'plugin_verify_certs:use', 
 						$this->p->cf['form']['site_option_use'], 'site_use', null, true, true ).'</td>' );
@@ -45,16 +45,13 @@ if ( ! class_exists( 'NgfbGplAdminSharing' ) ) {
 		public function filter_sharing_include_rows( $rows, $form ) {
 			$checkboxes = '';
 			foreach ( $this->p->util->get_post_types( 'buttons' ) as $post_type )
-				$checkboxes .= '<p>'.$form->get_fake_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
+				$checkboxes .= '<p>'.$form->get_no_checkbox( 'buttons_add_to_'.$post_type->name ).' '.
 					$post_type->label.' '.( empty( $post_type->description ) ? '' : '('.$post_type->description.')' ).'</p>';
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = $this->p->util->th( 'Include on Post Types', null, 'buttons_add_to' ).'<td class="blank">'.$checkboxes.'</td>';
 			return $rows;
 		}
 
 		public function filter_sharing_preset_rows( $rows, $form ) {
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
-
 			$presets = array();
 			foreach ( SucomUtil::preg_grep_keys( '/^buttons_preset_/', $this->p->options, false, '' ) as $key => $val )
 				$presets[$key] = ucwords( preg_replace( '/_/', ' ', $key ) );
@@ -81,8 +78,6 @@ if ( ! class_exists( 'NgfbGplAdminSharing' ) ) {
 
 			$twitter_cap_len = $this->p->util->get_tweet_max_len( get_permalink( $post_info['id'] ) );
 			list( $pid, $video_url ) = $this->p->addons['util']['postmeta']->get_media( $post_info['id'] );
-
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
 			$th = $this->p->util->th( 'Pinterest Image Caption', 'medium', 'postmeta-pin_desc' );
 			if ( ! empty( $pid ) ) {

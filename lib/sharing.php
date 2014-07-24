@@ -16,8 +16,8 @@ if ( ! class_exists( 'NgfbSharing' ) ) {
 		protected $website = array();
 		protected $plugin_filepath;
 
-		public $sharing_css_min_file;
-		public $sharing_css_min_url;
+		public $sharing_css_min_file = '';
+		public $sharing_css_min_url = '';
 
 		public static $cf = array(
 			'opt' => array(				// options
@@ -134,8 +134,8 @@ jQuery("#ngfb-sidebar").click( function(){
 		public function __construct( &$plugin, $plugin_filepath = NGFB_FILEPATH ) {
 			$this->p =& $plugin;
 			$this->plugin_filepath = $plugin_filepath;
-			$this->sharing_css_min_file = NGFB_CACHEDIR.$this->p->cf['lca'].'-sharing-styles.min.css';
-			$this->sharing_css_min_url = NGFB_CACHEURL.$this->p->cf['lca'].'-sharing-styles.min.css';
+			$this->sharing_css_min_file = NGFB_CACHEDIR.'sharing-styles.min.css';
+			$this->sharing_css_min_url = NGFB_CACHEURL.'sharing-styles.min.css';
 			$this->set_objects();
 
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_styles' ) );
@@ -167,10 +167,12 @@ jQuery("#ngfb-sidebar").click( function(){
 
 		private function set_objects() {
 			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
-				foreach ( $info['lib']['website'] as $id => $name ) {
-					$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'sharing'.$id );
-					if ( $classname !== false && class_exists( $classname ) )
-						$this->website[$id] = new $classname( $this->p );
+				if ( isset( $info['lib']['website'] ) ) {
+					foreach ( $info['lib']['website'] as $id => $name ) {
+						$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'sharing'.$id );
+						if ( $classname !== false && class_exists( $classname ) )
+							$this->website[$id] = new $classname( $this->p );
+					}
 				}
 			}
 		}
@@ -280,23 +282,23 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		public function filter_status_gpl_features( $features ) {
-			if ( ! empty( $this->p->cf['lib']['submenu']['sharing'] ) )
+			if ( ! empty( $this->p->cf['*']['lib']['submenu']['sharing'] ) )
 				$features['Sharing Buttons'] = array( 'class' => $this->p->cf['lca'].'Sharing' );
 
-			if ( ! empty( $this->p->cf['lib']['shortcode']['sharing'] ) )
+			if ( ! empty( $this->p->cf['*']['lib']['shortcode']['sharing'] ) )
 				$features['Sharing Shortcode'] = array( 'class' => $this->p->cf['lca'].'ShortcodeSharing' );
 
-			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
+			if ( ! empty( $this->p->cf['*']['lib']['submenu']['style'] ) )
 				$features['Sharing Stylesheet'] = array( 'status' => $this->p->options['buttons_use_social_css'] ? 'on' : 'off' );
 
-			if ( ! empty( $this->p->cf['lib']['widget']['sharing'] ) )
+			if ( ! empty( $this->p->cf['*']['lib']['widget']['sharing'] ) )
 				$features['Sharing Widget'] = array( 'class' => $this->p->cf['lca'].'WidgetSharing' );
 
 			return $features;
 		}
 
 		public function filter_status_pro_features( $features ) {
-			if ( ! empty( $this->p->cf['lib']['submenu']['style'] ) )
+			if ( ! empty( $this->p->cf['*']['lib']['submenu']['sharing'] ) )
 				$features['Social File Cache'] = array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' );
 
 			return $features;
@@ -419,7 +421,12 @@ jQuery("#ngfb-sidebar").click( function(){
 
 				if ( ! empty( $this->p->options['buttons_enqueue_social_css'] ) ) {
 					$this->p->debug->log( 'wp_enqueue_style = '.$this->p->cf['lca'].'_sharing_buttons' );
-					wp_register_style( $this->p->cf['lca'].'_sharing_buttons', $this->sharing_css_min_url, false, $this->p->cf['version'] );
+					wp_register_style( 
+						$this->p->cf['lca'].'_sharing_buttons', 
+						$this->sharing_css_min_url, 
+						false, 
+						$this->p->cf['plugin'][$this->p->cf['lca']]['version']
+					);
 					wp_enqueue_style( $this->p->cf['lca'].'_sharing_buttons' );
 				} else {
 					if ( ! is_readable( $this->sharing_css_min_file ) ) {
@@ -457,14 +464,16 @@ jQuery("#ngfb-sidebar").click( function(){
 					foreach ( $style_tabs as $id => $name )
 						if ( array_key_exists( 'buttons_css_'.$id, $opts ) )
 							$css_data .= $opts['buttons_css_'.$id];
-					require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-					$css_data = SuextMinifyCssCompressor::process( $css_data );
-					if ( fwrite( $fh, $css_data ) === false ) {
-						if ( is_admin() )
-							$this->p->notice->err( 'Failed writing to file '.$this->sharing_css_min_file.'.', true );
-						$this->p->debug->log( 'failed writing to '.$this->sharing_css_min_file );
-					} else $this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
-					fclose( $fh );
+					$classname = apply_filters( $this->p->cf['lca'].'_load_lib', false, 'ext/compressor', 'SuextMinifyCssCompressor' );
+					if ( $classname !== false && class_exists( $classname ) ) {
+						$css_data = $classname::process( $css_data );
+						if ( fwrite( $fh, $css_data ) === false ) {
+							if ( is_admin() )
+								$this->p->notice->err( 'Failed writing to file '.$this->sharing_css_min_file.'.', true );
+							$this->p->debug->log( 'failed writing to '.$this->sharing_css_min_file );
+						} else $this->p->debug->log( 'updated css file '.$this->sharing_css_min_file );
+						fclose( $fh );
+					}
 				}
 			} else $this->unlink_sharing_css();
 		}

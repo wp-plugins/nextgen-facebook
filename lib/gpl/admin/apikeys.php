@@ -26,7 +26,6 @@ if ( ! class_exists( 'NgfbGplAdminApikeys' ) ) {
 		}
 
 		public function filter_plugin_apikeys_rows( $rows, $form ) {
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 
 			if ( $this->p->options['plugin_display'] == 'all' ) {
 				$rows[] = $this->p->util->th( 'Minimum URL Length to Shorten', null, 'plugin_min_shorten' ). 
@@ -47,8 +46,8 @@ if ( ! class_exists( 'NgfbGplAdminApikeys' ) ) {
 				$this->p->options['plugin_google_api_key'].'</td>';
 
 			$rows[] = $this->p->util->th( 'Google URL Shortener API is ON', null, 'plugin_google_shorten' ).
-			'<td class="blank">'.$form->get_fake_radio( 'plugin_google_shorten', 
-				array( '1' => 'Yes', '0' => 'No' ), null, null, true ).'</td>';
+			'<td class="blank">'.$form->get_no_radio( 'plugin_google_shorten', 
+				$this->p->cf['form']['yes_no'], null, null, true ).'</td>';
 
 			return $rows;
 		}

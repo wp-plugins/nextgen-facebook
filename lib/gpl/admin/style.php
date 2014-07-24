@@ -37,7 +37,6 @@ if ( ! class_exists( 'NgfbGplAdminStyle' ) ) {
 					( empty( $this->p->options['buttons_preset_'.$idx] ) ? '[none]' :
 						$this->p->options['buttons_preset_'.$idx] ).'</p>';
 			}
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = '<td class="textinfo">'.$text.'</td>'.
 			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_'.$idx ).
 				$this->p->options['buttons_css_'.$idx].'</td>';

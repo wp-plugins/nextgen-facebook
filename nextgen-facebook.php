@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Twitter, Pinterest, Google+, LinkedIn, etc - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 3.9.1
- * Version: 7.5.6dev1
+ * Version: 7.5.6
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -67,11 +67,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		 * @return Ngfb
 		 */
 		public function __construct() {
-
 			require_once( dirname( __FILE__ ).'/lib/config.php' );
 			require_once( dirname( __FILE__ ).'/lib/register.php' );
 
-			$this->cf = NgfbConfig::get_config();	// unfiltered
+			$this->cf = NgfbConfig::get_config();		// unfiltered - $cf['*'] array is not available
 			NgfbConfig::set_constants( __FILE__ );
 			NgfbConfig::require_libs( __FILE__ );
 
@@ -85,17 +84,21 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		// runs at init priority -1
 		public function set_config() {
-			$this->cf = NgfbConfig::get_config( null, true );
+			$this->cf = NgfbConfig::get_config( null, true );	// apply filters - define the $cf['*'] array
 		}
 
 		// runs at init priority 1
 		public function init_widgets() {
 			$opts = get_option( NGFB_OPTIONS_NAME );
-			if ( ! empty( $opts['plugin_widgets'] ) && ! empty( $this->cf['lib']['widget'] ) ) {
-				foreach ( $this->cf['lib']['widget'] as $id => $name ) {
-					$classname = apply_filters( $this->cf['lca'].'_load_lib', false, "widget/$id" );
-					if ( $classname !== false && class_exists( $classname ) )
-						register_widget( $classname );
+			if ( ! empty( $opts['plugin_widgets'] ) ) {
+				foreach ( $this->cf['plugin'] as $lca => $info ) {
+					if ( isset( $info['lib']['widget'] ) && is_array( $info['lib']['widget'] ) ) {
+						foreach ( $info['lib']['widget'] as $id => $name ) {
+							$classname = apply_filters( $lca.'_load_lib', false, 'widget/'.$id );
+							if ( $classname !== false && class_exists( $classname ) )
+								register_widget( $classname );
+						}
+					}
 				}
 			}
 		}
@@ -109,7 +112,9 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				return;
 
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-			$this->set_objects();
+
+			$this->set_objects();	// define the class object variables
+
 			if ( $this->debug->is_on() === true )
 				foreach ( array( 'wp_head', 'wp_footer', 'admin_head', 'admin_footer' ) as $action )
 					foreach ( array( 1, 9999 ) as $prio ) {
@@ -119,26 +124,31 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					}
 		}
 
-		public function show_debug_html() { $this->debug->show_html(); }
+		public function show_debug_html() { 
+			$this->debug->show_html();
+		}
 
 		// called by activate_plugin() as well
 		public function set_objects( $activate = false ) {
+
 			/*
 			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
-			$this->set_options();
-			$this->check = new NgfbCheck( $this );
-			$this->is_avail = $this->check->get_avail();	// uses options
-			if ( $this->is_avail['aop'] ) 
-				$this->cf['short'] = $this->cf['short_pro'];
+			$this->set_options();	// filter and define the $this->options and $this->site_options properties
 
-			// load and config debug class
+			$this->check = new NgfbCheck( $this );
+			$this->is_avail = $this->check->get_avail();		// uses $this->options in checks
+			if ( $this->is_avail['aop'] ) 
+				$this->cf['short'] = $this->cf['short_pro'];	// adjust short name if pro libs exist
+
+			// configure debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
 			if ( $html_debug || $wp_debug )
-				$this->debug = new SucomDebug( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
-			else $this->debug = new NgfbNoDebug();
+				$this->debug = new SucomDebug( $this, 
+					array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+			else $this->debug = new NgfbNoDebug();			// fallback to dummy debug class
 
 			$this->notice = new SucomNotice( $this );
 			$this->util = new NgfbUtil( $this );

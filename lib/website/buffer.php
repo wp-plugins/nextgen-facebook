@@ -54,8 +54,9 @@ if ( ! class_exists( 'NgfbSubmenuSharingBuffer' ) && class_exists( 'NgfbSubmenuS
 			'Append the website\'s @username to the tweet (see the '.
 			$this->p->util->get_admin_url( 'general#sucom-tab_pub_twitter', 'Twitter' ).
 			' options tab on the General settings page).' ).
-			( $this->p->check->is_aop() == true ? '<td>'.$this->form->get_checkbox( 'buffer_via' ).'</td>' :
-				'<td class="blank">'.$this->form->get_fake_checkbox( 'buffer_via' ).'</td>' );
+			( $this->p->check->is_aop() == true ? 
+				'<td>'.$this->form->get_checkbox( 'buffer_via' ).'</td>' :
+				'<td class="blank">'.$this->form->get_no_checkbox( 'buffer_via' ).'</td>' );
 
 			return $rows;
 		}

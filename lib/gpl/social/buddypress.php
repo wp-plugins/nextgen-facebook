@@ -101,7 +101,6 @@ if ( ! class_exists( 'NgfbGplSocialBuddypressSharing' ) && class_exists( 'NgfbSh
 
 		/* Purpose: Add css input textarea for the 'BuddyPress Activity' style tab */
 		public function filter_style_bp_activity_rows( $rows, $form ) {
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = '<td class="textinfo">
 			<p>Social sharing buttons added to BuddyPress Activities are assigned the 
 			\'ngfb-bp_activity-buttons\' class, which itself contains the 

@@ -26,10 +26,12 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		private function set_objects() {
 			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
-				foreach ( $info['lib']['website'] as $id => $name ) {
-					$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'submenusharing'.$id );
-					if ( $classname !== false && class_exists( $classname ) )
-						$this->website[$id] = new $classname( $this->p );
+				if ( isset( $info['lib']['website'] ) ) {
+					foreach ( $info['lib']['website'] as $id => $name ) {
+						$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'submenusharing'.$id );
+						if ( $classname !== false && class_exists( $classname ) )
+							$this->website[$id] = new $classname( $this->p );
+					}
 				}
 			}
 		}
@@ -95,7 +97,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			add_meta_box( $this->pagehook.'_sharing', 'Social Sharing Buttons', array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
 			$col = 0;
 			$row = 0;
-			foreach ( $this->p->cf['lib']['website'] as $id => $name ) {
+			foreach ( $this->p->cf['*']['lib']['website'] as $id => $name ) {
 				$classname = __CLASS__.ucfirst( $id );
 				if ( class_exists( $classname ) ) {
 					$col = $col == 1 ? 2 : 1;
@@ -108,7 +110,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 				}
 			}
 			// these metabox ids should be closed by default (array_diff() selects everything except)
-			$closed_ids = array_diff( array_keys( $this->p->cf['lib']['website'] ), array( 'facebook', 'gplus' ) );
+			$closed_ids = array_diff( array_keys( $this->p->cf['*']['lib']['website'] ), array( 'facebook', 'gplus' ) );
 			$closed_ids[] = 'rating';
 			$this->p->addons['util']['user']->reset_metabox_prefs( $this->pagehook, $closed_ids, 'closed' );
 		}

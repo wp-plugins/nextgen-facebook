@@ -84,7 +84,6 @@ if ( ! class_exists( 'NgfbGplForumBbpressSharing' ) && class_exists( 'NgfbSharin
 
 		/* Purpose: Add css input textarea for the 'bbPress Single' style tab */
 		public function filter_style_bbp_single_rows( $rows, $form ) {
-			$rows[] = '<td colspan="2" align="center">'.$this->p->msgs->get( 'pro-feature-msg' ).'</td>';
 			$rows[] = '<td class="textinfo">
 			<p>Social sharing buttons added at the top of bbPress Single Templates are assigned the 
 			\'ngfb-bbp_single-buttons\' class, which itself contains the 
