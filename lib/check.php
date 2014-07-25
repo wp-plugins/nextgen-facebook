@@ -164,7 +164,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['plugin'] = 'all-in-one-seo-pack/all-in-one-seo-pack.php';
 							break;
 						case 'seo-seou':
-							$chk['class'] = 'SEO_Ultimate'; 
+							$chk['class'] = 'SEO_Ultimate';
 							$chk['plugin'] = 'seo-ultimate/seo-ultimate.php';
 							break;
 						case 'seo-wpseo':
@@ -235,7 +235,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				return;
 
 			$conflict_log_prefix =  __( 'plugin conflict detected', NGFB_TEXTDOM ) . ' - ';
-			$conflict_err_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' -- ';
+			$conflict_err_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' - ';
 
 			// PHP
 			if ( empty( $this->p->is_avail['mbdecnum'] ) ) {

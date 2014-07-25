@@ -225,22 +225,24 @@ NGFB is fast and coded for performance, making full use of all available caching
 <strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong> Very Fast. A few examples from the [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of some well known plugins:
 
 <ul>
-	<li><strong>0.0112</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.5.5</li>
+	<li><strong>0.0117</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.5.6</li>
 	<li><strong>0.0155</strong> secs - All in One SEO Pack v2.2.1</li>
 	<li><strong>0.0157</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (<em>No Products</em>)</li>
-	<li><strong>0.0198</strong> secs - <strong>NextGEN Facebook</strong> (NGFB) v7.5.6</li>
+	<li><strong>0.0186</strong> secs - <strong>NextGEN Facebook</strong> (NGFB) v7.5.6</li>
 	<li><strong>0.0230</strong> secs - Easy Digital Downloads v1.9.8 (No Products)</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (<em>No Products</em>)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (<em>No Forums or Topics</em>)</li>
-	<li><strong>0.0405</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
+	<li><strong>0.0414</strong> secs - <em>WordPress Twenty Fourteen Theme</em>
+	<li><strong>0.0425</strong> secs - WooCommerce v2.1.5 (<em>No Products</em>)</li>
 	<li><strong>0.0572</strong> secs - SEO Ultimate v7.6.2</li>
 	<li><strong>0.0579</strong> secs - Facebook v1.5.5</li>
+	<li><strong>0.0654</strong> secs - <em>WordPress Core</em> v3.9.1
 	<li><strong>0.0656</strong> secs - BuddyPress v1.9.2 (<em>No Activities</em>)</li>
-	<li><strong>0.1105</strong> secs - WordPress SEO by Yoast v1.5.4.2</li>
+	<li><strong>0.0934</strong> secs - WordPress SEO by Yoast v1.5.4.2</li>
 	<li><strong>0.1980</strong> secs - JetPack by WordPress.com v2.9.2</li>
 </ul>
 
-<p><small><em>Tests executed on a VPS with SSDs and 6GB ram, APC opcode/object cache, WordPress v3.8.1, P3 v1.4.1 configured with opcode optimization enabled (improves accuracy).</em></small></p>
+<p><small><em>Performance tests were executed on dedicated hardware, using an APC opcode/object cache, WordPress v3.9.1, and P3 v1.5.1 configured with opcode optimization enabled (improves accuracy).</em></small></p>
 
 = Clean Uninstall =
 

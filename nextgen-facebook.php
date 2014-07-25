@@ -141,7 +141,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			if ( $this->is_avail['aop'] ) 
 				$this->cf['short'] = $this->cf['short_pro'];	// adjust short name if pro libs exist
 
-			// configure debug class
+			// configure the debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
