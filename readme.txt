@@ -225,10 +225,10 @@ NGFB is fast and coded for performance, making full use of all available caching
 <strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong> Very Fast. A few examples from the [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of some well known plugins:
 
 <ul>
-	<li><strong>0.0117</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.5.6</li>
+	<li><strong>0.0117</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.6</li>
 	<li><strong>0.0155</strong> secs - All in One SEO Pack v2.2.1</li>
 	<li><strong>0.0157</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)</li>
-	<li><strong>0.0186</strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.5.6</strong></em></li>
+	<li><strong>0.0186</strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6</strong></em></li>
 	<li><strong>0.0230</strong> secs - Easy Digital Downloads v1.9.8 (No Products)</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (No Products)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (No Forums or Topics)</li>
@@ -382,119 +382,22 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.5.6 =
+= Version 7.6 =
 
 * Bugfixes
 	* *None*
 * Enhancements
-	* Added a new Licenses settings sub-menu page, for both single and network admin menus.
 	* Renamed the 'Network' multisite sub-menu to 'Advanced'.
-	* Modified the 'ngfb_load_lib' filter to return a class name.
+	* Added a new 'Licenses' settings sub-menu page, for both single and network admin menus.
+	* Modified the 'ngfb_load_lib' filter to return a class name or false, instead of just true or false.
 	* Modified the `SucomUpdate` class construct to receive an *array* of plugin options (as the second argument).
 	* Renamed the 'plugin_tid' option to 'plugin_ngfb_tid'.
 	* Renamed all GPL and Pro class names to start with  'NgfbGpl' or 'NgfbPro'.
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
-= Version 7.5.5 =
-
-* Bugfixes
-	* Fixed the Basic / All Options switching feature on the settings pages, to save the new display preference upon switching.
-	* Added the missing schema 'itemscope' / 'itemtype' value in the &lt;html&gt; tag for Google+.
-* Enhancements
-	* Added a new 'G+ / Schema Description Length' option on the "Google+ and Search" settings tab.
-	* Added a new 'G+ / Schema Description' field in the Social Settings metabox.
-	* Renamed the 'Default Description' field in the Social Settings metabox to 'Default / OG Description'.
-	* Renamed the 'Google / SEO Description' field in the Social Settings metabox to 'Search / SEO Description'.
-	* Renamed the (not yet documented) 'ngfb_meta_og' filter to 'ngfb_meta_name'.
-	* Added the `$encode` and `$custom` variables to the 'ngfb_title_seed' and 'ngfb_description_seed' filter parameters.
-
-= Version 7.5.4.1 =
-
-* Bugfixes
-        * Added an `is_array()` test for values returned by the WordPress `get_the_terms()` function in the EDD and WooCommerce addons (Pro version).
-* Enhancements
-	* *None*
-
-= Version 7.5.4 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Added the "Read Me", "Setup Guide", and "What's New" setting pages to the Network Admin NGFB menu.
-	* Added a new 'Plugin Settings to Display' option to select between a set of 'Basic Plugin Options' and 'All Plugin Options'.
-	* Improved the CSS to add more space between the various plugin option fields (props patrickd his suggestion).
-	* Moved the management of several non-essential options to the Pro version.
-
-= Version 7.5.3 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Added a 'Shortcode Preset' option.
-	* Added support for a 'preset_id' to the NGFB shortcode.
-	* Added an 'Image Dimensions' option in the Pinterest publisher settings tab.
-	* Added an additional check for images sizes returned by WordPress to validate the aspect ratio of uncropped images. WordPress has an unfortunate habit of returning images that are "close enough" and may return cropped images when an uncropped image was requested.
-
-= Version 7.5.2 =
-
-* Bugfixes
-	* Fixed the post ID reference for header transient objects.
-* Enhancements
-	* Renamed the 'About' settings page to 'Read Me'.
-	* Added a new 'Setup Guide' settings page with [configuration hints and suggestions](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/).
-	* Added a new 'Welcome' dashboard page, displayed only once, when the options are updated or the plugin is activated.
-
-= Version 7.5.1 =
-
-* Bugfixes
-	* Changed the urlencode() call to rawurlencode() to remove the '+' character from Pinterest descriptions on mobile devices.
-* Enhancements
-	* Added the 'JavaScript in: [none]' option value for social button settings, allowing a button to be active, but not include its JavaScript.
-
-= Version 7.5.0 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Renamed the 'Custom Settings' metabox to 'Social Settings'.
-	* Renamed the `$this->p->user` object variable to `$this->p->addons['util']['user']`.
-	* Changed several `is_author()` checks to include support for admin side user profile pages.
-	* Added support for HTTPS to the Reddit, Managewp, and Tumblr buttons.
-	* Added an `NgfbUtilUser` addon class that extends `NgfbUser`.
-	* Added a 'Gravatar Images for Author Indexes' option on the General settings page.
-	* Added a 'Force Default Image on Author Index' option on the General settings page.
-	* Added a 'Force Default Video on Author Index' option on the General settings page.
-	* Added a 'Show Social Settings on: User Profile' option on the Advanced settings page.
-	* Added a `get_author_image()` method to the `NgfbMedia` class.
-	* Added a `get_author_object()` method to the `SucomUtil` class.
-	* Added the `lib/gpl/admin/user.php` and `lib/gpl/util/user.php` library files.
-	* Added the `lib/pro/admin/user.php`, `lib/pro/util/user.php`, and `lib/pro/media/gravatar.php` library files (Pro version).
-	* Added an 'Author Gravatar' addon to include Gravatar images in author index pages (Pro version).
-	* Added a new 'Social Settings' metabox to the user profile page (Pro version).
-
 == Upgrade Notice ==
 
-= 7.5.5 =
+= 7.6 =
 
-Fixed the option display switching to save current view, missing schema itemtype value for the webpage, and added a 'G+ / Schema Description' field to the Social Settings metabox.
-
-= 7.5.4.1 =
-
-Version 7.5.4 simplifies the settings pages by adding a new 'Plugin Settings to Display' option on the NGFB Advanced settings page.
-
-= 7.5.3 =
-
-Adds a new 'Image Dimensions' option on the Pinterest publisher settings tab, along with a 'Shortcode Preset' option on the Buttons settings page.
-
-= 7.5.2 =
-
-Added a new 'Setup Guide' settings page and 'Welcome' dashboard page (displayed only once, when options are updated or the plugin is activated).
-
-= 7.5.1 =
-
-Fixed description text for Pinterest button on mobile, added an option to disable share button JavaScripts.
-
-= 7.5.0 =
-
-Added a new 'Social Settings' metabox to the user profile page, and added support for author Gravatar images (Pro version).
+Added a new 'Licenses' settings page to allow for future plugin extensions, and renamed the 'Network' multisite settings page to 'Advanced'.
 
