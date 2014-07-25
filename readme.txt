@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.9.1
-Stable Tag: 7.5.5
+Stable Tag: 7.6
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -228,7 +228,7 @@ NGFB is fast and coded for performance, making full use of all available caching
 	<li><strong>0.0117</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.6</li>
 	<li><strong>0.0155</strong> secs - All in One SEO Pack v2.2.1</li>
 	<li><strong>0.0157</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)</li>
-	<li><strong>0.0186</strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6</strong></em></li>
+	<li><strong>0.0190</strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6</strong></em></li>
 	<li><strong>0.0230</strong> secs - Easy Digital Downloads v1.9.8 (No Products)</li>
 	<li><strong>0.0322</strong> secs - WP e-Commerce v3.8.13.3 (No Products)</li>
 	<li><strong>0.0393</strong> secs - bbPress v2.5.3 (No Forums or Topics)</li>
