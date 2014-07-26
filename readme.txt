@@ -225,7 +225,7 @@ NGFB is fast and coded for performance, making full use of all available caching
 <strong><em>How Fast is NGFB Compared to Other Plugins?</em></strong> Very Fast. A few examples from the [P3 (Plugin Performance Profiler)](http://wordpress.org/plugins/p3-profiler/), using [WP Test Data](http://wptest.io/) and the default settings of some well known plugins:
 
 <ul>
-	<li><strong>0.0117</strong> secs - WordPress Social Sharing Optimization (WPSSO) v2.6</li>
+	<li><strong>0.0117</strong> secs - <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization (WPSSO) v2.6</a></li>
 	<li><strong>0.0155</strong> secs - All in One SEO Pack v2.2.1</li>
 	<li><strong>0.0157</strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)</li>
 	<li><strong>0.0190</strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6</strong></em></li>
