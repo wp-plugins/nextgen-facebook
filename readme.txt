@@ -382,6 +382,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.1 =
+
+* Bugfixes
+	* Fixed a static class reference in 'NgfbSharing' for PHP v5.2 and older.
+* Enhancements
+	* *None*
+
 = Version 7.6 =
 
 * Bugfixes
@@ -397,6 +404,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
-= 7.6 =
+= 7.6.1 =
 
 Added a new 'Licenses' settings page to allow for future plugin extensions, and renamed the 'Network' multisite settings page to 'Advanced'.
+
