@@ -147,7 +147,7 @@ jQuery("#ngfb-sidebar").click( function(){
 			$this->add_buttons_filter( 'the_content' );
 
 			$this->p->util->add_plugin_filters( $this, array( 
-				'get_defaults' => 1,		// add sharing options and css file contents to defaults
+				'get_defaults' => 1,	// add sharing options and css file contents to defaults
 			) );
 
 			if ( is_admin() ) {
@@ -466,7 +466,7 @@ jQuery("#ngfb-sidebar").click( function(){
 							$css_data .= $opts['buttons_css_'.$id];
 					$classname = apply_filters( $this->p->cf['lca'].'_load_lib', false, 'ext/compressor', 'SuextMinifyCssCompressor' );
 					if ( $classname !== false && class_exists( $classname ) ) {
-						$css_data = $classname::process( $css_data );
+						$css_data = SuextMinifyCssCompressor::process( $css_data );	// only php v5.3+ allow for static class name variables
 						if ( fwrite( $fh, $css_data ) === false ) {
 							if ( is_admin() )
 								$this->p->notice->err( 'Failed writing to file '.$this->sharing_css_min_file.'.', true );
