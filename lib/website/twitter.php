@@ -70,7 +70,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingTwitter' ) && class_exists( 'NgfbSubmenu
 				'<td class="blank">'.$this->form->get_no_checkbox( 'twitter_rel_author' ).'</td>' );
 
 			if ( isset( $this->p->addons['admin']['apikeys'] ) ) {
-				$shorteners = array( '' => 'none', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
+				$shorteners = array( 'none' => '[none]', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' );
 				$rows[] = $this->p->util->th( 'Shorten URLs with', 'short', null, 
 				'If you select a URL shortening service here, <strong>you must also enter its API credentials</strong>
 				on the '.$this->p->util->get_admin_url( 'advanced#sucom-tab_plugin_apikeys', 'Advanced settings page' ).'.' ).
@@ -105,7 +105,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 					'twitter_via' => 1,
 					'twitter_rel_author' => 1,
 					'twitter_dnt' => 1,
-					'twitter_shortener' => '',
+					'twitter_shortener' => 'none',
 				),
 			),
 		);

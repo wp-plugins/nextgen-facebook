@@ -220,8 +220,10 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					if ( ( ! empty( $chk['function'] ) && function_exists( $chk['function'] ) ) || 
 						( ! empty( $chk['class'] ) && class_exists( $chk['class'] ) ) ||
 						( ! empty( $chk['plugin'] ) && in_array( $chk['plugin'], $this->active_plugins ) ) ||
-						( ! empty( $chk['optval'] ) && ! empty( $this->p->options[$chk['optval']] ) ) )
-							$ret[$sub]['*'] = $ret[$sub][$id] = true;
+						( ! empty( $chk['optval'] ) && 
+							! empty( $this->p->options[$chk['optval']] ) && 
+							$this->p->options[$chk['optval']] !== 'none' ) )
+								$ret[$sub]['*'] = $ret[$sub][$id] = true;
 				}
 			}
 
@@ -247,7 +249,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					__( 'Please update your PHP installation (install \'php-mbstring\' on most Linux distros).', NGFB_TEXTDOM ) );
 			}
 			if ( empty( $this->p->is_avail['curl'] ) ) {
-				if ( ! empty( $this->p->options['twitter_shortener'] ) ) {
+				if ( ! empty( $this->p->options['twitter_shortener'] ) && 
+					$this->p->options['twitter_shortener'] !== 'none' ) {
+
 					$this->p->debug->log( 'url shortening is enabled but curl function is missing' );
 					$this->p->notice->err( sprintf( __( 'URL shortening has been enabled, but PHP\'s <a href="%s" target="_blank">Client URL Library</a> '.
 						'(cURL) is missing.', NGFB_TEXTDOM ), 'http://ca3.php.net/curl' ).' '.
