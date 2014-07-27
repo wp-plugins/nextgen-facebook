@@ -538,8 +538,8 @@ jQuery("#ngfb-sidebar").click( function(){
 			$text = '';	// varabled passed by reference
 			$text = $this->get_buttons( $text, 'sidebar', false );	// use_post = false
 			if ( ! empty( $text ) ) {
-				echo '<div id="ngfb-sidebar">';
-				echo '<div id="ngfb-sidebar-header"></div>';
+				echo '<div id="'.$this->p->cf['lca'].'-sidebar">';
+				echo '<div id="'.$this->p->cf['lca'].'-sidebar-header"></div>';
 				echo $text;
 				echo '</div>', "\n";
 				echo '<script type="text/javascript">'.$js.'</script>', "\n";
