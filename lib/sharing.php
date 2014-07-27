@@ -298,9 +298,15 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		public function filter_status_pro_features( $features ) {
-			if ( ! empty( $this->p->cf['*']['lib']['submenu']['sharing'] ) )
-				$features['Social File Cache'] = array( 'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off' );
-
+			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
+				if ( ! empty( $info['lib']['submenu']['sharing'] ) ) {
+					$features['Social File Cache'] = array( 
+						'status' => $this->p->is_avail['cache']['file'] ? 'on' : 'off',
+						'td_class' => $this->p->check->is_aop( $lca ) ? '' : 'blank',
+					);
+					break;	// stop after first match
+				}
+			}
 			return $features;
 		}
 
