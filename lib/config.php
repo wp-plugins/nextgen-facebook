@@ -23,9 +23,14 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'ngfb' => array(
 					'version' => '7.6.1',		// plugin version
 					'name' => 'NextGEN Facebook (NGFB) Pro',
+					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
 					'slug' => 'nextgen-facebook',
 					'base' => 'nextgen-facebook/nextgen-facebook.php',
+					'img' => array(
+						'logo-125x125' => '//ps.w.org/nextgen-facebook/assets/logo-125x125.jpg?rev=',
+					),
 					'url' => array(
+						'download' => 'http://wordpress.org/plugins/nextgen-facebook/',
 						'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
 						'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 						'review' => 'http://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',

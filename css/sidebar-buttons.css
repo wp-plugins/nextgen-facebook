@@ -16,35 +16,45 @@
 
 	/* position 15% down from top and 400px left of center 
 	 * by using the right margin to push sidebar left */
-	/*	top:15%;
+	/*
+		top:10%;
 		right:50%;
-		margin:0 400px 0 0; */
+		margin:0 400px 0 0;
+	*/
 }
 
-/* show a large sharing icon at the top */
 #ngfb-sidebar-header { 
-	width:72px;
-	height:72px;
-
-	/* modify the share icon for the sidebar here */
-	background-image:url("{{URLPATH}}images/share-icon-1.png");
-	background-repeat:no-repeat;
-	background-position:center;
+	/* show a large sharing icon at the top */
+	/*
+		width:72px;
+		height:72px;
+		background-image:url("{{URLPATH}}images/share-icon-1.png");
+		background-repeat:no-repeat;
+		background-position:center;
+	*/
 }
 
-/* hide the buttons by default and show/hide on hover/click */
 #ngfb-sidebar-buttons { 
-	width:0;		/* hide by default */
-	height:0;		/* hide by default */
-	overflow:hidden;	/* hide by default */
-	border-style:none;	/* hide by default */
+	display:block;
+	width:auto;
+	height:auto;
+	overflow:visible;
+	border-style:solid;
+
+	/* hide the buttons by default and show/hide on hover/click */
+	/*
+		width:0;		
+		height:0;
+		overflow:hidden;
+		border-style:none;
+	*/
 
 	/* create a shadowed box with a light grey background */
-	border-radius:5px;
-	background:none repeat scroll 0% 0% rgb(250, 250, 250);
-	box-shadow:0px 0px 5px rgb(120, 120, 120);
-	border-width:1px;
-	border-color:rgb(255, 255, 255);
+		border-radius:5px;
+		background:none repeat scroll 0% 0% rgb(250, 250, 250);
+		box-shadow:0px 0px 5px rgb(120, 120, 120);
+		border-width:1px;
+		border-color:rgb(255, 255, 255);
 }
 
 /* pre-define the width and height of each button for faster load */
