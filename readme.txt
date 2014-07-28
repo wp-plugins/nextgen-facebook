@@ -382,11 +382,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 16. Screenshot 16 : An Example Twitter 'Photo' Card
 17. Screenshot 17 : An Example Twitter 'Gallery' Card
 18. Screenshot 18 : An Example Twitter 'Product' Card
-19. Screenshot 19 : NGFB General Settings Page
-20. Screenshot 20 : NGFB Advanced Settings Page
-21. Screenshot 21 : NGFB Buttons Settings Page
-22. Screenshot 22 : NGFB Styles Settings Page
-23. Screenshot 23 : Post / Page NGFB Custom Settings
 
 == Changelog ==
 
