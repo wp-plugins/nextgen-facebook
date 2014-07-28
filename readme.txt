@@ -230,7 +230,7 @@ NGFB is fast and coded for performance, making full use of all available caching
 	<li><strong><font color="blue">0.0117</font></strong> secs - <a href="http://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization (WPSSO) v2.6</a></li>
 	<li><strong><font color="blue">0.0149</font></strong> secs - All in One SEO Pack v2.2.1</li>
 	<li><strong><font color="blue">0.0157</font></strong> secs - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)</li>
-	<li><strong><font color="blue">0.0186</font></strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6</strong></em></li>
+	<li><strong><font color="blue">0.0186</font></strong> secs - <em><strong>NextGEN Facebook (NGFB) v7.6.1</strong></em></li>
 
 	<li><strong><font color="green">0.0230</font></strong> secs - Easy Digital Downloads v1.9.8 (No Products)</li>
 	<li><strong><font color="green">0.0254</font></strong> secs - MailPoet Newsletters (aka Wysija Newsletters) v2.6.9</li>
