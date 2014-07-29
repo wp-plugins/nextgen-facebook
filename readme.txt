@@ -194,6 +194,7 @@ NGFB comes with several sharing buttons, that you can optionally include on Post
 * **LinkedIn**
 * **ManageWP**
 * **Pinterest**
+* **Reddit**
 * **StumbleUpon**
 * **Tumblr** (Links, Quotes, Images, Videos)
 * **Twitter** (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
