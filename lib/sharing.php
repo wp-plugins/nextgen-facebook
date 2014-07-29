@@ -638,7 +638,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				$sorted_ids = array();
 				foreach ( $this->p->cf['opt']['pre'] as $id => $pre )
 					if ( ! empty( $this->p->options[$pre.'_on_'.$type] ) )
-						$sorted_ids[$this->p->options[$pre.'_order'].'-'.$id] = $id;
+						$sorted_ids[ zeroise( $this->p->options[$pre.'_order'], 3 ).'-'.$id ] = $id;
 				ksort( $sorted_ids );
 
 				$atts['use_post'] = $use_post;
@@ -862,6 +862,13 @@ jQuery("#ngfb-sidebar").click( function(){
 				if ( ! empty( $this->p->options[$pre.'_on_'.$type] ) )
 					return true;
 			return false;
+		}
+
+		public function get_website_ids() {
+			$ids = array();
+			foreach ( array_keys( $this->website ) as $id )
+				$ids[$id] = $this->p->cf['*']['lib']['website'][$id];
+			return $ids;
 		}
 	}
 }

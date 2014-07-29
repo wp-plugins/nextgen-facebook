@@ -90,9 +90,8 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 		public function update( $new_instance, $old_instance ) {
 			$instance = $old_instance;
 			$instance['title'] = strip_tags( $new_instance['title'] );
-			foreach ( $this->p->cf['*']['lib']['website'] as $id => $name )
+			foreach ( $this->p->sharing->get_website_ids() as $id => $name )
 				$instance[$id] = empty( $new_instance[$id] ) ? 0 : 1;
-			unset( $name, $id );
 			return $instance;
 		}
 	
@@ -103,26 +102,23 @@ if ( ! class_exists( 'NgfbWidgetSharing' ) && class_exists( 'WP_Widget' ) ) {
 					'" name="', $this->get_field_name( 'title' ), 
 					'" type="text" value="', $title, '" /></p>', "\n";
 	
-			foreach ( $this->p->cf['*']['lib']['website'] as $id => $name ) {
-				$classname = $this->p->cf['lca'].'Sharing'.$id;
-				if ( class_exists( $classname ) ) {
-					$name = $name == 'GooglePlus' ? 'Google+' : $name;
-					echo '<p><label for="', $this->get_field_id( $id ), '">', 
-						'<input id="', $this->get_field_id( $id ), 
-						'" name="', $this->get_field_name( $id ), 
-						'" value="1" type="checkbox" ';
-					if ( ! empty( $instance[$id] ) )
-						echo checked( 1 , $instance[$id] );
-					echo ' /> ', $name;
-					switch ( $id ) {
-						case 'pinterest' : echo ' (not added on indexes)'; break;
-						case 'tumblr' : echo ' (shares link on indexes)'; break;
-					}
-					echo '</label></p>', "\n";
+			foreach ( $this->p->sharing->get_website_ids() as $id => $name ) {
+				$name = $name == 'GooglePlus' ? 'Google+' : $name;
+				echo '<p><label for="', $this->get_field_id( $id ), '">', 
+					'<input id="', $this->get_field_id( $id ), 
+					'" name="', $this->get_field_name( $id ), 
+					'" value="1" type="checkbox" ';
+				if ( ! empty( $instance[$id] ) )
+					echo checked( 1 , $instance[$id] );
+				echo ' /> ', $name;
+				switch ( $id ) {
+					case 'pinterest' : echo ' (not added on indexes)'; break;
+					case 'tumblr' : echo ' (shares link on indexes)'; break;
 				}
+				echo '</label></p>', "\n";
 			}
-			unset( $id, $name );
 		}
+
 	}
 }
 

@@ -9,10 +9,10 @@
 	text-align:left;
 }
 .ngfb-widget-buttons .ngfb-buttons { 
-	margin:0;
+	margin:20px 0 0 0;
 }
 .ngfb-widget-buttons .ngfb-buttons > div { 
 	display:block;
-	padding:3px;
+	margin:15px;
 	width:160px; 
 }
