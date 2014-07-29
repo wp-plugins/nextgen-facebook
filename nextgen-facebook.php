@@ -49,6 +49,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $options = array();	// individual blog/site options
 		public $site_options = array();	// multisite options
 		public $addons = array();	// pro and gpl addons
+		public $short = '';
 
 		/**
 		 * Ngfb Constructor
@@ -138,8 +139,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();		// uses $this->options in checks
-			if ( $this->is_avail['aop'] ) 
-				$this->cf['short'] = $this->cf['short_pro'];	// adjust short name if pro libs exist
+			$this->short = $this->cf['plugin'][$this->cf['lca']]['short'];
+			if ( $this->is_avail['aop'] ) $this->short .= ' Pro';
 
 			// configure the debug class
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 

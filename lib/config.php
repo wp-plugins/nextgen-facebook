@@ -16,13 +16,12 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'menu' => 'NGFB',		// menu item label
-			'short' => 'NGFB',		// short plugin name
-			'short_pro' => 'NGFB Pro',
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
 					'version' => '7.6.1',		// plugin version
-					'name' => 'NextGEN Facebook (NGFB) Pro',
+					'short' => 'NGFB',		// short plugin name
+					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
 					'slug' => 'nextgen-facebook',
 					'base' => 'nextgen-facebook/nextgen-facebook.php',
