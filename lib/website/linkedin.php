@@ -67,7 +67,7 @@ if ( ! class_exists( 'NgfbSharingLinkedin' ) ) {
 					'linkedin_on_excerpt' => 0,
 					'linkedin_on_admin_edit' => 1,
 					'linkedin_on_sidebar' => 0,
-					'linkedin_order' => 4,
+					'linkedin_order' => 5,
 					'linkedin_js_loc' => 'header',
 					'linkedin_counter' => 'right',
 					'linkedin_showzero' => 1,

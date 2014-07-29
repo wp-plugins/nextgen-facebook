@@ -109,8 +109,8 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 					$this->website[$id]->form = &$this->get_form_ref();
 				}
 			}
-			// these metabox ids should be closed by default (array_diff() selects everything except)
-			$closed_ids = array_diff( array_keys( $this->p->cf['*']['lib']['website'] ), array( 'facebook', 'gplus' ) );
+			// these metabox ids should be closed by default (array_diff() selects everything except those listed)
+			$closed_ids = array_diff( array_keys( $this->p->cf['*']['lib']['website'] ), array( 'facebook', 'gplus', 'twitter' ) );
 			$closed_ids[] = 'rating';
 			$this->p->addons['util']['user']->reset_metabox_prefs( $this->pagehook, $closed_ids, 'closed' );
 		}
