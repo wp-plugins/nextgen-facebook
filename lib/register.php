@@ -69,14 +69,16 @@ if ( ! class_exists( 'NgfbRegister' ) ) {
 
 		private function activate_plugin() {
 			global $wp_version;
+			$lca = $this->p->cf['lca'];
+			$short = $this->p->cf['plugin'][$lca]['short'];
 			if ( version_compare( $wp_version, $this->p->cf['wp']['min_version'], '<' ) ) {
 				require_once( ABSPATH.'wp-admin/includes/plugin.php' );
 				deactivate_plugins( NGFB_PLUGINBASE );
 				error_log( NGFB_PLUGINBASE.' requires WordPress '.$this->p->cf['wp']['min_version'].' or higher ('.$wp_version.' reported).' );
-				wp_die( '<p>'. sprintf( __( 'The %1$s plugin cannot be activated - it requires WordPress %2$s or higher.', NGFB_TEXTDOM ), 
-					$this->p->cf['short'], $this->p->cf['wp']['min_version'] ).'</p>' );
+				wp_die( '<p>'. sprintf( __( 'Sorry, the %1$s plugin cannot be activated &mdash; it requires WordPress version %2$s or newer.', NGFB_TEXTDOM ), 
+					$short, $this->p->cf['wp']['min_version'] ).'</p>' );
 			}
-			set_transient( $this->p->cf['lca'].'_activation_redirect', true, 60 * 60 );
+			set_transient( $lca.'_activation_redirect', true, 60 * 60 );
 			$this->p->set_config();
 			$this->p->set_objects( true );
 		}

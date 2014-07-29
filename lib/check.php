@@ -236,6 +236,9 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			if ( ! is_admin() ) 
 				return;
 
+			$lca = $this->p->cf['lca'];
+			$short_pro = $this->p->cf['plugin'][$lca]['short'].' Pro';
+			$purchase_url = $this->p->cf['plugin'][$lca]['url']['purchase'];
 			$conflict_log_prefix =  __( 'plugin conflict detected', NGFB_TEXTDOM ) . ' - ';
 			$conflict_err_prefix =  __( 'Plugin conflict detected', NGFB_TEXTDOM ) . ' - ';
 
@@ -325,13 +328,12 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 
 			// JetPack Photon
 			if ( $this->p->is_avail['media']['photon'] === true && ! $this->is_aop() ) {
-				$purchase_url = $this->p->cf['plugin'][$this->p->cf['lca']]['url']['purchase'];
 				$this->p->debug->log( $conflict_log_prefix.'jetpack photon is enabled' );
 				$this->p->notice->err( $conflict_err_prefix.
 					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
 						__( 'Please <a href="%s">disable JetPack Photon</a> or <a href="%s">upgrade to the %s version</a> '.
 							'(which includes an addon to fix the crippled functions).', NGFB_TEXTDOM ), 
-						get_admin_url( null, 'admin.php?page=jetpack' ), $purchase_url, $this->p->cf['short_pro'] ) );
+						get_admin_url( null, 'admin.php?page=jetpack' ), $purchase_url, $short_pro ) );
 			}
 
 			/*
