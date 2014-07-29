@@ -116,14 +116,14 @@ jQuery("#ngfb-sidebar").click( function(){
 				'show_on' => array( 
 					'content' => 'Content', 
 					'excerpt' => 'Excerpt', 
-					'sidebar' => 'Sidebar', 
+					'sidebar' => 'CSS Sidebar', 
 					'admin_edit' => 'Admin Edit',
 				),
 				'style' => array(
 					'sharing' => 'All Buttons',
 					'content' => 'Content',
 					'excerpt' => 'Excerpt',
-					'sidebar' => 'Sidebar',
+					'sidebar' => 'CSS Sidebar',
 					'shortcode' => 'Shortcode',
 					'widget' => 'Widget',
 					'admin_edit' => 'Admin Edit',
@@ -465,14 +465,13 @@ jQuery("#ngfb-sidebar").click( function(){
 					$this->p->debug->log( 'failed opening '.$this->sharing_css_min_file.' for writing' );
 				} else {
 					$css_data = '';
-					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', 
-						self::$cf['sharing']['style'] );
+					$style_tabs = apply_filters( $this->p->cf['lca'].'_style_tabs', self::$cf['sharing']['style'] );
 					foreach ( $style_tabs as $id => $name )
 						if ( array_key_exists( 'buttons_css_'.$id, $opts ) )
 							$css_data .= $opts['buttons_css_'.$id];
 					$classname = apply_filters( $this->p->cf['lca'].'_load_lib', false, 'ext/compressor', 'SuextMinifyCssCompressor' );
 					if ( $classname !== false && class_exists( $classname ) ) {
-						$css_data = SuextMinifyCssCompressor::process( $css_data );	// only php v5.3+ allow for static class name variables
+						$css_data = call_user_func( array( $classname, 'process' ), $css_data );
 						if ( fwrite( $fh, $css_data ) === false ) {
 							if ( is_admin() )
 								$this->p->notice->err( 'Failed writing to file '.$this->sharing_css_min_file.'.', true );
@@ -554,10 +553,12 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		public function show_admin_sharing( $post ) {
-			require_once ( NGFB_PLUGINDIR.'lib/ext/compressor.php' );
-			$css_data = SuextMinifyCssCompressor::process( $this->p->options['buttons_css_admin_edit'] );
 			$post_type = get_post_type_object( $post->post_type );	// since 3.0
 			$post_type_name = ucfirst( $post_type->name );
+			$css_data = $this->p->options['buttons_css_admin_edit'];
+			$classname = apply_filters( $this->p->cf['lca'].'_load_lib', false, 'ext/compressor', 'SuextMinifyCssCompressor' );
+			if ( $classname !== false && class_exists( $classname ) )
+				$css_data = call_user_func( array( $classname, 'process' ), $css_data );
 			echo '<style type="text/css">'.$css_data.'</style>', "\n";
 			echo '<table class="sucom-setting side"><tr><td>';
 			if ( get_post_status( $post->ID ) == 'publish' ) {
