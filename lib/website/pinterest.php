@@ -46,7 +46,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingPinterest' ) && class_exists( 'NgfbSubme
 			$this->form->get_select( 'pin_button_color', array( 'gray' => 'Gray', 'red' => 'Red', 'white' => 'White' ) );
 
 			$rows[] = $this->p->util->th( 'Button Language', 'short' ).'<td>'.
-			$this->form->get_select( 'pin_button_lang', array( 'en' => 'English', 'ja' => 'Japenese' ) );
+			$this->form->get_select( 'pin_button_lang', array( 'en' => 'English', 'ja' => 'Japanese' ) );
 
 			$rows[] = $this->p->util->th( 'Show Pin Count', 'short' ).'<td>'.
 			$this->form->get_select( 'pin_count_layout', 
@@ -87,7 +87,7 @@ if ( ! class_exists( 'NgfbSharingPinterest' ) ) {
 					'pin_on_admin_edit' => 1,
 					'pin_on_sidebar' => 0,
 					'pin_order' => 4,
-					'pin_js_loc' => 'header',
+					'pin_js_loc' => 'footer',
 					'pin_button_lang' => 'en',
 					'pin_button_shape' => 'rect',
 					'pin_button_color' => 'gray',

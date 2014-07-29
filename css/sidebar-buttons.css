@@ -11,27 +11,29 @@
 	z-index:99;
 
 	/* position 100px down from top and 10% from left */
+	/*
 		top:100px;
 		left:10%;
-
-	/* position 15% down from top and 400px left of center 
-	 * by using the right margin to push sidebar left */
-	/*
-		top:10%;
-		right:50%;
-		margin:0 400px 0 0;
 	*/
+
+	/* position 100px down from top and 450px left of center 
+	 * by using the right margin to push sidebar left
+	 */
+		top:100px;
+		right:50%;
+		margin:0 450px 0 0;
 }
 
 #ngfb-sidebar-header { 
-	/* show a large sharing icon at the top */
-	/*
-		width:72px;
-		height:72px;
-		background-image:url("{{URLPATH}}images/share-icon-1.png");
-		background-repeat:no-repeat;
-		background-position:center;
-	*/
+	/* show a large sharing icon at the top
+	 * using javascript, this header can be hovered/clicked to 
+	 * show/hide the sidebar
+	 */
+	width:72px;
+	height:72px;
+	background-image:url("{{URLPATH}}images/share-icon-2.png");
+	background-repeat:no-repeat;
+	background-position:center;
 }
 
 #ngfb-sidebar-buttons { 
@@ -41,7 +43,7 @@
 	overflow:visible;
 	border-style:solid;
 
-	/* hide the buttons by default and show/hide on hover/click */
+	/* uncomment to hide the buttons by default */
 	/*
 		width:0;		
 		height:0;
@@ -57,8 +59,9 @@
 		border-color:rgb(255, 255, 255);
 }
 
-/* pre-define the width and height of each button for faster load */
-/* note: the large buttons with vertical counters are 55x65px */
+/* pre-define the width and height of each button for faster load
+ * note: the large buttons with vertical counters are 55x65px
+ */
 #ngfb-sidebar .ngfb-buttons > div { 
 	display:block;
 	text-align:center;

@@ -26,10 +26,10 @@
 	vertical-align:bottom;
 	text-align:left;
 	line-height:20px;
+	padding:0;
+	margin:5px;
 	width:100px;
 	height:20px;
-	padding:0;
-	margin:2px;
 }
 
 /* Define specific widths for each button.

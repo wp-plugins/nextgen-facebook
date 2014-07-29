@@ -75,7 +75,7 @@ if ( ! class_exists( 'NgfbSharingBuffer' ) ) {
 					'buffer_on_admin_edit' => 1,
 					'buffer_on_sidebar' => 0,
 					'buffer_order' => 6,
-					'buffer_js_loc' => 'header',
+					'buffer_js_loc' => 'footer',
 					'buffer_count' => 'horizontal',
 					'buffer_img_width' => 800,
 					'buffer_img_height' => 800,
