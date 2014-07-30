@@ -36,7 +36,7 @@ if ( ! function_exists( 'ngfb_get_sharing_buttons' ) ) {
 				$ngfb->sharing->get_js( 'sharing-buttons-footer', $ids ) .
 				'<!-- '.$ngfb->cf['lca'].' sharing buttons end -->';
 	
-			if ( ! empty( $cache_id ) ) {
+			if ( $ngfb->is_avail['cache']['transient'] ) {
 				set_transient( $cache_id, $html, $ngfb->cache->object_expire );
 				$ngfb->debug->log( $cache_type.': html saved to transient '.$cache_id.' ('.$ngfb->cache->object_expire.' seconds)');
 			}

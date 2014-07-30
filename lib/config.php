@@ -488,7 +488,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			define( 'NGFB_PLUGINBASE', plugin_basename( $plugin_filepath ) );
 			define( 'NGFB_TEXTDOM', $slug );
 			define( 'NGFB_URLPATH', trailingslashit( plugins_url( '', $plugin_filepath ) ) );
-			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$version ) );
+			define( 'NGFB_NONCE', md5( NGFB_PLUGINDIR.'-'.$version.
+				( defined( 'NONCE_SALT' ) ? NONCE_SALT : '' ) ) );
 
 			/*
 			 * Allow some constants to be pre-defined in wp-config.php
@@ -532,13 +533,16 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				define( 'NGFB_DEBUG_FILE_EXP', 300 );
 
 			if ( ! defined( 'NGFB_CURL_USERAGENT' ) )
-				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:18.0) Gecko/20100101 Firefox/18.0' );
+				define( 'NGFB_CURL_USERAGENT', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36' );
 
 			if ( ! defined( 'NGFB_CURL_CAINFO' ) )
 				define( 'NGFB_CURL_CAINFO', NGFB_PLUGINDIR.'share/curl/cacert.pem' );
 
 			if ( ! defined( 'NGFB_TOPICS_LIST' ) )
 				define( 'NGFB_TOPICS_LIST', NGFB_PLUGINDIR.'share/topics.txt' );
+
+			if ( ! defined( 'NGFB_SHARING_SHORTCODE' ) )
+				define( 'NGFB_SHARING_SHORTCODE', $cf['lca'] );
 		}
 
 		public static function require_libs( $plugin_filepath ) {
