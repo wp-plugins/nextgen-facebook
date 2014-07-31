@@ -65,10 +65,12 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * Additional profile contact fields with configurable label and field names.
 * Custom settings and meta tag values for each Post, Page, and custom post type.
 * Options to exclude specific Google / SEO, Open Graph, and Twitter Card meta tags.
-* File caching for social sharing button images and JavaScript.
-* URL shortening (Bitly and Google) for URLs in Twitter shares.
-* Stylesheets editor for each social sharing button locations.
-* Options to include / exclude *multilingual* social sharing buttons on Posts, Page, and custom post types.
+* File caching for social sharing button images and JavaScript, maximizing performance on VPS and dedicated hardware hosting platforms.
+* A stylesheets editor for each social sharing button locations (content, excerpt, shortcode, widget, etc.).
+* Dynamic button language switching based on the current WordPress locale.
+* URL shortening with Bitly or Google for URLs in Tweet texts.
+* Ability to include / exclude sharing buttons by post type.
+* Selection of preset button options by location (content, excerpt, shortcode, widget, etc.).
 * Integrates with 3rd party plugins and services for additional image, video, product, and content information (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details):
 	* Plugins
 		* All in One SEO Pack
@@ -199,7 +201,7 @@ NGFB comes with several sharing buttons, that you can optionally include on Post
 * **Tumblr** (Links, Quotes, Images, Videos)
 * **Twitter** (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
-The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language (WordPress locale). NGFB can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language / WordPress locale. NGFB can also include hashtags, from WordPress and NextGEN Gallery tag names, in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
 = Custom Contacts =
 
