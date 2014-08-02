@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 3.9.1
-Stable Tag: 7.6.1
+Stable Tag: 7.6.2
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -422,6 +422,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 Fixed a condition that would prevent sharing button JavaScripts from being loaded on index pages without posts.
 
 = 7.6.1 =
+
+Fixed a static class reference in 'NgfbSharing' for PHP v5.2 and older.
+
+= 7.6.0 =
 
 Added a new 'Licenses' settings page to allow for future plugin extensions, and renamed the 'Network' multisite settings page to 'Advanced'.
 
