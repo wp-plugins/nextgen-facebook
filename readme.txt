@@ -393,7 +393,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * Bugfixes
 	* *None*
 * Enhancements
-	* Minor changes to help popup texts.
+	* Small updates to the settings help texts.
 
 = Version 7.6.2 =
 
@@ -426,7 +426,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.6.3 =
 
-Minor changes to help popup texts.
+Small updates to the settings help texts.
 
 = 7.6.2 =
 
