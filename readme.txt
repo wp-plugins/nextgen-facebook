@@ -388,6 +388,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.3 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Minor changes to help popup texts.
+
 = Version 7.6.2 =
 
 * Bugfixes
@@ -416,6 +423,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.3 =
+
+Minor changes to help popup texts.
 
 = 7.6.2 =
 
