@@ -246,7 +246,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					if ( $this->is_avail['aop'] === false )
 						$this->notice->inf( 'An Authentication ID was entered for '.$this->short.', 
 						but the Pro version is not installed yet &ndash; 
-						don\'t forget to update '.$this->short.' to install the Pro version.', true );
+						don\'t forget to update the '.$this->short.' plugin to install the Pro version.', true );
 					foreach ( $this->cf['plugin'] as $lca => $info ) {
 						$last_update = get_option( $lca.'_utime' );
 						if ( empty( $last_update ) || 
