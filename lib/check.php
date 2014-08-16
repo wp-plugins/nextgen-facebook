@@ -15,7 +15,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		private $p;
 		private $active_plugins;
 		private $network_plugins;
-		private static $aop = false;
 		private static $mac = array(
 			'seo' => array(
 				'seou' => 'SEO Ultimate',
@@ -49,7 +48,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				if ( is_object( $wpseo_og ) && ( $prio = has_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ) ) ) )
 					$ret = remove_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ), $prio );
 
-				if ( ! empty( $this->p->options['tc_enable'] ) && $this->is_aop() ) {
+				if ( ! empty( $this->p->options['tc_enable'] ) && $this->aop() ) {
 					global $wpseo_twitter;
 					if ( is_object( $wpseo_twitter ) && ( $prio = has_action( 'wpseo_head', array( $wpseo_twitter, 'twitter' ) ) ) )
 						$ret = remove_action( 'wpseo_head', array( $wpseo_twitter, 'twitter' ), $prio );
@@ -94,7 +93,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
 				class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
 
-			$ret['aop'] = self::$aop = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
+			$ret['aop'] = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
 				( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
 				file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
 
@@ -277,7 +276,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							'<a href="%s">Yoast WordPress SEO: Social</a> settings.', NGFB_TEXTDOM ), 
 							get_admin_url( null, 'admin.php?page=wpseo_social' ) ) );
 				}
-				if ( ! empty( $this->p->options['tc_enable'] ) && $this->is_aop() && ! empty( $opts['twitter'] ) ) {
+				if ( ! empty( $this->p->options['tc_enable'] ) && $this->aop() && ! empty( $opts['twitter'] ) ) {
 					$this->p->debug->log( $conflict_log_prefix.'wpseo twitter meta data option is enabled' );
 					$this->p->notice->err( $conflict_err_prefix.
 						sprintf( __( 'Please uncheck the \'<em>Add Twitter Card meta data</em>\' Twitter option in the '.
@@ -327,7 +326,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 
 			// JetPack Photon
-			if ( $this->p->is_avail['media']['photon'] === true && ! $this->is_aop() ) {
+			if ( $this->p->is_avail['media']['photon'] === true && ! $this->aop() ) {
 				$this->p->debug->log( $conflict_log_prefix.'jetpack photon is enabled' );
 				$this->p->notice->err( $conflict_err_prefix.
 					sprintf( __( 'JetPack Photon cripples the WordPress image size funtions. ', NGFB_TEXTDOM ).
@@ -383,13 +382,18 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function is_aop( $lca = '' ) {
+		public function is_aop( $lca = '' ) { return $this->aop( $lca ); }
+
+		public function aop( $lca = '', $active = true ) {
 			$lca = empty( $lca ) ? $this->p->cf['lca'] : $lca;
-			return ( ! empty( $this->p->options['plugin_'.$lca.'_tid'] ) && 
-				( isset( self::$aop ) ? self::$aop : false ) && 
-					class_exists( 'SucomUpdate' ) &&
-						( $umsg = SucomUpdate::get_umsg( $lca ) ? 
-							false : self::$aop ) ) ? $umsg : false;
+			$uca = strtoupper( $lca );
+			$installed = ( defined( $uca.'_PLUGINDIR' ) &&
+				is_dir( constant( $uca.'_PLUGINDIR' ).'lib/pro/' ) ) ? true : false;
+			return $active === true ? ( ( ! empty( $this->p->options['plugin_'.$lca.'_tid'] ) && 
+				$installed && class_exists( 'SucomUpdate' ) &&
+					( $umsg = SucomUpdate::get_umsg( $lca ) ? 
+						false : $installed ) ) ? 
+							$umsg : false ) : $installed;
 		}
 	}
 }

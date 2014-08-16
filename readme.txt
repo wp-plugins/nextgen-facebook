@@ -388,6 +388,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.3.2 =
+
+* Bugfixes
+	* Fixed retrieval of user ID on author index webpages when using the 'author' or 'author_name' queries.
+* Enhancements
+	* Refactored code to improve the "Version Information" side metabox (now includes information on any extension plugins as well).
+
 = Version 7.6.3.1 =
 
 * Bugfixes
@@ -430,6 +437,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.3.2 =
+
+Fixed user ID detection on author index webpages, improved the "Version Information" side metabox (now includes extension plugins as well).
 
 = 7.6.3.1 =
 
