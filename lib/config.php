@@ -49,7 +49,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 							'welcome' => 'Welcome to the NextGEN Facebook (NGFB) plugin!',
 						),
 						'setting' => array (
-							'contact' => 'Contact Methods',
+							'contact' => 'Contact Fields',
 						),
 						'submenu' => array (
 							'general' => 'General',
@@ -346,7 +346,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_cm_skype_name' => 'skype', 
 					'plugin_cm_skype_label' => 'Skype Username', 
 					'plugin_cm_skype_enabled' => 0,
-					// wordpress contact methods
 					'wp_cm_aim_name' => 'aim', 
 					'wp_cm_aim_label' => 'AIM', 
 					'wp_cm_aim_enabled' => 1,
