@@ -93,7 +93,7 @@ Make sure social websites present your content correctly, no matter how your web
 		* Wistia Videos
 		* Youtube Videos and Playlists
 
-<strong>Looking for the Pro version?</strong> [Purchase a Pro license to update the Free version quickly and easily](http://surniaulula.com/extend/plugins/nextgen-facebook/).
+**Looking for the Pro version?** You can [purchase a Pro license](http://surniaulula.com/extend/plugins/nextgen-facebook/) to update the Free version quickly and easily.
 
 = Complete Meta Tags =
 
