@@ -21,7 +21,7 @@ if ( ! class_exists( 'NgfbSettingContact' ) && class_exists( 'NgfbSubmenuAdvance
 
 		protected function add_meta_boxes() {
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook.'_contact', 'Profile Contact Methods', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_contact', 'Profile Contact Fields', array( &$this, 'show_metabox_contact' ), $this->pagehook, 'normal' );
 		}
 
 	}
