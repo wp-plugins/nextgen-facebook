@@ -18,7 +18,7 @@ Make sure social websites present your content correctly, no matter how your web
 
 <p>NextGEN Facebook (NGFB) <strong>gives you total control over the information social websites need</strong>, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, Pinterest, LinkedIn, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
 
-**You can download the [Free version on WordPress.org](http://wordpress.org/plugins/nextgen-facebook/) and [purchase a Pro license here](http://surniaulula.com/extend/plugins/nextgen-facebook/)**.
+**You can download the [Free version of NGFB on WordPress.org](http://wordpress.org/plugins/nextgen-facebook/) and [purchase Pro license(s) here](http://surniaulula.com/extend/plugins/nextgen-facebook/)**.
 
 = Quick List of Features =
 
@@ -93,7 +93,7 @@ Make sure social websites present your content correctly, no matter how your web
 		* Wistia Videos
 		* Youtube Videos and Playlists
 
-**Looking for the Pro version?** You can [purchase a Pro license](http://surniaulula.com/extend/plugins/nextgen-facebook/) to update the Free version quickly and easily.
+**Looking for the Pro version?** You can [purchase Pro license(s) here](http://surniaulula.com/extend/plugins/nextgen-facebook/) to update the Free version quickly and easily.
 
 = Complete Meta Tags =
 
