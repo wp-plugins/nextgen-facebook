@@ -205,7 +205,7 @@ The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. 
 
 = Custom Contacts =
 
-NGFB (Pro version) allows you to customize the field names, label, and show / remove the following Contact Methods from the user profile page:
+NGFB (Pro version) allows you to customize the field names, label, and show/remove the following contacts from the user profile page:
 
 * AIM
 * Facebook 
