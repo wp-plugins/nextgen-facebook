@@ -14,7 +14,7 @@ Make sure social websites present your content correctly, no matter how your web
 
 <table><tr><td valign="top">
 
-<p><img src="//ps.w.org/nextgen-facebook/assets/logo-300x300.jpg?rev=" width="300" height="300" style="max-width:none; width:302px; height:302px; border:1px solid #ccc; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; margin-right:30px;" /></p>
+<p><img src="//ps.w.org/nextgen-facebook/assets/logo-300x300.jpg?rev=" width="300" height="300" style="max-height:none;max-width:none;width:302px;height:302px;border:1px solid #ccc;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;margin-right:30px;" /></p>
 
 </td><td valign="top">
 
