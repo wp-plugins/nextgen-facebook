@@ -64,6 +64,7 @@ Make sure social websites present your content correctly, no matter how your web
 
 **Pro / Power-User Version**
 
+* <strong>No Risk 30 Day Refund Policy</strong>
 * Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
 * Customizable image dimensions for each Twitter Card type.
 * Additional profile contact fields with configurable label and field names.
@@ -97,7 +98,7 @@ Make sure social websites present your content correctly, no matter how your web
 		* Wistia Videos
 		* Youtube Videos and Playlists
 
-**Looking for the Pro version?** You can [purchase Pro license(s) here](http://surniaulula.com/extend/plugins/nextgen-facebook/) (includes a <strong>No Risk 30 Day Refund Policy</strong>) to update the Free version quickly and easily.
+**Looking for the Pro version?** You can [purchase Pro license(s) here](http://surniaulula.com/extend/plugins/nextgen-facebook/) to update the Free version quickly and easily.
 
 = 3rd Party Integration =
 
