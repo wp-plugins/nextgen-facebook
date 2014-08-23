@@ -23,6 +23,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		/**
 		 * Class Object Variables
 		 */
+		public $p;			// Ngfb
 		public $admin;			// NgfbAdmin (admin menus and page loader)
 		public $cache;			// SucomCache (object and file caching)
 		public $debug;			// SucomDebug or NgfbNoDebug
@@ -119,7 +120,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				foreach ( array( 'wp_head', 'wp_footer', 'admin_head', 'admin_footer' ) as $action )
 					foreach ( array( 1, 9999 ) as $prio ) {
 						add_action( $action, create_function( '', 
-							'echo "<!-- '.$this->cf['lca'].' add_action( \''.$action.'\' ) priority '.$prio.' test = PASSED -->\n";' ), $prio );
+							'echo "<!-- ngfb add_action( \''.$action.'\' ) priority '.$prio.' test = PASSED -->\n";' ), $prio );
 						add_action( $action, array( &$this, 'show_debug_html' ), $prio );
 					}
 		}
@@ -172,7 +173,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 			$this->loader = new NgfbLoader( $this );
 
-			do_action( $this->cf['lca'].'_init_addon' );
+			do_action( 'ngfb_init_addon' );
 
 			/*
 			 * check and create the default options array
@@ -236,12 +237,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					__( 'Informational messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
 			}
 
-			if ( ! empty( $this->options['plugin_'.$this->cf['lca'].'_tid'] ) ) {
+			if ( ! empty( $this->options['plugin_ngfb_tid'] ) ) {
 				$this->util->add_plugin_filters( $this, array( 'installed_version' => 1, 'ua_plugin' => 1 ) );
 				$this->update = new SucomUpdate( $this, $this->cf['plugin'], $this->cf['update_check_hours'] );
 				if ( is_admin() ) {
 					if ( $this->is_avail['aop'] === false ) {
-						$short = $this->cf['plugin'][$this->cf['lca']]['short'];
+						$short = $this->cf['plugin']['ngfb']['short'];
 						$this->notice->inf( 'An Authentication ID was entered for '.$short.', 
 						but the Pro version is not installed yet &ndash; 
 						don\'t forget to update the '.$short.' plugin to install the Pro version.', true );
@@ -325,8 +326,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					}
 				}
 			}
-			$this->options = apply_filters( $this->cf['lca'].'_get_options', $this->options );
-			$this->site_options = apply_filters( $this->cf['lca'].'_get_site_options', $this->site_options );
+			$this->options = apply_filters( 'ngfb_get_options', $this->options );
+			$this->site_options = apply_filters( 'ngfb_get_site_options', $this->site_options );
 		}
 	}
 
