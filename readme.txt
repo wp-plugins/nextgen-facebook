@@ -389,6 +389,14 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.3.3 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Updated the 'Minimum URL Length to Shorten' default value from 21 to 22, with auto-adjustment for HTTP and HTTPS URLs.
+	* Allowed for a longer Tweet text when no shortener has been selected, relying on Twitter's own t.co shortener service to shorten the URL.
+
 = Version 7.6.3.2 =
 
 * Bugfixes
@@ -438,6 +446,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.3.3 =
+
+Updated the minimum short URL value from 21 to 22, and allowed for longer Tweet text when using Twitter's shortening service.
 
 = 7.6.3.2 =
 
