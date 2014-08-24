@@ -9,7 +9,7 @@
  * Description: Make sure social websites present your content correctly, no matter how your webpage is shared - from buttons, browser add-ons, or pasted URLs.
  * Requires At Least: 3.0
  * Tested Up To: 3.9.1
- * Version: 7.6.3.2
+ * Version: 7.6.3.3
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -242,10 +242,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->update = new SucomUpdate( $this, $this->cf['plugin'], $this->cf['update_check_hours'] );
 				if ( is_admin() ) {
 					if ( $this->is_avail['aop'] === false ) {
-						$short = $this->cf['plugin']['ngfb']['short'];
-						$this->notice->inf( 'An Authentication ID was entered for '.$short.', 
+						$shortname = $this->cf['plugin']['ngfb']['short'];
+						$this->notice->inf( 'An Authentication ID was entered for '.$shortname.', 
 						but the Pro version is not installed yet &ndash; 
-						don\'t forget to update the '.$short.' plugin to install the Pro version.', true );
+						don\'t forget to update the '.$shortname.' plugin to install the Pro version.', true );
 					}
 					foreach ( $this->cf['plugin'] as $lca => $info ) {
 						$last_update = get_option( $lca.'_utime' );
