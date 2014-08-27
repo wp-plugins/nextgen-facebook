@@ -417,6 +417,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
 				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
 				'yes_no' => array( '1' => 'Yes', '0' => 'No' ),
+				'shorteners' => array( 'none' => '[none]', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' ),
 			),
 			'head' => array(
 				'min_img_dim' => 200,
