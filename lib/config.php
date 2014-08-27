@@ -46,9 +46,11 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'pro_ticket' => 'http://ticket.ngfb.surniaulula.com/',
 					),
 					'lib' => array(			// libraries
+						/*
 						'dashboard' => array (
 							'welcome' => 'Welcome to the NextGEN Facebook (NGFB) plugin!',
 						),
+						*/
 						'setting' => array (
 							'contact' => 'Contact Fields',
 						),
