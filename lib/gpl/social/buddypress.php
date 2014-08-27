@@ -18,6 +18,7 @@ if ( ! class_exists( 'NgfbGplSocialBuddypress' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+
 			if ( is_admin() || bp_current_component() ) {
 				$this->p->util->add_plugin_filters( $this, array( 
 					'post_types' => 3,
@@ -62,9 +63,11 @@ if ( ! class_exists( 'NgfbGplSocialBuddypressSharing' ) && class_exists( 'NgfbSh
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+
 			$this->p->util->add_plugin_filters( $this, array( 
 				'get_defaults' => 1,
 			) );
+
 			if ( is_admin() ) {
 				$this->p->util->add_plugin_filters( $this, array( 
 					'style_tabs' => 1,

@@ -13,11 +13,12 @@ if ( ! class_exists( 'NgfbGplEcomWoocommerce' ) ) {
 	class NgfbGplEcomWoocommerce {
 
 		private $p;
+		private $sharing;
 
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
+			$this->p->debug->mark();
 
-			// load sharing buttons code if sharing features exist and are enabled
 			if ( isset( $this->p->is_avail['ssb'] ) &&
 				$this->p->is_avail['ssb'] === true ) {
 				$classname = __CLASS__.'Sharing';

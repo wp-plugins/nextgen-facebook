@@ -24,6 +24,7 @@ if ( ! class_exists( 'NgfbGplForumBbpress' ) ) {
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+
 			if ( is_admin() || is_bbpress() ) {
 				// load sharing buttons code if sharing features exist and are enabled
 				if ( array_key_exists( 'ssb', $this->p->is_avail ) &&
@@ -45,9 +46,11 @@ if ( ! class_exists( 'NgfbGplForumBbpressSharing' ) && class_exists( 'NgfbSharin
 		public function __construct( &$plugin ) {
 			$this->p =& $plugin;
 			$this->p->debug->mark();
+
 			$this->p->util->add_plugin_filters( $this, array( 
 				'get_defaults' => 1,
 			) );
+
 			if ( is_admin() ) {
 				$this->p->util->add_plugin_filters( $this, array( 
 					'style_tabs' => 1,
