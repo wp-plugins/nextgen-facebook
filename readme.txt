@@ -389,6 +389,14 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.4 =
+
+* Bugfixes
+	* *None*
+* Enhancements
+	* Added the 'Show Button in: Woo Short' option to support the WooCommerce product Short Description (when the WooCommerce plugin is active).
+	* Added the 'Woo Short' tab on the Styles settings page (when the WooCommerce plugin is active).
+
 = Version 7.6.3.3 =
 
 * Bugfixes
@@ -446,6 +454,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.4 =
+
+Added the 'Show Button in: Woo Short' option and the 'Woo Short' tab on the Styles settings page (when the WooCommerce plugin is active).
 
 = 7.6.3.3 =
 

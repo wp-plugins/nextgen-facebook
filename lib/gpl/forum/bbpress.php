@@ -88,7 +88,7 @@ if ( ! class_exists( 'NgfbGplForumBbpressSharing' ) && class_exists( 'NgfbSharin
 			<p>Social sharing buttons added at the top of bbPress Single Templates are assigned the 
 			\'ngfb-bbp_single-buttons\' class, which itself contains the 
 			\'ngfb-buttons\' class -- a common class for all the sharing buttons 
-			(see the Buttons Style tab).</p> 
+			(see the All Buttons tab).</p> 
 			<p>Example:</p><pre>
 .ngfb-bbp_single-buttons 
     .ngfb-buttons

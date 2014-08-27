@@ -93,27 +93,6 @@ if ( ! class_exists( 'NgfbGplSocialBuddypressSharing' ) && class_exists( 'NgfbSh
 			return $opts_def;
 		}
 
-		/* Purpose: Add a 'BuddyPress Activity' tab to the Style settings */
-		public function filter_style_tabs( $tabs ) {
-			$tabs['bp_activity'] = 'BuddyPress Activity';
-			return $tabs;
-		}
-
-		/* Purpose: Add css input textarea for the 'BuddyPress Activity' style tab */
-		public function filter_style_bp_activity_rows( $rows, $form ) {
-			$rows[] = '<td class="textinfo">
-			<p>Social sharing buttons added to BuddyPress Activities are assigned the 
-			\'ngfb-bp_activity-buttons\' class, which itself contains the 
-			\'ngfb-buttons\' class -- a common class for all the sharing buttons 
-			(see the Buttons Style tab).</p> 
-			<p>Example:</p><pre>
-.ngfb-bp_activity-buttons 
-    .ngfb-buttons
-        .facebook-button { }</pre></td>'.
-			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_bp_activity' ).
-				$this->p->options['buttons_css_bp_activity'].'</td>';
-			return $rows;
-		}
 
 		/* Purpose: Include the 'BP Activity' checkbox in the 'Show Button in' options */
 		public function filter_sharing_show_on( $show_on = array(), $prefix ) {
@@ -126,6 +105,27 @@ if ( ! class_exists( 'NgfbGplSocialBuddypressSharing' ) && class_exists( 'NgfbSh
 					break;
 			}
 			return $show_on;
+		}
+		/* Purpose: Add a 'BuddyPress Activity' tab to the Style settings */
+		public function filter_style_tabs( $tabs ) {
+			$tabs['bp_activity'] = 'BuddyPress Activity';
+			return $tabs;
+		}
+
+		/* Purpose: Add css input textarea for the 'BuddyPress Activity' style tab */
+		public function filter_style_bp_activity_rows( $rows, $form ) {
+			$rows[] = '<td class="textinfo">
+			<p>Social sharing buttons added to BuddyPress Activities are assigned the 
+			\'ngfb-bp_activity-buttons\' class, which itself contains the 
+			\'ngfb-buttons\' class -- a common class for all the sharing buttons 
+			(see the All Buttons tab).</p> 
+			<p>Example:</p><pre>
+.ngfb-bp_activity-buttons 
+    .ngfb-buttons
+        .facebook-button { }</pre></td>'.
+			'<td class="blank tall code">'.$form->get_hidden( 'buttons_css_bp_activity' ).
+				$this->p->options['buttons_css_bp_activity'].'</td>';
+			return $rows;
 		}
 	}
 }

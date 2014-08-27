@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.3.3',		// plugin version
+					'version' => '7.6.4',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -46,11 +46,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 						'pro_ticket' => 'http://ticket.ngfb.surniaulula.com/',
 					),
 					'lib' => array(			// libraries
-						/*
-						'dashboard' => array (
-							'welcome' => 'Welcome to the NextGEN Facebook (NGFB) plugin!',
-						),
-						*/
 						'setting' => array (
 							'contact' => 'Contact Fields',
 						),
@@ -100,6 +95,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 								'apikeys' => 'API Key Settings',
 								'postmeta' => 'Post Social Settings',
 								'user' => 'User Social Settings',
+							),
+							'ecom' => array(
+								'woocommerce' => 'WooCommerce',
 							),
 							'forum' => array(
 								'bbpress' => 'bbPress',
@@ -410,13 +408,14 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'tooltip_class' => 'sucom_tooltip',
 				'max_desc_hashtags' => 10,
 				'max_media_items' => 20,
+				'yes_no' => array( '1' => 'Yes', '0' => 'No' ),
 				'file_cache_hours' => array( 0, 1, 3, 6, 9, 12, 24, 36, 48, 72, 168 ),
 				'js_locations' => array( 'none' => '[none]', 'header' => 'Header', 'footer' => 'Footer' ),
 				'caption_types' => array( 'none' => '[none]', 'title' => 'Title Only', 'excerpt' => 'Excerpt Only', 'both' => 'Title and Excerpt' ),
 				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
 				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
 				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
-				'yes_no' => array( '1' => 'Yes', '0' => 'No' ),
+				'shorteners' => array( 'none' => '[none]', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' ),
 			),
 			'head' => array(
 				'min_img_dim' => 200,
