@@ -394,7 +394,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * Bugfixes
 	* *None*
 * Enhancements
-	* Added a CSS ID to image dimension warnings.
+	* Removed display the welcome page on installation/upgrade.
+	* Added a CSS ID to the image dimension warnings.
 	* *When the WooCommerce plugin is active:*
 		* Added the 'Show Button in: Woo Short' option to support the WooCommerce product Short Description.
 		* Added the 'Position in Woo Short Text: Bottom' option select under the Buttons Position tab.
