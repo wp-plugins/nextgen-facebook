@@ -70,7 +70,7 @@ if ( ! class_exists( 'NgfbGplForumBbpressSharing' ) && class_exists( 'NgfbSharin
 
 .ngfb-bbp_single-buttons { 
 	display:block;
-	margin:10px auto 10px auto;
+	margin:10px auto;
 	text-align:center;
 }';
 			// the default 'Show Button in' for 'bbPress Single' is unchecked
