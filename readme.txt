@@ -68,7 +68,7 @@ Make sure social websites present your content correctly, no matter how your web
 * <strong>No Risk 30 Day Refund Policy</strong>
 * Twitter Card meta tags (Summary, Large Image, Photo, Gallery, Player, and Product).
 * Customizable image dimensions for each Twitter Card type.
-* Configurable title and description lengths for different contexts.
+* Configurable title and description lengths for different contexts (Open Graph, Twitter Card, SEO).
 * Additional profile contact fields with configurable label and field names.
 * Custom settings and meta tag values for each Post, Page, and custom post type.
 * Options to exclude specific Google / SEO, Open Graph, and Twitter Card meta tags.
