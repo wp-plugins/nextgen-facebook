@@ -8,8 +8,8 @@
  * License URI: http://www.gnu.org/licenses/gpl.txt
  * Description: Make sure social websites present your content correctly, no matter how your webpage is shared - from buttons, browser add-ons, or pasted URLs.
  * Requires At Least: 3.0
- * Tested Up To: 3.9.1
- * Version: 7.6.4
+ * Tested Up To: 3.9.2
+ * Version: 7.6.4.1
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */

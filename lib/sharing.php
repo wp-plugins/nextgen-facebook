@@ -166,14 +166,10 @@ jQuery("#ngfb-sidebar").click( function(){
 		}
 
 		private function set_objects() {
-			foreach ( $this->p->cf['plugin'] as $lca => $info ) {
-				if ( isset( $info['lib']['website'] ) ) {
-					foreach ( $info['lib']['website'] as $id => $name ) {
-						$classname = apply_filters( $lca.'_load_lib', false, 'website/'.$id, $lca.'sharing'.$id );
-						if ( $classname !== false && class_exists( $classname ) )
-							$this->website[$id] = new $classname( $this->p );
-					}
-				}
+			foreach ( $this->p->cf['plugin']['ngfb']['lib']['website'] as $id => $name ) {
+				$classname = NgfbConfig::load_lib( false, 'website/'.$id, 'ngfbsharing'.$id );
+				if ( $classname !== false && class_exists( $classname ) )
+					$this->website[$id] = new $classname( $this->p );
 			}
 		}
 
@@ -862,7 +858,7 @@ jQuery("#ngfb-sidebar").click( function(){
 		public function get_website_ids() {
 			$ids = array();
 			foreach ( array_keys( $this->website ) as $id )
-				$ids[$id] = $this->p->cf['*']['lib']['website'][$id];
+				$ids[$id] = $this->p->cf['plugin']['ngfb']['lib']['website'][$id];
 			return $ids;
 		}
 	}
