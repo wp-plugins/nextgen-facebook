@@ -396,7 +396,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **Bugfixes**
 	* *None*
 * **Enhancements**
-	* Minor code refactoring and changes to some warning messages and option titles.
+	* Minor code refactoring and changes to some help / warning messages and option titles.
 	* Tested on WordPress 4.0 (no changes required).
 
 = Version 7.6.4 =
@@ -472,7 +472,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.6.4.1 =
 
-Minor code refactoring and changes to some warning messages and option titles.
+Minor code refactoring and changes to some help / warning messages and option titles.
 
 = 7.6.4 =
 
