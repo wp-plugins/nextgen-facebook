@@ -391,6 +391,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.4.2 =
+
+* **Bugfixes**
+	* Fixed the link rel attribute name (should be 'href', not 'content').
+* **Enhancements**
+	* *None*
+
 = Version 7.6.4.1 =
 
 * **Bugfixes**
@@ -469,6 +476,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.4.2 =
+
+Fixed the link rel attribute name (should be 'href', not 'content').
 
 = 7.6.4.1 =
 
