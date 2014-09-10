@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.4.2',		// plugin version
+					'version' => '7.6.4.3',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -146,6 +146,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 							),
 							'seo' => array(
 								'aioseop' => 'All in One SEO Pack',
+								'headspace2' => 'HeadSpace2 SEO',
 								'wpseo' => 'WordPress SEO',
 							),
 							'social' => array(
@@ -162,7 +163,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => '298',		// increment when changing default options
+				'version' => 300,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -310,6 +311,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_widgets' => 1,
 					'plugin_auto_img_resize' => 1,
 					'plugin_ignore_small_img' => 1,
+					'plugin_page_excerpt' => 1,
+					'plugin_page_tags' => 1,
 					'plugin_gravatar_api' => 1,
 					'plugin_slideshare_api' => 1,
 					'plugin_vimeo_api' => 1,
