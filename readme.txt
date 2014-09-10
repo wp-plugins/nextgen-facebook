@@ -391,13 +391,14 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.6.4.3 =
+= Version 7.6.5 =
 
 * **Bugfixes**
 	* Fixed the social buttons CSS id to include only a single value (instead of two).
 * **Enhancements**
 	* Improved the 'Plugin Features' side metabox code and display layout.
 	* Added the 'Enable Excerpt for Pages' and 'Enable Tags for Pages' Advanced options (enabled by default).
+	* Added a Pro addon for the HeadSpace2 SEO plugin (Pro version).
 
 = Version 7.6.4.2 =
 
