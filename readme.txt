@@ -391,6 +391,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.4.3 =
+
+* **Bugfixes**
+	* Fixed the social buttons CSS id to include only a single value (instead of two).
+* **Enhancements**
+	* *None*
+
 = Version 7.6.4.2 =
 
 * **Bugfixes**
