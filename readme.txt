@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.4.2
+Stable Tag: 7.6.5
 
 Make sure social websites present your content correctly, no matter how your webpage is shared - from buttons, browser add-ons, or pasted URLs.
 
@@ -487,6 +487,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
 
 == Upgrade Notice ==
+
+= 7.6.5 =
+
+Adds the 'Enable Excerpt for Pages' and 'Enable Tags for Pages' options, support for HeadSpace2 SEO, and support for the wp_http_validate_url() function.
 
 = 7.6.4.2 =
 
