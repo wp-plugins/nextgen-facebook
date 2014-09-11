@@ -488,6 +488,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.6.5 =
+
+Adds the 'Enable Excerpt for Pages' and 'Enable Tags for Pages' options, support for HeadSpace2 SEO, and support for the wp_http_validate_url() function.
+
 = 7.6.4.2 =
 
 Fixed the link rel attribute name (should be 'href', not 'content').
