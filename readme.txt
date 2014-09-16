@@ -399,7 +399,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added the blog ID number to the minimized CSS stylesheet file name (allowing the same cache folder to be shared with multiple blogs).
 * **Enhancements**
 	* Added an extra check for the existence of the CSS minification class.
-	* Added the SucomUtil class `get_inline_vars()`, `get_inline_vals()`, and `replace_inline_vars()` methods to retrieve and convert inline variables in meta tag values.
+	* Added the SucomUtil class `get_inline_vars()`, `get_inline_vals()`, and `replace_inline_vars()` methods to retrieve and convert inline variables -- the `%%post_id%%`, `%%request_url%%`, and `%%sharing_url%%` variables will be expanded if/when found in any meta tag value.
 
 = Version 7.6.5 =
 
@@ -497,7 +497,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
-= 7.6.5 =
+= 7.6.6 =
 
-Adds the 'Enable Excerpt for Pages' and 'Enable Tags for Pages' options, support for HeadSpace2 SEO, and support for the wp_http_validate_url() function.
+Fixed HTML encoding from WooCommerce short description, added support for expansion of special inline variables in meta tag values.
 
