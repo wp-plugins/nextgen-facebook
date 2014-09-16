@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.6
+Stable Tag: 7.6.7
 
 Make sure social websites present your content correctly, no matter how your webpage is shared - from buttons, browser add-ons, or pasted URLs.
 
@@ -392,112 +392,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.6.6 =
+= Version 7.6.7 =
 
 * **Bugfixes**
 	* Removed encoded HTML tags from excerpts from the WooCommerce short description (aka excerpt) text (Pro version).
 	* Added the blog ID number to the minimized CSS stylesheet file name (allowing the same cache folder to be shared with multiple blogs).
+	* Fixed a minor typo in the CSS stylesheet file name variable.
 * **Enhancements**
 	* Added an extra check for the existence of the CSS minification class.
 	* Added the SucomUtil class `get_inline_vars()`, `get_inline_vals()`, and `replace_inline_vars()` methods to retrieve and convert inline variables -- the `%%post_id%%`, `%%request_url%%`, and `%%sharing_url%%` variables will be expanded if/when found in any meta tag value.
 
-= Version 7.6.5 =
-
-* **Bugfixes**
-	* Fixed the social buttons CSS id to include only a single value (instead of two).
-* **Enhancements**
-	* Improved the 'Plugin Features' side metabox code and display layout.
-	* Added the 'Enable Excerpt for Pages' and 'Enable Tags for Pages' Advanced options (enabled by default).
-	* Added a Pro addon for the HeadSpace2 SEO plugin (Pro version).
-	* Added a filter for 'http_request_host_is_external' to allow the NGFB update URL to pass `wp_http_validate_url()` checks when 'reject_unsafe_urls' is enabled.
-
-= Version 7.6.4.2 =
-
-* **Bugfixes**
-	* Fixed the link rel attribute name (should be 'href', not 'content').
-* **Enhancements**
-	* *None*
-
-= Version 7.6.4.1 =
-
-* **Bugfixes**
-	* *None*
-* **Enhancements**
-	* Minor code refactoring and changes to some help / warning messages and option titles.
-	* Tested on WordPress 4.0 (no changes required).
-
-= Version 7.6.4 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Removed display the welcome page on installation/upgrade.
-	* Added a CSS ID to the image dimension warnings.
-	* *When the WooCommerce plugin is active:*
-		* Added the 'Show Button in: Woo Short' option to support the WooCommerce product Short Description.
-		* Added the 'Position in Woo Short Text: Bottom' option select under the Buttons Position tab.
-		* Added the 'Woo Short Preset: none' option select under the Preset Options tab.
-		* Added the 'Woo Short' tab on the Styles settings page.
-
-= Version 7.6.3.3 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Updated the 'Minimum URL Length to Shorten' default value from 21 to 22, with auto-adjustment for HTTP and HTTPS URLs.
-	* Allowed for a longer Tweet text when no shortener has been selected, relying on Twitter's own t.co shortener service to shorten the URL.
-
-= Version 7.6.3.2 =
-
-* Bugfixes
-	* Fixed retrieval of user ID on author index webpages when using the 'author' or 'author_name' queries.
-* Enhancements
-	* Refactored code to improve the "Version Information" side metabox (now includes information on any extension plugins as well).
-
-= Version 7.6.3.1 =
-
-* Bugfixes
-	* Added a check for an empty Polylang post language before returning its locale value (Pro version).
-* Enhancements
-	* Added support for `pll_get_post_language()`, included in Polylang v1.5.4 (Pro version).
-
-= Version 7.6.3 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Small updates to the settings help texts.
-
-= Version 7.6.2 =
-
-* Bugfixes
-	* Fixed a condition that would prevent sharing button JavaScripts from being loaded on index pages without posts.
-* Enhancements
-	* *None*
-
-= Version 7.6.1 =
-
-* Bugfixes
-	* Fixed a static class reference in 'NgfbSharing' for PHP v5.2 and older.
-* Enhancements
-	* *None*
-
-= Version 7.6 =
-
-* Bugfixes
-	* *None*
-* Enhancements
-	* Renamed the 'Network' multisite sub-menu to 'Advanced'.
-	* Added a new 'Licenses' settings sub-menu page, for both single and network admin menus.
-	* Modified the 'ngfb_load_lib' filter to return a class name or false, instead of just true or false.
-	* Modified the `SucomUpdate` class construct to receive an *array* of plugin options (as the second argument).
-	* Renamed the 'plugin_tid' option to 'plugin_ngfb_tid'.
-	* Renamed all GPL and Pro class names to start with  'NgfbGpl' or 'NgfbPro'.
-	* Re-structured the `NgfbConfig::$cf` array to support multiple plugin configs (for future NGFB extension plugins).
-
 == Upgrade Notice ==
 
-= 7.6.6 =
+= 7.6.7 =
 
 Fixed HTML encoding from WooCommerce short description, added support for expansion of special inline variables in meta tag values.
 
