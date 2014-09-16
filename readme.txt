@@ -392,6 +392,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.6 =
+
+* **Bugfixes**
+	* Removed encoded HTML tags from excerpts from the WooCommerce short description (aka excerpt) text (Pro version).
+	* Added the blog ID number to the minimized CSS stylesheet file name (allowing the same cache folder to be shared with multiple blogs).
+* **Enhancements**
+	* Added an extra check for the existence of the CSS minification class.
+	* Added the SucomUtil class `get_inline_vars()`, `get_inline_vals()`, and `replace_inline_vars()` methods to retrieve and convert inline variables in meta tag values.
+
 = Version 7.6.5 =
 
 * **Bugfixes**
