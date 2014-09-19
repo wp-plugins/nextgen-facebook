@@ -392,6 +392,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.8 =
+
+* **Bugfixes**
+	* *None*
+* **Enhancements**
+	* Added an 'ngfb_buttons_cache_salt' filter to modify the sharing buttons cache salt string.
+	* Renamed / changed the 'Header Tags' tab in the Social Settings metabox for 'Title and Description' and 'Image and Video'.
+	* Moved the 'Google+ / Schema Description' option in the Social Settings to the All Options view (hidden in the Basic Options view).
+
 = Version 7.6.7 =
 
 * **Bugfixes**
