@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.7
+Stable Tag: 7.6.8
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -395,7 +395,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.8 =
 
 * **Bugfixes**
-	* *None*
+	* Added a merge feature for post meta options, to retain any excluded options from the Social Settings form (Pro version).
 * **Enhancements**
 	* Added an 'ngfb_buttons_cache_salt' filter to modify the sharing buttons cache salt string.
 	* Renamed / changed the 'Header Tags' tab in the Social Settings metabox for 'Title and Description' and 'Image and Video'.
@@ -412,6 +412,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added the SucomUtil class `get_inline_vars()`, `get_inline_vals()`, and `replace_inline_vars()` methods to retrieve and convert inline variables -- the `%%post_id%%`, `%%request_url%%`, and `%%sharing_url%%` variables will be expanded if/when found in any meta tag value.
 
 == Upgrade Notice ==
+
+= 7.6.8 =
+
+Simplifies the Social Settings metabox, and includes a small fix to retain any excluded options from the Social Settings metabox as well.
 
 = 7.6.7 =
 
