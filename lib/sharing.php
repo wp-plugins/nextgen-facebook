@@ -270,7 +270,7 @@ jQuery("#ngfb-sidebar").click( function(){
 
 				$transients['NgfbSharing::get_buttons'] = array();
 				foreach( self::$cf['sharing']['show_on'] as $type_id => $type_name )
-					$transients['NgfbSharing::get_buttons'][$type_id] = 'lang:'.$lang.'_obj:'.$post_id.'_type:'.$type_id;
+					$transients['NgfbSharing::get_buttons'][$type_id] = 'lang:'.$lang.'_type:'.$type_id.'_post:'.$post_id;
 			}
 			return $transients;
 		}
