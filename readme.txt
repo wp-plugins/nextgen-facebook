@@ -395,7 +395,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.8 =
 
 * **Bugfixes**
-	* Added a merge feature for post meta options, to retain any excluded options from the Social Settings form (Pro version).
+	* Added a merge feature for post meta options, to retain hidden / excluded options from the Social Settings form (Pro version).
 * **Enhancements**
 	* Added an 'ngfb_buttons_cache_salt' filter to modify the sharing buttons cache salt string.
 	* Renamed / changed the 'Header Tags' tab in the Social Settings metabox for 'Title and Description' and 'Image and Video'.
@@ -415,7 +415,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.6.8 =
 
-Simplifies the Social Settings metabox, and includes a small fix to retain any excluded options from the Social Settings metabox as well.
+Simplifies the Social Settings metabox, and includes a small fix to retain hidden / excluded options from the Social Settings metabox as well.
 
 = 7.6.7 =
 
