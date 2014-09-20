@@ -362,6 +362,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		</ul></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/sharing-buttons-function/">Sharing Buttons Function</a></li>
 	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/inline-variables/">Inline Variables</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/ngfb-shortcode/">NGFB Shortcode</a></li> 
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
