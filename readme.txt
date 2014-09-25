@@ -393,6 +393,16 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.9 =
+
+* **Bugfixes**
+	* *None*
+* **Enhancements**
+	* Updated URLs to wordpress.org from HTTP to HTTPS.
+	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
+	* Added the `get_options()` method to the SucomForm class.
+	* Added a counter for the number of video preview images.
+
 = Version 7.6.8 =
 
 * **Bugfixes**
