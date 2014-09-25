@@ -399,9 +399,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* *None*
 * **Enhancements**
 	* Updated URLs to wordpress.org from HTTP to HTTPS.
-	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
 	* Added the `get_options()` method to the SucomForm class.
-	* Added a counter for the number of video preview images.
+	* Added a check for the number of returned video preview images.
+	* Added a new 'Include Video Preview Image' option in the NGFB General settings page (Pro version).
+	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
 
 = Version 7.6.8 =
 
