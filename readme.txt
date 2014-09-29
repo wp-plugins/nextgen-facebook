@@ -393,6 +393,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.9.1 =
+
+* **Bugfixes**
+	* Fix to allow the og:image meta tag to be disabled, without disabling the og:image:secure_url meta tag as well.
+* **Enhancements**
+	* *None*
+
 = Version 7.6.9 =
 
 * **Bugfixes**
