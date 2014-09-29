@@ -422,6 +422,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.6.9.1 =
+
+Fix to allow the og:image meta tag to be disabled, without disabling the og:image:secure_url meta tag as well.
+
 = 7.6.9 =
 
 Updates the wordpress.org URLs to HTTPS, adds a check for the number of returned video preview images, and includes a new 'Include Video Preview Image' option.
