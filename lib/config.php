@@ -19,15 +19,15 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.9.1',		// plugin version
+					'version' => '7.6.10',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
 					'slug' => 'nextgen-facebook',
 					'base' => 'nextgen-facebook/nextgen-facebook.php',
 					'img' => array(
-						'icon-small' => '//ps.w.org/nextgen-facebook/assets/icon-128x128.jpg?rev=',
-						'icon-medium' => '//ps.w.org/nextgen-facebook/assets/icon-256x256.jpg?rev=',
+						'icon-small' => '//ps.w.org/nextgen-facebook/assets/icon-128x128.png?rev=',
+						'icon-medium' => '//ps.w.org/nextgen-facebook/assets/icon-256x256.png?rev=',
 					),
 					'url' => array(
 						'download' => 'https://wordpress.org/plugins/nextgen-facebook/',
@@ -163,7 +163,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 301,		// increment when changing default options
+				'version' => 302,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -211,7 +211,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_title_len' => 70,
 					'og_desc_len' => 300,
 					'og_desc_hashtags' => 3,
-					'og_desc_strip' => 0,
+					'og_desc_strip' => 1,
+					'og_desc_alt' => 1,
 					'rp_author_name' => 'display_name',     // rich-pin specific article:author
 					'rp_img_width' => 800,
 					'rp_img_height' => 800,

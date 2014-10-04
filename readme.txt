@@ -393,6 +393,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.10 =
+
+* **Bugfixes**
+	* *None*
+* **Enhancements**
+	* Added a new "Use Image(s) Alt if No Content" option to include img alt text if/when the content text is empty.
+
 = Version 7.6.9.1 =
 
 * **Bugfixes**
@@ -421,6 +428,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Moved the 'Google+ / Schema Description' option in the Social Settings to the All Options view (hidden in the Basic Options view).
 
 == Upgrade Notice ==
+
+= 7.6.10 =
+
+Added a new "Use Image(s) Alt if No Content" option to include img alt text if/when the content text is empty.
 
 = 7.6.9.1 =
 
