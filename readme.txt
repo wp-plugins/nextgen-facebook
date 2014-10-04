@@ -418,15 +418,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a new 'Include Video Preview Image' option in the NGFB General settings page (Pro version).
 	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
 
-= Version 7.6.8 =
-
-* **Bugfixes**
-	* Added a merge feature for post meta options, to retain hidden / excluded options from the Social Settings form (Pro version).
-* **Enhancements**
-	* Added an 'ngfb_buttons_cache_salt' filter to modify the sharing buttons cache salt string.
-	* Renamed / changed the 'Header Tags' tab in the Social Settings metabox for 'Title and Description' and 'Image and Video'.
-	* Moved the 'Google+ / Schema Description' option in the Social Settings to the All Options view (hidden in the Basic Options view).
-
 == Upgrade Notice ==
 
 = 7.6.10 =
@@ -440,8 +431,4 @@ Fix to allow the og:image meta tag to be disabled, without disabling the og:imag
 = 7.6.9 =
 
 Updates the wordpress.org URLs to HTTPS, adds a check for the number of returned video preview images, and includes a new 'Include Video Preview Image' option.
-
-= 7.6.8 =
-
-Simplifies the Social Settings metabox, and includes a small fix to retain hidden / excluded options from the Social Settings metabox as well.
 
