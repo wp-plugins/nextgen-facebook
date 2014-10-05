@@ -68,20 +68,20 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 * **No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
-	* **Product Card** &mdash; Product information from a an e-commerce plugin:
+	* **Product Card** &mdash; Product information from a supported e-commerce plugin:
 		* Easy Digital Downloads
 		* MarketPress
 		* WooCommerce
 		* WP e-Commerce
-	* **Player Card** &mdash; An embedded video in the content:
+	* **Player Card** &mdash; An embedded video in the content from:
 		* Slideshare
 		* Vimeo
 		* Wistia
 		* YouTube
 	* **Gallery Card** &mdash; A WordPress Media Library gallery or NextGEN Gallery shortcode.
 	* **Photo Card** &mdash; A WordPress Attachment page or NextGEN Gallery ImageBrowser webpage.
-	* **Large Image Summary Card** &mdash; An image defined in the custom Social Settings metabox, a Featured, Attached, or NextGEN Gallery singlepic image.
-	* **Summary Card** &mdash; All other webpages.  
+	* **Large Image Summary Card** &mdash; An image entered in the custom Social Settings, a Featured, Attached, or NextGEN Gallery singlepic image.
+	* **Summary Card** &mdash; All other webpages.
 * Customizable image dimensions for each Twitter Card type.
 * Configurable title and description lengths for different contexts (Open Graph, Twitter Card, SEO).
 * Additional profile contact fields with configurable label and field names.
@@ -93,7 +93,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * URL shortening with Bitly or Google for URLs in Tweet texts.
 * Ability to include / exclude sharing buttons by post type.
 * Selection of preset button options by location (content, excerpt, shortcode, widget, etc.).
-* Integrates with 3rd party plugins and services for additional image, video, product, and content information (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details):
+* **Integrates with 3rd party plugins and services for additional image, video, product, and content information** (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details):
 	* Plugins
 		* All in One SEO Pack
 		* bbPress
