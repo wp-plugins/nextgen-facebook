@@ -80,7 +80,6 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 	* Gallery Card &mdash; A WordPress Media Library gallery or NextGEN Gallery shortcode.
 	* Photo Card &mdash; A WordPress Attachment page or NextGEN Gallery ImageBrowser webpage.
 	* Large Image Summary Card &mdash; An image defined in the custom Social Settings metabox, a Featured, Attached, or NextGEN Gallery singlepic image.
-	* App Card &mdash; An Apple Store iPhone, iPad, or Google Play App (provided by the [WPSSO AM](https://wordpress.org/plugins/wpsso-am/) extension).
 	* Summary Card &mdash; All other webpages.  
 * Customizable image dimensions for each Twitter Card type.
 * Configurable title and description lengths for different contexts (Open Graph, Twitter Card, SEO).
