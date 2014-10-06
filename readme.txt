@@ -400,6 +400,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.10.1 =
+
+* **Bugfixes**
+	* Fix to enable the return of individual sharing URLs for BuddyPress activities within an activity loop (Pro version).
+* **Enhancements**
+	* *None*
+
 = Version 7.6.10 =
 
 * **Bugfixes**
