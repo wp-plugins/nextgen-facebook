@@ -68,19 +68,11 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 * **No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
-	* *Product Card* &mdash; Product information from a supported e-commerce plugins:
-		* Easy Digital Downloads
-		* MarketPress
-		* WooCommerce
-		* WP e-Commerce
-	* *Player Card* &mdash; An embedded video in the content from:
-		* Slideshare
-		* Vimeo
-		* Wistia
-		* YouTube
-	* *Gallery Card* &mdash; A WordPress Media Library gallery or NextGEN Gallery shortcode.
-	* *Photo Card* &mdash; A WordPress Attachment page or NextGEN Gallery ImageBrowser webpage.
-	* *Large Image Summary Card* &mdash; An image entered in the custom Social Settings, a Featured, Attached, or NextGEN Gallery singlepic image.
+	* *Product Card* &mdash; Product information from an e-commerce plugin.
+	* *Player Card* &mdash; An embedded video in the Post / Page content.
+	* *Gallery Card* &mdash; A Media Library gallery or NextGEN Gallery shortcode.
+	* *Photo Card* &mdash; An Attachment page or NextGEN Gallery ImageBrowser webpage.
+	* *Large Image Summary Card* &mdash; An image from the custom Social Settings, Featured, Attached, or NextGEN Gallery singlepic.
 	* *Summary Card* &mdash; All other webpages.
 * Customizable image dimensions for each Twitter Card type.
 * Configurable title and description lengths for different contexts (Open Graph, Twitter Card, SEO).
