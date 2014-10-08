@@ -411,6 +411,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Updated the Twitter, Tumblr, Pinterest sharing buttons code to include the source_id argument when calling these methods.
 	* Changed the 'xmlns:og="http://ogp.me/ns#" xmlns:fb="http://ogp.me/ns/fb#"' DOCTYPE attribute to 'prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml"' for HTML5 compliance.
 	* Modified the 'ngfb_title_seed' and 'ngfb_description_seed' filter arguments (note: the $use_cache and $encode filter arguments have been removed).
+	* Changed the BuddyPress description filter hook from 'ngfb_description_seed' to 'ngfb_content_seed' in order to provide image and video information.
 
 = Version 7.6.10 =
 
