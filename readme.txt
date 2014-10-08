@@ -400,12 +400,17 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.6.10.1 =
+= Version 7.6.11 =
 
 * **Bugfixes**
-	* Fix to enable the return of individual sharing URLs for BuddyPress activities within an activity loop (Pro version).
+	* Fixed the return of individual sharing URLs for BuddyPress activities within an activity loop (Pro version).
+	* Fixed a check for the admin $post->filter attribute value (which is unreliable) for the $post->post_status value instead.
+	* Fixed the action hook return value for post meta and user `save_options()` methods.
 * **Enhancements**
-	* *None*
+	* Added the source_id argument to the SucomWebpage class `get_caption()`, `get_title()`, and `get_description()` methods (and their filters).
+	* Updated the Twitter, Tumblr, Pinterest sharing buttons code to include the source_id argument when calling these methods.
+	* Changed the 'xmlns:og="http://ogp.me/ns#" xmlns:fb="http://ogp.me/ns/fb#"' DOCTYPE attribute to 'prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml"' for HTML5 compliance.
+	* Modified the 'ngfb_title_seed' and 'ngfb_description_seed' filter arguments (note: the $use_cache and $encode filter arguments have been removed).
 
 = Version 7.6.10 =
 
