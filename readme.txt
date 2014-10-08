@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.10
+Stable Tag: 7.6.11
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -405,7 +405,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **Bugfixes**
 	* Fixed the return of individual sharing URLs for BuddyPress activities within an activity loop (Pro version).
 	* Fixed a check for the admin $post->filter attribute value (which is unreliable) for the $post->post_status value instead.
-	* Fixed the action hook return value for post meta and user `save_options()` methods.
+	* Fixed the action hook return value for post meta and user `save_options()` methods (Pro version).
 * **Enhancements**
 	* Added the source_id argument to the SucomWebpage class `get_caption()`, `get_title()`, and `get_description()` methods (and their filters).
 	* Updated the Twitter, Tumblr, Pinterest sharing buttons code to include the source_id argument when calling these methods.
@@ -439,6 +439,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
 
 == Upgrade Notice ==
+
+= 7.6.11 =
+
+Small fixes for BuddyPress and WooCommerce, improved HTML5 compliance, changes to the 'ngfb_title_seed' and 'ngfb_description_seed' filters.
 
 = 7.6.10 =
 
