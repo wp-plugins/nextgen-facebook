@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.10.1',		// plugin version
+					'version' => '7.6.11',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -434,7 +434,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 		);
 
 		// get_config is called very early, so don't apply filters unless instructed
-		public static function get_config( $idx = '', $filter = false ) { 
+		public static function get_config( $idx = false, $filter = false ) { 
 
 			if ( ! isset( self::$cf['config_filtered'] ) || self::$cf['config_filtered'] !== true ) {
 
@@ -476,7 +476,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				}
 			}
 
-			if ( ! empty( $idx ) ) {
+			if ( $idx !== false ) {
 				if ( array_key_exists( $idx, self::$cf ) )
 					return self::$cf[$idx];
 				else return false;

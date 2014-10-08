@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 4.0
- * Version: 7.6.10.1
+ * Version: 7.6.11
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -85,7 +85,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		// runs at init priority -1
 		public function set_config() {
-			$this->cf = NgfbConfig::get_config( null, true );	// apply filters - define the $cf['*'] array
+			$this->cf = NgfbConfig::get_config( false, true );	// apply filters - define the $cf['*'] array
 		}
 
 		// runs at init priority 1
