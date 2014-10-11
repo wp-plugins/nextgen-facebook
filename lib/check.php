@@ -109,17 +109,12 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					constant( $constant_name ) ? false : true;
 			}
 
-			foreach ( SucomUtil::array_merge_recursive_distinct( 
-				$this->p->cf['*']['lib']['pro'], self::$mac ) as $sub => $lib ) {
-
+			foreach ( SucomUtil::array_merge_recursive_distinct( $this->p->cf['*']['lib']['pro'], self::$mac ) as $sub => $lib ) {
 				$ret[$sub] = array();
 				$ret[$sub]['*'] = false;
-
 				foreach ( $lib as $id => $name ) {
-
 					$chk = array();
 					$ret[$sub][$id] = false;	// default value
-
 					switch ( $sub.'-'.$id ) {
 						/*
 						 * 3rd Party Plugins
@@ -229,7 +224,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 								$ret[$sub]['*'] = $ret[$sub][$id] = true;
 				}
 			}
-
 			return $ret;
 		}
 
