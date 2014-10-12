@@ -400,6 +400,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.12 =
+
+* **Bugfixes**
+	* *None*
+* **Enhancements**
+	* Added the 'Use Filtered (SEO) Titles' option (checked by default) to allow the use of original / unmodified title values.
+	* Added the 'ngfb_add_metabox_postmeta' filter to enable / disable the Social Settings metabox for specific post IDs.
+	* Added the 'ngfb_add_metabox_usermeta' filter to enable / disable the Social Settings metabox for specific user IDs.
+
 = Version 7.6.11 =
 
 * **Bugfixes**
