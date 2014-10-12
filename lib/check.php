@@ -224,7 +224,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 								$ret[$sub]['*'] = $ret[$sub][$id] = true;
 				}
 			}
-			return $ret;
+			return apply_filters( $this->p->cf['lca'].'_get_avail', $ret );
 		}
 
 		// called from ngfbAdmin

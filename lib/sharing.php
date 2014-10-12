@@ -152,6 +152,10 @@ jQuery("#ngfb-sidebar").click( function(){
 			$this->p->util->add_plugin_filters( $this, array( 
 				'get_defaults' => 1,	// add sharing options and css file contents to defaults
 			) );
+			$this->p->util->add_plugin_filters( $this, array( 
+				'pre_filter_remove' => 2,	// remove the buttons filter from content, excerpt, etc.
+				'post_filter_add' => 2,		// re-add the buttons filter to content, excerpt, etc.
+			), 10, 'ngfb' );
 
 			if ( is_admin() ) {
 				add_action( 'add_meta_boxes', array( &$this, 'add_post_metaboxes' ) );
@@ -517,14 +521,23 @@ jQuery("#ngfb-sidebar").click( function(){
 			}
 		}
 
+		public function filter_pre_filter_remove( $ret, $filter ) {
+			return ( $this->remove_buttons_filter( $filter ) ? true : $ret );
+		}
+
+		public function filter_post_filter_add( $ret, $filter ) {
+			return ( $this->add_buttons_filter( $filter ) ? true : $ret );
+		}
+
 		public function add_buttons_filter( $type = 'the_content' ) {
-			add_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'buttons filter for '.$type.' added' );
+			$rc = add_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
+			$this->p->debug->log( 'buttons filter '.$type.' added ('.( $rc  ? 'true' : 'false' ).')' );
+			return $rc;
 		}
 
 		public function remove_buttons_filter( $type = 'the_content' ) {
 			$rc = remove_filter( $type, array( &$this, 'get_buttons_'.$type ), NGFB_SOCIAL_PRIORITY );
-			$this->p->debug->log( 'buttons filter for '.$type.' removed ('.( $rc  ? 'true' : 'false' ).')' );
+			$this->p->debug->log( 'buttons filter '.$type.' removed ('.( $rc  ? 'true' : 'false' ).')' );
 			return $rc;
 		}
 
