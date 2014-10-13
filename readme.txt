@@ -406,8 +406,9 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* *None*
 * **Enhancements**
 	* Added a new 'Use Filtered (SEO) Titles' option (checked by default) to allow the use of original / unmodified title values.
-	* Added a new 'Video Embed HTML Custom Field' option with a default value of '_format_video_embed'.
-	* Changed the 'Video URL Custom Field' default value from '_format_video_embed' to '_format_video_url'.
+	* Added a new 'Image URL Custom Field' option with a default value of '_image_url'.
+	* Added a new 'Video Embed HTML Custom Field' option with a default value of '_video_embed'.
+	* Changed the 'Video URL Custom Field' default value from '_format_video_embed' to '_video_url'.
 	* Added a new 'Video Embed HTML' option to the admin Social Settings metabox.
 	* Added a new 'ngfb_add_metabox_postmeta' filter to enable / disable the admin Social Settings metabox for specific post IDs.
 	* Added a new 'ngfb_add_metabox_usermeta' filter to enable / disable the admin Social Settings metabox for specific user IDs.
