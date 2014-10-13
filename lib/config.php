@@ -523,6 +523,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			if ( ! defined( 'NGFB_META_NAME' ) )
 				define( 'NGFB_META_NAME', '_'.$cf['lca'].'_meta' );
 
+			if ( ! defined( 'NGFB_META_SAVE_PRIORITY' ) )
+				define( 'NGFB_META_SAVE_PRIORITY', 20 );
+
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.11' );
 

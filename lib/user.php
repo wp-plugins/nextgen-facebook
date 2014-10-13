@@ -26,9 +26,9 @@ if ( ! class_exists( 'NgfbUser' ) ) {
 				add_action( 'show_user_profile', array( &$this, 'show_metaboxes' ), 20 );
 				add_action( 'edit_user_profile', array( &$this, 'show_metaboxes' ), 20 );
 				add_action( 'edit_user_profile_update', array( &$this, 'sanitize_contact_methods' ), 5 );
-				add_action( 'edit_user_profile_update', array( &$this, 'save_options' ), 20 );
+				add_action( 'edit_user_profile_update', array( &$this, 'save_options' ), NGFB_META_SAVE_PRIORITY );
 				add_action( 'personal_options_update', array( &$this, 'sanitize_contact_methods' ), 5 ); 
-				add_action( 'personal_options_update', array( &$this, 'save_options' ), 20 ); 
+				add_action( 'personal_options_update', array( &$this, 'save_options' ), NGFB_META_SAVE_PRIORITY ); 
 			}
 		}
 
