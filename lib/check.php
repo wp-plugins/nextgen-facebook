@@ -27,7 +27,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				method_exists( $this->p->debug, 'mark' ) )
 					$this->p->debug->mark();
 
-			$this->active_plugins = get_option( 'active_plugins', array() ); 
+			$this->active_plugins = get_option( 'active_plugins', array() );
 			if ( is_multisite() ) {
 				$this->network_plugins = array_keys( get_site_option( 'active_sitewide_plugins', array() ) );
 				if ( ! empty( $this->network_plugins ) )
@@ -124,7 +124,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['plugin'] = 'easy-digital-downloads/easy-digital-downloads.php';
 							break;
 						case 'ecom-marketpress':
-							$chk['class'] = 'MarketPress'; 
+							$chk['class'] = 'MarketPress';
 							$chk['plugin'] = 'wordpress-ecommerce/marketpress.php';
 							break;
 						case 'ecom-woocommerce':
@@ -136,11 +136,11 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['plugin'] = 'wp-e-commerce/wp-shopping-cart.php';
 							break;
 						case 'forum-bbpress':
-							$chk['class'] = 'bbPress'; 
+							$chk['class'] = 'bbPress';
 							$chk['plugin'] = 'bbpress/bbpress.php';
 							break;
 						case 'lang-polylang':
-							$chk['class'] = 'Polylang'; 
+							$chk['class'] = 'Polylang';
 							$chk['plugin'] = 'polylang/polylang.php';
 							break;
 						case 'media-ngg':
@@ -166,11 +166,11 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 							$chk['plugin'] = 'seo-ultimate/seo-ultimate.php';
 							break;
 						case 'seo-wpseo':
-							$chk['function'] = 'wpseo_init'; 
+							$chk['function'] = 'wpseo_init';
 							$chk['plugin'] = 'wordpress-seo/wp-seo.php';
 							break;
 						case 'social-buddypress':
-							$chk['class'] = 'BuddyPress'; 
+							$chk['class'] = 'BuddyPress';
 							$chk['plugin'] = 'buddypress/bp-loader.php';
 							break;
 						/*

@@ -888,6 +888,35 @@ jQuery("#ngfb-sidebar").click( function(){
 				$ids[$id] = $this->p->cf['plugin']['ngfb']['lib']['website'][$id];
 			return $ids;
 		}
+
+		public function get_sharing_media( $post_id ) {
+			$opts = $this->p->addons['util']['postmeta']->get_options( $post_id );
+			foreach ( array(
+				'og_img_id',
+				'og_img_id_pre',
+				'og_vid_url',
+				'og_vid_embed',
+			) as $key )
+				if ( ! isset( $opts[$key] ) )
+					$opts[$key] = '';
+
+			if ( empty( $opts['og_img_id'] ) ) {
+				if ( $this->p->is_avail['postthumb'] == true && 
+					has_post_thumbnail( $post_id ) )
+						$opts['og_img_id'] = get_post_thumbnail_id( $post_id );
+				else $opts['og_img_id'] = $this->p->media->get_first_attached_image_id( $post_id );
+			} elseif ( $opts['og_img_id_pre'] === 'ngg' )
+				$opts['og_img_id'] = $opts['og_img_id_pre'].'-'.$opts['og_img_id'];
+
+			if ( empty( $opts['og_vid_url'] ) ) {
+				$videos = $this->p->media->get_content_videos( 1, $post_id, false, $opts['og_vid_embed'] );
+				if ( ! empty( $videos[0]['og:video'] ) ) 
+					$opts['og_vid_url'] = $videos[0]['og:video'];
+			}
+
+			return array( $opts['og_img_id'], $opts['og_vid_url'] );
+		}
+
 	}
 }
 
