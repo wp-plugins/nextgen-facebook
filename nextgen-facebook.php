@@ -281,9 +281,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					if ( is_array( $this->options ) ) {
 						update_option( NGFB_OPTIONS_NAME, $this->options );
 						delete_option( NGFB_OPTIONS_NAME_ALT );
-					} else $this->options = array();
-				} else $this->options = array();
+					}
+				}
 			}
+
+			if ( ! is_array( $this->options ) )
+				$this->options = array();
 
 			if ( is_multisite() ) {
 				$this->site_options = get_site_option( NGFB_SITE_OPTIONS_NAME );
@@ -295,12 +298,13 @@ if ( ! class_exists( 'Ngfb' ) ) {
 						if ( is_array( $this->site_options ) ) {
 							update_site_option( NGFB_SITE_OPTIONS_NAME, $this->site_options );
 							delete_site_option( NGFB_SITE_OPTIONS_NAME_ALT );
-						} else $this->site_options = array();
-					} else $this->site_options = array();
+						}
+					}
 				}
 
 				// if multisite options are found, check for overwrite of site specific options
 				if ( is_array( $this->options ) && is_array( $this->site_options ) ) {
+					$current_blog_id = function_exists( 'get_current_blog_id' ) ? get_current_blog_id() : false;
 					foreach ( $this->site_options as $key => $val ) {
 						if ( array_key_exists( $key, $this->options ) && 
 							array_key_exists( $key.':use', $this->site_options ) ) {
@@ -317,8 +321,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 							}
 
 							// check for constant over-rides
-							if ( function_exists( 'get_current_blog_id' ) ) {
-								$constant_name = 'NGFB_OPTIONS_'.get_current_blog_id().'_'.strtoupper( $key );
+							if ( $current_blog_id !== false ) {
+								$constant_name = 'NGFB_OPTIONS_'.$current_blog_id.'_'.strtoupper( $key );
 								if ( defined( $constant_name ) )
 									$this->options[$key] = constant( $constant_name );
 							}
@@ -326,6 +330,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 					}
 				}
 			}
+
+			if ( ! is_array( $this->site_options ) )
+				$this->site_options = array();
+
 			$this->options = apply_filters( 'ngfb_get_options', $this->options );
 			$this->site_options = apply_filters( 'ngfb_get_site_options', $this->site_options );
 		}
