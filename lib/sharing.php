@@ -229,7 +229,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				case 'stumble_badge':
 				case 'plugin_min_shorten':
 				case ( preg_match( '/_order$/', $key ) ? true : false ):
-					return 'posnum';
+					return 'pos_num';
 					break;
 				// text strings that can be blank
 				case 'gp_expandto':
@@ -240,7 +240,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				case 'plugin_bitly_login':
 				case 'plugin_bitly_api_key':
 				case 'plugin_google_api_key':
-					return 'okblank';
+					return 'ok_blank';
 					break;
 				// options that cannot be blank
 				case 'fb_markup': 
@@ -262,7 +262,7 @@ jQuery("#ngfb-sidebar").click( function(){
 				case 'tumblr_caption':
 				case ( strpos( $key, 'buttons_pos_' ) === 0 ? true : false ):
 				case ( preg_match( '/^[a-z]+_js_loc$/', $key ) ? true : false ):
-					return 'notblank';
+					return 'not_blank';
 					break;
 			}
 			return $type;
