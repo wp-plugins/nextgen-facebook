@@ -286,14 +286,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/buddypress-integration/">BuddyPress Integration</a></li>
 	</ul></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/migrate-from-wpsso/">Migrate from WPSSO</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
 </ul>
 
-= Setup =
+= Plugin Setup =
 
 <ul>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/">A Setup Guide</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/">A Setup Guide for NGFB</a></li>
 </ul>
 
 == Frequently Asked Questions ==
@@ -341,6 +340,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/author-gravatar/">Author Gravatar</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/easy-digital-downloads/">Easy Digital Downloads</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/headspace2-seo/">HeadSpace2 SEO</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/jetpack-photon/">Jetpack Photon</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/woocommerce/">WooCommerce</a></li>
@@ -360,8 +360,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-shortcode-attributes-url/">Modify Shortcode Attributes (URL)</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-articletag-keywords-names/">Modify the article:tag Keywords / Names</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-default-topics-list/">Modify the Default Topics List</a></li>
-				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-title-value/">Modify the Title Value</a></li>
 			</ul></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/head/">Head Filters</a></li>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/media/">Media Filters</a></li>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/open-graph/">Open Graph Filters</a></li>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/twitter-card/">Twitter Card Filters</a></li>
