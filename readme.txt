@@ -405,7 +405,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **Bugfixes**
 	* *None*
 * **Enhancements**
-	* Added a new 'Use Filtered (SEO) Titles' option (checked by default). Uncheck this option to allow the use of original / unmodified title values.
+	* Added a new 'Use Filtered (SEO) Titles' option (checked by default).
 	* Added a new 'Image URL Custom Field' option with a default value of '_image_url'.
 	* Added a new 'Video Embed HTML Custom Field' option with a default value of '_video_embed'.
 	* Changed the 'Video URL Custom Field' default value from '_format_video_embed' to '_video_url'.
@@ -452,6 +452,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
 
 == Upgrade Notice ==
+
+= 7.6.12 =
+
+NGFB has been updated with new options to manage Title and Video settings.
 
 = 7.6.11 =
 
