@@ -400,7 +400,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.6.12 =
+= Version 7.6.12.1 =
 
 * **Bugfixes**
 	* *None*
@@ -412,6 +412,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a new 'Video Embed HTML' option to the admin Social Settings metabox.
 	* Added a new 'ngfb_add_metabox_postmeta' filter to enable / disable the admin Social Settings metabox for specific post IDs.
 	* Added a new 'ngfb_add_metabox_usermeta' filter to enable / disable the admin Social Settings metabox for specific user IDs.
+	* Added a new 'NGFB_META_SAVE_PRIORITY' constant (with a default value of 20).
 
 = Version 7.6.11 =
 
@@ -453,7 +454,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
-= 7.6.12 =
+= 7.6.12.1 =
 
 NGFB has been updated with new options to manage Title and Video settings.
 
