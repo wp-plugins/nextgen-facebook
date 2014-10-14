@@ -427,31 +427,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Modified the 'ngfb_title_seed' and 'ngfb_description_seed' filter arguments (note: the $use_cache and $encode filter arguments have been removed).
 	* Changed the BuddyPress description filter hook from 'ngfb_description_seed' to 'ngfb_content_seed' in order to provide image and video information.
 
-= Version 7.6.10 =
-
-* **Bugfixes**
-	* *None*
-* **Enhancements**
-	* Added a new "Use Image(s) Alt if No Content" option to include img alt text if/when the content text is empty.
-
-= Version 7.6.9.1 =
-
-* **Bugfixes**
-	* Fix to allow the og:image meta tag to be disabled, without disabling the og:image:secure_url meta tag as well.
-* **Enhancements**
-	* *None*
-
-= Version 7.6.9 =
-
-* **Bugfixes**
-	* *None*
-* **Enhancements**
-	* Updated the wordpress.org URLs from HTTP to HTTPS.
-	* Added the `get_options()` method to the SucomForm class.
-	* Added a check for the number of returned video preview images.
-	* Added a new 'Include Video Preview Image' option in the NGFB General settings page (Pro version).
-	* Added a check for the 'auto-draft' post status when displaying the Social Settings metabox (Free version).
-
 == Upgrade Notice ==
 
 = 7.6.12.1 =
@@ -461,16 +436,4 @@ NGFB has been updated with new options to manage Title and Video settings.
 = 7.6.11 =
 
 Small fixes for BuddyPress and WooCommerce, improved HTML5 compliance, changes to the 'ngfb_title_seed' and 'ngfb_description_seed' filters.
-
-= 7.6.10 =
-
-Added a new "Use Image(s) Alt if No Content" option to include img alt text if/when the content text is empty.
-
-= 7.6.9.1 =
-
-Fix to allow the og:image meta tag to be disabled, without disabling the og:image:secure_url meta tag as well.
-
-= 7.6.9 =
-
-Updates the wordpress.org URLs to HTTPS, adds a check for the number of returned video preview images, and includes a new 'Include Video Preview Image' option.
 
