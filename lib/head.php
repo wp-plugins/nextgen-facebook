@@ -39,6 +39,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 					case 'event':
 					case 'organization':
 					case 'person':
+					case 'place':
 					case 'product':
 					case 'review':
 					case 'other':
@@ -55,7 +56,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 				( is_search() && ! empty( $this->p->options['og_def_author_on_search'] ) && ! empty( $this->p->options['og_def_author_id'] ) ) )
 					$item_type = 'Article';
 
-			$item_type = apply_filters( $this->p->cf['lca'].'_item_type', $item_type );
+			$item_type = apply_filters( $this->p->cf['lca'].'_doctype_schema_type', $item_type );
 
 			if ( strpos( $doctype, ' itemscope itemtype="http://schema.org/' ) === false )
 				$doctype .= ' itemscope itemtype="http://schema.org/'.$item_type.'"';
