@@ -403,7 +403,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.12.2 =
 
 * **Bugfixes**
-	* Fixed a condition that could remove spaces from title values when no separator is defined.
+	* A small fix to escape special title separator values.
 * **Enhancements**
 	* *None*
 
