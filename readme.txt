@@ -437,6 +437,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.6.12.2 =
+
+Small fixes to escape special title separator values, and the missing Google+ / Schema Description value on user profile pages.
+
 = 7.6.12.1 =
 
 NGFB has been updated with new options to manage Title and Video settings.
