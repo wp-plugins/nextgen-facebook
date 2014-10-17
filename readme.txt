@@ -403,7 +403,8 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.12.2 =
 
 * **Bugfixes**
-	* A small fix to escape special title separator values.
+	* Fixed (possible) missing space characters in title values by escaping special separator values.
+	* Fixed the missing default Google+ / Schema Description value on user profile pages. 
 * **Enhancements**
 	* *None*
 
