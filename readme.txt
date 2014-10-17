@@ -400,6 +400,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.12.2 =
+
+* **Bugfixes**
+	* Fixed a condition that could remove spaces from title values when no separator is defined.
+* **Enhancements**
+	* *None*
+
 = Version 7.6.12.1 =
 
 * **Bugfixes**
