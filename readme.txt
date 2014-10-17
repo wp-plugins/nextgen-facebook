@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.12.1
+Stable Tag: 7.6.12.2
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -403,7 +403,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.12.2 =
 
 * **Bugfixes**
-	* Fixed (possible) missing space characters in title values by escaping special separator values.
+	* Fixed possible missing space characters in title values by escaping special separator values.
 	* Fixed the missing default Google+ / Schema Description value on user profile pages. 
 * **Enhancements**
 	* *None*
