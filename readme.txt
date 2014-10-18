@@ -402,6 +402,16 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.12.3 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Removed auto-appending the parent title to the post title if no SEO plugin is detected.
+	* Added a fallback for all custom title and description values to the Open Graph title and description.
+* **New Features**
+	* *None*
+
 = Version 7.6.12.2 =
 
 * **Bugfixes**
