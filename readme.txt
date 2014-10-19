@@ -402,7 +402,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
-= Version 7.6.12.3 =
+= Version 7.6.13 =
 
 * **Bugfixes**
 	* *None*
