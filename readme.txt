@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.12.2
+Stable Tag: 7.6.13
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -405,7 +405,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.13 =
 
 * **Bugfixes**
-	* Fixed the short URL return value when shorting fails (should have been false instead of an empty string).
+	* Fixed a return value when URL shortening fails (should have been false instead of an empty string).
 * **Improvements**
 	* Removed auto-appending the parent title to the post title if no SEO plugin is detected.
 	* Added a fallback for all custom title and description values to the Open Graph title and description.
@@ -449,6 +449,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Changed the BuddyPress description filter hook from 'ngfb_description_seed' to 'ngfb_content_seed' in order to provide image and video information.
 
 == Upgrade Notice ==
+
+= 7.6.13 =
+
+Adds a new 'Social Preview' tab to the Social Settings metabox, improved title and description handling in some cases, fix to better control URL rewriting service failures.
 
 = 7.6.12.2 =
 
