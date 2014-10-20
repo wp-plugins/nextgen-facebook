@@ -19,15 +19,15 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.12.2',	// plugin version
+					'version' => '7.6.13',	// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
 					'slug' => 'nextgen-facebook',
 					'base' => 'nextgen-facebook/nextgen-facebook.php',
 					'img' => array(
-						'icon-small' => '//ps.w.org/nextgen-facebook/assets/icon-128x128.png?rev=',
-						'icon-medium' => '//ps.w.org/nextgen-facebook/assets/icon-256x256.png?rev=',
+						'icon-small' => 'https://ps.w.org/nextgen-facebook/assets/icon-128x128.png?rev=',
+						'icon-medium' => 'https://ps.w.org/nextgen-facebook/assets/icon-256x256.png?rev=',
 					),
 					'url' => array(
 						'download' => 'https://wordpress.org/plugins/nextgen-facebook/',
