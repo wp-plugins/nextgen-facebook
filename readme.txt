@@ -405,12 +405,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.13 =
 
 * **Bugfixes**
-	* *None*
+	* Fixed the short URL return value when shorting fails (should have been false instead of an empty string).
 * **Improvements**
 	* Removed auto-appending the parent title to the post title if no SEO plugin is detected.
 	* Added a fallback for all custom title and description values to the Open Graph title and description.
 * **New Features**
-	* *None*
+	* Added a 'Social Preview' tab to the Social Settings metabox.
+	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 = Version 7.6.12.2 =
 
