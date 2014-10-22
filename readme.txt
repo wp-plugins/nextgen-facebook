@@ -402,6 +402,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.13.1 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* *None*
+* **New Features**
+	* Added a new 'Report Cache Flush Count' option on the Advanced settings page (enabled by default).
+
 = Version 7.6.13 =
 
 * **Bugfixes**
