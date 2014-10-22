@@ -163,7 +163,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 306,		// increment when changing default options
+				'version' => 307,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -305,6 +305,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_ngfb_tid' => '',
 					'plugin_display' => 'basic',
 					'plugin_preserve' => 0,
+					'plugin_cache_info' => 1,
 					'plugin_debug' => 0,
 					'plugin_filter_title' => 1,
 					'plugin_filter_excerpt' => 0,
