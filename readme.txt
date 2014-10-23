@@ -407,7 +407,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **Bugfixes**
 	* *None*
 * **Improvements**
-	* *None*
+	* Enabled the Social Settings 'Social Preview' and 'Header Preview' tabs for Drafts as well.
 * **New Features**
 	* Added a new 'Report Cache Purge Count' option on the Advanced settings page (enabled by default).
 
