@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.13
+Stable Tag: 7.6.13.1
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -458,6 +458,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Changed the BuddyPress description filter hook from 'ngfb_description_seed' to 'ngfb_content_seed' in order to provide image and video information.
 
 == Upgrade Notice ==
+
+= 7.6.13.1 =
+
+A new 'Report Cache Purge Count' option, and 'Social Preview' and 'Header Preview' tabs enabled for Drafts as well.
 
 = 7.6.13 =
 
