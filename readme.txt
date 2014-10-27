@@ -402,6 +402,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.13.2 =
+
+* **Bugfixes**
+	* Fixed WooCommerce shortcodes in admin interface by loading for all pages, not just product pages (Pro version).
+* **Improvements**
+	* Added more detail to the error message when WordPress fails to save the upgraded plugin settings.
+* **New Features**
+	* *None*
+
 = Version 7.6.13.1 =
 
 * **Bugfixes**
@@ -422,41 +431,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a 'Social Preview' tab to the Social Settings metabox.
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
-= Version 7.6.12.2 =
-
-* **Bugfixes**
-	* Fixed possible missing space characters in title values by escaping special separator values.
-	* Fixed the missing default Google+ / Schema Description value on user profile pages. 
-* **Enhancements**
-	* *None*
-
-= Version 7.6.12.1 =
-
-* **Bugfixes**
-	* *None*
-* **Enhancements**
-	* Added a new 'Use Filtered (SEO) Titles' option (checked by default).
-	* Added a new 'Image URL Custom Field' option with a default value of '_image_url'.
-	* Added a new 'Video Embed HTML Custom Field' option with a default value of '_video_embed'.
-	* Changed the 'Video URL Custom Field' default value from '_format_video_embed' to '_video_url'.
-	* Added a new 'Video Embed HTML' option to the admin Social Settings metabox.
-	* Added a new 'ngfb_add_metabox_postmeta' filter to enable / disable the admin Social Settings metabox for specific post IDs.
-	* Added a new 'ngfb_add_metabox_usermeta' filter to enable / disable the admin Social Settings metabox for specific user IDs.
-	* Added a new 'NGFB_META_SAVE_PRIORITY' constant (with a default value of 20).
-
-= Version 7.6.11 =
-
-* **Bugfixes**
-	* Fixed the return of individual sharing URLs for BuddyPress activities within an activity loop (Pro version).
-	* Fixed a check for the admin $post->filter attribute value (which is unreliable) for the $post->post_status value instead.
-	* Fixed the action hook return value for post meta and user `save_options()` methods (Pro version).
-* **Enhancements**
-	* Added the source_id argument to the SucomWebpage class `get_caption()`, `get_title()`, and `get_description()` methods (and their filters).
-	* Updated the Twitter, Tumblr, Pinterest sharing buttons code to include the source_id argument when calling these methods.
-	* Changed the 'xmlns:og="http://ogp.me/ns#" xmlns:fb="http://ogp.me/ns/fb#"' DOCTYPE attribute to 'prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml"' for HTML5 compliance.
-	* Modified the 'ngfb_title_seed' and 'ngfb_description_seed' filter arguments (note: the $use_cache and $encode filter arguments have been removed).
-	* Changed the BuddyPress description filter hook from 'ngfb_description_seed' to 'ngfb_content_seed' in order to provide image and video information.
-
 == Upgrade Notice ==
 
 = 7.6.13.1 =
@@ -466,16 +440,4 @@ A new 'Report Cache Purge Count' option, and 'Social Preview' and 'Header Previe
 = 7.6.13 =
 
 Adds a new 'Social Preview' tab to the Social Settings metabox, improved title and description handling in some cases, fix to better control URL rewriting service failures.
-
-= 7.6.12.2 =
-
-Small fixes to escape special title separator values, and the missing Google+ / Schema Description value on user profile pages.
-
-= 7.6.12.1 =
-
-NGFB has been updated with new options to manage Title and Video settings.
-
-= 7.6.11 =
-
-Small fixes for BuddyPress and WooCommerce, improved HTML5 compliance, changes to the 'ngfb_title_seed' and 'ngfb_description_seed' filters.
 
