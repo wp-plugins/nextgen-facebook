@@ -405,7 +405,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.13.2 =
 
 * **Bugfixes**
-	* Fixed WooCommerce shortcodes in admin interface by loading for all pages, not just product pages (Pro version).
+	* Fixed WooCommerce shortcodes in the admin interface by loading the WooCommerce template functions ourselves (Pro version).
 * **Improvements**
 	* Added more detail to the error message when WordPress fails to save the upgraded plugin settings.
 * **New Features**
