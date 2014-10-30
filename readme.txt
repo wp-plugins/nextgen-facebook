@@ -359,6 +359,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		<ul>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/">Examples</a>
 			<ul>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/force-wistia-videos-to-autoplay-on-facebook/">Force Wistia Videos to Autoplay on Facebook</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-shortcode-attributes-url/">Modify Shortcode Attributes (URL)</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-articletag-keywords-names/">Modify the article:tag Keywords / Names</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-default-topics-list/">Modify the Default Topics List</a></li>
@@ -405,7 +406,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.13.2 =
 
 * **Bugfixes**
-	* Fixed WooCommerce shortcodes in the admin interface by loading the WooCommerce template functions ourselves (Pro version).
+	* Fixed WooCommerce v2.2.7 shortcodes in the admin interface by loading the WooCommerce template functions ourselves (Pro version).
 * **Improvements**
 	* Added more detail to the error message when WordPress fails to save the upgraded plugin settings.
 * **New Features**
