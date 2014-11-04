@@ -1,4 +1,4 @@
-=== NextGEN Facebook - Complete Social SEO for Facebook, Google+, Pinterest, Twitter & More ===
+=== NextGEN Facebook - Advanced Social SEO for Facebook, Google+, Pinterest, Twitter & More ===
 Contributors: jsmoriss
 Donate Link: http://surniaulula.com/extend/plugins/nextgen-facebook/
 Tags: nextgen gallery, featured, attached, open graph, meta tags, buttons, like, share, facebook, google, google+, g+, twitter, linkedin, social, seo, pinterest, rich pins, tumblr, stumbleupon, widget, multilingual, shortcode, object cache, transient cache, wp_cache, nggalbum, nggallery, singlepic, imagebrowser, gallery, twitter cards, photo card, gallery card, player card, summary card, easy digital downloads, woocommerce, marketpress, e-commerce, multisite, hashtags, bbpress, buddypress, jetpack, photon, slideshare, vimeo, wistia, youtube, polylang
@@ -406,9 +406,13 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.6.13.2 =
 
 * **Bugfixes**
-	* Fixed WooCommerce v2.2.7 shortcodes in the admin interface by loading the WooCommerce template functions ourselves (Pro version).
+	* Fixed WooCommerce v2.2.7 shortcodes in the admin interface by loading the missing WooCommerce template functions (Pro version).
+	* Fixed the `og:description` value for BuddyPress activities by improving the `NgfbProSocialBuddypress::filter_content_seed()` method (Pro version).
+	* Fixed the sharing URL for buttons in a BuddyPress activity loop by including the `$source_id` value in the transient cache object id (Pro version).
 * **Improvements**
-	* Added more detail to the error message when WordPress fails to save the upgraded plugin settings.
+	* Added more detail to the error message when WordPress fails to save upgraded plugin settings.
+	* Extended the `SucomWebpage::get_content()` method arguments to include the `$post_id`, `$use_post`, `$use_cache`, `$custom`, and `$source_id` variables.
+	* Extended the 'ngfb_content_seed' filter arguments to include the `$post_id`, `$use_post`, `$custom`, and `$source_id` variables.
 * **New Features**
 	* *None*
 
