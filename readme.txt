@@ -403,6 +403,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.6.13.3 =
+
+* **Bugfixes**
+	* Added a check to disable social sharing buttons in RSS feeds.
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
+
 = Version 7.6.13.2 =
 
 * **Bugfixes**
