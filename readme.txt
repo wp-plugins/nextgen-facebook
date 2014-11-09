@@ -458,5 +458,5 @@ A new 'Report Cache Purge Count' option, and 'Social Preview' and 'Header Previe
 
 = 7.6.13 =
 
-Adds a new 'Social Preview' tab to the Social Settings metabox, improved title and description handling in some cases, fix to better control URL rewriting service failures.
+Adds a new 'Social Preview' tab to the Social Settings metabox, improved title and description handling in some special cases, fix to better control URL rewriting service failures.
 
