@@ -448,6 +448,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.6.13.3 =
+
+Added a check to disable social sharing buttons in RSS feeds.
+
 = 7.6.13.2 =
 
 Fixes for the WooCommerce and BuddyPress support addons (Pro version).
