@@ -405,6 +405,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Removed the 'What's New' settings page.
+	* Added a new 'ngfb_plugin_image_sizes' action hook to load all option-based image sizes.
+	* Renamed the 'Image and Video' tab in the custom Social Settings metabox to 'Priority Media'.
+* **New Features**
+	* Added new 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version).
+	* Added new 'Image ID' and 'Image URL' options for Pinterest in the custom Social Settings metabox (Pro version).
+	* Added an 'image' schema meta tag with the first Open Graph image meta tag.
+
 = Version 7.6.13.3 =
 
 * **Bugfixes**
