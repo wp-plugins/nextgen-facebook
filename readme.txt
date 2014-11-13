@@ -464,6 +464,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.7 =
+
+Added new 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version), plus other improvements and new features.
+
 = 7.6.13.3 =
 
 Added a check to disable social sharing buttons in RSS feeds.
