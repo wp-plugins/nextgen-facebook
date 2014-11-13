@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.6.13.2
+Stable Tag: 7.7
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -283,6 +283,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Install and Uninstall =
 
 <ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/developer-special-buy-one-get-one-free/">Developer Special – Buy one, Get one Free</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/install-the-plugin/">Install the Plugin</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/">Integration Notes</a>
 	<ul>
