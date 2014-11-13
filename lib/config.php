@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.6.13.2',	// plugin version
+					'version' => '7.7',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -57,14 +57,12 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 							'licenses' => 'Pro Licenses',
 							'readme' => 'Read Me',
 							'setup' => 'Setup Guide',
-							'whatsnew' => 'What\'s New',
 						),
 						'sitesubmenu' => array(
 							'siteadvanced' => 'Advanced',
 							'sitelicenses' => 'Pro Licenses',
 							'sitereadme' => 'Read Me',
 							'sitesetup' => 'Setup Guide',
-							'sitewhatsnew' => 'What\'s New',
 						),
 						'website' => array(
 							'facebook' => 'Facebook', 
@@ -163,7 +161,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 307,		// increment when changing default options
+				'version' => 310,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -211,7 +209,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_title_len' => 70,
 					'og_desc_len' => 300,
 					'og_desc_hashtags' => 3,
-					'og_desc_strip' => 1,
+					'og_desc_strip' => 0,
 					'og_desc_alt' => 1,
 					'rp_author_name' => 'display_name',     // rich-pin specific article:author
 					'rp_img_width' => 800,
@@ -300,6 +298,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'add_meta_name_author' => 1,
 					'add_meta_name_description' => 0,
 					'add_meta_itemprop_description' => 1,
+					'add_meta_itemprop_image' => 1,
 					// advanced plugin options
 					'plugin_version' => '',
 					'plugin_ngfb_tid' => '',

@@ -451,10 +451,8 @@ if ( ! class_exists( 'NgfbAdmin' ) ) {
 			switch ( $this->menu_id ) {
 				case 'readme':
 				case 'setup':
-				case 'whatsnew':
 				case 'sitereadme':
 				case 'sitesetup':
-				case 'sitewhatsnew':
 					break;
 				default:
 					echo $this->get_submit_buttons();

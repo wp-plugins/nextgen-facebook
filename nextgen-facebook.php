@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 4.0
- * Version: 7.6.13.2
+ * Version: 7.7
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -106,16 +106,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		// runs at init priority 13 (by default)
 		public function init_plugin() {
-			if ( is_feed() ) 
-				return;	// nothing to do in the feeds
-
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) 
 				return;
-
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-
 			$this->set_objects();	// define the class object variables
-
 			if ( $this->debug->is_on() === true )
 				foreach ( array( 'wp_head', 'wp_footer', 'admin_head', 'admin_footer' ) as $action )
 					foreach ( array( 1, 9999 ) as $prio ) {
@@ -136,7 +130,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
 			$this->set_options();	// filter and define the $this->options and $this->site_options properties
-
 			$this->check = new NgfbCheck( $this );
 			$this->is_avail = $this->check->get_avail();		// uses $this->options in checks
 
