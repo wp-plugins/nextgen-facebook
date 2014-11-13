@@ -426,6 +426,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'shorteners' => array( 'none' => '[none]', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' ),
 			),
 			'head' => array(
+				'max_img_ratio' => 3,
 				'min_img_dim' => 200,
 				'min_desc_len' => 156,
 			),
