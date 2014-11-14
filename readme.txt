@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.7
+Stable Tag: 7.7.0.1
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -405,6 +405,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 18. An Example Twitter 'Product' Card
 
 == Changelog ==
+
+= Version 7.7.0.1 =
+
+* **Bugfixes**
+	* Changed `NgfbMedia::get_video_info()` method from 'private' to 'public' to fetch custom meta videos (Pro version).
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
 
 = Version 7.7 =
 
