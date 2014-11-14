@@ -409,7 +409,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.7.0.1 =
 
 * **Bugfixes**
-	* Changed `NgfbMedia::get_video_info()` method from 'private' to 'public' to fetch custom meta videos (Pro version).
+	* Small fix to change the `NgfbMedia::get_video_info()` method from 'private' to 'public' to fetch custom meta video information (Pro version).
 * **Improvements**
 	* *None*
 * **New Features**
@@ -472,6 +472,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 == Upgrade Notice ==
+
+= 7.7.0.1 =
+
+Small fix to change the NgfbMedia::get_video_info() method from 'private' to 'public' to fetch custom meta video information (Pro version).
 
 = 7.7 =
 
