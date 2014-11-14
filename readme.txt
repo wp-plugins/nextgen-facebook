@@ -466,7 +466,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.7 =
 
-Added new 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version), plus other improvements and new features.
+New 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version), plus other new features and improvements.
 
 = 7.6.13.3 =
 
