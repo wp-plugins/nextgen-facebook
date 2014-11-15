@@ -406,6 +406,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.0.2 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Changed the BuddyPress members/activity/groups index page description for a more generic text, instead of using the latest activity text (Pro version).
+* **New Features**
+	* *None*
+
 = Version 7.7.0.1 =
 
 * **Bugfixes**
