@@ -412,6 +412,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* *None*
 * **Improvements**
 	* Changed the BuddyPress members/activity/groups index page description for a more generic text, instead of using the latest activity text (Pro version).
+	* Added the 'Use Filtered (SEO) Titles', 'Apply Excerpt Filters', and 'Apply Content Filters' Advanced options to the Free version as well.
 * **New Features**
 	* *None*
 
