@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0
-Stable Tag: 7.7.0.1
+Stable Tag: 7.7.0.2
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -482,6 +482,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 == Upgrade Notice ==
+
+= 7.7.0.2 =
+
+Small improvements for BuddyPress and additional Advanced options for the Free version.
 
 = 7.7.0.1 =
 
