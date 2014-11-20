@@ -494,6 +494,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
+= 7.7.0.4 =
+
+Added all Open Graph images as schema 'image' meta tags, moved the BuddyPress member avatar image from first to last (as fallback), extended the 'ngfb_content' filter arguments, added the schema 'url' meta tag.
+
 = 7.7.0.2 =
 
 Small improvements for BuddyPress and additional Advanced options for the Free version.
