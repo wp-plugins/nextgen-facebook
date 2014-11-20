@@ -207,6 +207,7 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 * **Schema Meta Tags**
 	* description
 	* image
+	* url
 * **Twitter Card Meta Tags** (Pro version)
 	* twitter:card (Summary, Large Image Summary, Photo, Gallery, Player and Product)
 	* twitter:creator
