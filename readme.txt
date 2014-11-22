@@ -290,6 +290,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/buddypress-integration/">BuddyPress Integration</a></li>
 	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
 </ul>
 
@@ -352,7 +353,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/woocommerce/">WooCommerce</a></li>
 	</ul></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/contact-information/">Contact Information and Feeds</a></li>
-	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/">Developer Resources</a>
 	<ul>
 		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/">Constants</a>
