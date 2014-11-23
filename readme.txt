@@ -410,11 +410,11 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.7.1 =
 
 * **Bugfixes**
-	* *None*
+	* Minor fix for missing array key when checking for available addons when WordPress SEO is detected.
 * **Improvements**
 	* Updated jquery-qtip.js from v1.0.0-rc3 to v2.2.1.
 * **New Features**
-	* *None*
+	* Added a "Select or Upload Image" button for the Image ID options.
 
 = Version 7.7.0.4 =
 
