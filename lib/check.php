@@ -13,8 +13,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 	class NgfbCheck {
 
 		private $p;
-		private $active_plugins;
-		private $network_plugins;
+		private $active_plugins = array();
+		private $network_plugins = array();
 		private static $mac = array(
 			'seo' => array(
 				'seou' => 'SEO Ultimate',
@@ -74,34 +74,47 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			return $this->active_plugins;
 		}
 
+		private function get_avail_check( $key ) {
+			switch ( $key ) {
+				case 'aop':
+					return ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
+					( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
+					file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
+					break;
+				case 'og':
+				case 'opengraph':
+					return ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
+					( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
+					empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
+					file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
+					class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
+					break;
+				case 'mt':
+				case 'metatags':
+					return ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || 
+					( defined( 'NGFB_META_TAGS_DISABLE' ) && ! NGFB_META_TAGS_DISABLE ) ) &&
+					empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
+					break;
+				case 'ssb':
+					return ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
+					( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
+					empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
+					file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
+					class_exists( $this->p->cf['lca'].'sharing' ) ? true : false;
+					break;
+			}
+		}
+
 		public function get_avail() {
 			$ret = array();
 
 			$ret['curl'] = function_exists( 'curl_init' ) ? true : false;
-
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
-
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
-
-			$ret['metatags'] = ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || 
-				( defined( 'NGFB_META_TAGS_DISABLE' ) && ! NGFB_META_TAGS_DISABLE ) ) &&
-				empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
-
-			$ret['opengraph'] = ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
-				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
-				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
-				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
-				class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
-
-			$ret['aop'] = ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
-				( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
-				file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
-
-			$ret['ssb'] = ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 
-				( defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) && ! NGFB_SOCIAL_SHARING_DISABLE ) ) &&
-				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
-				file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) &&
-				class_exists( $this->p->cf['lca'].'sharing' ) ? true : false;
+			$ret['metatags'] = $this->get_avail_check( 'mt' );
+			$ret['opengraph'] = $this->get_avail_check( 'og' );
+			$ret['aop'] = $this->get_avail_check( 'aop' );
+			$ret['ssb'] = $this->get_avail_check( 'ssb' );
 
 			foreach ( $this->p->cf['cache'] as $name => $val ) {
 				$constant_name = 'NGFB_'.strtoupper( $name ).'_CACHE_DISABLE';
@@ -400,12 +413,17 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			}
 		}
 
-		public function is_aop( $lca = '' ) { return $this->aop( $lca ); }
+		public function is_aop( $lca = '' ) { 
+			return $this->aop( $lca );
+		}
 
 		public function aop( $lca = '', $active = true ) {
-			$lca = empty( $lca ) ? $this->p->cf['lca'] : $lca;
+			$lca = empty( $lca ) ? 
+				$this->p->cf['lca'] : $lca;
 			$uca = strtoupper( $lca );
-			$installed = ( $this->p->is_avail['aop'] && defined( $uca.'_PLUGINDIR' ) &&
+			$available = isset( $this->p->is_avail['aop'] ) ? 
+				$this->p->is_avail['aop'] : $this->get_avail_check( 'aop' );
+			$installed = ( $available && defined( $uca.'_PLUGINDIR' ) &&
 				is_dir( constant( $uca.'_PLUGINDIR' ).'lib/pro/' ) ) ? true : false;
 			return $active === true ? ( ( ! empty( $this->p->options['plugin_'.$lca.'_tid'] ) && 
 				$installed && class_exists( 'SucomUpdate' ) &&
