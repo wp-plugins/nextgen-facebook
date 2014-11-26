@@ -412,7 +412,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **Bugfixes**
 	* Added a test for `wp_enqueue_media()` (available since WordPress 3.5.0) before including the "Select or Upload Image" button.
 * **Improvements**
-	* *None*
+	* Added unique CSS IDs to all form input fields.
 * **New Features**
 	* *None*
 
@@ -512,6 +512,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 == Upgrade Notice ==
+
+= 7.7.1.1 =
+
+Small fix to test for `wp_enqueue_media()` (available since WordPress 3.5.0) before including the "Select or Upload Image" button.
 
 = 7.7.1 =
 
