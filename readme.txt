@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0.1
-Stable Tag: 7.7.1
+Stable Tag: 7.7.1.1
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -406,6 +406,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 18. An Example Twitter 'Product' Card
 
 == Changelog ==
+
+= Version 7.7.1.1 =
+
+* **Bugfixes**
+	* Added a test for `wp_enqueue_media()` (available since WordPress 3.5.0) before including the "Select or Upload Image" button.
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
 
 = Version 7.7.1 =
 
