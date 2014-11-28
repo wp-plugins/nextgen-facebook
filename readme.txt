@@ -407,6 +407,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.1.2 =
+
+* **Bugfixes**
+	* Removed existing (possibly incorrect) 'itemtype' in the webpage language attribute before adding our own. 
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
+
 = Version 7.7.1.1 =
 
 * **Bugfixes**
