@@ -411,7 +411,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 * **Bugfixes**
 	* Removed existing (possibly incorrect) 'itemtype' in the webpage language attribute before adding our own. 
-	* Moved the `is_bbpress()` test from `__construct()` to each filter (Pro version)
+	* Moved the `is_bbpress()` test from `__construct()` to each filter for bbPress v2.5.4 (Pro version)
 * **Improvements**
 	* *None*
 * **New Features**
@@ -522,6 +522,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 == Upgrade Notice ==
+
+= 7.7.1.2 =
+
+Removed the existing 'itemtype' language attribute before adding our own, moved the is_bbpress() test to each filter for bbPress v2.5.4 (Pro version).
 
 = 7.7.1.1 =
 
