@@ -407,6 +407,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.1.3 =
+
+* **Bugfixes**
+	* Fixed a syntax issue in the bbPress addon (Pro version).
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
+
 = Version 7.7.1.2 =
 
 * **Bugfixes**
@@ -522,6 +531,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
 
 == Upgrade Notice ==
+
+= 7.7.1.3 =
+
+Fixed a syntax issue in the bbPress addon (Pro version).
 
 = 7.7.1.2 =
 
