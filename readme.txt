@@ -407,10 +407,19 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.1.4 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Changed the `add_plugin_image_sizes()` 'wp' hook priority from 10 to -100.
+* **New Features**
+	* *None*
+
 = Version 7.7.1.3 =
 
 * **Bugfixes**
-	* Fixed a syntax issue in the bbPress addon (Pro version).
+	* Fixed a syntax error in the bbPress addon (Pro version).
 * **Improvements**
 	* *None*
 * **New Features**
@@ -534,7 +543,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 = 7.7.1.3 =
 
-Fixed a syntax issue in the bbPress addon (Pro version).
+Fixed a syntax error in the bbPress addon (Pro version).
 
 = 7.7.1.2 =
 
