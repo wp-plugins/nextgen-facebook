@@ -407,6 +407,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.2 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* *None*
+* **New Features**
+	* Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page.
+
 = Version 7.7.1.4 =
 
 * **Bugfixes**
@@ -453,92 +462,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 * **New Features**
 	* Added a "Select or Upload Image" button for all Image ID options.
 
-= Version 7.7.0.4 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Added all Open Graph images as schema itemprop 'image' meta tags (instead of just one).
-	* Moved the BuddyPress member avatar image from first to last (as fallback) when retrieving images from the activity content (Pro version).
-	* Extended the 'ngfb_content' filter arguments to match those of 'ngfb_content_seed'.
-* **New Features**
-	* Added the schema itemprop 'url' meta tag.
-
-= Version 7.7.0.2 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Changed the BuddyPress members/activity/groups index page description for a more generic text, instead of using the latest activity text (Pro version).
-	* Added the 'Use Filtered (SEO) Titles', 'Apply Excerpt Filters', and 'Apply Content Filters' Advanced options to the Free version as well.
-* **New Features**
-	* *None*
-
-= Version 7.7.0.1 =
-
-* **Bugfixes**
-	* Small fix to change the `NgfbMedia::get_video_info()` method from 'private' to 'public' to fetch custom meta video information (Pro version).
-* **Improvements**
-	* *None*
-* **New Features**
-	* *None*
-
-= Version 7.7 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Removed the 'What's New' settings page (see the 'Read Me' changelog instead).
-	* Added a new 'ngfb_plugin_image_sizes' action hook to load all plugin image sizes.
-	* Renamed the 'Image and Video' tab in the custom Social Settings metabox to 'Priority Media'.
-* **New Features**
-	* Added new 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version).
-	* Added new 'Image ID' and 'Image URL' options for Pinterest in the custom Social Settings metabox (Pro version).
-	* Added an 'image' schema meta tag with the first Open Graph image meta tag.
-	* Added an aspect ratio check for image dimensions that exceed 3:1.
-
-= Version 7.6.13.3 =
-
-* **Bugfixes**
-	* Added a check to disable social sharing buttons in RSS feeds.
-* **Improvements**
-	* *None*
-* **New Features**
-	* *None*
-
-= Version 7.6.13.2 =
-
-* **Bugfixes**
-	* Fixed WooCommerce v2.2.7 shortcodes in the admin interface by loading the missing WooCommerce template functions (Pro version).
-	* Fixed the `og:description` value for BuddyPress activities by improving the `NgfbProSocialBuddypress::filter_content_seed()` method (Pro version).
-	* Fixed the sharing URL for buttons in a BuddyPress activity loop by including the `$source_id` value in the transient cache object id (Pro version).
-* **Improvements**
-	* Added more detail to the error message when WordPress fails to save upgraded plugin settings.
-	* Extended the `SucomWebpage::get_content()` method arguments to include the `$post_id`, `$use_post`, `$use_cache`, `$custom`, and `$source_id` variables.
-	* Extended the 'ngfb_content_seed' filter arguments to include the `$post_id`, `$use_post`, `$custom`, and `$source_id` variables.
-* **New Features**
-	* *None*
-
-= Version 7.6.13.1 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Enabled the Social Settings 'Social Preview' and 'Header Preview' tabs for Drafts as well.
-* **New Features**
-	* Added a new 'Report Cache Purge Count' option on the Advanced settings page (enabled by default).
-
-= Version 7.6.13 =
-
-* **Bugfixes**
-	* Fixed a return value when URL shortening fails (should have been false instead of an empty string).
-* **Improvements**
-	* Removed auto-appending the parent title to the post title if no SEO plugin is detected.
-	* Added a fallback for all custom title and description values to the Open Graph title and description.
-* **New Features**
-	* Added a 'Social Preview' tab to the Social Settings metabox.
-	* Added a NgfbHead::get_post_info() method to get basic information about the Post from the meta tag array.
-
 == Upgrade Notice ==
 
 = 7.7.1.4 =
@@ -560,36 +483,4 @@ Small fix to test for `wp_enqueue_media()` (available since WordPress 3.5.0) bef
 = 7.7.1 =
 
 Added a "Select or Upload Image" button for all Image ID options. Updated jQuery qTip from v1.0.0-RC3 to v2.2.1.
-
-= 7.7.0.4 =
-
-Added all Open Graph images as schema 'image' meta tags, moved the BuddyPress member avatar image from first to last (as fallback), extended the 'ngfb_content' filter arguments, added the schema 'url' meta tag.
-
-= 7.7.0.2 =
-
-Small improvements for BuddyPress and additional Advanced options for the Free version.
-
-= 7.7.0.1 =
-
-Small fix to change the NgfbMedia::get_video_info() method from 'private' to 'public' to fetch custom meta video information (Pro version).
-
-= 7.7 =
-
-New 'Image Dimensions' options for Open Graph and Pinterest in the custom Social Settings metabox (Pro version), plus other new features and improvements.
-
-= 7.6.13.3 =
-
-Added a check to disable social sharing buttons in RSS feeds.
-
-= 7.6.13.2 =
-
-Fixes for the WooCommerce and BuddyPress support addons (Pro version).
-
-= 7.6.13.1 =
-
-A new 'Report Cache Purge Count' option, and 'Social Preview' and 'Header Preview' tabs enabled for Drafts as well.
-
-= 7.6.13 =
-
-Adds a new 'Social Preview' tab to the Social Settings metabox, improved title and description handling in some special cases, fix to better control URL rewriting service failures.
 
