@@ -93,7 +93,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 				case 'metatags':
 					return ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || 
 					( defined( 'NGFB_META_TAGS_DISABLE' ) && ! NGFB_META_TAGS_DISABLE ) ) &&
-					empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) ? true : false;
+					empty( $_SERVER['NGFB_META_TAGS_DISABLE'] ) &&
+					empty( $_GET['NGFB_META_TAGS_DISABLE'] ) ? true : false;	// allow meta tags to be disabled with query argument
 					break;
 				case 'ssb':
 					return ( ! defined( 'NGFB_SOCIAL_SHARING_DISABLE' ) || 

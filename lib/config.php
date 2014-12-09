@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.7.1.4',		// plugin version
+					'version' => '7.7.2',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -161,7 +161,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 311,		// increment when changing default options
+				'version' => 312,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -305,8 +305,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'plugin_ngfb_tid' => '',
 					'plugin_display' => 'basic',
 					'plugin_preserve' => 0,
-					'plugin_cache_info' => 0,
 					'plugin_debug' => 0,
+					'plugin_cache_info' => 0,
+					'plugin_check_head' => 1,
 					'plugin_filter_title' => 1,
 					'plugin_filter_excerpt' => 0,
 					'plugin_filter_content' => 1,
@@ -571,7 +572,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			require_once( NGFB_PLUGINDIR.'lib/com/script.php' );
 			require_once( NGFB_PLUGINDIR.'lib/com/style.php' );
 			require_once( NGFB_PLUGINDIR.'lib/com/webpage.php' );
-			require_once( NGFB_PLUGINDIR.'lib/com/opengraph.php' );
 
 			require_once( NGFB_PLUGINDIR.'lib/check.php' );
 			require_once( NGFB_PLUGINDIR.'lib/util.php' );
@@ -598,7 +598,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
 				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
 				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) )
-					require_once( NGFB_PLUGINDIR.'lib/opengraph.php' );	// extends lib/com/opengraph.php
+					require_once( NGFB_PLUGINDIR.'lib/opengraph.php' );
 
 			if ( file_exists( NGFB_PLUGINDIR.'lib/loader.php' ) )
 				require_once( NGFB_PLUGINDIR.'lib/loader.php' );
