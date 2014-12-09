@@ -415,6 +415,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* *None*
 * **New Features**
 	* Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page.
+	* Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
 
 = Version 7.7.1.4 =
 
@@ -463,6 +464,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added a "Select or Upload Image" button for all Image ID options.
 
 == Upgrade Notice ==
+
+= 7.7.2 =
+
+Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page, and the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
 
 = 7.7.1.4 =
 
