@@ -31,7 +31,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					),
 					'url' => array(
 						'download' => 'https://wordpress.org/plugins/nextgen-facebook/',
-						'update' => 'http://update.surniaulula.com/extend/plugins/nextgen-facebook/update/',
+						'update' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/update/',
 						'purchase' => 'http://surniaulula.com/extend/plugins/nextgen-facebook/',
 						'review' => 'https://wordpress.org/support/view/plugin-reviews/nextgen-facebook#postform',
 						'readme' => 'https://plugins.svn.wordpress.org/nextgen-facebook/trunk/readme.txt',
