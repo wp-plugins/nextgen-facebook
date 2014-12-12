@@ -407,6 +407,15 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.2.2 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Changed the debug library loading to be read only if debug mode is enabled.
+* **New Features**
+	* *None*
+
 = Version 7.7.2 =
 
 * **Bugfixes**
