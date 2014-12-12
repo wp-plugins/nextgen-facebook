@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.7.2',		// plugin version
+					'version' => '7.7.2.2',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -564,7 +564,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			
 			$cf = self::get_config();
 
-			require_once( NGFB_PLUGINDIR.'lib/com/debug.php' );
 			require_once( NGFB_PLUGINDIR.'lib/com/update.php' );
 			require_once( NGFB_PLUGINDIR.'lib/com/util.php' );
 			require_once( NGFB_PLUGINDIR.'lib/com/cache.php' );

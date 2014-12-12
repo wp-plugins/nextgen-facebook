@@ -410,7 +410,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 = Version 7.7.2.2 =
 
 * **Bugfixes**
-	* *None*
+	* Excluded menu items from being checked for duplicate header meta tags.
 * **Improvements**
 	* Changed the debug library loading to be read only if debug mode is enabled.
 * **New Features**

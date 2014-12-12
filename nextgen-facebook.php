@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 4.0
- * Version: 7.7.2
+ * Version: 7.7.2.2
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -137,9 +137,10 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$html_debug = ! empty( $this->options['plugin_debug'] ) || 
 				( defined( 'NGFB_HTML_DEBUG' ) && NGFB_HTML_DEBUG ) ? true : false;
 			$wp_debug = defined( 'NGFB_WP_DEBUG' ) && NGFB_WP_DEBUG ? true : false;
-			if ( $html_debug || $wp_debug )
-				$this->debug = new SucomDebug( $this, 
-					array( 'html' => $html_debug, 'wp' => $wp_debug ) );
+
+			if ( ( $html_debug || $wp_debug ) && 
+				( $classname = NgfbConfig::load_lib( false, 'com/debug', 'SucomDebug' ) ) !== false )
+					$this->debug = new $classname( $this, array( 'html' => $html_debug, 'wp' => $wp_debug ) );
 			else $this->debug = new NgfbNoDebug();			// fallback to dummy debug class
 
 			$this->notice = new SucomNotice( $this );
