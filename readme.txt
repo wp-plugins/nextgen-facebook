@@ -407,6 +407,17 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.2.3 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Removed support for the NGFB_OPEN_GRAPH_DISABLE constant.
+	* Refactored the NgfbUtil::get_post_types() method to improve code logic.
+	* Improved the header tag conflict check by fetching only registered post types (to avoid checking menu items, product variations, etc.).
+* **New Features**
+	* *None*
+
 = Version 7.7.2.2 =
 
 * **Bugfixes**
@@ -474,27 +485,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Upgrade Notice ==
 
-= 7.7.2 =
+= 7.7.2.2 =
 
-Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page, and the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
-
-= 7.7.1.4 =
-
-Changed the add_plugin_image_sizes() 'wp' hook priority from 10 to -100, and allowed for passing of wp object or post id.
-
-= 7.7.1.3 =
-
-Fixed a syntax error in the bbPress addon (Pro version).
-
-= 7.7.1.2 =
-
-Removed the existing 'itemtype' language attribute before adding our own, moved the is_bbpress() test to each filter for bbPress v2.5.4 (Pro version).
-
-= 7.7.1.1 =
-
-Small fix to test for `wp_enqueue_media()` (available since WordPress 3.5.0) before including the "Select or Upload Image" button.
-
-= 7.7.1 =
-
-Added a "Select or Upload Image" button for all Image ID options. Updated jQuery qTip from v1.0.0-RC3 to v2.2.1.
+Changed the debug library loading to be read only if debug mode is enabled. Excluded menu items from being checked for duplicate header meta tags.
 
