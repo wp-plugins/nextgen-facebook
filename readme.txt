@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.0.1
-Stable Tag: 7.7.2.2
+Stable Tag: 7.7.2.3
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -416,7 +416,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Refactored the NgfbUtil::get_post_types() method to improve code logic.
 	* Improved the header tag conflict check by fetching only registered post types (to avoid checking menu items, product variations, etc.).
 * **New Features**
-	* *None*
+	* Added an 'ngfb_header_use_post' filter to allow custom hooks to provide a post ID for the webpage meta tags.
 
 = Version 7.7.2.2 =
 
