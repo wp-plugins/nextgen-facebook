@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.7.2.2',		// plugin version
+					'version' => '7.7.2.3',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -579,6 +579,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			require_once( NGFB_PLUGINDIR.'lib/user.php' );
 			require_once( NGFB_PLUGINDIR.'lib/media.php' );
 			require_once( NGFB_PLUGINDIR.'lib/head.php' );
+			require_once( NGFB_PLUGINDIR.'lib/opengraph.php' );
 
 			if ( is_admin() ) {
 				require_once( NGFB_PLUGINDIR.'lib/messages.php' );
@@ -592,12 +593,6 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				empty( $_SERVER['NGFB_SOCIAL_SHARING_DISABLE'] ) &&
 				file_exists( NGFB_PLUGINDIR.'lib/sharing.php' ) )
 					require_once( NGFB_PLUGINDIR.'lib/sharing.php' );
-
-			if ( ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
-				( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
-				empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
-				file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) )
-					require_once( NGFB_PLUGINDIR.'lib/opengraph.php' );
 
 			if ( file_exists( NGFB_PLUGINDIR.'lib/loader.php' ) )
 				require_once( NGFB_PLUGINDIR.'lib/loader.php' );

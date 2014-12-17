@@ -243,8 +243,7 @@ if ( ! class_exists( 'NgfbHead' ) ) {
 			 *
 			 * The Twitter Card meta tags are added by the NgfbHeadTwittercard class using an 'ngfb_og' filter hook.
 			 */
-			if ( $this->p->is_avail['opengraph'] )
-				$meta_og = $this->p->og->get_array( $meta_og, $use_post );
+			$meta_og = $this->p->og->get_array( $meta_og, $use_post );
 
 			/**
 			 * Name / SEO meta tags

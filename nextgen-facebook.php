@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 4.0
- * Version: 7.7.2.2
+ * Version: 7.7.2.3
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -152,15 +152,12 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->webpage = new SucomWebpage( $this );		// title, desc, etc., plus shortcodes
 			$this->media = new NgfbMedia( $this );			// images, videos, etc.
 			$this->head = new NgfbHead( $this );			// open graph and twitter card meta tags
+			$this->og = new NgfbOpengraph( $this );			// prepare open graph array
 
 			if ( is_admin() ) {
 				$this->msgs = new NgfbMessages( $this );	// admin tooltip messages
 				$this->admin = new NgfbAdmin( $this );		// admin menus and page loader
 			}
-
-			if ( $this->is_avail['opengraph'] )
-				$this->og = new NgfbOpengraph( $this );		// prepare open graph array
-			else $this->og = new SucomOpengraph( $this );		// read open graph html tags
 
 			if ( $this->is_avail['ssb'] )
 				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons

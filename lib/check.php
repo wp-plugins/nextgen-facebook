@@ -81,14 +81,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
 					file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
 					break;
-				case 'og':
-				case 'opengraph':
-					return ( ! defined( 'NGFB_OPEN_GRAPH_DISABLE' ) || 
-					( defined( 'NGFB_OPEN_GRAPH_DISABLE' ) && ! NGFB_OPEN_GRAPH_DISABLE ) ) &&
-					empty( $_SERVER['NGFB_OPEN_GRAPH_DISABLE'] ) &&
-					file_exists( NGFB_PLUGINDIR.'lib/opengraph.php' ) &&
-					class_exists( $this->p->cf['lca'].'opengraph' ) ? true : false;
-					break;
 				case 'mt':
 				case 'metatags':
 					return ( ! defined( 'NGFB_META_TAGS_DISABLE' ) || 
@@ -113,7 +105,6 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 			$ret['mbdecnum'] = function_exists( 'mb_decode_numericentity' ) ? true : false;
 			$ret['postthumb'] = function_exists( 'has_post_thumbnail' ) ? true : false;
 			$ret['metatags'] = $this->get_avail_check( 'mt' );
-			$ret['opengraph'] = $this->get_avail_check( 'og' );
 			$ret['aop'] = $this->get_avail_check( 'aop' );
 			$ret['ssb'] = $this->get_avail_check( 'ssb' );
 
