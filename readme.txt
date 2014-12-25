@@ -407,13 +407,26 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Changelog ==
 
+= Version 7.7.3 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Renamed the button shared image sizes from (as an example) ngfb-pinterest to ngfb-pinterest-button.
+	* Changed the 'Social Preview' feature to use the first Open Graph image, instead of creating a different image size. 
+	* Added a `$force_regen` argument to NgfbMedia image related methods (get_post_images, get_featured, get_attached_images, etc.).
+	* Refactored the `NgfbUtil::add_plugin_image_sizes()` method to allow 3rd party hooks to modify image sizes. 
+	* Removed the `NgfbMedia::get_image_preview_html()` method.
+* **New Features**
+	* Added a cropping area selection for all Image Dimension options. The cropping area selection is shown only when viewing 'All Plugin Options', and only if you are using WordPress 3.9 and up (previous WordPress versions did not support cropping areas).
+
 = Version 7.7.2.3 =
 
 * **Bugfixes**
 	* *None*
 * **Improvements**
 	* Removed support for the NGFB_OPEN_GRAPH_DISABLE constant.
-	* Refactored the NgfbUtil::get_post_types() method to improve code logic.
+	* Refactored the `NgfbUtil::get_post_types()` method to improve code logic.
 	* Improved the header tag conflict check by fetching only registered post types (to avoid checking menu items, product variations, etc.).
 * **New Features**
 	* Added an 'ngfb_header_use_post' filter to allow custom hooks to provide a post ID for the webpage meta tags.
