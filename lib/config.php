@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.7.2.3',		// plugin version
+					'version' => '7.7.3dev3',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -161,7 +161,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 313,		// increment when changing default options
+				'version' => 315,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -183,6 +183,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'og_img_width' => 800,
 					'og_img_height' => 800,
 					'og_img_crop' => 1,
+					'og_img_crop_x' => 'center',
+					'og_img_crop_y' => 'center',
 					'og_img_max' => 1,
 					'og_vid_max' => 1,
 					'og_vid_prev_img' => 1,
@@ -215,6 +217,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'rp_img_width' => 800,
 					'rp_img_height' => 800,
 					'rp_img_crop' => 0,
+					'rp_img_crop_x' => 'center',
+					'rp_img_crop_y' => 'center',
 					'tc_enable' => 1,
 					'tc_site' => '',
 					'tc_desc_len' => 200,
@@ -222,23 +226,33 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'tc_sum_width' => 200,
 					'tc_sum_height' => 200,
 					'tc_sum_crop' => 1,
+					'tc_sum_crop_x' => 'center',
+					'tc_sum_crop_y' => 'center',
 					// large image summary card
 					'tc_lrgimg_width' => 300,
 					'tc_lrgimg_height' => 300,
 					'tc_lrgimg_crop' => 0,
+					'tc_lrgimg_crop_x' => 'center',
+					'tc_lrgimg_crop_y' => 'center',
 					// photo card
 					'tc_photo_width' => 800,
 					'tc_photo_height' => 800,
 					'tc_photo_crop' => 0,
+					'tc_photo_crop_x' => 'center',
+					'tc_photo_crop_y' => 'center',
 					// gallery card
 					'tc_gal_min' => 4,
 					'tc_gal_width' => 300,
 					'tc_gal_height' => 300,
 					'tc_gal_crop' => 0,
+					'tc_gal_crop_x' => 'center',
+					'tc_gal_crop_y' => 'center',
 					// product card
 					'tc_prod_width' => 300,
 					'tc_prod_height' => 300,
 					'tc_prod_crop' => 1,			// prefers square product images
+					'tc_prod_crop_x' => 'center',
+					'tc_prod_crop_y' => 'center',
 					'tc_prod_def_l2' => 'Location',
 					'tc_prod_def_d2' => 'Unknown',
 					// enable/disable header html tags
@@ -425,6 +439,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
 				'display_options' => array( 'basic' => 'Basic Plugin Options', 'all' => 'All Plugin Options' ),
 				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
+				'position_crop_x' => array( 'left' => 'Left', 'center' => 'Center', 'right' => 'Right' ),
+				'position_crop_y' => array( 'top' => 'Top', 'center' => 'Center', 'bottom' => 'Bottom' ),
 				'shorteners' => array( 'none' => '[none]', 'bitly' => 'Bit.ly', 'googl' => 'Goo.gl' ),
 			),
 			'head' => array(
