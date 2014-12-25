@@ -437,55 +437,9 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page.
 	* Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
 
-= Version 7.7.1.4 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Changed the `add_plugin_image_sizes()` 'wp' hook priority from 10 to -100, and allowed for passing of wp object or post id.
-* **New Features**
-	* *None*
-
-= Version 7.7.1.3 =
-
-* **Bugfixes**
-	* Fixed a syntax error in the bbPress addon (Pro version).
-* **Improvements**
-	* *None*
-* **New Features**
-	* *None*
-
-= Version 7.7.1.2 =
-
-* **Bugfixes**
-	* Removed existing (possibly incorrect) 'itemtype' in the webpage language attribute before adding our own. 
-	* Moved the `is_bbpress()` test from `__construct()` to each filter for bbPress v2.5.4 (Pro version)
-* **Improvements**
-	* *None*
-* **New Features**
-	* *None*
-
-= Version 7.7.1.1 =
-
-* **Bugfixes**
-	* Added a test for `wp_enqueue_media()` (available since WordPress 3.5.0) before including the "Select or Upload Image" button.
-* **Improvements**
-	* Added unique CSS IDs to all form input fields.
-* **New Features**
-	* *None*
-
-= Version 7.7.1 =
-
-* **Bugfixes**
-	* Minor fix for missing array key when checking for available addons when WordPress SEO is detected.
-* **Improvements**
-	* Updated jQuery qTip from v1.0.0-RC3 to v2.2.1.
-* **New Features**
-	* Added a "Select or Upload Image" button for all Image ID options.
-
 == Upgrade Notice ==
 
-= 7.7.2.2 =
+= 7.7.2.3 =
 
-Changed the debug library loading to be read only if debug mode is enabled. Excluded menu items from being checked for duplicate header meta tags.
+Improved the header tag conflict check by fetching only registered post types (to avoid checking menu items, product variations, etc.), and other minor code improvements.
 
