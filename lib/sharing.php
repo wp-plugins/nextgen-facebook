@@ -614,7 +614,7 @@ jQuery("#ngfb-sidebar").click( function(){
 					return $text;
 				}
 			} elseif ( is_feed() ) {
-				$this->p->debug->log( $type.' filter skipped: no buttons allowed in RSS feeds'  );
+				$this->p->debug->log( $type.' filter skipped: no buttons allowed in rss feeds'  );
 				return $text;
 			} else {
 				if ( ! is_singular() && empty( $this->p->options['buttons_on_index'] ) ) {
