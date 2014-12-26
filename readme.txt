@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.1
-Stable Tag: 7.7.2.3
+Stable Tag: 7.7.3
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -451,6 +451,10 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	* Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
 
 == Upgrade Notice ==
+
+= 7.7.3 =
+
+Added a cropping area selection for all Image Dimension options, changed the 'Social Preview' feature to use the first Open Graph image.
 
 = 7.7.2.3 =
 
