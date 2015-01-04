@@ -71,6 +71,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 <li><a href="https://wordpress.org/plugins/wpsso-plm/">WPSSO Place and Location Meta</a></li>
 <li><a href="https://wordpress.org/plugins/wpsso-ssb/">WPSSO Social Sharing Buttons</a></li>
 </ul></p>
+
 </blockquote>
 
 **Pro / Power-User Version**
