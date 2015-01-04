@@ -428,8 +428,8 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * **Improvements**
 	* Renamed the 'tc_prod_def_l2' and 'tc_prod_def_d2' option keys to 'tc_prod_def_label2' and 'tc_prod_def_data2'.
 * **New Features**
-	* Added the "Product Card Maximum Labels" option. This option allows you to use the current Twitter maximum of 2, or the now deprecated) maximum of 4.
-	* (Pro version) Added the `NgfbProHeadTwittercard::insert_prod_label()` method to allow custom filter hooks to manipulate Product Card labels more easily. See http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/add-availability-to-product-card-for-woocommerce/ for example usage.
+	* Added the "Product Card Maximum Labels" option. This option allows you to use the current Twitter maximum of 2, or the now deprecated maximum of 4.
+	* (Pro version) Added the `NgfbProHeadTwittercard::insert_prod_label()` method to allow custom filter hooks to manipulate Product Card labels more easily. See http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/add-availability-to-product-card-for-woocommerce/ for an example.
 
 = Version 7.7.3.1 =
 
@@ -481,7 +481,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* *None*
 * **New Features**
 	* Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page.
-	* Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page (Pro version).
+	* (Pro version) Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page.
 
 == Upgrade Notice ==
 
