@@ -270,7 +270,6 @@ NGFB is *fast and coded for performance*, making full use of all available cachi
 	<li><strong><font color="blue">0.0149</font></strong> secs (14.9 ms) - All in One SEO Pack v2.2.1</li>
 	<li><strong><font color="blue">0.0157</font></strong> secs (15.7 ms) - MarketPress - WordPress eCommerce v2.9.2.1 (No Products)</li>
 	<li><strong><font color="blue">0.0186</font></strong> secs (18.6 ms) - <em><strong>NextGEN Facebook (NGFB) v7.7.1</strong></em></li>
-
 	<li><strong><font color="green">0.0230</font></strong> secs (23.0 ms) - Easy Digital Downloads v1.9.8 (No Products)</li>
 	<li><strong><font color="green">0.0254</font></strong> secs (25.4 ms) - MailPoet Newsletters (aka Wysija Newsletters) v2.6.9</li>
 	<li><strong><font color="green">0.0322</font></strong> secs (32.2 ms) - WP e-Commerce v3.8.13.3 (No Products)</li>
@@ -278,11 +277,9 @@ NGFB is *fast and coded for performance*, making full use of all available cachi
 	<li><strong><font color="green">0.0393</font></strong> secs (39.3 ms) - bbPress v2.5.3 (No Forums or Topics)</li>
 	<li><strong><font color="green">0.0425</font></strong> secs (42.5 ms) - WooCommerce v2.1.5 (No Products)</li>
 	<li><strong><font color="green">0.0488</font></strong> secs (48.8 ms) - <strong>WordPress Core v3.9.1</strong></li>
-
 	<li><strong><font color="orange">0.0572</font></strong> secs (57.2 ms) - SEO Ultimate v7.6.2</li>
 	<li><strong><font color="orange">0.0579</font></strong> secs (57.9 ms) - Facebook v1.5.5</li>
 	<li><strong><font color="orange">0.0656</font></strong> secs (65.6 ms) - BuddyPress v1.9.2 (No Activities)</li>
-
 	<li><strong><font color="red">0.1055</font></strong> secs (105.5 ms) - WordPress SEO by Yoast v1.5.4.2</li>
 	<li><strong><font color="red">0.1980</font></strong> secs (198.0 ms) - JetPack by WordPress.com v2.9.2</li>
 	<li><strong><font color="red">0.2085</font></strong> secs (208.5 ms) - NextGEN Gallery by Photocrati v2.0.66 (No Galleries or Images)</li>
