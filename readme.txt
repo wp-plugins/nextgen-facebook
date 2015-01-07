@@ -95,7 +95,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * URL shortening with Bitly or Google for URLs in Tweet texts.
 * Ability to include / exclude sharing buttons by post type.
 * Selection of preset button options by location (content, excerpt, shortcode, widget, etc.).
-* **Integrates with 3rd party plugins and services for additional image, video, product, and content information** (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details). All the following addon moduless are included with the Pro version, and are automatically enabled if/when the supported plugins and/or services are detected.
+* **Integrates with 3rd party plugins and services for additional image, video, product, and content information** (see [About Pro Addons](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details). All the following addon modules are included with the Pro version, and are automatically enabled if/when the supported plugins and/or services are detected.
 	* Plugins
 		* All in One SEO Pack
 		* bbPress
