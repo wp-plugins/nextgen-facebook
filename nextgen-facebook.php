@@ -8,7 +8,7 @@
  * License URI: http://www.gnu.org/licenses/gpl.txt
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
- * Tested Up To: 4.0
+ * Tested Up To: 4.1
  * Version: 7.7.5
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
