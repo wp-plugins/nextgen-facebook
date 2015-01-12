@@ -60,8 +60,8 @@ if ( ! class_exists( 'NgfbSubmenuGeneral' ) && class_exists( 'NgfbAdmin' ) ) {
 
 		protected function get_rows( $metabox, $key ) {
 			$rows = array();
-			$this->form->user_ids = $this->p->addons['util']['user']->get_display_names();
-			$this->form->author_contact_fields = $this->p->addons['util']['user']->get_contact_fields();
+			$this->form->user_ids = $this->p->mods['util']['user']->get_display_names();
+			$this->form->author_contact_fields = $this->p->mods['util']['user']->get_contact_fields();
 
 			switch ( $metabox.'-'.$key ) {
 				case 'og-general':

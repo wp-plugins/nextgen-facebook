@@ -77,8 +77,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 		private function get_avail_check( $key ) {
 			switch ( $key ) {
 				case 'aop':
-					return ( ! defined( 'NGFB_PRO_ADDON_DISABLE' ) ||
-					( defined( 'NGFB_PRO_ADDON_DISABLE' ) && ! NGFB_PRO_ADDON_DISABLE ) ) &&
+					return ( ! defined( 'NGFB_PRO_MODULE_DISABLE' ) ||
+					( defined( 'NGFB_PRO_MODULE_DISABLE' ) && ! NGFB_PRO_MODULE_DISABLE ) ) &&
 					file_exists( NGFB_PLUGINDIR.'lib/pro/head/twittercard.php' ) ? true : false;
 					break;
 				case 'mt':
@@ -343,8 +343,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					 __( 'JetPack Photon cripples the WordPress image size functions.', NGFB_TEXTDOM ).'</strong> '.
 					sprintf( __( 'Please <a href="%s">disable JetPack Photon</a> or disable the %s Free version plugin.', NGFB_TEXTDOM ),
 						get_admin_url( null, 'admin.php?page=jetpack' ), $short ).' '.
-					sprintf( __( 'You may also upgrade to the <a href="%s">%s version</a>, which includes an <a href="%s">addon for JetPack Photon</a>.', NGFB_TEXTDOM ), 
-						$purchase_url, $short_pro, 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/jetpack-photon/' ) );
+					sprintf( __( 'You may also upgrade to the <a href="%s">%s version</a>, which includes a <a href="%s">module for JetPack Photon</a>.', NGFB_TEXTDOM ), 
+						$purchase_url, $short_pro, 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/jetpack-photon/' ) );
 			}
 
 			/*
@@ -358,8 +358,8 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					__( 'WooCommerce does not include shortcode support in the admin interface.', NGFB_TEXTDOM ).'</strong> '.
 					sprintf( __( 'Please uncheck the \'<em>Apply Content Filters</em>\' option on the <a href="%s">%s Advanced settings page</a>.', NGFB_TEXTDOM ),  
 						$this->p->util->get_admin_url( 'advanced' ), $this->p->cf['menu'] ).' '.
-					sprintf( __( 'You may also upgrade to the <a href="%s">%s version</a>, which includes an <a href="%s">addon for WooCommerce</a>.', NGFB_TEXTDOM ), 
-						$purchase_url, $short_pro, 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/addons/woocommerce/' ) );
+					sprintf( __( 'You may also upgrade to the <a href="%s">%s version</a>, which includes a <a href="%s">modules for WooCommerce</a>.', NGFB_TEXTDOM ), 
+						$purchase_url, $short_pro, 'http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/woocommerce/' ) );
 			}
 
 			// WooCommerce ShareYourCart Extension
