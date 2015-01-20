@@ -443,7 +443,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * **Bugfixes**
 	* *None*
 * **Improvements**
-	* Added a sanity check for an empty media array returned by the YouTube API XML (Pro version).
+	* Added an extra sanity check for empty media arrays returned by the YouTube API XML (Pro version).
 * **New Features**
 	* *None*
 
@@ -520,6 +520,10 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* (Pro version) Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page.
 
 == Upgrade Notice ==
+
+= 7.7.5.1 =
+
+Added an extra sanity check for empty media arrays returned by the YouTube API XML (Pro version).
 
 = 7.7.5 =
 
