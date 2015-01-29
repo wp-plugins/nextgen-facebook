@@ -408,7 +408,6 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Screenshots ==
 
-
 01. The Plugin General Settings Page
 02. The Plugin Advanced Settings Page
 03. The Plugin Social Settings on Posts and Pages
