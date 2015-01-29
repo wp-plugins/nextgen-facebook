@@ -410,7 +410,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 01. The Plugin General Settings Page
 02. The Plugin Advanced Settings Page
-3. The Plugin Social Settings on Posts and Pages
+03. The Plugin Social Settings on Posts and Pages
 4. An Example Facebook Link Share
 5. An Example Facebook Video Share
 6. An Example Google+ Link Share
