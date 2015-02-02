@@ -429,6 +429,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 19. An Example Twitter 'Photo' Card
 20. An Example Twitter 'Gallery' Card
 21. An Example Twitter 'Product' Card
+22. An example showing all social sharing buttons enabled (using the default WPSSO SSB stylesheet) in the CSS sidebar, content text, and widget.
 
 == Changelog ==
 
