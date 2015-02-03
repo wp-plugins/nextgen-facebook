@@ -579,7 +579,9 @@ jQuery("#ngfb-sidebar").click( function(){
 
 			echo '<style type="text/css">'.$css_data.'</style>', "\n";
 			echo '<table class="sucom-setting side"><tr><td>';
-			if ( get_post_status( $post->ID ) == 'publish' ) {
+			if ( get_post_status( $post->ID ) === 'publish' || 
+				get_post_type( $post->ID ) === 'attachment' ) {
+
 				$content = '';
 				echo $this->get_js_loader();
 				echo $this->get_js( 'header' );
@@ -748,8 +750,9 @@ jQuery("#ngfb-sidebar").click( function(){
 			if ( empty( $ids ) ) {
 				if ( is_admin() ) {
 					if ( ( $obj = $this->p->util->get_post_object() ) === false  ||
-						$obj->post_status !== 'publish' )
-							return;
+						( get_post_status( $obj->ID ) !== 'publish' &&
+							get_post_type( $obj->ID ) !== 'attachment' ) )
+								return;
 				} elseif ( is_singular() && $this->is_post_buttons_disabled() ) {
 					$this->p->debug->log( 'exiting early: buttons disabled' );
 					return;
