@@ -440,6 +440,15 @@ When minor bugs fixes and/or code improvements are applied, new versions are als
 This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
 </blockquote>
 
+= Version 7.7.5.3 =
+
+* **Bugfixes**
+	* Added a check for attachment pages to include the attachment image for the Pinterest, Tumblr, and Buffer buttons.
+* **Improvements**
+	* *None*
+* **New Features**
+	* *None*
+
 = Version 7.7.5.2 =
 
 * **Bugfixes**

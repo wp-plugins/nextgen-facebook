@@ -154,12 +154,17 @@ if ( ! class_exists( 'NgfbMedia' ) ) {
 
 		public function get_first_attached_image_id( $post_id ) {
 			if ( ! empty( $post_id ) ) {
-				$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
-				$attach = reset( $images );
-				if ( ! empty( $attach->ID ) )
-					return $attach->ID;
+				// check for an attachment page, just in case
+				if ( is_attachment( $post_id ) || get_post_type( $post_id ) === 'attachment' )
+					return $post_id;
+				else {
+					$images = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
+					$attach = reset( $images );
+					if ( ! empty( $attach->ID ) )
+						return $attach->ID;
+				}
 			}
-			return;
+			return false;
 		}
 
 		public function get_attachment_image( $num = 0, $size_name = 'thumbnail', $attach_id, $check_dupes = true, $force_regen = false ) {
