@@ -440,6 +440,15 @@ When minor bugs fixes and/or code improvements are applied, new versions are als
 This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
 </blockquote>
 
+= Version 7.7.5.4 =
+
+* **Bugfixes**
+	* Added a missing test for a valid image ID when checking for featured images.
+* **Improvements**
+	* Added a `wp_attachment_is_image()` check for attachment page media.
+* **New Features**
+	* *None*
+
 = Version 7.7.5.3 =
 
 * **Bugfixes**
@@ -478,71 +487,9 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * **New Features**
 	* *None*
 
-= Version 7.7.4 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Renamed the 'tc_prod_def_l2' and 'tc_prod_def_d2' option keys to 'tc_prod_def_label2' and 'tc_prod_def_data2'.
-* **New Features**
-	* Added the "Product Card Maximum Labels" option. This option allows you to use the current Twitter maximum of 2, or the now deprecated maximum of 4.
-	* (Pro version) Added the `NgfbProHeadTwittercard::insert_prod_label()` method to allow custom filter hooks to manipulate Product Card labels more easily. See http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/add-availability-to-product-card-for-woocommerce/ for an example.
-
-= Version 7.7.3.1 =
-
-* **Bugfixes**
-	* Added a check for an empty array when checking for duplicate header tags, to prevent a possible PHP warning message.
-* **Improvements**
-	* *None*
-* **New Features**
-	* *None*
-
-= Version 7.7.3 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Renamed the button shared image sizes from (as an example) ngfb-pinterest to ngfb-pinterest-button.
-	* Changed the 'Social Preview' feature to use the first Open Graph image, instead of creating a different image size. 
-	* Added a `$force_regen` argument to NgfbMedia image related methods (get_post_images, get_featured, get_attached_images, etc.).
-	* Refactored the `NgfbUtil::add_plugin_image_sizes()` method to allow 3rd party hooks to modify image sizes. 
-	* Removed the `NgfbMedia::get_image_preview_html()` method.
-* **New Features**
-	* Added a cropping area selection for all Image Dimension options. The cropping area selection is shown only when viewing 'All Plugin Options', and only if you are using WordPress 3.9 and up (previous WordPress versions did not support cropping areas).
-
-= Version 7.7.2.3 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Removed support for the NGFB_OPEN_GRAPH_DISABLE constant.
-	* Refactored the `NgfbUtil::get_post_types()` method to improve code logic.
-	* Improved the header tag conflict check by fetching only registered post types (to avoid checking menu items, product variations, etc.).
-* **New Features**
-	* Added an 'ngfb_header_use_post' filter to allow custom hooks to provide a post ID for the webpage meta tags.
-
-= Version 7.7.2.2 =
-
-* **Bugfixes**
-	* Excluded menu items from being checked for duplicate header meta tags.
-* **Improvements**
-	* Changed the debug library loading to be read only if debug mode is enabled.
-* **New Features**
-	* *None*
-
-= Version 7.7.2 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* *None*
-* **New Features**
-	* Added the 'Check for Header Tag Conflicts' option on the NGFB Advanced settings page.
-	* (Pro version) Added the 'Position in bbPress Single' option on the NGFB Sharing Buttons settings page.
-
 == Upgrade Notice ==
 
-= 7.7.5.2 =
+= 7.7.5.3 =
 
-Added checks for an "attachment" page, to use the information for the attachment itself, and not the attached post/page.
+Added a check for attachment pages to include the attachment image for the Pinterest, Tumblr, and Buffer buttons.
 
