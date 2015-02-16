@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.1
-Stable Tag: 7.7.5.5
+Stable Tag: 7.7.5.6
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -133,6 +133,10 @@ NGFB (Pro version) also includes support for [JetPack Photon](http://jetpack.me/
 **Enhanced SEO**
 
 NGFB (Pro version) integrates with [WordPress SEO by Yoast](https://wordpress.org/plugins/wordpress-seo/), [All in One SEO Pack](https://wordpress.org/plugins/all-in-one-seo-pack/), and [HeadSpace2 SEO](https://wordpress.org/plugins/headspace2/) &mdash; making sure your custom SEO settings are reflected in the Open Graph, Rich Pin, and Twitter Card meta tags.
+
+<blockquote>
+<p>Read about the <a href="http://surniaulula.com/2014/10/25/social-seo-wordpress-seo-vs-wpsso/">differences between WordPress SEO by Yoast and WPSSO for social sharing</a>.</p>
+</blockquote>
 
 **eCommerce Products**
 
