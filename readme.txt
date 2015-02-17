@@ -440,6 +440,16 @@ When minor bugs fixes and/or code improvements are applied, new versions are als
 This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
 </blockquote>
 
+= Version 7.7.6 =
+
+* **Bugfixes**
+	* *None*
+* **Improvements**
+	* Renamed the `NgfbAdmin::get_form_ref()` method to `get_form_reference()`.
+* **New Features**
+	* Added a check for the og:image meta tag, and if missing, issue a warning (Facebook requires at least one og:image meta tag).
+	* Added a check for a hard-coded minimum image size of 200x200, which is the minimum allowed by the Facebook / Open Graph standard.
+
 = Version 7.7.5.6 =
 
 * **Bugfixes**
@@ -512,12 +522,4 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 = 7.7.5.6 =
 
 Changed the priority for BuddyPress member images (Pro version). Admin CSS tweeks for lower resolution displays.
-
-= 7.7.5.5 =
-
-Minor fix to allow the NgfbMedia::get_post_images() method to be called with an empty post ID value.
-
-= 7.7.5.4 =
-
-Added a test for a valid image ID when checking for featured images, and a wp_attachment_is_image() check for attachment page media.
 
