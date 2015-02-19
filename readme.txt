@@ -447,10 +447,10 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * **Improvements**
 	* Renamed the `NgfbAdmin::get_form_ref()` method to `get_form_reference()`.
 	* Added the buttons preset option value as a CSS class to the sharing buttons container.
-	* Updated the default buttons stylesheets to include the preset class button attributes (width, height, etc.).
+	* Updated the default buttons stylesheets to include the preset class attributes (width, height, etc.).
 * **New Features**
 	* Added a check for the og:image meta tag, and if missing, issue a warning (Facebook requires at least one og:image meta tag).
-	* Added a check for a hard-coded minimum image size of 200x200, which is the minimum allowed by the Facebook / Open Graph standard.
+	* Added a check for a minimum image dimension of 200x200px (the minimum allowed by Facebook) for Open Graph meta tags.
 
 = Version 7.7.5.6 =
 
