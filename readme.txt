@@ -42,7 +42,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * Includes hashtags from Post / Page WordPress Tags.
 * Includes the author's name for Pinterest Rich Pins.
 * Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
-* Includes author <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles in schema.org JSON-LD markup for Google Search</a>.
+* Includes author <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup for Google Search</a>.
 * Provides Facebook, Google+ and Twitter URL user profile contact fields.
 * Validation tools and special meta tag preview tabs on admin edit pages.
 * Customizable *multilingual* Site Title and Site Description texts.
@@ -175,7 +175,7 @@ The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. 
 
 = Custom Contacts =
 
-NGFB includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author social profiles in schema.org JSON-LD markup for Google Search results</a>, including the author's website URL, image, and all listed contact URLs.
+WPSSO includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author social profiles markup in schema.org JSON-LD format for Google Search results</a>, including the author's website URL, image, and all listed contact URLs.
 
 NGFB (Pro version) allows you to customize the field names, label, and add/remove the following contacts from the user profile page:
 
