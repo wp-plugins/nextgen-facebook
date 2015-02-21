@@ -42,7 +42,8 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * Includes the author's name for Pinterest Rich Pins.
 * Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
 * Fallback to the image alt value if the content and except do not include any text.
-* Provides Facebook, Google+ and Twitter URL profile contact fields.
+* Provides Facebook, Google+ and Twitter URL user profile contact fields.
+* Include <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles in schema.org JSON-LD markup for Google Search</a>.
 * Validation tools and special meta tag preview tabs on admin edit pages.
 * Customizable *multilingual* Site Title and Site Description texts.
 * Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
