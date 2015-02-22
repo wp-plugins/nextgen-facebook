@@ -19,7 +19,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.7.6',		// plugin version
+					'version' => '7.7.7',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -161,7 +161,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 320,		// increment when changing default options
+				'version' => 321,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -171,6 +171,8 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					'seo_def_author_id' => 0,
 					'seo_def_author_on_index' => 0,
 					'seo_def_author_on_search' => 0,
+					'seo_publisher_json' => 1,
+					'seo_author_json' => 1,
 					'link_author_field' => '',		// default value set by NgfbOptions::get_defaults()
 					'link_publisher_url' => '',
 					'fb_admins' => '',
@@ -544,13 +546,16 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				define( 'NGFB_META_NAME', '_'.$cf['lca'].'_meta' );
 
 			if ( ! defined( 'NGFB_META_SAVE_PRIORITY' ) )
-				define( 'NGFB_META_SAVE_PRIORITY', 20 );
+				define( 'NGFB_META_SAVE_PRIORITY', 6 );
+
+			if ( ! defined( 'NGFB_META_CACHE_PRIORITY' ) )
+				define( 'NGFB_META_CACHE_PRIORITY', 9 );
 
 			if ( ! defined( 'NGFB_MENU_PRIORITY' ) )
 				define( 'NGFB_MENU_PRIORITY', '99.11' );
 
 			if ( ! defined( 'NGFB_INIT_PRIORITY' ) )
-				define( 'NGFB_INIT_PRIORITY', 13 );
+				define( 'NGFB_INIT_PRIORITY', 14 );
 
 			if ( ! defined( 'NGFB_HEAD_PRIORITY' ) )
 				define( 'NGFB_HEAD_PRIORITY', 10 );
