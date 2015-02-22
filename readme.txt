@@ -452,8 +452,10 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* Changed the NGFB_META_SAVE_PRIORITY constant default value from 20 to 6.
 	* Changed the post cache maintenance hook priority from 100 to 9 (using the new NGFB_META_CACHE_PRIORITY contant).
 	* Moved the user profile cache maintenance to an action hook (uses the NGFB_META_CACHE_PRIORITY contant as well).
+	* Added support for Quick Cache in the "Clear All Cache" feature.
 * **New Features**
-	* Added author <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup in schema.org JSON-LD format for Google Search</a>.
+	* Added the "Include Publisher Social JSON" and "Include Author Social JSON" options under the Google+ and Search settings tab.
+	* Added author and publisher <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup in schema.org JSON-LD format for Google Search</a>.
 
 = Version 7.7.6 =
 
