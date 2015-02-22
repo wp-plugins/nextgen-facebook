@@ -32,7 +32,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $media;			// NgfbMedia (images, videos, etc.)
 		public $msgs;			// NgfbMessages (admin tooltip messages)
 		public $notice;			// SucomNotice
-		public $og;			// NgfbOpenGraph (extends SucomOpengraph)
+		public $og;			// NgfbOpengraph (extends SucomOpengraph)
 		public $opt;			// NgfbOptions
 		public $reg;			// NgfbRegister
 		public $script;			// SucomScript (admin jquery tooltips)
@@ -144,6 +144,7 @@ if ( ! class_exists( 'Ngfb' ) ) {
 			$this->media = new NgfbMedia( $this );			// images, videos, etc.
 			$this->head = new NgfbHead( $this );			// open graph and twitter card meta tags
 			$this->og = new NgfbOpengraph( $this );			// prepare open graph array
+			$this->schema = new NgfbSchema( $this );
 
 			if ( is_admin() ) {
 				$this->msgs = new NgfbMessages( $this );	// admin tooltip messages
