@@ -42,7 +42,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 * Includes hashtags from Post / Page WordPress Tags.
 * Includes the author's name for Pinterest Rich Pins.
 * Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
-* Includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author social profiles markup in schema.org JSON-LD format for Google Search</a>.
+* Includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organizatin) social profiles markup in schema.org JSON-LD format for Google Search</a>.
 * Provides Facebook, Google+ and Twitter URL user profile contact fields.
 * Validation tools and special meta tag preview tabs on admin edit pages.
 * Customizable *multilingual* Site Title and Site Description texts.
@@ -175,7 +175,7 @@ The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. 
 
 = Custom Contacts =
 
-WPSSO includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author social profiles markup in schema.org JSON-LD format for Google Search results</a>, including the author's website URL, image, and all listed contact URLs.
+NGFB includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search</a>. The <em>Person</em> social profile markup includes the author's website URL, their profile image, and all listed contact URLs. The <em>Organization</em> social profile markup includes the website URL, the default image, and the Facebook / Google+ URLs.
 
 NGFB (Pro version) allows you to customize the field names, label, and add/remove the following contacts from the user profile page:
 
@@ -454,8 +454,8 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* Moved the user profile cache maintenance to an action hook (uses the NGFB_META_CACHE_PRIORITY contant as well).
 	* Added support for Quick Cache in the "Clear All Cache" feature.
 * **New Features**
-	* Added the "Include Publisher Social JSON" and "Include Author Social JSON" options under the Google+ and Search settings tab.
-	* Added author and publisher <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup in schema.org JSON-LD format for Google Search</a>.
+	* Added the "Add Schema Publisher Social JSON" and "Add Schema Author Social JSON" options under the "Google+ and Search" settings tab.
+	* Added author (Person) and publisher (Organization) <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup in schema.org JSON-LD format for Google Search</a>.
 
 = Version 7.7.6 =
 
