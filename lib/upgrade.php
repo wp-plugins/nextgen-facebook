@@ -118,6 +118,9 @@ if ( ! class_exists( 'NgfbOptionsUpgrade' ) && class_exists( 'NgfbOptions' ) ) {
 			'plugin_tid' => 'plugin_ngfb_tid',
 			'tc_prod_def_l2' => 'tc_prod_def_label2',
 			'tc_prod_def_d2' => 'tc_prod_def_data2',
+			'og_publisher_url' => 'fb_publisher_url',
+			'link_author_field' => 'seo_author_field',
+			'link_publisher_url' => 'seo_publisher_url',
 		);
 
 		protected $p;
