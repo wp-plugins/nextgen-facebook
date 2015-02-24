@@ -167,7 +167,7 @@ if ( ! class_exists( 'NgfbSharingTwitter' ) ) {
 
 			if ( ! array_key_exists( 'related', $atts ) ) {
 				if ( ! empty( $opts['twitter_rel_author'] ) && 
-					$this->p->check->aop( 'ngfb' ) && ! empty( $post ) && $use_post == true )
+					! empty( $post ) && $use_post == true && $this->p->check->aop( 'ngfb' ) )
 						$atts['related'] = preg_replace( '/^@/', '', 
 							get_the_author_meta( $opts['plugin_cm_twitter_name'], $post->author ) );
 				else $atts['related'] = '';
