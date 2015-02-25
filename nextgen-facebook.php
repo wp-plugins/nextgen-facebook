@@ -9,7 +9,7 @@
  * Description: Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
  * Requires At Least: 3.0
  * Tested Up To: 4.1
- * Version: 7.8
+ * Version: 7.8.1
  * 
  * Copyright 2012-2014 - Jean-Sebastien Morisset - http://surniaulula.com/
  */
@@ -104,7 +104,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				foreach ( array( 'wp_head', 'wp_footer', 'admin_head', 'admin_footer' ) as $action )
 					foreach ( array( 1, 9999 ) as $prio ) {
 						add_action( $action, create_function( '', 
-							'echo "<!-- ngfb add_action( \''.$action.'\' ) priority '.$prio.' test = PASSED -->\n";' ), $prio );
+							'echo "<!-- ngfb add_action( \''.$action.'\' ) priority '.
+								$prio.' test = PASSED -->\n";' ), $prio );
 						add_action( $action, array( &$this, 'show_debug_html' ), $prio );
 					}
 			do_action( 'ngfb_init_plugin' );
@@ -116,7 +117,6 @@ if ( ! class_exists( 'Ngfb' ) ) {
 
 		// called by activate_plugin() as well
 		public function set_objects( $activate = false ) {
-
 			/*
 			 * basic plugin setup (settings, check, debug, notices, utils)
 			 */
@@ -155,6 +155,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 				$this->sharing = new NgfbSharing( $this );	// wp_head and wp_footer js and buttons
 
 			$this->loader = new NgfbLoader( $this );
+
+			do_action( 'ngfb_init_objects' );
 
 			/*
 			 * check and create the default options array
@@ -212,7 +214,8 @@ if ( ! class_exists( 'Ngfb' ) ) {
 						! constant( $constant_name ) ) ? true : false;
 				}
 				$cache_msg = 'object cache '.( $this->is_avail['cache']['object'] ? 'could not be' : 'is' ).
-					' disabled, and transient cache '.( $this->is_avail['cache']['transient'] ? 'could not be' : 'is' ).' disabled.';
+					' disabled, and transient cache '.( $this->is_avail['cache']['transient'] ? 
+						'could not be' : 'is' ).' disabled.';
 				$this->debug->log( 'HTML debug mode active: '.$cache_msg );
 				$this->notice->inf( 'HTML debug mode active &ndash; '.$cache_msg.' '.
 					__( 'Informational messages are being added to webpages as hidden HTML comments.', NGFB_TEXTDOM ) );
