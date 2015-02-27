@@ -62,7 +62,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 	* Twitter
 
 <blockquote>
-<p><strong>Don't need the sharing buttons?</strong></p>
+<p><strong>Already have sharing buttons?</strong></p>
 
 <p>Have a look at the <a href="https://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em>. As a result, WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons. Additional extension plugins are also available for WPSSO, including:
 <ul>
@@ -158,18 +158,7 @@ NGFB comes with several sharing buttons, that you can optionally include on Post
 
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language / WordPress locale. NGFB can also include hashtags from WordPress and NextGEN Gallery tag names in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
 
-<blockquote>
-<p><strong>Don't need the sharing buttons?</strong></p>
-
-<p>Have a look at the <a href="https://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em>. As a result, WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons. Additional extension plugins are also available for WPSSO, including:
-<ul>
-<li><a href="https://wordpress.org/plugins/wpsso-am/">WPSSO App Meta</a></li>
-<li><a href="https://wordpress.org/plugins/wpsso-plm/">WPSSO Place and Location Meta</a></li>
-<li><a href="https://wordpress.org/plugins/wpsso-ssb/">WPSSO Social Sharing Buttons</a></li>
-</ul></p>
-</blockquote>
-
-= Custom Profile Contacts =
+= User Profile Contacts =
 
 NGFB (Pro version) allows you to customize the field names, label, and add / remove the following contacts from the user profile page:
 
@@ -185,7 +174,7 @@ NGFB (Pro version) allows you to customize the field names, label, and add / rem
 * Yahoo IM
 * YouTube Channel URL
 
-= Schema JSON-LD Social Profiles  =
+= Social Profiles for Google Search =
 
 NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
 
