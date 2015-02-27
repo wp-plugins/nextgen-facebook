@@ -68,9 +68,10 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 <div style="clear:both;"></div>
 
-**Pro / Power-User Version**
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />
+<strong>Pro / Power-User Version</strong>
 
-* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />**No Risk 30 Day Refund Policy**
+* **No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
 	* *Product Card* &mdash; Product information from an e-commerce plugin.
 	* *Player Card* &mdash; An embedded video in the Post / Page content.
@@ -113,13 +114,12 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 		* Wistia Videos
 		* Youtube Videos and Playlists
 
-**Looking for the Pro version?** You can [purchase Pro license(s) here](http://surniaulula.com/extend/plugins/nextgen-facebook/) to update the Free version quickly and easily.
-
 <div style="clear:both;"></div>
 
 = 3rd Party Integration =
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-21.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />Aside from the additional support for Twitter Cards, the main difference between the NGFB Free and Pro versions is the integration of 3rd party plugins and services.
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-21.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />
+Aside from the additional support for Twitter Cards, the main difference between the NGFB Free and Pro versions is the integration of 3rd party plugins and services.
 
 **Images and Videos**
 
@@ -141,9 +141,10 @@ NGFB (Pro version) supports [bbPress](https://wordpress.org/plugins/bbpress/) an
 
 <div style="clear:both;"></div>
 
-= Social Sharing Buttons =
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="width:40%;float:left;margin:0 40px 20px 0;" />
+<h4>Social Sharing Buttons</h4>
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
+NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
 * **Buffer**
 * **Facebook** (Like, Send, and Share)
@@ -157,6 +158,8 @@ NGFB (Pro version) supports [bbPress](https://wordpress.org/plugins/bbpress/) an
 * **Twitter** (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
 
 The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language / WordPress locale. NGFB can also include hashtags from WordPress and NextGEN Gallery tag names in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+
+<div style="clear:both;"></div>
 
 = User Profile Social Contacts =
 
@@ -176,9 +179,12 @@ NGFB (Pro version) allows you to customize the field names, label, and add / rem
 
 <div style="clear:both;"></div>
 
-= Social Profiles for Google Search =
+<h4>Social Profiles for Google Search</h4>
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />
+NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
+
+<div style="clear:both;"></div>
 
 = Complete Social Meta Tags =
 
@@ -247,13 +253,19 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 	* twitter:site
 	* twitter:title
 
+<div style="clear:both;"></div>
+
 = Proven Performance =
 
 NGFB is *fast and coded for performance*, making full use of all available caching techniques (persistent / non-persistent object and disk caching). NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
 
+<div style="clear:both;"></div>
+
 = Clean Uninstall =
 
 Try the NGFB plugin with complete confidence &mdash; when uninstalled, NGFB removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
+
+<div style="clear:both;"></div>
 
 = Great Support =
 
