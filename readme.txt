@@ -30,7 +30,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 **Free / Basic Version**
 
-* <img src="//ps.w.org/nextgen-facebook/assets/screenshot-04.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-04.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
 * Configurable image sizes for Open Graph (Facebook, LinkedIn, etc.) and Pinterest.
 * Optional fallback to a default image and video for index and search webpages.
 * Supports featured, attached, gallery shortcode, and/or HTML image tags in content.
@@ -76,7 +76,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 **Pro / Power-User Version**
 
-* **No Risk 30 Day Refund Policy**
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />**No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
 	* *Product Card* &mdash; Product information from an e-commerce plugin.
 	* *Player Card* &mdash; An embedded video in the Post / Page content.
@@ -178,7 +178,7 @@ NGFB (Pro version) allows you to customize the field names, label, and add / rem
 
 = Social Profiles for Google Search =
 
-<img src="//ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
 
 = Complete Social Meta Tags =
 
