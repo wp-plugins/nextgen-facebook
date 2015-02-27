@@ -30,7 +30,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 **Free / Basic Version**
 
-* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-04.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-01.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
 * Configurable image sizes for Open Graph (Facebook, LinkedIn, etc.) and Pinterest.
 * Optional fallback to a default image and video for index and search webpages.
 * Supports featured, attached, gallery shortcode, and/or HTML image tags in content.
@@ -76,7 +76,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 **Pro / Power-User Version**
 
-* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />**No Risk 30 Day Refund Policy**
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />**No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
 	* *Product Card* &mdash; Product information from an e-commerce plugin.
 	* *Player Card* &mdash; An embedded video in the Post / Page content.
