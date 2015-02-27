@@ -12,25 +12,17 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 == Description ==
 
-<table><tr><td valign="top">
-
-<p><img src="https://ps.w.org/nextgen-facebook/assets/icon-256x256.png?rev=" width="256" height="256" style="max-width:50%;margin-right:40px;" /></p>
-
-</td><td valign="top">
-
-<p><strong>Make sure social websites present your content in the best possible way, no matter <em>how</em> your webpage is shared</strong> &mdash; from sharing buttons on the webpage, browser add-ons and extensions, or <em>URLs pasted directly in social timeline posts and private messages</em>.</p>
+<p><img src="https://ps.w.org/nextgen-facebook/assets/icon-256x256.png?rev=" width="256" height="256" style="max-width:33%;float:left;margin-right:40px;" /><strong>Make sure social websites present your content in the best possible way, no matter <em>how</em> your webpage is shared</strong> &mdash; from sharing buttons on the webpage, browser add-ons and extensions, or <em>URLs pasted directly in social timeline posts and private messages</em>.</p>
 
 <p>NextGEN Facebook (NGFB) <strong>gives you total control over the information social websites (and their crawlers) need</strong>, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, Pinterest, LinkedIn, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
 
 <p>You can download the <a href="https://wordpress.org/plugins/nextgen-facebook/">Free version of NGFB on wordpress.org</a> and <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/">purchase Pro license(s) on surniaulula.com</a> (includes a <em>No Risk 30 Day Refund Policy</em>).</p>
 
-</td></tr></table>
-
 = Quick List of Features =
 
 **Free / Basic Version**
 
-* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-01.png?rev=9999999" style="max-width:50%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-01.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
 * Configurable image sizes for Open Graph (Facebook, LinkedIn, etc.) and Pinterest.
 * Optional fallback to a default image and video for index and search webpages.
 * Supports featured, attached, gallery shortcode, and/or HTML image tags in content.
@@ -76,7 +68,7 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 **Pro / Power-User Version**
 
-* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="max-width:50%;float:right;margin-left:40px;" />**No Risk 30 Day Refund Policy**
+* <img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />**No Risk 30 Day Refund Policy**
 * Twitter Card meta tags:
 	* *Product Card* &mdash; Product information from an e-commerce plugin.
 	* *Player Card* &mdash; An embedded video in the Post / Page content.
@@ -145,7 +137,7 @@ NGFB (Pro version) supports [bbPress](https://wordpress.org/plugins/bbpress/) an
 
 = Social Sharing Buttons =
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="max-width:50%;float:right;margin-left:40px;" />NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
 
 * **Buffer**
 * **Facebook** (Like, Send, and Share)
@@ -178,7 +170,7 @@ NGFB (Pro version) allows you to customize the field names, label, and add / rem
 
 = Social Profiles for Google Search =
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="max-width:50%;float:right;margin-left:40px;" />NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=9999999" style="max-width:33%;float:right;margin-left:40px;" />NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
 
 = Complete Social Meta Tags =
 
