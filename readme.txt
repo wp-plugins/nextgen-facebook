@@ -68,7 +68,6 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 <div style="clear:both;"></div>
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-02.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />
 <strong>Pro / Power-User Version</strong>
 
 * **No Risk 30 Day Refund Policy**
@@ -118,7 +117,6 @@ Display your content in the best possible way on Facebook, Google+, Twitter, Pin
 
 = 3rd Party Integration =
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-21.png?rev=9999999" style="width:40%;float:right;margin:0 0 20px 40px;" />
 Aside from the additional support for Twitter Cards, the main difference between the NGFB Free and Pro versions is the integration of 3rd party plugins and services.
 
 **Images and Videos**
