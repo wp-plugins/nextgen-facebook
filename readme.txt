@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.1.1
-Stable Tag: 7.8.1
+Stable Tag: 7.8.2
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -419,10 +419,10 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 = Version 7.8.2 =
 
 * **Bugfixes**
-	* *None*
+	* Fixed Rich Pin Image Dimensions setting in Free version by inheriting the Open Graph values.
+	* Added a `NgfbUser::get_user_id_contact_methods()` static method to provide `wp_get_user_contact_methods()` for older WordPress versions.
 * **Improvements**
 	* Added a 'View Plugin Details' link on the Pro Licenses settings page and updated its layout.
-	* Added the `NgfbUser::get_user_id_contact_methods()` static method to provide `wp_get_user_contact_methods()` for older WordPress installations.
 * **New Features**
 	* *None*
 
@@ -469,7 +469,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 
 == Upgrade Notice ==
 
-= 7.8.1 =
+= 7.8.2 =
 
-Includes support for Google's Person and Organization social profiles markup in schema.org JSON-LD format. Added a new 'ngfb_init_objects' action for NGFB extension plugins.
+Fixed Rich Pin Image Dimensions values in Free version, added wp_get_user_contact_methods() wrapper for older WordPress versions, new 'View Plugin details' link on Pro Licenses settings page.
 
