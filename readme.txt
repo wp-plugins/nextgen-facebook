@@ -139,7 +139,7 @@ NGFB (Pro version) supports [bbPress](https://wordpress.org/plugins/bbpress/) an
 
 <div style="clear:both;"></div>
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=" width="1024" height"583" style="width:40%;min-width:320px;max-width:1024px;float:right;margin:0 0 20px 40px;" />
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-22.png?rev=" width="1024" height"583" style="width:40%;min-width:300px;max-width:1024px;float:right;margin:0 0 20px 40px;" />
 <h4>Social Sharing Buttons</h4>
 
 NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
@@ -177,7 +177,7 @@ NGFB (Pro version) allows you to customize the field names, label, and add / rem
 
 <div style="clear:both;"></div>
 
-<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=" width="1024" height="594" style="width:40%;min-width:320px;max-width:1024px;float:right;margin:0 0 20px 40px;" />
+<img src="https://ps.w.org/nextgen-facebook/assets/screenshot-23.png?rev=" width="1024" height="594" style="width:40%;min-width:300px;max-width:1024px;float:right;margin:0 0 20px 40px;" />
 <h4>Social Profiles for Google Search</h4>
 
 NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
