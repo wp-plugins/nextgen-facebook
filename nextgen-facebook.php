@@ -50,23 +50,21 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public $options = array();	// individual blog/site options
 		public $site_options = array();	// multisite options
 		public $mods = array();		// pro and gpl modules
-		public $addons;			// addons variable is deprecated
 
 		/**
 		 * Ngfb Constructor
 		 */
 		public function __construct() {
-			$this->addons =& $this->mods;			// addons variable is deprecated
 
 			require_once( dirname( __FILE__ ).'/lib/config.php' );
 			require_once( dirname( __FILE__ ).'/lib/register.php' );
 
-			$this->cf = NgfbConfig::get_config();		// unfiltered - $cf['*'] array is not available
+			$this->cf = NgfbConfig::get_config();			// unfiltered - $cf['*'] array is not available
 			NgfbConfig::set_constants( __FILE__ );
 			NgfbConfig::require_libs( __FILE__ );
 
 			$classname = __CLASS__.'Register';
-			$this->reg = new $classname( $this );
+			$this->reg = new $classname( $this );			// activate, deactivate, uninstall hooks
 
 			add_action( 'init', array( &$this, 'set_config' ), -1 );
 			add_action( 'init', array( &$this, 'init_plugin' ), NGFB_INIT_PRIORITY );
@@ -98,14 +96,16 @@ if ( ! class_exists( 'Ngfb' ) ) {
 		public function init_plugin() {
 			if ( ! empty( $_SERVER['NGFB_DISABLE'] ) ) 
 				return;
+
 			load_plugin_textdomain( NGFB_TEXTDOM, false, dirname( NGFB_PLUGINBASE ).'/languages/' );
-			$this->set_objects();	// define the class object variables
+
+			$this->set_objects();				// define the class object variables
+
 			if ( $this->debug->is_on() === true )
 				foreach ( array( 'wp_head', 'wp_footer', 'admin_head', 'admin_footer' ) as $action )
-					foreach ( array( 1, 9999 ) as $prio ) {
-						add_action( $action, create_function( '', 
-							'echo "<!-- ngfb add_action( \''.$action.'\' ) priority '.
-								$prio.' test = PASSED -->\n";' ), $prio );
+					foreach ( array( -9999, 9999 ) as $prio ) {
+						add_action( $action, create_function( '', 'echo "<!-- ngfb '.
+							$action.' action hook priority '.$prio.' mark -->\n";' ), $prio );
 						add_action( $action, array( &$this, 'show_debug_html' ), $prio );
 					}
 			do_action( 'ngfb_init_plugin' );
