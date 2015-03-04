@@ -403,7 +403,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * **Bugfixes**
 	* *None*
 * **Improvements**
-	* Disabled the loading of meta tags for media upload pages.
+	* Slight performance improvement by disabled the loading of meta tags for media upload pages.
 * **New Features**
 	* *None*
 
