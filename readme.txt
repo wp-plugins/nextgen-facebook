@@ -365,9 +365,9 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 
 == Screenshots ==
 
-01. Plugin General Settings Page
-02. Plugin Advanced Settings Page
-03. Plugin Social Settings on Posts and Pages
+01. NGFB General Settings Page &mdash; Includes options for Open Graph (All Publishers) site information, titles, descriptions, images, videos, and authors. There is also a Publisher Specific section for Facebook, Google (G+ and Search), LinkedIn, Pinterest Rich Pins, and Twitter Cards.
+02. NGFB Advanced Settings Page &mdash; Allows you to fine-tune some advanced plugin settings, the use of various content filters, custom post meta fields, caching techniques, user profile contacts, and enable / disable a long list of meta tags.
+03. NGFB Social Settings on Posts and Pages &mdash; The Social Settings metabox allows you to modify the default title, description, and image values, preview an example social share, preview all meta tags, and validate the current webpage with various online tools.
 04. Example Facebook Link Share
 05. Example Facebook Video Share
 06. Example Google+ Link Share
@@ -387,7 +387,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 20. Example Twitter 'Gallery' Card
 21. Example Twitter 'Product' Card
 22. Example Showing All Social Sharing Buttons Enabled
-23. Example Social Profiles in Google Search
+23. Example Social Profiles in Google Search &mdash; NGFB includes author (Person) and publisher (Organization) social profiles markup in schema.org JSON-LD format for Google Search and their Knowledge Graph.
 
 == Changelog ==
 
