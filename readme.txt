@@ -283,6 +283,9 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/does-linkedin-read-the-open-graph-meta-tags/">Does LinkedIn read the Open Graph meta tags?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/">Doesn’t an SEO plugin cover that?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-exclude-certain-parts-of-the-content-text/">How can I exclude / ignore certain parts of the content text?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-fix-a-err_too_many_redirects-error/">How can I fix a ERR_TOO_MANY_REDIRECTS error?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-fix-an-http-error-when-uploading-images/">How can I fix an “HTTP error” when uploading images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-have-smaller-dimensions-for-the-default-image/">How can I have smaller dimensions for the default image?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-see-what-facebook-sees/">How can I see what Facebook sees?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/">How can I share a single NextGEN Gallery image?</a></li>
 	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/">How do I attach an image without showing it on the webpage?</a></li>
@@ -346,6 +349,7 @@ NGFB support and development is on-going. You can review the [FAQ](http://faq.ng
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-shortcode-attributes-url/">Modify Shortcode Attributes (URL)</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-articletag-keywords-names/">Modify the article:tag Keywords / Names</a></li>
 				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-default-topics-list/">Modify the Default Topics List</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-home-page-title-for-facebook-open-graph/">Modify the Home Page Title for Facebook / Open Graph</a></li>
 			</ul></li>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/head/">Head Filters</a></li>
 			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/media/">Media Filters</a></li>
