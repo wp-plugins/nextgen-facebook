@@ -379,7 +379,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
                                 $this->p->debug->log( $conflict_log_prefix.'facebook plugin is active' );
                                 $this->p->notice->err( $conflict_err_prefix. 
 					sprintf( __( 'Please <a href="%s">deactivate the Facebook plugin</a> to prevent duplicate Open Graph meta tags in your webpage headers.', NGFB_TEXTDOM ), 
-						get_admin_url( null, 'plugins.php' ) ) );
+						get_admin_url( null, 'plugins.php?s=facebook/facebook.php' ) ) );
                         }
 
 			// AddThis Social Bookmarking Widget

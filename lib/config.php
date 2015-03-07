@@ -16,6 +16,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'menu' => 'NGFB',		// menu item label
+			'color' => 'ff6600',		// menu item color
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
