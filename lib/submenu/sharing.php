@@ -101,7 +101,8 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 			$row = 0;
 
 			// add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );
-			add_meta_box( $this->pagehook.'_sharing', 'Social Sharing Buttons', array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
+			add_meta_box( $this->pagehook.'_sharing', 'Social Sharing Buttons', 
+				array( &$this, 'show_metabox_sharing' ), $this->pagehook, 'normal' );
 
 			foreach ( $this->p->cf['plugin']['ngfb']['lib']['website'] as $id => $name ) {
 				$classname = __CLASS__.$id;
@@ -110,14 +111,17 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 					$row = $col == 1 ? $row + 1 : $row;
 					$pos_id = 'website-row-'.$row.'-col-'.$col;
 					$name = $name == 'GooglePlus' ? 'Google+' : $name;
-					add_meta_box( $this->pagehook.'_'.$id, $name, array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
-					add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_'.$id, array( &$this, 'add_class_postbox_website' ) );
+					add_meta_box( $this->pagehook.'_'.$id, $name, 
+						array( &$this->website[$id], 'show_metabox_website' ), $this->pagehook, $pos_id );
+					add_filter( 'postbox_classes_'.$this->pagehook.'_'.$this->pagehook.'_'.$id, 
+						array( &$this, 'add_class_postbox_website' ) );
 					$this->website[$id]->form = &$this->get_form_reference();
 				}
 			}
 
 			// these metabox ids should be closed by default (array_diff() selects everything except those listed)
-			$ids = array_diff( array_keys( $this->p->cf['plugin']['ngfb']['lib']['website'] ), array( 'facebook', 'gplus', 'twitter' ) );
+			$ids = array_diff( array_keys( $this->p->cf['plugin']['ngfb']['lib']['website'] ), 
+				array( 'facebook', 'gplus', 'twitter' ) );
 			$this->p->mods['util']['user']->reset_metabox_prefs( $this->pagehook, $ids, 'closed' );
 		}
 

@@ -20,7 +20,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.8.2.2',		// plugin version
+					'version' => '7.8.3',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
@@ -48,7 +48,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					),
 					'lib' => array(			// libraries
 						'setting' => array (
-							'contact' => 'Contact Fields',
+							'contact-fields' => 'Contact Fields',
 						),
 						'submenu' => array (
 							'general' => 'General',
@@ -633,7 +633,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				if ( file_exists( $filepath ) ) {
 					require_once( $filepath );
 					if ( empty( $classname ) )
-						return 'ngfb'.str_replace( '/', '', $filespec );
+						return 'ngfb'.str_replace( array( '/', '-' ), '', $filespec );
 					else return $classname;
 				}
 			}
