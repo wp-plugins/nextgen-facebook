@@ -126,7 +126,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 		}
 
 		public function add_class_postbox_website( $classes ) {
-			array_push( $classes, 'display_'.$this->p->options['plugin_display'] );
+			array_push( $classes, 'display_'.NgfbUser::show_opts() );
 			array_push( $classes, 'admin_postbox_website' );
 			return $classes;
 		}
@@ -138,7 +138,7 @@ if ( ! class_exists( 'NgfbSubmenuSharing' ) && class_exists( 'NgfbAdmin' ) ) {
 				'position' => 'Buttons Position' 
 			);
 
-			if ( $this->p->options['plugin_display'] == 'all' )
+			if ( NgfbUser::show_opts( 'all' ) )
 				$tabs['preset'] = 'Preset Options';
 
 			$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', $tabs );

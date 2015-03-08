@@ -67,7 +67,7 @@ if ( ! class_exists( 'NgfbSubmenuSharingStumbleupon' ) && class_exists( 'NgfbSub
 				range( 1, count( $this->p->admin->submenu['sharing']->website ) ), 
 					'short' ).'</td>';
 
-			if ( $this->p->options['plugin_display'] == 'all' ) {
+			if ( NgfbUser::show_opts( 'all' ) ) {
 				$rows[] = $this->p->util->th( 'JavaScript in', 'short' ).'<td>'.
 				$this->form->get_select( 'stumble_js_loc', $this->p->cf['form']['js_locations'] ).'</td>';
 			}

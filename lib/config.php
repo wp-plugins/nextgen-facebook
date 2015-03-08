@@ -162,7 +162,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				),
 			),
 			'opt' => array(				// options
-				'version' => 325,		// increment when changing default options
+				'version' => 326,		// increment when changing default options
 				'defaults' => array(
 					'options_filtered' => false,
 					'options_version' => '',
@@ -324,7 +324,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 					// advanced plugin options
 					'plugin_version' => '',
 					'plugin_ngfb_tid' => '',
-					'plugin_display' => 'basic',
+					'plugin_show_opts' => 'basic',
 					'plugin_preserve' => 0,
 					'plugin_debug' => 0,
 					'plugin_cache_info' => 0,
@@ -444,7 +444,7 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 				'js_locations' => array( 'none' => '[none]', 'header' => 'Header', 'footer' => 'Footer' ),
 				'caption_types' => array( 'none' => '[none]', 'title' => 'Title Only', 'excerpt' => 'Excerpt Only', 'both' => 'Title and Excerpt' ),
 				'user_name_fields' => array( 'none' => '[none]', 'fullname' => 'First and Last Names', 'display_name' => 'Display Name', 'nickname' => 'Nickname' ),
-				'display_options' => array( 'basic' => 'Basic Options', 'all' => 'All Options' ),
+				'show_options' => array( 'basic' => 'Basic Options', 'all' => 'All Options' ),
 				'site_option_use' => array( 'default' => 'Default Site Value', 'empty' => 'If Value is Empty', 'force' => 'Force This Value' ),
 				'position_crop_x' => array( 'left' => 'Left', 'center' => 'Center', 'right' => 'Right' ),
 				'position_crop_y' => array( 'top' => 'Top', 'center' => 'Center', 'bottom' => 'Bottom' ),
@@ -548,6 +548,9 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 
 			if ( ! defined( 'NGFB_META_NAME' ) )
 				define( 'NGFB_META_NAME', '_'.$cf['lca'].'_meta' );
+
+			if ( ! defined( 'NGFB_PREF_NAME' ) )
+				define( 'NGFB_PREF_NAME', '_'.$cf['lca'].'_pref' );
 
 			if ( ! defined( 'NGFB_META_SAVE_PRIORITY' ) )
 				define( 'NGFB_META_SAVE_PRIORITY', 6 );

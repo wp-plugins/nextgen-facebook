@@ -168,7 +168,7 @@ if ( ! class_exists( 'NgfbSubmenuStyle' ) && class_exists( 'NgfbAdmin' ) ) {
 			echo '<td>'.$this->form->get_checkbox( 'buttons_enqueue_social_css' ).'</td>';
 			echo '</tr></table>';
 
-			if ( $this->p->options['plugin_display'] == 'all' ) {
+			if ( NgfbUser::show_opts( 'all' ) ) {
 				$metabox = 'style';
 				$tabs = apply_filters( $this->p->cf['lca'].'_'.$metabox.'_tabs', 
 					NgfbSharing::$cf['sharing']['style'] );

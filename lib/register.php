@@ -107,16 +107,22 @@ if ( ! class_exists( 'NgfbRegister' ) ) {
 			if ( ! defined( 'NGFB_META_NAME' ) )
 				define( 'NGFB_META_NAME', '_'.$cf['lca'].'_meta' );
 
+			if ( ! defined( 'NGFB_PREF_NAME' ) )
+				define( 'NGFB_PREF_NAME', '_'.$cf['lca'].'_pref' );
+
 			$slug = $cf['plugin'][$cf['lca']]['slug'];
 			$opts = get_option( NGFB_OPTIONS_NAME );
 
 			if ( empty( $opts['plugin_preserve'] ) ) {
 				delete_option( NGFB_OPTIONS_NAME );
 				delete_post_meta_by_key( NGFB_META_NAME );
+				foreach ( array( NGFB_META_NAME, NGFB_PREF_NAME ) as $meta_key )
+					foreach ( get_users( array( 'meta_key' => $meta_key ) ) as $user )
+						delete_user_option( $user->ID, $meta_key );
 				NgfbUser::delete_metabox_prefs();
 			}
 
-			// delete update related options
+			// delete update options
 			delete_option( 'external_updates-'.$slug );
 			delete_option( $cf['lca'].'_umsg' );
 			delete_option( $cf['lca'].'_utime' );
