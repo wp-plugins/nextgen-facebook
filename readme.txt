@@ -402,6 +402,20 @@ When minor bugs fixes and/or code improvements are applied, new versions are als
 This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
 </blockquote>
 
+= Version 7.8.3 =
+
+* **Bugfixes**
+	* Fixed the input field counter in metabox CSS that wasn't appearing properly.
+* **Improvements**
+	* Renamed all metabox tab CSS ids to allow better parsing of metabox and tab names.
+	* Replaced the "Show Basic / All Options" setting to one which is individual to each user's preference.
+	* Renamed the jquery-postmeta.min.js script file to jquery-metabox.min.js and refactored code.
+* **New Features**
+	* Added a new Ngfb::get_instance() method to return the Ngfb class object reference.
+	* Added a new NgfbUser::show_opts() method to return and/or text the users preference for displaying options.
+	* Added a new NgfbUser::save_pref() and NgfbUser::get_pref() method to manage user preferences.
+	* Added a new NGFB_PREF_NAME constant (default value is "_ngfb_pref") to save user preferences.
+
 = Version 7.8.2.2 =
 
 * **Bugfixes**
