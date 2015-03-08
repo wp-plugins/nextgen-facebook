@@ -405,7 +405,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 = Version 7.8.3 =
 
 * **Bugfixes**
-	* Fixed the input field counter in metabox CSS that wasn't appearing properly.
+	* Fixed the Social Settings jQuery / CSS input counters that were not showing.
 * **Improvements**
 	* Renamed all metabox tab CSS ids to allow better parsing of metabox and tab names.
 	* Replaced the "Show Basic / All Options" setting to one which is individual to each user's preference.
@@ -474,21 +474,9 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* Added the "Schema Website / Business Logo URL", "Add Schema Publisher Social JSON", and "Add Schema Author Social JSON" options under to the Google (G+ and Search) publisher settings tab (Pro version).
 	* Added author (Person) and publisher (Organization) <a href="https://developers.google.com/structured-data/customize/social-profiles">social profiles markup in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em></a>.
 
-= Version 7.7.6 =
-
-* **Bugfixes**
-	* *None*
-* **Improvements**
-	* Renamed the `NgfbAdmin::get_form_ref()` method to `get_form_reference()`.
-	* Added the buttons preset option value as a CSS class to the sharing buttons container.
-	* Updated the default buttons stylesheets to include the preset class attributes (width, height, etc.).
-* **New Features**
-	* Added a check for the og:image meta tag, and if missing, issue a warning (Facebook requires at least one og:image meta tag).
-	* Added a check for a minimum image dimension of 200x200px (the minimum allowed by Facebook) for Open Graph meta tags.
-
 == Upgrade Notice ==
 
-= 7.8.2.2 =
+= 7.8.3 =
 
-Slight performance improvement by disabled the loading of meta tags for media upload pages.
+Fixed the Social Settings input counters, moved "Show Basic / All Options" setting to an individual user preference.
 
