@@ -98,11 +98,7 @@ if ( ! class_exists( 'NgfbGplEcomWoocommerceSharing' ) && class_exists( 'NgfbSha
 .ngfb-woo_short-buttons 
     .ngfb-buttons
         .facebook-button { }</pre>
-			<p><strong>The social sharing button options for the '.$idx.
-			' style are subject to preset values, selected on the '.
-			$this->p->util->get_admin_url( 'sharing#sucom-tab_sharing_preset', 'Sharing Buttons settings page' ).
-			', to modify their action (share vs like), size, and counter orientation.</strong> '.
-			'The width and height values in your CSS should reflect these presets (if any).</p>'.
+			<p><strong>The social sharing button options for the '.$idx.' style are subject to preset values, selected on the '.$this->p->util->get_admin_url( 'sharing#sucom-tabset_sharing-tab_preset', 'Sharing Buttons settings page' ).', to modify their action (share vs like), size, and counter orientation.</strong> The width and height values in your CSS should reflect these presets (if any).</p>'.
 			'<p><strong>Selected preset:</strong> '.
 			( empty( $this->p->options['buttons_preset_'.$idx] ) ? '[none]' :
 				$this->p->options['buttons_preset_'.$idx] ).'</p>
