@@ -90,10 +90,7 @@ if ( ! class_exists( 'NgfbGplEcomWoocommerceSharing' ) && class_exists( 'NgfbSha
 		/* Purpose: Add css input textarea for the 'Woo Short' style tab */
 		public function filter_style_woo_short_rows( $rows, $form ) {
 			$rows['buttons_css_woo_short'] = '<td class="textinfo">
-			<p>Social sharing buttons added to the <strong>WooCommerce Short Description</strong> 
-			are assigned the \'ngfb-woo_short-buttons\' class, which itself contains the 
-			\'ngfb-buttons\' class -- a common class for all the sharing buttons 
-			(see the All Buttons tab).</p> 
+			<p>Social sharing buttons added to the <strong>WooCommerce Short Description</strong> are assigned the \'ngfb-woo_short-buttons\' class, which itself contains the \'ngfb-buttons\' class -- a common class for all the sharing buttons (see the All Buttons tab).</p> 
 			<p>Example:</p><pre>
 .ngfb-woo_short-buttons 
     .ngfb-buttons
