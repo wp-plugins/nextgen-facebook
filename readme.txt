@@ -6,7 +6,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.1.1
-Stable Tag: 7.8.3
+Stable Tag: 7.8.3.1
 
 Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!
 
@@ -403,6 +403,11 @@ New features are added, tested, and released incrementally, instead of grouping 
 When minor bugs fixes and/or code improvements are applied, new versions are also released.
 This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
 </blockquote>
+
+= Repositories =
+
+* GitHub: https://github.com/SurniaUlula/nextgen-facebook
+* WordPress.org: https://wordpress.org/plugins/nextgen-facebook/developers/
 
 = Version 7.8.3.1 =
 
