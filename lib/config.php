@@ -16,11 +16,11 @@ if ( ! class_exists( 'NgfbConfig' ) ) {
 			'lca' => 'ngfb',		// lowercase acronym
 			'uca' => 'NGFB',		// uppercase acronym
 			'menu' => 'NGFB',		// menu item label
-			'color' => 'ff6600',		// menu item color
+			'color' => 'f60',		// menu item color - dark orange
 			'update_check_hours' => 24,
 			'plugin' => array(
 				'ngfb' => array(
-					'version' => '7.8.3.2',		// plugin version
+					'version' => '7.8.4',		// plugin version
 					'short' => 'NGFB',		// short plugin name
 					'name' => 'NextGEN Facebook (NGFB)',
 					'desc' => 'Display your content in the best possible way on Facebook, Google+, Twitter, Pinterest, etc. - no matter how your webpage is shared!',
