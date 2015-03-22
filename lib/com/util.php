@@ -630,6 +630,7 @@ if ( ! class_exists( 'SucomUtil' ) ) {
 			return $deleted;
 		}
 
+		// if post_id 0 then returns values from the plugin settings 
 		public function get_max_nums( $post_id ) {
 			$this->p->debug->args( array( 'post_id' => $post_id ) );
 			$og_max = array();
