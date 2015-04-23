@@ -223,6 +223,7 @@ NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/typ
 	* product:price:currency
 	* product:availability
 * **Schema Meta Tags**
+	* name
 	* description
 	* image
 	* url
@@ -433,7 +434,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* Added html_entity_decode() on the caption text when SucomWebpage::get_caption() is called with $encode = false.
 	* Added an additional $ext array argument to the SucomUtil::replace_inline_vars() method.
 * **Bugfixes**
-	* *None*
+	* Fixed reliance on the deprecated YouTube / Google v2 API for embedded video details (Pro version).
 
 <h4>Version 8.0.5 (2015/04/20)</h4>
 
