@@ -311,7 +311,7 @@ if ( ! class_exists( 'NgfbCheck' ) ) {
 					$wpseo_notif = json_decode( $wpseo_notif );
 					if ( ! empty( $wpseo_notif ) ) {
 						foreach ( $wpseo_notif as $num => $msgs ) {
-							if ( $msgs->type == 'error' && strpos( $msgs->message, $plugin_name ) !== false ) {
+							if ( $msgs->options->type == 'error' && strpos( $msgs->message, $plugin_name ) !== false ) {
 								unset( $wpseo_notif[$num] );
 								set_transient( Yoast_Notification_Center::TRANSIENT_KEY,
 									json_encode( $wpseo_notif ) );
