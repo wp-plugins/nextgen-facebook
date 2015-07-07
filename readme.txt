@@ -1,0 +1,723 @@
+=== NextGEN Facebook - Complete Meta Tags for Facebook, Google, Pinterest, Twitter & More ===
+Plugin Name: NextGEN Facebook (NGFB)
+Plugin Slug: nextgen-facebook
+Contributors: jsmoriss
+Donate Link: https://surniaulula.com/extend/plugins/nextgen-facebook/
+Tags: attached, bbPress, buddypress, buttons, e-commerce, easy digital downloads, edd, Facebook, featured, g+, gallery, gallery card, google, google plus, hashtags, imagebrowser, jetpack, JSON-LD, knowledge graph, Like, linkedin, marketpress, meta-tags, multilingual, multisite, nextgen gallery, nggalbum, nggallery, object cache, open graph, photo card, photon, pinterest, player card, polylang, rich pins, schema, seo, Share, shortcode, singlepic, slideshare, social, stumbleupon, Summary Card, transient cache, tumblr, twitter, twitter cards, vimeo, widget, wistia, woocommerce, wp_cache, youtube
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl.txt
+Requires At Least: 3.0
+Tested Up To: 4.2.2
+Stable Tag: 8.5.1
+
+Looking to improve your shared content on social sites? Make sure your shares look great on all social sites - no matter how your content is shared!
+
+== Description ==
+
+<p><img src="https://surniaulula.github.io/nextgen-facebook/assets/icon-256x256.png" style="width:33%;min-width:128px;max-width:256px;float:left;margin:10px 60px 40px 0;" /><strong>Make sure social websites present your content in the best possible way, no matter <em>how</em> your webpage is shared</strong> &mdash; from sharing buttons on the webpage, browser add-ons / extensions, or URLs pasted directly on timelines and private messages (PM) &mdash; the NextGEN Facebook (NGFB) plugin has you covered.</p>
+
+<p><strong>A solid social meta tag plugin is the foundation of any good social strategy</strong> &mdash; NextGEN Facebook (NGFB) gives you total control over all the information <a href="https://developers.facebook.com/docs/sharing/webmasters/crawler" target="_blank">social website crawlers</a> need, improving Google Search ranking, social engagement, and click-through-rates on Facebook, Google+, Twitter, Pinterest, LinkedIn, StumbleUpon, Tumblr and and many more &mdash; along with offering many of the most popular social sharing buttons!</p>
+
+<p><strong>NGFB automatically retrieves and uses information from a wide range or sources</strong>, including All in One SEO Pack, bbPress, BuddyPress, Easy Digital Downloads, HeadSpace2 SEO, JetPack Photon, NextGEN Gallery, MarketPress - WordPress eCommerce, Polylang, WooCommerce, WordPress SEO by Yoast, WP e-Commerce, Gravatar, Slideshare, Vimeo, Wistia, and YouTube.</p>
+
+<blockquote>
+<p><strong>Already have sharing buttons?</strong></p>
+
+<p>Have a look at the <a href="https://wordpress.org/plugins/wpsso/">WordPress Social Sharing Optimization</a> (WPSSO) plugin &mdash; a fork (aka child) of NextGEN Facebook (NGFB). They have the same author, many of the same excellent features, but <em>WPSSO is distributed without the sharing buttons and their related features</em>. As a result, WPSSO is 25% smaller and is often preferred for websites that already have (or don't need) a set of sharing buttons. Additional extension plugins are also available for WPSSO, including:
+<ul>
+<li><a href="https://wordpress.org/plugins/wpsso-am/">WPSSO App Meta</a></li>
+<li><a href="https://wordpress.org/plugins/wpsso-plm/">WPSSO Place and Location Meta</a></li>
+<li><a href="https://wordpress.org/plugins/wpsso-ssb/">WPSSO Social Sharing Buttons</a></li>
+</ul></p>
+</blockquote>
+
+<h4>Quick List of Features</h4>
+
+<strong>Free / Basic Version</strong>
+
+* Adds Open Graph / Rich Pin meta tags (Facebook, Google+, Pinterest, LinkedIn, etc.).
+* Configurable image sizes for Open Graph (Facebook, LinkedIn, etc.) and Pinterest.
+* Optional fallback to a default image and video for index and search webpages.
+* Supports featured, attached, gallery shortcode, and/or HTML image tags in content.
+* Fallback to the image alt value if the content and except do not include any text.
+* Validates image dimensions to provide accurate media for social websites.
+* Auto-regeneration of inaccurate / missing WordPress image sizes.
+* Fully renders content (including shortcodes) for accurate description texts.
+* Support of WordPress and/or SEO titles for Posts and Pages.
+* Configurable title separator character (hyphen by default).
+* Configurable title and description lengths for different contexts (Open Graph, Twitter Card, SEO).
+* Includes author and publisher profile URLs for Facebook and Google Search.
+* Includes hashtags from Post / Page WordPress Tags.
+* Includes the author's name for Pinterest Rich Pins.
+* Includes a Google / SEO description meta tag if a known SEO plugin is not detected.
+* Includes <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles</a>, <a href="https://developers.google.com/structured-data/customize/logos">publisher (Organization) logo</a>, and <a href="https://developers.google.com/structured-data/site-name">WebSite Site Name</a> in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em>.
+* Provides Facebook, Google+ and Twitter URL user profile contact fields.
+* Validation tools and special meta tag preview tabs on admin edit pages.
+* Customizable *multilingual* Site Title and Site Description texts.
+* Contextual help for *every* plugin option and [comprehensive online documentation](http://surniaulula.com/codex/plugins/nextgen-facebook/).
+* Uses object and transient caches to provide incredibly fast execution speeds.
+* Default stylesheets for each social sharing button location.
+* Social sharing buttons for the content, excerpt, in a widget, as a shortcode, floating sidebar, and/or PHP function.
+	* Buffer
+	* Facebook
+	* Google+
+	* LinkedIn
+	* ManageWP
+	* Pinterest
+	* Reddit
+	* StumbleUpon
+	* Tumblr
+	* Twitter
+
+<blockquote>
+<p>Download the Free version from <a href="http://surniaulula.github.io/nextgen-facebook/">GitHub</a> or <a href="https://wordpress.org/plugins/nextgen-facebook/">WordPress.org</a>.</p>
+</blockquote>
+
+<div style="clear:both;"></div>
+<div style="width:40%;min-width:256px;max-width:1200px;height:auto;float:right;margin:10px 0 40px 60px;">
+<p><img src="https://surniaulula.github.io/nextgen-facebook/images/social/twitter-player-card-single.png" width="100%" height="100%"/></p>
+</div>
+
+<strong>Pro / Power-User Version</strong>
+
+* Twitter Card meta tags:
+	* *Product Card* &mdash; Product information from an e-commerce plugin.
+	* *Player Card* &mdash; An embedded video in the Post / Page content.
+	* *Gallery Card* &mdash; A Media Library gallery or NextGEN Gallery shortcode.
+	* *Photo Card* &mdash; An Attachment page or NextGEN Gallery ImageBrowser webpage.
+	* *Large Image Summary Card* &mdash; An image from the custom Social Settings, Featured, Attached, or NextGEN Gallery singlepic.
+	* *Summary Card* &mdash; All other webpages.
+* Customizable image dimensions for each Twitter Card type.
+* Additional profile contact fields with configurable label and field names.
+* A custom Social Setings metabox for each Post, Page, custom post type, user profile, and taxonomy (category and tag) pages.
+* Options to include / exclude specific Google / SEO, Open Graph, and Twitter Card meta tags.
+* Support for embedded videos in content text (iframe and object HTML tags).
+* File caching for social sharing button images and JavaScript, maximizing performance on VPS and dedicated hardware hosting platforms.
+* A stylesheets editor for each social sharing button locations (content, excerpt, shortcode, widget, etc.).
+* Dynamic button language switching based on the current WordPress locale.
+* URL shortening with Bitly or Google for URLs in Tweet texts.
+* Ability to include / exclude sharing buttons by post type.
+* Selection of preset button options by location (content, excerpt, shortcode, widget, etc.).
+* **Integrates with 3rd party plugins and services for additional image, video, product, and content information** (see [About Pro Modules](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/) and [Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/) for details). The following modules are included with the Pro version, and are automatically loaded if/when the supported plugins and/or services are detected.
+	* Supported 3rd Party Plugins
+		* All in One SEO Pack
+		* bbPress
+		* BuddyPress
+		* Easy Digital Downloads
+		* HeadSpace2 SEO
+		* JetPack Photon
+		* NextGEN Gallery
+		* MarketPress - WordPress eCommerce
+		* Polylang
+		* WooCommerce v1.x and v2.x
+		* WordPress SEO by Yoast
+		* WP e-Commerce
+	* Supported Service APIs
+		* Gravatar Images
+		* Bitly Shortener
+		* Google Shortener
+		* Slideshare Presentations
+		* Vimeo Videos
+		* Wistia Videos
+		* Youtube Videos and Playlists
+
+<blockquote>
+<p><a href="http://wpsso.com/extend/plugins/wpsso/">Purchase the Pro version on SurniaUlula.com</a> (includes a <em>No Risk 30 Day Refund Policy</em>).</p>
+</blockquote>
+
+<h4>3rd Party Integration</h4>
+
+Aside from the additional support for Twitter Cards, the main difference between the NGFB Free and Pro versions is the integration of 3rd party plugins and services.
+
+<div style="clear:both;"></div>
+<div style="width:40%;min-width:256px;max-width:1200px;height:auto;float:right;margin:10px 0 40px 60px;">
+<p><img src="https://surniaulula.github.io/nextgen-facebook/images/social/twitter-tiled-gallery-ngfb.png" width="100%" height="100%"/></p>
+</div>
+
+<strong>Images and Videos</strong>
+
+NGFB detects and uses all images - associated or included in your Post or Page content - including WordPress image galleries. WordPress Media Library images (and NextGEN Gallery in the Pro version) are resized according to their intended audience (Facebook, Twitter, Pinterest, etc). The Pro version also detects embedded videos from Slideshare, Vimeo, Wistia, and Youtube (including their preview images).
+
+NGFB (Pro version) also includes support for [JetPack Photon](http://jetpack.me/support/photon/) and [NextGEN Gallery v1 and v2](https://wordpress.org/plugins/nextgen-gallery/) albums, galleries and images (shortcodes, image tags, album / gallery preview images, etc.).
+
+<strong>Enhanced SEO</strong>
+
+NGFB (Pro version) integrates with [WordPress SEO by Yoast](https://wordpress.org/plugins/wordpress-seo/), [All in One SEO Pack](https://wordpress.org/plugins/all-in-one-seo-pack/), and [HeadSpace2 SEO](https://wordpress.org/plugins/headspace2/) &mdash; making sure your custom SEO settings are reflected in the Open Graph, Rich Pin, and Twitter Card meta tags.
+
+<div style="clear:both;"></div>
+<div style="width:40%;min-width:256px;max-width:1200px;height:auto;float:right;margin:10px 0 40px 60px;">
+<p><img src="https://surniaulula.github.io/nextgen-facebook/images/social/twitter-product-ngfb-single.png" width="100%" height="100%"/></p>
+</div>
+
+<strong>eCommerce Products</strong>
+
+NGFB (Pro version) also supports [Easy Digital Downloads](https://wordpress.org/plugins/easy-digital-downloads/), [MarketPress - WordPress eCommerce](https://wordpress.org/plugins/wordpress-ecommerce/), [WooCommerce v1.x and v2.x](https://wordpress.org/plugins/woocommerce/), and [WP e-Commerce](https://wordpress.org/plugins/wp-e-commerce/) product pages, creating appropriate meta tags for [Facebook Products](https://developers.facebook.com/docs/payments/product/), [Twitter Product Cards](https://dev.twitter.com/docs/cards/types/product-card) and [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), including variations and additional / custom images.
+
+<strong>Forums and Social</strong>
+
+NGFB (Pro version) supports [bbPress](https://wordpress.org/plugins/bbpress/) and [BuddyPress](https://wordpress.org/plugins/buddypress/) (see the [BuddyPress Integration Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/buddypress-integration/)), making sure your meta tags reflect the page content, including appropriate titles, descriptions, images, etc. Social sharing buttons can also be added to [bbPress](https://wordpress.org/plugins/bbpress/) single template pages and [BuddyPress](https://wordpress.org/plugins/buddypress/) activities.
+
+<div style="clear:both;"></div>
+<div style="width:40%;min-width:256px;max-width:1200px;height:auto;float:right;margin:10px 0 40px 60px;">
+<p><img src="https://surniaulula.github.io/nextgen-facebook/images/settings/ngfb-social-sharing-buttons.png" width="100%" height="100%"/></p>
+</div>
+
+<h4>Social Sharing Buttons</h4>
+
+NGFB comes with several sharing buttons, that you can optionally include on Post / Page editing pages, above / below your content or excerpt, [bbPress](https://wordpress.org/plugins/bbpress/) single pages, [BuddyPress](https://wordpress.org/plugins/buddypress/) activity entries, as a sidebar, widget, shortcode, or even call a function from your theme template(s). Each of the following sharing buttons can be enabled, configured, and styled individually:
+
+* **Buffer**
+* **Facebook** (Like, Send, and Share)
+* **Google+**
+* **LinkedIn**
+* **ManageWP**
+* **Pinterest**
+* **Reddit**
+* **StumbleUpon**
+* **Tumblr** (Links, Quotes, Images, Videos)
+* **Twitter** (Summary, Large Image Summary, Photo, Gallery, Player and Product Cards)
+
+The Facebook, Google+ and Twitter sharing buttons support *multiple languages*. A default language can be chosen in the NGFB settings, and the [Pro version](http://surniaulula.com/extend/plugins/nextgen-facebook/) switches the sharing button language with the webpage language / WordPress locale. NGFB can also include hashtags from WordPress and NextGEN Gallery tag names in the Open Graph (Facebook) and Pinterest Rich Pin descriptions, Tweet text, and other social captions.
+
+<h4>User Profile Social Contacts</h4>
+
+NGFB (Pro version) allows you to customize the field names, label, and add / remove the following contacts from the user profile page:
+
+* AIM
+* Facebook URL
+* Google+ URL
+* Jabber / Google Talk
+* LinkedIn URL
+* Pinterest URL
+* Skype Username
+* Tumblr URL
+* Twitter @username
+* Yahoo IM
+* YouTube Channel URL
+
+<div style="clear:both;"></div>
+<div style="width:40%;min-width:256px;max-width:1200px;height:auto;float:right;margin:10px 0 40px 60px;">
+<p><img src="https://surniaulula.github.io/nextgen-facebook/images/social/google-social-profiles-search-results.png" width="100%" height="100%"/></p>
+</div>
+
+<h4>Social Profiles for Google Search</h4>
+
+NGFB provides <a href="https://developers.google.com/structured-data/customize/social-profiles">author (Person) and publisher (Organization) social profiles</a>, <a href="https://developers.google.com/structured-data/customize/logos">publisher (Organization) logo</a>, and <a href="https://developers.google.com/structured-data/site-name">WebSite Site Name</a> in schema.org JSON-LD format for Google Search and their <em>Knowledge Graph</em>. The author (Person) markup includes the author's website URL, their profile social sharing image, and all listed contact URLs from their user profile. The publisher (Organization) markup includes the website URL, a corporate logo, a default image, and the publisher Facebook, Google+, LinkedIn, Pinterest, and Twitter business pages.
+
+<div style="clear:both;"></div>
+
+<h4>Complete Social Meta Tags</h4>
+
+NGFB adds [Open Graph](http://ogp.me/) (Facebook), [Pinterest Rich Pins](http://developers.pinterest.com/rich_pins/), [Twitter Cards](https://dev.twitter.com/docs/cards), and [Search Engine Optimization](http://en.wikipedia.org/wiki/Search_engine_optimization) meta tags to the head section of webpages. These meta tags are used by Google Search and all social websites to describe and display your content correctly (title, description, hashtags, images, videos, product, author profile / authorship, publisher, etc.). NGFB is a complete social sharing solution that uses the *existing* content of your webpages to build HTML meta tags &mdash; There's no need to manually enter / configure any additional values or settings (although many settings and options *are* available). <a href="http://surniaulula.com/extend/plugins/nextgen-facebook/screenshots/">See examples from Google Search, Google+, Facebook, Twitter, Pinterest, StumbleUpon, Tumblr, etc.</a> &mdash; along with screenshots of the NGFB settings pages.
+
+NGFB (Pro version) provides the [Summary](https://dev.twitter.com/docs/cards/types/summary-card), [Large Image Summary](https://dev.twitter.com/docs/cards/large-image-summary-card), [Photo](https://dev.twitter.com/docs/cards/types/photo-card), [Gallery](https://dev.twitter.com/docs/cards/types/gallery-card), [Player](https://dev.twitter.com/docs/cards/types/player-card) and [Product](https://dev.twitter.com/docs/cards/types/product-card) Twitter Cards &mdash; *including configurable image sizes for each card type*.
+
+* **Google / SEO Link and Meta Tags**
+	* author
+	* description
+	* publisher
+* **Facebook Meta Tags**
+	* fb:admins
+	* fb:app_id
+* **Open Graph / Rich Pin Meta Tags**
+	* article:author
+	* article:publisher
+	* article:published_time
+	* article:modified_time
+	* article:section
+	* article:tag
+	* og:description
+	* og:image
+	* og:image:secure_url
+	* og:image:width
+	* og:image:height
+	* og:locale
+	* og:site_name
+	* og:title
+	* og:type
+	* og:url
+	* og:video:url
+	* og:video:secure_url
+	* og:video:width
+	* og:video:height
+	* og:video:type
+	* product:price:amount
+	* product:price:currency
+	* product:availability
+* **Schema Meta Tags**
+	* name
+	* description
+	* image
+	* url
+* **Twitter Card Meta Tags** (Pro version)
+	* twitter:card (Summary, Large Image Summary, Photo, Gallery, Player and Product)
+	* twitter:creator
+	* twitter:data1
+	* twitter:data2
+	* twitter:data3
+	* twitter:data4
+	* twitter:description
+	* twitter:image
+	* twitter:image:width
+	* twitter:image:height
+	* twitter:image0
+	* twitter:image1
+	* twitter:image2
+	* twitter:image3
+	* twitter:label1
+	* twitter:label2
+	* twitter:label3
+	* twitter:label4
+	* twitter:player
+	* twitter:player:width
+	* twitter:player:height
+	* twitter:site
+	* twitter:title
+
+<h4>Proven Performance</h4>
+
+NGFB is *fast and coded for performance*, making full use of all available caching techniques (persistent / non-persistent object and disk caching). NGFB loads only the library files and object classes it needs, keeping it small, fast, and yet still able to support a wide range of 3rd party integration features.
+
+<h4>Clean Uninstall</h4>
+
+Try the NGFB plugin with complete confidence &mdash; when uninstalled, NGFB removes *all* traces of itself from the database (options, site options, user and post meta, transients, etc.).
+
+<h4>Professional Support</h4>
+
+NGFB support and development is on-going. You can review the [FAQ](http://surniaulula.com/codex/plugins/nextgen-facebook/faq/) and [Notes](http://surniaulula.com/codex/plugins/nextgen-facebook/notes/) pages for additional setup information. If you have any suggestions or comments, post them to the [WordPress support forum](https://wordpress.org/support/plugin/nextgen-facebook) or the [Pro version support website](http://nextgen-facebook.support.surniaulula.com/).
+
+Follow Surnia Ulula on [Google+](https://plus.google.com/+SurniaUlula/?rel=author), [Facebook](https://www.facebook.com/SurniaUlulaCom), [Twitter](https://twitter.com/surniaululacom), and [YouTube](http://www.youtube.com/user/SurniaUlulaCom).
+
+== Installation ==
+
+= Install and Uninstall =
+
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/developer-special-buy-one-get-one-free/">Developer Special – Buy one, Get one Free</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/install-the-plugin/">Install the Plugin</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/">Integration Notes</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/integration/buddypress-integration/">BuddyPress Integration</a></li>
+	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/debugging-and-problem-solving/">Debugging and Problem Solving</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/uninstall-the-plugin/">Uninstall the Plugin</a></li>
+</ul>
+
+= Plugin Setup =
+
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/installation/a-setup-guide/">A Setup Guide for NGFB</a></li>
+</ul>
+
+== Frequently Asked Questions ==
+
+= Frequently Asked Questions =
+
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/can-i-use-the-pro-version-on-multiple-websites/">Can I use the Pro version on multiple websites?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/does-linkedin-read-the-open-graph-meta-tags/">Does LinkedIn read the Open Graph meta tags?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/doesnt-an-seo-plugin-cover-that/">Doesn’t an SEO plugin cover that?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-exclude-certain-parts-of-the-content-text/">How can I exclude / ignore certain parts of the content text?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-fix-a-err_too_many_redirects-error/">How can I fix a ERR_TOO_MANY_REDIRECTS error?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-fix-an-http-error-when-uploading-images/">How can I fix an “HTTP error” when uploading images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-have-smaller-dimensions-for-the-default-image/">How can I have smaller dimensions for the default image?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-see-what-facebook-sees/">How can I see what Facebook sees?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-can-i-share-a-single-nextgen-gallery-image/">How can I share a single NextGEN Gallery image?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-attach-an-image-without-showing-it-on-the-webpage/">How do I attach an image without showing it on the webpage?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-fix-my-themes-front-page-pagination/">How do I fix my theme’s front page pagination?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-do-i-install-the-pro-version/">How do I install the Pro version?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/how-does-ngfb-find-detect-select-images/">How does NGFB find / detect / select images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/">Social Sharing Buttons</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-share-a-single-image-on-a-webpage/">Can I share a single image on a webpage?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/can-i-use-other-social-sharing-buttons/">Can I use other social sharing buttons?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/how-do-i-turn-on-social-sharing-buttons-for-a-page/">How do I turn on Social Sharing Buttons for a page?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-are-the-buttons-showing-the-wrong-language/">Why are the buttons showing the wrong language?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-does-the-facebook-like-button-flyout-get-clipped/">Why does the Facebook “Like” button flyout get clipped?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-pinterest-button-show/">Why doesn’t the Pinterest button show?</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/social-sharing-buttons/why-doesnt-the-twitter-count-increase/">Why doesn’t the Twitter count increase?</a></li>
+	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/w3c-says-there-is-no-attribute-property/">W3C says “there is no attribute ‘property’”</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-about-google-search-and-google-plus/">What about Google Search and Google Plus?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-features-of-nextgen-gallery-are-supported/">What features of NextGEN Gallery are supported?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-ngfb-and-wpsso/">What is the difference between NGFB and WPSSO?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/what-is-the-difference-between-the-free-and-pro-versions/">What is the difference between the Free and Pro versions?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-arent-pins-from-my-website-posting-rich/">Why aren’t Pins from my website posting Rich?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-do-my-facebook-shares-have-small-images/">Why do my Facebook shares have small images?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-play-videos-instead-of-linking-them/">Why does Facebook play videos instead of linking them?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-facebook-show-the-wrong-image-text/">Why does Facebook show the wrong image / text?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-google-structured-data-testing-tool-show-errors/">Why does Google Structured Data Testing Tool show errors?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-does-the-plugin-ignore-some-img-html-tags/">Why does the plugin ignore some &lt;img/&gt; HTML tags?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-dont-my-twitter-cards-show-on-twitter/">Why don’t my Twitter Cards show on Twitter?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-open-graph-title-the-same-for-every-webpage/">Why is the Open Graph title the same for every webpage?</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/faq/why-is-the-page-blank-or-its-components-misaligned/">Why is the page blank or its components misaligned?</a></li>
+</ul>
+
+== Other Notes ==
+
+= Additional Documentation =
+
+<ul>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/">About Pro Modules</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/author-gravatar/">Author Gravatar</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/easy-digital-downloads/">Easy Digital Downloads</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/headspace2-seo/">HeadSpace2 SEO</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/jetpack-photon/">Jetpack Photon</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/videos-apis/">Slideshare, Vimeo, Wistia, Youtube APIs</a></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/modules/woocommerce/">WooCommerce</a></li>
+	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/contact-information/">Contact Information and Feeds</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/">Developer Resources</a>
+	<ul>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/">Constants</a>
+		<ul>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/constants/disable-the-open-graph-meta-tags/">Disable the Open Graph Meta Tags</a></li>
+		</ul></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/">Filters</a>
+		<ul>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/">Examples</a>
+			<ul>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/add-availability-to-product-card-for-woocommerce/">Add Availability to Product Card for WooCommerce</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/detect-youtube-url-links-as-videos/">Detect YouTube URL Links as Videos</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/force-wistia-videos-to-autoplay-on-facebook/">Force Wistia Videos to Autoplay on Facebook</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-shortcode-attributes-url/">Modify Shortcode Attributes (URL)</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-articletag-keywords-names/">Modify the article:tag Keywords / Names</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-default-topics-list/">Modify the Default Topics List</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/examples/modify-the-home-page-title-for-facebook-open-graph/">Modify the Home Page Title for Facebook / Open Graph</a></li>
+			</ul></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/">Filters by Category</a>
+			<ul>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/head/">Head Filters</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/media/">Media Filters</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/open-graph/">Open Graph Filters</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/twitter-card/">Twitter Card Filters</a></li>
+				<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-category/webpage/">Webpage Filters</a></li>
+			</ul></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/by-name/">Filters by Name</a></li>
+			<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/filters/other/">Other Filters</a></li>
+		</ul></li>
+		<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/developer/sharing-buttons-function/">Sharing Buttons Function</a></li>
+	</ul></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/inline-variables/">Inline Variables</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/multisite-network-support/">Multisite / Network Support</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/ngfb-shortcode/">NGFB Shortcode</a></li> 
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/performance-tuning/">Performance Tuning</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/styling-social-buttons/">Styling Social Buttons</a></li>
+	<li><a href="http://surniaulula.com/codex/plugins/nextgen-facebook/notes/working-with-image-attachments/">Working with Image Attachments</a></li>
+</ul>
+
+== Screenshots ==
+
+01. NGFB General Settings Page &mdash; Includes options for Open Graph (All Publishers) site information, titles, descriptions, images, videos, and authors. There is also a Publisher Specific section for Facebook, Google (G+ and Search), LinkedIn, Pinterest Rich Pins, and Twitter Cards.
+02. NGFB Advanced Settings Page &mdash; Allows you to fine-tune some advanced plugin settings, the use of various content filters, custom post meta fields, caching techniques, user profile contacts, and enable / disable a long list of meta tags.
+03. NGFB Social Settings on Posts and Pages &mdash; The Social Settings metabox allows you to modify the default title, description, and image values, preview an example social share, preview all meta tags, and validate the current webpage with various online tools.
+04. NGFB "Social Image" and "Social Description" preview columns (available on posts, pages, tags, and custom taxonomy editing pages).
+05. Example Pinterest Product Pin (Zoomed)
+06. Example Facebook Link Share
+07. Example Facebook Video Share
+08. Example Twitter 'Summary' Card (Single Tweet View)
+09. Example Twitter 'Large Image Summary' Card (Single Tweet View)
+10. Example Twitter 'Photo' Card (Timeline View)
+11. Example Twitter 'Gallery' Card (Timeline View)
+12. Example Twitter 'Product' Card (Single Tweet View)
+13. Example Twitter 'Player' Card (Single Tweet View)
+14. Example Social Profiles in Google Search &mdash; NGFB includes author (Person) and publisher (Organization) social profiles in schema.org JSON-LD format for Google Search and their Knowledge Graph.
+15. Example Showing All Social Sharing Buttons Enabled
+
+== Changelog ==
+
+<blockquote>
+<p>New versions of the plugin are released approximately every week (more or less). 
+New features are added, tested, and released incrementally, instead of grouping them together in a major version release. 
+When minor bugs fixes and/or code improvements are applied, new versions are also released.
+This release schedule keeps the code stable and reliable, at the cost of more frequent updates.</p>
+</blockquote>
+
+= Free / Basic Version Repository =
+
+* [GitHub](https://github.com/SurniaUlula/nextgen-facebook)
+* [WordPress.org](https://wordpress.org/plugins/nextgen-facebook/developers/)
+
+= Version 8.5.2 =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Added a check_product_object() method to the WooCommerce module to make sure the global $product variable is an object and not a slug (Pro version).
+* **Bugfixes**
+	* *None*
+* **Developer Notes**
+	* Modified the SucomUtil::replace_inline_vars() arguments, inserting an $atts array before the $ext array argument.
+	* Added an $atts argument to the SucomUtil::get_inline_vals() method for the get_sharing_url() call.
+
+= Version 8.5.1 (2015/07/03) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Added a new 'ngfb-schema' image size, which inherits the 'ngfb-opengraph' image size values, to avoid any confusion with error messages, etc.
+* **Bugfixes**
+	* *None*
+* **Developer Notes**
+	* *None*
+
+= Version 8.5 (2015/06/27) =
+
+* **New Features**
+	* Added a "Social Desc" column to post / page, user, category and tag editing lists (including WooCommerce products, categories, and tags) with the Facebook / Open Graph description.
+* **Improvements**
+	* Renamed the "Ignore Thumbnails in Content" option to "Check Image Dimensions".
+* **Bugfixes**
+	* *None*
+* **Developer Notes**
+	* Renamed the SucomCache 'object_expire' and 'file_expire' attributes to 'default_object_expire' and 'default_file_expire'.
+	* Renamed the 'plugin_file_cache_hrs' option key to 'plugin_file_cache_exp' and changed its value from hours to seconds.
+	* Renamed the NgfbUtil `get_cache_url()` method to `get_cache_file_url()`.
+
+= Version 8.4.3 (2015/06/23) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Added support for WordPress SEO title and description meta in taxonomy and user admin pages (Pro version).
+* **Bugfixes**
+	* *None*
+* **Developer Notes**
+	* Added an `add_plugin_actions()` method in the NgfbUtil class to complement the existing `add_plugin_filters()` method -- both methods are wrappers to a new common `add_plugin_hooks()` method.
+	* Renamed the 'show_all' and 'show_basic' metabox CSS class name to 'sucom-show_all' and 'sucom-show_basic' to avoid any possible conflicts with custom admin CSS.
+	* Replaced the sharing buttons website metabox display code by a new 'ngfb_form_content_metaboxes_sharing' action hook in the NgfbSubmenuSharing class.
+
+= Version 8.4.2 (2015/06/20) =
+
+* **New Features**
+	* Added a new "Include Embed text/html Type" option to enable/disable the text/html video meta tags.
+* **Improvements**
+	* Moved the Free and Pro 'Service Api Keys' Advanced options tab into the NGFB core plugin.
+* **Bugfixes**
+	* Fixed a Wistia video issue when posting to Facebook by listing the 'application/x-shockwave-flash' video before the 'text/html' video type.
+* **Developer Notes**
+	* *None*
+
+= Version 8.4.1 (2014/06/18) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Added new 'sucom_is_author_page' and 'sucom_author_object' filters for the BuddyPress module to return user profile information (Pro version).
+* **Bugfixes**
+	* *None*
+* **Developer Notes**
+	* *None*
+
+= Version 8.4 (2014/06/16) =
+
+* **New Features**
+	* Added a "Social Img" column to post / page, user, category and tag editing lists (including WooCommerce products, categories, and tags) with a thumbnail showing the first Facebook / Open Graph image.
+* **Improvements**
+	* Refactored the WooCommerce module by removing the Open Graph image meta tags and hooking into the 'ngfb_attached_image_ids' filter instead (Pro version).
+* **Bugfixes**
+	* Fixed a false warning on admin editing pages for a missing Open Graph image meta tag from video preview images.
+	* Fixed CSS ID name for the admin image dimension warning.
+* **Developer Notes**
+	* Added new `NgfbUtil::force_default_image()` and `NgfbUtil::force_default_author()` methods to check if the default image/author is being forced on index /archive webpages.
+	* Added a new `SucomUtil::is_post_page()` method to complement the existing `SucomUtil::is_term_page()` and `SucomUtil::is_author_page()` methods.
+	* Added a new `SucomUtil::meta_image_tags()` method to pre-define a sorted image array for the PHP `list()` construct (which assigns array elements from right to left).
+	* Refactored the `NgfbHead::extract_head_info()` method and flattened the returned `$head_info` array.
+	* Renamed the `$head_info['id']` array key to `$head_info['post_id']`.
+	* Added new filters:
+		* apply_filters( 'ngfb_taxonomy_cache_transients', $transients, $term_id, $lang, $sharing_url );
+		* apply_filters( 'ngfb_og_image_post_column_content', $value, $column_name, $post_id );
+		* apply_filters( 'ngfb_og_image_taxonomy_column_content', $value, $column_name, $term_id );
+		* apply_filters( 'ngfb_og_image_user_column_content', $value, $column_name, $user_id );
+
+= Version 8.3.2 (2015/06/05) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Added extra Open Graph meta tags for embedded video URLs with an "og:video:type" of "text/html".
+	* Moved the meta description (SEO) HTML tag to the end of the meta tag list.
+	* Removed the meta tag array sort to preserve the original meta tag order.
+	* Changed the maximum schema description length from 300 to 250 characters.
+	* Excluded disabled meta tags from the Head Tags list in the Social Settings metabox.
+	* Moved the default StumbleUpon javascript location to the webpage footer.
+* **Bugfixes**
+	* Fixed a CSS class name in the admin stylesheet for the taxonomy Social Settings metabox.
+	* Added support for the custom Social Settings metabox on WooCommerce taxonomy pages (Pro version).
+* **Developer Notes**
+	* **Renamed the "og:video" meta tag to "og:video:url"**.
+	* Added three new methods in the WooCommerce module to check for product, category, and tag pages (Pro version). Unlike the original functions provided by WooCommerce, these methods work on both the admin *and* front-end sides.
+		* `NgfbProEcomWoocommerce::is_product()`
+		* `NgfbProEcomWoocommerce::is_product_category()`
+		* `NgfbProEcomWoocommerce::is_product_tag()`
+
+= Version 8.3.1 (2015/05/31) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* *None*
+* **Bugfixes**
+	* Fixed a 'private' method that should have been 'protected' in the NgfbMeta() class for the Free version.
+* **Developer Notes**
+	* *None*
+
+= Version 8.3 (2015/05/30) =
+
+* **New Features**
+	* Added the custom Social Settings metabox to category and tag editing pages.
+* **Improvements**
+	* Added a link to the Social Image Dimensions settings page in all image dimension warning messages. 
+	* Added Facebook / Open Graph and Pinterest Image Dimensions to the custom Social Settings metabox on user and profile pages.
+* **Bugfixes**
+	* Fixed the logic determining if a specific image should be shared with the Pinterest sharing button.
+* **Developer Notes**
+	* ***Renamed the 'postmeta' library file, gpl/pro module references, and message index names to 'post'***.
+	* ***Renamed the post meta options filters to improve uniformity with the user and taxonomy filter names***.
+		* Renamed the `ngfb_get_meta_defaults` filter to `ngfb_get_post_defaults`
+		* Renamed the `ngfb_get_meta_options` filter to `ngfb_get_post_options`
+		* Renamed the `ngfb_save_meta_options` filter to `ngfb_save_post_options`
+	* Added a new lib/meta.php library file (extended by the various post, user, and taxonomy util classes).
+	* Added five new taxonomy library files:
+		* lib/taxonomy.php
+		* lib/gpl/admin/taxonomy.php
+		* lib/gpl/util/taxonomy.php
+		* lib/pro/admin/taxonomy.php
+		* lib/pro/util/taxonomy.php
+	* Added new SucomUtil methods:
+		* is_author_page()
+		* is_term_page()
+		* is_category_page()
+		* get_author_object()
+		* get_term_object()
+	* Added new filters for each head meta tag value:
+		* apply_filters( 'ngfb_link_rel_'.$name.'_content', $value, $use_post );
+		* apply_filters( 'ngfb_meta_itemprop_'.$name.'_content', $value, $use_post );
+		* apply_filters( 'ngfb_meta_name_'.$name.'_content', $value, $use_post );
+		* apply_filters( 'ngfb_meta_property_'.$name.'_content', $value, $use_post );
+
+= Version 8.2.2 (2015/05/14) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Refactored checks using NgfbSharing::is_post_buttons_disabled() and loading of filters using NgfbSharing::have_buttons_for_type().
+	* Refactored NgfbSharing::get_css() and fixed non-unique CSS ids for sharing buttons in the loop.
+* **Bugfixes**
+	* *None*
+
+= Version 8.2 (2015/05/04) =
+
+* **New Features**
+	* Added a new "Add Schema WebSite JSON-LD" option on the NGFB General settings page, under the Google / Schema tab.
+* **Improvements**
+	* Modified the NgfbSchema::get_json_array() arguments, added support for WebSite JSON-LD, moved the Organization JSON-LD code to its own method.
+	* Added a new NgfbOpengraph::get_site_name() method (returns the localized value).
+	* Added the Buffer, Pinterest, and Tumblr sharing button Image Dimensions to the Social Image Dimensions settings page.
+* **Bugfixes**
+	* *None*
+
+= Version 8.1 (2015/04/24) =
+
+* **New Features**
+	* Added a new "Share Single Image" option for the Pinterest button.
+	* Added new 'ngfb_js_url_{sitename}' filter hooks for social website javascript URLs.
+* **Improvements**
+	* Refactored some methods in the SucomNotice class.
+	* Improved the setup guide and some status / help messages.
+	* Moved the cleanup of update options on deactivate to the NGFB UM plugin.
+	* Added html_entity_decode() on the caption text when SucomWebpage::get_caption() is called with $encode = false.
+	* Added an additional $ext array argument to the SucomUtil::replace_inline_vars() method.
+* **Bugfixes**
+	* Fixed reliance on the deprecated YouTube / Google v2 API for embedded video details (Pro version).
+
+= Version 8.0.5 (2015/04/20) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Minor CSS improvements for settings pages and metaboxes.
+* **Bugfixes**
+	* Fixed image dimension notices (when saving posts/pages) by calling the meta tag check from 'admin_head' instead of the 'save_post' hook.
+
+= Version 8.0.4 (2015/04/18) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Moved Gravatar and video related options to the Pro version (greyed out in the Free version), since these features (aka modules) are only available in the Pro version package anyway.
+* **Bugfixes**
+	* Fixed variable name returned by the WooCommerce module for exceptions (Pro version).
+
+= Version 8.0.3 (2015/04/15) =
+
+* **New Features**
+	* Added a new Pinterest "Website Verification ID" option on the NGFB General settings page.
+* **Improvements**
+	* Changed 'sanitize_title' to 'sanitize_title_with_dashes' when sanitizing WordPress tags in order to keep accents. 
+* **Bugfixes**
+	* When the Twitter Card feature is disabled, exclude Twitter Card meta tags from the duplicate meta tag checks.
+
+= Version 8.0.2 (2015/04/14) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* Improved the duplicate meta tags check by adding extra "comment" meta tags to better detect the NGFB meta tag block to be removed / ignored.
+* **Bugfixes**
+	* Fixed an unecessary warning to install the Pro version when an extension has an Authentication ID but is deactivated.
+
+= Version 8.0.1 (2015/04/13) =
+
+* **New Features**
+	* *None*
+* **Improvements**
+	* *None*
+* **Bugfixes**
+	* Fixed an optional parameter to preg_match_all in SucomUtil for older (pre 5.4) PHP versions.
+
+= Version 8.0 (2015/04/12) =
+
+* **New Features**
+	* Removed the 'Free to Pro version' self-update feature from the Free version code base, and moved it to a new *Free* extension called "NextGEN Facebook (NGFB) Pro Update Manager".
+	* **Added 36 options from the Pro version General settings page back into the Free version** (except for the Twitter Card options, which remains a Pro version feature).
+	* Added a new "Video Embed HTML" and "Video URL" fields to the user Social Settings metabox (Pro version).
+	* When viewing plugin settings using the "Basic Options View", a new link is now available bellow each settings metabox to unhide / show all options.
+	* Added a new NGFB_DOCTYPE_PRIORITY constant to manage the 'language_attributes' hook priority.
+* **Improvements**
+	* Additional performance improvements for non-debug mode by further centralizing debug mode checks.
+	* The Social Styles CSS is now displayed within a textarea box for easier viewing in the Free version.
+	* Renamed the 'Pro Licenses' settings page to 'Extension Plugins and Pro Licenses'.
+	* Added the "NextGEN Facebook (NGFB) Pro Update Manager" *Free* extension plugin to the 'Extension Plugins and Pro Licenses' settings page.
+	* Changed *default* image widths from 800px to 600px (lowest recommended value for Facebook).
+	* Added new `get_og_video()`, `get_og_image()`, and `reset_options()` methods to the WpssoUser class.
+* **Bugfixes**
+	* Fixed the use of custom images from the user / profile Social Settings metabox.
+
+== Upgrade Notice ==
+
+= 8.5.1 =
+
+Added a new 'ngfb-schema' image size, which inherits the 'ngfb-opengraph' image size values, to avoid any confusion with error messages, etc.
+
+= 8.5 =
+
+Added a "Social Desc" column to post / page, user, category and tag editing lists (including WooCommerce products, categories, and tags) with the Facebook / Open Graph description.
+
+= 8.4.3 =
+
+Added support for WordPress SEO title and description meta in taxonomy and user admin pages (Pro version).
+
+= 8.4.2 =
+
+Fixed a Wistia video issue when posting to Facebook by listing the 'application/x-shockwave-flash' video before the 'text/html' video type.
+
+= 8.4.1 =
+
+Added new 'sucom_is_author_page' and 'sucom_author_object' filters for the BuddyPress module to return user profile information (Pro version).
+
+= 8.4 =
+
+Added a "Social Img" column to post / page, user, category and tag editing lists (including WooCommerce products, categories, and tags) with a thumbnail showing the first Facebook / Open Graph image.
+
