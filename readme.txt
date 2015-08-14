@@ -1,4 +1,4 @@
-=== NextGEN Facebook - Complete Meta Tags for Facebook, Google, Pinterest, Twitter & More ===
+=== NextGEN Facebook - Social Meta Tags for Facebook, Google, Pinterest, Twitter & More ===
 Plugin Name: NextGEN Facebook (NGFB)
 Plugin Slug: nextgen-facebook
 Contributors: jsmoriss
@@ -8,7 +8,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.txt
 Requires At Least: 3.0
 Tested Up To: 4.2.4
-Stable Tag: 8.6.4.4
+Stable Tag: 8.6.5
 
 Want to improve your shared content? NGFB makes sure your content looks its best on all social websites - no matter how it's shared or re-shared!
 
@@ -442,7 +442,7 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 * [GitHub](https://github.com/SurniaUlula/nextgen-facebook)
 * [WordPress.org](https://wordpress.org/plugins/nextgen-facebook/developers/)
 
-= Version 8.6.5 =
+= Version 8.6.5 (2015/08/14) =
 
 * **New Features**
 	* *None*
@@ -592,6 +592,10 @@ This release schedule keeps the code stable and reliable, at the cost of more fr
 	* Refactored the Buffer, Pinterest, and Tumblr sharing button code to use the new NgfbOpengraph get_the_media_urls() method.
 
 == Upgrade Notice ==
+
+= 8.6.5 =
+
+Added check for full size image dimensions, using it if requested dimensions match (for better quality image). Added check on activation for lower "Object Cache Expiry" values than default.
 
 = 8.6.4.4 =
 
